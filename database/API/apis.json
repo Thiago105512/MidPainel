@@ -1,44 +1,100 @@
-[
-        {
-          "numero_kiny":["http://ifind.chapada.com.br:7777/?token=20491c06-5675-4e06-b2ae-4e3fcda2abdd&tel={}", "ON"],
-          "numero_gav":["https://dualityapi.xyz/apis/flex_7/Consultas%20Privadas/HTML/numero.php?consulta={}", "ON"],
-          "numero_mid":["http://apilayer.net/api/validate?access_key=f134484ed14981a957368f2a06aaa251&number={}&country_code={}&format=1", "ON"]
-        },
-        {
-          "cpf_kiny":["http://ifind.chapada.com.br:7777/?token=20491c06-5675-4e06-b2ae-4e3fcda2abdd&cpf={}", "ON"],
-          "cpf_crowley":["http://45.178.183.3/cpf.php?cpf={}", "ON"],
-          "cpf_gav":["https://consulta-cpf2.p.rapidapi.com/apis/astrahvhdeus/Consultas%20Privadas/HTML/{}.php", "ON"],
-          "cpf_mid":["http://ghostcenter.xyz/api/cpf/{}", "ON"]
-        },
-        {
-          "nome_kiny":["http://ifind.chapada.com.br:7777/?token=20491c06-5675-4e06-b2ae-4e3fcda2abdd&nome={}", "ON"],
-          "nome_gav":["https://consulta-nome1.p.rapidapi.com/apis/astrahvhdeus/Consultas%20Privadas/HTML/{}.php", "ON"],
-          "nome_123":["http://ghostcenter.xyz/api/nome/{}", "ON"]
-        },
-        {
-          "email_gav":["https://consulta-e-mail.p.rapidapi.com/apis/astrahvhdeus/Consultas%20Privadas/HTML/{}.php", "ON"]
-        },
-        {
-          "ip_mid":["http://ip-api.com/json/{}", "ON"],
-          "ip_whois":["http://ipwhois.app/json/{}", "ON"]
-        },
-        {
-          "placa_mid":["https://apicarros.com/v1/consulta/{}/json", "ON"]
-        },
-        {
-          "rg_gav":["https://consulta-rg.p.rapidapi.com/apis/astrahvhdeus/Consultas%20Privadas/HTML/{}.php", "ON"]
-        },
-        {
-          "covid_mid":["https://covid19-brazil-api.now.sh/api/report/v1/brazil/uf/{}", "ON"]
-        },
-        {
-          "cnpj_mid":["https://www.receitaws.com.br/v1/cnpj/{}", "ON"]
-        },
-        {
-          "cep_mid":["https://viacep.com.br/ws/{}/json/", "ON"]
-        },
-        {
-          "bin_kiny":["https://lookup.binlist.net/{}", "ON"],
-          "bin_123":["https://bins.payout.com/api/v1/bins/{}", "ON"]
-        }
- ]
+import requests
+import json
+import os
+
+# Definir o caminho absoluto para o arquivo apis.json
+current_dir = os.path.dirname(os.path.abspath(__file__))
+json_path = os.path.join(current_dir, 'apis.json')
+
+# Carregar as APIs do arquivo JSON
+with open(json_path, 'r') as f:
+    apis = json.load(f)
+
+# Função genérica para processar requisições e lidar com erros
+def process_request(url):
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Verifica se a resposta contém um status de erro HTTP
+        return response.json()  # Tenta converter a resposta em JSON
+    except requests.exceptions.HTTPError as http_err:
+        return f"HTTP error occurred: {http_err}"  # Retorna o erro HTTP
+    except requests.exceptions.RequestException as req_err:
+        return f"Request error occurred: {req_err}"  # Retorna qualquer erro de requisição
+    except ValueError:
+        return "Invalid JSON received"  # Retorna erro se a resposta não for JSON válido
+    except Exception as err:
+        return f"Other error occurred: {err}"  # Captura qualquer outro tipo de erro
+
+# Função para realizar consulta de CPF
+def consultar_cpf():
+    cpf = input("Digite o CPF para consulta: ").strip()
+    for api_group in apis:
+        if 'cpf_mid' in api_group:
+            url = api_group['cpf_mid'][0].format(cpf)
+            print("Consultando CPF...")
+            resultado = process_request(url)
+            print(f"Resultado: {resultado}")
+            break
+
+# Função para realizar consulta de CNPJ
+def consultar_cnpj():
+    cnpj = input("Digite o CNPJ para consulta: ").strip()
+    for api_group in apis:
+        if 'cnpj_mid' in api_group:
+            url = api_group['cnpj_mid'][0].format(cnpj)
+            print("Consultando CNPJ...")
+            resultado = process_request(url)
+            print(f"Resultado: {resultado}")
+            break
+
+# Função para realizar consulta de Nome
+def consultar_nome():
+    nome = input("Digite o Nome para consulta: ").strip()
+    for api_group in apis:
+        if 'nome_123' in api_group:
+            url = api_group['nome_123'][0].format(nome)
+            print("Consultando Nome...")
+            resultado = process_request(url)
+            print(f"Resultado: {resultado}")
+            break
+
+# Função para realizar consulta de Placa
+def consultar_placa():
+    placa = input("Digite a Placa para consulta: ").strip()
+    for api_group in apis:
+        if 'placa_mid' in api_group:
+            url = api_group['placa_mid'][0].format(placa)
+            print("Consultando Placa...")
+            resultado = process_request(url)
+            print(f"Resultado: {resultado}")
+            break
+
+# Função principal para exibir o menu e realizar as consultas
+def main():
+    while True:
+        print("\nEscolha o tipo de consulta:")
+        print("1. Consultar CPF")
+        print("2. Consultar CNPJ")
+        print("3. Consultar Nome")
+        print("4. Consultar Placa")
+        print("5. Sair")
+
+        escolha = input("Digite o número da sua escolha: ").strip()
+
+        if escolha == '1':
+            consultar_cpf()
+        elif escolha == '2':
+            consultar_cnpj()
+        elif escolha == '3':
+            consultar_nome()
+        elif escolha == '4':
+            consultar_placa()
+        elif escolha == '5':
+            print("Saindo...")
+            break
+        else:
+            print("Escolha inválida. Tente novamente.")
+
+# Verifica se o script está sendo executado diretamente
+if __name__ == "__main__":
+    main()

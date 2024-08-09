@@ -1,6 +1,6 @@
 ## Tabela de cores ANSI (Python) ##
 
-# fonte #
+# Fonte #
 Mblack = '\033[1;30m'   # Preto
 Ired = '\033[1;31m'     # Vermelho
 Dgreen = '\033[1;32m'   # Verde
@@ -13,41 +13,12 @@ VRCRM = '\033[0;0m'     # Remover
 
 import os
 
-
-def clear():
+def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-
-clear()
-
-
-def menu():
-    clear()
-    print(fr'''{Ired}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                                                                  ┃
-┃   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  ┃
-┃    {Gpurple} /\\,/\\,     |\         -__ /\\                       ,,     {Ired}┃
-┃    {Gpurple}/| || ||   '   \\          ||  \\   _    '             ||     {Ired}┃
-┃    {Gpurple}|| || ||  \\  / \\        /||__||  < \, \\ \\/\\  _-_  ||     {Ired}┃
-┃    {Gpurple}||=|= ||  || || ||        \||__||  /-|| || || || || \\ ||     {Ired}┃
-┃   {Gpurple}~|| || ||  || || ||         ||  |, (( || || || || ||/   ||     {Ired}┃
-┃    {Gpurple}|, \\,\\, \\  \\/        _-||-_/   \/\\ \\ \\ \\ \\,/  \\ {Hcyan}2.0{Ired} ┃
-┃   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  ┃
-┃                                                                  ┃
-┗  ┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  ┛
-   ┃    {Nyellow}[{Dgreen} CONSULTAS {Nyellow}]{Ired}    ┃   {Nyellow}[{Iblue} FERRAMENTAS {Nyellow}]{Ired}   ┃   {Nyellow}[{Twhite} OPÇÕES {Nyellow}]{Ired}   ┃
-   ┃                     ┃                     ┃                ┃
-   ┣┫{Nyellow}[01]{Dgreen} Consulta Nome{Ired}  ┣┫{Nyellow}[07]{Iblue} Meu IP{Ired}         ┣┫{Nyellow}[10]{Twhite} Atualizar{Ired} ┃
-   ┃                     ┃                     ┃                ┃
-   ┣┫{Nyellow}[02]{Dgreen} Consulta CPF{Ired}   ┣┫{Nyellow}[08]{Iblue} Covid Info{Ired}     ┣┫{Nyellow}[11]{Twhite} Sair{Ired}      ┃
-   ┃                     ┃                     ┃                ┃
-   ┣┫{Nyellow}[03]{Dgreen} Consulta CEP{Ired}   ┣┫{Nyellow}[09]{Iblue} Root Checker{Ired}   ┣┫{Nyellow}[12]{Twhite} Criador{Ired}   ┃
-   ┃                     ┃                     ┃                ┃
-   ┣┫{Nyellow}[04]{Dgreen} Consulta Placa{Ired} ┣┫                    ┣┫{Nyellow}[13]{Twhite} Grupo{Ired}     ┃
-   ┃                     ┃                     ┃                ┃
-   ┣┫{Nyellow}[05]{Dgreen} Consulta CNPJ{Ired}  ┣┫                    ┣┫               ┃
-   ┃                     ┃                     ┃                ┃
-   ┣┫{Nyellow}[06]{Dgreen} Consulta IP{Ired}    ┣┫                    ┣┫               ┃
-   ┗━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━┛+
-
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛''')
+# Exemplo de uso da tabela de cores e da função cls:
+if __name__ == "__main__":
+    cls()  # Limpa a tela
+    print(f"{Iblue}Este é um exemplo de banner em azul{VRCRM}")
+    print(f"{Ired}Este é um exemplo de banner em vermelho{VRCRM}")
+    print(f"{Dgreen}Este é um exemplo de banner em verde{VRCRM}")

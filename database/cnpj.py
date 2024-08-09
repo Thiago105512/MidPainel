@@ -15,15 +15,15 @@ import os
 import requests
 
 
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+def cls():
+    os.system('cls' if os.name == 'nt' else 'cls')
 
 
-clear()
+cls()
 
 
 def consultar():
-    clear()
+    cls()
     print('')
     print(f'\n{Iblue}########## ##################### ##########')
     print('########## ### Consulta CNPJ ### ##########')
@@ -41,7 +41,7 @@ def consultar():
         if 'ERROR' in rjson['status']:
             restart = str(input(
                 f'{Ired}==> CNPJ NÃO ENCONTRADO <== \n\n\n{Hcyan}Deseja realizar outra consulta S/N?{VRCRM} ')).strip().upper()[0]
-            clear()
+            cls()
         else:
             print('\n\033[1;33m{:-^62}'.format(f' {Dgreen}==> CNPJ ENCONTRADO <=={Nyellow} '))
             print('\nINFO:')
@@ -77,4 +77,4 @@ def consultar():
             restart = str(input(
                 f'\n{Hcyan}Deseja realizar outra consulta S/N?{VRCRM} ')).strip().upper()[
                 0]
-            clear()
+            cls()

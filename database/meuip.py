@@ -15,18 +15,18 @@ import os
 import requests
 
 
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+def cls():
+    os.system('cls' if os.name == 'nt' else 'cls')
 
 
-clear()
+cls()
 
 
 def consultar():
-    clear()
+    cls()
     import netifaces
     gateways = netifaces.gateways()
     gateway_padrao = gateways['default'][netifaces.AF_INET][0]
     print(f"{Hcyan}Your computer's IP address is: \n{Nyellow}{gateway_padrao}")
     input('')
-    clear()
+    cls()

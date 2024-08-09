@@ -15,15 +15,15 @@ import os
 import requests
 
 
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+def cls():
+    os.system('cls' if os.name == 'nt' else 'cls')
 
 
-clear()
+cls()
 
 
 def consultar():
-    clear()
+    cls()
     print('')
     print(f'\n{Iblue}########## #################### ##########')
     print('######## ### Consulta Covid19 ### ########')
@@ -42,7 +42,7 @@ def consultar():
             restart = str(input(
                 f'{Ired}==> REGIÃO NÃO ENCONTRADA <== \n\n\n{Hcyan}Deseja realizar outra consulta S/N?{VRCRM} ')).strip().upper()[
                 0]
-            clear()
+            cls()
         else:
             print('\n\033[1;33m{:-^62}'.format(f' {Dgreen}==> REGIÃO ENCONTRADA <=={Nyellow} '))
             print(f'\nEstado(UF)       >>> {rjson["state"]}')
@@ -56,4 +56,4 @@ def consultar():
             restart = str(input(
                 f'\n{Hcyan}Deseja realizar outra consulta S/N?{VRCRM} ')).strip().upper()[
                 0]
-            clear()
+            cls()

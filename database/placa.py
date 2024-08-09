@@ -15,15 +15,15 @@ import os
 import requests
 
 
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+def cls():
+    os.system('cls' if os.name == 'nt' else 'cls')
 
 
-clear()
+cls()
 
 
 def consultar():
-    clear()
+    cls()
     print(f'\n{Iblue}########## #################### ##########')
     print('######### ### Consulta PLACA ### #########')
     print('########## #################### ##########')
@@ -40,7 +40,7 @@ def consultar():
         if 'erro' in rjson:
             restart = str(input(
                 f'{Ired}==> PLACA NÃO ENCONTRADA <== \n\n\n{Hcyan}Deseja realizar outra consulta S/N?{VRCRM} ')).strip().upper()[0]
-            clear()
+            cls()
         else:
             print(rjson)
             print('\n\033[1;33m{:-^62}'.format(f' {Dgreen}==> PLACA ENCONTRADA <=={Nyellow} '))
@@ -59,4 +59,4 @@ def consultar():
             restart = str(input(
                 f'\n{Hcyan}Deseja realizar outra consulta S/N?{VRCRM} ')).strip().upper()[
                 0]
-            clear()
+            cls()

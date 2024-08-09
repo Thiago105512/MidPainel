@@ -1,6 +1,6 @@
 ## Tabela de cores ANSI (Python) ##
 
-# fonte #
+# Fonte #
 Mblack = '\033[1;30m'  # Preto
 Ired = '\033[1;31m'  # Vermelho
 Dgreen = '\033[1;32m'  # Verde
@@ -14,16 +14,11 @@ VRCRM = '\033[0;0m'  # Remover
 import os
 import requests
 
-
-def clear():
+def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-
-clear()
-
-
 def consultar():
-    clear()
+    cls()
     print('')
     print(f'\n{Iblue}########## #################### ##########')
     print('########## ### Consulta CPF ### ##########')
@@ -43,7 +38,7 @@ def consultar():
             restart = str(input(
                 f'{Ired}==> CPF NÃO ENCONTRADO <== \n\n\n{Hcyan}Deseja realizar outra consulta S/N?{VRCRM} ')).strip().upper()[
                 0]
-            clear()
+            cls()
         else:
             print('\n\033[1;33m{:-^62}'.format(f' {Dgreen}==> CPF ENCONTRADO <=={Nyellow} '))
             ordem = 0
@@ -59,4 +54,7 @@ def consultar():
             restart = str(input(
                 f'\n{Hcyan}Deseja realizar outra consulta S/N?{VRCRM} ')).strip().upper()[
                 0]
-            clear()
+            cls()
+
+if __name__ == "__main__":
+    consultar()
