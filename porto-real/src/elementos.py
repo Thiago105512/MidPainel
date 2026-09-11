@@ -35,6 +35,11 @@ class Parede:
         return abs(self.x2 - self.x1) + abs(self.y2 - self.y1)
 
 
+def _integrado(a: str | None, b: str | None) -> bool:
+    """Nao ha parede entre ambientes declarados integrados em projeto.INTEGRADOS."""
+    return a is not None and b is not None and frozenset((a, b)) in pj.INTEGRADOS
+
+
 def _celulas(ambientes: list[pj.Amb]) -> dict[tuple[int, int], str]:
     c: dict[tuple[int, int], str] = {}
     for a in ambientes:
@@ -60,11 +65,11 @@ def derivar_paredes(ambientes: list[pj.Amb]) -> list[Parede]:
     for i in range(imin, imax + 1):
         for j in range(jmin, jmax + 1):
             a, b = cel.get((i, j)), cel.get((i + 1, j))
-            if a != b:
+            if a != b and not _integrado(a, b):
                 ext = a is None or b is None
                 verticais.append(((i + 1) * G, j, pj.PAR_EXT if ext else pj.PAR_INT, ext))
             a, b = cel.get((i, j)), cel.get((i, j + 1))
-            if a != b:
+            if a != b and not _integrado(a, b):
                 ext = a is None or b is None
                 horizontais.append(((j + 1) * G, i, pj.PAR_EXT if ext else pj.PAR_INT, ext))
 

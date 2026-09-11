@@ -134,7 +134,7 @@ def cortes() -> Canvas:
     an.titulo_desenho(cv, (80, 262), "1", "CORTE AA — TRANSVERSAL", "1:60")
 
     vwB = View(60, 80, 490, y0, 0)
-    _desenhar_corte(cv, vwB, "V", 10_500, "B", y0, y1)
+    _desenhar_corte(cv, vwB, "V", 7_500, "B", y0, y1)
     an.titulo_desenho(cv, (80, 512), "2", "CORTE BB — LONGITUDINAL", "1:60")
     an.escala_grafica(cv, (80, 528), vwB, 2_000, 5)
     return cv

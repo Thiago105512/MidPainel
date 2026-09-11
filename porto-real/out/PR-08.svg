@@ -33,14 +33,14 @@
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Croqui de estudo volumetrico — sem escala, nao cotado.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Cores por zona funcional: social, intimo, servico, apoio e circulacao.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Volume superior em balanco sobre o deck lateral — estrutura metalica especifica (H).</text>
-<polygon points="213.087,297.500 135.144,252.500 135.144,220.000 213.087,265.000" stroke="#000000" stroke-width="0.3" fill="#c49c42" stroke-linejoin="miter"/>
-<polygon points="213.087,297.500 258.553,271.250 258.553,238.750 213.087,265.000" stroke="#000000" stroke-width="0.3" fill="#ddb04a" stroke-linejoin="miter"/>
-<polygon points="213.087,265.000 258.553,238.750 180.611,193.750 135.144,220.000" stroke="#000000" stroke-width="0.3" fill="#f6c453" stroke-linejoin="miter"/>
-<text x="196.849" y="229.375" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">GOURMET</text>
 <polygon points="265.048,267.500 213.087,237.500 213.087,205.000 265.048,235.000" stroke="#000000" stroke-width="0.3" fill="#817ccb" stroke-linejoin="miter"/>
 <polygon points="265.048,267.500 330.000,230.000 330.000,197.500 265.048,235.000" stroke="#000000" stroke-width="0.3" fill="#918be4" stroke-linejoin="miter"/>
 <polygon points="265.048,235.000 330.000,197.500 278.038,167.500 213.087,205.000" stroke="#000000" stroke-width="0.3" fill="#a29bfe" stroke-linejoin="miter"/>
 <text x="271.543" y="201.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">SUITE MASTER</text>
+<polygon points="180.611,316.250 102.668,271.250 102.668,238.750 180.611,283.750" stroke="#000000" stroke-width="0.3" fill="#c49c42" stroke-linejoin="miter"/>
+<polygon points="180.611,316.250 226.077,290.000 226.077,257.500 180.611,283.750" stroke="#000000" stroke-width="0.3" fill="#ddb04a" stroke-linejoin="miter"/>
+<polygon points="180.611,283.750 226.077,257.500 148.135,212.500 102.668,238.750" stroke="#000000" stroke-width="0.3" fill="#f6c453" stroke-linejoin="miter"/>
+<text x="164.373" y="248.125" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">GOURMET</text>
 <polygon points="83.183,297.500 70.192,290.000 70.192,257.500 83.183,265.000" stroke="#000000" stroke-width="0.3" fill="#5c94cc" stroke-linejoin="miter"/>
 <polygon points="83.183,297.500 115.659,278.750 115.659,246.250 83.183,265.000" stroke="#000000" stroke-width="0.3" fill="#68a6e5" stroke-linejoin="miter"/>
 <polygon points="83.183,265.000 115.659,246.250 102.668,238.750 70.192,257.500" stroke="#000000" stroke-width="0.3" fill="#74b9ff" stroke-linejoin="miter"/>
@@ -49,26 +49,22 @@
 <polygon points="291.029,327.500 317.010,312.500 317.010,280.000 291.029,295.000" stroke="#000000" stroke-width="0.3" fill="#a0abaf" stroke-linejoin="miter"/>
 <polygon points="291.029,295.000 317.010,280.000 252.058,242.500 226.077,257.500" stroke="#000000" stroke-width="0.3" fill="#b2bec3" stroke-linejoin="miter"/>
 <text x="271.543" y="268.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">CORE / ESCADA</text>
-<polygon points="115.659,316.250 83.183,297.500 83.183,265.000 115.659,283.750" stroke="#000000" stroke-width="0.3" fill="#5c94cc" stroke-linejoin="miter"/>
-<polygon points="115.659,316.250 148.135,297.500 148.135,265.000 115.659,283.750" stroke="#000000" stroke-width="0.3" fill="#68a6e5" stroke-linejoin="miter"/>
-<polygon points="115.659,283.750 148.135,265.000 115.659,246.250 83.183,265.000" stroke="#000000" stroke-width="0.3" fill="#74b9ff" stroke-linejoin="miter"/>
-<text x="115.659" y="265.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">OFICINA</text>
+<polygon points="148.135,335.000 83.183,297.500 83.183,265.000 148.135,302.500" stroke="#000000" stroke-width="0.3" fill="#5c94cc" stroke-linejoin="miter"/>
+<polygon points="148.135,335.000 180.611,316.250 180.611,283.750 148.135,302.500" stroke="#000000" stroke-width="0.3" fill="#68a6e5" stroke-linejoin="miter"/>
+<polygon points="148.135,302.500 180.611,283.750 115.659,246.250 83.183,265.000" stroke="#000000" stroke-width="0.3" fill="#74b9ff" stroke-linejoin="miter"/>
+<text x="131.897" y="274.375" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">COZINHA</text>
 <polygon points="161.125,305.000 109.164,275.000 109.164,242.500 161.125,272.500" stroke="#000000" stroke-width="0.3" fill="#817ccb" stroke-linejoin="miter"/>
 <polygon points="161.125,305.000 219.582,271.250 219.582,238.750 161.125,272.500" stroke="#000000" stroke-width="0.3" fill="#918be4" stroke-linejoin="miter"/>
 <polygon points="161.125,272.500 219.582,238.750 167.620,208.750 109.164,242.500" stroke="#000000" stroke-width="0.3" fill="#a29bfe" stroke-linejoin="miter"/>
 <text x="164.373" y="240.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">SUITE 03</text>
+<polygon points="232.572,278.750 206.591,263.750 206.591,231.250 232.572,246.250" stroke="#000000" stroke-width="0.3" fill="#b2b8ba" stroke-linejoin="miter"/>
+<polygon points="232.572,278.750 258.553,263.750 258.553,231.250 232.572,246.250" stroke="#000000" stroke-width="0.3" fill="#c8cfd1" stroke-linejoin="miter"/>
+<polygon points="232.572,246.250 258.553,231.250 232.572,216.250 206.591,231.250" stroke="#000000" stroke-width="0.3" fill="#dfe6e9" stroke-linejoin="miter"/>
+<text x="232.572" y="231.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">HALL</text>
 <polygon points="245.563,353.750 180.611,316.250 180.611,283.750 245.563,321.250" stroke="#000000" stroke-width="0.3" fill="#c49c42" stroke-linejoin="miter"/>
 <polygon points="245.563,353.750 291.029,327.500 291.029,295.000 245.563,321.250" stroke="#000000" stroke-width="0.3" fill="#ddb04a" stroke-linejoin="miter"/>
 <polygon points="245.563,321.250 291.029,295.000 226.077,257.500 180.611,283.750" stroke="#000000" stroke-width="0.3" fill="#f6c453" stroke-linejoin="miter"/>
 <text x="235.820" y="289.375" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">ESTAR / JANTAR</text>
-<polygon points="239.067,282.500 213.087,267.500 213.087,235.000 239.067,250.000" stroke="#000000" stroke-width="0.3" fill="#b2b8ba" stroke-linejoin="miter"/>
-<polygon points="239.067,282.500 265.048,267.500 265.048,235.000 239.067,250.000" stroke="#000000" stroke-width="0.3" fill="#c8cfd1" stroke-linejoin="miter"/>
-<polygon points="239.067,250.000 265.048,235.000 239.067,220.000 213.087,235.000" stroke="#000000" stroke-width="0.3" fill="#dfe6e9" stroke-linejoin="miter"/>
-<text x="239.067" y="235.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">HALL</text>
-<polygon points="148.135,335.000 115.659,316.250 115.659,283.750 148.135,302.500" stroke="#000000" stroke-width="0.3" fill="#5c94cc" stroke-linejoin="miter"/>
-<polygon points="148.135,335.000 180.611,316.250 180.611,283.750 148.135,302.500" stroke="#000000" stroke-width="0.3" fill="#68a6e5" stroke-linejoin="miter"/>
-<polygon points="148.135,302.500 180.611,283.750 148.135,265.000 115.659,283.750" stroke="#000000" stroke-width="0.3" fill="#74b9ff" stroke-linejoin="miter"/>
-<text x="148.135" y="283.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">LAVANDERIA</text>
 <polygon points="362.476,361.250 297.524,323.750 297.524,291.250 362.476,328.750" stroke="#000000" stroke-width="0.3" fill="#817ccb" stroke-linejoin="miter"/>
 <polygon points="362.476,361.250 394.952,342.500 394.952,310.000 362.476,328.750" stroke="#000000" stroke-width="0.3" fill="#918be4" stroke-linejoin="miter"/>
 <polygon points="362.476,328.750 394.952,310.000 330.000,272.500 297.524,291.250" stroke="#000000" stroke-width="0.3" fill="#a29bfe" stroke-linejoin="miter"/>
@@ -81,10 +77,10 @@
 <polygon points="394.952,342.500 414.437,331.250 414.437,298.750 394.952,310.000" stroke="#000000" stroke-width="0.3" fill="#c8cfd1" stroke-linejoin="miter"/>
 <polygon points="394.952,310.000 414.437,298.750 388.457,283.750 368.971,295.000" stroke="#000000" stroke-width="0.3" fill="#dfe6e9" stroke-linejoin="miter"/>
 <text x="391.704" y="296.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">BANHO</text>
-<polygon points="213.087,372.500 148.135,335.000 148.135,302.500 213.087,340.000" stroke="#000000" stroke-width="0.3" fill="#5c94cc" stroke-linejoin="miter"/>
-<polygon points="213.087,372.500 245.563,353.750 245.563,321.250 213.087,340.000" stroke="#000000" stroke-width="0.3" fill="#68a6e5" stroke-linejoin="miter"/>
-<polygon points="213.087,340.000 245.563,321.250 180.611,283.750 148.135,302.500" stroke="#000000" stroke-width="0.3" fill="#74b9ff" stroke-linejoin="miter"/>
-<text x="196.849" y="311.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">COZINHA</text>
+<polygon points="180.611,353.750 148.135,335.000 148.135,302.500 180.611,321.250" stroke="#000000" stroke-width="0.3" fill="#5c94cc" stroke-linejoin="miter"/>
+<polygon points="180.611,353.750 213.087,335.000 213.087,302.500 180.611,321.250" stroke="#000000" stroke-width="0.3" fill="#68a6e5" stroke-linejoin="miter"/>
+<polygon points="180.611,321.250 213.087,302.500 180.611,283.750 148.135,302.500" stroke="#000000" stroke-width="0.3" fill="#74b9ff" stroke-linejoin="miter"/>
+<text x="180.611" y="302.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">LAVANDERIA</text>
 <polygon points="317.010,357.500 278.038,335.000 278.038,302.500 317.010,325.000" stroke="#000000" stroke-width="0.3" fill="#b2b8ba" stroke-linejoin="miter"/>
 <polygon points="317.010,357.500 336.495,346.250 336.495,313.750 317.010,325.000" stroke="#000000" stroke-width="0.3" fill="#c8cfd1" stroke-linejoin="miter"/>
 <polygon points="317.010,325.000 336.495,313.750 297.524,291.250 278.038,302.500" stroke="#000000" stroke-width="0.3" fill="#dfe6e9" stroke-linejoin="miter"/>
@@ -93,8 +89,12 @@
 <polygon points="278.038,410.000 342.990,372.500 342.990,340.000 278.038,377.500" stroke="#000000" stroke-width="0.3" fill="#a0abaf" stroke-linejoin="miter"/>
 <polygon points="278.038,377.500 342.990,340.000 278.038,302.500 213.087,340.000" stroke="#000000" stroke-width="0.3" fill="#b2bec3" stroke-linejoin="miter"/>
 <text x="278.038" y="340.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">GARAGEM</text>
-<polygon points="122.154,245.000 174.115,215.000 148.135,200.000 96.173,230.000" stroke="#000000" stroke-width="0.3" fill="#aed6f1" stroke-linejoin="miter"/>
-<text x="135.144" y="222.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">PISCINA</text>
+<polygon points="213.087,372.500 180.611,353.750 180.611,321.250 213.087,340.000" stroke="#000000" stroke-width="0.3" fill="#5c94cc" stroke-linejoin="miter"/>
+<polygon points="213.087,372.500 245.563,353.750 245.563,321.250 213.087,340.000" stroke="#000000" stroke-width="0.3" fill="#68a6e5" stroke-linejoin="miter"/>
+<polygon points="213.087,340.000 245.563,321.250 213.087,302.500 180.611,321.250" stroke="#000000" stroke-width="0.3" fill="#74b9ff" stroke-linejoin="miter"/>
+<text x="213.087" y="321.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">OFICINA</text>
+<polygon points="89.678,263.750 141.639,233.750 115.659,218.750 63.697,248.750" stroke="#000000" stroke-width="0.3" fill="#aed6f1" stroke-linejoin="miter"/>
+<text x="102.668" y="241.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">PISCINA</text>
 <polygon points="330.000,470.000 546.506,345.000 113.494,95.000 -103.013,220.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <polygon points="640.000,100.000 652.000,100.000 652.000,105.000 640.000,105.000" stroke="#000000" stroke-width="0.18" fill="#f6c453" stroke-linejoin="miter"/>
 <text x="656.000" y="102.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SOCIAL — estar/jantar e gourmet</text>

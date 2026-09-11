@@ -158,24 +158,27 @@ def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
         vaso(cv, vw, 13_500, 7_350)
         lavatorio(cv, vw, 14_250, 7_350, 700, 450)
         box(cv, vw, 13_350, 8_700, 900, 900)
-        # cozinha 3000x6000 em (2400, 13200): bancada em L, 600 de profundidade
-        bancada(cv, vw, 2_500, 14_400, 600, 4_700, cubas=1, cooktop=False)
-        bancada(cv, vw, 3_100, 18_500, 2_200, 600, cubas=0, cooktop=True)
-        geladeira(cv, vw, 4_400, 13_350, 900, 750)
-        # lavanderia
-        tanque(cv, vw, 2_550, 21_600, 600, 550)
-        maquina(cv, vw, 3_250, 21_650, 600, "ML")
-        maquina(cv, vw, 3_950, 21_650, 600, "SEC")
+        # cozinha 3000x6000 em (2400, 19200): bancada em L voltada ao gourmet
+        bancada(cv, vw, 2_500, 19_900, 600, 4_700, cubas=1, cooktop=False)
+        bancada(cv, vw, 3_100, 19_300, 2_200, 600, cubas=0, cooktop=True)
+        geladeira(cv, vw, 4_400, 24_450, 900, 750)
+        # ilha da integracao cozinha/gourmet (peninsula sobre o eixo X=5.400)
+        bancada(cv, vw, 4_800, 21_600, 1_200, 2_400, cubas=1, cooktop=False)
+        # lavanderia (2400, 16200) — mesma prumada da cozinha
+        tanque(cv, vw, 2_550, 16_350, 600, 550)
+        maquina(cv, vw, 3_250, 16_400, 600, "ML")
+        maquina(cv, vw, 3_950, 16_400, 600, "SEC")
         # gourmet: bancada + churrasqueira
-        bancada(cv, vw, 8_550, 19_350, 3_900, 600, cubas=1, cooktop=True)
+        bancada(cv, vw, 5_550, 25_700, 3_900, 600, cubas=1, cooktop=True)
         # oficina: bancada 2400x600
-        bancada(cv, vw, 2_550, 24_450, 2_400, 600, cubas=0)
+        bancada(cv, vw, 2_550, 13_350, 2_400, 600, cubas=0)
         escada_u(cv, vw)
         if layout:
             carro(cv, vw, 3_000, 8_000)
             carro(cv, vw, 5_600, 8_000)
             sofa(cv, vw, 5_700, 13_600, 2_400, 900)
-            mesa(cv, vw, 7_500, 17_100, 1_800, 900, 6)
+            mesa(cv, vw, 7_500, 17_400, 1_800, 900, 6)
+            mesa(cv, vw, 7_500, 23_400, 2_400, 1_000, 8)
             cama(cv, vw, 10_500, 7_700, 1_600, 2_000)
     else:
         # suites 2 e 3 — modulos espelhados

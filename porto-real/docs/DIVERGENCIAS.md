@@ -102,3 +102,53 @@ Reproduz as pendências do briefing, todas mantidas:
 certidão oficial do SU16; sondagem e cálculo do radier; cálculo estrutural do
 sistema híbrido e do apoio da caixa d'água; verificação ambiental do reuso
 pluvial; diâmetro do chuveiro; regulamento do condomínio.
+
+---
+
+# Revisão 2 — integração cozinha + gourmet
+
+Requisito do cliente: **a cozinha deve ser integrada ao gourmet**. Isso não é
+um vão maior; é uma mudança de organização, implementada no modelo como
+`projeto.INTEGRADOS` — pares de ambientes entre os quais a derivação de
+paredes não gera vedação alguma.
+
+## Ambientes integrados declarados
+
+| Par | Efeito |
+|---|---|
+| `T-COZ` + `T-GOU` | cozinha e gourmet como espaço único de preparo e convívio |
+| `T-SOC` + `T-GOU` | estar/jantar e gourmet como fita social contínua |
+| `T-SOC` + `T-COR` | core/escada aberto ao social, funcionando como poço de luz e chaminé térmica |
+
+## Reorganização do térreo decorrente
+
+A prumada de serviço migrou inteira para a face oeste, em coluna contínua de
+3.000 mm: **oficina → lavanderia → cozinha → despensa/DML**, todas com janela
+para o recuo lateral esquerdo. Consequências:
+
+1. **Oficina passa a ser acessada pela garagem**, não pela sala. Atende à
+   diretriz "oficina visível da área social: não", que a organização anterior
+   violava.
+2. **Lavanderia fica entre oficina e cozinha** — ramal hidrossanitário único
+   na face oeste, atendendo tanque, máquinas, pia e despensa na mesma prumada.
+3. **O pátio de serviço de 21,60 m² foi eliminado.** Era espaço residual sem
+   função, contrariando a meta de 0,50 m² máximo. A área migrou para o deck
+   da piscina, que passou a ter função.
+4. **A fita social ganhou 13,20 m de profundidade contínua** (estar 6,00 +
+   gourmet 7,20), aberta ao norte para a piscina e ao leste para o deck.
+5. **Piscina realinhada ao eixo do gourmet** (X 5.400 a 10.200), com o deck
+   de 7.200 × 4.800 mm envolvendo-a.
+
+## Efeito construtivo mensurável
+
+| Indicador | Antes | Depois |
+|---|---|---|
+| Trechos de parede no térreo | 28 | 23 |
+| Comprimento total de vedação | 127,80 m | **103,80 m** |
+| Áreas abertas com função | 51,12 m² | 67,68 m² |
+
+24 metros lineares de parede a menos significam, em Light Steel Frame:
+menos montantes, menos guias, menos placa cimentícia e de gesso, menos
+lã mineral, menos fita e massa — e menos juntas para tratar. As áreas
+computadas permanecem **exatamente** nos alvos: térreo 174,24 m² e varanda
+master 10,80 m².

@@ -108,9 +108,9 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     # ---- cotas de nivel
     if pav == "T":
         an.nivel(cv, vw, P(5_400, 10_200), 0)
-        an.nivel(cv, vw, P(4_500, 16_200), 0)
-        an.nivel(cv, vw, P(6_900, 22_800), -20)
-        an.nivel(cv, vw, P(10_500, 28_800), -150)
+        an.nivel(cv, vw, P(7_500, 16_200), 0)
+        an.nivel(cv, vw, P(7_500, 22_800), 0)
+        an.nivel(cv, vw, P(7_800, 28_800), -150)
     else:
         an.nivel(cv, vw, P(5_100, 15_600), pj.NIVEL_SUPERIOR)
         an.nivel(cv, vw, P(13_200, 18_600), pj.NIVEL_SUPERIOR)
@@ -137,7 +137,7 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     # ---- indicacao dos cortes
     if pav == "T":
         an.marca_corte(cv, vw, P(1_200, 16_200), P(18_000, 16_200), "A")
-        an.marca_corte(cv, vw, P(10_500, 5_400), P(10_500, 31_200), "B")
+        an.marca_corte(cv, vw, P(7_500, 5_400), P(7_500, 31_200), "B")
 
     an.norte(cv, (800, 46))
 
