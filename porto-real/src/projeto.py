@@ -20,6 +20,25 @@ from dataclasses import dataclass, field
 GRID = 600
 SUBGRID = 300
 
+# ------------------------------------------------------------- orientacao
+# A testada (Y = 0) recebe sol da MANHA -> a frente do lote esta a LESTE.
+# Consequencia do sistema de coordenadas: +Y aponta para OESTE (fundo),
+# +X aponta para NORTE (lateral direita / faixa tecnica),
+# X = 0 e a lateral SUL (recuo esquerdo).
+AZIMUTE_TESTADA = 90          # graus: 90 = leste
+NORTE_EM_PLANTA = -90         # rotacao do simbolo de norte (aponta para +X)
+LATITUDE = -3.10              # Manaus
+ZONA_BIOCLIMATICA = 8         # NBR 15220-3
+
+# alturas solares criticas em Manaus (lat 3 S)
+SOL = {
+    "solsticio_jun_meiodia": (63.5, "N"),   # altitude, face iluminada
+    "solsticio_dez_meiodia": (69.7, "S"),
+    "equinocio_meiodia": (86.9, "zenital"),
+    "leste_8h": (30.0, "L"),
+    "oeste_16h": (30.0, "O"),
+}
+
 # ---------------------------------------------------------------- lote
 LOTE_L = 20_000
 LOTE_P = 40_000
@@ -113,9 +132,14 @@ TERREO: list[Amb] = [
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
 TERREO_ABERTO: list[Amb] = [
     Amb("T-VAR", "VARANDA DE ENTRADA", 8_400,  7_200, 1_800, 2_400, aberto=True),
-    Amb("T-DKL", "DECK LATERAL",      12_000, 13_200, 4_800, 6_000, aberto=True),
+    Amb("T-ALP", "ALPENDRE OESTE",     5_400, 26_400, 4_200, 2_400, aberto=True),
+    Amb("T-DKL", "DECK NORTE",        12_000, 13_200, 4_800, 6_000, aberto=True),
     Amb("T-DKP", "DECK DA PISCINA",    9_600, 19_200, 4_800, 7_200, aberto=True),
 ]
+
+# ambientes cobertos = fechados + alpendre (para a planta de cobertura)
+def cobertos() -> list[Amb]:
+    return TERREO + [a for a in TERREO_ABERTO if a.cod in ("T-ALP", "T-VAR")]
 
 # =========================================================================
 # PAVIMENTO SUPERIOR
@@ -180,7 +204,7 @@ VAOS = [
     ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
     ("P02",   6_900, 13_200, "H", "T"),   # garagem -> estar/jantar
     ("PV01", 12_000, 16_200, "V", "T"),   # core envidracado -> deck lateral
-    ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> deck e piscina
+    ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> alpendre oeste e piscina
     ("PV01",  9_600, 22_800, "V", "T"),   # gourmet -> deck lateral
     # ---- terreo: prumada de servico na face oeste
     ("P04",   3_900, 13_200, "H", "T"),   # garagem -> oficina (fora da vista social)
@@ -206,11 +230,11 @@ VAOS = [
 # =========================================================================
 # ELEMENTOS EXTERNOS
 # =========================================================================
-PISCINA = dict(x=5_400, y=27_600, w=4_800, h=2_400,
+PISCINA = dict(x=5_400, y=29_400, w=4_800, h=2_400,
                prainha_w=1_200, prof_prainha=300, prof_principal=1_150,
                lamina_m2=11.52, volume_m3=10.80)
-CASA_MAQUINAS = dict(x=10_800, y=27_600, w=1_500, h=1_200)
-DECK = dict(x=4_200, y=26_400, w=7_200, h=4_800)          # envolve a piscina
+CASA_MAQUINAS = dict(x=10_800, y=29_400, w=1_500, h=1_200)
+DECK = dict(x=4_200, y=28_800, w=7_200, h=4_800)          # envolve a piscina
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 CAIXA_DAGUA = dict(x=10_200, y=16_200, w=2_400, h=2_400,
                    volume_l=2_000, pe_direito=2_100, carga_kg=2_500)
@@ -266,3 +290,72 @@ if __name__ == "__main__":
     print(f"varanda master .. {area_aberta('S'):.2f} m2   (briefing  10,80)")
     for nome, val, lim, ok in verificacao_urbanistica():
         print(f"  [{'OK ' if ok else 'NAO'}] {nome:<24} {val:<14} {lim}")
+
+
+# =========================================================================
+# BRISES — sombreamento externo por face
+# Em latitude 3 S o sol de leste (8 h) e de oeste (16 h) chega a 30 graus de
+# altitude: sombreamento HORIZONTAL nao funciona nessas faces, so VERTICAL.
+# Nas faces norte e sul o sol e alto (63 a 87 graus) e o beiral resolve.
+# =========================================================================
+BRISES = [
+    dict(cod="BR-O", face="O", x=5_400, y=28_800, w=4_200, h=150,
+         tipo="ripado vertical movel", passo=150, desc="alpendre oeste - fita social"),
+    dict(cod="BR-L", face="L", x=10_200, y=7_200, w=4_800, h=150,
+         tipo="ripado vertical fixo", passo=150, desc="quarto reversivel e banho - testada leste"),
+    dict(cod="BR-OS", face="O", x=10_200, y=22_800, w=6_000, h=150,
+         tipo="ripado vertical movel", passo=150, desc="varanda master - pavimento superior"),
+]
+
+BEIRAIS = {"N": 1_200, "S": 1_200, "L": 600, "O": 600}
+
+# =========================================================================
+# DESEMPENHO — camadas construtivas para calculo de U, R e FSo
+# lambda em W/(m.K); espessura em mm. Camada de ar entra como resistencia.
+# =========================================================================
+CAMADAS = {
+    "parede_externa": [
+        ("Rse (resistencia superficial externa)", None, 0.040),
+        ("Chapa cimenticia", 10, 0.95),
+        ("Camara de ar nao ventilada", 40, 0.160),
+        ("La mineral", 50, 0.040),
+        ("Chapa de gesso acartonado", 12.5, 0.350),
+        ("Rsi (resistencia superficial interna)", None, 0.130),
+    ],
+    "parede_interna": [
+        ("Rsi", None, 0.130),
+        ("Chapa de gesso acartonado", 12.5, 0.350),
+        ("La mineral", 50, 0.040),
+        ("Camara de ar", 25, 0.160),
+        ("Chapa de gesso acartonado", 12.5, 0.350),
+        ("Rsi", None, 0.130),
+    ],
+    "cobertura": [
+        ("Rse", None, 0.040),
+        ("Chapa de aco", 0.5, 55.0),
+        ("Nucleo PIR", 75, 0.022),
+        ("Chapa de aco", 0.5, 55.0),
+        ("Rsi (fluxo descendente)", None, 0.170),
+    ],
+}
+
+ABSORTANCIA = 0.30            # cor clara (alvo: <= 0,40 na ZB8)
+
+# limites normativos — NBR 15220-3, Zona Bioclimatica 8
+LIMITES_ZB8 = {
+    "parede_externa": dict(U=3.60, atraso=4.3, FSo=4.0, rotulo="parede leve refletora"),
+    "cobertura": dict(U=2.30, atraso=3.3, FSo=6.5, rotulo="cobertura leve refletora"),
+}
+
+# NBR 15575 — desempenho acustico (residencia unifamiliar)
+ACUSTICA = {
+    "fachada_dormitorio": dict(minimo=30, intermediario=35, superior=40, unidade="Rw (dB)"),
+    "parede_entre_ambientes": dict(minimo=40, intermediario=45, superior=50, unidade="Rw (dB)"),
+    "piso_entre_pavimentos": dict(minimo=80, intermediario=66, superior=65, unidade="L'nT,w (dB)"),
+}
+
+ESQUADRIA_ACUSTICA = {
+    "correr aluminio comum, vidro temperado 8 mm": 25,
+    "correr com vedacao por compressao, laminado 6+6": 33,
+    "de abrir com vedacao dupla, laminado 6+6 PVB acustico": 38,
+}

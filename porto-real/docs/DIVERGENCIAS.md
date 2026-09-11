@@ -152,3 +152,80 @@ menos montantes, menos guias, menos placa cimentícia e de gesso, menos
 lã mineral, menos fita e massa — e menos juntas para tratar. As áreas
 computadas permanecem **exatamente** nos alvos: térreo 174,24 m² e varanda
 master 10,80 m².
+
+---
+
+# Revisão 3 — orientação solar definida e desempenho térmico/acústico
+
+Dado fornecido pelo cliente: **a casa recebe sol na frente pela manhã**.
+A testada está, portanto, a **LESTE**. No sistema de coordenadas do modelo
+isso significa: +Y aponta para **oeste** (fundo), +X para **norte** (faixa
+técnica), X = 0 é a lateral **sul**.
+
+## Consequência crítica
+
+O lote tem 20 m de frente por 40 m de fundo, com o eixo longo no sentido
+**leste-oeste**. Isso é favorável: as fachadas longas da edificação
+(19,20 m) ficam voltadas a **norte e sul**, onde o sol é alto (63° a 87°
+em latitude 3°S) e o beiral resolve. As fachadas curtas (14,40 m) ficam a
+**leste e oeste**, onde o sol é baixo — mas com exposição reduzida.
+
+O problema estava no **fundo do lote, a oeste**: era ali que a fita social
+abria e onde estava a piscina. Sol das 16h, a 30° de altitude, sobre o
+ambiente mais nobre da casa.
+
+## Correções aplicadas
+
+1. **Alpendre oeste de 4.200 × 2.400 mm (10,08 m²)** interposto entre o
+   gourmet e a piscina — limiar sombreado, não parede de vidro.
+2. **Piscina recuada** para Y 29.400–31.800, mantendo 8,20 m livres até o
+   fundo. Sol da tarde sobre a lâmina d'água é desejável; sobre o vidro,
+   não.
+3. **Brises verticais (`BRISES`)** nas faces leste e oeste. A justificativa
+   é numérica: para sombrear um vão de 2.400 mm com sol a 30° seria preciso
+   projeção horizontal de **4.157 mm**. Beiral não resolve — só ripado
+   vertical. O ripado amadeirado da imagem de referência passa a ter
+   função, não só estética.
+4. **Beirais de 1.200 mm a norte e sul** — cálculo: projeção necessária de
+   1.197 mm (norte, 21/jun) e 888 mm (sul, 21/dez).
+5. **Prancha PR-11** de desempenho, com todos os cálculos.
+
+## Resultados calculados
+
+| Elemento | U (W/m²K) | Limite ZB8 | FSo | Limite | Situação |
+|---|---|---|---|---|---|
+| Parede externa LSF 150 mm | 0,615 | ≤ 3,60 | 0,74 % | ≤ 4,0 % | folgado |
+| Cobertura PIR 75 mm | 0,276 | ≤ 2,30 | 0,33 % | ≤ 6,5 % | folgado |
+
+O envelope opaco é excelente. Os dois gargalos reais estão em outro lugar:
+
+**Ponte térmica dos montantes.** Sem banda isolante contínua, o perfil de
+aço curto-circuita a lã mineral e o U efetivo salta de 0,615 para **1,025**
+— 40 % do isolamento perdido. Com ISO strip de 20 mm, fica em 0,668.
+
+**A esquadria domina a fachada.** Com parede de Rw 45 dB e vão ocupando
+20 % da área, o Rw composto resulta:
+
+| Esquadria | Rw do vão | Rw composto | Classe NBR 15575-3 |
+|---|---|---|---|
+| Correr comum, temperado 8 mm | 25 dB | 31,8 dB | mínimo |
+| Correr com vedação, laminado 6+6 | 33 dB | 39,0 dB | intermediário |
+| De abrir, laminado 6+6 PVB acústico | 38 dB | 42,4 dB | superior |
+
+Trocar apenas a esquadria move a fachada de "mínimo" para "superior".
+
+**Reverberação — o preço da integração.** A fita social integrada tem
+272 m³ (incluindo o pé-direito duplo do core). Com superfícies duras:
+
+- sem tratamento: **TR = 3,20 s** — inaceitável, conversa inviável;
+- com forro absorvente no gourmet, cortinas e tapetes: **TR = 0,86 s**.
+
+Meta para ambiente social residencial: 0,60 a 0,80 s. A integração que o
+cliente pediu **exige** tratamento absorvente; sem ele, o espaço único
+fica acusticamente pior que os ambientes separados que substituiu.
+
+**Ruído de impacto.** Piso seco entre pavimentos, sem tratamento, fica em
+78 a 85 dB de L'nT,w — **não atende** ao mínimo de 80 dB da NBR 15575-3.
+Com manta resiliente e forro com lã mineral, cai para 55 a 60 dB (classe
+superior). As suítes ficam sobre a fita social: este é o item acústico de
+maior impacto percebido.

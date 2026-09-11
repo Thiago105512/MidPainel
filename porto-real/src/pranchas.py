@@ -9,7 +9,7 @@ import mobiliario as mob
 import anotacao as an
 from core import P, Canvas, View, TXT, CINZA, PRETO
 
-TOTAL_PRANCHAS = "10"
+TOTAL_PRANCHAS = "11"
 
 
 def base(titulo: str, escala: str, prancha: str, formato: str = "A1",
@@ -105,6 +105,20 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
         cv.texto_p((c[0], c[1] + 1.8), f"{a.area_mod:.2f} m2".replace(".", ","),
                    TXT["micro"], "middle", cor=CINZA)
 
+    # ---- brises verticais (sombreamento das faces leste e oeste)
+    for b in pj.BRISES:
+        if (b["cod"] == "BR-OS") != (pav == "S"):
+            continue
+        x, y, w, h = b["x"], b["y"], b["w"], b["h"]
+        cv.poli_p([vw.pt(P(x, y)), vw.pt(P(x + w, y)), vw.pt(P(x + w, y + h)),
+                   vw.pt(P(x, y + h))], "vista", fechado=True, preenche="#f3e3cf")
+        n = int(w / b["passo"])
+        for i in range(n + 1):
+            xx = x + i * b["passo"]
+            cv.linha_p(vw.pt(P(xx, y)), vw.pt(P(xx, y + h)), "fino", cor="#a9743a")
+        cv.texto_p(vw.pt(P(x + w / 2, y + h + 500)),
+                   f"{b['cod']}  RIPADO VERTICAL", TXT["micro"], "middle", cor="#a9743a")
+
     # ---- cotas de nivel
     if pav == "T":
         an.nivel(cv, vw, P(5_400, 10_200), 0)
@@ -139,7 +153,7 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
         an.marca_corte(cv, vw, P(1_200, 16_200), P(18_000, 16_200), "A")
         an.marca_corte(cv, vw, P(7_500, 5_400), P(7_500, 31_200), "B")
 
-    an.norte(cv, (800, 46))
+    an.norte(cv, (800, 46), 9, pj.NORTE_EM_PLANTA)
 
     # ---- quadro de areas do pavimento
     linhas = [[a.cod, a.nome, f"{a.w}x{a.h}", f"{a.area_mod:.2f}".replace(".", ",")]
@@ -168,6 +182,7 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     # ---- legenda de convencoes
     _legenda_convencoes(cv, (470, fim2 + 18))
 
+    _rosa_solar(cv, (762, 120))
     an.titulo_desenho(cv, (78, 520), "1", nome.split("—")[-1].strip(), "1:50")
     an.escala_grafica(cv, (78, 536), vw, 1_000, 5)
     return cv
@@ -256,7 +271,7 @@ def implantacao() -> Canvas:
     an.cadeia(cv, vw, [0, 7_200, 13_200, 19_200, 26_400, Pf], 0, "V", -12)
     an.cadeia(cv, vw, [0, Pf], 0, "V", -22)
 
-    an.norte(cv, (735, 92))
+    an.norte(cv, (735, 92), 9, pj.NORTE_EM_PLANTA)
     an.titulo_desenho(cv, (120, 528), "1", "IMPLANTACAO", "1:200")
     an.escala_grafica(cv, (120, 544), vw, 5_000, 4)
 
@@ -282,7 +297,7 @@ def cobertura() -> Canvas:
     ])
     vw = View(100, 150, 470, 2_400, 7_200)
 
-    baixos = [a for a in pj.TERREO]
+    baixos = pj.cobertos()
     altos = pj.SUPERIOR
     pat = cv.hachura("pir", espac=2.6, ang=0, w=0.06, cor="#ccc")
 
@@ -290,7 +305,7 @@ def cobertura() -> Canvas:
         cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
                    vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
                   "fino", fechado=True, preenche=f"url(#{pat})", cor="#aaa")
-    x0, y0, x1, y1 = _extremos(pj.TERREO)
+    x0, y0, x1, y1 = _extremos(pj.cobertos())
     cv.poli_p([vw.pt(P(x0, y0)), vw.pt(P(x1, y0)), vw.pt(P(x1, y1)), vw.pt(P(x0, y1))],
               "corte", fechado=True, preenche="none")
     for a in altos:
@@ -339,7 +354,7 @@ def cobertura() -> Canvas:
 
     an.cadeia(cv, vw, [x0, ax0, ax1, x1], y0, "H", 14)
     an.cadeia(cv, vw, [y0, ay0, ay1, y1], x0, "V", -14)
-    an.norte(cv, (735, 92))
+    an.norte(cv, (735, 92), 9, pj.NORTE_EM_PLANTA)
     an.titulo_desenho(cv, (150, 512), "1", "COBERTURA", "1:100")
     an.escala_grafica(cv, (150, 528), vw, 2_000, 5)
     return cv
@@ -372,3 +387,23 @@ def _tabela(cv: Canvas, pos, titulo: str, cabec: list[str], linhas: list[list[st
         cx += w
         cv.linha_p((cx, y), (cx, yy), "cota")
     return yy
+
+
+def _rosa_solar(cv: Canvas, pos) -> None:
+    """Diagrama de percurso solar: faces criticas em latitude 3 S."""
+    import math
+    x, y = pos
+    r = 24.0
+    cv.texto_p((x, y - r - 8), "PERCURSO SOLAR — MANAUS 3 S", TXT["micro"], "middle", peso="bold")
+    cv.circ_p((x, y), r, "fino", cor=CINZA)
+    # a testada esta a leste: em planta, +X = norte
+    faces = [("N", 0, "#0a6"), ("L", -90, "#c00"), ("S", 180, "#0a6"), ("O", 90, "#c00")]
+    for rot, ang, cor in faces:
+        a = math.radians(ang)
+        px, py = x + (r + 5) * math.sin(a + math.pi / 2) * 0 + (r + 5) * math.cos(a), y - (r + 5) * math.sin(a)
+        cv.texto_p((px, py), rot, TXT["min"], "middle", cor=cor, peso="bold")
+    cv.linha_p((x - r, y), (x + r, y), "eixo", cor="#c00")
+    cv.texto_p((x, y + r + 9), "faces L e O: sol a 30 graus", TXT["micro"], "middle", cor="#c00")
+    cv.texto_p((x, y + r + 13.5), "exigem brise VERTICAL", TXT["micro"], "middle", cor="#c00")
+    cv.texto_p((x, y + r + 19), "faces N e S: sol 63 a 87 graus", TXT["micro"], "middle", cor="#0a6")
+    cv.texto_p((x, y + r + 23.5), "beiral de 1.200 mm resolve", TXT["micro"], "middle", cor="#0a6")
