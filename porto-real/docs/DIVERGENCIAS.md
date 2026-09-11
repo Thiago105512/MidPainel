@@ -229,3 +229,103 @@ fica acusticamente pior que os ambientes separados que substituiu.
 Com manta resiliente e forro com lã mineral, cai para 55 a 60 dB (classe
 superior). As suítes ficam sobre a fita social: este é o item acústico de
 maior impacto percebido.
+
+---
+
+# Revisão 4 — especificação diferenciada por exigência
+
+Diretriz do cliente: resolver os gargalos com solução **ideal ou superior**,
+especialmente térmica e acústica, **mas racionalizando onde cada material é
+realmente necessário**.
+
+A resposta não é "superior em tudo". É **superior onde há exigência e simples
+onde não há** — porque gastar sem demanda não melhora o desempenho percebido,
+só o custo.
+
+## Duas famílias dimensionais, quatro composições
+
+A coordenação modular do briefing é preservada integralmente: continuam
+existindo apenas **150 mm** (externa e hidráulica) e **100 mm** (interna).
+O que varia é a composição dentro da mesma espessura. Nenhum eixo, vão,
+cota ou detalhe muda.
+
+| Cód. | Família | esp. | Rw | Área | Índice | Onde |
+|---|---|---|---|---|---|---|
+| PE-1 | Parede externa única | 150 | 45 dB | 312,00 m² | 1,12 | todas as faces externas |
+| PH-1 | Parede hidráulica | 150 | 44 dB | 37,44 m² | 1,20 | só onde há prumada DN100 |
+| PA-1 | Parede acústica | 100 | 49 dB | 42,12 m² | 1,35 | íntimo × fonte de ruído |
+| PI-1 | Divisória simples | 100 | 41 dB | 39,00 m² | 1,00 | dentro de zonas homogêneas |
+
+**A parede acústica ocupa apenas 42,12 m² — 9,8 % do total de 430,56 m².**
+É esse o ponto: o reforço vai para um décimo da obra, não para tudo.
+
+## O ISO strip não se justifica por energia
+
+| Parâmetro | Valor |
+|---|---|
+| ΔU (com e sem quebra térmica) | 0,356 W/m²K |
+| Economia sobre 312 m² | 626 kWh/ano |
+| Economia anual (H) | ~R$ 594 |
+| Payback | **18,4 anos** |
+
+Isoladamente, o argumento energético **não sustenta** o investimento. O
+argumento correto é outro: em clima quente-úmido com ar-condicionado, o
+vapor migra de fora para dentro. O montante de aço fica mais frio que o
+ponto de orvalho externo (28,2 °C a 32 °C / 80 % UR) e a água condensa
+**dentro do painel**, sobre o aço, encharcando a lã — sem sinal visível
+até a patologia estar instalada.
+
+O XPS de célula fechada é, ao mesmo tempo, quebra térmica e barreira de
+vapor **na posição correta** (lado quente-úmido). Um material, duas funções.
+Exige continuidade: aplicar por partes cria justamente o ponto frio onde a
+condensação se concentra.
+
+## Vidros — só 2 vãos de 29 recebem a especificação completa
+
+| Face | Uso | Qtd | Vidro |
+|---|---|---|---|
+| Leste | dormitório | 1 | laminado 6+6 PVB acústico + controle solar |
+| Oeste | social (PV01) | 1 | laminado 6+6 PVB acústico + controle solar |
+| Oeste | íntimo (J03) | 1 | laminado 6+6 com controle solar |
+| Norte | íntimo | 1 | temperado 8 mm comum |
+| Sul | serviço | 6 | temperado 8 mm comum |
+| — | banheiros | 3 | temperado 6 mm translúcido |
+
+As seis janelas de serviço na face sul e os três basculantes de banheiro
+recebem vidro comum. Especificá-los como acústicos custaria caro sem
+qualquer ganho perceptível.
+
+## Hierarquia de investimento — retorno decrescente
+
+| # | Medida | Custo | Ganho medido |
+|---|---|---|---|
+| 1 | Vedação de frestas com selante acústico | muito baixo | até +10 dB |
+| 2 | Brise vertical a leste e oeste | baixo | bloqueia ~75 % do ganho solar |
+| 3 | Manta resiliente sob contrapiso | baixo | L'nT,w de 80 → 70 dB |
+| 4 | Forro absorvente no gourmet (30 m²) | baixo | TR de 3,20 → ~1,1 s |
+| 5 | Vidro laminado nos vãos críticos | médio | Rw composto 31,8 → 42,4 dB |
+| 6 | Dupla chapa nas PA-1 | médio | Rw 41 → 49 dB |
+| 7 | ISO strip contínuo | baixo | U efetivo 1,025 → 0,668 |
+| 8 | Forro suspenso com lã sob as suítes | médio | L'nT,w 70 → 57 dB |
+
+Os quatro primeiros itens são de custo baixo e respondem pela maior parte
+do ganho. Vedar frestas — praticamente de graça — vale mais que qualquer
+upgrade de parede: uma fresta de 1 % da área anula 10 dB de isolamento.
+
+## Onde não aplicar
+
+Registrado na prancha PR-13. Os casos de maior economia:
+
+- **parede acústica entre ambientes de serviço** — oficina, lavanderia e DML
+  já convivem com o mesmo tipo de ruído;
+- **parede de 150 mm onde não passa prumada** — 50 mm de espessura sem função
+  consomem área útil em toda a extensão;
+- **manta resiliente sobre o radier** — não há pavimento abaixo, logo não há
+  ruído de impacto a transmitir;
+- **brise vertical a norte e sul** — com sol entre 63° e 87°, brise vertical
+  não intercepta nada;
+- **lã de 90 mm** — acima de 50 mm o ganho acústico é residual; a chapa
+  adicional rende muito mais pelo mesmo dinheiro;
+- **isolamento adicional na cobertura** — o PIR já entrega U = 0,276 contra
+  limite de 2,30; o próximo ganho real está no sombreamento, não em mais
+  isolante.

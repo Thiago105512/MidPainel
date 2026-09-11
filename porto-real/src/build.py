@@ -9,6 +9,7 @@ import pranchas as pr
 import pranchas2 as p2
 import pranchas3 as p3
 import desempenho as dp
+import especificacao as ep
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -24,6 +25,8 @@ CADERNO = [
     ("09", "QUADROS GERAIS E PENDENCIAS",       lambda: p3.quadros()),
     ("10", "DETALHES CONSTRUTIVOS",             lambda: p3.detalhes()),
     ("11", "DESEMPENHO TERMICO E ACUSTICO",     lambda: dp.prancha()),
+    ("12", "MAPA DE FAMILIAS DE VEDACAO",       lambda: ep.prancha_mapa()),
+    ("13", "ESPECIFICACAO POR EXIGENCIA",       lambda: ep.prancha_especificacao()),
 ]
 
 
