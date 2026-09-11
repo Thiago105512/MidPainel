@@ -168,7 +168,12 @@ def quadros() -> Canvas:
              ["Pluvial", "Vazao total / por descida", "8,2764 L/s | 2,0691 L/s (4 x DN100)"],
              ["Pluvial", "Retencao para reuso", "2.500 L — irrigacao e lavagem"],
              ["Esgoto", "Coletor / ventilacao / cx. gordura", "DN100 | DN50 | 30 L"],
-             ["Agua quente", "Solucao adotada", "4 chuveiros eletricos 6.800 W (27,2 kW)"],
+             ["Agua quente", "Solucao adotada (FECHADA)", "4 chuveiros 4.500 W em 220 V (18,0 kW)"],
+             ["Agua quente", "Circuito por chuveiro", "20,5 A | 4,0 mm2 | disjuntor 25 A"],
+             ["Agua quente", "Demanda (fd 0,75)", "13,5 kW — era 27,2 kW instalados"],
+             ["Pluvial reuso", "Decisao (FECHADA)", "2.500 L, dimensionado pela demanda"],
+             ["Pluvial reuso", "Captacao x demanda", "371 m3/ano disponiveis | 98 m3/ano usados"],
+             ["Pluvial reuso", "Autonomia", "9,3 dias | nao estender a vasos sanitarios"],
              ["Climatizacao", "Carga total instalada", "4 x 12.000 + 2 x 18.000 = 84.000 BTU/h"],
              ["Eletrica", "Quadros", "geral 36 modulos | superior 24 modulos"],
              ["Eletrica", "Infraestrutura futura", "fotovoltaica + carregador de VE"],
@@ -190,7 +195,9 @@ def quadros() -> Canvas:
               "Hidraulica"],
              ["6", "Regulamento especifico do condominio", "Fachada, muros e recuos"],
              ["7", "Divergencia geometrica R32 x Lista Consolidada (ver prancha de divergencias)",
-              "Coordenacao geral"]],
+              "Coordenacao geral"],
+             ["8", "Exigencia municipal de retencao pluvial no lote — se houver, volume separado",
+              "Drenagem"]],
             larguras=[10, 156, 76])
 
     cv.texto_p((35, 380), "PRECEDENCIA DE DADOS", TXT["peq"], "start", peso="bold")

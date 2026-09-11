@@ -154,10 +154,11 @@ def piscina(cv, vw, ps=pj.PISCINA):
 def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
     """Mobiliario fixo (sempre) e solto (apenas na planta de layout)."""
     if pav == "T":
-        # banho terreo 1800x2400 em (13200, 7200)
-        vaso(cv, vw, 13_500, 7_350)
-        lavatorio(cv, vw, 14_250, 7_350, 700, 450)
-        box(cv, vw, 13_350, 8_700, 900, 900)
+        # banho compartilhado 1800x2400 em (10200, 10800): serve o quarto
+        # reversivel, a area social e os usuarios da piscina
+        vaso(cv, vw, 10_500, 10_950)
+        lavatorio(cv, vw, 11_250, 10_950, 700, 450)
+        box(cv, vw, 10_350, 12_200, 900, 900)
         # cozinha 3000x6000 em (2400, 19200): bancada em L voltada ao gourmet
         bancada(cv, vw, 2_500, 19_900, 600, 4_700, cubas=1, cooktop=False)
         bancada(cv, vw, 3_100, 19_300, 2_200, 600, cubas=0, cooktop=True)

@@ -118,8 +118,8 @@ INTEGRADOS = {
 TERREO: list[Amb] = [
     Amb("T-GAR", "GARAGEM",            2_400,  7_200, 6_000, 6_000),
     Amb("T-HAL", "HALL",               8_400,  9_600, 1_800, 3_600),
-    Amb("T-REV", "QUARTO REVERSIVEL", 10_200,  7_200, 3_000, 6_000),
-    Amb("T-BWC", "BANHO",             13_200,  7_200, 1_800, 2_400, molhado=True),
+    Amb("T-REV", "QUARTO REVERSIVEL", 12_000,  7_200, 3_000, 6_000),
+    Amb("T-BWC", "BANHO COMPARTILHADO", 10_200, 10_800, 1_800, 2_400, molhado=True),
     Amb("T-OFI", "OFICINA",            2_400, 13_200, 3_000, 3_000),
     Amb("T-LAV", "LAVANDERIA",         2_400, 16_200, 3_000, 3_000, molhado=True),
     Amb("T-SOC", "ESTAR / JANTAR",     5_400, 13_200, 4_200, 6_000),
@@ -132,6 +132,8 @@ TERREO: list[Amb] = [
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
 TERREO_ABERTO: list[Amb] = [
     Amb("T-VAR", "VARANDA DE ENTRADA", 8_400,  7_200, 1_800, 2_400, aberto=True),
+    Amb("T-JLE", "JARDIM LESTE",      10_200,  7_200, 1_800, 3_600, aberto=True),
+    Amb("T-JNO", "JARDIM NORTE",      15_000,  7_200, 1_800, 6_000, aberto=True),
     Amb("T-ALP", "ALPENDRE OESTE",     5_400, 26_400, 4_200, 2_400, aberto=True),
     Amb("T-DKL", "DECK NORTE",        12_000, 13_200, 4_800, 6_000, aberto=True),
     Amb("T-DKP", "DECK DA PISCINA",    9_600, 19_200, 4_800, 7_200, aberto=True),
@@ -196,10 +198,11 @@ VAOS = [
     ("PG01",  5_400,  7_200, "H", "T"),   # portao da garagem (testada)
     ("P01",   9_300,  9_600, "H", "T"),   # entrada principal
     ("P02",   8_400, 12_000, "V", "T"),   # hall -> garagem
-    ("P02",  10_200, 10_800, "V", "T"),   # hall -> quarto reversivel
-    ("P02",  13_200,  8_400, "V", "T"),   # quarto reversivel -> banho
-    ("J01",  11_700,  7_200, "H", "T"),   # janela quarto reversivel
-    ("J02",  14_100,  7_200, "H", "T"),   # janela banho
+    ("P02",  10_200, 12_000, "V", "T"),   # hall -> banho compartilhado (uso social)
+    ("P02",  12_000, 12_000, "V", "T"),   # banho compartilhado -> quarto reversivel
+    ("J01",  13_500,  7_200, "H", "T"),   # janela quarto reversivel (leste)
+    ("J01",  15_000, 10_200, "V", "T"),   # janela quarto reversivel (norte)
+    ("J02",  11_100, 10_800, "H", "T"),   # janela banho compartilhado
     # ---- terreo: faixa social
     ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
     ("P02",   6_900, 13_200, "H", "T"),   # garagem -> estar/jantar
@@ -359,3 +362,57 @@ ESQUADRIA_ACUSTICA = {
     "correr com vedacao por compressao, laminado 6+6": 33,
     "de abrir com vedacao dupla, laminado 6+6 PVB acustico": 38,
 }
+
+
+# =========================================================================
+# DECISOES DE INSTALACAO — fechadas com o cliente
+# =========================================================================
+AQUECIMENTO = dict(
+    solucao="chuveiro eletrico individual, 220 V",
+    tensao=220, potencia_un=4_500, quantidade=4,
+    corrente_un=4_500 / 220,
+    secao_mm2=4.0, disjuntor_a=25,
+    instalada_w=4 * 4_500,
+    fator_demanda=0.75,
+    temp_entrada=27.0, temp_banho=38.0, vazao_ls=0.05,
+    justificativa=(
+        "A agua da rede chega a 27 C em Manaus. Para 3 L/min a 38 C basta "
+        "P = m.c.dT = 0,05 x 4186 x 11 = 2,3 kW. Os 6.800 W do briefing "
+        "aquecem agua que ja esta quente. Adotado 4.500 W (menor potencia "
+        "comercial corrente) em 220 V, que ainda entrega dT de 21 K."),
+)
+
+PLUVIAL = dict(
+    decisao="REUSO — reservatorio dimensionado pela DEMANDA, nao pela oferta",
+    volume_l=2_500,
+    precipitacao_mm_ano=2_300,
+    coef_escoamento=0.95,
+    descarte_inicial=0.10,
+    usos=[("Lavagem de deck, calcada e veiculos", 21),
+          ("Ducha externa do deck", 90),
+          ("Reposicao da piscina por evaporacao", 58),
+          ("Irrigacao com paisagismo adaptado", 100)],
+    nao_estender_a="vasos sanitarios",
+    porque_nao=(
+        "Descarga com agua de chuva renderia ~55 m3/ano, mas exige tubulacao "
+        "dupla permanentemente identificada, tratamento e bomba. Payback de 15 "
+        "a 30 anos e risco permanente de conexao cruzada. A agua em Manaus e "
+        "abundante e barata: o item nao se paga nem em dinheiro nem em risco."),
+    retencao=(
+        "Funcao DIFERENTE e de dimensionamento OPOSTO: reuso quer o reservatorio "
+        "cheio, retencao quer vazio antes da chuva. So sera dimensionada se o "
+        "Codigo Ambiental de Manaus a exigir — e entao como volume separado, ou "
+        "como zona superior do mesmo reservatorio com descarga lenta por orificio."),
+)
+
+
+def balanco_pluvial() -> dict:
+    area = sum(a.area_mod for a in cobertos())
+    captacao = area * (PLUVIAL["precipitacao_mm_ano"] / 1000) * \
+        PLUVIAL["coef_escoamento"] * (1 - PLUVIAL["descarte_inicial"])
+    demanda_dia = sum(v for _, v in PLUVIAL["usos"])
+    return dict(area=area, captacao_m3=captacao,
+                demanda_dia=demanda_dia,
+                demanda_ano=demanda_dia * 365 / 1000,
+                autonomia_dias=PLUVIAL["volume_l"] / demanda_dia,
+                aproveitamento=(demanda_dia * 365 / 1000) / captacao)

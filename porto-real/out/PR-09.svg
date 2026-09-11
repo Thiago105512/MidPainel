@@ -65,7 +65,7 @@
 <text x="190.500" y="68.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,00</text>
 <polygon points="35.000,71.200 211.000,71.200 211.000,76.400 35.000,76.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="36.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Areas externas cobertas/descobertas</text>
-<text x="122.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">77,76</text>
+<text x="122.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">95,04</text>
 <text x="156.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">-</text>
 <text x="190.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">-</text>
 <polygon points="35.000,76.400 211.000,76.400 211.000,81.600 35.000,81.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
@@ -126,8 +126,8 @@
 <text x="36.500" y="158.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J01</text>
 <text x="52.500" y="158.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1200 x 1200</text>
 <text x="82.500" y="158.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1100</text>
-<text x="98.500" y="158.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
-<text x="112.500" y="158.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11,52</text>
+<text x="98.500" y="158.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9</text>
+<text x="112.500" y="158.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">12,96</text>
 <text x="142.500" y="158.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">janela de dormitorio, aluminio</text>
 <polygon points="35.000,161.200 251.000,161.200 251.000,166.400 35.000,166.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="36.500" y="163.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J02</text>
@@ -193,34 +193,54 @@
 <text x="168.500" y="248.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN100 | DN50 | 30 L</text>
 <polygon points="35.000,251.400 277.000,251.400 277.000,256.600 35.000,256.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="36.500" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Agua quente</text>
-<text x="72.500" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Solucao adotada</text>
-<text x="168.500" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 chuveiros eletricos 6.800 W (27,2 kW)</text>
+<text x="72.500" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Solucao adotada (FECHADA)</text>
+<text x="168.500" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 chuveiros 4.500 W em 220 V (18,0 kW)</text>
 <polygon points="35.000,256.600 277.000,256.600 277.000,261.800 35.000,261.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="259.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Climatizacao</text>
-<text x="72.500" y="259.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Carga total instalada</text>
-<text x="168.500" y="259.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 x 12.000 + 2 x 18.000 = 84.000 BTU/h</text>
+<text x="36.500" y="259.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Agua quente</text>
+<text x="72.500" y="259.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circuito por chuveiro</text>
+<text x="168.500" y="259.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20,5 A | 4,0 mm2 | disjuntor 25 A</text>
 <polygon points="35.000,261.800 277.000,261.800 277.000,267.000 35.000,267.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="264.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Eletrica</text>
-<text x="72.500" y="264.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Quadros</text>
-<text x="168.500" y="264.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">geral 36 modulos | superior 24 modulos</text>
+<text x="36.500" y="264.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Agua quente</text>
+<text x="72.500" y="264.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Demanda (fd 0,75)</text>
+<text x="168.500" y="264.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13,5 kW — era 27,2 kW instalados</text>
 <polygon points="35.000,267.000 277.000,267.000 277.000,272.200 35.000,272.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="269.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Eletrica</text>
-<text x="72.500" y="269.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Infraestrutura futura</text>
-<text x="168.500" y="269.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fotovoltaica + carregador de VE</text>
+<text x="36.500" y="269.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Pluvial reuso</text>
+<text x="72.500" y="269.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Decisao (FECHADA)</text>
+<text x="168.500" y="269.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.500 L, dimensionado pela demanda</text>
 <polygon points="35.000,272.200 277.000,272.200 277.000,277.400 35.000,277.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="274.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Dados</text>
-<text x="72.500" y="274.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CFTV / Wi-Fi / videoporteiro</text>
-<text x="168.500" y="274.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8 cameras | 3 APs | 1 unidade</text>
+<text x="36.500" y="274.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Pluvial reuso</text>
+<text x="72.500" y="274.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Captacao x demanda</text>
+<text x="168.500" y="274.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">371 m3/ano disponiveis | 98 m3/ano usados</text>
 <polygon points="35.000,277.400 277.000,277.400 277.000,282.600 35.000,282.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="280.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Estrutura</text>
-<text x="72.500" y="280.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Fundacao / vedacao</text>
-<text x="168.500" y="280.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">radier 180 mm fck 30 (H) | LSF + perfis</text>
+<text x="36.500" y="280.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Pluvial reuso</text>
+<text x="72.500" y="280.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Autonomia</text>
+<text x="168.500" y="280.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9,3 dias | nao estender a vasos sanitarios</text>
 <polygon points="35.000,282.600 277.000,282.600 277.000,287.800 35.000,287.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="285.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Solo</text>
-<text x="72.500" y="285.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Tensao admissivel / sondagem</text>
-<text x="168.500" y="285.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150 kPa (H) | 3 furos SPT, 12 m</text>
-<line x1="71.000" y1="215.000" x2="71.000" y2="287.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="167.000" y1="215.000" x2="167.000" y2="287.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="36.500" y="285.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Climatizacao</text>
+<text x="72.500" y="285.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Carga total instalada</text>
+<text x="168.500" y="285.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 x 12.000 + 2 x 18.000 = 84.000 BTU/h</text>
+<polygon points="35.000,287.800 277.000,287.800 277.000,293.000 35.000,293.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="290.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Eletrica</text>
+<text x="72.500" y="290.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Quadros</text>
+<text x="168.500" y="290.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">geral 36 modulos | superior 24 modulos</text>
+<polygon points="35.000,293.000 277.000,293.000 277.000,298.200 35.000,298.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="295.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Eletrica</text>
+<text x="72.500" y="295.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Infraestrutura futura</text>
+<text x="168.500" y="295.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fotovoltaica + carregador de VE</text>
+<polygon points="35.000,298.200 277.000,298.200 277.000,303.400 35.000,303.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="300.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Dados</text>
+<text x="72.500" y="300.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CFTV / Wi-Fi / videoporteiro</text>
+<text x="168.500" y="300.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8 cameras | 3 APs | 1 unidade</text>
+<polygon points="35.000,303.400 277.000,303.400 277.000,308.600 35.000,308.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="306.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Estrutura</text>
+<text x="72.500" y="306.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Fundacao / vedacao</text>
+<text x="168.500" y="306.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">radier 180 mm fck 30 (H) | LSF + perfis</text>
+<polygon points="35.000,308.600 277.000,308.600 277.000,313.800 35.000,313.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="311.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Solo</text>
+<text x="72.500" y="311.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Tensao admissivel / sondagem</text>
+<text x="168.500" y="311.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150 kPa (H) | 3 furos SPT, 12 m</text>
+<line x1="71.000" y1="215.000" x2="71.000" y2="313.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="167.000" y1="215.000" x2="167.000" y2="313.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="35.000" y="297.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PENDENCIAS — O QUE NAO ESTA LIBERADO</text>
 <polygon points="35.000,300.000 277.000,300.000 277.000,305.200 35.000,305.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="302.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>
@@ -254,8 +274,12 @@
 <text x="36.500" y="339.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7</text>
 <text x="46.500" y="339.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Divergencia geometrica R32 x Lista Consolidada (ver prancha de divergencias)</text>
 <text x="202.500" y="339.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Coordenacao geral</text>
-<line x1="45.000" y1="300.000" x2="45.000" y2="341.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="201.000" y1="300.000" x2="201.000" y2="341.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="35.000,341.600 277.000,341.600 277.000,346.800 35.000,346.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="344.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
+<text x="46.500" y="344.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Exigencia municipal de retencao pluvial no lote — se houver, volume separado</text>
+<text x="202.500" y="344.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Drenagem</text>
+<line x1="45.000" y1="300.000" x2="45.000" y2="346.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="201.000" y1="300.000" x2="201.000" y2="346.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="35.000" y="380.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PRECEDENCIA DE DADOS</text>
 <text x="35.000" y="388.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1. A Lista Consolidada (pos-R32) prevalece sobre o Guia Explicativo R32 em toda divergencia geometrica.</text>
 <text x="35.000" y="393.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2. Onde a Lista e omissa, adota-se a R32 e marca-se o item como (H).</text>
