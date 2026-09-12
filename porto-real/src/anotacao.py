@@ -74,7 +74,10 @@ def norte(cv: Canvas, pos: tuple[float, float], r: float = 9.0, ang: float = 0.0
     b2 = (pos[0] + r * 0.34 * math.cos(a + 2.4), pos[1] - r * 0.34 * math.sin(a + 2.4))
     cv.circ_p(pos, r, "fino", cor=CINZA)
     cv.poli_p([pt, b1, pos, b2], "vista", fechado=True, preenche="#000")
-    cv.texto_p((pos[0], pos[1] - r - 3.0), "N", TXT["peq"], "middle", peso="bold")
+    # o rotulo acompanha a ponta da seta, nao o topo da folha
+    lx = pos[0] + (r + 4.0) * math.cos(a)
+    ly = pos[1] - (r + 4.0) * math.sin(a)
+    cv.texto_p((lx, ly), "N", TXT["peq"], "middle", peso="bold")
 
 
 def nivel(cv: Canvas, vw: View, p: P, valor_mm: float, acabado: bool = True) -> None:

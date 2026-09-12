@@ -390,20 +390,29 @@ def _tabela(cv: Canvas, pos, titulo: str, cabec: list[str], linhas: list[list[st
 
 
 def _rosa_solar(cv: Canvas, pos) -> None:
-    """Diagrama de percurso solar: faces criticas em latitude 3 S."""
+    """Percurso solar: faces criticas em latitude 3 S, com a testada a leste."""
     import math
     x, y = pos
-    r = 24.0
-    cv.texto_p((x, y - r - 8), "PERCURSO SOLAR — MANAUS 3 S", TXT["micro"], "middle", peso="bold")
+    r = 22.0
+    cv.texto_p((x, y - r - 10), "PERCURSO SOLAR — MANAUS 3 S", TXT["micro"],
+               "middle", peso="bold")
     cv.circ_p((x, y), r, "fino", cor=CINZA)
-    # a testada esta a leste: em planta, +X = norte
-    faces = [("N", 0, "#0a6"), ("L", -90, "#c00"), ("S", 180, "#0a6"), ("O", 90, "#c00")]
-    for rot, ang, cor in faces:
-        a = math.radians(ang)
-        px, py = x + (r + 5) * math.sin(a + math.pi / 2) * 0 + (r + 5) * math.cos(a), y - (r + 5) * math.sin(a)
-        cv.texto_p((px, py), rot, TXT["min"], "middle", cor=cor, peso="bold")
-    cv.linha_p((x - r, y), (x + r, y), "eixo", cor="#c00")
-    cv.texto_p((x, y + r + 9), "faces L e O: sol a 30 graus", TXT["micro"], "middle", cor="#c00")
-    cv.texto_p((x, y + r + 13.5), "exigem brise VERTICAL", TXT["micro"], "middle", cor="#c00")
-    cv.texto_p((x, y + r + 19), "faces N e S: sol 63 a 87 graus", TXT["micro"], "middle", cor="#0a6")
-    cv.texto_p((x, y + r + 23.5), "beiral de 1.200 mm resolve", TXT["micro"], "middle", cor="#0a6")
+    # em planta, com testada a leste: +X = norte (direita), +Y = oeste (cima)
+    for rotulo, dx, dy, cor in (("N", 1, 0, "#0a6"), ("S", -1, 0, "#0a6"),
+                                ("O", 0, -1, "#c00"), ("L", 0, 1, "#c00")):
+        cv.texto_p((x + dx * (r + 5), y + dy * (r + 5)), rotulo, TXT["min"],
+                   "middle", cor=cor, peso="bold")
+    # eixo critico leste-oeste
+    cv.linha_p((x, y - r), (x, y + r), "eixo", cor="#c00")
+    # trajetoria do sol: nasce a leste (baixo), poe a oeste (cima)
+    cv.arco_p((x, y), r * 0.62, 250, 290, "fino")
+    for ang, txt in ((265, "8h"), (275, "16h")):
+        px = x + r * 0.78 * math.cos(math.radians(ang))
+        py = y - r * 0.78 * math.sin(math.radians(ang))
+        cv.texto_p((px, py), txt, TXT["micro"], "middle", cor="#c00")
+    for i, (t, cor) in enumerate([
+            ("faces L e O: sol a 30 graus", "#c00"),
+            ("-> exigem brise VERTICAL", "#c00"),
+            ("faces N e S: sol 63 a 87 graus", "#0a6"),
+            ("-> beiral de 1.200 mm resolve", "#0a6")]):
+        cv.texto_p((x, y + r + 12 + i * 4.6), t, TXT["micro"], "middle", cor=cor)
