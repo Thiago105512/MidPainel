@@ -144,23 +144,28 @@ TERREO_ABERTO: list[Amb] = [
     Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 2_400, aberto=True),
     Amb("T-JNO", "JARDIM NORTE",        15_000,  7_200, 1_800, 6_000, aberto=True),
     Amb("T-LOG", "LOGGIA SUL",           2_400, 16_200, 3_000, 3_000, aberto=True, coberto=True),   # sob as suites 02 e 03 (pilotis + viga V-01)
-    Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 6_000, aberto=True),
+    Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 3_600, aberto=True),
+    # a laje do mini lounge avanca 600 mm para oeste e 1.200 para leste como
+    # beiral, cobrindo a faixa inteira do deck: a porta PV01 do core passa a
+    # desembocar em area coberta
+    Amb("T-DKC", "DECK NORTE COBERTO",  12_000, 16_800, 4_800, 2_400,
+        aberto=True, coberto=True),
     Amb("T-VRL", "VARAL COBERTO",       12_600, 19_200, 4_200, 4_200, aberto=True, coberto=True),   # 5,04 m2 sob a master + 12,60 m2 de telha translucida
     # o patio norte estava declarado como uma peca unica de 21,60 m2, metade
     # dela sob a laje da master e da sacada. Dividido conforme a cobertura
     # real: o trecho coberto e a sala de jantar externa do gourmet (a porta
     # PV02 abre exatamente nele); o descoberto e passagem e insolacao.
-    Amb("T-PAT", "PATIO COBERTO DO GOURMET", 9_600, 23_400, 4_200, 2_400,
-        aberto=True, coberto=True),   # sob a master (2,52) e a sacada (7,56)
-    Amb("T-PT2", "PATIO DESCOBERTO",    13_800, 23_400, 3_000, 2_400, aberto=True),
+    Amb("T-PAT", "PATIO COBERTO DO GOURMET", 9_600, 23_400, 6_000, 3_600,
+        aberto=True, coberto=True),   # todo sob a master e a varanda
+    Amb("T-PT2", "PATIO DESCOBERTO",    15_600, 23_400, 1_200, 3_600, aberto=True),
     Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 1_200, aberto=True, coberto=True),   # cobertura propria, beiral do gourmet sobre a piscina
-    Amb("T-DKP", "DECK DA PISCINA",      4_200, 27_600, 7_200, 4_200, aberto=True),
+    Amb("T-DKP", "DECK DA PISCINA",      4_200, 27_600, 7_800, 5_400, aberto=True),
     # jardins: area aberta com funcao declarada, nao sobra
     Amb("T-JSU", "JARDIM SUL",           2_400, 26_400, 3_000, 1_200, aberto=True),
-    Amb("T-JS2", "JARDIM SUL",           2_400, 27_600, 1_800, 4_200, aberto=True),
-    Amb("T-JN2", "JARDIM NORTE",         9_600, 25_800, 1_800, 1_800, aberto=True),
-    Amb("T-JN3", "JARDIM NORTE",        11_400, 25_800, 5_400, 6_000, aberto=True),
-    Amb("T-JFU", "JARDIM DE FUNDO",      2_400, 31_800, 14_400, 7_800, aberto=True),
+    Amb("T-JS2", "JARDIM SUL",           2_400, 27_600, 1_800, 5_400, aberto=True),
+    Amb("T-JN2", "JARDIM NORTE",         9_600, 27_000, 2_400, 600, aberto=True),
+    Amb("T-JN3", "JARDIM NORTE",        12_000, 27_000, 4_800, 6_000, aberto=True),
+    Amb("T-JFU", "JARDIM DE FUNDO",      2_400, 33_000, 14_400, 6_600, aberto=True),
 ]
 
 # ambientes cobertos do terreo = fechados + areas abertas com cobertura.
@@ -195,15 +200,24 @@ def projecao_coberta_m2(passo: int = 300) -> float:
 # 8 % de circulacao).
 # =========================================================================
 SUPERIOR: list[Amb] = [
-    Amb("S-S02", "SUITE 02",  2_400, 13_200, 5_400, 4_800, pav="S", nivel=NIVEL_SUPERIOR),
-    Amb("S-S03", "SUITE 03",  2_400, 18_000, 5_400, 4_800, pav="S", nivel=NIVEL_SUPERIOR),
-    Amb("S-HAL", "HALL",      7_800, 16_800, 2_400, 2_400, pav="S", nivel=NIVEL_SUPERIOR),
-    Amb("S-MAS", "SUITE MASTER", 7_800, 19_200, 6_000, 4_800, pav="S", nivel=NIVEL_SUPERIOR),
+    # R06 — programa ampliado pelo YAML MASTER do proprietario (revisao 19 de
+    # docs/DIVERGENCIAS.md). As suites 02 e 03 permanecem INTOCADAS como modulo
+    # espelhado de 5.400 x 4.800; entram o mini lounge e a master
+    # redimensionada de 28,80 para 46,80 m2.
+    Amb("S-S02", "SUITE 02",          2_400, 13_200, 5_400, 4_800, pav="S"),
+    Amb("S-S03", "SUITE 03",          2_400, 18_000, 5_400, 4_800, pav="S"),
+    # o hall deixa de ser corredor: e chegada da escada, distribuicao para
+    # quatro destinos e rouparia embutida
+    Amb("S-HAL", "HALL E ROUPARIA",   7_800, 16_800, 4_200, 2_400, pav="S"),
+    # mini lounge com 3.000 mm de profundidade porque e o que o televisor
+    # exige. Com os 2.600 mm do YAML a distancia de visao cairia para 1,20 m.
+    Amb("S-LOU", "MINI LOUNGE / TV", 12_600, 16_800, 3_000, 2_400, pav="S"),
+    Amb("S-MAS", "SUITE MASTER",      7_800, 19_200, 7_800, 6_000, pav="S"),
 ]
 
 SUPERIOR_ABERTO: list[Amb] = [
-    Amb("S-BAL", "VARANDA MASTER", 7_800, 24_000, 6_000, 1_800,
-        pav="S", nivel=NIVEL_SUPERIOR, aberto=True),
+    Amb("S-BAL", "VARANDA MASTER",  7_800, 25_200, 7_800, 1_800,
+        pav="S", nivel=NIVEL_SUPERIOR, aberto=True),   # 14,04 m2 (YAML)
 ]
 
 # ------------------------------------------- subdivisoes internas (1:50)
@@ -218,10 +232,14 @@ SUBDIVISOES = [
          face="N", pos=19_200, vao=800),
     dict(pai="S-S03", nome="CLOSET", x=2_400, y=20_400, w=600,   h=2_400,
          face="N", pos=21_600, vao=800),
-    dict(pai="S-MAS", nome="BANHO",  x=11_400, y=19_200, w=2_400, h=3_000,
-         face="S", pos=20_400, vao=800),
-    dict(pai="S-MAS", nome="CLOSET", x=11_400, y=22_200, w=2_400, h=1_800,
-         face="S", pos=23_100, vao=800),
+    # ---- master R06. O corredor de entrada de 1.200 mm (x 7.800 a 9.000) e a
+    # unica circulacao exclusiva da suite: 3,60 m2 em 46,80, ou 7,7 %.
+    dict(pai="S-MAS", nome="CLOSET", x=9_000,  y=19_200, w=3_600, h=3_000,
+         face="O", pos=10_800, vao=800),
+    dict(pai="S-MAS", nome="BANHO",  x=12_600, y=19_200, w=3_000, h=3_000,
+         face="O", pos=13_200, vao=800),
+    dict(pai="S-MAS", nome="OFFICE", x=13_800, y=22_200, w=1_800, h=3_000,
+         face="S", pos=23_700, vao=800),
 ]
 
 # =========================================================================
@@ -278,39 +296,88 @@ VAOS = [
     ("PV02",  9_600, 24_600, "V", "T"),   # gourmet -> patio norte (trecho de 3.000 mm)
     ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> alpendre e piscina
     ("PV02",  5_400, 17_700, "V", "T"),   # estar -> loggia sul (ventilacao cruzada)
-    # ---- superior
+    # ---- superior (R06)
     ("P02",   7_800, 17_400, "V", "S"),   # hall -> suite 02
     ("P02",   7_800, 18_600, "V", "S"),   # hall -> suite 03
-    ("P02",   9_000, 19_200, "H", "S"),   # hall -> suite master
+    ("P02",   8_400, 19_200, "H", "S"),   # hall -> master (corredor de entrada)
+    ("P02",  12_600, 17_250, "V", "S"),   # hall -> mini lounge (na ponta da
+                                          # parede, liberando 1.500 mm para o
+                                          # painel de TV no restante dela)
+    ("J01",  15_600, 18_000, "V", "S"),   # janela do lounge (norte), atras do sofa
     ("J05",   2_400, 16_800, "V", "S"),   # janela ampla suite 02 (sul)
     ("J01",   6_000, 13_200, "H", "S"),   # janela suite 02 (leste)
     ("J02",   3_600, 13_200, "H", "S"),   # janela banho suite 02
     ("J05",   2_400, 21_600, "V", "S"),   # janela ampla suite 03 (sul)
     ("J01",   6_000, 22_800, "H", "S"),   # janela suite 03 (oeste)
-    ("J04",   2_400, 18_600, "V", "S"),   # janela alta banho suite 03 (fora do box)
-    ("J05",   8_700, 24_000, "H", "S"),   # janela ampla master -> varanda
-    ("J03",  10_800, 24_000, "H", "S"),   # master -> varanda
-    ("J04",  13_800, 20_700, "V", "S"),   # janela alta banho master
+    ("J04",   2_400, 18_600, "V", "S"),   # janela alta banho suite 03
+    ("J05",   7_800, 24_000, "V", "S"),   # dormitorio master (sul)
+    ("PV02",  9_600, 25_200, "H", "S"),   # dormitorio master -> varanda
+    ("J05",  12_000, 25_200, "H", "S"),   # dormitorio master -> varanda
+    ("J04",  15_600, 20_700, "V", "S"),   # janela alta banho master (norte)
+    ("J01",  15_600, 23_700, "V", "S"),   # janela do office master (norte)
+
 ]
 
 # =========================================================================
 # ELEMENTOS EXTERNOS
 # =========================================================================
-PISCINA = dict(x=5_400, y=27_600, w=4_800, h=2_400,
+# R06 — o YAML do proprietario fixa 5,50 x 3,20 m (17,60 m2). Adotado
+# 5,40 x 3,30 = 17,82 m2: mesma area util, mas sobre a malha de 300 mm. Meio
+# metro fora de modulo em piscina custa recorte de pastilha em todo o perimetro
+# e um recorte de deck que aparece a cada volta que se da em torno dela.
+PISCINA = dict(x=5_400, y=28_800, w=5_400, h=3_300,
                prainha_w=1_200, prof_prainha=300, prof_principal=1_150,
-               lamina_m2=11.52, volume_m3=10.80)
+               banco_w=450, banco_prof=450,
+               lamina_m2=17.82, volume_m3=17.13,
+               faixa_seca_min=900)
+PISCINA_SISTEMA = dict(
+    skimmers=1, drenos_fundo=2, antiaprisionamento=True, retornos=4, aspiracao=1,
+    bomba="velocidade variavel 0,5 cv", filtro="areia DE 500 mm",
+    renovacao_h=6, leds=3, led_k="2700-3000 K", led_w=18,
+    tratamento="cloro convencional; sal em espera (HOLD no YAML)",
+    aquecimento="nao instalado; bypass e espaco de trocador previstos",
+    obs="dois drenos de fundo afastados 900 mm sao exigencia antiaprisionamento: "
+        "com um unico dreno o corpo veda a succao")
+
+
+def vazao_recirculacao_m3h() -> float:
+    """Vazao de projeto = volume / tempo de renovacao."""
+    return round(PISCINA["volume_m3"] / PISCINA_SISTEMA["renovacao_h"], 2)
 # casa de maquinas da piscina = elemento tecnico TC-13 (ver TECNICOS).
 # SEMI-enterrada: o piso fica 600 mm abaixo do deck, nao 1.200. Razao: a
 # motobomba e o filtro precisam ficar ACIMA do nivel da agua de lavagem do
 # filtro para a retrolavagem drenar por gravidade, e a tampa em grelha
 # garante a ventilacao que um alcapao cego nao daria (motor de 1/2 cv
 # dissipa ~300 W de calor em recinto confinado).
-CASA_MAQUINAS = dict(x=10_200, y=28_800, w=1_500, h=1_200,
-                     enterrada=False, semienterrada=True, prof=600,
-                     acesso="tampa em grelha 800 x 1.200 mm no deck",
-                     nota="semi-enterrada sob o deck: sem volume solto no "
-                          "jardim, com ventilacao e dreno por gravidade")
-DECK = dict(x=4_200, y=27_600, w=7_200, h=4_200)          # envolve a piscina
+# R06 — o YAML manda concentrar TUDO na lateral tecnica, e tem razao: a casa
+# semi-enterrada sob o deck resolvia o volume no jardim, mas punha uma tampa em
+# grelha no meio do piso onde as pessoas andam descalcas, exigia descer para
+# operar registro e deixava a retrolavagem drenando para uma vala isolada.
+# Na faixa tecnica o equipamento fica em pe, ventilado, ao lado do ralo que ja
+# existe, e a manutencao inteira da casa acontece num corredor so.
+# Custo da mudanca: 6,2 m de linha de succao — dentro do limite de 10 m.
+CASA_MAQUINAS = dict(x=17_000, y=29_400, w=1_500, h=2_000,
+                     enterrada=False, semienterrada=False,
+                     acesso="porta ripada de 800 mm na faixa tecnica",
+                     ventilacao="veneziana inferior e superior, 0,20 m2 cada",
+                     dreno="ralo sifonado DN75 ligado a drenagem da faixa",
+                     nota="em pe na lateral tecnica: operacao sem agachar e sem "
+                          "tampa no piso do deck")
+DECK = dict(x=4_200, y=27_600, w=7_800, h=5_400,           # envolve a piscina
+            faixa_seca={"sul": 1_200, "norte": 900, "oeste": 1_200, "leste": 1_200})
+# YAML pede WPC predominante e manda VERIFICAR o aquecimento superficial. A
+# verificacao condena o WPC escuro justamente onde ele seria mais usado: com
+# albedo de 0,20 a superficie passa de 65 C sob sol de Manaus, contra ~45 C de
+# um porcelanato claro (albedo 0,60). O limiar de dor ao pe descalco e 50 C.
+# Solucao por zona, nao por material unico:
+PISO_EXTERNO = [
+    dict(zona="faixa seca da piscina", material="porcelanato externo claro R11",
+         area_m2=None, razao="e onde se anda descalco no pico do sol"),
+    dict(zona="lounge e circulacao do deck", material="WPC coextrudado claro",
+         area_m2=None, razao="area de permanencia com mobiliario e sombra"),
+    dict(zona="passeio e acesso", material="piso drenante intertravado claro",
+         area_m2=None, razao="compensa a permeabilidade perdida pelo deck"),
+]
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 # A caixa estava sobre o VAZIO do core: 25 kN apoiados em uma plataforma de
 # 2,4 m vencendo o poco de luz. Deslocada para o atico sobre o banho da master,
@@ -351,7 +418,8 @@ def carga_hidraulica_mca(pav: str) -> float:
 ESCADA = dict(x=9_600, y=13_200, w=2_400, h=6_000,
               espelhos=18, alt_espelho=3_000 / 18, piso=300,
               larg_lance=1_000, patamar=1_000, blondel=2 * (3_000 / 18) + 300,
-              y0=13_200,            # primeiro espelho
+              y0=13_400,            # inicio do patamar inferior
+              y_chegada=16_800,     # onde o segundo lance encosta no hall
               folga_lances=100)     # vazio entre os dois lances
 
 
@@ -365,13 +433,18 @@ def escada_lances() -> list[dict]:
     x1 = e["x"] + 150
     x2 = x1 + lar + e["folga_lances"]
     fim1 = y0 + n * piso
+    # R06: os dois lances invertem o sentido para a CHEGADA cair no hall
+    # superior (y = 16.800). Antes o segundo lance terminava no meio do vazio,
+    # onde nao havia laje nenhuma para pisar.
+    yc = e["y_chegada"]
+    yi = yc - n * piso                      # inicio dos lances
     return [
-        dict(cod="L1", x=x1, y=y0, w=lar, h=n * piso, sentido="+Y",
+        dict(cod="L1", x=x1, y=yi, w=lar, h=n * piso, sentido="-Y",
              z_ini=0.0, z_fim=(n + 1) * h, espelhos=n + 1),
-        dict(cod="PT", x=x1, y=fim1, w=lar * 2 + e["folga_lances"], h=pat,
+        dict(cod="PT", x=x1, y=y0, w=lar * 2 + e["folga_lances"], h=pat,
              sentido="patamar", z_ini=(n + 1) * h, z_fim=(n + 1) * h, espelhos=0),
-        dict(cod="L2", x=x2, y=fim1 + pat - n * piso, w=lar, h=n * piso,
-             sentido="-Y", z_ini=(n + 1) * h, z_fim=PISO_A_PISO, espelhos=n + 1),
+        dict(cod="L2", x=x2, y=yi, w=lar, h=n * piso, sentido="+Y",
+             z_ini=(n + 1) * h, z_fim=PISO_A_PISO, espelhos=n + 1),
     ]
 
 # ---------------------------------------------------------------- cobertura
@@ -626,46 +699,8 @@ def balanco_pluvial() -> dict:
 # O trecho da suite master que avanca sobre o patio norte NAO e balanco:
 # apoia-se em pilares metalicos, criando terraco coberto no terreo.
 # =========================================================================
-# A sacada da master (S-BAL) avancava 1.800 mm alem da linha de pilares de
-# y = 24.000. Em Light Steel Frame um balanco de 1.800 mm nao se resolve no
-# proprio vigamento (a pratica limita o balanco a ~600 mm ou 1/4 do vao de
-# tras): exigiria perfil laminado de borda em balanco, com flecha e vibracao
-# perceptiveis na ponta e um detalhe de estanqueidade critico na juncao.
-# Dois pilares a mais em y = 25.800 transformam o balanco em laje apoiada e
-# fecham um portico 2 x 2 sobre o patio coberto — a troca mais barata do
-# projeto entre risco de patologia e custo de estrutura.
-PILARES = [
-    dict(x=10_800, y=19_200), dict(x=13_800, y=19_200),
-    dict(x=10_800, y=24_000), dict(x=13_800, y=24_000),
-    dict(x=10_800, y=25_800), dict(x=13_800, y=25_800),
-]
-PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
-
-
-
-
-
-
-# =========================================================================
-# PE-DIREITO DUPLO E CHAMINE SOLAR
-#
-# O vazio sobre o estar e o core nao e so efeito arquitetonico: em clima
-# quente-umido, um poco de 22,32 m2 SEM saida no topo e um acumulador de calor,
-# porque o ar quente sobe e fica. Com saida no topo ele vira o contrario — o
-# motor da ventilacao da casa inteira, funcionando mesmo em dia sem vento.
-#
-# Fisica: Q = Cd . A_ef . raiz(2 . g . dh . dT / T_ext).  A diferenca de
-# temperatura entre o ar do poco e o exterior (3 K e conservador para um poco
-# ensolarado por lanternim) gera a depressao que puxa o ar das aberturas
-# baixas. Quanto maior dh, melhor — e dh aqui e 4,5 m de graca, porque o pe
-# direito duplo ja existia no partido.
-#
-# O lanternim resolve tres coisas com uma peca: saida da chaminé, luz no miolo
-# da planta (o ponto mais escuro de qualquer casa profunda) e ventilacao
-# noturna sem abrir a casa para a rua.
-# =========================================================================
 PE_DIREITO_DUPLO = ["T-SOC", "T-COR"]     # ambientes com vazio sobre parte da area
-LANTERNIM = dict(x=8_400, y=14_400, w=4_200, h=1_200,
+LANTERNIM = dict(x=8_400, y=13_800, w=3_600, h=2_400,
                  altura_peitoril=PISO_A_PISO + PE_DIREITO,    # 5.600 mm
                  veneziana_h=500, faces=2, frac_livre=0.50,
                  vidro="laminado leitoso 6 mm, voltado ao sul (sem sol direto)",
@@ -727,6 +762,7 @@ def trocas_por_hora(a_entrada_m2: float | None = None) -> float:
 E_ACO = 200_000             # MPa = N/mm2
 FLECHA_LIMITE = {"vedacao_fragil": 500, "geral": 350, "balanco": 250}
 FOLGA_SLIP = 1.5            # folga da junta de deslizamento = 1,5 x flecha
+BALANCO_MAX_LSF = 600       # balanco que o proprio vigamento de LSF resolve
 FY_ACO = 250                # MPa — ASTM A572 / ASTM A36 (H)
 GAMA_F = 1.4                # coeficiente de majoracao das acoes
 GAMA_M = 1.1                # coeficiente de minoracao da resistencia
@@ -803,6 +839,27 @@ def escolher_perfil(w_kn_m: float, vao_mm: int, limite: int,
 
 
 # -------------------------------------------------------------------------
+# PILARES — apoio do pavimento superior sobre areas abertas.
+# Em Light Steel Frame um balanco de 1.800 mm nao se resolve no proprio
+# vigamento (a pratica limita o balanco a ~600 mm ou 1/4 do vao de tras):
+# exigiria perfil laminado de borda com flecha e vibracao perceptiveis na ponta
+# e um detalhe de estanqueidade critico. Por isso tudo o que avanca sobre area
+# aberta desce em pilar ou em viga entre apoios, nunca em balanco.
+# R06 — portico ortogonal de 3.000 mm em duas linhas (x = 12.600 e 15.600),
+# sustentando o mini lounge sobre o deck norte, a master sobre o varal e o
+# patio, e a varanda. Substitui os seis pilares dispersos da revisao anterior:
+# duas linhas continuas sao mais baratas de executar e deixam o terreo legivel.
+PILARES = [
+    dict(x=12_600, y=16_800), dict(x=15_600, y=16_800),
+    dict(x=12_600, y=19_200), dict(x=15_600, y=19_200),
+    dict(x=12_600, y=22_200), dict(x=15_600, y=22_200),
+    dict(x=12_600, y=25_200), dict(x=15_600, y=25_200),
+    dict(x=12_600, y=27_000), dict(x=15_600, y=27_000),
+]
+PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
+
+
+# -------------------------------------------------------------------------
 # VIGAS — cada uma com carga declarada, nao com perfil "escolhido no olho".
 # trib = largura de influencia em mm. vedacao=True -> limite L/500 e slip track.
 # -------------------------------------------------------------------------
@@ -816,15 +873,26 @@ VIGAS = [
     dict(cod="V-03", sobre="T-GAR", vao=6_000, trib=3_000, apoio="biapoiada",
          carrega="cobertura", parede_h=0, vedacao=False,
          desc="vao livre da garagem sem pilar intermediario"),
-    dict(cod="V-04", sobre="T-PAT", vao=3_000, trib=2_400, apoio="biapoiada",
+    dict(cod="V-04", sobre="T-DKL", vao=3_000, trib=1_200, apoio="biapoiada",
          carrega="piso", parede_h=2_600, vedacao=True,
-         desc="portico do patio coberto, linha y = 24.000; sustenta a master"),
-    dict(cod="V-05", sobre="T-PAT", vao=3_000, trib=1_800, apoio="biapoiada",
+         desc="portico sobre o deck norte; sustenta o mini lounge e cria o "
+              "trecho coberto do deck"),
+    dict(cod="V-05", sobre="T-VRL", vao=3_000, trib=3_000, apoio="biapoiada",
+         carrega="piso", parede_h=2_600, vedacao=True,
+         desc="portico sobre o varal coberto; sustenta o banho e o office da master"),
+    dict(cod="V-06", sobre="T-PAT", vao=3_000, trib=3_000, apoio="biapoiada",
+         carrega="piso", parede_h=2_600, vedacao=True,
+         desc="portico sobre o patio coberto; sustenta o dormitorio da master"),
+    dict(cod="V-07", sobre="T-PAT", vao=3_000, trib=1_800, apoio="biapoiada",
          carrega="deck", parede_h=0, vedacao=False,
-         desc="portico do patio coberto, linha y = 25.800; sustenta a sacada"),
-    dict(cod="V-06", sobre="T-VRL", vao=4_200, trib=2_520, apoio="biapoiada",
-         carrega="piso", parede_h=2_600, vedacao=True,
-         desc="borda do varal coberto; sustenta a parede norte da master"),
+         desc="borda da varanda master, entre os pilares de y = 25.200 e 27.000"),
+    dict(cod="V-08", sobre="T-JN2", vao=3_000, trib=900, apoio="biapoiada",
+         carrega="deck", parede_h=0, vedacao=False,
+         desc="viga de borda da varanda entre a parede do gourmet (x = 9.600) e "
+              "o pilar de x = 12.600"),
+    dict(cod="V-09", sobre="T-JN3", vao=3_000, trib=900, apoio="biapoiada",
+         carrega="deck", parede_h=0, vedacao=False,
+         desc="viga de borda da varanda entre os pilares de x = 12.600 e 15.600"),
 ]
 VAO_MAX_VIGA = 6_000
 
@@ -978,6 +1046,9 @@ ZONAS_PAGINACAO = [
     # ambiente pagina do proprio canto e joga o recorte para o canto menos visto.
     # O que importa na parede e a FIADA DO TOPO: ela e a que se ve na altura dos
     # olhos. Dai a altura de revestimento ser escolhida como multiplo da peca.
+    dict(cod="ZP-7", peca="piso", origem=(12_600, 16_800), ambientes=["S-LOU"],
+         obs="o lounge tem porta e nao e integrado a nada: pagina do proprio "
+             "canto, com o recorte atras do sofa"),
     dict(cod="ZP-4", peca="parede", altura=2_400, ambientes=["T-BWC"],
          obs="ate o forro rebaixado de 2.400 (que ja existe para a exaustao): "
              "3 fiadas inteiras e a do topo com 594 de 600 — imperceptivel"),
@@ -1112,9 +1183,9 @@ LOUCAS = [
     dict(cod="LC-08", amb="S-S03", tipo="lavatorio", x=3_250, y=18_150, w=700, h=450),
     dict(cod="LC-09", amb="S-S03", tipo="box",       x=2_550, y=19_300, w=900, h=1_000),
     # suite master — banho (11.400, 19.200, 2.400 x 3.000)
-    dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=11_600, y=19_350, w=400, h=650),
-    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=12_300, y=19_350, w=1_200, h=500),
-    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=11_550, y=20_900, w=1_100, h=1_100),
+    dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=12_800, y=19_400, w=400, h=650),
+    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=13_500, y=19_300, w=1_800, h=500),
+    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=12_700, y=20_700, w=1_400, h=1_400),
     # lavanderia
     dict(cod="LC-13", amb="T-LAV", tipo="tanque",    x=9_750, y=19_350, w=600, h=550),
 ]
@@ -1164,14 +1235,14 @@ TECNICOS = [
          obs="enterrado no jardim norte, junto as descidas 3 e 4; so irrigacao e lavagem"),
     # ---- gas
     dict(cod="TC-04", nome="Central GLP (2 x P-45)", zona="FT-N",
-         x=17_000, y=24_000, w=1_200, h=800,
+         x=17_200, y=24_000, w=1_200, h=800,
          obs="NBR 13523: min 1,5 m de qualquer vao e 3,0 m de fonte de ignicao"),
     # ---- eletrica e dados
     dict(cod="TC-05", nome="Quadro geral 36 modulos", zona="INT", amb="T-GAR",
          x=8_100, y=9_000, w=300, h=800,
          obs="parede da garagem junto ao hall; altura de 1.000 a 1.800 mm"),
     dict(cod="TC-06", nome="Quadro superior 24 modulos", zona="INT", amb="S-HAL",
-         x=9_800, y=17_000, w=300, h=600, obs="hall do pavimento superior"),
+         x=9_800, y=18_600, w=300, h=600, obs="hall do pavimento superior"),
     dict(cod="TC-07", nome="Rack de dados e CFTV", zona="INT", amb="T-GAR",
          x=8_000, y=10_200, w=400, h=600,
          obs="8 cameras, 3 access points, 1 videoporteiro; ventilacao passiva"),
@@ -1180,7 +1251,7 @@ TECNICOS = [
          obs="na testada, leitura pela via sem entrar no lote"),
     # ---- climatizacao: DOIS nichos, por comprimento de linha
     dict(cod="TC-09", nome="Nicho de condensadoras NORTE (3 posicoes)", zona="FT-N",
-         x=17_000, y=13_200, w=800, h=4_200,
+         x=17_200, y=13_200, w=800, h=6_600,
          obs="2 condensadoras ativas + 1 posicao reservada (ver CLIMATIZACAO); "
              "base de 200 mm, painel ripado ventilado h=1.800, descarga para a "
              "divisa norte com 2.200 mm livres"),
@@ -1195,10 +1266,18 @@ TECNICOS = [
          x=1_200, y=21_000, w=800, h=800, obs="a jusante da cozinha, inspecionavel"),
     dict(cod="TC-12", rasante=True, nome="Caixa de inspecao 600 x 600", zona="REC-S",
          x=1_200, y=24_000, w=600, h=600, obs="antes da ligacao a rede publica"),
-    dict(cod="TC-13", rasante=True, nome="Casa de maquinas da piscina", zona="ENT",
-         x=10_200, y=28_800, w=1_500, h=1_200, prof=600,
-         obs="SEMI-enterrada: piso 600 mm abaixo do deck, tampa em grelha, "
-             "dreno para vala de infiltracao; ventila e ilumina pela grelha"),
+    dict(cod="TC-13", casa_maquinas=True, nome="Casa de maquinas da piscina", zona="FT-N",
+         x=17_000, y=29_400, w=1_500, h=2_000,
+         obs="em pe na lateral tecnica (YAML): bomba de velocidade variavel, "
+             "filtro, quadro estanque e bypass de aquecimento; succao de 6,2 m"),
+    dict(cod="TC-15", nome="Deposito externo de apoio a piscina", zona="FT-N",
+         x=17_000, y=26_400, w=1_500, h=2_000,
+         obs="boias, materiais de limpeza, cadeiras e itens de manutencao — "
+             "tira do deposito interno o que e de area externa"),
+    dict(cod="TC-16", nome="Ducha externa", zona="FT-N",
+         x=16_800, y=31_800, w=800, h=1_000,
+         obs="na borda da faixa tecnica junto ao deck: ramal curto, ralo proprio "
+             "e nenhum volume solto no meio do jardim"),
 ]
 
 
@@ -1245,6 +1324,15 @@ CLIMATIZACAO = [
          tipo="split duto inverter, 2 insuflamentos + 1 retorno",
          obs="zona social climatizada; gradiente controlado para o gourmet pela "
              "FRONTEIRA_CLIMATICA, nao por parede"),
+    dict(amb="S-LOU", nicho="TC-09", pessoas=2, equip=1, capacidade=9_000,
+         tipo="split hi-wall inverter",
+         obs="7,20 m2 com TV e frigobar. O YAML pede para nao inventar sistema "
+             "complexo para 6 m2 — um hi-wall de 9.000 e o oposto de complexo"),
+    dict(amb="S-MAS", nicho="TC-09", pessoas=2, equip=1, capacidade=9_000,
+         compartimento="OFFICE", area_m2=5.40, vidro_m2=1.44,
+         tipo="split hi-wall inverter",
+         obs="o office e fechavel, entao tem carga propria; o closet NAO recebe "
+             "equipamento, recebe grelha de transferencia do dormitorio"),
     dict(amb="T-OFI", nicho="TC-10", pessoas=2, equip=1, capacidade=9_000,
          reserva=True, tipo="split hi-wall (INFRAESTRUTURA)",
          obs="oficina: furo, dreno e circuito previstos; equipamento opcional"),
@@ -1281,14 +1369,19 @@ def area_vidro(cod: str) -> float:
 
 def carga_termica(cod: str, pessoas: int = 2, equip: int = 0,
                   mais: list[str] | None = None,
-                  ventilador: bool = False, duto: bool = False) -> int:
+                  ventilador: bool = False, duto: bool = False,
+                  area_m2: float | None = None,
+                  vidro_m2: float | None = None) -> int:
     """Carga termica em BTU/h, arredondada para cima em 100.
 
     'mais' soma ambientes que formam um unico volume com o principal: o core
     nao tem parede que o separe do estar, logo nao tem carga propria separada.
     """
-    area = area_condicionada(cod) + sum(area_condicionada(c) for c in (mais or []))
-    vidro = area_vidro(cod) + sum(area_vidro(c) for c in (mais or []))
+    if area_m2 is not None:
+        area, vidro = area_m2, (vidro_m2 or 0.0)
+    else:
+        area = area_condicionada(cod) + sum(area_condicionada(c) for c in (mais or []))
+        vidro = area_vidro(cod) + sum(area_vidro(c) for c in (mais or []))
     q = (area * CLIMA_Q_M2 + vidro * CLIMA_Q_VIDRO
          + max(0, pessoas - 2) * CLIMA_Q_PESSOA + equip * CLIMA_Q_EQUIP)
     if ventilador:
@@ -1312,6 +1405,18 @@ def nicho_de(cod_nicho: str) -> list[dict]:
 def carga_instalada_btu(incluir_reserva: bool = False) -> int:
     return sum(c["capacidade"] for c in CLIMATIZACAO
                if incluir_reserva or not c.get("reserva"))
+
+
+def climatizados() -> list[tuple[str, int, int]]:
+    """(rotulo, carga, capacidade) de cada equipamento, reserva inclusa."""
+    out = []
+    for c in CLIMATIZACAO:
+        rot = c["amb"] + ("/" + c["compartimento"] if c.get("compartimento") else "")
+        cg = carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"),
+                           c.get("conta_ventilador", False), c.get("duto", False),
+                           c.get("area_m2"), c.get("vidro_m2"))
+        out.append((rot, cg, c["capacidade"]))
+    return out
 
 
 # =========================================================================
@@ -1399,6 +1504,11 @@ EXAUSTAO = [
     dict(cod="EX-03", amb="T-BWC", fonte="banho social", vazao_m3h=90, dn=100),
     dict(cod="EX-04", amb="T-LAV", fonte="lavanderia", vazao_m3h=120, dn=100,
          obs="retira umidade da secadora e do tanque"),
+    dict(cod="EX-05", amb="S-MAS", fonte="banho master", vazao_m3h=120, dn=100),
+    # closet fechado em cidade com 80 % de umidade relativa e incubadora de
+    # mofo: 40 m3/h continuos custam 8 W e salvam a roupa
+    dict(cod="EX-06", amb="S-MAS", fonte="closet master", vazao_m3h=40, dn=75,
+         obs="exaustao continua de baixa vazao, com grelha de transferencia"),
 ]
 
 # vaos envidracados do volume climatizado: exigem caixilho com vedacao
@@ -1566,6 +1676,10 @@ CARGAS_ESPECIAIS = [
          grupo="climatizacao", fd=1.00),
     dict(cod="TUE-9", desc="Split 18.000 BTU quarto reversivel", va=1_400, v=220,
          grupo="climatizacao", fd=1.00),
+    dict(cod="TUE-23", desc="Split 9.000 BTU mini lounge", va=800, v=220,
+         grupo="climatizacao", fd=1.00),
+    dict(cod="TUE-24", desc="Split 9.000 BTU office da master", va=800, v=220,
+         grupo="climatizacao", fd=1.00),
     dict(cod="TUE-10", desc="Secadora de roupa", va=2_700, v=220,
          grupo="servico", fd=0.50),
     dict(cod="TUE-11", desc="Lavadora de roupa", va=1_000, v=127,
@@ -1586,7 +1700,16 @@ CARGAS_ESPECIAIS = [
          grupo="ventilacao", fd=0.60),
     dict(cod="TUE-20", desc="Portao automatico", va=500, v=220, grupo="diversos", fd=0.30),
     dict(cod="TUE-21", desc="Rack, CFTV e rede", va=300, v=127, grupo="diversos", fd=1.00),
+    # YAML: EV_futuro = eletroduto e espaco de quadro reservados, sem carga hoje.
+    # Um carregador de 7,4 kW entra depois como TUE de 32 A; reservar o
+    # eletroduto de 32 mm e quatro modulos custa quase nada agora e evita quebrar
+    # piso de garagem depois.
+    dict(cod="TUE-22", desc="Carregador de veiculo eletrico (INFRAESTRUTURA)",
+         va=7_400, v=220, grupo="reserva", fd=0.00, reserva=True),
 ]
+EV_RESERVA = dict(eletroduto="32 mm do quadro geral ate a parede da garagem",
+                  modulos_quadro=4, disjuntor_futuro=32, secao_futura=6.0,
+                  ponto=(8_100, 8_400), obs="carregador monofasico 220 V, 7,4 kW")
 # fator de demanda de iluminacao e TUG por faixa de potencia (NBR 5410)
 FD_ILUM_TUG = ((1_000, 0.86), (2_000, 0.75), (3_000, 0.66), (4_000, 0.59),
                (5_000, 0.52), (6_000, 0.45), (7_000, 0.40), (8_000, 0.35),
@@ -1669,7 +1792,8 @@ def linhas_frigorigenas() -> list[dict]:
         subida = (PISO_A_PISO + 600) if amb.pav == "S" else PE_DIREITO
         comp = dx + dy + subida + 1_500
         suc, liq = BITOLA_FRIG[c["capacidade"]]
-        out.append(dict(cod=f"LF-{c['amb']}", amb=c["amb"], nicho=c["nicho"],
+        rot = c["amb"] + ("/" + c["compartimento"] if c.get("compartimento") else "")
+        out.append(dict(cod=f"LF-{rot}", amb=c["amb"], nicho=c["nicho"],
                         capacidade=c["capacidade"], comp=comp,
                         horizontal=dx + dy, subida=subida,
                         suc=suc, liq=liq, dreno=DRENO_DN,
@@ -1702,6 +1826,53 @@ IMPERMEABILIZACAO = dict(sistema="manta liquida poliuretanica, 2 demaos",
 def area_drenada_externa_m2() -> float:
     return round(sum(a.area_mod for a in TERREO_ABERTO if not a.coberto
                      and a.cod in ("T-DKP", "T-DKL", "T-PT2")), 2)
+
+# =========================================================================
+# FACHADA FRONTAL — leitura da referencia visual enviada pelo proprietario
+#
+# A imagem confirma a linguagem que o projeto ja adotava e acrescenta um
+# recurso que faltava: o RASGO DE LUZ. Na foto, o que constroi a horizontalidade
+# a noite nao e o volume, e a linha continua de luz rasante sob cada plano — no
+# reentrancia do portico de entrada, sob o beiral do volume superior e na base
+# dos muros. E iluminacao INDIRETA: nenhuma fonte aparece, so a superficie
+# iluminada. Custa pouco, nao exige manutencao em altura e e o que separa uma
+# fachada contemporanea de uma fachada meramente lisa.
+#
+# As tres familias de material do projeto ja coincidem com a referencia:
+#   mineral claro de grande formato (o plano de fundo),
+#   aluminio grafite ripado (o portao e os brises),
+#   madeira (a folha da porta de entrada, sob o portico).
+# O YAML limita a tres familias; a referencia usa exatamente tres. Nada a mudar.
+# =========================================================================
+ILUMINACAO_FACHADA = [
+    dict(cod="IF-01", onde="reentrancia do portico de entrada",
+         tipo="perfil linear LED IP65, 2.700 K, 8 W/m, embutido no forro",
+         comprimento_m=9.6, efeito="lava a folha de madeira da porta e marca a "
+         "profundidade do portico"),
+    dict(cod="IF-02", onde="sob o beiral do volume superior",
+         tipo="perfil linear LED IP65, 2.700 K, 8 W/m",
+         comprimento_m=14.4, efeito="risco horizontal continuo: e ele que faz a "
+         "casa parecer baixa e longa a noite"),
+    dict(cod="IF-03", onde="base do muro e do portao ripado",
+         tipo="balizador embutido no piso, 3 W, feixe rasante",
+         comprimento_m=8.4, efeito="revela a textura do ripado por raspagem"),
+    dict(cod="IF-04", onde="uplight nas palmeiras da entrada",
+         tipo="projetor de solo 7 W, 2.700 K, feixe 15 graus",
+         comprimento_m=0, efeito="profundidade: a copa iluminada recua o plano "
+         "de fundo"),
+]
+FACHADA_MATERIAIS = [
+    ("Mineral claro de grande formato", "placa cimenticia com revestimento "
+     "mineral 1.200 x 2.400, junta seca de 6 mm"),
+    ("Aluminio grafite ripado", "portao de correr, brises e guarda-corpo"),
+    ("Madeira", "folha da porta de entrada e forro do portico"),
+]
+FACHADA_REGRAS = dict(
+    familias_max=3, vidro="controlado, concentrado na fachada posterior",
+    ornamento="nenhum sem funcao termica ou de composicao",
+    manutencao="nenhuma superficie que exija pintura em altura",
+)
+
 
 # =========================================================================
 # ETAPA 4 — FECHAMENTO: ACABAMENTOS, LOCACAO, PAISAGISMO E EMISSAO
@@ -1812,45 +1983,57 @@ def cantos_locacao() -> list[dict]:
 #   2. funcao termica: sombra de copa ALTA a oeste e a norte;
 #   3. especie nativa ou adaptada a Manaus, sem irrigacao permanente;
 #   4. nada de raiz agressiva perto de radier, piscina ou tubulacao.
+# R06 — o YAML impoe "nada que exija poda rotineira" e elimina gramado extenso,
+# cerca viva e arbustos de poda. Isso derruba duas especies que eu havia
+# proposto na Etapa 4: a sebe de murta (poda a cada 60 dias para manter forma) e
+# a trelica com Thunbergia (trepadeira vigorosa, poda de contencao 3x por ano).
+#
+# Mas ha um custo termico nessa exigencia que precisa ficar escrito: vegetacao
+# e o unico elemento do projeto que sombreia ANTES do sol chegar na superficie e
+# que resfria por transpiracao em vez de reirradiar. Trocar tudo por piso e
+# transferir calor para dentro da casa. A compensacao adotada, item a item:
+#   - piso drenante e porcelanato CLAROS (albedo 0,60 contra 0,20 do escuro);
+#   - brise metalico sombreando o nicho de condensadoras, no lugar da trelica —
+#     mesma sombra, zero poda, e a mesma linguagem ripada da fachada;
+#   - as duas arvores do fundo permanecem: arvore de copa alta nao e "arbusto
+#     com poda"; jabuticabeira e ipe nao pedem conducao depois de formados.
 PAISAGISMO = [
-    # Arvore de porte vai no jardim de fundo, que tem 14,4 x 7,8 m. Nas faixas
-    # de 1,8 m (T-JS2 ao sul e T-JNO ao norte) arvore nenhuma cabe: a copa
-    # invade o vizinho e a raiz encontra o radier. Ali a resposta e sebe e
-    # trepadeira em estrutura — mesma funcao de sombra e vedacao visual, sem
-    # conflito de raiz e sem poda eterna.
     dict(cod="PA-01", amb="T-JFU", especie="Ipe-amarelo (Handroanthus)",
          porte="8 a 12 m", funcao="sombra alta no fundo e floracao de estacao",
-         qtd=1, raiz="pivotante, nao agressiva", afast_min=3_000),
+         qtd=1, raiz="pivotante, nao agressiva", afast_min=3_000,
+         poda="apenas formacao nos 3 primeiros anos"),
     dict(cod="PA-02", amb="T-JFU", especie="Jabuticabeira (Plinia cauliflora)",
          porte="6 a 9 m", funcao="sombra densa e fruto no proprio tronco",
          qtd=1, raiz="nao agressiva, crescimento lento", afast_min=3_000,
+         poda="nenhuma",
          obs="escolhida em lugar de mangueira: a manga cai de 12 m de altura no "
              "telhado do vizinho; a jabuticaba nasce no tronco"),
-    dict(cod="PA-03", amb="T-JNO", especie="Trelica com Thunbergia grandiflora",
-         porte="3,0 m de altura em estrutura", funcao="sombra do nicho de "
-         "condensadoras e da faixa tecnica, sem raiz perto da cisterna",
-         qtd=1, raiz="superficial, em canteiro de 400 mm", afast_min=400,
-         obs="vegetacao em estrutura, nao arvore: em faixa tecnica de 1.800 mm "
-             "a sombra precisa vir de trelica, nao de copa"),
-    dict(cod="PA-09", amb="T-JS2", especie="Murta em sebe (Murraya paniculata)",
-         porte="2,0 a 2,5 m conduzida", funcao="vedacao visual da divisa sul e "
-         "filtro de poeira, na faixa de 1.800 mm",
-         qtd=8, raiz="superficial", afast_min=600),
+    dict(cod="PA-03", amb="T-JS2", especie="Vasos com Sansevieria e Zamioculca",
+         porte="0,8 a 1,2 m", funcao="massa verde na faixa sul de 1.800 mm, "
+         "sem canteiro corrido e sem raiz junto ao radier",
+         qtd=9, raiz="em vaso", afast_min=300, poda="nenhuma",
+         obs="substitui a sebe de murta da Etapa 4, que exigia poda a cada 60 dias"),
     dict(cod="PA-04", amb="T-JN3", especie="Palmeira-acai (Euterpe oleracea)",
-         porte="10 a 15 m", funcao="verticalidade e sombra pontual no patio",
-         qtd=3, raiz="fasciculada, proxima ao tronco", afast_min=1_500),
-    dict(cod="PA-05", amb="T-JLE", especie="Moreia e Agapanthus",
-         porte="0,6 a 1,0 m", funcao="macico baixo no jardim de inverno leste",
-         qtd=12, raiz="superficial", afast_min=300),
-    dict(cod="PA-06", amb="T-JSU", especie="Capim-limao e alecrim",
-         porte="0,4 a 0,8 m", funcao="horta aromatica junto a cozinha",
-         qtd=10, raiz="superficial", afast_min=300),
-    dict(cod="PA-07", amb="T-JN2", especie="Philodendron e Zamioculca",
-         porte="0,8 a 1,5 m", funcao="macico de meia-sombra sob o beiral",
-         qtd=8, raiz="superficial", afast_min=300),
-    dict(cod="PA-08", amb="T-DKP", especie="Grama esmeralda (Zoysia japonica)",
-         porte="rasteira", funcao="piso permeavel no entorno do deck",
-         qtd=0, raiz="superficial", afast_min=0),
+         porte="10 a 15 m", funcao="verticalidade e sombra pontual no jardim norte",
+         qtd=3, raiz="fasciculada, proxima ao tronco", afast_min=1_500,
+         poda="retirada de folha seca, 1x por ano"),
+    dict(cod="PA-05", amb="T-JLE", especie="Vasos com Formio e Agave",
+         porte="0,6 a 1,0 m", funcao="jardim de inverno leste, visto do banho",
+         qtd=6, raiz="em vaso", afast_min=300, poda="nenhuma"),
+    dict(cod="PA-06", amb="T-JSU", especie="Horta aromatica em vasos elevados",
+         porte="0,4 a 0,8 m", funcao="alecrim, manjericao e capim-limao junto a "
+         "cozinha, na altura da bancada",
+         qtd=6, raiz="em vaso", afast_min=300, poda="colheita, nao poda"),
+    dict(cod="PA-07", amb="T-JN2", especie="Seixo rolado claro e vasos",
+         porte="—", funcao="acabamento permeavel sob a varanda, onde nao chega "
+         "chuva nem sol suficiente para planta de solo",
+         qtd=3, raiz="em vaso", afast_min=0, poda="nenhuma"),
+    dict(cod="PA-08", amb="T-DKP", especie="Piso drenante claro",
+         porte="rasteira", funcao="permeabilidade e albedo alto no entorno do "
+         "deck, no lugar do gramado",
+         qtd=0, raiz="—", afast_min=0, poda="nenhuma",
+         obs="o YAML elimina gramado extenso; o drenante devolve a infiltracao "
+             "que a grama fazia"),
 ]
 IRRIGACAO = dict(
     sistema="gotejamento em linha autocompensante, 2 L/h por gotejador",
@@ -1882,9 +2065,12 @@ REVISOES = [
     ("R03", "Etapa 2 — detalhamento construtivo; auditoria em tres dimensoes"),
     ("R04", "Etapa 3 — coordenacao de instalacoes; vazao pluvial recalculada"),
     ("R05", "Etapa 4 — acabamentos, locacao, paisagismo e emissao"),
+    ("R06", "YAML MASTER do proprietario: master de 46,80 m2, mini lounge, "
+            "piscina de 17,82 m2, casa de maquinas na lateral tecnica, "
+            "paisagismo sem poda e rasgos de luz na fachada"),
 ]
 EMISSAO = dict(
-    revisao="R05", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R06", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

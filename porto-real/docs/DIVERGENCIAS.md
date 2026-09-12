@@ -1446,3 +1446,217 @@ Conferência obrigatória pela diagonal A-C de **24.970,4 mm** com tolerância d
 **29 funções de verificação, 160 condições. 0 erros, 0 atenções, 16 notas
 informativas. 33 pranchas.** O caderno inteiro é reproduzível por
 `python3 build.py` a partir do modelo.
+
+---
+
+# Revisão 19 — R06: o YAML MASTER do proprietário
+
+O proprietário enviou um estado-mestre em YAML, consolidado em outra conversa, e
+uma imagem de referência de fachada. Auditei item a item contra o modelo. O
+resultado: **31 itens já coincidiam**, **9 superam o que estava no modelo e foram
+incorporados**, **3 eu contesto tecnicamente** e um deles é uma inconsistência
+interna do próprio YAML.
+
+## O que o YAML confirmou (nada a mudar)
+
+Lote 20 × 40 e dois pavimentos; garagem 6,00 × 6,00 para dois SUVs sem pilar
+central; portão ripado de correr; cozinha integrada ao gourmet; gourmet **dentro
+do corpo principal**, sem edícula nem pavilion; gourmet aberto para a piscina;
+lateral técnica contínua como espinha dorsal de manutenção; chuveiros elétricos
+sem boiler; suítes 02 e 03 espelhadas em módulo de 5,40 × 4,80; modulação
+600/300; montantes a 600 com 400 onde o cálculo exigir; splits inverter com
+controle individual; condensadoras concentradas e acessíveis; drenagem com
+sistemas separados; três famílias de material na fachada; vidro controlado;
+manutenção sem demolição. Tudo isso já estava no modelo, em alguns casos com
+mais detalhe do que o YAML pede.
+
+A imagem de referência confirmou as **três famílias exatas** já especificadas —
+mineral claro de grande formato, alumínio grafite ripado e madeira — e o partido
+escalonado e horizontal.
+
+## O que o YAML acrescentou, e que incorporei
+
+### 1. Master de 46,80 m² (era 28,80)
+
+O YAML documenta o raciocínio: a master de 38,88 m² da R34 era "compacta demais"
+e a de 53-55 m² era "excessiva quando havia circulação sobrando". O alvo de 46 m²
+é um meio considerado, com faixa de trabalho 44-50. **Aceito** — é decisão de
+programa do proprietário, e bem fundamentada.
+
+Adotado 7.800 × 6.000 = **46,80 m²**, com:
+
+| compartimento | área | alvo do YAML |
+|---|---|---|
+| Dormitório (+ corredor de entrada de 3,60) | 21,60 m² | 15-17 |
+| Closet com ilha | 10,80 m² | 10-12 |
+| Banho | 9,00 m² | 8-10 |
+| Office fechável | 5,40 m² | 4-5 |
+
+A ilha do closet (0,75 × 1,50) fica com **825 mm** de circulação nos lados
+longos, contra os 900-1.000 que o YAML pede. Para chegar a 900 seriam
+necessários 3.750 mm de largura livre — ou seja, um closet de ~15 m², fora da
+faixa 10-12 do próprio YAML. **Os dois números do YAML não fecham entre si.**
+Alternativa se os 900 forem inegociáveis: armários em L (parede norte + topo) em
+vez de duas paredes opostas, o que libera 1.125 mm — mesma extensão de cabideiro,
+mais circulação. Fica registrado para o proprietário decidir.
+
+### 2. Mini lounge — mas com 3,00 m, não 2,60
+
+O YAML especifica 2,40 × 2,60 m com sofá de dois lugares, bancada de 45-50 cm e
+**TV de 50-55 polegadas**. Fiz a conta que faltava:
+
+```
+2.600 − 150 (painel) − 900 (sofá) = 1.550 mm de distância de visão
+```
+
+Uma tela de 50" tem 1.110 mm de largura e pede no mínimo **1,5 × a largura**, ou
+1.665 mm — e o confortável é 2,0 a 2,5 ×. **O lounge do YAML não comporta o
+televisor do YAML.** Adotado **2.400 × 3.000 = 7,20 m²**, que entrega 1.950 mm.
+A auditoria passou a medir o ambiente contra o equipamento que ele precisa
+abrigar, em vez de aceitar a dimensão declarada.
+
+O painel de TV foi para a parede compartilhada com o **hall**, não com uma suíte
+— resolvendo de graça a exigência acústica que o YAML levanta.
+
+### 3. Piscina de 17,82 m² (era 11,52)
+
+YAML: 5,50 × 3,20 = 17,60 m². Adotado **5.400 × 3.300 = 17,82 m²** — mesma área
+útil, sobre a malha de 300 mm. Meio metro fora de módulo em piscina custa recorte
+de pastilha em todo o perímetro e um recorte de deck que aparece a cada volta que
+se dá em torno dela.
+
+Volume 17,13 m³ (com prainha), dentro da faixa 17-19 do YAML. Incorporados
+também: 1 skimmer, **2 drenos de fundo** com antiaprisionamento, 4 retornos,
+aspiração, bomba de velocidade variável, 3 LEDs de 2.700-3.000 K, bypass de
+aquecimento e faixa seca perimetral mínima de 900 mm — agora verificada pela
+auditoria nos quatro lados.
+
+### 4. Casa de máquinas para a lateral técnica
+
+Aqui **mudei de posição a favor do YAML**. Na Etapa 1 eu a deixei semi-enterrada
+sob o deck, com tampa em grelha, argumentando drenagem por gravidade da
+retrolavagem. O YAML manda concentrar tudo na lateral técnica, e o argumento dele
+é melhor: a solução sob o deck punha uma tampa em grelha no meio do piso onde se
+anda **descalço**, exigia agachar para operar registro e drenava para uma vala
+isolada. Na faixa técnica o equipamento fica em pé, ventilado, ao lado do ralo que
+já existe, e a manutenção inteira da casa acontece num corredor só.
+
+Custo da mudança: **6,2 m de linha de sucção**, dentro do limite de 10 m.
+Benefício: o deck volta a ser piso contínuo.
+
+### 5. Depósito externo e ducha externa
+
+Ambos pedidos pelo YAML e ausentes do modelo. Locados na faixa técnica (TC-15 e
+TC-16). O depósito externo tira do depósito interno o que é de área externa —
+boias, cadeiras, material de limpeza de piscina.
+
+### 6. Infraestrutura de veículo elétrico
+
+YAML: eletroduto e espaço de quadro reservados, sem carga hoje. Incorporado como
+TUE-22 com fd = 0,00: eletroduto de 32 mm, quatro módulos de reserva, disjuntor
+futuro de 32 A e seção futura de 6,0 mm². Custa quase nada agora; abrir piso de
+garagem depois custa a obra.
+
+### 7. Paisagismo sem poda rotineira
+
+O YAML elimina gramado extenso, cerca viva e arbustos de poda. **Isso derrubou
+duas espécies que eu mesmo havia proposto na Etapa 4**: a sebe de murta (poda a
+cada 60 dias) e a treliça com Thunbergia (poda de contenção três vezes por ano).
+Substituídas por vasos com Sansevieria/Zamioculca e por **brise metálico** para
+sombrear o nicho de condensadoras — mesma sombra, zero poda, e a mesma linguagem
+ripada da fachada.
+
+Mas há um custo térmico que precisa ficar escrito: **vegetação é o único elemento
+do projeto que sombreia antes de o sol chegar na superfície e que resfria por
+transpiração em vez de reirradiar.** Trocar tudo por piso transfere calor para
+dentro da casa. Compensações adotadas: piso drenante e porcelanato **claros**
+(albedo 0,60 contra 0,20 do escuro) e a manutenção das duas árvores de fundo —
+árvore de copa alta não é "arbusto com poda"; jabuticabeira e ipê não pedem
+condução depois de formados.
+
+### 8. Deck: a verificação que o YAML pediu condena o material que ele prefere
+
+O YAML pede WPC predominante e manda **verificar o aquecimento superficial**. A
+verificação condena o WPC escuro justamente onde ele seria mais usado:
+
+| material | albedo | temperatura sob sol de Manaus |
+|---|---|---|
+| WPC escuro | 0,20 | **> 65 °C** |
+| Porcelanato claro | 0,60 | ~45 °C |
+| Limiar de dor ao pé descalço | — | **50 °C** |
+
+Solução por zona, não por material único: **porcelanato externo claro R11 na
+faixa seca da piscina** (onde se anda descalço no pico do sol), WPC claro no
+lounge e na circulação sombreada, piso drenante claro no passeio.
+
+### 9. Rasgo de luz na fachada
+
+A imagem de referência acrescentou o recurso que faltava. O que constrói a
+horizontalidade à noite não é o volume: é a linha contínua de luz rasante sob
+cada plano — na reentrância do pórtico de entrada, sob o beiral do volume
+superior e na base dos muros. Iluminação **indireta**: nenhuma fonte aparece, só
+a superfície iluminada. Custa pouco, não exige manutenção em altura, e é o que
+separa uma fachada contemporânea de uma fachada meramente lisa. Incorporado como
+IF-01 a IF-04.
+
+## O que eu contesto
+
+### A. Ar condicionado na cozinha/gourmet (YAML: 18-24k)
+
+**Mantenho a decisão da revisão R02.** Climatizar o ambiente que abriga
+churrasqueira e cooktop — e cuja exaustão de 1.050 m³/h joga o ar tratado fora —
+é pagar para resfriar o que se está aquecendo e expulsando. A fita social é
+climatizada **por zona**, com fronteira aerodinâmica, e o gourmet fica com
+ventiladores e o gradiente de 3 °C descrito em `docs/DECISOES.md`.
+
+### B. Quarto do térreo com 9-12k (YAML)
+
+O modelo calcula **13.600 BTU/h** para o quarto reversível (18,00 m² com 3,60 m²
+de vidro). Um equipamento de 12.000 ficaria 12 % abaixo da carga. Mantidos
+18.000 — e a conta está na prancha 27, não na minha impressão.
+
+### C. "Não tratar 46 m² como número inflexível" — concordo, e usei
+
+O YAML autoriza pequeno ajuste se o layout ficar melhor. Usei a autorização em
+dois pontos: o office ficou com 5,40 (alvo 4-5) porque abaixo disso não cabe mesa
+com dois monitores mais armário; e o mini lounge foi para 7,20 (declarado 6,24)
+pela distância de visão.
+
+## Impacto medido nas áreas
+
+| | R05 | R06 | Δ |
+|---|---|---|---|
+| Fechado térreo | 180,00 m² | 180,00 m² | 0 |
+| Fechado superior | 86,40 m² | **115,92 m²** | +29,52 |
+| Fechado total | 266,40 m² | **295,92 m²** | +29,52 |
+| Projeção coberta | 226,08 m² | **249,12 m²** | +23,04 |
+| Taxa de ocupação | 28,26 % | **31,14 %** | máx 50 % |
+| CAMT | 0,333 | **0,370** | máx 1,00 |
+| Climatização instalada | 102.000 BTU/h | **120.000 BTU/h** | +18.000 |
+| Demanda elétrica | 34.896 VA | **36.832 VA** | 96,7 A → padrão 100 A |
+| Vazão pluvial | 13,71 L/s | **14,81 L/s** | 3,70 por descida (limite 8,0) |
+
+Todos os parâmetros urbanísticos continuam folgados, o padrão de entrada não
+mudou de degrau e a drenagem absorveu o aumento sem trocar um diâmetro.
+
+## O que a ampliação exigiu de estrutura
+
+A master avança **34,20 m²** sobre área aberta (varal coberto e pátio) e o lounge
+**7,20 m²** sobre o deck norte. Em vez dos seis pilares dispersos da revisão
+anterior, um **pórtico ortogonal de 3.000 mm em duas linhas** (x = 12.600 e
+15.600, dez pilares): mais barato de executar, e deixa o térreo legível — o varal
+e o pátio ganham um ritmo de apoios em vez de colunas soltas.
+
+Três vigas novas (V-04 a V-09), todas dimensionadas pela flecha com L/500 onde há
+vedação frágil, com junta de deslizamento de 10 mm.
+
+**A escada teve de ser invertida.** Com o hall superior deslocado, o segundo lance
+terminava no meio do vazio — onde não havia laje nenhuma para pisar. Os dois
+lances trocaram de sentido para a chegada cair no hall, em y = 16.800. A
+verificação tridimensional de altura livre pegou isso na primeira rodada.
+
+## Auditoria
+
+De 29 para **31 funções e 171 condições**, com duas novas: piscina (faixa seca,
+recirculação, drenos, sucção, ventilação da casa de máquinas) e lounge (distância
+de visão e parede do painel). **0 erros, 0 atenções, 19 notas.** 34 pranchas.

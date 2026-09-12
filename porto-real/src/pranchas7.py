@@ -314,11 +314,13 @@ INDICE = [
     ("29", "Drenagem pluvial e de piso"), ("30", "Acabamentos por ambiente"),
     ("31", "Locacao de obra e gabarito"), ("32", "Paisagismo e irrigacao"),
     ("33", "Emissao: indice, revisoes e pendencias"),
+    ("34", "Piscina, deck e fachada (R06)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},
             **{n: "Etapa 3 (R04)" for n, _ in INDICE[25:29]},
-            **{n: "Etapa 4 (R05)" for n, _ in INDICE[29:]}}
+            **{n: "Etapa 4 (R05)" for n, _ in INDICE[29:33]},
+            **{n: "R06" for n, _ in INDICE[33:]}}
 
 PENDENCIAS = [
     ("1", "Certidao oficial do SU16 (CAMT, taxa de ocupacao, gabarito)",
@@ -410,3 +412,152 @@ def emissao() -> Canvas:
               "intensidade pluviometrica de projeto seguem como hipotese"]],
             larguras=[58, 202])
     return cv
+
+
+# =========================================================================
+# PR-34 — PISCINA, DECK E FACHADA (revisao R06)
+# =========================================================================
+def piscina_deck_fachada() -> Canvas:
+    p, ps, dk = pj.PISCINA, pj.PISCINA_SISTEMA, pj.DECK
+    cv = base("PISCINA, DECK E FACHADA — REVISAO R06", "indicada", "34", notas=[
+        f"Piscina {p['w']/1000:.2f} x {p['h']/1000:.2f} m = {p['lamina_m2']:.2f} m2 "
+        f"de lamina, {p['volume_m3']:.2f} m3. O YAML fixa 5,50 x 3,20; adotado "
+        f"modular sobre a malha de 300 mm.".replace(".", ","),
+        f"Faixa seca perimetral minima {p['faixa_seca_min']} mm, verificada nos "
+        f"quatro lados.",
+        f"Recirculacao {pj.vazao_recirculacao_m3h()} m3/h para renovar o volume em "
+        f"{ps['renovacao_h']} h.".replace(".", ","),
+        "Fachada: tres familias de material, confirmadas pela referencia visual; "
+        "a novidade e o rasgo de luz indireto.",
+    ])
+
+    # ---------------- planta da piscina 1:50
+    vw = View(50, 45, 160, dk["x"] - 600, dk["y"] - 600)
+    an.titulo_desenho(cv, (35, 290), "1", "PISCINA E DECK", "1:50")
+    cv.poli_p([vw.pt(P(dk["x"], dk["y"])), vw.pt(P(dk["x"] + dk["w"], dk["y"])),
+               vw.pt(P(dk["x"] + dk["w"], dk["y"] + dk["h"])),
+               vw.pt(P(dk["x"], dk["y"] + dk["h"]))], "vista", fechado=True,
+              preenche="#f3efe6", cor="#a89")
+    cv.poli_p([vw.pt(P(p["x"], p["y"])), vw.pt(P(p["x"] + p["w"], p["y"])),
+               vw.pt(P(p["x"] + p["w"], p["y"] + p["h"])),
+               vw.pt(P(p["x"], p["y"] + p["h"]))], "corte", fechado=True,
+              preenche="#e8f4fb", cor="#06c")
+    # prainha e banco
+    cv.poli_p([vw.pt(P(p["x"], p["y"])), vw.pt(P(p["x"] + p["prainha_w"], p["y"])),
+               vw.pt(P(p["x"] + p["prainha_w"], p["y"] + p["h"])),
+               vw.pt(P(p["x"], p["y"] + p["h"]))], "fino", fechado=True,
+              preenche="#d6ecf8", cor="#06c")
+    cv.texto_p(vw.pt(P(p["x"] + p["prainha_w"] / 2, p["y"] + p["h"] / 2)),
+               f"PRAINHA {p['prof_prainha']}", TXT["micro"], "middle", rot=90, cor="#06c")
+    cv.poli_p([vw.pt(P(p["x"] + p["w"] - p["banco_w"], p["y"])),
+               vw.pt(P(p["x"] + p["w"], p["y"])),
+               vw.pt(P(p["x"] + p["w"], p["y"] + p["h"])),
+               vw.pt(P(p["x"] + p["w"] - p["banco_w"], p["y"] + p["h"]))],
+              "oculto", fechado=True, preenche="none", cor="#06c")
+    cv.texto_p(vw.pt(P(p["x"] + p["w"] - p["banco_w"] / 2, p["y"] + p["h"] / 2)),
+               "BANCO", TXT["micro"], "middle", rot=90, cor="#06c")
+    cv.texto_p(vw.pt(P(p["x"] + p["w"] / 2, p["y"] + p["h"] / 2)),
+               f"{p['lamina_m2']:.2f} m2  ·  prof. {p['prof_principal']} mm"
+               .replace(".", ","), TXT["min"], "middle", cor="#06c")
+    # pontos hidraulicos
+    for i in range(ps["retornos"]):
+        x = p["x"] + p["w"] * (i + 0.5) / ps["retornos"]
+        _simb(cv, vw, x, p["y"] + 80, "R", "#06c")
+    for i in range(ps["drenos_fundo"]):
+        x = p["x"] + p["prainha_w"] + (p["w"] - p["prainha_w"]) * (0.3 + 0.4 * i)
+        _simb(cv, vw, x, p["y"] + p["h"] / 2, "D", "#039")
+    _simb(cv, vw, p["x"] + p["w"] - 200, p["y"] + p["h"] - 200, "S", "#06c")
+    for i in range(ps["leds"]):
+        y = p["y"] + p["h"] * (i + 0.5) / ps["leds"]
+        _simb(cv, vw, p["x"] + p["w"] - 80, y, "L", "#e0a")
+    # faixa seca cotada
+    an.cadeia(cv, vw, [dk["x"], p["x"], p["x"] + p["w"], dk["x"] + dk["w"]],
+              dk["y"], "H", 12)
+    an.cadeia(cv, vw, [dk["y"], p["y"], p["y"] + p["h"], dk["y"] + dk["h"]],
+              dk["x"], "V", -12)
+    # casa de maquinas na faixa tecnica
+    cm = next(t for t in pj.TECNICOS if t.get("casa_maquinas"))
+    cv.poli_p([vw.pt(P(cm["x"], cm["y"])), vw.pt(P(cm["x"] + cm["w"], cm["y"])),
+               vw.pt(P(cm["x"] + cm["w"], cm["y"] + cm["h"])),
+               vw.pt(P(cm["x"], cm["y"] + cm["h"]))], "corte", fechado=True,
+              preenche="#fff3d6", cor="#b5651d")
+    cv.texto_p(vw.pt(P(cm["x"] + cm["w"] / 2, cm["y"] + cm["h"] / 2)), "TC-13",
+               TXT["micro"], "middle", rot=90, cor="#b5651d")
+    cv.linha_p(vw.pt(P(p["x"] + p["w"], p["y"] + p["h"] / 2)),
+               vw.pt(P(cm["x"], cm["y"] + cm["h"] / 2)), "cota", cor="#b5651d")
+    meio = vw.pt(P((p["x"] + p["w"] + cm["x"]) / 2, p["y"] + p["h"] / 2 - 200))
+    cv.texto_p(meio, f"succao {(cm['x']-(p['x']+p['w']))/1000:.1f} m"
+               .replace(".", ","), TXT["micro"], "middle", cor="#b5651d")
+
+    _tabela(cv, (300, 44), "PISCINA — GEOMETRIA E SISTEMA",
+            ["ITEM", "PROJETO", "ORIGEM / RAZAO"],
+            [["Dimensao da lamina", f"{p['w']} x {p['h']} mm",
+              "YAML pede 5,50 x 3,20; adotado modular, mesma area util"],
+             ["Area / volume", f"{p['lamina_m2']:.2f} m2 / {p['volume_m3']:.2f} m3"
+              .replace(".", ","), "volume dentro da faixa de 17 a 19 m3 do YAML"],
+             ["Profundidade", f"{p['prof_principal']} mm", "faixa 1,10 a 1,20 do YAML"],
+             ["Prainha", f"{p['prainha_w']} mm a {p['prof_prainha']} mm",
+              "entrada rasa, area de permanencia de crianca"],
+             ["Banco submerso", f"{p['banco_w']} x {p['banco_prof']} mm",
+              "borda oposta a prainha, sem reduzir o vao de nado"],
+             ["Faixa seca", f"min {p['faixa_seca_min']} mm nos 4 lados",
+              "exigencia do YAML, verificada pela auditoria"],
+             ["Recirculacao", f"{pj.vazao_recirculacao_m3h()} m3/h em {ps['renovacao_h']} h"
+              .replace(".", ","), "bomba de velocidade variavel: gasta menos rodando devagar mais tempo"],
+             ["Drenos de fundo", f"{ps['drenos_fundo']} un., antiaprisionamento",
+              ps["obs"][:62]],
+             ["Retornos / skimmer / aspiracao",
+              f"{ps['retornos']} / {ps['skimmers']} / {ps['aspiracao']}",
+              "retornos opostos ao skimmer, para varrer a superficie"],
+             ["Iluminacao", f"{ps['leds']} LED de {ps['led_w']} W, {ps['led_k']}",
+              "luz quente: agua azul com luz fria fica esverdeada"],
+             ["Aquecimento", ps["aquecimento"],
+              "bypass custa dois registros hoje; abrir piso depois custa a obra"],
+             ["Tratamento", ps["tratamento"],
+              "sal exige material compativel em TODA a hidraulica; decisao em espera"]],
+            larguras=[54, 62, 150])
+
+    _tabela(cv, (300, 160), "DECK — PISO POR ZONA, NAO POR MATERIAL UNICO",
+            ["ZONA", "MATERIAL", "RAZAO"],
+            [[z["zona"], z["material"], z["razao"]] for z in pj.PISO_EXTERNO] +
+            [["Verificacao do YAML", "aquecimento superficial",
+              "WPC escuro passa de 65 C sob sol de Manaus (albedo 0,20); "
+              "porcelanato claro fica em ~45 C (albedo 0,60); a dor ao pe "
+              "descalco comeca em 50 C"]],
+            larguras=[54, 62, 150])
+
+    _tabela(cv, (300, 215), "FACHADA — TRES FAMILIAS E O RASGO DE LUZ",
+            ["FAMILIA / ELEMENTO", "ESPECIFICACAO", "EFEITO"],
+            [[n, d, "—"] for n, d in pj.FACHADA_MATERIAIS] +
+            [[f"{i['cod']} — {i['onde']}", i["tipo"], i["efeito"]]
+             for i in pj.ILUMINACAO_FACHADA],
+            larguras=[54, 78, 134])
+
+    _tabela(cv, (300, 300), "O QUE A REFERENCIA VISUAL CONFIRMOU E O QUE ACRESCENTOU",
+            ["LEITURA", "SITUACAO NO PROJETO"],
+            [["Composicao horizontal, volumes escalonados",
+              "ja era o partido: garagem em um pavimento, portico recuado, corpo "
+              "de dois pavimentos atras"],
+             ["Revestimento mineral claro de grande formato",
+              "familia 1 ja especificada; junta seca de 6 mm mantida"],
+             ["Portao e brises ripados em metal escuro",
+              "familia 2 ja especificada — e agora tambem sombreia o nicho de "
+              "condensadoras, no lugar da trelica vegetal"],
+             ["Porta pivotante alta em madeira",
+              "familia 3; P01 de 1.100 x 2.800 mm ja previa a folha alta"],
+             ["Rasgo de luz indireto sob cada plano",
+              "ACRESCENTADO nesta revisao (IF-01 a IF-04): e o que constroi a "
+              "horizontalidade a noite"],
+             ["Palmeiras de grande porte na entrada",
+              "compativel com o paisagismo sem poda; uplight IF-04 previsto"],
+             ["Piso claro refletindo a iluminacao",
+              "coincide com a decisao tomada por desempenho termico: albedo alto "
+              "no piso externo"]],
+            larguras=[72, 188])
+    return cv
+
+
+def _simb(cv: Canvas, vw: View, x, y, letra: str, cor: str) -> None:
+    c = vw.pt(P(x, y))
+    cv.circ_p(c, 2.0, "vista", preenche="#fff", cor=cor)
+    cv.texto_p((c[0], c[1] + 0.8), letra, TXT["micro"], "middle", cor=cor)

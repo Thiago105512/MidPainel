@@ -856,7 +856,8 @@ def checar_tecnicos() -> list[Achado]:
             continue
         carga = pj.carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"),
                                  c.get("conta_ventilador", False),
-                                 c.get("duto", False))
+                                 c.get("duto", False),
+                                 c.get("area_m2"), c.get("vidro_m2"))
         if c.get("conta_ventilador") and c["amb"] not in {v["amb"] for v in pj.VENTILADORES}:
             out.append(Achado("ERRO", "Desconto de ventilador sem ventilador",
                               f"{c['amb']}: a carga foi reduzida por "
@@ -951,7 +952,7 @@ def checar_tecnicos() -> list[Achado]:
                                   f"min {DIST_CISTERNA_ESGOTO} mm"))
 
     # 16.10 casa de maquinas da piscina: succao curta e coerente com o modelo
-    cm = [t for t in tecs if "piscina" in t["nome"].lower()]
+    cm = [t for t in tecs if t.get("casa_maquinas")]
     pisc = (pj.PISCINA["x"], pj.PISCINA["y"], pj.PISCINA["w"], pj.PISCINA["h"])
     for c in cm:
         d = _folga(_ret(c), pisc)
@@ -982,6 +983,10 @@ def checar_tecnicos() -> list[Achado]:
 
 
 # ------------------------- 17. projecao do pavimento superior
+def _sup_de(cod: str):
+    return next(a for a in pj.SUPERIOR + pj.SUPERIOR_ABERTO if a.cod == cod)
+
+
 def checar_projecao_superior() -> list[Achado]:
     """Todo trecho do superior precisa de apoio e cobre o que esta embaixo.
 
@@ -1034,6 +1039,17 @@ def checar_projecao_superior() -> list[Achado]:
                         and alvo.y - 300 <= py <= alvo.y + alvo.h + 300
                         for px, py in apoios)
         if tem_apoio:
+            continue
+        # balanco curto resolve-se no proprio vigamento; so o longo exige apoio
+        ox = max(0, min(alvo.x + alvo.w, _sup_de(sup).x + _sup_de(sup).w)
+                 - max(alvo.x, _sup_de(sup).x))
+        oy = max(0, min(alvo.y + alvo.h, _sup_de(sup).y + _sup_de(sup).h)
+                 - max(alvo.y, _sup_de(sup).y))
+        if min(ox, oy) <= pj.BALANCO_MAX_LSF:
+            out.append(Achado("NOTA", "Balanco curto sobre area aberta",
+                              f"{sup} avanca {min(ox, oy)} mm sobre {inf} "
+                              f"({area:.2f} m2): dentro do limite de "
+                              f"{pj.BALANCO_MAX_LSF} mm do vigamento de LSF"))
             continue
         out.append(Achado("ATENCAO", "Trecho do superior sem apoio declarado",
                           f"{sup} avanca {area:.2f} m2 sobre {inf} sem pilar nem "
@@ -1369,6 +1385,10 @@ def checar_altura_livre() -> list[Achado]:
             for dx in (0, l["w"] / 2, l["w"]):
                 teto = _teto_sobre(l["x"] + dx, y)
                 livre = teto - z
+                # o ultimo degrau ENCOSTA no piso do pavimento de cima: ali nao
+                # existe altura livre a verificar, existe chegada
+                if abs(z - pj.PISO_A_PISO) < 1 or abs(teto - z) < 1:
+                    continue
                 if livre < pj.ESCADA_EXEC["altura_livre_min"]:
                     out.append(Achado("ERRO", "Altura livre na escada",
                                       f"{l['cod']} em ({l['x']+dx:.0f}, {y:.0f}): "
@@ -1738,6 +1758,90 @@ def checar_fechamento() -> list[Achado]:
     return out
 
 
+
+# ------------------------- 29. piscina, deck e lounge (programa do YAML)
+DIST_TV_MIN = 1.5          # x a largura da tela, para tela de 50 a 55"
+LARGURA_TV_50 = 1_110      # mm — tela de 50 polegadas 16:9
+PROF_SOFA = 900
+DRENOS_MIN_AFAST = 900     # antiaprisionamento
+
+
+def checar_piscina() -> list[Achado]:
+    """Piscina: faixa seca, recirculacao, drenos e casa de maquinas."""
+    out = []
+    p, ps, dk = pj.PISCINA, pj.PISCINA_SISTEMA, pj.DECK
+    folgas = {"oeste": p["x"] - dk["x"], "leste": (dk["x"] + dk["w"]) - (p["x"] + p["w"]),
+              "sul": p["y"] - dk["y"], "norte": (dk["y"] + dk["h"]) - (p["y"] + p["h"])}
+    for lado, f in folgas.items():
+        if f < p["faixa_seca_min"]:
+            out.append(Achado("ERRO", "Faixa seca insuficiente",
+                              f"lado {lado}: {f} mm de deck seco (min "
+                              f"{p['faixa_seca_min']} mm)"))
+    if abs(p["lamina_m2"] - p["w"] * p["h"] / 1e6) > 0.01:
+        out.append(Achado("ERRO", "Lamina divergente da geometria",
+                          f"{p['lamina_m2']} m2 declarados contra "
+                          f"{p['w']*p['h']/1e6:.2f} m2 de retangulo"))
+    if ps["drenos_fundo"] < 2:
+        out.append(Achado("ERRO", "Dreno de fundo unico",
+                          "com um so dreno o corpo veda a succao: exigencia "
+                          "antiaprisionamento e de dois drenos afastados "
+                          f"{DRENOS_MIN_AFAST} mm"))
+    q = pj.vazao_recirculacao_m3h()
+    if q > 8.0:
+        out.append(Achado("ATENCAO", "Recirculacao acima da bomba prevista",
+                          f"{q} m3/h para bomba de 0,5 cv"))
+    # a casa de maquinas saiu do deck: conferir succao e ventilacao
+    cm = next((t for t in pj.TECNICOS if t.get("casa_maquinas")), None)
+    if cm:
+        d = _folga(_ret(cm), (p["x"], p["y"], p["w"], p["h"]))
+        if d > SUCCAO_BOMBA_MAX:
+            out.append(Achado("ERRO", "Succao longa demais",
+                              f"{d:.0f} mm da piscina (max {SUCCAO_BOMBA_MAX})"))
+        if not pj.CASA_MAQUINAS.get("ventilacao"):
+            out.append(Achado("ERRO", "Casa de maquinas sem ventilacao declarada",
+                              cm["cod"]))
+        if not pj.CASA_MAQUINAS.get("dreno"):
+            out.append(Achado("ERRO", "Casa de maquinas sem dreno declarado",
+                              cm["cod"]))
+    return out
+
+
+def checar_lounge() -> list[Achado]:
+    """O mini lounge so existe se a distancia de visao couber nele.
+
+    O YAML pede 2,40 x 2,60 m com televisor de 50 a 55 polegadas. Com o sofa
+    encostado numa parede e o painel na outra, sobram 1,20 m de distancia — menos
+    da metade do minimo confortavel. Esta verificacao mede o ambiente contra o
+    equipamento que ele precisa abrigar, em vez de aceitar a dimensao declarada.
+    """
+    out = []
+    lou = next((a for a in pj.SUPERIOR if a.cod == "S-LOU"), None)
+    if lou is None:
+        return out
+    prof = max(lou.w, lou.h)
+    dist = prof - 150 - PROF_SOFA
+    minimo = LARGURA_TV_50 * DIST_TV_MIN
+    if dist < minimo:
+        out.append(Achado("ERRO", "Lounge curto para o televisor",
+                          f"{dist:.0f} mm de distancia de visao em {prof} mm de "
+                          f"profundidade; uma tela de 50 pede {minimo:.0f} mm"))
+    else:
+        out.append(Achado("NOTA", "Distancia de visao verificada",
+                          f"{dist:.0f} mm com painel e sofa, contra {minimo:.0f} mm "
+                          f"minimos para tela de 50 polegadas"))
+    # a parede do painel nao pode encostar em dormitorio
+    for a in pj.SUPERIOR:
+        if a.cod in ("S-LOU", "S-HAL"):
+            continue
+        encosta = (abs(a.x + a.w - lou.x) < 1 or abs(lou.x + lou.w - a.x) < 1) and \
+                  not (a.y + a.h <= lou.y or lou.y + lou.h <= a.y)
+        if encosta and a.cod.startswith("S-S"):
+            out.append(Achado("ATENCAO", "Lounge encostado em dormitorio",
+                              f"{a.cod} divide parede com o lounge: o painel de TV "
+                              f"precisa ir para a face oposta"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def verificacoes() -> list:
     """As funcoes de verificacao, em ordem de execucao."""
@@ -1750,7 +1854,8 @@ def verificacoes() -> list:
             checar_estrutura, checar_penetracoes, checar_paginacao,
             checar_altura_livre, checar_chamine, checar_hidraulica,
             checar_eletrica, checar_drenagem,
-            checar_integridade_referencial, checar_fechamento]
+            checar_integridade_referencial, checar_fechamento,
+            checar_piscina, checar_lounge]
 
 
 def metrica() -> dict:
@@ -1780,7 +1885,8 @@ def auditar() -> list[Achado]:
             checar_penetracoes() + checar_paginacao() +
             checar_altura_livre() + checar_chamine() +
             checar_hidraulica() + checar_eletrica() + checar_drenagem() +
-            checar_integridade_referencial() + checar_fechamento())
+            checar_integridade_referencial() + checar_fechamento() +
+            checar_piscina() + checar_lounge())
 
 
 if __name__ == "__main__":

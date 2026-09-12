@@ -54,6 +54,8 @@ CADERNO = [
     ("31", "LOCACAO DE OBRA E GABARITO",        lambda: p7.locacao()),
     ("32", "PAISAGISMO E IRRIGACAO",            lambda: p7.paisagismo()),
     ("33", "EMISSAO: INDICE E PENDENCIAS",      lambda: p7.emissao()),
+    # ---- R06: revisao do programa pelo YAML do proprietario
+    ("34", "PISCINA, DECK E FACHADA",           lambda: p7.piscina_deck_fachada()),
 ]
 
 
