@@ -165,10 +165,15 @@ def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
         geladeira(cv, vw, 4_400, 24_450, 900, 750)
         # ilha da integracao cozinha/gourmet (peninsula sobre o eixo X=5.400)
         bancada(cv, vw, 4_800, 21_600, 1_200, 2_400, cubas=1, cooktop=False)
-        # lavanderia (5400, 27600) — bloco de servico no fundo
-        tanque(cv, vw, 7_650, 27_750, 600, 550)
-        maquina(cv, vw, 7_650, 28_450, 600, "ML")
-        maquina(cv, vw, 7_650, 29_150, 600, "SEC")
+        # lavanderia (9600, 19200) — face norte, aberta para o varal
+        tanque(cv, vw, 9_750, 19_350, 600, 550)
+        maquina(cv, vw, 9_750, 20_050, 600, "ML")
+        maquina(cv, vw, 9_750, 20_750, 600, "SEC")
+        # varal coberto no patio lateral
+        for i in range(4):
+            yv = 19_800 + i * 600
+            cv.linha_p(vw.pt(P(13_200, yv)), vw.pt(P(16_200, yv)), "fino", cor=CINZA)
+        cv.texto_p(vw.pt(P(14_700, 22_400)), "VARAL COBERTO", TXT["micro"], "middle", cor=CINZA)
         # gourmet: bancada + churrasqueira
         bancada(cv, vw, 5_550, 25_700, 3_900, 600, cubas=1, cooktop=True)
         # oficina: bancada 2400x600

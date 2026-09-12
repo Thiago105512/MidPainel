@@ -102,48 +102,52 @@
 <line x1="97.000" y1="44.000" x2="97.000" y2="111.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="205.000" y1="44.000" x2="205.000" y2="111.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="267.000" y1="44.000" x2="267.000" y2="111.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="35.000" y="129.600" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#0a6a4a" text-anchor="start" dominant-baseline="middle">RESULTADO: 0 ERRO(S) · 0 ATENCAO(OES) · 2 NOTA(S)</text>
+<text x="35.000" y="129.600" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#0a6a4a" text-anchor="start" dominant-baseline="middle">RESULTADO: 0 ERRO(S) · 0 ATENCAO(OES) · 4 NOTA(S)</text>
 <text x="35.000" y="139.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Circulacao</text>
 <text x="90.000" y="139.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">halls 12.24 m2 (4.6 %) + core vertical 14.40 m2; a meta de 8 % do briefing incide sobre halls</text>
-<text x="35.000" y="145.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Apoio sobre pilares</text>
-<text x="90.000" y="145.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS: 16.56 m2 sobre area aberta, apoiados em 4 pilares — terraco coberto no terreo, nao balanco</text>
-<text x="35.000" y="162.600" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CORRECOES APLICADAS NESTA REVISAO</text>
-<polygon points="35.000,165.600 297.000,165.600 297.000,170.800 35.000,170.800" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
-<text x="36.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>
-<text x="44.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ACHADO</text>
-<text x="160.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CORRECAO</text>
-<polygon points="35.000,170.800 297.000,170.800 297.000,176.000 35.000,176.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="44.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Porta estar -&gt; core sem parede correspondente</text>
-<text x="160.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vao removido: os ambientes sao integrados, nao ha parede</text>
-<polygon points="35.000,176.000 297.000,176.000 297.000,181.200 35.000,181.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
-<text x="44.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Suites com vao de janela abaixo de 1/6 da area de permanencia</text>
-<text x="160.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">criada a familia J05 (1.800 x 1.200) para os tres dormitorios</text>
-<polygon points="35.000,181.200 297.000,181.200 297.000,186.400 35.000,186.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
-<text x="44.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Banho compartilhado com 0,36 m2 de vao para 4,32 m2 de piso</text>
-<text x="160.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">criada a familia J04 (800 x 900) alta e basculante</text>
-<polygon points="35.000,186.400 297.000,186.400 297.000,191.600 35.000,191.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
-<text x="44.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Quarto reversivel e oficina marginalmente abaixo do minimo</text>
-<text x="160.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">janela ampliada para J05 em ambos</text>
-<polygon points="35.000,191.600 297.000,191.600 297.000,196.800 35.000,196.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
-<text x="44.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Banho da master no encontro com o hall, bloqueando a porta</text>
-<text x="160.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho e closet deslocados para a extremidade norte do modulo</text>
-<polygon points="35.000,196.800 297.000,196.800 297.000,202.000 35.000,202.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
-<text x="44.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">57 % da suite master contabilizados como balanco</text>
-<text x="160.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">declarados 4 pilares metalicos: e pilotis com terraco coberto abaixo</text>
-<polygon points="35.000,202.000 297.000,202.000 297.000,207.200 35.000,207.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7</text>
-<text x="44.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circulacao de 10,1 % contra meta de 8 %</text>
-<text x="160.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">metrica separada: halls 4,6 % e core vertical a parte</text>
-<polygon points="35.000,207.200 297.000,207.200 297.000,212.400 35.000,212.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
-<text x="44.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Gourmet sem prumada hidraulica identificada</text>
-<text x="160.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">verificacao passa a considerar o grupo integrado com a cozinha</text>
-<line x1="43.000" y1="165.600" x2="43.000" y2="212.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="159.000" y1="165.600" x2="159.000" y2="212.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="35.000" y="145.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Vao vencido por viga</text>
+<text x="90.000" y="145.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02: 5.40 m2 sobre area aberta, vencidos por viga entre apoios existentes — laje apoiada, nao balanco</text>
+<text x="35.000" y="151.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Vao vencido por viga</text>
+<text x="90.000" y="151.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03: 3.60 m2 sobre area aberta, vencidos por viga entre apoios existentes — laje apoiada, nao balanco</text>
+<text x="35.000" y="157.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Apoio sobre pilares</text>
+<text x="90.000" y="157.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS: 7.56 m2 sobre area aberta, apoiados em 4 pilares — terraco coberto no terreo, nao balanco</text>
+<text x="35.000" y="174.600" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CORRECOES APLICADAS NESTA REVISAO</text>
+<polygon points="35.000,177.600 297.000,177.600 297.000,182.800 35.000,182.800" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="36.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>
+<text x="44.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ACHADO</text>
+<text x="160.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CORRECAO</text>
+<polygon points="35.000,182.800 297.000,182.800 297.000,188.000 35.000,188.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="44.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Porta estar -&gt; core sem parede correspondente</text>
+<text x="160.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vao removido: os ambientes sao integrados, nao ha parede</text>
+<polygon points="35.000,188.000 297.000,188.000 297.000,193.200 35.000,193.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="44.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Suites com vao de janela abaixo de 1/6 da area de permanencia</text>
+<text x="160.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">criada a familia J05 (1.800 x 1.200) para os tres dormitorios</text>
+<polygon points="35.000,193.200 297.000,193.200 297.000,198.400 35.000,198.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
+<text x="44.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Banho compartilhado com 0,36 m2 de vao para 4,32 m2 de piso</text>
+<text x="160.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">criada a familia J04 (800 x 900) alta e basculante</text>
+<polygon points="35.000,198.400 297.000,198.400 297.000,203.600 35.000,203.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
+<text x="44.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Quarto reversivel e oficina marginalmente abaixo do minimo</text>
+<text x="160.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">janela ampliada para J05 em ambos</text>
+<polygon points="35.000,203.600 297.000,203.600 297.000,208.800 35.000,208.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
+<text x="44.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Banho da master no encontro com o hall, bloqueando a porta</text>
+<text x="160.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho e closet deslocados para a extremidade norte do modulo</text>
+<polygon points="35.000,208.800 297.000,208.800 297.000,214.000 35.000,214.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="44.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">57 % da suite master contabilizados como balanco</text>
+<text x="160.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">declarados 4 pilares metalicos: e pilotis com terraco coberto abaixo</text>
+<polygon points="35.000,214.000 297.000,214.000 297.000,219.200 35.000,219.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7</text>
+<text x="44.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circulacao de 10,1 % contra meta de 8 %</text>
+<text x="160.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">metrica separada: halls 4,6 % e core vertical a parte</text>
+<polygon points="35.000,219.200 297.000,219.200 297.000,224.400 35.000,224.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
+<text x="44.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Gourmet sem prumada hidraulica identificada</text>
+<text x="160.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">verificacao passa a considerar o grupo integrado com a cozinha</text>
+<line x1="43.000" y1="177.600" x2="43.000" y2="224.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="159.000" y1="177.600" x2="159.000" y2="224.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 </svg>

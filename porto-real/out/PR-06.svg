@@ -34,15 +34,17 @@
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Topo da platibanda +6.150 m (dois pavimentos) e +3.150 m (um pavimento) — H.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Fundacao em radier 180 mm, fck 30 MPa, aco CA-50 (H).</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Vedacao em Light Steel Frame; vaos grandes em perfis metalicos estruturais.</text>
-<polygon points="80.000,243.000 170.000,243.000 170.000,240.000 80.000,240.000" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
-<polygon points="80.000,192.500 170.000,192.500 170.000,190.000 80.000,190.000" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
-<polygon points="80.000,146.667 170.000,146.667 170.000,144.167 80.000,144.167" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
-<polygon points="80.000,144.167 170.000,144.167 170.000,137.500 80.000,137.500" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
+<polygon points="80.000,192.500 130.000,192.500 130.000,190.000 80.000,190.000" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
+<polygon points="80.000,146.667 130.000,146.667 130.000,144.167 80.000,144.167" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
+<polygon points="80.000,144.167 130.000,144.167 130.000,137.500 80.000,137.500" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
+<polygon points="130.000,243.000 170.000,243.000 170.000,240.000 130.000,240.000" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
+<polygon points="130.000,192.500 170.000,192.500 170.000,190.000 130.000,190.000" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
+<polygon points="130.000,146.667 170.000,146.667 170.000,144.167 130.000,144.167" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
+<polygon points="130.000,144.167 170.000,144.167 170.000,137.500 130.000,137.500" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
 <polygon points="170.000,243.000 240.000,243.000 240.000,240.000 170.000,240.000" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
 <polygon points="170.000,196.667 240.000,196.667 240.000,194.167 170.000,194.167" stroke="#000000" stroke-width="0.6" fill="url(#concreto)" stroke-linejoin="miter"/>
 <polygon points="170.000,194.167 240.000,194.167 240.000,187.500 170.000,187.500" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
-<polygon points="78.750,240.000 81.250,240.000 81.250,196.667 78.750,196.667" stroke="#000000" stroke-width="0.6" fill="url(#lsfc)" stroke-linejoin="miter"/>
-<polygon points="129.167,240.000 130.833,240.000 130.833,196.667 129.167,196.667" stroke="#000000" stroke-width="0.6" fill="url(#lsfc)" stroke-linejoin="miter"/>
+<polygon points="128.750,240.000 131.250,240.000 131.250,196.667 128.750,196.667" stroke="#000000" stroke-width="0.6" fill="url(#lsfc)" stroke-linejoin="miter"/>
 <polygon points="238.750,240.000 241.250,240.000 241.250,196.667 238.750,196.667" stroke="#000000" stroke-width="0.6" fill="url(#lsfc)" stroke-linejoin="miter"/>
 <polygon points="78.750,190.000 81.250,190.000 81.250,146.667 78.750,146.667" stroke="#000000" stroke-width="0.6" fill="url(#lsfc)" stroke-linejoin="miter"/>
 <polygon points="168.750,190.000 171.250,190.000 171.250,146.667 168.750,146.667" stroke="#000000" stroke-width="0.6" fill="url(#lsfc)" stroke-linejoin="miter"/>
@@ -71,7 +73,6 @@
 <line x1="275.000" y1="240.000" x2="280.000" y2="244.167" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="285.000" y1="240.000" x2="290.000" y2="244.167" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="295.000" y1="240.000" x2="300.000" y2="244.167" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="105.000" y="216.167" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">LAVANDERIA</text>
 <text x="165.000" y="216.167" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">ESTAR / JANTAR</text>
 <text x="220.000" y="216.167" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">CORE / ESCADA</text>
 <text x="125.000" y="166.167" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>

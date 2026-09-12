@@ -121,16 +121,17 @@ TERREO: list[Amb] = [
     Amb("T-HAL", "HALL",                 8_400,  9_600, 1_800, 3_600),
     Amb("T-BWC", "BANHO COMPARTILHADO", 10_200, 10_800, 1_800, 2_400, molhado=True),
     Amb("T-REV", "QUARTO REVERSIVEL",   12_000,  7_200, 3_000, 6_000),
-    # ---- banda de servico interna, face sul: enfilade a partir da garagem
+    # ---- oficina: permanece na face sul, acessada pela garagem
     Amb("T-OFI", "OFICINA",              2_400, 13_200, 3_000, 3_000),
-    Amb("T-LAV", "LAVANDERIA",           2_400, 16_200, 3_000, 3_000, molhado=True),
-    Amb("T-COZ", "COZINHA",              2_400, 19_200, 3_000, 6_000, molhado=True),
-    Amb("T-DES", "DESPENSA",             2_400, 25_200, 3_000, 1_200),
     # ---- faixa social
     Amb("T-SOC", "ESTAR / JANTAR",       5_400, 13_200, 4_200, 6_000),
     Amb("T-COR", "CORE / ESCADA",        9_600, 13_200, 2_400, 6_000),
+    Amb("T-COZ", "COZINHA",              2_400, 19_200, 3_000, 6_000, molhado=True),
     Amb("T-GOU", "GOURMET",              5_400, 19_200, 4_200, 7_200, molhado=True),
-    Amb("T-DEP", "DEPOSITO / DML",       9_600, 19_200, 1_200, 3_000),
+    Amb("T-DES", "DESPENSA",             2_400, 25_200, 3_000, 1_200),
+    # ---- lavanderia e deposito na face norte, abrindo para o patio lateral
+    Amb("T-LAV", "LAVANDERIA",           9_600, 19_200, 3_000, 3_000, molhado=True),
+    Amb("T-DEP", "DEPOSITO / DML",       9_600, 22_200, 3_000, 1_200),
 ]
 
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
@@ -138,11 +139,17 @@ TERREO_ABERTO: list[Amb] = [
     Amb("T-VAR", "VARANDA DE ENTRADA",   8_400,  7_200, 1_800, 2_400, aberto=True),
     Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 3_600, aberto=True),
     Amb("T-JNO", "JARDIM NORTE",        15_000,  7_200, 1_800, 6_000, aberto=True),
+    Amb("T-LOG", "LOGGIA SUL",           2_400, 16_200, 3_000, 3_000, aberto=True),
     Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 6_000, aberto=True),
-    Amb("T-PAT", "PATIO NORTE",         10_800, 19_200, 6_000, 7_200, aberto=True),
+    Amb("T-VRL", "VARAL COBERTO",       12_600, 19_200, 4_200, 4_200, aberto=True),
+    Amb("T-PAT", "PATIO NORTE",          9_600, 23_400, 7_200, 3_000, aberto=True),
     Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 2_400, aberto=True),
     Amb("T-DKP", "DECK DA PISCINA",      4_200, 28_800, 7_200, 4_800, aberto=True),
 ]
+
+def cobertos() -> list[Amb]:
+    return TERREO + [a for a in TERREO_ABERTO
+                     if a.cod in ("T-VAR", "T-LOG", "T-VRL", "T-ALP")]
 
 def cobertos() -> list[Amb]:
     return TERREO + [a for a in TERREO_ABERTO if a.cod in ("T-VAR", "T-ALP")]
@@ -221,22 +228,27 @@ VAOS = [
     ("J05",  13_500,  7_200, "H", "T"),   # janela ampla do reversivel (leste)
     ("J01",  15_000, 10_200, "V", "T"),   # janela do reversivel (norte)
     ("J04",  11_100, 10_800, "H", "T"),   # janela alta do banho
-    # ---- enfilade de servico: garagem -> oficina -> lavanderia -> cozinha
+    # ---- oficina: garagem de um lado, loggia sul do outro
     ("P04",   3_900, 13_200, "H", "T"),   # garagem -> oficina
-    ("P04",   3_900, 16_200, "H", "T"),   # oficina -> lavanderia
-    ("P04",   3_900, 19_200, "H", "T"),   # lavanderia -> cozinha
-    ("P02",   3_900, 25_200, "H", "T"),   # cozinha -> despensa
+    ("P04",   3_900, 16_200, "H", "T"),   # oficina -> loggia sul (saida de material)
     ("J05",   2_400, 14_700, "V", "T"),   # janela ampla da oficina (sul)
-    ("J01",   2_400, 17_700, "V", "T"),   # janela da lavanderia (sul)
+    # ---- cozinha e despensa
+    ("P04",   3_900, 19_200, "H", "T"),   # loggia sul -> cozinha (servico)
     ("J01",   2_400, 21_000, "V", "T"),   # janela da cozinha (sul)
     ("J01",   2_400, 23_400, "V", "T"),   # janela da cozinha (sul)
+    ("P02",   3_900, 25_200, "H", "T"),   # cozinha -> despensa
     ("J04",   2_400, 25_800, "V", "T"),   # janela alta da despensa (sul)
-    # ---- faixa social (estar e core sao integrados: sem porta entre eles)
+    # ---- lavanderia e deposito: porta para o varal coberto e o patio lateral
+    ("P04",  12_600, 20_100, "V", "T"),   # lavanderia -> varal coberto
+    ("J01",  12_600, 21_600, "V", "T"),   # janela da lavanderia (norte)
+    ("P04",  12_600, 22_800, "V", "T"),   # deposito -> varal coberto
+    ("P04",  10_800, 19_200, "H", "T"),   # core -> lavanderia (acesso interno)
+    # ---- faixa social
     ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
     ("PV01", 12_000, 16_200, "V", "T"),   # core envidracado -> deck norte
-    ("P04",   9_600, 20_700, "V", "T"),   # gourmet -> deposito/DML
-    ("PV01",  9_600, 24_000, "V", "T"),   # gourmet -> patio norte
+    ("PV02",  9_600, 24_600, "V", "T"),   # gourmet -> patio norte (trecho de 3.000 mm)
     ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> alpendre e piscina
+    ("PV02",  5_400, 17_700, "V", "T"),   # estar -> loggia sul (ventilacao cruzada)
     # ---- superior
     ("P02",   7_800, 17_400, "V", "S"),   # hall -> suite 02
     ("P02",   7_800, 18_600, "V", "S"),   # hall -> suite 03
@@ -453,3 +465,13 @@ PILARES = [
     dict(x=10_800, y=24_000), dict(x=13_800, y=24_000),
 ]
 PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
+
+# Areas abertas cobertas pelo pavimento superior e vencidas por VIGA entre
+# apoios ja existentes — laje apoiada, nao balanco. O briefing ja preve perfis
+# metalicos estruturais para os vaos grandes (garagem de 6.000 mm sem pilar).
+VIGAS = [
+    dict(cod="V-01", sobre="T-LOG", vao=3_000,
+         desc="viga sobre a face aberta da loggia sul, entre as paredes da "
+              "oficina e da cozinha; sustenta as suites 02 e 03"),
+]
+VAO_MAX_VIGA = 6_000

@@ -657,3 +657,65 @@ pelo **zênite**. As trajetórias de leste e oeste são rasantes o ano inteiro �
 é a demonstração gráfica de por que beiral não resolve essas faces.
 
 O caderno passa a **19 pranchas**.
+
+---
+
+# Revisão 9 — lavanderia e depósito na face norte, com varal coberto
+
+Pedido: lavanderia e depósito do outro lado, com porta abrindo para o pátio
+lateral. A oficina permanece na face sul, acessada pela garagem.
+
+## Por que o pedido é climaticamente acertado
+
+Manaus tem umidade relativa acima de 80 % a maior parte do ano. Secagem em
+máquina consome muita energia justamente quando o ar está saturado, e roupa
+seca em ambiente fechado devolve toda essa umidade para dentro da casa.
+
+Abrir a lavanderia para um **varal coberto** de 17,64 m² no pátio lateral
+resolve os dois problemas: ventilação cruzada permanente no ambiente úmido e
+secagem ao ar livre protegida da chuva. Foi acrescentado ao projeto por
+consequência do pedido.
+
+## Novo arranjo
+
+| Ambiente | Posição | Porta |
+|---|---|---|
+| Lavanderia | (9.600, 19.200) 3.000 × 3.000 | varal coberto + core |
+| Depósito/DML | (9.600, 22.200) 3.000 × 1.200 | varal coberto |
+| Oficina | (2.400, 13.200) 3.000 × 3.000 | garagem + loggia sul |
+
+## O que a mudança devolveu
+
+A saída da lavanderia da faixa sul liberou 3.000 × 3.000 mm que voltaram a
+ser **loggia sul coberta (9,00 m²)**, com três efeitos:
+
+1. o estar/jantar recupera a **face externa** e a ventilação cruzada sul–norte;
+2. a oficina ganha **segunda porta externa**, para entrada e saída de material
+   sem passar pela garagem;
+3. a loggia sustenta as suítes 02 e 03 por viga entre apoios existentes.
+
+## O que a mudança custou
+
+Cozinha e lavanderia deixam de ser vizinhas. O acesso interno passa a ser
+pelo **core**, não direto. Em compensação, a lavanderia deixa de ter qualquer
+parede com ambiente de permanência e ganha porta independente — a roupa suja
+não atravessa mais a casa.
+
+## A auditoria pegou três consequências na hora
+
+| Achado | Correção |
+|---|---|
+| PV01 de 3.600 mm num trecho de parede de 3.000 mm | trocado por PV02 (2.400 mm) |
+| Suíte 02 com 5,40 m² "em balanço" sobre a loggia | declarada a viga V-01: laje apoiada |
+| Suíte 03 com 3,60 m² na mesma condição | idem |
+
+Os dois últimos eram **erro de classificação, não de projeto**: a laje se apoia
+em três paredes e numa viga de 3.000 mm entre os topos das paredes da oficina
+e da cozinha. Chamar isso de balanço encareceria o cálculo estrutural sem
+motivo. Introduzida a declaração `VIGAS`, com vão máximo de 6.000 mm — o mesmo
+que o briefing já admite para a garagem sem pilar central.
+
+Resultado após correções: **0 erros, 0 atenções, 4 notas.**
+
+Áreas inalteradas: térreo 177,84 m², superior 86,40 m², total 264,24 m².
+Áreas abertas com função sobem para 143,28 m².

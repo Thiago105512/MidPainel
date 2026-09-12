@@ -258,7 +258,18 @@ def checar_metas() -> list[Achado]:
         if apoio < s.area_mod * 0.999:
             sobre_pilares = any(s.x <= p["x"] <= s.x + s.w and s.y <= p["y"] <= s.y + s.h
                                 for p in pj.PILARES)
-            if sobre_pilares:
+            vencido = 0.0
+            for v in pj.VIGAS:
+                amb = next((x for x in pj.TERREO_ABERTO if x.cod == v["sobre"]), None)
+                if amb and v["vao"] <= pj.VAO_MAX_VIGA:
+                    ox = max(0, min(s.x + s.w, amb.x + amb.w) - max(s.x, amb.x))
+                    oy = max(0, min(s.y + s.h, amb.y + amb.h) - max(s.y, amb.y))
+                    vencido += ox * oy / 1e6
+            if vencido >= (s.area_mod - apoio) - 0.01:
+                out.append(Achado("NOTA", "Vao vencido por viga",
+                                  f"{s.cod}: {vencido:.2f} m2 sobre area aberta, vencidos por "
+                                  f"viga entre apoios existentes — laje apoiada, nao balanco"))
+            elif sobre_pilares:
                 out.append(Achado("NOTA", "Apoio sobre pilares",
                                   f"{s.cod}: {s.area_mod-apoio:.2f} m2 sobre area aberta, "
                                   f"apoiados em {len(pj.PILARES)} pilares — terraco coberto "

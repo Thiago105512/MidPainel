@@ -58,19 +58,6 @@
 <text x="90.000" y="297.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">OFICINA</text>
 <text x="90.000" y="301.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">sem forro (estrutura aparente)</text>
 <circle cx="90.000" cy="300.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="70.000,280.000 110.000,280.000 110.000,240.000 70.000,240.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="90.000" y="257.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">LAVANDERIA</text>
-<text x="90.000" y="261.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="90.000" cy="260.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="70.000,240.000 110.000,240.000 110.000,160.000 70.000,160.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="90.000" y="197.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">COZINHA</text>
-<text x="90.000" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso lavavel</text>
-<circle cx="90.000" cy="220.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="90.000" cy="180.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="70.000,160.000 110.000,160.000 110.000,144.000 70.000,144.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="90.000" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">DESPENSA</text>
-<text x="90.000" y="153.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="90.000" cy="152.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
 <polygon points="110.000,320.000 166.000,320.000 166.000,240.000 110.000,240.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="138.000" y="277.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">ESTAR / JANTAR</text>
 <text x="138.000" y="281.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso + cortinas e tapetes</text>
@@ -81,16 +68,29 @@
 <text x="182.000" y="281.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
 <circle cx="182.000" cy="300.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
 <circle cx="182.000" cy="260.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
+<polygon points="70.000,240.000 110.000,240.000 110.000,160.000 70.000,160.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="90.000" y="197.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">COZINHA</text>
+<text x="90.000" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso lavavel</text>
+<circle cx="90.000" cy="220.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
+<circle cx="90.000" cy="180.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
 <polygon points="110.000,240.000 166.000,240.000 166.000,144.000 110.000,144.000" stroke="#999" stroke-width="0.3" fill="url(#absorv)" stroke-linejoin="miter"/>
 <text x="138.000" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">GOURMET</text>
 <text x="138.000" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">forro absorvente (la mineral apare</text>
 <circle cx="138.000" cy="224.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
 <circle cx="138.000" cy="192.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
 <circle cx="138.000" cy="160.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="166.000,240.000 182.000,240.000 182.000,200.000 166.000,200.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="174.000" y="217.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">DEPOSITO / DML</text>
-<text x="174.000" y="221.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="174.000" cy="220.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
+<polygon points="70.000,160.000 110.000,160.000 110.000,144.000 70.000,144.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="90.000" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">DESPENSA</text>
+<text x="90.000" y="153.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<circle cx="90.000" cy="152.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
+<polygon points="166.000,240.000 206.000,240.000 206.000,200.000 166.000,200.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="186.000" y="217.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">LAVANDERIA</text>
+<text x="186.000" y="221.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<circle cx="186.000" cy="220.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
+<polygon points="166.000,200.000 206.000,200.000 206.000,184.000 166.000,184.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="186.000" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">DEPOSITO / DML</text>
+<text x="186.000" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<circle cx="186.000" cy="192.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
 <polygon points="166.000,264.000 174.000,264.000 174.000,256.000 166.000,256.000" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
 <text x="170.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AT-01</text>
 <polygon points="90.000,264.000 98.000,264.000 98.000,256.000 90.000,256.000" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
