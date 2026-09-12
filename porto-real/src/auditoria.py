@@ -1182,6 +1182,267 @@ def checar_fronteira_climatica() -> list[Achado]:
     return out
 
 
+
+# ------------------------- 19. estrutura: flecha, tensao e junta deslizante
+USO_MAX_PERFIL = 0.85        # fracao da resistencia admitida no pre-dimensionamento
+
+
+def checar_estrutura() -> list[Achado]:
+    """Cada viga resolvida pela flecha, com junta de deslizamento onde ha gesso.
+
+    O perfil laminado flete; a chapa de gesso acima fissura. Duas medidas
+    independentes: limite L/500 e slip track com folga de 1,5 x flecha. Uma sem
+    a outra apenas atrasa a fissura.
+    """
+    out = []
+    abertos = {a.cod: a for a in pj.TERREO_ABERTO}
+    for v in pj.dimensionar_vigas():
+        if v["vao"] > pj.VAO_MAX_VIGA:
+            out.append(Achado("ERRO", "Vao de viga acima do limite",
+                              f"{v['cod']}: {v['vao']} mm (max {pj.VAO_MAX_VIGA} mm "
+                              f"sem apoio intermediario)"))
+        if v["sobre"] not in abertos and v["sobre"] not in {a.cod for a in pj.TERREO}:
+            out.append(Achado("ERRO", "Viga sobre ambiente inexistente",
+                              f"{v['cod']} -> {v['sobre']}"))
+        if v["flecha"] > v["flecha_adm"]:
+            out.append(Achado("ERRO", "Flecha acima do limite",
+                              f"{v['cod']} {v['perfil']}: {v['flecha']} mm contra "
+                              f"{v['flecha_adm']} mm (L/{v['limite']})"))
+        if v["uso"] > USO_MAX_PERFIL * 100:
+            out.append(Achado("ERRO", "Perfil no limite da resistencia",
+                              f"{v['cod']} {v['perfil']}: {v['tensao']} MPa = "
+                              f"{v['uso']} % de {v['tensao_adm']} MPa"))
+        if v["vedacao"] and not v["slip_exec"]:
+            out.append(Achado("ERRO", "Vedacao fragil sem junta deslizante",
+                              f"{v['cod']} sustenta parede de LSF e nao tem slip track"))
+        if v["vedacao"] and v["slip_exec"] < v["slip"]:
+            out.append(Achado("ERRO", "Folga de slip insuficiente",
+                              f"{v['cod']}: {v['slip_exec']} mm contra {v['slip']} mm "
+                              f"necessarios (1,5 x flecha)"))
+        livre = pj.PE_DIREITO - pj.PERFIS_LAMINADOS[v["perfil"]]["h"]
+        if livre < ALTURA_LIVRE_MIN:
+            out.append(Achado("ERRO", "Altura livre sob viga",
+                              f"{v['cod']} {v['perfil']}: {livre} mm sob a viga "
+                              f"(min {ALTURA_LIVRE_MIN} mm)"))
+    # a caixa d'agua precisa cair sobre parede, nao sobre vazio
+    cd = pj.CAIXA_DAGUA
+    apoio = 0.0
+    for a in pj.SUPERIOR:
+        ox = max(0, min(cd["x"] + cd["w"], a.x + a.w) - max(cd["x"], a.x))
+        oy = max(0, min(cd["y"] + cd["h"], a.y + a.h) - max(cd["y"], a.y))
+        apoio += ox * oy / 1e6
+    area = cd["w"] * cd["h"] / 1e6
+    if apoio < area * 0.999:
+        out.append(Achado("ERRO", "Caixa d'agua sobre vazio",
+                          f"{area - apoio:.2f} m2 da caixa de {cd['carga_kg']} kg nao "
+                          f"tem ambiente fechado abaixo: exigiria plataforma vencendo "
+                          f"o poco"))
+    # pressao disponivel em cada pavimento
+    for pav, nome in (("T", "terreo"), ("S", "superior")):
+        mca = pj.carga_hidraulica_mca(pav)
+        pressurizado = pav == "S" and pj.PRESSURIZADOR["atende"]
+        if mca < 2.0 and not pressurizado:
+            out.append(Achado("ERRO", "Pressao insuficiente sem pressurizador",
+                              f"{nome}: {mca} mca no chuveiro (min 2,0 mca para "
+                              f"chuveiro eletrico)"))
+        elif mca < 2.0:
+            out.append(Achado("NOTA", "Pavimento pressurizado",
+                              f"{nome}: {mca} mca por gravidade — atendido pelo "
+                              f"{pj.PRESSURIZADOR['cod']} de "
+                              f"{pj.PRESSURIZADOR['potencia_cv']} cv"))
+    return out
+
+
+# ------------------------- 20. penetracoes e furacao em LSF
+def checar_penetracoes() -> list[Achado]:
+    """Tubo maior que o furo admissivel nao passa em montante. Nunca."""
+    out = []
+    fmax = pj.furo_max("Ue90x40x0.95")
+    fmax_ext = pj.furo_max("Ue140x40x0.95")
+    for p in pj.PENETRACOES:
+        if p["onde"] == "montante":
+            lim = fmax_ext if "externa" in p.get("solucao", "") else fmax
+            if p["dn"] > lim:
+                out.append(Achado("ERRO", "Tubo maior que o furo admissivel",
+                                  f"{p['cod']} {p['tipo']} DN{p['dn']} em montante "
+                                  f"de furo maximo {lim} mm: exige shaft ou "
+                                  f"entreforro", "NBR 15253"))
+        elif p["onde"] == "entreforro":
+            if p["dn"] + 100 > pj.ENTREFORRO:
+                out.append(Achado("ERRO", "Duto nao cabe no entreforro",
+                                  f"{p['cod']} DN{p['dn']} mais 100 mm de suporte em "
+                                  f"{pj.ENTREFORRO} mm de entreforro"))
+        elif p["onde"] == "shaft":
+            if p["dn"] + 100 > pj.SHAFT["w"]:
+                out.append(Achado("ERRO", "Shaft estreito",
+                                  f"{p['cod']} DN{p['dn']} em shaft de "
+                                  f"{pj.SHAFT['w']} mm"))
+    # todo esgoto vertical precisa de shaft declarado
+    esgotos = [p for p in pj.PENETRACOES if "esgoto" in p["tipo"]]
+    for e in esgotos:
+        if "shaft" not in e["solucao"]:
+            out.append(Achado("ERRO", "Esgoto vertical sem shaft",
+                              f"{e['cod']} {e['tipo']}"))
+    if pj.FURACAO["dist_centros"] < pj.MONTANTE_ESPACAMENTO:
+        out.append(Achado("ATENCAO", "Furos adensados",
+                          f"{pj.FURACAO['dist_centros']} mm entre centros com "
+                          f"montante a cada {pj.MONTANTE_ESPACAMENTO} mm"))
+    return out
+
+
+# ------------------------- 21. paginacao de piso e revestimento
+def checar_paginacao() -> list[Achado]:
+    """Recorte pequeno sempre aparece; e junta desalinhada em sala integrada
+    aparece no pior lugar possivel, no meio do ambiente, sem parede para
+    disfarcar."""
+    out = []
+    cobertos = {c for z in pj.ZONAS_PAGINACAO for c in z["ambientes"]}
+    for z in pj.ZONAS_PAGINACAO:
+        peca = pj.PECA_PISO if z["peca"] == "piso" else pj.PECA_PAREDE
+        for cod in z["ambientes"]:
+            if not any(a.cod == cod for a in pj.TERREO + pj.SUPERIOR):
+                out.append(Achado("ERRO", "Paginacao sem ambiente",
+                                  f"{z['cod']} -> {cod}"))
+                continue
+            res = pj.paginar(cod)
+            if not res:
+                continue
+            alt = res.get("altura")
+            if alt and not alt["ok"]:
+                out.append(Achado("ERRO", "Fiada do topo recortada",
+                                  f"{cod}: revestimento de {alt['altura']} mm deixa "
+                                  f"fiada de topo com {alt['fiada_topo']} mm de "
+                                  f"{peca['c']} mm — e a fiada na altura dos olhos"))
+            for eixo in ("x", "y"):
+                r = res[eixo]
+                if r["critico"]:
+                    out.append(Achado("ERRO", "Recorte critico de peca",
+                                      f"{cod} eixo {eixo}: {r['pior']} mm de uma peca "
+                                      f"de {peca['l']} mm — abaixo de 1/5 o recorte "
+                                      f"descola"))
+                elif not r["ok"]:
+                    out.append(Achado("NOTA", "Recorte de peca abaixo de 1/3",
+                                      f"{cod} eixo {eixo}: {r['pior']} mm (1/3 seria "
+                                      f"{int(peca['l']*pj.RECORTE_MIN)} mm) — aceito, "
+                                      f"o recorte cai em {z['obs'][:40]}"))
+    # todo ambiente com piso ceramico precisa de zona; integrados na MESMA zona
+    for g in pj.INTEGRADOS:
+        zonas = {pj.zona_de(c)["cod"] for c in g if pj.zona_de(c)}
+        if len(zonas) > 1:
+            out.append(Achado("ERRO", "Integrados em zonas de paginacao diferentes",
+                              f"{' + '.join(sorted(g))}: {', '.join(sorted(zonas))} — "
+                              f"sem parede entre eles a costura fica visivel"))
+    faltam = [a.cod for a in pj.TERREO + pj.SUPERIOR if a.cod not in cobertos]
+    if faltam:
+        out.append(Achado("NOTA", "Ambientes sem paginacao declarada",
+                          f"{len(faltam)}: {', '.join(faltam)} — recebem a malha "
+                          f"padrao a partir do proprio canto de entrada"))
+    return out
+
+
+# ------------------------- 22. altura livre (verificacao em 3 dimensoes)
+def _teto_sobre(x: float, y: float) -> float:
+    """Cota do teto acima de um ponto em planta do terreo."""
+    for a in pj.SUPERIOR + pj.SUPERIOR_ABERTO:
+        if a.x <= x < a.x + a.w and a.y <= y < a.y + a.h:
+            return float(pj.PISO_A_PISO)
+    return float(pj.PISO_A_PISO + pj.PE_DIREITO)     # pe-direito duplo / cobertura
+
+
+def checar_altura_livre() -> list[Achado]:
+    """Primeira verificacao que sai da planta: cada degrau contra o que ha acima.
+
+    Nenhuma verificacao anterior era tridimensional — e altura livre de escada e
+    justamente o defeito que nao aparece em planta nenhuma.
+    """
+    out = []
+    passo = 150
+    for l in pj.escada_lances():
+        n = max(1, l["espelhos"])
+        for i in range(int(l["h"] // passo) + 1):
+            dy = i * passo
+            frac = dy / l["h"] if l["h"] else 0
+            if l["sentido"] == "-Y":
+                frac = 1 - frac
+            z = l["z_ini"] + (l["z_fim"] - l["z_ini"]) * frac
+            y = l["y"] + dy
+            for dx in (0, l["w"] / 2, l["w"]):
+                teto = _teto_sobre(l["x"] + dx, y)
+                livre = teto - z
+                if livre < pj.ESCADA_EXEC["altura_livre_min"]:
+                    out.append(Achado("ERRO", "Altura livre na escada",
+                                      f"{l['cod']} em ({l['x']+dx:.0f}, {y:.0f}): "
+                                      f"{livre:.0f} mm entre o degrau na cota "
+                                      f"{z:.0f} e o teto em {teto:.0f} (min "
+                                      f"{pj.ESCADA_EXEC['altura_livre_min']} mm)",
+                                      "NBR 9077"))
+                    break
+    # armario sob escada: onde a altura livre nao serve para circular
+    for ar in pj.ARMARIOS:
+        if not ar.get("sob_escada"):
+            continue
+        l2 = next(l for l in pj.escada_lances() if l["cod"] == "L2")
+        alturas = []
+        for i in range(0, int(ar["h"]), 150):
+            y = ar["y"] + i
+            frac = 1 - (y - l2["y"]) / l2["h"]
+            z = l2["z_ini"] + (l2["z_fim"] - l2["z_ini"]) * max(0.0, min(1.0, frac))
+            alturas.append(z)
+        if max(alturas) - min(alturas) < 300:
+            out.append(Achado("NOTA", "Armario sob escada em trecho uniforme",
+                              f"{ar['cod']}: rampa de apenas "
+                              f"{max(alturas)-min(alturas):.0f} mm"))
+        elif min(alturas) < 600:
+            out.append(Achado("NOTA", "Armario sob escada com ponta baixa",
+                              f"{ar['cod']}: altura util de {min(alturas):.0f} a "
+                              f"{max(alturas):.0f} mm — prever prateleira fixa, nao "
+                              f"porta de altura inteira"))
+    # pe-direito duplo declarado tem de existir de fato
+    for cod in pj.PE_DIREITO_DUPLO:
+        amb = next((a for a in pj.TERREO if a.cod == cod), None)
+        if amb is None:
+            out.append(Achado("ERRO", "Pe-direito duplo em ambiente inexistente", cod))
+            continue
+        vazio = 0.0
+        for i in range(amb.x, amb.x + amb.w, 300):
+            for j in range(amb.y, amb.y + amb.h, 300):
+                if _teto_sobre(i, j) > pj.PISO_A_PISO:
+                    vazio += 0.09
+        if vazio < 1.0:
+            out.append(Achado("ERRO", "Pe-direito duplo inexistente",
+                              f"{cod} declarado com vazio e tem {vazio:.2f} m2 livres"))
+    return out
+
+
+# ------------------------- 23. chamine solar
+VAZAO_CHAMINE_MIN = 6.0      # trocas por hora sem vento
+
+
+def checar_chamine() -> list[Achado]:
+    out = []
+    lt = pj.LANTERNIM
+    trocas = pj.trocas_por_hora()
+    if trocas < VAZAO_CHAMINE_MIN:
+        out.append(Achado("ATENCAO", "Chamine solar fraca",
+                          f"{trocas} trocas/h sem vento (min {VAZAO_CHAMINE_MIN}): "
+                          f"ampliar veneziana ou altura do lanternim"))
+    # o lanternim tem de estar sobre o vazio, nao sobre laje
+    cobre_vazio = 0.0
+    for i in range(lt["x"], lt["x"] + lt["w"], 300):
+        for j in range(lt["y"], lt["y"] + lt["h"], 300):
+            if _teto_sobre(i, j) > pj.PISO_A_PISO:
+                cobre_vazio += 0.09
+    area = lt["w"] * lt["h"] / 1e6
+    if cobre_vazio < area * 0.9:
+        out.append(Achado("ERRO", "Lanternim sobre laje",
+                          f"so {cobre_vazio:.2f} m2 de {area:.2f} m2 do lanternim "
+                          f"ficam sobre o pe-direito duplo: o resto nao ventila nada"))
+    if lt["altura_peitoril"] < pj.PISO_A_PISO + pj.PE_DIREITO:
+        out.append(Achado("ERRO", "Lanternim baixo",
+                          "o peitoril tem de ficar acima do forro do superior"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
@@ -1191,7 +1452,9 @@ def auditar() -> list[Achado]:
             checar_espacos_mortos() + checar_bancadas() + checar_loucas() +
             checar_subdivisoes() + checar_colisao_porta() + checar_janela_mobiliario() +
             checar_tecnicos() + checar_projecao_superior() +
-            checar_fronteira_climatica())
+            checar_fronteira_climatica() + checar_estrutura() +
+            checar_penetracoes() + checar_paginacao() +
+            checar_altura_livre() + checar_chamine())
 
 
 if __name__ == "__main__":

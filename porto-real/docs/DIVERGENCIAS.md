@@ -1138,3 +1138,134 @@ centrado no recuo: libera uma faixa **contínua** de 2.000 mm de passagem em vez
 de duas inúteis de 1.200 e 400, e descarrega o ar quente com 2,0 m de folga. E
 foi deslocado para y = 8.400–12.000 para ficar a 1.800 mm da janela da oficina —
 abaixo disso o ar de descarga volta para dentro pela própria janela.
+
+---
+
+# Revisão 16 — Etapa 2: detalhamento construtivo
+
+Seis pranchas novas (20 a 25) e a primeira verificação **tridimensional** da
+auditoria. Três defeitos que só aparecem quando se sai da planta:
+
+## Defeito 5 — 1.500 mm de altura livre no patamar da escada
+
+A geometria da escada existia **apenas no código de desenho**, não no modelo.
+Por isso nenhuma verificação de altura livre era possível: a auditoria não tinha
+o que ler. Ao trazer os lances para o modelo (`escada_lances()`), apareceu que o
+patamar terminava 100 mm **dentro** da projeção da laje do hall superior, com
+1.500 mm de altura livre — uma quina exatamente na altura da cabeça de quem
+termina o primeiro lance, a 1.500 mm do piso.
+
+**Correção:** o primeiro espelho sobe de y = 13.200 (rente à borda do core) e o
+patamar termina em 16.600, 200 mm antes da borda da laje. Altura livre mínima
+verificada degrau a degrau: **2.600 mm**, contra os 2.100 mm da NBR 9077.
+
+O triângulo sob o segundo lance, com altura útil variável, passou a ser armário
+declarado (AR-05) — não é circulação nem espaço morto.
+
+## Defeito 6 — a caixa d'água estava sobre o vazio
+
+2.000 L = 25 kN apoiados em uma plataforma de 2,4 m **vencendo o poço de luz**
+do core. Deslocada para o ático sobre o banho da master, onde desce direto nas
+paredes do próprio ambiente.
+
+E aí apareceu uma conta que não tem volta:
+
+| | cota | coluna disponível |
+|---|---|---|
+| Base da caixa (ático) | 5.600 mm | — |
+| Chuveiro do térreo | 2.100 mm | **3,50 mca** — folgado |
+| Chuveiro do superior | 5.100 mm | **0,50 mca** — inviável |
+
+Chuveiro elétrico exige 1,5 a 2,0 mca para acionar o pressostato. **Em casa de
+dois pavimentos com laje a 3.000 mm e pé-direito de 2.600, caixa elevada não
+resolve a pressão do andar de cima: isso é aritmética, não opção.** Daí o
+pressurizador de 0,5 cv (TC-14), servindo **apenas** o ramal superior.
+
+## Defeito 7 — juntas de piso desalinhadas na sala integrada
+
+A paginação era declarada por ambiente, cada um a partir do próprio canto. Em
+sala integrada isso produz a "costura" visível no meio do ambiente: duas malhas
+de junta que se encontram desalinhadas exatamente onde não há parede para
+disfarçar. **Correção:** `ZONAS_PAGINACAO` — a fita social inteira (estar, core,
+gourmet, cozinha) recebe **uma** origem, no eixo da porta do hall, e o recorte
+vai para a parede sul da cozinha, atrás da bancada.
+
+A paginação de **parede** é o caso oposto e estava igualmente errada: cada
+parede é uma superfície independente, e a junta de uma não continua na outra.
+Ali a origem é o canto do próprio ambiente. O que importa na parede é a **fiada
+do topo**, que fica na altura dos olhos — por isso a altura de revestimento
+passou a ser escolhida como múltiplo da peça:
+
+| ambiente | altura | fiadas | fiada do topo |
+|---|---|---|---|
+| Banho social | 2.400 mm | 3 inteiras | 594 de 600 — imperceptível |
+| Lavanderia, depósito, despensa | 1.800 mm | 2 inteiras | 596 de 600 |
+
+## A interface LSF × perfil laminado
+
+O maior risco de patologia do projeto, e a razão é de rigidez, não de carga: o
+perfil laminado flete; a chapa de gesso acima fissura. Uma viga dimensionada
+pela **resistência** pode fletir L/300 sem risco estrutural nenhum e ainda assim
+abrir fissura horizontal no topo da parede do pavimento superior — que o morador
+chama de recalque e que é, na verdade, a viga trabalhando exatamente como foi
+calculada.
+
+Duas medidas, independentes, ambas obrigatórias:
+
+1. **Flecha limitada a L/500** onde a viga sustenta vedação frágil (contra L/350
+   de uso geral). Custa inércia, não resistência.
+2. **Junta de deslizamento** no topo da parede: a guia superior é fixada só na
+   estrutura e os montantes correm livres dentro dela, com folga de 1,5 × flecha
+   calculada. Sem ela, o item 1 apenas **atrasa** a fissura.
+
+Todas as seis vigas dimensionadas pela flecha:
+
+| viga | vão | w | limite | perfil | flecha/adm | tensão | slip |
+|---|---|---|---|---|---|---|---|
+| V-01 loggia | 3.000 | 8,59 kN/m | L/500 | W200×15,0 | 3,47 / 6,00 | 46 % | 10 mm |
+| V-02 portão | 5.400 | 1,80 | L/350 | W200×15,0 | 7,64 / 15,43 | 31 % | — |
+| V-03 garagem | 6.000 | 1,80 | L/350 | W200×15,0 | 11,64 / 17,14 | 38 % | — |
+| V-04 pátio | 3.000 | 7,78 | L/500 | W200×15,0 | 3,14 / 6,00 | 41 % | 10 mm |
+| V-05 sacada | 3.000 | 7,56 | L/350 | W150×13,0 | 6,28 / 8,57 | 61 % | — |
+| V-06 varal | 4.200 | 8,10 | L/500 | W250×17,9 | 7,16 / 8,40 | 60 % | 15 mm |
+
+**As tensões ficam entre 31 % e 61 % da resistência.** Isso não é desperdício: é
+a prova de que a flecha governa. Subir um perfil custa 2 a 5 kg/m de aço — menos
+que uma única repintura da parede fissurada, e a fissura volta.
+
+## Furação em LSF é decisão de projeto, não de obra
+
+Em alvenaria, furar parede se resolve na obra. Em LSF o montante é uma chapa de
+0,95 mm trabalhando à compressão: furo fora de lugar reduz a carga crítica de
+flambagem local, e o eletricista que descobre isso na obra resolve cortando a
+aba — que é exatamente onde está a rigidez.
+
+Nove penetrações declaradas e verificadas contra o furo admissível de **45 mm**
+(0,5 × alma de 90 mm). As duas de esgoto DN100 **não cabem em montante por
+definição** e vão em shaft de 300 × 300 mm; o duto de insuflamento de 250 mm vai
+no entreforro de 400 mm. A auditoria reprova qualquer tubo maior que o furo
+admissível declarado como passando em montante.
+
+## Pé-direito duplo virou chaminé solar
+
+O vazio sobre o estar e o core tem 22,32 m². Sem saída no topo, um poço desses é
+**acumulador** de calor: o ar quente sobe e fica. Com saída, é o contrário — o
+motor da ventilação da casa inteira, funcionando em dia sem vento nenhum.
+
+Lanternim de 4.200 × 1.200 mm com venezianas em duas faces (2,10 m² de área
+livre), peitoril a 5.600 mm. Efeito chaminé com ΔT de 3 K (conservador) e Δh de
+4,5 m — altura que o partido já dava de graça:
+
+```
+Q = Cd · A_ef · √(2 g Δh ΔT / T_ext) = 0,60 · 1,05 · 2,31 m/s = 0,83 m³/s
+```
+
+**2.999 m³/h = 13,1 trocas por hora** no volume da fita social, sem vento. Uma
+peça resolve três coisas: saída da chaminé, luz no miolo da planta (o ponto mais
+escuro de qualquer casa profunda) e ventilação noturna sem abrir a casa para a
+rua.
+
+## Auditoria
+
+De 35 para **40 verificações**, agora incluindo a primeira em três dimensões.
+**0 erros, 0 atenções, 16 notas informativas.** 25 pranchas constroem.

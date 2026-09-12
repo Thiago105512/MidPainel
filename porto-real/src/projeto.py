@@ -312,13 +312,67 @@ CASA_MAQUINAS = dict(x=10_200, y=28_800, w=1_500, h=1_200,
                           "jardim, com ventilacao e dreno por gravidade")
 DECK = dict(x=4_200, y=27_600, w=7_200, h=4_200)          # envolve a piscina
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
-CAIXA_DAGUA = dict(x=10_200, y=16_200, w=2_400, h=2_400,
-                   volume_l=2_000, pe_direito=2_100, carga_kg=2_500)
+# A caixa estava sobre o VAZIO do core: 25 kN apoiados em uma plataforma de
+# 2,4 m vencendo o poco de luz. Deslocada para o atico sobre o banho da master,
+# onde desce direto nas paredes do proprio ambiente — vao curto, sem plataforma
+# sobre vazio, e logo acima do maior consumo da casa.
+#
+# E uma conta que nao tem volta: com pe-direito de 2.600 mm, a base da caixa no
+# atico fica a 5.600 mm e o chuveiro do pavimento superior a 5.100 mm. Sobram
+# 500 mm de coluna — 0,5 mca. Chuveiro eletrico exige 1,5 a 2,0 mca para
+# acionar o pressostato. Em casa de dois pavimentos com laje a 3.000 mm, caixa
+# elevada NAO resolve a pressao do andar de cima: isso e aritmetica, nao opcao.
+# Dai o pressurizador, servindo apenas o ramal superior. O terreo continua por
+# gravidade, com 3,5 mca — folgado.
+CAIXA_DAGUA = dict(x=11_400, y=19_200, w=2_400, h=3_000,
+                   volume_l=2_000, pe_direito=2_100, carga_kg=2_500,
+                   nivel_base=PISO_A_PISO + PE_DIREITO,      # 5.600 mm
+                   sobre="S-MAS/BANHO", pav="atico")
+PRESSURIZADOR = dict(cod="TC-14", potencia_cv=0.5, pressao_mca=12.0,
+                     atende=["S-MAS", "S-S02", "S-S03"], vazao_m3h=1.8,
+                     local="atico, junto a caixa",
+                     obs="pressostato e vaso de expansao de 2 L; so o ramal "
+                         "superior. Terreo por gravidade (3,5 mca)")
+ALTURA_CHUVEIRO = 2_100
+def carga_hidraulica_mca(pav: str) -> float:
+    """Coluna disponivel entre a base da caixa e o chuveiro do pavimento."""
+    base = CAIXA_DAGUA["nivel_base"]
+    ponto = (PISO_A_PISO if pav == "S" else 0) + ALTURA_CHUVEIRO
+    return round((base - ponto) / 1_000, 2)
 
 # escada em U — 18 espelhos x 166,67 mm, piso 300, largura util 1.000
+# A geometria da escada passa a ser DADO do modelo, com cada lance e o patamar
+# em coordenada declarada. Antes existia so no codigo de desenho, e por isso
+# nenhuma verificacao de altura livre era possivel: o patamar invadia 100 mm
+# da projecao do hall superior e ficava com 1.500 mm de altura livre — uma
+# quina exatamente na altura da cabeca de quem termina o primeiro lance.
+# Correcao: o primeiro espelho sobe de y = 13.200 (rente a borda do core) e o
+# patamar termina em 16.600, 200 mm antes da borda da laje do hall.
 ESCADA = dict(x=9_600, y=13_200, w=2_400, h=6_000,
               espelhos=18, alt_espelho=3_000 / 18, piso=300,
-              larg_lance=1_000, patamar=1_000, blondel=2 * (3_000 / 18) + 300)
+              larg_lance=1_000, patamar=1_000, blondel=2 * (3_000 / 18) + 300,
+              y0=13_200,            # primeiro espelho
+              folga_lances=100)     # vazio entre os dois lances
+
+
+def escada_lances() -> list[dict]:
+    """Lances e patamar em coordenada absoluta, com nivel de inicio e fim."""
+    e = ESCADA
+    lar, piso, pat = e["larg_lance"], e["piso"], e["patamar"]
+    n = (e["espelhos"] // 2) - 1                     # 8 pisos por lance
+    h = e["alt_espelho"]
+    y0 = e["y0"]
+    x1 = e["x"] + 150
+    x2 = x1 + lar + e["folga_lances"]
+    fim1 = y0 + n * piso
+    return [
+        dict(cod="L1", x=x1, y=y0, w=lar, h=n * piso, sentido="+Y",
+             z_ini=0.0, z_fim=(n + 1) * h, espelhos=n + 1),
+        dict(cod="PT", x=x1, y=fim1, w=lar * 2 + e["folga_lances"], h=pat,
+             sentido="patamar", z_ini=(n + 1) * h, z_fim=(n + 1) * h, espelhos=0),
+        dict(cod="L2", x=x2, y=fim1 + pat - n * piso, w=lar, h=n * piso,
+             sentido="-Y", z_ini=(n + 1) * h, z_fim=PISO_A_PISO, espelhos=n + 1),
+    ]
 
 # ---------------------------------------------------------------- cobertura
 # planos de cobertura com 5 % de caimento e calha externa 150x100
@@ -528,16 +582,424 @@ PILARES = [
 ]
 PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
 
-# Areas abertas cobertas pelo pavimento superior e vencidas por VIGA entre
-# apoios ja existentes — laje apoiada, nao balanco. O briefing ja preve perfis
-# metalicos estruturais para os vaos grandes (garagem de 6.000 mm sem pilar).
+
+
+
+
+
+# =========================================================================
+# PE-DIREITO DUPLO E CHAMINE SOLAR
+#
+# O vazio sobre o estar e o core nao e so efeito arquitetonico: em clima
+# quente-umido, um poco de 22,32 m2 SEM saida no topo e um acumulador de calor,
+# porque o ar quente sobe e fica. Com saida no topo ele vira o contrario — o
+# motor da ventilacao da casa inteira, funcionando mesmo em dia sem vento.
+#
+# Fisica: Q = Cd . A_ef . raiz(2 . g . dh . dT / T_ext).  A diferenca de
+# temperatura entre o ar do poco e o exterior (3 K e conservador para um poco
+# ensolarado por lanternim) gera a depressao que puxa o ar das aberturas
+# baixas. Quanto maior dh, melhor — e dh aqui e 4,5 m de graca, porque o pe
+# direito duplo ja existia no partido.
+#
+# O lanternim resolve tres coisas com uma peca: saida da chaminé, luz no miolo
+# da planta (o ponto mais escuro de qualquer casa profunda) e ventilacao
+# noturna sem abrir a casa para a rua.
+# =========================================================================
+PE_DIREITO_DUPLO = ["T-SOC", "T-COR"]     # ambientes com vazio sobre parte da area
+LANTERNIM = dict(x=8_400, y=14_400, w=4_200, h=1_200,
+                 altura_peitoril=PISO_A_PISO + PE_DIREITO,    # 5.600 mm
+                 veneziana_h=500, faces=2, frac_livre=0.50,
+                 vidro="laminado leitoso 6 mm, voltado ao sul (sem sol direto)",
+                 obs="venezianas em duas faces: uma sempre a sotavento")
+CHAMINE = dict(cd=0.60, dt_k=3.0, t_ext_k=303.0,
+               centroide_entrada=1_700, centroide_saida=6_200)
+
+
+def area_venezianas_m2() -> float:
+    lt = LANTERNIM
+    return round(lt["w"] * lt["veneziana_h"] * lt["faces"] * lt["frac_livre"] / 1e6, 2)
+
+
+def vazao_chamine_m3h(a_entrada_m2: float | None = None) -> float:
+    """Vazao por efeito chamine, com areas de entrada e saida em serie."""
+    a_out = area_venezianas_m2()
+    a_in = a_entrada_m2 if a_entrada_m2 else a_out
+    a_ef = 1.0 / math.sqrt(1.0 / a_in ** 2 + 1.0 / a_out ** 2)
+    dh = (CHAMINE["centroide_saida"] - CHAMINE["centroide_entrada"]) / 1_000
+    v = math.sqrt(2 * 9.81 * dh * CHAMINE["dt_k"] / CHAMINE["t_ext_k"])
+    return round(CHAMINE["cd"] * a_ef * v * 3_600, 0)
+
+
+def volume_chamine_m3() -> float:
+    """Volume servido: fita social no pe-direito simples + o vazio."""
+    base = sum(a.area_mod for a in TERREO
+               if a.cod in ("T-SOC", "T-COR", "T-GOU", "T-COZ"))
+    return round(base * PE_DIREITO / 1_000, 2)
+
+
+def trocas_por_hora(a_entrada_m2: float | None = None) -> float:
+    return round(vazao_chamine_m3h(a_entrada_m2) / volume_chamine_m3(), 1)
+
+
+# =========================================================================
+# ESTRUTURA — INTERFACE LSF x PERFIL LAMINADO
+#
+# Este e o ponto de maior risco de patologia do projeto, e a razao e simples:
+# os dois sistemas tem rigidez e comportamento incompativeis.
+#
+# O perfil laminado FLETE. Uma viga de aco dimensionada pela resistencia pode
+# fletir L/300 sem nenhum problema estrutural. A parede de Light Steel Frame
+# que se apoia nela, porem, e fechada com chapa de gesso e chapa cimenticia:
+# material FRAGIL, que fissura com deformacao imposta muito antes de qualquer
+# risco estrutural. O resultado classico e a fissura horizontal no topo da
+# parede do pavimento superior, que o morador atribui a "recalque" e que na
+# verdade e a viga trabalhando exatamente como foi calculada.
+#
+# Duas medidas resolvem, e sao independentes:
+#   1. LIMITE DE FLECHA MAIS SEVERO: L/500 onde a viga suporta vedacao fragil,
+#      contra L/350 de uso geral. Custa inercia, nao resistencia.
+#   2. JUNTA DE DESLIZAMENTO (slip track) no topo da parede LSF: a guia
+#      superior e fixada a estrutura e os montantes correm livres dentro dela,
+#      com folga de 1,5 x flecha calculada. A parede deixa de receber a
+#      deformacao da viga. Sem isso, o item 1 apenas atrasa a fissura.
+#
+# E = 200.000 MPa (aco estrutural). Carregamentos conforme NBR 6120.
+# =========================================================================
+E_ACO = 200_000             # MPa = N/mm2
+FLECHA_LIMITE = {"vedacao_fragil": 500, "geral": 350, "balanco": 250}
+FOLGA_SLIP = 1.5            # folga da junta de deslizamento = 1,5 x flecha
+FY_ACO = 250                # MPa — ASTM A572 / ASTM A36 (H)
+GAMA_F = 1.4                # coeficiente de majoracao das acoes
+GAMA_M = 1.1                # coeficiente de minoracao da resistencia
+
+# cargas caracteristicas (kN/m2) — NBR 6120
+CARGAS = {
+    "piso_lsf_perm": 1.20,       # vigamento + OSB + contrapiso seco + forro
+    "piso_lsf_acid": 1.50,       # dormitorio e sala
+    "cobertura_perm": 0.35,      # painel PIR 75 mm + estrutura
+    "cobertura_acid": 0.25,      # manutencao
+    "parede_lsf_m": 0.50,        # kN/m2 de parede (x altura = kN/m)
+    "deck_acid": 3.00,           # varanda e sacada: NBR 6120
+}
+
+# perfis laminados (Ix em cm4, massa em kg/m) — tabela Gerdau
+PERFIS_LAMINADOS = {
+    "W150x13.0": dict(ix=635,   h=148, bf=100, massa=13.0),
+    "W200x15.0": dict(ix=1_305, h=200, bf=100, massa=15.0),
+    "W200x19.3": dict(ix=1_686, h=203, bf=102, massa=19.3),
+    "W250x17.9": dict(ix=2_291, h=251, bf=101, massa=17.9),
+    "W250x22.3": dict(ix=2_939, h=254, bf=102, massa=22.3),
+    "W310x23.8": dict(ix=4_346, h=305, bf=101, massa=23.8),
+    "W310x28.3": dict(ix=5_410, h=309, bf=102, massa=28.3),
+}
+
+# perfis formados a frio do LSF (NBR 15253)
+PERFIS_LSF = {
+    "Ue90x40x0.95":  dict(ix=35.6,  h=90,  uso="montante de parede"),
+    "Ue140x40x0.95": dict(ix=111.0, h=140, uso="montante de parede externa"),
+    "Ue200x40x1.25": dict(ix=400.0, h=200, uso="viga de piso vao curto"),
+    "Ue250x40x1.55": dict(ix=860.0, h=250, uso="viga de piso 5.400 mm"),
+    "Ue300x40x1.55": dict(ix=1_420.0, h=300, uso="viga de piso vao longo"),
+}
+MONTANTE_ESPACAMENTO = 600
+MONTANTE_ESPACAMENTO_REFORCADO = 400
+
+
+def flecha_mm(w_kn_m: float, vao_mm: int, ix_cm4: float,
+              apoio: str = "biapoiada") -> float:
+    """Flecha no meio do vao para carga uniformemente distribuida.
+
+    biapoiada: 5 w L^4 / (384 E I).  balanco: w L^4 / (8 E I).
+    w em kN/m -> N/mm dividindo por 1.000 (1 kN/m = 1 N/mm).
+    Ix em cm4 -> mm4 multiplicando por 1e4.
+    """
+    w = w_kn_m                      # kN/m == N/mm
+    ix = ix_cm4 * 1e4
+    if apoio == "balanco":
+        return (w * vao_mm ** 4) / (8 * E_ACO * ix)
+    return (5 * w * vao_mm ** 4) / (384 * E_ACO * ix)
+
+
+def inercia_necessaria(w_kn_m: float, vao_mm: int, limite: int,
+                       apoio: str = "biapoiada") -> float:
+    """Ix minimo (cm4) para atender flecha <= vao/limite."""
+    alvo = vao_mm / limite
+    w = w_kn_m
+    if apoio == "balanco":
+        ix = (w * vao_mm ** 4) / (8 * E_ACO * alvo)
+    else:
+        ix = (5 * w * vao_mm ** 4) / (384 * E_ACO * alvo)
+    return ix / 1e4
+
+
+def escolher_perfil(w_kn_m: float, vao_mm: int, limite: int,
+                    apoio: str = "biapoiada") -> tuple[str, float, float]:
+    """Menor perfil laminado que atende a flecha. Retorna (perfil, ix, flecha)."""
+    need = inercia_necessaria(w_kn_m, vao_mm, limite, apoio)
+    for nome, p in sorted(PERFIS_LAMINADOS.items(), key=lambda kv: kv[1]["ix"]):
+        if p["ix"] >= need:
+            return nome, p["ix"], flecha_mm(w_kn_m, vao_mm, p["ix"], apoio)
+    nome, p = max(PERFIS_LAMINADOS.items(), key=lambda kv: kv[1]["ix"])
+    return nome, p["ix"], flecha_mm(w_kn_m, vao_mm, p["ix"], apoio)
+
+
+# -------------------------------------------------------------------------
+# VIGAS — cada uma com carga declarada, nao com perfil "escolhido no olho".
+# trib = largura de influencia em mm. vedacao=True -> limite L/500 e slip track.
+# -------------------------------------------------------------------------
 VIGAS = [
-    dict(cod="V-01", sobre="T-LOG", vao=3_000,
-         desc="viga sobre a face aberta da loggia sul, entre as paredes da "
-              "oficina e da cozinha; sustenta as suites 02 e 03"),
+    dict(cod="V-01", sobre="T-LOG", vao=3_000, trib=2_700, apoio="biapoiada",
+         carrega="piso", parede_h=2_600, vedacao=True,
+         desc="face aberta da loggia sul; sustenta a parede sul das suites 02 e 03"),
+    dict(cod="V-02", sobre="T-GAR", vao=5_400, trib=3_000, apoio="biapoiada",
+         carrega="cobertura", parede_h=0, vedacao=False,
+         desc="verga do portao PG01 de 5.400 mm"),
+    dict(cod="V-03", sobre="T-GAR", vao=6_000, trib=3_000, apoio="biapoiada",
+         carrega="cobertura", parede_h=0, vedacao=False,
+         desc="vao livre da garagem sem pilar intermediario"),
+    dict(cod="V-04", sobre="T-PAT", vao=3_000, trib=2_400, apoio="biapoiada",
+         carrega="piso", parede_h=2_600, vedacao=True,
+         desc="portico do patio coberto, linha y = 24.000; sustenta a master"),
+    dict(cod="V-05", sobre="T-PAT", vao=3_000, trib=1_800, apoio="biapoiada",
+         carrega="deck", parede_h=0, vedacao=False,
+         desc="portico do patio coberto, linha y = 25.800; sustenta a sacada"),
+    dict(cod="V-06", sobre="T-VRL", vao=4_200, trib=2_520, apoio="biapoiada",
+         carrega="piso", parede_h=2_600, vedacao=True,
+         desc="borda do varal coberto; sustenta a parede norte da master"),
 ]
 VAO_MAX_VIGA = 6_000
 
+
+def carga_viga(v: dict) -> float:
+    """Carga linear de servico (kN/m) da viga, a partir de CARGAS e trib."""
+    trib_m = v["trib"] / 1_000
+    if v["carrega"] == "piso":
+        q = CARGAS["piso_lsf_perm"] + CARGAS["piso_lsf_acid"]
+    elif v["carrega"] == "deck":
+        q = CARGAS["piso_lsf_perm"] + CARGAS["deck_acid"]
+    else:
+        q = CARGAS["cobertura_perm"] + CARGAS["cobertura_acid"]
+    w = q * trib_m
+    if v.get("parede_h"):
+        w += CARGAS["parede_lsf_m"] * (v["parede_h"] / 1_000)
+    return round(w, 2)
+
+
+def tensao_mpa(w_kn_m: float, vao_mm: int, perfil: str,
+               apoio: str = "biapoiada") -> float:
+    """Tensao de flexao de calculo. Wx aproximado por Ix / (h/2)."""
+    p = PERFIS_LAMINADOS[perfil]
+    wx = (p["ix"] * 1e4) / (p["h"] / 2)                      # mm3
+    m = (GAMA_F * w_kn_m * (vao_mm / 1_000) ** 2 / (2 if apoio == "balanco" else 8))
+    return (m * 1e6) / wx                                    # N/mm2
+
+
+def dimensionar_vigas() -> list[dict]:
+    """Resolve cada viga: carga, limite, perfil minimo, flecha, tensao e slip.
+
+    O perfil e escolhido pela FLECHA, nao pela resistencia — em vao curto com
+    vedacao fragil acima, e a flecha que governa, e por margem larga: as tensoes
+    resultantes ficam em torno de 40 % da resistencia. Gastar aco em inercia e
+    mais barato que reparar fissura em gesso pelo resto da vida do edificio.
+    """
+    out = []
+    for v in VIGAS:
+        w = carga_viga(v)
+        lim = FLECHA_LIMITE["vedacao_fragil" if v["vedacao"] else "geral"]
+        perfil, ix, fl = escolher_perfil(w, v["vao"], lim, v["apoio"])
+        sig = tensao_mpa(w, v["vao"], perfil, v["apoio"])
+        slip = int(math.ceil(fl * FOLGA_SLIP)) if v["vedacao"] else 0
+        out.append(dict(v, w=w, limite=lim, perfil=perfil, ix=ix,
+                        flecha=round(fl, 2), flecha_adm=round(v["vao"] / lim, 2),
+                        tensao=round(sig, 1), tensao_adm=round(FY_ACO / GAMA_M, 1),
+                        uso=round(sig / (FY_ACO / GAMA_M) * 100, 1),
+                        slip=slip,
+                        slip_exec=max(10, int(math.ceil(slip / 5.0) * 5)) if slip else 0))
+    return out
+
+
+# caixa d'agua: carga CONCENTRADA, nao distribuida — 2.000 L sobre o core
+APOIO_CAIXA = dict(
+    peso_kg=CAIXA_DAGUA["carga_kg"], vao=CAIXA_DAGUA["w"], perfis=2,
+    desc="dois perfis sob a base, transferindo para as paredes do core; a carga "
+         "de 25 kN em 2,4 m de vao NAO pode descer em vigamento de LSF")
+
+
+
+# =========================================================================
+# FURACAO E PENETRACOES EM LIGHT STEEL FRAME
+#
+# Em alvenaria, furar parede e decisao de obra. Em LSF e decisao de PROJETO:
+# o montante e uma chapa de 0,95 mm que trabalha a compressao, e um furo fora
+# de lugar reduz a carga critica de flambagem local. Pior: o eletricista que
+# descobre isso na obra resolve cortando a aba, que e exatamente onde esta a
+# rigidez. Dai a necessidade de um plano de furacao desenhado.
+#
+# Regras (NBR 15253 e AISI S200):
+#   - furo centrado na alma, nunca nas abas;
+#   - diametro maximo 0,5 x altura da alma (montante 90 mm -> 45 mm);
+#   - distancia minima entre centros de furos: 600 mm;
+#   - distancia minima do furo ao apoio: 250 mm (montante) / 450 mm (viga);
+#   - tubo maior que o furo admissivel NAO passa no montante: passa em shaft,
+#     em forro rebaixado ou em parede de 150 mm com montante duplo.
+# =========================================================================
+FURACAO = dict(
+    frac_alma=0.5, dist_centros=600, dist_apoio_montante=250,
+    dist_apoio_viga=450, reforco="chapa de 1,55 mm parafusada no contorno",
+)
+
+
+def furo_max(perfil: str) -> int:
+    """Diametro maximo de furo admissivel na alma do perfil."""
+    return int(PERFIS_LSF[perfil]["h"] * FURACAO["frac_alma"])
+
+
+# travessias declaradas: o que atravessa o que, e por onde
+PENETRACOES = [
+    dict(cod="PN-01", tipo="esgoto DN100", dn=100, onde="shaft do core",
+         de="S-MAS", para="TC-12", solucao="shaft vertical 300 x 300 mm",
+         obs="DN100 nao cabe em montante de 90 mm: exige shaft, por definicao"),
+    dict(cod="PN-02", tipo="esgoto DN100", dn=100, onde="shaft da suite 02/03",
+         de="S-S02", para="TC-11", solucao="shaft vertical 300 x 300 mm"),
+    dict(cod="PN-03", tipo="agua fria DN25", dn=25, onde="montante",
+         de="TC-02", para="CAIXA_DAGUA", solucao="furo centrado 45 mm"),
+    dict(cod="PN-04", tipo="agua quente PEX DN20", dn=20, onde="montante",
+         de="chuveiros", para="quadro", solucao="furo centrado 45 mm"),
+    dict(cod="PN-05", tipo="linha frigorigena 1/4 + 1/2", dn=40, onde="montante",
+         de="TC-09", para="S-MAS", solucao="furo centrado 45 mm com bucha de "
+         "passagem; isolamento continuo, sem corte na travessia"),
+    dict(cod="PN-06", tipo="duto de insuflamento 250 mm", dn=250,
+         onde="entreforro", de="EVAPORADORA_DUTO", para="DF-01",
+         solucao="entreforro de 400 mm no core e no estar",
+         obs="duto nao atravessa montante em nenhuma hipotese"),
+    dict(cod="PN-07", tipo="exaustao de churrasqueira DN150", dn=150,
+         onde="cobertura", de="EX-01", para="acima da cobertura",
+         solucao="duto em inox com colarinho e rufo; nao encosta em PIR"),
+    dict(cod="PN-08", tipo="eletroduto 25 mm", dn=25, onde="montante",
+         de="TC-05", para="todos", solucao="furo centrado 45 mm"),
+    dict(cod="PN-09", tipo="dreno de condensado DN25", dn=25, onde="montante",
+         de="evaporadoras", para="jardim", solucao="furo centrado com caimento "
+         "minimo de 2 %; sifao antes da descida"),
+]
+ENTREFORRO = PISO_A_PISO - PE_DIREITO      # 400 mm
+SHAFT = dict(w=300, h=300, revestimento="2 chapas RU + la de rocha 50 mm",
+             obs="inspecionavel por alcapao a cada pavimento")
+
+
+# =========================================================================
+# PAGINACAO — piso e revestimento. Paginar no projeto e decidir onde fica o
+# corte; nao paginar e deixar o corte aparecer no lugar mais visivel.
+#
+# Criterio adotado: partir do vao principal do ambiente (a porta ou a janela
+# de maior destaque) e jogar o recorte para o canto menos visto. Recorte menor
+# que 1/3 da peca e proibido: descola e quebra.
+# =========================================================================
+PECA_PISO = dict(l=900, c=900, junta=2, tipo="porcelanato retificado 900 x 900")
+PECA_PAREDE = dict(l=300, c=600, junta=2, tipo="ceramico retificado 300 x 600")
+RECORTE_MIN = 1 / 3          # abaixo disso o recorte desequilibra a leitura
+RECORTE_CRITICO = 1 / 5      # abaixo disso descola e quebra
+
+# ZONAS de paginacao: ambientes que nao tem parede entre si recebem UMA origem
+# so. Paginar cada modulo a partir do proprio canto e o erro que produz a
+# "costura" visivel no meio da sala integrada — duas malhas de junta que se
+# encontram desalinhadas no exato ponto onde nao ha parede para disfarcar.
+ZONAS_PAGINACAO = [
+    dict(cod="ZP-1", peca="piso", origem=(5_400, 13_200),
+         ambientes=["T-SOC", "T-COR", "T-GOU", "T-COZ"],
+         obs="fita social inteira em uma malha: origem no eixo da porta do hall, "
+             "recorte jogado para a parede sul da cozinha, atras da bancada"),
+    dict(cod="ZP-2", peca="piso", origem=(7_800, 19_200), ambientes=["S-MAS"],
+         obs="origem no eixo da porta da suite"),
+    dict(cod="ZP-3", peca="piso", origem=(2_400, 13_200),
+         ambientes=["S-S02", "S-S03"],
+         obs="suites 02 e 03 na mesma malha: a parede entre elas e divisoria, mas "
+             "o hall as percorre e a junta aparece na soleira"),
+    # Zona de PAREDE nao compartilha origem: revestimento vertical e uma
+    # superficie por parede, e a junta de uma parede nao continua na outra. Cada
+    # ambiente pagina do proprio canto e joga o recorte para o canto menos visto.
+    # O que importa na parede e a FIADA DO TOPO: ela e a que se ve na altura dos
+    # olhos. Dai a altura de revestimento ser escolhida como multiplo da peca.
+    dict(cod="ZP-4", peca="parede", altura=2_400, ambientes=["T-BWC"],
+         obs="ate o forro rebaixado de 2.400 (que ja existe para a exaustao): "
+             "3 fiadas inteiras e a do topo com 594 de 600 — imperceptivel"),
+    dict(cod="ZP-5", peca="parede", altura=1_800,
+         ambientes=["T-LAV", "T-DEP", "T-DES"],
+         obs="meia parede de 1.800 mm atras do tanque, das maquinas e das "
+             "prateleiras: 3 fiadas, a do topo com 596 de 600"),
+    dict(cod="ZP-6", peca="monolitico", origem=(2_400, 13_200),
+         ambientes=["T-OFI", "T-GAR"],
+         obs="piso cimenticio polido de alta resistencia: sem paginacao ceramica"),
+]
+
+
+def zona_de(amb_cod: str) -> dict | None:
+    return next((z for z in ZONAS_PAGINACAO if amb_cod in z["ambientes"]), None)
+
+
+def paginar(amb_cod: str) -> dict:
+    """Layout de peca no ambiente a partir da origem da sua ZONA.
+
+    Devolve, por eixo, quantas pecas inteiras cabem e o recorte em CADA ponta —
+    porque a origem raramente coincide com a borda do ambiente, e o recorte do
+    lado de ca tambem existe.
+    """
+    amb = next((a for a in TERREO + SUPERIOR if a.cod == amb_cod), None)
+    z = zona_de(amb_cod)
+    if amb is None or z is None or z["peca"] == "monolitico":
+        return {}
+    peca = PECA_PISO if z["peca"] == "piso" else PECA_PAREDE
+    res = {"zona": z["cod"], "peca": z["peca"]}
+    # piso: uma malha para a zona toda. parede: uma malha por ambiente.
+    orig = z["origem"] if z["peca"] == "piso" else (amb.x, amb.y)
+    for eixo, dim, o, ini, fim in (
+            ("x", peca["l"], orig[0], amb.x, amb.x + amb.w),
+            ("y", peca["c"], orig[1], amb.y, amb.y + amb.h)):
+        passo = dim + peca["junta"]
+        # a malha e infinita a partir da origem, nos dois sentidos
+        k_ini = math.floor((ini - o) / passo)
+        k_fim = math.ceil((fim - o) / passo)
+        borda_ini = o + k_ini * passo
+        borda_fim = o + k_fim * passo
+        rec_ini = int(round(ini - borda_ini))
+        rec_fim = int(round(borda_fim - fim))
+        rec_ini = 0 if rec_ini == 0 else dim - rec_ini
+        rec_fim = 0 if rec_fim == 0 else dim - rec_fim
+        inteiras = (k_fim - k_ini) - sum(1 for r in (rec_ini, rec_fim) if r)
+        piores = [r for r in (rec_ini, rec_fim) if r]
+        res[eixo] = dict(inteiras=inteiras, recorte_ini=rec_ini, recorte_fim=rec_fim,
+                         pior=min(piores) if piores else dim,
+                         ok=not piores or min(piores) >= dim * RECORTE_MIN,
+                         critico=bool(piores) and min(piores) < dim * RECORTE_CRITICO)
+    if z["peca"] == "parede":
+        dim = PECA_PAREDE["c"]
+        passo = dim + PECA_PAREDE["junta"]
+        n = int(z["altura"] // passo)
+        topo = z["altura"] - n * passo
+        res["altura"] = dict(altura=z["altura"], fiadas=n, fiada_topo=int(topo),
+                             ok=(topo == 0 or topo >= dim * 0.5))
+    return res
+
+
+def alturas_revestimento() -> dict[str, int]:
+    """Altura de revestimento por ambiente, a partir das zonas de parede."""
+    return {c: z["altura"] for z in ZONAS_PAGINACAO if z["peca"] == "parede"
+            for c in z["ambientes"]}
+
+
+# =========================================================================
+# ESCADA — verificacao executiva
+# 18 espelhos de 166,67 mm e piso de 300 mm. Blondel: 2h + p = 633,3 mm,
+# dentro da faixa 600-650 recomendada. Altura livre e o que ninguem verifica.
+# =========================================================================
+ESCADA_EXEC = dict(
+    lances=2, espelhos_lance=9, patamar_l=1_000, patamar_c=2_200,
+    altura_livre_min=2_100,        # NBR 9077
+    guarda_corpo=1_100,            # NBR 14718 para pavimento elevado
+    corrimao_h=(920, 700),         # duas alturas: adulto e crianca (NBR 9050)
+    bocel=0, espelho_fechado=True,
+    estrutura="dois perfis U 200 laterais com degraus em chapa dobrada 3 mm",
+    acabamento="degrau em porcelanato 900 x 300 com faixa antiderrapante",
+)
 
 # =========================================================================
 # BANCADAS E PONTOS DE AGUA — declarados no MODELO, nao so no desenho.
@@ -608,6 +1070,10 @@ EQUIPAMENTOS = [
 ]
 
 ARMARIOS = [
+    # o triangulo sob o segundo lance tem altura livre entre 0 e 1.500 mm: nao e
+    # circulacao nem espaco morto, e armario. Declarado para a auditoria saber.
+    dict(cod="AR-05", amb="T-COR", tipo="prateleiras", x=10_800, y=14_400,
+         w=1_200, h=2_100, sob_escada=True),
     dict(cod="AR-02", amb="T-DES", tipo="prateleiras",  x=5_000, y=25_300, w=300, h=1_000),
     dict(cod="AR-03", amb="T-DEP", tipo="prateleiras",  x=9_700, y=22_300, w=2_800, h=300),
     # parede de armarios da oficina: 600 mm de profundidade resolve o deposito

@@ -11,6 +11,7 @@ import pranchas3 as p3
 import desempenho as dp
 import especificacao as ep
 import pranchas4 as p4
+import pranchas5 as p5
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -34,6 +35,13 @@ CADERNO = [
     ("17", "ACESSIBILIDADE E FLUXOS",          lambda: p4.acessibilidade()),
     ("18", "PAGINACAO DE PAINEIS LSF",         lambda: p4.paginacao_lsf()),
     ("19", "ESTUDO DE INSOLACAO",              lambda: p4.insolacao()),
+    # ---- Etapa 2: detalhamento construtivo
+    ("20", "INTERFACE LSF x LAMINADO",         lambda: p5.interface_estrutural()),
+    ("21", "FURACAO E PENETRACOES",            lambda: p5.furacao()),
+    ("22", "AMPLIACOES MOLHADAS — TERREO",     lambda: p5.ampliacoes("T", "22")),
+    ("23", "AMPLIACOES MOLHADAS — SUPERIOR",   lambda: p5.ampliacoes("S", "23")),
+    ("24", "PAGINACAO DE PISO",                lambda: p5.paginacao_piso()),
+    ("25", "ESCADA EXECUTIVA",                 lambda: p5.escada()),
 ]
 
 
