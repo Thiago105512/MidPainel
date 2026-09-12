@@ -113,13 +113,15 @@ INTEGRADOS = {
     frozenset(("T-COZ", "T-GOU")),   # cozinha + gourmet = espaco unico
     frozenset(("T-SOC", "T-GOU")),   # estar/jantar + gourmet = fita social continua
     frozenset(("T-SOC", "T-COR")),   # core/escada aberto para o social (poco de luz)
+    frozenset(("T-HAL", "T-CIR")),   # a circulacao e o proprio hall, em L
 }
 
 TERREO: list[Amb] = [
     # ---- faixa frontal (leste)
     Amb("T-GAR", "GARAGEM",              2_400,  7_200, 6_000, 6_000),
     Amb("T-HAL", "HALL",                 8_400,  9_600, 1_800, 3_600),
-    Amb("T-BWC", "BANHO COMPARTILHADO", 10_200, 10_800, 1_800, 2_400, molhado=True),
+    Amb("T-BWC", "BANHO COMPARTILHADO", 10_200,  9_600, 1_800, 2_400, molhado=True),
+    Amb("T-CIR", "CIRCULACAO",          10_200, 12_000, 1_800, 1_200),
     Amb("T-REV", "QUARTO REVERSIVEL",   12_000,  7_200, 3_000, 6_000),
     # ---- oficina: permanece na face sul, acessada pela garagem
     Amb("T-OFI", "OFICINA",              2_400, 13_200, 3_000, 3_000),
@@ -137,7 +139,7 @@ TERREO: list[Amb] = [
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
 TERREO_ABERTO: list[Amb] = [
     Amb("T-VAR", "VARANDA DE ENTRADA",   8_400,  7_200, 1_800, 2_400, aberto=True),
-    Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 3_600, aberto=True),
+    Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 2_400, aberto=True),
     Amb("T-JNO", "JARDIM NORTE",        15_000,  7_200, 1_800, 6_000, aberto=True),
     Amb("T-LOG", "LOGGIA SUL",           2_400, 16_200, 3_000, 3_000, aberto=True),
     Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 6_000, aberto=True),
@@ -237,11 +239,12 @@ VAOS = [
     ("PG01",  5_400,  7_200, "H", "T"),   # portao da garagem (ventila a garagem)
     ("P01",   9_300,  9_600, "H", "T"),   # entrada principal
     ("P02",   8_400, 12_000, "V", "T"),   # hall -> garagem
-    ("P05",  10_200, 12_000, "V", "T"),   # hall -> banho: de correr (NBR 9050)
-    ("P02",  12_000, 12_000, "V", "T"),   # banho -> quarto reversivel
+    ("P05",  10_200, 10_800, "V", "T"),   # hall -> banho: de correr (NBR 9050)
+    ("P02",  12_000, 12_600, "V", "T"),   # circulacao -> quarto reversivel (acesso proprio)
+    ("P02",  12_000, 10_800, "V", "T"),   # banho -> quarto reversivel
     ("J05",  13_500,  7_200, "H", "T"),   # janela ampla do reversivel (leste)
     ("J01",  15_000, 10_200, "V", "T"),   # janela do reversivel (norte)
-    ("J04",  11_100, 10_800, "H", "T"),   # janela alta do banho
+    ("J04",  11_100,  9_600, "H", "T"),   # janela alta do banho (jardim leste)
     # ---- oficina: garagem de um lado, loggia sul do outro
     ("P04",   3_900, 13_200, "H", "T"),   # garagem -> oficina
     ("P04",   3_900, 16_200, "H", "T"),   # oficina -> loggia sul (saida de material)
@@ -256,6 +259,7 @@ VAOS = [
     ("P04",  12_600, 20_100, "V", "T"),   # lavanderia -> varal coberto
     ("J01",  12_600, 21_600, "V", "T"),   # janela da lavanderia (norte)
     ("P04",  12_600, 22_800, "V", "T"),   # deposito -> varal coberto
+    ("P04",  10_800, 22_200, "H", "T"),   # lavanderia -> deposito (acesso interno)
     ("P04",  10_800, 19_200, "H", "T"),   # core -> lavanderia (acesso interno)
     # ---- faixa social
     ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
@@ -544,9 +548,9 @@ CIRC_BANCADA_DESEJADA = 1_100
 # =========================================================================
 LOUCAS = [
     # banho compartilhado (10.200, 10.800, 1.800 x 2.400)
-    dict(cod="LC-01", amb="T-BWC", tipo="vaso",      x=10_400, y=10_950, w=400, h=650),
-    dict(cod="LC-02", amb="T-BWC", tipo="lavatorio", x=11_050, y=10_950, w=700, h=450),
-    dict(cod="LC-03", amb="T-BWC", tipo="box",       x=10_350, y=12_050, w=900, h=1_000),
+    dict(cod="LC-01", amb="T-BWC", tipo="vaso",      x=10_400, y=9_750, w=400, h=650),
+    dict(cod="LC-02", amb="T-BWC", tipo="lavatorio", x=11_050, y=9_750, w=700, h=450),
+    dict(cod="LC-03", amb="T-BWC", tipo="box",       x=10_350, y=10_850, w=900, h=1_000),
     # suite 02 — banho (2.400, 13.200, 1.800 x 2.400)
     dict(cod="LC-04", amb="S-S02", tipo="vaso",      x=2_600, y=13_350, w=400, h=650),
     dict(cod="LC-05", amb="S-S02", tipo="lavatorio", x=3_250, y=13_350, w=700, h=450),

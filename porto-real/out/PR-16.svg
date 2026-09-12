@@ -45,10 +45,14 @@
 <text x="162.000" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">HALL</text>
 <text x="162.000" y="345.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
 <circle cx="162.000" cy="344.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="174.000,352.000 198.000,352.000 198.000,320.000 174.000,320.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="186.000" y="333.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">BANHO COMPARTILHADO</text>
-<text x="186.000" y="337.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="186.000" cy="336.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
+<polygon points="174.000,368.000 198.000,368.000 198.000,336.000 174.000,336.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="186.000" y="349.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">BANHO COMPARTILHADO</text>
+<text x="186.000" y="353.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<circle cx="186.000" cy="352.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
+<polygon points="174.000,336.000 198.000,336.000 198.000,320.000 174.000,320.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="186.000" y="325.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CIRCULACAO</text>
+<text x="186.000" y="329.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<circle cx="186.000" cy="328.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
 <polygon points="198.000,400.000 238.000,400.000 238.000,320.000 198.000,320.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="218.000" y="357.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">QUARTO REVERSIVEL</text>
 <text x="218.000" y="361.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>

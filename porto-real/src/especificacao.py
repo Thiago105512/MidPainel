@@ -29,7 +29,8 @@ CATEGORIA = {
     "T-SOC": "social", "T-GOU": "social", "T-COZ": "social",
     "T-LAV": "servico", "T-DEP": "servico", "T-DES": "servico",
     "T-OFI": "oficina",
-    "T-HAL": "circulacao", "T-COR": "circulacao", "S-HAL": "circulacao",
+    "T-HAL": "circulacao", "T-CIR": "circulacao", "T-COR": "circulacao",
+    "S-HAL": "circulacao",
     "T-GAR": "apoio", "T-BWC": "molhado",
 }
 MOLHADOS = {"T-BWC", "T-COZ", "T-LAV", "T-GOU"}

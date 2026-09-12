@@ -958,3 +958,71 @@ desenho.
 A auditoria passa de 21 para **31 verificações**. Resultado: **0 erros,
 0 atenções, 7 notas** — três delas documentando o lado de abertura de portas,
 que é especificação de ferragem, não defeito.
+
+---
+
+# Revisão 14 — o quarto reversível só era acessível pelo banheiro
+
+Três perguntas do cliente sobre circulação. Duas confirmaram o projeto; a
+primeira expôs um erro de partido.
+
+## O erro
+
+O grafo de acessos do térreo mostrava:
+
+```
+T-REV  QUARTO REVERSIVEL  ->  ['T-BWC']
+```
+
+**Acesso único pelo banheiro.** Para entrar no quarto — que é também escritório
+e quarto de hóspede — era preciso atravessar o banho compartilhado. Pior: o
+banho serve a área social e os usuários da piscina, de modo que qualquer
+visitante indo ao banheiro passaria a bloquear o acesso ao quarto.
+
+A verificação de conectividade não pegava porque ela só exige que o ambiente
+seja **alcançável**. Alcançável ele era.
+
+## Correção
+
+Inserida uma **circulação de 1.800 × 1.200 mm** (2,16 m²), integrada ao hall,
+que liga o hall diretamente ao quarto. Banho e circulação trocaram de posição
+para que o banho mantivesse face externa:
+
+| | Antes | Depois |
+|---|---|---|
+| Banho compartilhado | (10.200, 10.800) | **(10.200, 9.600)** — janela para o jardim leste |
+| Circulação | — | **(10.200, 12.000)** — hall até o quarto |
+| Acessos do quarto | 1 (pelo banho) | **2** (circulação e banho) |
+
+O banho mantém as duas portas — hall e quarto —, o que era o acerto original.
+O que faltava era o quarto ter porta própria.
+
+Acrescentado também acesso interno **lavanderia → depósito**: o depósito só
+era alcançável pelo varal, obrigando a sair de casa para buscar material de
+limpeza.
+
+## Nova verificação
+
+> Ambiente de permanência prolongada não pode ter como único acesso um
+> ambiente molhado.
+
+Atravessar banheiro para chegar ao quarto é erro de partido, não de desenho —
+e nenhuma verificação anterior o alcançava. A auditoria passa a **32
+verificações**.
+
+## O que as outras duas perguntas confirmaram
+
+**O gourmet é integrado à cozinha e aberto para a piscina.** A integração com a
+cozinha está declarada em `INTEGRADOS`: não há parede entre eles, nem vão — é
+um ambiente só. Para a piscina, o vão PV01 de 3.600 mm abre sobre o alpendre de
+1.200 mm, e a água começa logo depois. O gourmet também está integrado ao
+estar/jantar, formando a fita social contínua.
+
+**A oficina tem duas portas:** uma para a garagem, por onde entra material sem
+passar pela casa, e outra para a loggia sul, que dá saída direta ao exterior.
+Nenhuma delas passa pela área social.
+
+## Áreas
+
+Térreo: 177,84 → **180,00 m²** (os 2,16 m² da circulação). Taxa de ocupação
+22,50 %, CAMT 0,333 — ambos folgados. Auditoria: **0 erros, 0 atenções.**

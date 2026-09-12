@@ -38,8 +38,10 @@
 <text x="110.000" y="360.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">GARAGEM</text>
 <polygon points="150.000,368.000 174.000,368.000 174.000,320.000 150.000,320.000" stroke="#fff" stroke-width="0.18" fill="#dfe6e9" stroke-linejoin="miter"/>
 <text x="162.000" y="344.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">HALL</text>
-<polygon points="174.000,352.000 198.000,352.000 198.000,320.000 174.000,320.000" stroke="#fff" stroke-width="0.18" fill="#dfe6e9" stroke-linejoin="miter"/>
-<text x="186.000" y="336.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">BANHO COMPARTILHADO</text>
+<polygon points="174.000,368.000 198.000,368.000 198.000,336.000 174.000,336.000" stroke="#fff" stroke-width="0.18" fill="#dfe6e9" stroke-linejoin="miter"/>
+<text x="186.000" y="352.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">BANHO COMPARTILHADO</text>
+<polygon points="174.000,336.000 198.000,336.000 198.000,320.000 174.000,320.000" stroke="#fff" stroke-width="0.18" fill="#dfe6e9" stroke-linejoin="miter"/>
+<text x="186.000" y="328.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">CIRCULACAO</text>
 <polygon points="198.000,400.000 238.000,400.000 238.000,320.000 198.000,320.000" stroke="#fff" stroke-width="0.18" fill="#a29bfe" stroke-linejoin="miter"/>
 <text x="218.000" y="360.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">QUARTO REVERSIVEL</text>
 <polygon points="70.000,320.000 110.000,320.000 110.000,280.000 70.000,280.000" stroke="#fff" stroke-width="0.18" fill="#74b9ff" stroke-linejoin="miter"/>

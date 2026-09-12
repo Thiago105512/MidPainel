@@ -22,7 +22,7 @@ PROLONGADA = {"T-REV", "T-SOC", "T-COZ", "T-GOU", "T-OFI",
               "S-S02", "S-S03", "S-MAS"}
 # circulacao, garagem e depositos sao dispensados de iluminacao natural pelo
 # Codigo de Obras; a garagem ventila pelo proprio portao
-DISPENSADOS = {"T-HAL", "S-HAL", "T-COR", "T-GAR", "T-DEP"}
+DISPENSADOS = {"T-HAL", "T-CIR", "S-HAL", "T-COR", "T-GAR", "T-DEP"}
 FRAC_PROLONGADA = 1 / 6
 FRAC_DEMAIS = 1 / 8
 VAO_LIVRE_MIN = 800          # NBR 9050: vao livre de porta
@@ -102,6 +102,29 @@ def grafo(pav: str) -> dict[str, set[str]]:
             g[a].add(b)
             g[b].add(a)
     return g
+
+
+def checar_acesso_por_molhado() -> list[Achado]:
+    """Ambiente de permanencia nao pode ter como unico acesso um ambiente
+    molhado ou privativo de outro. Atravessar banheiro para chegar ao quarto
+    e erro de partido, nao de desenho."""
+    out = []
+    for pav in ("T", "S"):
+        g = grafo(pav)
+        for a_ in _ambs(pav):
+            if a_.cod not in PROLONGADA:
+                continue
+            viz = g.get(a_.cod, set())
+            if not viz:
+                continue
+            molhados = {v for v in viz if any(
+                x.cod == v and (x.molhado or "BANHO" in x.nome)
+                for x in _ambs(pav))}
+            if viz and viz <= molhados:
+                out.append(Achado("ERRO", "Acesso so por ambiente molhado",
+                                  f"{a_.cod} ({a_.nome}) so e alcancavel atravessando "
+                                  f"{', '.join(sorted(viz))}"))
+    return out
 
 
 def checar_conectividade() -> list[Achado]:
@@ -681,7 +704,8 @@ def checar_janela_mobiliario() -> list[Achado]:
 # -------------------------------------------------------- consolidado
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
-            checar_vaos() + checar_iluminacao() + checar_acessibilidade() +
+            checar_vaos() + checar_acesso_por_molhado() +
+            checar_iluminacao() + checar_acessibilidade() +
             checar_metas() + checar_escada() + checar_vedacao() +
             checar_espacos_mortos() + checar_bancadas() + checar_loucas() +
             checar_subdivisoes() + checar_colisao_porta() + checar_janela_mobiliario())
