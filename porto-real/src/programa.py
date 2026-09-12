@@ -1,0 +1,258 @@
+"""
+PROGRAMA DE 63 AUDITORIAS — mapa de cobertura.
+
+Cada auditoria pedida pelo proprietario e classificada em quatro situacoes:
+
+  AUTOMATIZADA  roda no modelo a cada execucao e reprova sozinha
+  PARCIAL       parte roda, parte depende de dado que o modelo ainda nao guarda
+  ANALISE       e julgamento, nao medida: cabe a mim responder e registrar
+  BLOQUEADA     depende de terceiro (sondagem, calculo, concessionaria, laudo)
+
+A classificacao e honesta por construcao: uma auditoria so e AUTOMATIZADA se ha
+funcao de verificacao apontada para ela. Nao existe "verificado" sem verificador.
+"""
+from __future__ import annotations
+
+import inspect
+
+import auditoria as au
+import auditoria2 as a2
+
+# (numero, titulo, [funcoes], situacao, observacao)
+PROGRAMA = [
+    (1, "Historico e decisoes", ["checar_integridade_referencial"], "PARCIAL",
+     "codigos orfaos e duplicados sao automaticos; conflito de DECISAO e "
+     "rastreado em docs/DIVERGENCIAS.md, 20 revisoes com motivo escrito"),
+    (2, "Coerencia global", ["checar_colisoes", "checar_projecao_superior",
+                             "checar_integridade_referencial", "checar_fechamento"],
+     "AUTOMATIZADA", "terreo x superior, arquitetura x instalacoes e decisao "
+     "antiga x nova saem do mesmo modelo: divergir e impossivel por construcao"),
+    (3, "Programa", ["checar_metas", "checar_subdivisoes"], "PARCIAL",
+     "area por ambiente contra alvo e automatica; 'ambiente sem funcao clara' e "
+     "julgamento — hoje nao ha nenhum"),
+    (4, "Localizacao dos ambientes", ["checar_acesso_por_molhado",
+                                      "checar_conectividade", "checar_fluxos"],
+     "AUTOMATIZADA", "adjacencia, privacidade e apoio verificados pelo grafo de vaos"),
+    (5, "Fluxos", ["checar_fluxos", "checar_conectividade"], "AUTOMATIZADA",
+     "cruzamento servico x social, percurso longo e gargalo"),
+    (6, "Areas mortas", ["checar_espacos_mortos", "checar_colisao_porta"],
+     "AUTOMATIZADA", "residuo por celula de malha e espaco atras de porta"),
+    (7, "Eficiencia de area", ["checar_metas"], "AUTOMATIZADA",
+     "proporcao social/intimo/servico/circulacao contra a meta de 8 %"),
+    (8, "Mobiliario", ["checar_bancadas", "checar_loucas", "checar_colisao_porta",
+                       "checar_janela_mobiliario"], "AUTOMATIZADA",
+     "dimensao, posicao, varredura de porta, interferencia com janela e corredor"),
+    (9, "Ergonomia", ["checar_bancadas", "checar_acessibilidade", "checar_cozinha"],
+     "PARCIAL", "alturas e alcances estao na especificacao; uso sentado e "
+     "manobra so em rota acessivel"),
+    (10, "Cozinha", ["checar_cozinha", "checar_bancadas", "checar_loucas"],
+     "AUTOMATIZADA", "triangulo de trabalho, apoio, equipamentos locados, "
+     "circulacao e integracao com o gourmet"),
+    (11, "Gourmet", ["checar_cortina_vidro", "checar_exaustao_odor",
+                     "checar_fronteira_climatica"], "AUTOMATIZADA",
+     "churrasqueira, exaustao, abertura para a piscina, chuva e fumaca"),
+    (12, "Banheiros", ["checar_loucas", "checar_subdivisoes", "checar_hidraulica",
+                       "checar_prumadas", "checar_drenagem"], "AUTOMATIZADA",
+     "layout, circulacao, ventilacao, ralo, impermeabilizacao e prumada"),
+    (13, "Suite master", ["checar_subdivisoes", "checar_prumadas",
+                          "checar_tecnicos", "checar_espacos_mortos"],
+     "AUTOMATIZADA", "area, compartimentos, prumada, ar condicionado e area morta"),
+    (14, "Mini lounge", ["checar_lounge"], "AUTOMATIZADA",
+     "dimensao medida contra o televisor, acustica pela parede do painel, "
+     "climatizacao e necessidade real"),
+    (15, "Suites 02 e 03", ["checar_padronizacao", "checar_subdivisoes"],
+     "AUTOMATIZADA", "espelhamento conferido compartimento a compartimento"),
+    (16, "Paredes", ["checar_vedacao", "checar_malha", "checar_colisoes"],
+     "AUTOMATIZADA", "as paredes sao DERIVADAS da malha: nao existe parede "
+     "desenhada a mao para conferir"),
+    (17, "Portas", ["checar_vaos", "checar_colisao_porta", "checar_acessibilidade",
+                    "checar_padronizacao"], "AUTOMATIZADA",
+     "largura, sentido, colisao, acessibilidade e numero de familias"),
+    (18, "Janelas e esquadrias", ["checar_vaos", "checar_iluminacao",
+                                  "checar_janela_mobiliario", "checar_privacidade",
+                                  "checar_padronizacao"], "AUTOMATIZADA",
+     "posicao, area, insolacao, privacidade, drenagem e padronizacao"),
+    (19, "Ventilacao cruzada", ["checar_ventilacao_cruzada", "checar_chamine"],
+     "AUTOMATIZADA", "faces opostas por grupo integrado, mais o efeito chamine"),
+    (20, "Conforto termico", [], "ANALISE",
+     "calculado na prancha 11 (U, FSo, sombreamento) e na carga de climatizacao; "
+     "nao ha verificacao binaria porque nao ha limite binario"),
+    (21, "Iluminacao natural", ["checar_iluminacao", "checar_profundidade_luz"],
+     "AUTOMATIZADA", "fracao de area por compartimento e profundidade util"),
+    (22, "Acustica", ["checar_vedacao", "checar_lounge", "checar_tecnicos"],
+     "PARCIAL", "adjacencias criticas e famílias de parede sao automaticas; "
+     "Rw composto e calculo, na prancha 11"),
+    (23, "Estrutura", ["checar_estrutura", "checar_projecao_superior",
+                       "checar_altura_livre"], "PARCIAL",
+     "flecha, tensao, vao, apoio e junta de deslizamento; flambagem lateral e "
+     "fundacao dependem de calculo com ART"),
+    (24, "Modulacao", ["checar_malha", "checar_paginacao", "checar_padronizacao"],
+     "AUTOMATIZADA", "toda coordenada multipla de 300, recorte minimo e SKUs"),
+    (25, "Hidraulica", ["checar_hidraulica", "checar_prumadas", "checar_penetracoes"],
+     "AUTOMATIZADA", "pesos, vazao, diametro, velocidade, pressao e alinhamento"),
+    (26, "Esgoto", ["checar_hidraulica", "checar_penetracoes", "checar_tecnicos"],
+     "PARCIAL", "UHC, diametro, shaft e caixas; declividade de cada trecho so "
+     "no projeto executivo de instalacoes"),
+    (27, "Drenagem", ["checar_drenagem", "checar_piscina", "checar_cortina_vidro"],
+     "AUTOMATIZADA", "vazao, calha, descida, ralo por ambiente e trilho da cortina"),
+    (28, "Impermeabilizacao", ["checar_drenagem", "checar_paginacao"], "PARCIAL",
+     "sistema, subida e teste declarados; detalhe de cada transicao e prancha "
+     "de detalhe, nao verificacao"),
+    (29, "Eletrica — carga", ["checar_eletrica"], "AUTOMATIZADA",
+     "demanda, simultaneidade, fator por grupo, condutor e padrao de entrada"),
+    (30, "Eletrica — pontos", ["checar_eletrica"], "PARCIAL",
+     "quantidade por perimetro e automatica; posicao de cada tomada e prancha 27"),
+    (31, "Iluminacao artificial", [], "ANALISE",
+     "cenas, temperatura de cor e IRC estao na prancha 16; lux por ambiente "
+     "depende de luminaria escolhida"),
+    (32, "Protecoes eletricas", [], "BLOQUEADA",
+     "DR, DPS, aterramento e equipotencializacao declarados; dimensionamento "
+     "definitivo exige projeto eletrico com ART"),
+    (33, "Dados, automacao e wi-fi", ["checar_tecnicos"], "PARCIAL",
+     "rack, cameras e access points locados; cabeamento ponto a ponto e executivo"),
+    (34, "HVAC", ["checar_tecnicos", "checar_fronteira_climatica"], "AUTOMATIZADA",
+     "carga por ambiente, capacidade, linha frigorigena, dreno, nicho e ruido"),
+    (35, "Exaustao", ["checar_exaustao_odor", "checar_fronteira_climatica"],
+     "AUTOMATIZADA", "vazao, saida declarada e retorno de odor por vao"),
+    (36, "Cobertura", ["checar_drenagem", "checar_chamine"], "PARCIAL",
+     "area de contribuicao, calha, descida e lanternim; rufo e acesso sao detalhe"),
+    (37, "Fachadas", ["checar_privacidade", "checar_padronizacao"], "ANALISE",
+     "proporcao e coerencia frente/fundos sao julgamento; materiais limitados a "
+     "tres familias, conferido"),
+    (38, "Estanqueidade", ["checar_cortina_vidro", "checar_drenagem"], "PARCIAL",
+     "trilho, ralo e membrana declarados; flashing por encontro e detalhe"),
+    (39, "Piscina", ["checar_piscina"], "AUTOMATIZADA",
+     "dimensao, faixa seca, recirculacao, drenos, succao e casa de maquinas"),
+    (40, "Garagem", ["checar_metas", "checar_estrutura", "checar_drenagem"],
+     "AUTOMATIZADA", "vao sem pilar, manobra, drenagem e reserva de veiculo eletrico"),
+    (41, "Lavanderia e servico", ["checar_loucas", "checar_fluxos",
+                                  "checar_exaustao_odor"], "AUTOMATIZADA",
+     "maquinas, tanque, ventilacao, drenagem e circulacao de servico"),
+    (42, "Armazenamento", ["checar_subdivisoes", "checar_cozinha"], "AUTOMATIZADA",
+     "despensa, rouparia, closet, deposito externo e armarios, todos locados"),
+    (43, "Acessibilidade", ["checar_acessibilidade", "checar_niveis",
+                            "checar_altura_livre"], "AUTOMATIZADA",
+     "vao livre, giro, rota, degrau e altura livre"),
+    (44, "Seguranca", ["checar_seguranca", "checar_altura_livre", "checar_escada"],
+     "AUTOMATIZADA", "guarda-corpo, vidro sinalizado, piso molhado e piscina"),
+    (45, "Manutencao", ["checar_tecnicos", "checar_penetracoes"], "AUTOMATIZADA",
+     "acesso, zona livre de quadro, shaft inspecionavel e faixa tecnica"),
+    (46, "Construtibilidade", ["checar_penetracoes", "checar_paginacao",
+                               "checar_malha"], "PARCIAL",
+     "furacao, paginacao e modulacao; sequencia de obra e planejamento, nao projeto"),
+    (47, "Compatibilizacao", ["checar_penetracoes", "checar_altura_livre",
+                              "checar_estrutura", "checar_prumadas"],
+     "AUTOMATIZADA", "e o cruzamento que o modelo unico resolve na origem"),
+    (48, "Forros", ["checar_fechamento", "checar_penetracoes", "checar_altura_livre"],
+     "AUTOMATIZADA", "altura, entreforro, interferencia e acesso tecnico"),
+    (49, "Pisos e niveis", ["checar_niveis", "checar_paginacao", "checar_drenagem"],
+     "AUTOMATIZADA", "cota, transicao, caimento, soleira e paginacao"),
+    (50, "Marcenaria", ["checar_bancadas", "checar_janela_mobiliario",
+                        "checar_colisao_porta"], "PARCIAL",
+     "modulacao, posicao e interferencia; ferragem e detalhe de fabricacao"),
+    (51, "Padronizacao", ["checar_padronizacao"], "AUTOMATIZADA",
+     "numero de familias por sistema, contra alvo declarado"),
+    (52, "BOM e quantitativos", [], "BLOQUEADA",
+     "quantitativo sai do modelo, mas so faz sentido depois do congelamento; "
+     "perdas e embalagem dependem de fornecedor"),
+    (53, "Custo e value engineering", [], "BLOQUEADA",
+     "sem tabela de precos nao ha auditoria de custo — so a hierarquia de "
+     "investimento da prancha 13"),
+    (54, "Importacao", [], "BLOQUEADA",
+     "tensao, certificacao e reposicao dependem de produto escolhido"),
+    (55, "Legal e urbanistico", ["checar_fechamento"], "PARCIAL",
+     "recuo, taxa, coeficiente e gabarito conferidos contra parametros (H); "
+     "certidao oficial do SU16 e pendencia 1"),
+    (56, "Durabilidade", [], "ANALISE",
+     "UV, umidade e corrosao orientaram a especificacao; nao ha limite binario"),
+    (57, "Privacidade", ["checar_privacidade"], "AUTOMATIZADA",
+     "vao intimo contra rua e divisa, com brise como mitigacao aceita"),
+    (58, "Vistas e eixos visuais", ["checar_cortina_vidro"], "AUTOMATIZADA",
+     "eixo estar-cozinha-gourmet-cortina-piscina, medido em milimetros"),
+    (59, "Flexibilidade futura", ["checar_eletrica", "checar_tecnicos"],
+     "AUTOMATIZADA", "reservas declaradas: veiculo eletrico, fotovoltaica, "
+     "aquecimento de piscina, climatizacao da oficina e da fita social"),
+    (60, "Pos-modificacao", ["*"], "AUTOMATIZADA",
+     "e a execucao INTEIRA do conjunto apos cada mudanca — foi assim que a "
+     "despensa e a cortina de vidro foram validadas"),
+    (61, "Repeticao de solucoes", ["checar_padronizacao"], "PARCIAL",
+     "numero de familias e automatico; 'deve repetir?' e decisao registrada"),
+    (62, "Regressao", ["checar_integridade_referencial", "checar_padronizacao"],
+     "PARCIAL", "orfao e duplicado sao automaticos; perda de decisao validada e "
+     "rastreada pelo historico de revisoes"),
+    (63, "Congelamento final", ["*"], "PARCIAL",
+     "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
+]
+
+
+def _funcoes():
+    d = {}
+    for mod in (au, a2):
+        for nome, fn in inspect.getmembers(mod, inspect.isfunction):
+            if nome.startswith("checar_"):
+                d[nome] = fn
+    return d
+
+
+def todas() -> list:
+    """Todas as funcoes de verificacao dos dois blocos."""
+    fs = _funcoes()
+    return [fs[n] for n in sorted(fs)]
+
+
+def executar() -> dict:
+    """Roda tudo uma vez e devolve achados por funcao."""
+    return {n: fn() for n, fn in sorted(_funcoes().items())}
+
+
+def cobertura() -> dict:
+    fs = _funcoes()
+    por_sit = {}
+    orfas = []
+    usadas = set()
+    for num, titulo, chks, sit, _ in PROGRAMA:
+        por_sit[sit] = por_sit.get(sit, 0) + 1
+        for c in chks:
+            if c == "*":
+                usadas |= set(fs)
+            elif c in fs:
+                usadas.add(c)
+            else:
+                orfas.append((num, c))
+    return dict(situacoes=por_sit, funcoes=len(fs),
+                funcoes_usadas=len(usadas),
+                nao_referenciadas=sorted(set(fs) - usadas),
+                referencias_quebradas=orfas,
+                condicoes=sum(inspect.getsource(f).count("Achado(")
+                              for f in fs.values()))
+
+
+if __name__ == "__main__":
+    res = executar()
+    niveis = {"ERRO": 0, "ATENCAO": 0, "NOTA": 0}
+    for achs in res.values():
+        for a in achs:
+            niveis[a.nivel] += 1
+    cob = cobertura()
+    print("=" * 72)
+    print("PROGRAMA DE 63 AUDITORIAS — COBERTURA")
+    print("=" * 72)
+    for sit in ("AUTOMATIZADA", "PARCIAL", "ANALISE", "BLOQUEADA"):
+        n = cob["situacoes"].get(sit, 0)
+        print(f"  {sit:14} {n:2} auditorias  ({n/len(PROGRAMA)*100:4.1f} %)")
+    print(f"\n  {cob['funcoes']} funcoes de verificacao, {cob['condicoes']} condicoes")
+    print(f"  {cob['funcoes_usadas']} funcoes referenciadas pelo programa")
+    if cob["referencias_quebradas"]:
+        print(f"  REFERENCIAS QUEBRADAS: {cob['referencias_quebradas']}")
+    if cob["nao_referenciadas"]:
+        print(f"  nao referenciadas: {', '.join(cob['nao_referenciadas'])}")
+    print(f"\n  RESULTADO: {niveis['ERRO']} erro(s), {niveis['ATENCAO']} atencao(oes), "
+          f"{niveis['NOTA']} nota(s)")
+    print("=" * 72)
+    for num, titulo, chks, sit, obs in PROGRAMA:
+        achs = [a for c in chks if c in res for a in res[c]]
+        mau = [a for a in achs if a.nivel != "NOTA"]
+        marca = "!!" if mau else ("ok" if achs else "--")
+        print(f"  {num:2} {marca} {sit:12} {titulo}")
+        for a in mau:
+            print(f"        {a.nivel}: {a.item} — {a.detalhe[:90]}")

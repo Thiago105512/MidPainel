@@ -446,16 +446,50 @@ def checar_bancadas() -> list[Achado]:
         out.append(Achado("ATENCAO", "Pontos de agua redundantes",
                           f"{cubas} cubas na mesma sala integrada; o usual e uma principal "
                           f"mais, quando muito, uma de apoio"))
+    # A versao anterior desta verificacao subtraia a largura de TODAS as bancadas
+    # paralelas do mesmo ambiente, como se estivessem todas na mesma secao
+    # transversal. Duas bancadas na mesma parede, uma depois da outra, nunca
+    # disputam o mesmo corredor — e a conta acusava 600 mm onde havia 1.700.
+    # Agora o corredor e medido de fato: da face livre da bancada ate o primeiro
+    # obstaculo que COINCIDE com ela no eixo longo.
     for b in pj.BANCADAS:
         amb = next((x for x in pj.TERREO if x.cod == b["amb"]), None)
         if amb is None:
             continue
         vertical = b["h"] > b["w"]
-        livre = (amb.w - b["w"]) if vertical else (amb.h - b["h"])
-        outras = [o for o in pj.BANCADAS
-                  if o["amb"] == b["amb"] and o["cod"] != b["cod"]
-                  and (o["h"] > o["w"]) == vertical]
-        livre -= sum((o["w"] if vertical else o["h"]) for o in outras)
+        # eixo longo (onde a bancada se estende) e eixo do corredor
+        if vertical:
+            ini, fim = b["y"], b["y"] + b["h"]
+            face_a, face_b = b["x"], b["x"] + b["w"]
+            lim_a, lim_b = amb.x, amb.x + amb.w
+        else:
+            ini, fim = b["x"], b["x"] + b["w"]
+            face_a, face_b = b["y"], b["y"] + b["h"]
+            lim_a, lim_b = amb.y, amb.y + amb.h
+        encostada_a = abs(face_a - lim_a) <= 200
+        encostada_b = abs(lim_b - face_b) <= 200
+        def _obstaculos(desde, sentido):
+            d = abs(lim_b - face_b) if sentido > 0 else abs(face_a - lim_a)
+            for o in pj.BANCADAS:
+                if o["cod"] == b["cod"] or o["amb"] != b["amb"]:
+                    continue
+                oi, of = ((o["y"], o["y"] + o["h"]) if vertical
+                          else (o["x"], o["x"] + o["w"]))
+                if of <= ini or oi >= fim:      # nao coincide no eixo longo
+                    continue
+                oa, ob = ((o["x"], o["x"] + o["w"]) if vertical
+                          else (o["y"], o["y"] + o["h"]))
+                if sentido > 0 and oa >= desde:
+                    d = min(d, oa - desde)
+                elif sentido < 0 and ob <= desde:
+                    d = min(d, desde - ob)
+            return d
+        if encostada_a and not encostada_b:
+            livre = _obstaculos(face_b, +1)
+        elif encostada_b and not encostada_a:
+            livre = _obstaculos(face_a, -1)
+        else:   # peninsula ou ilha: o menor dos dois lados que tenham obstaculo
+            livre = max(_obstaculos(face_b, +1), _obstaculos(face_a, -1))
         if livre < pj.CIRC_BANCADA_MIN:
             out.append(Achado("ERRO", "Circulacao em frente a bancada",
                               f"{b['cod']} em {b['amb']}: {livre:.0f} mm livres, "

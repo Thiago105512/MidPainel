@@ -1789,3 +1789,118 @@ dentro do limite de trilho, folhas fechando o vão, nada de mobiliário na faixa
 nova, que desenha o eixo em planta e em corte.
 
 **PDF ainda não gerado**, conforme combinado.
+
+---
+
+# Revisão 21 — R09: o programa de 63 auditorias
+
+Rodei o programa inteiro. Resultado: **42 funções de verificação, 220 condições,
+0 erros, 0 atenções.** Mas isso só depois de corrigir **seis defeitos** que as
+verificações novas encontraram — três deles no que eu mesmo tinha acabado de
+fazer.
+
+## Cobertura honesta das 63
+
+| situação | quantas | o que significa |
+|---|---|---|
+| **AUTOMATIZADA** | 38 (60,3 %) | roda no modelo e reprova sozinha |
+| **PARCIAL** | 17 (27,0 %) | parte roda, parte depende de dado que o modelo ainda não guarda |
+| **ANÁLISE** | 4 (6,3 %) | é julgamento, não medida — respondido e registrado |
+| **BLOQUEADA** | 4 (6,3 %) | depende de terceiro |
+
+A classificação é honesta por construção: **uma auditoria só é AUTOMATIZADA se
+há função apontada para ela.** Não existe "verificado" sem verificador, e
+`programa.cobertura()` acusa referência quebrada se eu apontar para uma função
+que não existe.
+
+As 4 bloqueadas: protecões elétricas (exige projeto com ART), BOM e
+quantitativos (só faz sentido após o congelamento), custo (sem tabela de preços
+não há auditoria de custo) e importação (depende de produto escolhido).
+
+## Defeito 14 — a minha verificação de bancada estava errada
+
+Ao trazer a despensa de volta, três bancadas da cozinha reprovaram com "600 mm
+livres, mínimo 1.000". Fui conferir: **o corredor real tem 1.700 mm.**
+
+A verificação subtraía a largura de **todas** as bancadas paralelas do ambiente,
+como se estivessem todas na mesma seção transversal. Duas bancadas na mesma
+parede, uma depois da outra, nunca disputam o mesmo corredor. Corrigida para
+medir da face livre até o primeiro obstáculo que **coincide no eixo longo**.
+
+Antes da R08 o defeito estava latente: BC-02 era horizontal e por isso não era
+subtraída. A mudança de layout expôs o erro. É o argumento da auditoria 60
+(pós-modificação) funcionando ao contrário do esperado — a modificação auditou
+o auditor.
+
+## Defeito 15 — quatro equipamentos de cozinha sem posição
+
+Lava-louças, lixo, forno e micro-ondas apareciam no **quadro de cargas
+elétricas** e não tinham posição nenhuma no modelo. Sem posição não há
+verificação de circulação, de tomada, de sifão nem de porta batendo neles.
+
+Locados: lava-louças embutido ao lado da cuba (mesmo sifão), lixo em gaveta dupla
+sob a cuba, forno e micro-ondas em torre quente junto à despensa — **fora do
+triângulo de trabalho e fora da circulação da cuba**.
+
+## Defeito 16 — triângulo de trabalho de 9,96 m
+
+Com a despensa reposicionada eu tinha mandado a geladeira para a frente da
+cozinha e a cuba para o fundo: geladeira–cuba ficou com **4,83 m**, e o triângulo
+somou 9,96 m contra o máximo de 8,00.
+
+Corrigido encostando a geladeira na península, que passa a ser **a bancada de
+apoio ao lado dela** — a prática pede 400 mm de pouso junto à porta da geladeira,
+e agora são 1.200. Triângulo: **7,13 m**, dentro da faixa.
+
+## Defeito 17 — o banho da master descia sobre área aberta
+
+A verificação nova de prumadas acusou: o banheiro da master estava sobre o
+**varal coberto**, que é área aberta. A prumada de esgoto desceria onde não há
+parede para embuti-la — exigiria desvio horizontal em forro.
+
+Corrigido **trocando banho e closet de lugar**. O banho passou para x 9.000–12.000
+e agora cai **80 % sobre a lavanderia**: molhado sobre molhado, prumada reta de
+3 m, e os 600 mm restantes caem sobre o gourmet, que é fechado. **Nenhuma parte
+sobre área aberta.** O closet manteve os 10,80 m² e ganhou a janela alta que era
+do banho — o que é melhor: closet fechado em cidade com 80 % de umidade precisa
+de ventilação mais do que banheiro precisa de vista.
+
+## Defeito 18 — janelas de dormitório a 2,4 m da divisa
+
+As duas janelas amplas das suítes 02 e 03 ficam a 2.400 mm da divisa sul com
+peitoril de 1.100 mm — altura de olho de quem passa no recuo do vizinho.
+
+Corrigido com **brise ripado vertical fixo** (BR-S2 e BR-S3), na mesma família de
+alumínio grafite do portão e da fachada. Resolve privacidade e sol rasante de uma
+vez, com zero manutenção. A verificação passou a aceitar brise declarado como
+mitigação — e só quando ele de fato cobre o vão.
+
+## Defeito 19 — a verificação de profundidade de luz media a dimensão errada
+
+Acusou a cozinha (3 × 7,2 m) como "mais funda que a luz alcança", comparando
+7.200 mm contra os 5.750 de alcance. Errado: a janela está na **parede longa**, e
+a luz atravessa os 3.000 mm da largura, não os 7.200 do comprimento.
+
+A profundidade tem de ser medida **perpendicular à face onde está o vão**.
+Corrigido, e com o bônus de tratar vãos em faces opostas (cada um vence metade).
+
+## Uma família a menos
+
+A auditoria 51 acusou 3 famílias de bancada contra o alvo de 2. Unifiquei: a
+bancada da oficina passou de MDF para granito. Não é economia de material — é que
+**a oficina é o ambiente de maior abrasão e umidade da casa**, e unificar derruba
+um SKU do quadro de compras.
+
+## O que o programa mostra sobre o método
+
+As auditorias 2, 16 e 47 (coerência global, paredes, compatibilização) aparecem
+como AUTOMATIZADA com uma observação que vale mais que o resultado: **elas não
+podem falhar por construção.** As paredes são derivadas da malha, não desenhadas;
+as 35 pranchas leem o mesmo modelo. Não existe prancha divergindo de prancha
+porque não existe segunda fonte.
+
+A auditoria 60 (pós-modificação) é a execução inteira do conjunto após cada
+mudança — e foi exatamente assim que a despensa, a cortina de vidro e a troca
+banho/closet foram validadas nesta sessão.
+
+**35 pranchas constroem. PDF ainda não gerado, conforme combinado.**

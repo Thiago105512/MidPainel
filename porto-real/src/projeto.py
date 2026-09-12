@@ -235,12 +235,23 @@ SUBDIVISOES = [
          face="N", pos=19_200, vao=800),
     dict(pai="S-S03", nome="CLOSET", x=2_400, y=20_400, w=600,   h=2_400,
          face="N", pos=21_600, vao=800),
+    # ---- R08: a despensa volta, mas na PONTA DE SERVICO da cozinha, nao
+    # atravessada entre ela e a piscina. Ganha a melhor adjacencia possivel: a
+    # porta de servico da loggia abre DENTRO dela, e a compra desce do carro
+    # para a prateleira sem atravessar a cozinha. 3,78 m2 contra os 3,60 m2 da
+    # despensa antiga, com prateleira nos dois lados e 1.200 mm de circulacao.
+    dict(pai="T-COZ", nome="DESPENSA", x=2_400, y=19_200, w=1_800, h=2_100,
+         face="O", pos=3_300, vao=800),
     # ---- master R06. O corredor de entrada de 1.200 mm (x 7.800 a 9.000) e a
     # unica circulacao exclusiva da suite: 3,60 m2 em 46,80, ou 7,7 %.
-    dict(pai="S-MAS", nome="CLOSET", x=9_000,  y=19_200, w=3_600, h=3_000,
-         face="O", pos=10_800, vao=800),
-    dict(pai="S-MAS", nome="BANHO",  x=12_600, y=19_200, w=3_000, h=3_000,
-         face="O", pos=13_200, vao=800),
+    # R09 — banho e closet TROCARAM de lugar. O banho estava sobre o varal
+    # coberto, ou seja, sobre area aberta: a prumada de esgoto descia onde nao ha
+    # parede para embuti-la. Agora o banho cai sobre a LAVANDERIA — molhado sobre
+    # molhado, prumada de 3 m em vez de desvio horizontal em forro.
+    dict(pai="S-MAS", nome="BANHO",  x=9_000,  y=19_200, w=3_000, h=3_000,
+         face="O", pos=9_600, vao=800),
+    dict(pai="S-MAS", nome="CLOSET", x=12_000, y=19_200, w=3_600, h=3_000,
+         face="O", pos=12_900, vao=800),
     dict(pai="S-MAS", nome="OFFICE", x=13_800, y=22_200, w=1_800, h=3_000,
          face="S", pos=23_700, vao=800),
 ]
@@ -288,8 +299,8 @@ VAOS = [
     ("P04",   3_900, 16_200, "H", "T"),   # oficina -> loggia sul (saida de material)
     ("J05",   2_400, 14_700, "V", "T"),   # janela ampla da oficina (sul)
     # ---- cozinha e despensa
-    ("P04",   3_900, 19_200, "H", "T"),   # loggia sul -> cozinha (servico)
-    ("J01",   2_400, 21_000, "V", "T"),   # janela da cozinha (sul)
+    ("P04",   3_300, 19_200, "H", "T"),   # loggia sul -> DESPENSA (servico)
+    ("J01",   2_400, 24_000, "V", "T"),   # janela da cozinha, sobre a cuba (sul)
     # R07 — a segunda janela sul da cozinha saiu: com 7,20 m de cortina de vidro
     # a tres metros, a parede vale mais como armario do que como vao. Iluminacao
     # e ventilacao conferidas em conjunto com o gourmet, que e o mesmo ambiente.
@@ -325,7 +336,7 @@ VAOS = [
     ("J05",   7_800, 24_000, "V", "S"),   # dormitorio master (sul)
     ("PV02",  9_600, 25_200, "H", "S"),   # dormitorio master -> varanda
     ("J05",  12_000, 25_200, "H", "S"),   # dormitorio master -> varanda
-    ("J04",  15_600, 20_700, "V", "S"),   # janela alta banho master (norte)
+    ("J04",  15_600, 20_700, "V", "S"),   # janela alta do closet master (norte)
     ("J01",  15_600, 23_700, "V", "S"),   # janela do office master (norte)
 
 ]
@@ -569,6 +580,16 @@ BRISES = [
     dict(cod="BR-L", face="L", x=12_000, y=7_200, w=3_000, h=150,
          tipo="ripado vertical fixo", passo=150,
          desc="quarto reversivel - testada leste"),
+    # R09 — as duas janelas amplas das suites ficam a 2.400 mm da divisa sul com
+    # peitoril de 1.100: altura de olho de quem passa no recuo do vizinho. Brise
+    # ripado vertical fixo resolve privacidade e sol rasante de uma vez, na mesma
+    # familia de aluminio grafite do portao e da fachada.
+    dict(cod="BR-S2", face="S", x=2_400, y=15_900, w=1_800, h=150,
+         tipo="ripado vertical fixo", passo=80,
+         desc="janela ampla da suite 02 — privacidade contra a divisa sul"),
+    dict(cod="BR-S3", face="S", x=2_400, y=20_700, w=1_800, h=150,
+         tipo="ripado vertical fixo", passo=80,
+         desc="janela ampla da suite 03 — privacidade contra a divisa sul"),
     dict(cod="BR-OS", face="O", x=10_200, y=22_800, w=6_000, h=150,
          tipo="ripado vertical movel", passo=150,
          desc="varanda master - pavimento superior"),
@@ -1171,15 +1192,19 @@ ESCADA_EXEC = dict(
 # e triplicar o ponto de agua dentro da mesma sala.
 # =========================================================================
 BANCADAS = [
-    # R07 — encurtada de 4.700 para 3.800 para abrir lugar a parede de armarios
-    # que substituiu a despensa, mantendo 1.200 mm livres antes da cortina
-    dict(cod="BC-01", amb="T-COZ", x=2_500, y=19_900, w=600, h=3_800,
+    # R08 — a cuba vai para o FUNDO da bancada, sob a janela e de frente para a
+    # cortina: quem lava louca olha para a piscina. Era o unico posto de trabalho
+    # fixo da casa que ainda ficava de costas para a vista.
+    dict(cod="BC-01", amb="T-COZ", x=2_500, y=23_100, w=600, h=2_100,
          prof=600, cubas=1, cooktop=False, tipo="granito",
-         uso="bancada principal de preparo e lavagem"),
-    dict(cod="BC-02", amb="T-COZ", x=3_100, y=19_300, w=2_200, h=600,
+         uso="cuba e preparo, sob a janela e de frente para a cortina"),
+    # a coccao migrou da parede de servico para a mesma parede da cuba: um unico
+    # plano de trabalho continuo de 3.900 mm, com a coifa subindo pela fachada
+    # sul e o duto fora de qualquer montante
+    dict(cod="BC-02", amb="T-COZ", x=2_500, y=21_300, w=600, h=1_800,
          prof=600, cubas=0, cooktop=True, tipo="granito",
-         uso="coccao — cooktop e apoio"),
-    dict(cod="BC-03", amb="T-COZ", x=4_800, y=21_600, w=1_200, h=2_400,
+         uso="coccao — cooktop e apoio, junto a despensa"),
+    dict(cod="BC-03", amb="T-COZ", x=4_800, y=22_200, w=1_200, h=2_400,
          prof=600, cubas=0, cooktop=False, tipo="granito",
          uso="peninsula SECA: apoio, servico e refeicao rapida"),
     # R07 — a bancada estava encostada na parede do FUNDO, ocupando 3.900 dos
@@ -1193,8 +1218,10 @@ BANCADAS = [
          prof=600, cubas=1, cooktop=False, tipo="tanque",
          uso="tanque de lavanderia"),
     dict(cod="BC-06", amb="T-OFI", x=2_500, y=13_500, w=600, h=2_400,
-         prof=600, cubas=0, cooktop=False, tipo="MDF",
-         uso="bancada de trabalho da oficina, sob a janela"),
+         prof=600, cubas=0, cooktop=False, tipo="granito",
+         uso="bancada de trabalho da oficina, sob a janela — granito em vez de "
+             "MDF: a oficina e o ambiente de maior abrasao e umidade da casa, e "
+             "unificar o material derruba uma familia do quadro de compras"),
 ]
 
 # folgas minimas de circulacao em frente a bancada (briefing)
@@ -1220,16 +1247,30 @@ LOUCAS = [
     dict(cod="LC-08", amb="S-S03", tipo="lavatorio", x=3_250, y=18_150, w=700, h=450),
     dict(cod="LC-09", amb="S-S03", tipo="box",       x=2_550, y=19_300, w=900, h=1_000),
     # suite master — banho (11.400, 19.200, 2.400 x 3.000)
-    dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=12_800, y=19_400, w=400, h=650),
-    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=13_500, y=19_300, w=1_800, h=500),
-    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=12_700, y=20_700, w=1_400, h=1_400),
+    # R09 — seguem o banho, que passou a cair sobre a lavanderia
+    dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=9_200,  y=19_400, w=400, h=650),
+    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=9_900,  y=19_300, w=1_800, h=500),
+    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=10_300, y=20_700, w=1_400, h=1_400),
     # lavanderia
     dict(cod="LC-13", amb="T-LAV", tipo="tanque",    x=9_750, y=19_350, w=600, h=550),
 ]
 
 EQUIPAMENTOS = [
-    dict(cod="EQ-01", amb="T-COZ", tipo="geladeira", x=4_400, y=24_450, w=900, h=750,
-         abertura=900, uso="nicho de 900 mm previsto no briefing"),
+    dict(cod="EQ-01", amb="T-COZ", tipo="geladeira", x=4_400, y=21_450, w=900, h=750,
+         abertura=900, uso="nicho de 900 mm; encostada na despensa, formando uma zona de estoque unica junto a porta de servico"),
+    # R09 — quatro equipamentos apareciam no quadro de cargas eletricas e NAO
+    # tinham posicao no modelo. Sem posicao nao ha verificacao de circulacao, de
+    # tomada, de sifao nem de porta batendo neles. Locados:
+    dict(cod="EQ-04", amb="T-COZ", tipo="lava-loucas", x=2_500, y=22_500, w=600,
+         h=600, abertura=600, uso="embutido sob a bancada, ao lado da cuba: a "
+         "mangueira de descarga usa o mesmo sifao"),
+    dict(cod="EQ-05", amb="T-COZ", tipo="lixo", x=3_150, y=24_450, w=450, h=600,
+         abertura=450, uso="cesto duplo em gaveta sob a cuba — seco e organico"),
+    dict(cod="EQ-06", amb="T-COZ", tipo="forno", x=4_400, y=20_100, w=600, h=600,
+         abertura=600, uso="torre quente junto a despensa, fora do triangulo de "
+         "trabalho e fora da circulacao da cuba"),
+    dict(cod="EQ-07", amb="T-COZ", tipo="micro-ondas", x=4_400, y=20_700, w=600,
+         h=600, abertura=600, uso="na mesma torre do forno, a 1.400 mm do piso"),
     dict(cod="EQ-02", amb="T-LAV", tipo="lavadora",  x=9_750, y=20_050, w=600, h=600,
          abertura=600, uso="base antivibratoria"),
     dict(cod="EQ-03", amb="T-LAV", tipo="secadora",  x=9_750, y=20_750, w=600, h=600,
@@ -1244,8 +1285,10 @@ ARMARIOS = [
     # a despensa de 3,60 m2 virou parede de armarios de 600 mm de profundidade:
     # 1,80 m de frente com prateleira funda rende mais que 3,00 m de prateleira
     # rasa, e devolve a cozinha a parede do fundo, que e o que interessa aqui
-    dict(cod="AR-06", amb="T-COZ", tipo="armario alto", x=2_400, y=23_700,
-         w=600, h=1_500),
+    dict(cod="AR-06", amb="T-COZ", tipo="prateleiras", x=2_400, y=19_200,
+         w=300, h=2_100),
+    dict(cod="AR-07", amb="T-COZ", tipo="prateleiras", x=3_900, y=19_200,
+         w=300, h=2_100),
     dict(cod="AR-03", amb="T-DEP", tipo="prateleiras",  x=9_700, y=22_300, w=2_800, h=300),
     # parede de armarios da oficina: 600 mm de profundidade resolve o deposito
     # proprio sem transferir area de nenhum ambiente
@@ -1541,7 +1584,7 @@ EXAUSTAO = [
     dict(cod="EX-01", amb="T-GOU", fonte="churrasqueira", vazao_m3h=600,
          dn=150, obs="coifa de parede, duto em inox ate acima da cobertura"),
     dict(cod="EX-02", amb="T-COZ", fonte="cooktop", vazao_m3h=450, dn=125,
-         obs="coifa de ilha sobre BC-02, saida pela fachada sul"),
+         obs="coifa de parede sobre BC-02, duto subindo pela fachada sul"),
     dict(cod="EX-03", amb="T-BWC", fonte="banho social", vazao_m3h=90, dn=100),
     dict(cod="EX-04", amb="T-LAV", fonte="lavanderia", vazao_m3h=120, dn=100,
          obs="retira umidade da secadora e do tanque"),
