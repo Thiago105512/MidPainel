@@ -28,7 +28,7 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">31</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 33</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 34</text>
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Locacao e o unico desenho em que o erro nao tem conserto barato: a casa sai do lugar.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Cada canto e cotado das DUAS divisas, nunca em cadeia acumulada — erro de cadeia soma, erro de referencia independente nao.</text>
@@ -93,17 +93,18 @@
 <polygon points="162.000,78.000 180.000,78.000 180.000,54.000 162.000,54.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <polygon points="210.000,78.000 228.000,78.000 228.000,18.000 210.000,18.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <polygon points="84.000,-12.000 114.000,-12.000 114.000,-42.000 84.000,-42.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="180.000,18.000 228.000,18.000 228.000,-42.000 180.000,-42.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="180.000,18.000 228.000,18.000 228.000,-18.000 180.000,-18.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="180.000,-18.000 228.000,-18.000 228.000,-42.000 180.000,-42.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <polygon points="186.000,-42.000 228.000,-42.000 228.000,-84.000 186.000,-84.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="156.000,-84.000 198.000,-84.000 198.000,-108.000 156.000,-108.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="198.000,-84.000 228.000,-84.000 228.000,-108.000 198.000,-108.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="156.000,-84.000 216.000,-84.000 216.000,-120.000 156.000,-120.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="216.000,-84.000 228.000,-84.000 228.000,-120.000 216.000,-120.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <polygon points="114.000,-114.000 156.000,-114.000 156.000,-126.000 114.000,-126.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="102.000,-126.000 174.000,-126.000 174.000,-168.000 102.000,-168.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="102.000,-126.000 180.000,-126.000 180.000,-180.000 102.000,-180.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <polygon points="84.000,-114.000 114.000,-114.000 114.000,-126.000 84.000,-126.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="84.000,-126.000 102.000,-126.000 102.000,-168.000 84.000,-168.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="156.000,-108.000 174.000,-108.000 174.000,-126.000 156.000,-126.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="174.000,-108.000 228.000,-108.000 228.000,-168.000 174.000,-168.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="84.000,-168.000 228.000,-168.000 228.000,-246.000 84.000,-246.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="84.000,-126.000 102.000,-126.000 102.000,-180.000 84.000,-180.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="156.000,-120.000 180.000,-120.000 180.000,-126.000 156.000,-126.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="180.000,-120.000 228.000,-120.000 228.000,-180.000 180.000,-180.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="84.000,-180.000 228.000,-180.000 228.000,-246.000 84.000,-246.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <polygon points="83.250,78.000 84.750,78.000 84.750,-12.000 83.250,-12.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
 <polygon points="83.250,-42.000 84.750,-42.000 84.750,-114.000 83.250,-114.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
 <polygon points="113.500,18.000 114.500,18.000 114.500,-12.000 113.500,-12.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>

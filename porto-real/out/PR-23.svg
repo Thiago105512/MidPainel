@@ -28,7 +28,7 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">23</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 33</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 34</text>
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Paginacao de piso em linha fina: a malha vem da ZONA de paginacao, nao do canto do ambiente.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Peca de piso porcelanato retificado 900 x 900; parede ceramico retificado 300 x 600; junta 2 mm.</text>
@@ -47,22 +47,29 @@
 <polygon points="262.000,-2.000 266.000,-2.000 266.000,-8.000 262.000,-8.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="262.000,-44.000 266.000,-44.000 266.000,-56.000 262.000,-56.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="262.000,-92.000 266.000,-92.000 266.000,-242.000 262.000,-242.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="261.000,-242.000 267.000,-242.000 267.000,-290.000 261.000,-290.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="357.000,-2.000 363.000,-2.000 363.000,-98.000 357.000,-98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="501.000,-98.000 507.000,-98.000 507.000,-142.000 501.000,-142.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="501.000,-174.000 507.000,-174.000 507.000,-290.000 501.000,-290.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="261.000,-242.000 267.000,-242.000 267.000,-254.000 261.000,-254.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="261.000,-326.000 267.000,-326.000 267.000,-338.000 261.000,-338.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="429.000,-2.000 435.000,-2.000 435.000,-98.000 429.000,-98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="453.000,-38.000 459.000,-38.000 459.000,-98.000 453.000,-98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="573.000,-2.000 579.000,-2.000 579.000,-26.000 573.000,-26.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="573.000,-74.000 579.000,-74.000 579.000,-142.000 573.000,-142.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="573.000,-174.000 579.000,-174.000 579.000,-254.000 573.000,-254.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="573.000,-302.000 579.000,-302.000 579.000,-338.000 573.000,-338.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="48.000,145.000 84.000,145.000 84.000,139.000 48.000,139.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="108.000,145.000 168.000,145.000 168.000,139.000 108.000,139.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="216.000,145.000 264.000,145.000 264.000,139.000 216.000,139.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="264.000,1.000 360.000,1.000 360.000,-5.000 264.000,-5.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="264.000,1.000 432.000,1.000 432.000,-5.000 264.000,-5.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="456.000,1.000 576.000,1.000 576.000,-5.000 456.000,-5.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="48.000,-48.000 264.000,-48.000 264.000,-52.000 48.000,-52.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="264.000,-96.000 294.000,-96.000 294.000,-100.000 264.000,-100.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="330.000,-96.000 360.000,-96.000 360.000,-100.000 330.000,-100.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="360.000,-95.000 504.000,-95.000 504.000,-101.000 360.000,-101.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="264.000,-96.000 270.000,-96.000 270.000,-100.000 264.000,-100.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="306.000,-96.000 432.000,-96.000 432.000,-100.000 306.000,-100.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="432.000,-95.000 456.000,-95.000 456.000,-101.000 432.000,-101.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="456.000,-96.000 576.000,-96.000 576.000,-100.000 456.000,-100.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="48.000,-239.000 168.000,-239.000 168.000,-245.000 48.000,-245.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="216.000,-239.000 264.000,-239.000 264.000,-245.000 216.000,-245.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="336.000,-287.000 366.000,-287.000 366.000,-293.000 336.000,-293.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="402.000,-287.000 504.000,-287.000 504.000,-293.000 402.000,-293.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="264.000,-335.000 288.000,-335.000 288.000,-341.000 264.000,-341.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="384.000,-335.000 396.000,-335.000 396.000,-341.000 384.000,-341.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="468.000,-335.000 576.000,-335.000 576.000,-341.000 468.000,-341.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <line x1="262.000" y1="-8.000" x2="266.000" y2="-8.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="262.000" y1="-44.000" x2="266.000" y2="-44.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="264.000" y1="-8.000" x2="300.000" y2="-8.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
@@ -71,10 +78,20 @@
 <line x1="262.000" y1="-92.000" x2="266.000" y2="-92.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="264.000" y1="-56.000" x2="300.000" y2="-56.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <path d="M 300.000 -56.000 A 36.000 36.000 0 0 1 264.000 -20.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="294.000" y1="-96.000" x2="294.000" y2="-100.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="330.000" y1="-96.000" x2="330.000" y2="-100.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="294.000" y1="-98.000" x2="294.000" y2="-134.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 294.000 -134.000 A 36.000 36.000 0 0 1 330.000 -98.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="270.000" y1="-96.000" x2="270.000" y2="-100.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="306.000" y1="-96.000" x2="306.000" y2="-100.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="270.000" y1="-98.000" x2="270.000" y2="-134.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 270.000 -134.000 A 36.000 36.000 0 0 1 306.000 -98.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="453.000" y1="-2.000" x2="459.000" y2="-2.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="453.000" y1="-38.000" x2="459.000" y2="-38.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="456.000" y1="-2.000" x2="492.000" y2="-2.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 492.000 -2.000 A 36.000 36.000 0 0 1 456.000 34.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="573.000" y1="-26.000" x2="573.000" y2="-74.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="575.000" y1="-26.000" x2="575.000" y2="-74.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="577.000" y1="-26.000" x2="577.000" y2="-74.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="579.000" y1="-26.000" x2="579.000" y2="-74.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="573.000" y1="-26.000" x2="579.000" y2="-26.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="573.000" y1="-74.000" x2="579.000" y2="-74.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="45.000" y1="34.000" x2="45.000" y2="-38.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="47.000" y1="34.000" x2="47.000" y2="-38.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="49.000" y1="34.000" x2="49.000" y2="-38.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
@@ -111,24 +128,34 @@
 <line x1="51.000" y1="-58.000" x2="51.000" y2="-90.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="45.000" y1="-58.000" x2="51.000" y2="-58.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="45.000" y1="-90.000" x2="51.000" y2="-90.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="264.000" y1="-287.000" x2="336.000" y2="-287.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="264.000" y1="-289.000" x2="336.000" y2="-289.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="264.000" y1="-291.000" x2="336.000" y2="-291.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="264.000" y1="-293.000" x2="336.000" y2="-293.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="264.000" y1="-287.000" x2="264.000" y2="-293.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="336.000" y1="-287.000" x2="336.000" y2="-293.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="366.000" y1="-287.000" x2="402.000" y2="-287.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="366.000" y1="-289.000" x2="402.000" y2="-289.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="366.000" y1="-291.000" x2="402.000" y2="-291.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="366.000" y1="-293.000" x2="402.000" y2="-293.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="366.000" y1="-287.000" x2="366.000" y2="-293.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="402.000" y1="-287.000" x2="402.000" y2="-293.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="501.000" y1="-142.000" x2="501.000" y2="-174.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="503.000" y1="-142.000" x2="503.000" y2="-174.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="505.000" y1="-142.000" x2="505.000" y2="-174.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="507.000" y1="-142.000" x2="507.000" y2="-174.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="501.000" y1="-142.000" x2="507.000" y2="-142.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="501.000" y1="-174.000" x2="507.000" y2="-174.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="261.000" y1="-254.000" x2="261.000" y2="-326.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="263.000" y1="-254.000" x2="263.000" y2="-326.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="265.000" y1="-254.000" x2="265.000" y2="-326.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="267.000" y1="-254.000" x2="267.000" y2="-326.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="261.000" y1="-254.000" x2="267.000" y2="-254.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="261.000" y1="-326.000" x2="267.000" y2="-326.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="288.000" y1="-335.000" x2="288.000" y2="-341.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="384.000" y1="-335.000" x2="384.000" y2="-341.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="288.000" y1="-337.000" x2="340.800" y2="-337.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="331.200" y1="-339.000" x2="384.000" y2="-339.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="396.000" y1="-335.000" x2="468.000" y2="-335.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="396.000" y1="-337.000" x2="468.000" y2="-337.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="396.000" y1="-339.000" x2="468.000" y2="-339.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="396.000" y1="-341.000" x2="468.000" y2="-341.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="396.000" y1="-335.000" x2="396.000" y2="-341.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="468.000" y1="-335.000" x2="468.000" y2="-341.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="573.000" y1="-142.000" x2="573.000" y2="-174.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="575.000" y1="-142.000" x2="575.000" y2="-174.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="577.000" y1="-142.000" x2="577.000" y2="-174.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="579.000" y1="-142.000" x2="579.000" y2="-174.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="573.000" y1="-142.000" x2="579.000" y2="-142.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="573.000" y1="-174.000" x2="579.000" y2="-174.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="573.000" y1="-254.000" x2="573.000" y2="-302.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="575.000" y1="-254.000" x2="575.000" y2="-302.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="577.000" y1="-254.000" x2="577.000" y2="-302.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="579.000" y1="-254.000" x2="579.000" y2="-302.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="573.000" y1="-254.000" x2="579.000" y2="-254.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="573.000" y1="-302.000" x2="579.000" y2="-302.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="48.000" y1="142.000" x2="48.000" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="84.080" y1="142.000" x2="84.080" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="120.160" y1="142.000" x2="120.160" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -181,22 +208,29 @@
 <polygon points="462.000,190.000 466.000,190.000 466.000,184.000 462.000,184.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="462.000,148.000 466.000,148.000 466.000,136.000 462.000,136.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="462.000,100.000 466.000,100.000 466.000,-50.000 462.000,-50.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="461.000,-50.000 467.000,-50.000 467.000,-98.000 461.000,-98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="557.000,190.000 563.000,190.000 563.000,94.000 557.000,94.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="701.000,94.000 707.000,94.000 707.000,50.000 701.000,50.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="701.000,18.000 707.000,18.000 707.000,-98.000 701.000,-98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="461.000,-50.000 467.000,-50.000 467.000,-62.000 461.000,-62.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="461.000,-134.000 467.000,-134.000 467.000,-146.000 461.000,-146.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="629.000,190.000 635.000,190.000 635.000,94.000 629.000,94.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="653.000,154.000 659.000,154.000 659.000,94.000 653.000,94.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="773.000,190.000 779.000,190.000 779.000,166.000 773.000,166.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="773.000,118.000 779.000,118.000 779.000,50.000 773.000,50.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="773.000,18.000 779.000,18.000 779.000,-62.000 773.000,-62.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="773.000,-110.000 779.000,-110.000 779.000,-146.000 773.000,-146.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="248.000,337.000 284.000,337.000 284.000,331.000 248.000,331.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="308.000,337.000 368.000,337.000 368.000,331.000 308.000,331.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="416.000,337.000 464.000,337.000 464.000,331.000 416.000,331.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="464.000,193.000 560.000,193.000 560.000,187.000 464.000,187.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="464.000,193.000 632.000,193.000 632.000,187.000 464.000,187.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="656.000,193.000 776.000,193.000 776.000,187.000 656.000,187.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="248.000,144.000 464.000,144.000 464.000,140.000 248.000,140.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="464.000,96.000 494.000,96.000 494.000,92.000 464.000,92.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="530.000,96.000 560.000,96.000 560.000,92.000 530.000,92.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="560.000,97.000 704.000,97.000 704.000,91.000 560.000,91.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="464.000,96.000 470.000,96.000 470.000,92.000 464.000,92.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="506.000,96.000 632.000,96.000 632.000,92.000 506.000,92.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="632.000,97.000 656.000,97.000 656.000,91.000 632.000,91.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="656.000,96.000 776.000,96.000 776.000,92.000 656.000,92.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="248.000,-47.000 368.000,-47.000 368.000,-53.000 248.000,-53.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="416.000,-47.000 464.000,-47.000 464.000,-53.000 416.000,-53.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="536.000,-95.000 566.000,-95.000 566.000,-101.000 536.000,-101.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="602.000,-95.000 704.000,-95.000 704.000,-101.000 602.000,-101.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="464.000,-143.000 488.000,-143.000 488.000,-149.000 464.000,-149.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="584.000,-143.000 596.000,-143.000 596.000,-149.000 584.000,-149.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="668.000,-143.000 776.000,-143.000 776.000,-149.000 668.000,-149.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <line x1="462.000" y1="184.000" x2="466.000" y2="184.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="462.000" y1="148.000" x2="466.000" y2="148.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="464.000" y1="184.000" x2="500.000" y2="184.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
@@ -205,10 +239,20 @@
 <line x1="462.000" y1="100.000" x2="466.000" y2="100.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="464.000" y1="136.000" x2="500.000" y2="136.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <path d="M 500.000 136.000 A 36.000 36.000 0 0 1 464.000 172.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="494.000" y1="96.000" x2="494.000" y2="92.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="530.000" y1="96.000" x2="530.000" y2="92.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="494.000" y1="94.000" x2="494.000" y2="58.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 494.000 58.000 A 36.000 36.000 0 0 1 530.000 94.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="470.000" y1="96.000" x2="470.000" y2="92.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="506.000" y1="96.000" x2="506.000" y2="92.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="470.000" y1="94.000" x2="470.000" y2="58.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 470.000 58.000 A 36.000 36.000 0 0 1 506.000 94.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="653.000" y1="190.000" x2="659.000" y2="190.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="653.000" y1="154.000" x2="659.000" y2="154.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="656.000" y1="190.000" x2="692.000" y2="190.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 692.000 190.000 A 36.000 36.000 0 0 1 656.000 226.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="773.000" y1="166.000" x2="773.000" y2="118.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="775.000" y1="166.000" x2="775.000" y2="118.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="777.000" y1="166.000" x2="777.000" y2="118.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="779.000" y1="166.000" x2="779.000" y2="118.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="773.000" y1="166.000" x2="779.000" y2="166.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="773.000" y1="118.000" x2="779.000" y2="118.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="245.000" y1="226.000" x2="245.000" y2="154.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="247.000" y1="226.000" x2="247.000" y2="154.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="249.000" y1="226.000" x2="249.000" y2="154.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
@@ -245,24 +289,34 @@
 <line x1="251.000" y1="134.000" x2="251.000" y2="102.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="245.000" y1="134.000" x2="251.000" y2="134.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="245.000" y1="102.000" x2="251.000" y2="102.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="464.000" y1="-95.000" x2="536.000" y2="-95.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="464.000" y1="-97.000" x2="536.000" y2="-97.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="464.000" y1="-99.000" x2="536.000" y2="-99.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="464.000" y1="-101.000" x2="536.000" y2="-101.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="464.000" y1="-95.000" x2="464.000" y2="-101.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="536.000" y1="-95.000" x2="536.000" y2="-101.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="566.000" y1="-95.000" x2="602.000" y2="-95.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="566.000" y1="-97.000" x2="602.000" y2="-97.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="566.000" y1="-99.000" x2="602.000" y2="-99.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="566.000" y1="-101.000" x2="602.000" y2="-101.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="566.000" y1="-95.000" x2="566.000" y2="-101.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="602.000" y1="-95.000" x2="602.000" y2="-101.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="701.000" y1="50.000" x2="701.000" y2="18.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="703.000" y1="50.000" x2="703.000" y2="18.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="705.000" y1="50.000" x2="705.000" y2="18.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="707.000" y1="50.000" x2="707.000" y2="18.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="701.000" y1="50.000" x2="707.000" y2="50.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="701.000" y1="18.000" x2="707.000" y2="18.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="461.000" y1="-62.000" x2="461.000" y2="-134.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="463.000" y1="-62.000" x2="463.000" y2="-134.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="465.000" y1="-62.000" x2="465.000" y2="-134.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="467.000" y1="-62.000" x2="467.000" y2="-134.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="461.000" y1="-62.000" x2="467.000" y2="-62.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="461.000" y1="-134.000" x2="467.000" y2="-134.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="488.000" y1="-143.000" x2="488.000" y2="-149.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="584.000" y1="-143.000" x2="584.000" y2="-149.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="488.000" y1="-145.000" x2="540.800" y2="-145.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="531.200" y1="-147.000" x2="584.000" y2="-147.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="596.000" y1="-143.000" x2="668.000" y2="-143.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="596.000" y1="-145.000" x2="668.000" y2="-145.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="596.000" y1="-147.000" x2="668.000" y2="-147.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="596.000" y1="-149.000" x2="668.000" y2="-149.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="596.000" y1="-143.000" x2="596.000" y2="-149.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="668.000" y1="-143.000" x2="668.000" y2="-149.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="773.000" y1="50.000" x2="773.000" y2="18.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="775.000" y1="50.000" x2="775.000" y2="18.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="777.000" y1="50.000" x2="777.000" y2="18.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="779.000" y1="50.000" x2="779.000" y2="18.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="773.000" y1="50.000" x2="779.000" y2="50.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="773.000" y1="18.000" x2="779.000" y2="18.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="773.000" y1="-62.000" x2="773.000" y2="-110.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="775.000" y1="-62.000" x2="775.000" y2="-110.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="777.000" y1="-62.000" x2="777.000" y2="-110.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="779.000" y1="-62.000" x2="779.000" y2="-110.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="773.000" y1="-62.000" x2="779.000" y2="-62.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="773.000" y1="-110.000" x2="779.000" y2="-110.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="248.000" y1="142.000" x2="248.000" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="284.080" y1="142.000" x2="284.080" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="320.160" y1="142.000" x2="320.160" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -314,22 +368,29 @@
 <polygon points="446.000,238.000 450.000,238.000 450.000,232.000 446.000,232.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="446.000,196.000 450.000,196.000 450.000,184.000 446.000,184.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="446.000,148.000 450.000,148.000 450.000,-2.000 446.000,-2.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="445.000,-2.000 451.000,-2.000 451.000,-50.000 445.000,-50.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="541.000,238.000 547.000,238.000 547.000,142.000 541.000,142.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="685.000,142.000 691.000,142.000 691.000,98.000 685.000,98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="685.000,66.000 691.000,66.000 691.000,-50.000 685.000,-50.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="445.000,-2.000 451.000,-2.000 451.000,-14.000 445.000,-14.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="445.000,-86.000 451.000,-86.000 451.000,-98.000 445.000,-98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="613.000,238.000 619.000,238.000 619.000,142.000 613.000,142.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="637.000,202.000 643.000,202.000 643.000,142.000 637.000,142.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="757.000,238.000 763.000,238.000 763.000,214.000 757.000,214.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="757.000,166.000 763.000,166.000 763.000,98.000 757.000,98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="757.000,66.000 763.000,66.000 763.000,-14.000 757.000,-14.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="757.000,-62.000 763.000,-62.000 763.000,-98.000 757.000,-98.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="232.000,385.000 268.000,385.000 268.000,379.000 232.000,379.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="292.000,385.000 352.000,385.000 352.000,379.000 292.000,379.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="400.000,385.000 448.000,385.000 448.000,379.000 400.000,379.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="448.000,241.000 544.000,241.000 544.000,235.000 448.000,235.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="448.000,241.000 616.000,241.000 616.000,235.000 448.000,235.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="640.000,241.000 760.000,241.000 760.000,235.000 640.000,235.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="232.000,192.000 448.000,192.000 448.000,188.000 232.000,188.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="448.000,144.000 478.000,144.000 478.000,140.000 448.000,140.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="514.000,144.000 544.000,144.000 544.000,140.000 514.000,140.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="544.000,145.000 688.000,145.000 688.000,139.000 544.000,139.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="448.000,144.000 454.000,144.000 454.000,140.000 448.000,140.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="490.000,144.000 616.000,144.000 616.000,140.000 490.000,140.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="616.000,145.000 640.000,145.000 640.000,139.000 616.000,139.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="640.000,144.000 760.000,144.000 760.000,140.000 640.000,140.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="232.000,1.000 352.000,1.000 352.000,-5.000 232.000,-5.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="400.000,1.000 448.000,1.000 448.000,-5.000 400.000,-5.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="520.000,-47.000 550.000,-47.000 550.000,-53.000 520.000,-53.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="586.000,-47.000 688.000,-47.000 688.000,-53.000 586.000,-53.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="448.000,-95.000 472.000,-95.000 472.000,-101.000 448.000,-101.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="568.000,-95.000 580.000,-95.000 580.000,-101.000 568.000,-101.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="652.000,-95.000 760.000,-95.000 760.000,-101.000 652.000,-101.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <line x1="446.000" y1="232.000" x2="450.000" y2="232.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="446.000" y1="196.000" x2="450.000" y2="196.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="448.000" y1="232.000" x2="484.000" y2="232.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
@@ -338,10 +399,20 @@
 <line x1="446.000" y1="148.000" x2="450.000" y2="148.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="448.000" y1="184.000" x2="484.000" y2="184.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <path d="M 484.000 184.000 A 36.000 36.000 0 0 1 448.000 220.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="478.000" y1="144.000" x2="478.000" y2="140.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="514.000" y1="144.000" x2="514.000" y2="140.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="478.000" y1="142.000" x2="478.000" y2="106.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 478.000 106.000 A 36.000 36.000 0 0 1 514.000 142.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="454.000" y1="144.000" x2="454.000" y2="140.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="490.000" y1="144.000" x2="490.000" y2="140.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="454.000" y1="142.000" x2="454.000" y2="106.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 454.000 106.000 A 36.000 36.000 0 0 1 490.000 142.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="637.000" y1="238.000" x2="643.000" y2="238.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="637.000" y1="202.000" x2="643.000" y2="202.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="640.000" y1="238.000" x2="676.000" y2="238.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 676.000 238.000 A 36.000 36.000 0 0 1 640.000 274.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="757.000" y1="214.000" x2="757.000" y2="166.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="759.000" y1="214.000" x2="759.000" y2="166.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="761.000" y1="214.000" x2="761.000" y2="166.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="763.000" y1="214.000" x2="763.000" y2="166.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="757.000" y1="214.000" x2="763.000" y2="214.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="757.000" y1="166.000" x2="763.000" y2="166.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="229.000" y1="274.000" x2="229.000" y2="202.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="231.000" y1="274.000" x2="231.000" y2="202.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="233.000" y1="274.000" x2="233.000" y2="202.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
@@ -378,64 +449,79 @@
 <line x1="235.000" y1="182.000" x2="235.000" y2="150.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="229.000" y1="182.000" x2="235.000" y2="182.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="229.000" y1="150.000" x2="235.000" y2="150.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="-47.000" x2="520.000" y2="-47.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="-49.000" x2="520.000" y2="-49.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="-51.000" x2="520.000" y2="-51.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="-53.000" x2="520.000" y2="-53.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="-47.000" x2="448.000" y2="-53.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="520.000" y1="-47.000" x2="520.000" y2="-53.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="550.000" y1="-47.000" x2="586.000" y2="-47.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="550.000" y1="-49.000" x2="586.000" y2="-49.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="550.000" y1="-51.000" x2="586.000" y2="-51.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="550.000" y1="-53.000" x2="586.000" y2="-53.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="550.000" y1="-47.000" x2="550.000" y2="-53.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="586.000" y1="-47.000" x2="586.000" y2="-53.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="685.000" y1="98.000" x2="685.000" y2="66.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="687.000" y1="98.000" x2="687.000" y2="66.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="689.000" y1="98.000" x2="689.000" y2="66.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="691.000" y1="98.000" x2="691.000" y2="66.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="685.000" y1="98.000" x2="691.000" y2="98.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="685.000" y1="66.000" x2="691.000" y2="66.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="142.000" x2="448.000" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="484.080" y1="142.000" x2="484.080" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="520.160" y1="142.000" x2="520.160" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="556.240" y1="142.000" x2="556.240" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="592.320" y1="142.000" x2="592.320" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="628.400" y1="142.000" x2="628.400" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="664.480" y1="142.000" x2="664.480" y2="-50.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="142.000" x2="688.000" y2="142.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="105.920" x2="688.000" y2="105.920" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="69.840" x2="688.000" y2="69.840" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="33.760" x2="688.000" y2="33.760" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="-2.320" x2="688.000" y2="-2.320" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="-38.400" x2="688.000" y2="-38.400" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<polygon points="592.000,142.000 688.000,142.000 688.000,22.000 592.000,22.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
-<text x="640.000" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">BANHO</text>
-<polygon points="592.000,22.000 688.000,22.000 688.000,-50.000 592.000,-50.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
-<text x="640.000" y="-14.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">CLOSET</text>
-<polygon points="592.000,136.000 608.000,136.000 608.000,130.000 592.000,130.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="600.000" cy="120.800" r="8.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="608.000" y="140.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-10</text>
-<polygon points="628.000,136.000 676.000,136.000 676.000,116.000 628.000,116.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="652.000" cy="126.000" r="6.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="652.000" y="140.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-11</text>
-<polygon points="598.000,74.000 642.000,74.000 642.000,30.000 598.000,30.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="620.000" cy="52.000" r="3.600" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="598.000" y1="74.000" x2="642.000" y2="30.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="620.000" y="78.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-12</text>
+<line x1="445.000" y1="-14.000" x2="445.000" y2="-86.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="447.000" y1="-14.000" x2="447.000" y2="-86.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="449.000" y1="-14.000" x2="449.000" y2="-86.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="451.000" y1="-14.000" x2="451.000" y2="-86.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="445.000" y1="-14.000" x2="451.000" y2="-14.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="445.000" y1="-86.000" x2="451.000" y2="-86.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="472.000" y1="-95.000" x2="472.000" y2="-101.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="568.000" y1="-95.000" x2="568.000" y2="-101.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="472.000" y1="-97.000" x2="524.800" y2="-97.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="515.200" y1="-99.000" x2="568.000" y2="-99.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="580.000" y1="-95.000" x2="652.000" y2="-95.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="580.000" y1="-97.000" x2="652.000" y2="-97.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="580.000" y1="-99.000" x2="652.000" y2="-99.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="580.000" y1="-101.000" x2="652.000" y2="-101.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="580.000" y1="-95.000" x2="580.000" y2="-101.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="652.000" y1="-95.000" x2="652.000" y2="-101.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="757.000" y1="98.000" x2="757.000" y2="66.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="759.000" y1="98.000" x2="759.000" y2="66.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="761.000" y1="98.000" x2="761.000" y2="66.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="763.000" y1="98.000" x2="763.000" y2="66.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="757.000" y1="98.000" x2="763.000" y2="98.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="757.000" y1="66.000" x2="763.000" y2="66.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="757.000" y1="-14.000" x2="757.000" y2="-62.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="759.000" y1="-14.000" x2="759.000" y2="-62.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="761.000" y1="-14.000" x2="761.000" y2="-62.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="763.000" y1="-14.000" x2="763.000" y2="-62.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="757.000" y1="-14.000" x2="763.000" y2="-14.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="757.000" y1="-62.000" x2="763.000" y2="-62.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="142.000" x2="448.000" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="484.080" y1="142.000" x2="484.080" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="520.160" y1="142.000" x2="520.160" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="556.240" y1="142.000" x2="556.240" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="592.320" y1="142.000" x2="592.320" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="628.400" y1="142.000" x2="628.400" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="664.480" y1="142.000" x2="664.480" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="700.560" y1="142.000" x2="700.560" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="736.640" y1="142.000" x2="736.640" y2="-98.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="142.000" x2="760.000" y2="142.000" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="105.920" x2="760.000" y2="105.920" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="69.840" x2="760.000" y2="69.840" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="33.760" x2="760.000" y2="33.760" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="-2.320" x2="760.000" y2="-2.320" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="-38.400" x2="760.000" y2="-38.400" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="-74.480" x2="760.000" y2="-74.480" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="496.000,142.000 640.000,142.000 640.000,22.000 496.000,22.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
+<text x="568.000" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">CLOSET</text>
+<polygon points="640.000,142.000 760.000,142.000 760.000,22.000 640.000,22.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
+<text x="700.000" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="688.000,22.000 760.000,22.000 760.000,-98.000 688.000,-98.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
+<text x="724.000" y="-38.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">OFFICE</text>
+<polygon points="640.000,134.000 656.000,134.000 656.000,128.000 640.000,128.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="648.000" cy="118.800" r="8.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="656.000" y="138.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-10</text>
+<polygon points="676.000,138.000 748.000,138.000 748.000,118.000 676.000,118.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="712.000" cy="128.000" r="6.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="712.000" y="142.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-11</text>
+<polygon points="644.000,82.000 700.000,82.000 700.000,26.000 644.000,26.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="672.000" cy="54.000" r="3.600" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="644.000" y1="82.000" x2="700.000" y2="26.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="672.000" y="86.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-12</text>
 <text x="454.000" y="136.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">i 1,5 %</text>
 <line x1="448.000" y1="142.000" x2="448.000" y2="155.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="688.000" y1="142.000" x2="688.000" y2="155.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="154.000" x2="688.000" y2="154.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="760.000" y1="142.000" x2="760.000" y2="155.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="154.000" x2="760.000" y2="154.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="447.300" y1="154.700" x2="448.700" y2="153.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="687.300" y1="154.700" x2="688.700" y2="153.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="568.000" y="152.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">6,00</text>
+<line x1="759.300" y1="154.700" x2="760.700" y2="153.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="604.000" y="152.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">7,80</text>
 <line x1="448.000" y1="142.000" x2="434.800" y2="142.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="448.000" y1="-50.000" x2="434.800" y2="-50.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="436.000" y1="142.000" x2="436.000" y2="-50.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="448.000" y1="-98.000" x2="434.800" y2="-98.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="436.000" y1="142.000" x2="436.000" y2="-98.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="435.300" y1="142.700" x2="436.700" y2="141.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="435.300" y1="-49.300" x2="436.700" y2="-50.700" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="434.884" y="46.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 434.884 46.000)">4,80</text>
+<line x1="435.300" y1="-97.300" x2="436.700" y2="-98.700" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="434.884" y="22.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 434.884 22.000)">6,00</text>
 <text x="35.000" y="417.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PAGINACAO VERIFICADA — PECAS INTEIRAS + RECORTE EM CADA PONTA</text>
 <polygon points="35.000,420.000 289.000,420.000 289.000,425.200 35.000,425.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="422.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AMB</text>
@@ -466,8 +552,8 @@
 <text x="52.500" y="438.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SUITE MASTER — BANHO E CLO</text>
 <text x="108.500" y="438.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ZP-2</text>
 <text x="126.500" y="438.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">piso</text>
-<text x="146.500" y="438.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6 + 0/586</text>
-<text x="190.500" y="438.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5 + 0/288</text>
+<text x="146.500" y="438.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8 + 0/582</text>
+<text x="190.500" y="438.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6 + 0/586</text>
 <text x="234.500" y="438.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
 <line x1="51.000" y1="420.000" x2="51.000" y2="440.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="107.000" y1="420.000" x2="107.000" y2="440.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>

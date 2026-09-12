@@ -28,7 +28,7 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">01</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 33</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 34</text>
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Lote 20.000 x 40.000 mm = 800,00 m2.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Recuos: frontal 7.200 / lateral esq. 2.400 / faixa tecnica dir. 3.200 / fundo 13.600 mm.</text>
@@ -53,17 +53,18 @@
 <polygon points="168.000,389.000 183.000,389.000 183.000,383.000 168.000,383.000" stroke="#666" stroke-width="0.3" fill="#ededed" stroke-linejoin="miter"/>
 <polygon points="132.000,434.000 159.000,434.000 159.000,410.000 132.000,410.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
 <polygon points="132.000,410.000 159.000,410.000 159.000,386.000 132.000,386.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
-<polygon points="159.000,416.000 171.000,416.000 171.000,404.000 159.000,404.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
-<polygon points="159.000,404.000 189.000,404.000 189.000,380.000 159.000,380.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
-<polygon points="159.000,380.000 189.000,380.000 189.000,371.000 159.000,371.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
+<polygon points="159.000,416.000 180.000,416.000 180.000,404.000 159.000,404.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
+<polygon points="183.000,416.000 198.000,416.000 198.000,404.000 183.000,404.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
+<polygon points="159.000,404.000 198.000,404.000 198.000,374.000 159.000,374.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
+<polygon points="159.000,374.000 198.000,374.000 198.000,365.000 159.000,365.000" stroke="#c00" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
 <polygon points="132.000,464.000 195.000,464.000 195.000,368.000 132.000,368.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linejoin="miter"/>
-<polygon points="147.000,362.000 171.000,362.000 171.000,350.000 147.000,350.000" stroke="#000000" stroke-width="0.4" fill="#e8f4fb" stroke-linejoin="miter"/>
-<polygon points="147.750,361.250 170.250,361.250 170.250,350.750 147.750,350.750" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<line x1="153.000" y1="362.000" x2="153.000" y2="350.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="150.000" y="356.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 150.000 356.000)">PRAINHA</text>
-<text x="162.000" y="356.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">PISCINA  11,52 m2</text>
-<text x="162.000" y="358.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">prof, 1,150 m</text>
-<polygon points="141.000,362.000 177.000,362.000 177.000,341.000 141.000,341.000" stroke="#0a6" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="147.000,356.000 174.000,356.000 174.000,339.500 147.000,339.500" stroke="#000000" stroke-width="0.4" fill="#e8f4fb" stroke-linejoin="miter"/>
+<polygon points="147.750,355.250 173.250,355.250 173.250,340.250 147.750,340.250" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<line x1="153.000" y1="356.000" x2="153.000" y2="339.500" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="150.000" y="347.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 150.000 347.750)">PRAINHA</text>
+<text x="163.500" y="347.750" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">PISCINA  17,82 m2</text>
+<text x="163.500" y="350.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">prof, 1,150 m</text>
+<polygon points="141.000,362.000 180.000,362.000 180.000,335.000 141.000,335.000" stroke="#0a6" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
 <polygon points="132.000,500.000 162.000,500.000 162.000,464.000 132.000,464.000" stroke="#8a8a8a" stroke-width="0.18" fill="#f5f5f5" stroke-linejoin="miter"/>
 <text x="147.000" y="482.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">ACESSO DE VEICULOS</text>
 <text x="166.500" y="482.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">PEDESTRES</text>
@@ -73,26 +74,34 @@
 <text x="207.500" y="449.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-02</text>
 <polygon points="185.000,365.000 194.000,365.000 194.000,357.500 185.000,357.500" stroke="#b5651d" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
 <text x="189.500" y="361.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-03</text>
-<polygon points="205.000,380.000 211.000,380.000 211.000,376.000 205.000,376.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
-<text x="208.000" y="378.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-04</text>
+<polygon points="206.000,380.000 212.000,380.000 212.000,376.000 206.000,376.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
+<text x="209.000" y="378.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-04</text>
 <polygon points="205.000,497.000 209.000,497.000 209.000,494.000 205.000,494.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
 <text x="207.000" y="495.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-08</text>
-<polygon points="205.000,434.000 209.000,434.000 209.000,413.000 205.000,413.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
-<text x="207.000" y="423.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 207.000 423.500)">TC-09 (3)</text>
+<polygon points="206.000,434.000 210.000,434.000 210.000,401.000 206.000,401.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
+<text x="208.000" y="417.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 208.000 417.500)">TC-09 (5)</text>
 <polygon points="130.000,458.000 132.000,458.000 132.000,440.000 130.000,440.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
 <text x="131.000" y="449.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 131.000 449.000)">TC-10 (3)</text>
 <polygon points="126.000,395.000 130.000,395.000 130.000,391.000 126.000,391.000" stroke="#b5651d" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
 <text x="128.000" y="393.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-11</text>
 <polygon points="126.000,380.000 129.000,380.000 129.000,377.000 126.000,377.000" stroke="#b5651d" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
 <text x="127.500" y="378.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-12</text>
-<polygon points="171.000,356.000 178.500,356.000 178.500,350.000 171.000,350.000" stroke="#b5651d" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
-<text x="174.750" y="353.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-13</text>
-<polygon points="172.400,402.400 175.600,402.400 175.600,405.600 172.400,405.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-<polygon points="187.400,402.400 190.600,402.400 190.600,405.600 187.400,405.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-<polygon points="172.400,378.400 175.600,378.400 175.600,381.600 172.400,381.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-<polygon points="187.400,378.400 190.600,378.400 190.600,381.600 187.400,381.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-<polygon points="172.400,369.400 175.600,369.400 175.600,372.600 172.400,372.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-<polygon points="187.400,369.400 190.600,369.400 190.600,372.600 187.400,372.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="205.000,353.000 212.500,353.000 212.500,343.000 205.000,343.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
+<text x="208.750" y="348.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 208.750 348.000)">TC-13</text>
+<polygon points="205.000,368.000 212.500,368.000 212.500,358.000 205.000,358.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
+<text x="208.750" y="363.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 208.750 363.000)">TC-15</text>
+<polygon points="204.000,341.000 208.000,341.000 208.000,336.000 204.000,336.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
+<text x="206.000" y="338.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 206.000 338.500)">TC-16</text>
+<polygon points="181.400,414.400 184.600,414.400 184.600,417.600 181.400,417.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="196.400,414.400 199.600,414.400 199.600,417.600 196.400,417.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="181.400,402.400 184.600,402.400 184.600,405.600 181.400,405.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="196.400,402.400 199.600,402.400 199.600,405.600 196.400,405.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="181.400,387.400 184.600,387.400 184.600,390.600 181.400,390.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="196.400,387.400 199.600,387.400 199.600,390.600 196.400,390.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="181.400,372.400 184.600,372.400 184.600,375.600 181.400,375.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="196.400,372.400 199.600,372.400 199.600,375.600 196.400,375.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="181.400,363.400 184.600,363.400 184.600,366.600 181.400,366.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="196.400,363.400 199.600,363.400 199.600,366.600 196.400,366.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 <line x1="120.000" y1="500.000" x2="120.000" y2="513.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="132.000" y1="500.000" x2="132.000" y2="513.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="162.000" y1="500.000" x2="162.000" y2="513.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -170,12 +179,12 @@
 <text x="581.500" y="122.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="430.000,125.200 598.000,125.200 598.000,130.400 430.000,130.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="431.500" y="127.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Taxa de ocupacao</text>
-<text x="493.500" y="127.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">28.26 %</text>
+<text x="493.500" y="127.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">31.14 %</text>
 <text x="533.500" y="127.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">max 50 %</text>
 <text x="581.500" y="127.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="430.000,130.400 598.000,130.400 598.000,135.600 430.000,135.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="431.500" y="133.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Coef. de aproveitamento</text>
-<text x="493.500" y="133.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.333</text>
+<text x="493.500" y="133.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.370</text>
 <text x="533.500" y="133.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">max 1.00</text>
 <text x="581.500" y="133.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="430.000,135.600 598.000,135.600 598.000,140.800 430.000,140.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
