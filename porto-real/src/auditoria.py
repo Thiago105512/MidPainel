@@ -272,7 +272,7 @@ def checar_metas() -> list[Achado]:
     out.append(Achado("NOTA", "Circulacao",
                       f"halls {halls:.2f} m2 ({halls/interna*100:.1f} %) + core vertical "
                       f"{vertical:.2f} m2; a meta de 8 % do briefing incide sobre halls"))
-    for s in pj.SUPERIOR:
+    for s in pj.SUPERIOR + pj.SUPERIOR_ABERTO:
         apoio = 0.0
         for t in pj.TERREO:
             ox = max(0, min(s.x + s.w, t.x + t.w) - max(s.x, t.x))
@@ -701,6 +701,338 @@ def checar_janela_mobiliario() -> list[Achado]:
     return out
 
 
+
+# ---------------------------------------------- 16. areas tecnicas (TECNICOS)
+PASSAGEM_MIN = 900          # NBR 9050: faixa de circulacao de uma pessoa
+FRENTE_QUADRO = 700         # NBR 5410: zona livre a frente de quadro/rack
+DIST_CISTERNA_ESGOTO = 3_000   # potavel x caixas de esgoto
+DIST_GLP_IGNICAO = 3_000       # NBR 13523: fonte de ignicao
+DIST_CONDENSADORA_VAO = 1_500   # recirculacao de ar quente pela janela
+SUCCAO_BOMBA_MAX = 10_000      # limite pratico de succao da motobomba
+
+
+def _ret(t):
+    return (t["x"], t["y"], t["w"], t["h"])
+
+
+def _folga(a, b) -> float:
+    """Distancia minima em planta entre dois retangulos (0 se encostam)."""
+    dx = max(a[0] - (b[0] + b[2]), b[0] - (a[0] + a[2]), 0)
+    dy = max(a[1] - (b[1] + b[3]), b[1] - (a[1] + a[3]), 0)
+    return math.hypot(dx, dy)
+
+
+def _manhattan(a, b) -> float:
+    dx = max(a[0] - (b[0] + b[2]), b[0] - (a[0] + a[2]), 0)
+    dy = max(a[1] - (b[1] + b[3]), b[1] - (a[1] + a[3]), 0)
+    return dx + dy
+
+
+def _sobrepoe(a, b) -> float:
+    ox = max(0, min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0]))
+    oy = max(0, min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1]))
+    return ox * oy / 1e6
+
+
+def _ret_vao(tipo, x, y, ori):
+    """Retangulo (de espessura nula) ocupado por um vao no plano."""
+    lg = pj.ESQUADRIAS[tipo][0]
+    return (x - lg / 2, y, lg, 0) if ori == "H" else (x, y - lg / 2, 0, lg)
+
+
+def checar_tecnicos() -> list[Achado]:
+    """Auditoria das areas tecnicas: existencia, lugar, folga e distancia.
+
+    Enquanto a bomba, o nicho de condensadoras e a central de GLP nao estavam
+    no modelo, nada disso podia ser verificado — e o projeto passava limpo com
+    um buraco de coordenacao. Este bloco fecha esse buraco.
+    """
+    out = []
+    tecs = pj.TECNICOS
+    amb_por_cod = {a.cod: a for a in pj.TERREO + pj.SUPERIOR}
+
+    # 16.1 dentro do lote e em ajuste fino de 100 mm
+    for t in tecs:
+        x, y, w, h = _ret(t)
+        if x < 0 or y < 0 or x + w > pj.LOTE_L or y + h > pj.LOTE_P:
+            out.append(Achado("ERRO", "Area tecnica fora do lote",
+                              f"{t['cod']} {t['nome']} em ({x}, {y})"))
+        for nome, v in (("x", x), ("y", y), ("largura", w), ("profundidade", h)):
+            if v % 100:
+                out.append(Achado("NOTA", "Area tecnica fora do ajuste fino",
+                                  f"{t['cod']}: {nome} = {v} mm nao e multiplo de 100"))
+
+    # 16.2 nao podem se sobrepor entre si
+    for i, a in enumerate(tecs):
+        for b in tecs[i + 1:]:
+            if a.get("zona") == "INT" or b.get("zona") == "INT":
+                continue
+            if _sobrepoe(_ret(a), _ret(b)) > 0:
+                out.append(Achado("ERRO", "Areas tecnicas sobrepostas",
+                                  f"{a['cod']} x {b['cod']}"))
+
+    # 16.3 zona INT: dentro do ambiente declarado, encostado em parede,
+    #      e com a zona livre de manutencao a frente
+    pecas_t = list(_pecas_do_pav("T")) + list(_pecas_do_pav("S"))
+    for t in tecs:
+        if t.get("zona") != "INT":
+            continue
+        amb = amb_por_cod.get(t.get("amb", ""))
+        if amb is None:
+            out.append(Achado("ERRO", "Area tecnica sem ambiente",
+                              f"{t['cod']} declara zona INT e ambiente "
+                              f"{t.get('amb', '-')}, que nao existe"))
+            continue
+        x, y, w, h = _ret(t)
+        if not (amb.x <= x and x + w <= amb.x + amb.w
+                and amb.y <= y and y + h <= amb.y + amb.h):
+            out.append(Achado("ERRO", "Area tecnica fora do ambiente",
+                              f"{t['cod']} em ({x}, {y}) nao cabe em {amb.cod}"))
+            continue
+        encostado = min(abs(x - amb.x), abs(amb.x + amb.w - (x + w)),
+                        abs(y - amb.y), abs(amb.y + amb.h - (y + h)))
+        if encostado > 100:
+            out.append(Achado("ATENCAO", "Quadro solto no ambiente",
+                              f"{t['cod']} esta a {encostado} mm da parede mais "
+                              f"proxima de {amb.cod}: precisa de parede de apoio"))
+        # zona livre de manutencao, projetada para o interior do ambiente
+        if abs(x - amb.x) <= 100:
+            zl = (x + w, y, FRENTE_QUADRO, h)
+        elif abs(amb.x + amb.w - (x + w)) <= 100:
+            zl = (x - FRENTE_QUADRO, y, FRENTE_QUADRO, h)
+        elif abs(y - amb.y) <= 100:
+            zl = (x, y + h, w, FRENTE_QUADRO)
+        else:
+            zl = (x, y - FRENTE_QUADRO, w, FRENTE_QUADRO)
+        for cod, ctipo, cx, cy, cw, ch in pecas_t:
+            if _sobrepoe(zl, (cx, cy, cw, ch)) > 0.02:
+                out.append(Achado("ERRO", "Quadro sem zona de manutencao",
+                                  f"{t['cod']}: os {FRENTE_QUADRO} mm livres a frente "
+                                  f"estao ocupados por {cod} ({ctipo})",
+                                  "NBR 5410 6.5.4"))
+
+    # 16.4 zonas externas: nao invadir ambiente coberto, salvo se enterrada
+    fechados = [(a.cod, a.x, a.y, a.w, a.h) for a in pj.cobertos()]
+    for t in tecs:
+        if t.get("zona") == "INT":
+            continue
+        sob_solo = t.get("prof") and (t.get("zona") == "ENT")
+        for cod, ax, ay, aw, ah in fechados:
+            ov = _sobrepoe(_ret(t), (ax, ay, aw, ah))
+            if ov <= 0:
+                continue
+            if sob_solo:
+                out.append(Achado("NOTA", "Area tecnica sob area coberta",
+                                  f"{t['cod']} enterrada sob {cod} ({ov:.2f} m2) — "
+                                  f"prever acesso de inspecao"))
+            else:
+                out.append(Achado("ERRO", "Area tecnica invadindo ambiente",
+                                  f"{t['cod']} sobrepoe {cod} em {ov:.2f} m2"))
+
+    # 16.5 passagem livre na faixa tecnica e no recuo sul
+    faixas = {"FT-N": (pj.FAIXA_TECNICA["x"], pj.FAIXA_TECNICA["x"] + pj.FAIXA_TECNICA["w"]),
+              "TEST": (pj.FAIXA_TECNICA["x"], pj.FAIXA_TECNICA["x"] + pj.FAIXA_TECNICA["w"]),
+              "REC-S": (0, pj.RECUO_ESQ)}
+    for t in tecs:
+        lim = faixas.get(t.get("zona", ""))
+        if not lim:
+            continue
+        x, _, w, _ = _ret(t)
+        livre = max(x - lim[0], lim[1] - (x + w))
+        if livre < PASSAGEM_MIN:
+            out.append(Achado("ERRO", "Passagem tecnica obstruida",
+                              f"{t['cod']} deixa apenas {livre:.0f} mm livres na "
+                              f"faixa {t['zona']} (min {PASSAGEM_MIN} mm)",
+                              "NBR 9050 6.11"))
+
+    # 16.6 climatizacao: carga, capacidade, linha frigorigena e nicho
+    grupos = {frozenset(g) for g in grupos_integrados("T")}
+    for c in pj.CLIMATIZACAO:
+        amb = amb_por_cod.get(c["amb"])
+        nicho = next((t for t in tecs if t["cod"] == c["nicho"]), None)
+        if amb is None or nicho is None:
+            out.append(Achado("ERRO", "Climatizacao sem referencia",
+                              f"{c['amb']} / {c['nicho']}"))
+            continue
+        carga = pj.carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"))
+        minimo = pj.capacidade_comercial(carga)
+        if c["capacidade"] < carga:
+            out.append(Achado("ERRO", "Evaporadora subdimensionada",
+                              f"{c['amb']}: {c['capacidade']} BTU/h para carga de "
+                              f"{carga} BTU/h (minimo comercial {minimo})"))
+        elif c["capacidade"] > minimo:
+            out.append(Achado("ATENCAO", "Evaporadora superdimensionada",
+                              f"{c['amb']}: {c['capacidade']} BTU/h contra {minimo} "
+                              f"suficiente — em Manaus (UR 80 %) o equipamento grande "
+                              f"liga e desliga e deixa de desumidificar"))
+        subida = (pj.PISO_A_PISO + 600) if amb.pav == "S" else pj.PE_DIREITO
+        comp = _manhattan(_ret(nicho), (amb.x, amb.y, amb.w, amb.h)) + subida + 1_500
+        if comp > pj.LINHA_FRIG_LIMITE:
+            out.append(Achado("ERRO", "Linha frigorigena longa demais",
+                              f"{nicho['cod']} -> {c['amb']}: {comp/1000:.1f} m "
+                              f"(limite {pj.LINHA_FRIG_LIMITE/1000:.0f} m)"))
+        elif comp > pj.LINHA_FRIG_MAX:
+            out.append(Achado("ATENCAO", "Linha frigorigena acima do conforto",
+                              f"{nicho['cod']} -> {c['amb']}: {comp/1000:.1f} m "
+                              f"(acima de {pj.LINHA_FRIG_MAX/1000:.0f} m exige carga "
+                              f"extra de refrigerante e perde rendimento)"))
+        # volume aberto: evaporadora em ambiente integrado a outro sem climatizacao
+        if not c.get("reserva"):
+            for g in grupos:
+                if c["amb"] in g:
+                    fora = sorted(g - {c["amb"]} - set(c.get("mais", [])))
+                    if fora:
+                        out.append(Achado(
+                            "ATENCAO", "Evaporadora em volume aberto",
+                            f"{c['amb']} e integrado a {', '.join(fora)} sem parede: "
+                            f"a carga real e a do volume inteiro, nao a do modulo"))
+    # 16.7 nicho: comprimento suficiente para as condensadoras alocadas
+    for t in tecs:
+        alocadas = pj.nicho_de(t["cod"])
+        if not alocadas:
+            continue
+        need = 0
+        for c in alocadas:
+            need += next(l for lim, l in pj.LARGURA_NICHO if c["capacidade"] <= lim)
+        disp = max(t["w"], t["h"])
+        if disp < need:
+            out.append(Achado("ERRO", "Nicho de condensadoras curto",
+                              f"{t['cod']}: {disp} mm para {len(alocadas)} posicoes "
+                              f"que somam {need} mm"))
+        # descarga de ar quente longe de vao de ambiente
+        for tipo, x, y, ori, pav in pj.VAOS:
+            if not (tipo.startswith("J") or tipo.startswith("PV")):
+                continue
+            d = _folga(_ret(t), _ret_vao(tipo, x, y, ori))
+            if d < DIST_CONDENSADORA_VAO:
+                out.append(Achado("ATENCAO", "Condensadora perto de vao",
+                                  f"{t['cod']} a {d:.0f} mm de {tipo} em ({x}, {y}): "
+                                  f"ar de descarga a 45 graus entra pela janela "
+                                  f"(min {DIST_CONDENSADORA_VAO} mm)"))
+
+    # 16.8 GLP: afastamento de vaos e de fonte de ignicao (NBR 13523)
+    glp = [t for t in tecs if "GLP" in t["nome"]]
+    for g in glp:
+        for tipo, x, y, ori, pav in pj.VAOS:
+            d = _folga(_ret(g), _ret_vao(tipo, x, y, ori))
+            if d < pj.GLP_DIST_VAO:
+                out.append(Achado("ERRO", "Central de GLP perto de vao",
+                                  f"{g['cod']} a {d:.0f} mm de {tipo} em ({x}, {y}) — "
+                                  f"min {pj.GLP_DIST_VAO} mm", "NBR 13523"))
+        for b in pj.BANCADAS:
+            if not b.get("cooktop"):
+                continue
+            d = _folga(_ret(g), (b["x"], b["y"], b["w"], b["h"]))
+            if d < DIST_GLP_IGNICAO:
+                out.append(Achado("ERRO", "Central de GLP perto de ignicao",
+                                  f"{g['cod']} a {d:.0f} mm de {b['cod']} (cooktop) — "
+                                  f"min {DIST_GLP_IGNICAO} mm", "NBR 13523"))
+        if pj.LOTE_L - (g["x"] + g["w"]) < pj.GLP_DIST_VAO:
+            out.append(Achado("ATENCAO", "Central de GLP junto a divisa",
+                              f"{g['cod']} a {pj.LOTE_L - (g['x'] + g['w'])} mm da divisa norte"))
+
+    # 16.9 cisterna potavel afastada das caixas de esgoto
+    potavel = [t for t in tecs if "Cisterna" in t["nome"]]
+    esgoto = [t for t in tecs if "Caixa" in t["nome"]]
+    for p in potavel:
+        for e in esgoto:
+            d = _folga(_ret(p), _ret(e))
+            if d < DIST_CISTERNA_ESGOTO:
+                out.append(Achado("ERRO", "Cisterna perto de caixa de esgoto",
+                                  f"{p['cod']} a {d:.0f} mm de {e['cod']} — "
+                                  f"min {DIST_CISTERNA_ESGOTO} mm"))
+
+    # 16.10 casa de maquinas da piscina: succao curta e coerente com o modelo
+    cm = [t for t in tecs if "piscina" in t["nome"].lower()]
+    pisc = (pj.PISCINA["x"], pj.PISCINA["y"], pj.PISCINA["w"], pj.PISCINA["h"])
+    for c in cm:
+        d = _folga(_ret(c), pisc)
+        if d > SUCCAO_BOMBA_MAX:
+            out.append(Achado("ERRO", "Casa de maquinas distante da piscina",
+                              f"{c['cod']} a {d:.0f} mm (max {SUCCAO_BOMBA_MAX} mm de succao)"))
+        if _ret(c) != (pj.CASA_MAQUINAS["x"], pj.CASA_MAQUINAS["y"],
+                       pj.CASA_MAQUINAS["w"], pj.CASA_MAQUINAS["h"]):
+            out.append(Achado("ERRO", "Casa de maquinas em duas posicoes",
+                              f"{c['cod']} divergente de CASA_MAQUINAS"))
+
+    # 16.11 medidores acessiveis da via publica
+    med = [t for t in tecs if "Medidores" in t["nome"]]
+    for m in med:
+        if m["y"] + m["h"] > 1_500:
+            out.append(Achado("ATENCAO", "Medidores longe da testada",
+                              f"{m['cod']} a {m['y']} mm da divisa frontal: a leitura "
+                              f"deixa de ser feita pela via"))
+
+    # 16.12 a motobomba precisa da cisterna por perto
+    bomba = [t for t in tecs if "Motobomba" in t["nome"]]
+    for b in bomba:
+        if potavel and _folga(_ret(b), _ret(potavel[0])) > 3_000:
+            out.append(Achado("ATENCAO", "Motobomba longe da cisterna",
+                              f"{b['cod']} a {_folga(_ret(b), _ret(potavel[0])):.0f} mm "
+                              f"da {potavel[0]['cod']}: succao longa cavita"))
+    return out
+
+
+# ------------------------- 17. projecao do pavimento superior
+def checar_projecao_superior() -> list[Achado]:
+    """Todo trecho do superior precisa de apoio e cobre o que esta embaixo.
+
+    Duas perguntas distintas: (a) o trecho esta sobre ambiente fechado, sobre
+    apoio declarado (pilar/viga) ou em balanco nao declarado? (b) a area aberta
+    sob ele esta marcada como coberta? A segunda e o que alimenta a taxa de
+    ocupacao — e foi exatamente onde o modelo estava errado.
+    """
+    out = []
+    passo = 300
+    ter = [(a.cod, a.x, a.y, a.w, a.h, a.aberto, a.coberto)
+           for a in pj.TERREO + pj.TERREO_ABERTO]
+    apoios = [(p["x"], p["y"]) for p in pj.PILARES]
+    sobre = defaultdict(float)
+    vazio = 0.0
+    for a in pj.SUPERIOR + pj.SUPERIOR_ABERTO:
+        for i in range(a.x, a.x + a.w, passo):
+            for j in range(a.y, a.y + a.h, passo):
+                alvo = None
+                for cod, x, y, w, h, ab, cb in ter:
+                    if x <= i < x + w and y <= j < y + h:
+                        alvo = (cod, ab, cb)
+                        break
+                if alvo is None:
+                    vazio += passo * passo / 1e6
+                elif alvo[1]:
+                    sobre[(a.cod, alvo[0], alvo[2])] += passo * passo / 1e6
+    if vazio > 0.09:
+        out.append(Achado("ERRO", "Superior sobre o vazio",
+                          f"{vazio:.2f} m2 do pavimento superior nao tem nada "
+                          f"abaixo, nem ambiente nem area aberta declarada"))
+    for (sup, inf, marcado), area in sorted(sobre.items()):
+        if marcado:
+            continue
+        # area aberta coberta pela laje do superior e nao declarada coberta
+        out.append(Achado("ATENCAO", "Area aberta coberta sem declaracao",
+                          f"{sup} cobre {area:.2f} m2 de {inf}, que nao esta "
+                          f"marcado como coberto: a taxa de ocupacao conta essa "
+                          f"projecao de qualquer modo"))
+    # apoio: cada area aberta coberta pelo superior precisa de pilar ou viga
+    vigados = {v["sobre"] for v in pj.VIGAS}
+    for (sup, inf, _), area in sorted(sobre.items()):
+        if inf in vigados:
+            continue
+        alvo = next((a for a in pj.TERREO_ABERTO if a.cod == inf), None)
+        if alvo is None:
+            continue
+        # pilar dentro da area aberta ou na borda dela (tolerancia de 300 mm)
+        tem_apoio = any(alvo.x - 300 <= px <= alvo.x + alvo.w + 300
+                        and alvo.y - 300 <= py <= alvo.y + alvo.h + 300
+                        for px, py in apoios)
+        if tem_apoio:
+            continue
+        out.append(Achado("ATENCAO", "Trecho do superior sem apoio declarado",
+                          f"{sup} avanca {area:.2f} m2 sobre {inf} sem pilar nem "
+                          f"viga declarada: confirmar balanco e perfil de borda"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
@@ -708,7 +1040,8 @@ def auditar() -> list[Achado]:
             checar_iluminacao() + checar_acessibilidade() +
             checar_metas() + checar_escada() + checar_vedacao() +
             checar_espacos_mortos() + checar_bancadas() + checar_loucas() +
-            checar_subdivisoes() + checar_colisao_porta() + checar_janela_mobiliario())
+            checar_subdivisoes() + checar_colisao_porta() + checar_janela_mobiliario() +
+            checar_tecnicos() + checar_projecao_superior())
 
 
 if __name__ == "__main__":

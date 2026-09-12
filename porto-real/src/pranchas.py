@@ -270,6 +270,9 @@ def implantacao() -> Canvas:
     cv.texto_p(vw.pt(P(5_400, 3_600)), "ACESSO DE VEICULOS", TXT["micro"], "middle", cor=CINZA)
     cv.texto_p(vw.pt(P(9_300, 3_600)), "PEDESTRES", TXT["micro"], "middle", cor=CINZA)
 
+    # ---- areas tecnicas e pilares
+    _tecnicos(cv, vw)
+
     # ---- cotas do lote e recuos
     an.cadeia(cv, vw, [0, 2_400, 8_400, 16_800, L], 0, "H", 12)
     an.cadeia(cv, vw, [0, L], 0, "H", 22)
@@ -286,6 +289,36 @@ def implantacao() -> Canvas:
             [[n, v, l, "OK" if ok else "REVER"] for n, v, l, ok in pj.verificacao_urbanistica()],
             larguras=[62, 40, 48, 18])
     return cv
+
+
+
+def _tecnicos(cv: Canvas, vw: View, rotulos: bool = True) -> None:
+    """Areas tecnicas do modelo (TECNICOS) sobre a implantacao.
+
+    Enterrado e rasante em tracejado; equipamento aparente em linha cheia.
+    Os nichos de condensadoras recebem a contagem de posicoes de CLIMATIZACAO.
+    """
+    for t in pj.TECNICOS:
+        if t.get("zona") == "INT":
+            continue
+        x, y, w, h = t["x"], t["y"], t["w"], t["h"]
+        sob = t.get("rasante") or t.get("prof")
+        cv.poli_p([vw.pt(P(x, y)), vw.pt(P(x + w, y)),
+                   vw.pt(P(x + w, y + h)), vw.pt(P(x, y + h))],
+                  "oculto" if sob else "vista", fechado=True,
+                  preenche="none" if sob else "#fff3d6", cor="#b5651d")
+        if not rotulos:
+            continue
+        n = len(pj.nicho_de(t["cod"]))
+        rot = t["cod"] + (f" ({n})" if n else "")
+        vert = h > w
+        cv.texto_p(vw.pt(P(x + w / 2, y + h / 2)), rot, TXT["micro"], "middle",
+                   rot=90 if vert else 0, cor="#b5651d")
+    for p in pj.PILARES:
+        c = vw.pt(P(p["x"], p["y"]))
+        cv.poli_p([(c[0] - 1.6, c[1] - 1.6), (c[0] + 1.6, c[1] - 1.6),
+                   (c[0] + 1.6, c[1] + 1.6), (c[0] - 1.6, c[1] + 1.6)],
+                  "corte", fechado=True, preenche="#444", cor="#444")
 
 
 # =========================================================================

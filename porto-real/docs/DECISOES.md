@@ -117,3 +117,49 @@ cheio. Se o Código Ambiental de Manaus exigir retenção no lote, ela será
 dimensionada como **volume separado**, ou como zona superior do mesmo
 reservatório com descarga lenta por orifício calibrado. Mantida como
 pendência nº 8 até a consulta.
+
+---
+
+## A fita social não recebe ar condicionado
+
+Estar, core, gourmet e cozinha formam **um volume contínuo de 87,84 m²**, com
+portas de vidro para o deck norte e para o pátio. Climatizar isso em Manaus é
+resfriar o quintal: a carga do volume inteiro passa de 60.000 BTU/h e, com as
+portas na posição em que o morador vai querer usá-las, o equipamento nunca
+alcança o setpoint.
+
+A estratégia ali é outra, e foi desenhada desde o início: **ventilação cruzada
+sul → norte** (PV02 do estar para a loggia sul, PV01 do core para o deck norte),
+ventiladores de teto e o pacote de sombreamento. Em clima quente-úmido, o
+conforto vem da velocidade do ar sobre a pele, não da temperatura do ar — 0,8 m/s
+de brisa equivalem a cerca de 2,5 °C de redução na temperatura operativa.
+
+Fica **reservada a infraestrutura** — posição no nicho TC-09, furo, dreno e
+circuito — para um split duto de 36.000 BTU sobre o jantar, caso o morador
+decida depois fechar o vidro e pagar a conta. Decidir isso agora seria comprar
+equipamento para uma hipótese; deixar o furo custa quase nada.
+
+A cozinha também não recebe equipamento próprio: tem cooktop e churrasqueira,
+que **adicionam** calor. Ali a solução é exaustão e ventilação, não resfriamento.
+
+## A oficina recebe infraestrutura, não equipamento
+
+Oficina de 9,00 m² com carga de 7.000 BTU/h. A terceira posição do nicho sul,
+o furo, o dreno e o circuito estão previstos. O equipamento de 9.000 BTU entra
+quando e se o uso justificar — é o mesmo método de especificação por demanda
+que deixou apenas 7,80 m² de parede acústica PA-2 na casa inteira.
+
+## A casa de máquinas da piscina é semi-enterrada, não enterrada
+
+O modelo dizia "enterrada" com 1.200 mm. Errado por dois motivos técnicos:
+
+1. A **retrolavagem do filtro** precisa drenar por gravidade. Com a bomba abaixo
+   do nível de descarte, a lavagem depende de bombeamento e o filtro nunca é
+   limpo direito.
+2. Um motor de 1/2 cv dissipa cerca de 300 W de calor. Em recinto confinado com
+   alçapão cego, a temperatura sobe e o motor perde vida útil.
+
+**Correção:** piso 600 mm abaixo do deck, tampa em grelha 800 × 1.200 mm. A
+grelha resolve ventilação e iluminação de manutenção ao mesmo tempo, e o dreno
+vai para vala de infiltração. Continua sem volume solto no jardim — que era o
+ganho que motivou enterrar.

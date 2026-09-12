@@ -15,6 +15,7 @@ os reproduz, nao os valida.
 """
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 
 GRID = 600
@@ -82,6 +83,7 @@ class Amb:
     piso: str = "porcelanato"
     nivel: int = 0
     aberto: bool = False          # nao computa como area fechada
+    coberto: bool = False         # area aberta COM cobertura (entra na taxa de ocup.)
     molhado: bool = False
 
     @property
@@ -138,43 +140,52 @@ TERREO: list[Amb] = [
 
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
 TERREO_ABERTO: list[Amb] = [
-    Amb("T-VAR", "VARANDA DE ENTRADA",   8_400,  7_200, 1_800, 2_400, aberto=True),
+    Amb("T-VAR", "VARANDA DE ENTRADA",   8_400,  7_200, 1_800, 2_400, aberto=True, coberto=True),   # cobertura propria, continuacao do telhado frontal
     Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 2_400, aberto=True),
     Amb("T-JNO", "JARDIM NORTE",        15_000,  7_200, 1_800, 6_000, aberto=True),
-    Amb("T-LOG", "LOGGIA SUL",           2_400, 16_200, 3_000, 3_000, aberto=True),
+    Amb("T-LOG", "LOGGIA SUL",           2_400, 16_200, 3_000, 3_000, aberto=True, coberto=True),   # sob as suites 02 e 03 (pilotis + viga V-01)
     Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 6_000, aberto=True),
-    Amb("T-VRL", "VARAL COBERTO",       12_600, 19_200, 4_200, 4_200, aberto=True),
-    Amb("T-PAT", "PATIO NORTE",          9_600, 23_400, 7_200, 3_000, aberto=True),
-    Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 1_200, aberto=True),
+    Amb("T-VRL", "VARAL COBERTO",       12_600, 19_200, 4_200, 4_200, aberto=True, coberto=True),   # 5,04 m2 sob a master + 12,60 m2 de telha translucida
+    # o patio norte estava declarado como uma peca unica de 21,60 m2, metade
+    # dela sob a laje da master e da sacada. Dividido conforme a cobertura
+    # real: o trecho coberto e a sala de jantar externa do gourmet (a porta
+    # PV02 abre exatamente nele); o descoberto e passagem e insolacao.
+    Amb("T-PAT", "PATIO COBERTO DO GOURMET", 9_600, 23_400, 4_200, 2_400,
+        aberto=True, coberto=True),   # sob a master (2,52) e a sacada (7,56)
+    Amb("T-PT2", "PATIO DESCOBERTO",    13_800, 23_400, 3_000, 2_400, aberto=True),
+    Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 1_200, aberto=True, coberto=True),   # cobertura propria, beiral do gourmet sobre a piscina
     Amb("T-DKP", "DECK DA PISCINA",      4_200, 27_600, 7_200, 4_200, aberto=True),
     # jardins: area aberta com funcao declarada, nao sobra
     Amb("T-JSU", "JARDIM SUL",           2_400, 26_400, 3_000, 1_200, aberto=True),
     Amb("T-JS2", "JARDIM SUL",           2_400, 27_600, 1_800, 4_200, aberto=True),
-    Amb("T-JN2", "JARDIM NORTE",         9_600, 26_400, 1_800, 1_200, aberto=True),
-    Amb("T-JN3", "JARDIM NORTE",        11_400, 26_400, 5_400, 5_400, aberto=True),
+    Amb("T-JN2", "JARDIM NORTE",         9_600, 25_800, 1_800, 1_800, aberto=True),
+    Amb("T-JN3", "JARDIM NORTE",        11_400, 25_800, 5_400, 6_000, aberto=True),
     Amb("T-JFU", "JARDIM DE FUNDO",      2_400, 31_800, 14_400, 7_800, aberto=True),
 ]
 
+# ambientes cobertos do terreo = fechados + areas abertas com cobertura.
+# Derivado do campo Amb.coberto: ANTES existiam CINCO definicoes empilhadas
+# desta funcao (a ultima vencia e esquecia a loggia e o varal) e duas delas
+# citavam codigos inexistentes, T-PSE e T-CSE. Com o dado no ambiente nao ha
+# mais lista paralela para desatualizar.
 def cobertos() -> list[Amb]:
-    return TERREO + [a for a in TERREO_ABERTO
-                     if a.cod in ("T-VAR", "T-LOG", "T-VRL", "T-ALP")]
+    return TERREO + [a for a in TERREO_ABERTO if a.coberto]
 
-def cobertos() -> list[Amb]:
-    return TERREO + [a for a in TERREO_ABERTO if a.cod in ("T-VAR", "T-ALP")]
 
-# ambientes cobertos = fechados + areas com cobertura propria
-def cobertos() -> list[Amb]:
-    return TERREO + [a for a in TERREO_ABERTO
-                     if a.cod in ("T-VAR", "T-LOG", "T-PSE", "T-ALP")]
+def projecao_coberta_m2(passo: int = 300) -> float:
+    """Projecao horizontal coberta = uniao do terreo coberto com o superior.
 
-# ambientes cobertos = fechados + areas com cobertura propria
-def cobertos() -> list[Amb]:
-    return TERREO + [a for a in TERREO_ABERTO
-                     if a.cod in ("T-VAR", "T-LOG", "T-CSE")]
+    Rasteriza a uniao porque o superior avanca sobre areas abertas (patio
+    norte) e sobre outras ja cobertas (varal): somar areas contaria duas
+    vezes. E a projecao, nao a soma de pavimentos, que define taxa de ocupacao.
+    """
+    cels = set()
+    for a in cobertos() + SUPERIOR + SUPERIOR_ABERTO:
+        for i in range(a.x, a.x + a.w, passo):
+            for j in range(a.y, a.y + a.h, passo):
+                cels.add((i, j))
+    return round(len(cels) * passo * passo / 1e6, 2)
 
-# ambientes cobertos = fechados + alpendre (para a planta de cobertura)
-def cobertos() -> list[Amb]:
-    return TERREO + [a for a in TERREO_ABERTO if a.cod in ("T-ALP", "T-VAR")]
 
 # =========================================================================
 # PAVIMENTO SUPERIOR
@@ -288,9 +299,17 @@ VAOS = [
 PISCINA = dict(x=5_400, y=27_600, w=4_800, h=2_400,
                prainha_w=1_200, prof_prainha=300, prof_principal=1_150,
                lamina_m2=11.52, volume_m3=10.80)
-CASA_MAQUINAS = dict(x=10_200, y=28_800, w=1_500, h=1_200, enterrada=True,
-                     acesso="alcapao 800 x 800 mm no deck",
-                     nota="enterrada sob o deck: elimina o volume solto no jardim")
+# casa de maquinas da piscina = elemento tecnico TC-13 (ver TECNICOS).
+# SEMI-enterrada: o piso fica 600 mm abaixo do deck, nao 1.200. Razao: a
+# motobomba e o filtro precisam ficar ACIMA do nivel da agua de lavagem do
+# filtro para a retrolavagem drenar por gravidade, e a tampa em grelha
+# garante a ventilacao que um alcapao cego nao daria (motor de 1/2 cv
+# dissipa ~300 W de calor em recinto confinado).
+CASA_MAQUINAS = dict(x=10_200, y=28_800, w=1_500, h=1_200,
+                     enterrada=False, semienterrada=True, prof=600,
+                     acesso="tampa em grelha 800 x 1.200 mm no deck",
+                     nota="semi-enterrada sob o deck: sem volume solto no "
+                          "jardim, com ventilacao e dreno por gravidade")
 DECK = dict(x=4_200, y=27_600, w=7_200, h=4_200)          # envolve a piscina
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 CAIXA_DAGUA = dict(x=10_200, y=16_200, w=2_400, h=2_400,
@@ -323,7 +342,10 @@ def area_aberta(pav: str) -> float:
 
 
 def verificacao_urbanistica() -> list[tuple[str, str, str, bool]]:
-    proj = area_fechada("T")
+    # CORRECAO: a taxa de ocupacao e a PROJECAO COBERTA, nao a area fechada do
+    # terreo. Varanda, loggia, varal e alpendre tem cobertura e projetam; o
+    # trecho da master e da sacada que avanca sobre o patio tambem.
+    proj = projecao_coberta_m2()
     total = area_fechada("T") + area_fechada("S")
     to = proj / LOTE_AREA_M2
     ca = total / LOTE_AREA_M2
@@ -491,9 +513,18 @@ def balanco_pluvial() -> dict:
 # O trecho da suite master que avanca sobre o patio norte NAO e balanco:
 # apoia-se em pilares metalicos, criando terraco coberto no terreo.
 # =========================================================================
+# A sacada da master (S-BAL) avancava 1.800 mm alem da linha de pilares de
+# y = 24.000. Em Light Steel Frame um balanco de 1.800 mm nao se resolve no
+# proprio vigamento (a pratica limita o balanco a ~600 mm ou 1/4 do vao de
+# tras): exigiria perfil laminado de borda em balanco, com flecha e vibracao
+# perceptiveis na ponta e um detalhe de estanqueidade critico na juncao.
+# Dois pilares a mais em y = 25.800 transformam o balanco em laje apoiada e
+# fecham um portico 2 x 2 sobre o patio coberto — a troca mais barata do
+# projeto entre risco de patologia e custo de estrutura.
 PILARES = [
     dict(x=10_800, y=19_200), dict(x=13_800, y=19_200),
     dict(x=10_800, y=24_000), dict(x=13_800, y=24_000),
+    dict(x=10_800, y=25_800), dict(x=13_800, y=25_800),
 ]
 PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
 
@@ -577,12 +608,178 @@ EQUIPAMENTOS = [
 ]
 
 ARMARIOS = [
-    dict(cod="AR-01", amb="T-OFI", tipo="armario alto", x=4_700, y=13_400, w=600, h=600),
     dict(cod="AR-02", amb="T-DES", tipo="prateleiras",  x=5_000, y=25_300, w=300, h=1_000),
     dict(cod="AR-03", amb="T-DEP", tipo="prateleiras",  x=9_700, y=22_300, w=2_800, h=300),
+    # parede de armarios da oficina: 600 mm de profundidade resolve o deposito
+    # proprio sem transferir area de nenhum ambiente
+    dict(cod="AR-04", amb="T-OFI", tipo="armario alto",  x=4_800, y=13_400, w=600, h=2_400),
 ]
 
 # folgas minimas (NBR 9050 e pratica corrente)
 FOLGA_FRONTAL_LOUCA = 600      # frente livre de vaso e lavatorio
 FOLGA_LATERAL_VASO = 400       # eixo do vaso ate a parede lateral
 BOX_MIN = 900                  # menor dimensao interna do box
+
+
+# =========================================================================
+# AREAS TECNICAS — etapa 1: tudo que o briefing especifica ganha posicao.
+# zona: "FT-N" faixa tecnica norte | "REC-S" recuo sul | "ENT" enterrado
+#       "INT" interno a ambiente | "TEST" testada
+# =========================================================================
+TECNICOS = [
+    # ---- reservacao e recalque (faixa tecnica norte)
+    dict(cod="TC-01", rasante=True, nome="Cisterna 3.000 L", zona="ENT", x=17_000, y=8_000,
+         w=2_000, h=1_500, prof=1_200,
+         obs="enterrada sob a faixa tecnica; tampa 800x800 e respiro DN25"),
+    dict(cod="TC-02", nome="Motobomba de recalque 0,5 cv", zona="FT-N",
+         x=17_000, y=9_800, w=1_000, h=800,
+         obs="base antivibratoria; succao DN32, recalque DN25; bypass manual"),
+    dict(cod="TC-03", rasante=True, nome="Reservatorio pluvial 2.500 L", zona="ENT",
+         x=13_000, y=27_000, w=1_800, h=1_500, prof=1_200,
+         obs="enterrado no jardim norte, junto as descidas 3 e 4; so irrigacao e lavagem"),
+    # ---- gas
+    dict(cod="TC-04", nome="Central GLP (2 x P-45)", zona="FT-N",
+         x=17_000, y=24_000, w=1_200, h=800,
+         obs="NBR 13523: min 1,5 m de qualquer vao e 3,0 m de fonte de ignicao"),
+    # ---- eletrica e dados
+    dict(cod="TC-05", nome="Quadro geral 36 modulos", zona="INT", amb="T-GAR",
+         x=8_100, y=9_000, w=300, h=800,
+         obs="parede da garagem junto ao hall; altura de 1.000 a 1.800 mm"),
+    dict(cod="TC-06", nome="Quadro superior 24 modulos", zona="INT", amb="S-HAL",
+         x=9_800, y=17_000, w=300, h=600, obs="hall do pavimento superior"),
+    dict(cod="TC-07", nome="Rack de dados e CFTV", zona="INT", amb="T-GAR",
+         x=8_000, y=10_200, w=400, h=600,
+         obs="8 cameras, 3 access points, 1 videoporteiro; ventilacao passiva"),
+    dict(cod="TC-08", nome="Medidores de agua e energia", zona="TEST",
+         x=17_000, y=600, w=800, h=600,
+         obs="na testada, leitura pela via sem entrar no lote"),
+    # ---- climatizacao: DOIS nichos, por comprimento de linha
+    dict(cod="TC-09", nome="Nicho de condensadoras NORTE (3 posicoes)", zona="FT-N",
+         x=17_000, y=13_200, w=800, h=4_200,
+         obs="2 condensadoras ativas + 1 posicao reservada (ver CLIMATIZACAO); "
+             "base de 200 mm, painel ripado ventilado h=1.800, descarga para a "
+             "divisa norte com 2.200 mm livres"),
+    dict(cod="TC-10", nome="Nicho de condensadoras SUL (3 posicoes)", zona="REC-S",
+         x=2_000, y=8_400, w=400, h=3_600,
+         obs="encostado na parede da garagem, NAO no meio do recuo: libera uma "
+             "faixa continua de 2.000 mm de passagem e descarrega com 2,0 m de "
+             "folga. Atende as suites 02 e 03 com linha de 6 a 10 m contra os "
+             "17,7 m que teriam pelo nicho norte"),
+    # ---- esgoto e piscina
+    dict(cod="TC-11", rasante=True, nome="Caixa de gordura 30 L", zona="REC-S",
+         x=1_200, y=21_000, w=800, h=800, obs="a jusante da cozinha, inspecionavel"),
+    dict(cod="TC-12", rasante=True, nome="Caixa de inspecao 600 x 600", zona="REC-S",
+         x=1_200, y=24_000, w=600, h=600, obs="antes da ligacao a rede publica"),
+    dict(cod="TC-13", rasante=True, nome="Casa de maquinas da piscina", zona="ENT",
+         x=10_200, y=28_800, w=1_500, h=1_200, prof=600,
+         obs="SEMI-enterrada: piso 600 mm abaixo do deck, tampa em grelha, "
+             "dreno para vala de infiltracao; ventila e ilumina pela grelha"),
+]
+
+
+# =========================================================================
+# CLIMATIZACAO — carga calculada, nao estimada no olho.
+#
+# Metodo: carga = area condicionada x q_m2 + area de vidro x q_vidro
+#                 + ocupantes acima de dois x q_pessoa + equipamentos.
+# q_m2 = 700 BTU/h.m2: valor de ZB8 (Manaus) JA considerando o pacote do
+# projeto — U_parede 0,615, U_cobertura 0,276, atico ventilado e 100 % dos
+# vaos sombreados. Sem esse pacote o valor de praxe local e 800 a 900.
+#
+# DECISAO DE PROJETO: a fita social (estar + core + gourmet + cozinha, 87,84 m2
+# em volume continuo e com portas de vidro para o deck e o patio) NAO recebe
+# ar condicionado. Climatizar um volume aberto de 88 m2 em Manaus e perder
+# energia para o quintal: a estrategia ali e ventilacao cruzada (PV02 sul ->
+# PV01 norte), ventiladores de teto e o sombreamento. Fica RESERVADA a
+# infraestrutura (posicao no nicho, furo, dreno e circuito) para um split duto
+# de 36.000 BTU sobre o jantar, caso o morador opte depois por fechar o vidro.
+# =========================================================================
+CLIMA_Q_M2 = 700            # BTU/h por m2 de piso condicionado
+CLIMA_Q_VIDRO = 200         # BTU/h por m2 de vidro sombreado
+CLIMA_Q_PESSOA = 600        # BTU/h por ocupante acima de dois
+CLIMA_Q_EQUIP = 200         # BTU/h por equipamento (TV, computador)
+CAPACIDADES_COMERCIAIS = (9_000, 12_000, 18_000, 24_000, 30_000, 36_000)
+# largura de nicho por faixa de capacidade (condensadora + folga lateral)
+LARGURA_NICHO = ((18_000, 1_200), (36_000, 1_400))
+
+CLIMATIZACAO = [
+    dict(amb="S-MAS", nicho="TC-09", pessoas=2, equip=1, capacidade=18_000,
+         tipo="split hi-wall inverter"),
+    dict(amb="T-REV", nicho="TC-09", pessoas=2, equip=1, capacidade=18_000,
+         tipo="split hi-wall inverter",
+         obs="quarto reversivel: usado como escritorio, ganha carga de equipamento"),
+    dict(amb="S-S02", nicho="TC-10", pessoas=2, equip=1, capacidade=18_000,
+         tipo="split hi-wall inverter"),
+    dict(amb="S-S03", nicho="TC-10", pessoas=2, equip=1, capacidade=18_000,
+         tipo="split hi-wall inverter"),
+    dict(amb="T-SOC", nicho="TC-09", pessoas=6, equip=1, capacidade=36_000,
+         mais=["T-COR"], reserva=True,
+         tipo="split duto, 2 insuflamentos (INFRAESTRUTURA)",
+         obs="carga somada com o core, que e o mesmo volume; so a infraestrutura"),
+    dict(amb="T-OFI", nicho="TC-10", pessoas=2, equip=1, capacidade=9_000,
+         reserva=True, tipo="split hi-wall (INFRAESTRUTURA)",
+         obs="oficina: furo, dreno e circuito previstos; equipamento opcional"),
+]
+
+
+def area_condicionada(cod: str) -> float:
+    """Area de piso que a evaporadora precisa resfriar, sem banho e closet."""
+    amb = next((a for a in TERREO + SUPERIOR if a.cod == cod), None)
+    if amb is None:
+        return 0.0
+    area = amb.area_mod
+    for sd in SUBDIVISOES:
+        if sd["pai"] == cod:
+            area -= (sd["w"] * sd["h"]) / 1e6
+    return round(area, 2)
+
+
+def area_vidro(cod: str) -> float:
+    """Area de vidro dos vaos que pertencem ao ambiente (janelas e PV)."""
+    amb = next((a for a in TERREO + SUPERIOR if a.cod == cod), None)
+    if amb is None:
+        return 0.0
+    tot = 0.0
+    for tipo, x, y, ori, pav in VAOS:
+        if pav != amb.pav or not (tipo.startswith("J") or tipo.startswith("PV")):
+            continue
+        lg, al = ESQUADRIAS[tipo][0], ESQUADRIAS[tipo][1]
+        # o vao pertence ao ambiente se seu centro encosta no contorno dele
+        if amb.x - 200 <= x <= amb.x + amb.w + 200 and amb.y - 200 <= y <= amb.y + amb.h + 200:
+            tot += (lg * al) / 1e6
+    return round(tot, 2)
+
+
+def carga_termica(cod: str, pessoas: int = 2, equip: int = 0,
+                  mais: list[str] | None = None) -> int:
+    """Carga termica em BTU/h, arredondada para cima em 100.
+
+    'mais' soma ambientes que formam um unico volume com o principal: o core
+    nao tem parede que o separe do estar, logo nao tem carga propria separada.
+    """
+    area = area_condicionada(cod) + sum(area_condicionada(c) for c in (mais or []))
+    vidro = area_vidro(cod) + sum(area_vidro(c) for c in (mais or []))
+    q = (area * CLIMA_Q_M2 + vidro * CLIMA_Q_VIDRO
+         + max(0, pessoas - 2) * CLIMA_Q_PESSOA + equip * CLIMA_Q_EQUIP)
+    return int(math.ceil(q / 100.0) * 100)
+
+
+def capacidade_comercial(carga: int) -> int:
+    for c in CAPACIDADES_COMERCIAIS:
+        if c >= carga:
+            return c
+    return CAPACIDADES_COMERCIAIS[-1]
+
+
+def nicho_de(cod_nicho: str) -> list[dict]:
+    return [c for c in CLIMATIZACAO if c["nicho"] == cod_nicho]
+
+
+def carga_instalada_btu(incluir_reserva: bool = False) -> int:
+    return sum(c["capacidade"] for c in CLIMATIZACAO
+               if incluir_reserva or not c.get("reserva"))
+
+# comprimento maximo confortavel de linha frigorigena de split de 12.000 BTU
+LINHA_FRIG_MAX = 15_000
+LINHA_FRIG_LIMITE = 25_000
+GLP_DIST_VAO = 1_500        # NBR 13523

@@ -1026,3 +1026,115 @@ Nenhuma delas passa pela área social.
 
 Térreo: 177,84 → **180,00 m²** (os 2,16 m² da circulação). Taxa de ocupação
 22,50 %, CAMT 0,333 — ambos folgados. Auditoria: **0 erros, 0 atenções.**
+
+---
+
+# Revisão 15 — Etapa 1: áreas técnicas e o que elas revelaram
+
+Locar bomba, condensadoras, central de GLP e caixas de inspeção no **modelo**
+(lista `TECNICOS`, 13 elementos) não foi um acréscimo de desenho: foi o que
+permitiu auditar a coordenação. Enquanto esses elementos existiam só na
+intenção, quatro defeitos reais passavam por todas as 32 verificações.
+
+## Defeito 1 — cinco definições empilhadas de `cobertos()`
+
+O arquivo `projeto.py` continha **cinco** definições sucessivas da mesma
+função. Em Python a última vence, silenciosamente. A última esquecia a loggia
+sul e o varal coberto, e duas das intermediárias citavam códigos de ambiente
+que nem existem mais (`T-PSE`, `T-CSE`).
+
+Consequência: a planta de cobertura e todo cálculo de projeção usavam um
+contorno errado. **Correção:** a condição passou a ser um dado do próprio
+ambiente (`Amb.coberto`) e a função virou uma linha derivada dele. Não há mais
+lista paralela para desatualizar — a mesma lição do resto do projeto.
+
+## Defeito 2 — taxa de ocupação calculada sobre a área errada
+
+`verificacao_urbanistica()` usava `area_fechada("T")` (180,00 m²) como projeção.
+Taxa de ocupação é **projeção coberta**: entram varanda, loggia, varal e
+alpendre, e entra o avanço da master e da sacada sobre o pátio. Somar áreas
+contaria duas vezes o trecho de varal que fica sob a master, então a função
+nova (`projecao_coberta_m2`) **rasteriza a união** dos pavimentos.
+
+| | antes | agora |
+|---|---|---|
+| Projeção considerada | 180,00 m² | **226,08 m²** |
+| Taxa de ocupação | 22,50 % | **28,26 %** |
+| Limite SU16 (H) | 50 % | 50 % |
+
+O projeto continua folgado — mas por 21,74 pontos, não por 27,50. A diferença
+importa no dia em que alguém quiser fechar o varal ou ampliar o alpendre.
+
+## Defeito 3 — balanço de 1.800 mm em Light Steel Frame
+
+A sacada da master (S-BAL) avançava 1.800 mm além da linha de pilares de
+y = 25.800 — e a verificação de apoio só percorria `SUPERIOR`, nunca
+`SUPERIOR_ABERTO`, de modo que o balanço jamais era testado. Em LSF a prática
+limita o balanço do vigamento a cerca de 600 mm, ou 1/4 do vão de trás: 1.800 mm
+exigiria perfil laminado em balanço, com flecha e vibração perceptíveis na
+ponta e um detalhe de estanqueidade crítico na junção com o piso.
+
+**Correção:** dois pilares a mais em y = 25.800, fechando um pórtico 2 × 2 sobre
+o pátio. É a troca mais barata do caderno entre risco de patologia e custo de
+estrutura. A verificação passou a percorrer também as áreas abertas do superior.
+
+## Defeito 4 — pátio norte declarado como peça única
+
+O pátio tinha 21,60 m² em um só retângulo, metade dele sob a laje da master e
+da sacada. Dividido conforme a cobertura real, sem perder um metro quadrado
+(52,92 m² antes e depois, na soma com os jardins vizinhos):
+
+| código | ambiente | área | condição |
+|---|---|---|---|
+| T-PAT | pátio coberto do gourmet | 10,08 m² | sob a master (2,52) e a sacada (7,56) |
+| T-PT2 | pátio descoberto | 7,20 m² | passagem e insolação |
+| T-JN2 / T-JN3 | jardim norte | 3,24 / 32,40 m² | reajustados |
+
+O pátio coberto não é sobra: a porta PV02 do gourmet abre exatamente nele, na
+mesma faixa de y. É a sala de jantar externa, já sombreada pela própria casa.
+
+## Climatização: carga calculada, não estimada no olho
+
+A tabela antiga dizia "4 × 12.000 + 2 × 18.000 = 84.000 BTU/h" — número posto à
+mão, sem conta atrás. Agora a carga é **computada por ambiente**:
+
+```
+carga = área condicionada × 700 + área de vidro × 200
+        + (ocupantes − 2) × 600 + equipamentos × 200
+```
+
+Os 700 BTU/h·m² valem para a Zona Bioclimática 8 **já considerando** o pacote
+do projeto (U_parede 0,615, U_cobertura 0,276, ático ventilado, 100 % dos vãos
+sombreados). Sem esse pacote, a praxe local é 800 a 900 — o sombreamento paga
+parte do equipamento antes de pagar a conta de luz.
+
+| ambiente | área cond. | vidro | carga | equipamento |
+|---|---|---|---|---|
+| Suíte master | 17,28 m² | 4,23 m² | 13.200 | 18.000 |
+| Quarto reversível | 18,00 m² | 3,60 m² | 13.600 | 18.000 |
+| Suíte 02 | 20,16 m² | 3,96 m² | 15.200 | 18.000 |
+| Suíte 03 | 20,16 m² | 4,32 m² | 15.200 | 18.000 |
+| Estar + core (reserva) | 39,60 m² | 14,40 m² | 33.200 | 36.000 |
+| Oficina (reserva) | 9,00 m² | 2,16 m² | 7.000 | 9.000 |
+
+Cada escolha é **exatamente** o primeiro degrau comercial acima da carga — e a
+auditoria agora reprova tanto subdimensionamento quanto sobredimensionamento.
+Em Manaus, com UR de 80 %, um equipamento grande demais liga e desliga e deixa
+de desumidificar: o ambiente fica frio e úmido, que é o pior resultado
+possível. Instalado: **72.000 BTU/h**; reservado: 45.000.
+
+## Dois nichos, não um — e por quê
+
+| | nicho NORTE (TC-09) | nicho SUL (TC-10) |
+|---|---|---|
+| Atende | master, reversível, (social) | suítes 02 e 03, (oficina) |
+| Linha frigorígena | 6,1 a 11,5 m | 5,3 a 11,1 m |
+| Se tudo fosse ao norte | — | **17,7 m** até a suíte 02 |
+
+Acima de 15 m a linha exige carga adicional de refrigerante e perde
+rendimento; o segundo nicho custa menos que essa perda ao longo da vida do
+equipamento. O nicho sul foi **encostado na parede da garagem** (x = 2.000), não
+centrado no recuo: libera uma faixa **contínua** de 2.000 mm de passagem em vez
+de duas inúteis de 1.200 e 400, e descarrega o ar quente com 2,0 m de folga. E
+foi deslocado para y = 8.400–12.000 para ficar a 1.800 mm da janela da oficina —
+abaixo disso o ar de descarga volta para dentro pela própria janela.

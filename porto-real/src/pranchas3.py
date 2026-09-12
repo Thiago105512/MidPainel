@@ -139,14 +139,18 @@ def quadros() -> Canvas:
     _tabela(cv, (35, 40), "QUADRO GERAL DE AREAS",
             ["DESCRICAO", "PROJETO (m2)", "BRIEFING (m2)", "DELTA"],
             [["Lote", "800,00", "800,00", "0,00"],
-             ["Area fechada — terreo", f"{t_area:.2f}".replace(".", ","), "174,24", "0,00"],
+             ["Area fechada — terreo", f"{t_area:.2f}".replace(".", ","), "174,24",
+              f"{t_area-174.24:+.2f}".replace(".", ",")],
              ["Area fechada — superior", f"{s_area:.2f}".replace(".", ","), "84,96", "+1,44"],
              ["Area fechada total", f"{t_area+s_area:.2f}".replace(".", ","), "259,20", "+1,44"],
              ["Varanda master (aberta)", "10,80", "10,80", "0,00"],
              ["Areas externas cobertas/descobertas",
               f"{pj.area_aberta('T'):.2f}".replace(".", ","), "-", "-"],
              ["Lamina d'agua da piscina", "11,52", "11,52", "0,00"],
-             ["Taxa de ocupacao", f"{t_area/8:.2f} %".replace(".", ","), "max 50 %", "OK"],
+             ["Projecao coberta (terreo + avancos)",
+              f"{pj.projecao_coberta_m2():.2f}".replace(".", ","), "-", "-"],
+             ["Taxa de ocupacao (projecao coberta)",
+              f"{pj.projecao_coberta_m2()/8:.2f} %".replace(".", ","), "max 50 %", "OK"],
              ["Coef. de aproveitamento",
               f"{(t_area+s_area)/800:.3f}".replace(".", ","), "max 1,00", "OK"]],
             larguras=[86, 34, 34, 22])
@@ -174,13 +178,55 @@ def quadros() -> Canvas:
              ["Pluvial reuso", "Decisao (FECHADA)", "2.500 L, dimensionado pela demanda"],
              ["Pluvial reuso", "Captacao x demanda", "371 m3/ano disponiveis | 98 m3/ano usados"],
              ["Pluvial reuso", "Autonomia", "9,3 dias | nao estender a vasos sanitarios"],
-             ["Climatizacao", "Carga total instalada", "4 x 12.000 + 2 x 18.000 = 84.000 BTU/h"],
+             ["Climatizacao", "Carga instalada (ver quadro proprio)",
+              f"{pj.carga_instalada_btu():,} BTU/h".replace(",", ".")],
+             ["Climatizacao", "Infraestrutura reservada",
+              f"{pj.carga_instalada_btu(True)-pj.carga_instalada_btu():,} BTU/h"
+              .replace(",", ".") + " (social + oficina)"],
              ["Eletrica", "Quadros", "geral 36 modulos | superior 24 modulos"],
              ["Eletrica", "Infraestrutura futura", "fotovoltaica + carregador de VE"],
              ["Dados", "CFTV / Wi-Fi / videoporteiro", "8 cameras | 3 APs | 1 unidade"],
              ["Estrutura", "Fundacao / vedacao", "radier 180 mm fck 30 (H) | LSF + perfis"],
              ["Solo", "Tensao admissivel / sondagem", "150 kPa (H) | 3 furos SPT, 12 m"]],
             larguras=[36, 96, 110])
+
+
+    lin_cl = []
+    for c in pj.CLIMATIZACAO:
+        cg = pj.carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"))
+        amb = next((a for a in pj.TERREO + pj.SUPERIOR if a.cod == c["amb"]), None)
+        nome = amb.nome if amb else c["amb"]
+        if c.get("mais"):
+            nome += " + " + "+".join(c["mais"])
+        lin_cl.append([
+            c["amb"], nome[:30],
+            f"{pj.area_condicionada(c['amb']):.2f}".replace(".", ","),
+            f"{pj.area_vidro(c['amb']):.2f}".replace(".", ","),
+            f"{cg:,}".replace(",", "."),
+            f"{c['capacidade']:,}".replace(",", "."),
+            c["nicho"],
+            "RESERVA" if c.get("reserva") else "ATIVO"])
+    _tabela(cv, (35, 375),
+            f"CLIMATIZACAO — CARGA CALCULADA x EQUIPAMENTO (q = {pj.CLIMA_Q_M2} "
+            f"BTU/h.m2, ZB8 com o pacote de sombreamento do projeto)",
+            ["AMB", "AMBIENTE", "AREA (m2)", "VIDRO (m2)", "CARGA (BTU/h)",
+             "EQUIP. (BTU/h)", "NICHO", "FASE"], lin_cl,
+            larguras=[16, 62, 26, 26, 30, 30, 18, 22])
+
+    lin_tc = []
+    for t in pj.TECNICOS:
+        n = len(pj.nicho_de(t["cod"]))
+        pos = (f"interno a {t['amb']}" if t.get("zona") == "INT"
+               else f"({t['x']}, {t['y']})")
+        cond = ("enterrado" if t.get("prof") and t.get("zona") == "ENT"
+                else "rasante" if t.get("rasante") else "aparente")
+        lin_tc.append([t["cod"], t["nome"][:40], t.get("zona", "-"), pos,
+                       f"{t['w']} x {t['h']}", cond,
+                       f"{n} posicoes" if n else t["obs"][:44]])
+    _tabela(cv, (35, 450), "AREAS TECNICAS LOCADAS",
+            ["COD", "ELEMENTO", "ZONA", "POSICAO (mm)", "DIM (mm)",
+             "CONDICAO", "OBSERVACAO"], lin_tc,
+            larguras=[16, 76, 18, 38, 28, 22, 62])
 
     _tabela(cv, (35, 300), "PENDENCIAS — O QUE NAO ESTA LIBERADO",
             ["#", "PENDENCIA", "IMPACTO"],
