@@ -1204,16 +1204,35 @@ BANCADAS = [
     dict(cod="BC-02", amb="T-COZ", x=2_500, y=21_300, w=600, h=1_800,
          prof=600, cubas=0, cooktop=True, tipo="granito",
          uso="coccao — cooktop e apoio, junto a despensa"),
-    dict(cod="BC-03", amb="T-COZ", x=4_800, y=22_200, w=1_200, h=2_400,
+    # R10 — era uma ILHA chamada de peninsula: atravessava a fronteira
+    # cozinha/gourmet (x = 5.400) com 600 mm de cada lado e nao encostava em
+    # nada, a 1.700 mm da bancada de trabalho. Ficava exatamente na area de
+    # transicao, que e o unico lugar onde ela NAO deveria estar.
+    # Agora e peninsula de verdade: encostada na ponta da fila da cozinha e
+    # avancando 1.500 mm para DENTRO do gourmet, perpendicular a fronteira.
+    # Custa 600 mm da linha de fronteira em vez de 2.400, deixa 4.500 dos
+    # 7.200 mm de fronteira abertos, e para 600 mm antes do eixo visual da
+    # piscina (x = 7.500), que nao pode ser tocado.
+    dict(cod="BC-03", amb="T-GOU", x=5_400, y=23_400, w=1_500, h=600,
          prof=600, cubas=0, cooktop=False, tipo="granito",
-         uso="peninsula SECA: apoio, servico e refeicao rapida"),
+         uso="peninsula SECA: passa-pratos da cozinha, apoio de servico do "
+             "gourmet e refeicao rapida — banquetas pelo lado do gourmet"),
     # R07 — a bancada estava encostada na parede do FUNDO, ocupando 3.900 dos
     # 4.200 mm que deveriam abrir para a piscina: era ela, e nao a esquadria, o
     # que tapava a vista. Vai para a parede LESTE, de costas para o patio, onde
     # a coifa sobe pela face tecnica e o cozinheiro fica de frente para a agua.
+    # R10 — o cooktop do gourmet SAIU. Havia duas bocas de coccao a 6,7 m uma da
+    # outra dentro do mesmo ambiente integrado, e o briefing ja dizia
+    # "segunda_cozinha_completa_no_gourmet: false". Bancada de 3,60 m com cooktop
+    # e cuba E uma segunda cozinha, por mais que a legenda diga o contrario.
+    # O gourmet cozinha na CHURRASQUEIRA; o cooktop e da cozinha, a 6,7 m dali,
+    # na mesma sala e sem parede no caminho. A cuba de apoio fica: enxaguar mao e
+    # utensilio junto a grelha e uso real, e evita atravessar a sala pingando.
     dict(cod="BC-04", amb="T-GOU", x=9_000, y=19_800, w=600, h=3_600,
-         prof=600, cubas=1, cooktop=True, tipo="granito", cuba_apoio=True,
-         uso="churrasqueira e cuba de apoio (400 x 340) — nao e segunda cozinha"),
+         prof=600, cubas=1, cooktop=False, ignicao=True, tipo="granito",
+         cuba_apoio=True,
+         uso="churrasqueira e cuba de apoio (400 x 340) — o gourmet assa, nao "
+             "cozinha; a coccao e uma so, na cozinha"),
     dict(cod="BC-05", amb="T-LAV", x=9_750, y=19_350, w=600, h=550,
          prof=600, cubas=1, cooktop=False, tipo="tanque",
          uso="tanque de lavanderia"),
@@ -1256,20 +1275,20 @@ LOUCAS = [
 ]
 
 EQUIPAMENTOS = [
-    dict(cod="EQ-01", amb="T-COZ", tipo="geladeira", x=4_400, y=21_450, w=900, h=750,
+    dict(cod="EQ-01", amb="T-COZ", tipo="geladeira", x=4_650, y=22_500, w=750, h=900,
          abertura=900, uso="nicho de 900 mm; encostada na despensa, formando uma zona de estoque unica junto a porta de servico"),
     # R09 — quatro equipamentos apareciam no quadro de cargas eletricas e NAO
     # tinham posicao no modelo. Sem posicao nao ha verificacao de circulacao, de
     # tomada, de sifao nem de porta batendo neles. Locados:
-    dict(cod="EQ-04", amb="T-COZ", tipo="lava-loucas", x=2_500, y=22_500, w=600,
+    dict(cod="EQ-04", amb="T-COZ", tipo="lava-loucas", x=2_500, y=23_100, w=600,
          h=600, abertura=600, uso="embutido sob a bancada, ao lado da cuba: a "
          "mangueira de descarga usa o mesmo sifao"),
-    dict(cod="EQ-05", amb="T-COZ", tipo="lixo", x=3_150, y=24_450, w=450, h=600,
+    dict(cod="EQ-05", amb="T-COZ", tipo="lixo", x=2_500, y=24_600, w=600, h=450,
          abertura=450, uso="cesto duplo em gaveta sob a cuba — seco e organico"),
-    dict(cod="EQ-06", amb="T-COZ", tipo="forno", x=4_400, y=20_100, w=600, h=600,
+    dict(cod="EQ-06", amb="T-COZ", tipo="forno", x=4_800, y=21_300, w=600, h=600,
          abertura=600, uso="torre quente junto a despensa, fora do triangulo de "
          "trabalho e fora da circulacao da cuba"),
-    dict(cod="EQ-07", amb="T-COZ", tipo="micro-ondas", x=4_400, y=20_700, w=600,
+    dict(cod="EQ-07", amb="T-COZ", tipo="micro-ondas", x=4_800, y=21_900, w=600,
          h=600, abertura=600, uso="na mesma torre do forno, a 1.400 mm do piso"),
     dict(cod="EQ-02", amb="T-LAV", tipo="lavadora",  x=9_750, y=20_050, w=600, h=600,
          abertura=600, uso="base antivibratoria"),
@@ -1289,6 +1308,14 @@ ARMARIOS = [
          w=300, h=2_100),
     dict(cod="AR-07", amb="T-COZ", tipo="prateleiras", x=3_900, y=19_200,
          w=300, h=2_100),
+    # torre quente: marcenaria alta de 600 mm que abriga forno e micro-ondas e
+    # alinha a face leste da cozinha em x = 5.400, junto com a geladeira
+    # R10 — a torre tem 750 mm de profundidade, nao 600: e a profundidade da
+    # geladeira que vem a seguir na fila. Forno e micro-ondas embutidos tem
+    # ~560 mm e montam rentes a frente do armario, entao o alinhamento sai de
+    # graca. Alinhar a frente de uma fila e o que separa marcenaria de movel.
+    dict(cod="AR-08", amb="T-COZ", tipo="armario alto", x=4_650, y=21_300,
+         w=750, h=1_200),
     dict(cod="AR-03", amb="T-DEP", tipo="prateleiras",  x=9_700, y=22_300, w=2_800, h=300),
     # parede de armarios da oficina: 600 mm de profundidade resolve o deposito
     # proprio sem transferir area de nenhum ambiente

@@ -963,7 +963,7 @@ def checar_tecnicos() -> list[Achado]:
                                   f"{g['cod']} a {d:.0f} mm de {tipo} em ({x}, {y}) — "
                                   f"min {pj.GLP_DIST_VAO} mm", "NBR 13523"))
         for b in pj.BANCADAS:
-            if not b.get("cooktop"):
+            if not (b.get("cooktop") or b.get("ignicao")):
                 continue
             d = _folga(_ret(g), (b["x"], b["y"], b["w"], b["h"]))
             if d < DIST_GLP_IGNICAO:

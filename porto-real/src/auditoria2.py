@@ -142,9 +142,16 @@ def checar_cozinha() -> list[Achado]:
     for peca, nome, lado_min in ((cook, "coccao", 400), (gel, "geladeira", 400)):
         px = peca["x"] + peca["w"] / 2
         py = peca["y"] + peca["h"] / 2
+        # a bancada de apoio pode estar do outro lado da fronteira: cozinha e
+        # gourmet sao o mesmo volume, e a peninsula que recebe o que sai da
+        # geladeira fica declarada no gourmet
+        grupo = {"T-COZ"}
+        for g in grupos_integrados("T"):
+            if "T-COZ" in g:
+                grupo |= g
         apoio = False
         for b in pj.BANCADAS:
-            if b["amb"] != "T-COZ" or b["cod"] == peca.get("cod"):
+            if b["amb"] not in grupo or b["cod"] == peca.get("cod"):
                 continue
             if _folga((peca["x"], peca["y"], peca["w"], peca["h"]),
                       (b["x"], b["y"], b["w"], b["h"])) <= 50:
@@ -445,4 +452,173 @@ def checar_padronizacao() -> list[Achado]:
         out.append(Achado("NOTA" if iguais else "ATENCAO", "Espelhamento das suites",
                           "compartimentos identicos em dimensao" if iguais
                           else "compartimentos divergem em dimensao"))
+    return out
+
+
+# ------------------------------------------------- 43. coccao, marcenaria e fila
+FOLGA_FILA_MAX = 50        # mm de desalinhamento aceito entre frentes vizinhas
+SOB_BANCADA = {"lava-loucas": "cuba", "lixo": "cuba", "forno": "alto",
+               "micro-ondas": "alto"}
+
+
+def checar_coccao() -> list[Achado]:
+    """Um ponto de coccao por volume integrado. Dois sao duas cozinhas."""
+    out = []
+    for pav in ("T",):
+        for g in grupos_integrados(pav):
+            pontos = [b for b in pj.BANCADAS
+                      if b["amb"] in g and b.get("cooktop")]
+            if len(pontos) > 1:
+                d = max(_folga((a["x"], a["y"], a["w"], a["h"]),
+                               (b["x"], b["y"], b["w"], b["h"]))
+                        for a in pontos for b in pontos if a is not b)
+                out.append(Achado("ERRO", "Coccao duplicada no mesmo volume",
+                                  f"{', '.join(p['cod'] for p in pontos)} a "
+                                  f"{d/1000:.1f} m, em {' + '.join(sorted(g))}: "
+                                  f"sem parede entre eles, sao duas cozinhas na "
+                                  f"mesma sala"))
+            elif pontos:
+                out.append(Achado("NOTA", "Coccao unica no volume integrado",
+                                  f"{pontos[0]['cod']} em {' + '.join(sorted(g))}"))
+    # toda coccao e toda ignicao precisam de exaustao propria
+    for b in pj.BANCADAS:
+        if not (b.get("cooktop") or b.get("ignicao")):
+            continue
+        if not any(e["amb"] == b["amb"] for e in pj.EXAUSTAO):
+            out.append(Achado("ERRO", "Coccao sem exaustao",
+                              f"{b['cod']} em {b['amb']}"))
+    return out
+
+
+def checar_marcenaria_fila() -> list[Achado]:
+    """Pecas VIZINHAS numa mesma fila devem compartilhar a face.
+
+    A primeira versao agrupava por orientacao da peca e comparava movel de
+    parede oposta com movel de parede oposta — e por isso acusava 2.300 mm de
+    "degrau" entre a bancada da cuba e a geladeira, que estao em paredes
+    diferentes. Agora duas pecas so sao comparadas quando de fato formam fila:
+    encostadas no eixo longo E sobrepostas no eixo da profundidade.
+    """
+    # louca sanitaria nao entra: vaso e mais fundo que lavatorio por natureza,
+    # e ninguem constroi caixa para alinhar os dois
+    IGNORAR = {"vaso", "lavatorio", "box", "tanque"}
+
+    def _compartimento(x, y, pai):
+        """Em que subdivisao a peca esta, se estiver em alguma."""
+        for sd in pj.SUBDIVISOES:
+            if sd["pai"] != pai:
+                continue
+            if sd["x"] <= x < sd["x"] + sd["w"] and sd["y"] <= y < sd["y"] + sd["h"]:
+                return sd["nome"]
+        return None
+
+    out = []
+    for amb in pj.TERREO + pj.SUPERIOR:
+        pecas = [(cod, tipo, x, y, w, h)
+                 for cod, tipo, x, y, w, h in _pecas_do_pav(amb.pav)
+                 if amb.x <= x < amb.x + amb.w and amb.y <= y < amb.y + amb.h
+                 and tipo not in IGNORAR]
+        for i, a in enumerate(pecas):
+            for b in pecas[i + 1:]:
+                ca, ta, ax, ay, aw, ah = a
+                cb, tb, bx, by, bw, bh = b
+                # peca em compartimento diferente tem PAREDE entre as duas
+                if _compartimento(ax, ay, amb.cod) != _compartimento(bx, by, amb.cod):
+                    continue
+                # fila no eixo Y: encostadas em y, sobrepostas em x
+                gap_y = max(by - (ay + ah), ay - (by + bh))
+                ov_x = min(ax + aw, bx + bw) - max(ax, bx)
+                if 0 <= gap_y <= 300 and ov_x > 0:
+                    # so a FRENTE importa: o fundo pode variar (equipamento
+                    # embutido em armario mais fundo deixa folga de sombra atras,
+                    # que e como se constroi de verdade)
+                    d = abs((ax + aw) - (bx + bw))
+                    if d > FOLGA_FILA_MAX:
+                        out.append(Achado("ATENCAO", "Frentes desalinhadas na fila",
+                                          f"{amb.cod}: {ca} ({ta}) termina em "
+                                          f"x={ax+aw:.0f} e {cb} ({tb}) em "
+                                          f"x={bx+bw:.0f} — {d:.0f} mm de degrau"))
+                    continue
+                # fila no eixo X: encostadas em x, sobrepostas em y
+                gap_x = max(bx - (ax + aw), ax - (bx + bw))
+                ov_y = min(ay + ah, by + bh) - max(ay, by)
+                if 0 <= gap_x <= 300 and ov_y > 0:
+                    d = abs((ay + ah) - (by + bh))
+                    if d > FOLGA_FILA_MAX:
+                        out.append(Achado("ATENCAO", "Frentes desalinhadas na fila",
+                                          f"{amb.cod}: {ca} ({ta}) termina em "
+                                          f"y={ay+ah:.0f} e {cb} ({tb}) em "
+                                          f"y={by+bh:.0f} — {d:.0f} mm de degrau"))
+    return out
+
+
+def checar_equipamento_sob_bancada() -> list[Achado]:
+    """Lava-loucas e lixo vao sob a bancada da CUBA; forno e micro, em torre."""
+    out = []
+    for e in pj.EQUIPAMENTOS:
+        exige = SOB_BANCADA.get(e["tipo"])
+        if not exige:
+            continue
+        ret = (e["x"], e["y"], e["w"], e["h"])
+        if exige == "cuba":
+            sob = [b for b in pj.BANCADAS
+                   if b["amb"] == e["amb"] and _sobrepoe(ret,
+                       (b["x"], b["y"], b["w"], b["h"])) > 0.05]
+            if not sob:
+                out.append(Achado("ERRO", "Equipamento sem bancada acima",
+                                  f"{e['cod']} ({e['tipo']}) nao esta sob bancada "
+                                  f"nenhuma"))
+            elif not any(b["cubas"] for b in sob):
+                out.append(Achado("ERRO", "Equipamento sob bancada errada",
+                                  f"{e['cod']} ({e['tipo']}) esta sob "
+                                  f"{sob[0]['cod']}"
+                                  + (" (cooktop)" if sob[0]["cooktop"] else "")
+                                  + f": precisa da bancada da cuba, onde estao o "
+                                    f"sifao e o ralo"))
+        else:
+            torre = [a for a in pj.ARMARIOS
+                     if a["amb"] == e["amb"] and a["tipo"] == "armario alto"
+                     and _sobrepoe(ret, (a["x"], a["y"], a["w"], a["h"])) > 0.05]
+            if not torre:
+                out.append(Achado("ERRO", "Equipamento sem torre",
+                                  f"{e['cod']} ({e['tipo']}) precisa de armario "
+                                  f"alto que o abrigue e alinhe a frente"))
+    return out
+
+
+def checar_peninsula() -> list[Achado]:
+    """Peninsula encosta em algo. O que nao encosta e ilha, e ilha em cozinha de
+    3,00 m de largura nao cabe."""
+    out = []
+    for b in pj.BANCADAS:
+        if "peninsula" not in b["uso"].lower():
+            continue
+        ret = (b["x"], b["y"], b["w"], b["h"])
+        encosta = []
+        for o in list(pj.BANCADAS) + [dict(cod=a["cod"], x=a["x"], y=a["y"],
+                                           w=a["w"], h=a["h"])
+                                      for a in pj.ARMARIOS] + \
+                 [dict(cod=e["cod"], x=e["x"], y=e["y"], w=e["w"], h=e["h"])
+                  for e in pj.EQUIPAMENTOS]:
+            if o["cod"] == b["cod"]:
+                continue
+            if _folga(ret, (o["x"], o["y"], o["w"], o["h"])) <= FOLGA_FILA_MAX:
+                encosta.append(o["cod"])
+        # tambem vale encostar numa parede / linha de fronteira de ambiente
+        for a in pj.TERREO:
+            if abs(b["x"] - a.x) <= 1 or abs(b["x"] + b["w"] - (a.x + a.w)) <= 1:
+                encosta.append(a.cod)
+                break
+        if not encosta:
+            out.append(Achado("ERRO", "Peninsula que nao encosta em nada",
+                              f"{b['cod']}: e ilha, nao peninsula — solta no meio "
+                              f"da circulacao"))
+        else:
+            out.append(Achado("NOTA", "Peninsula ancorada",
+                              f"{b['cod']} encosta em {', '.join(sorted(set(encosta)))}"))
+        # nao pode invadir o eixo visual da piscina
+        eixo = pj.eixo_visual()["eixo_x_piscina"]
+        if b["x"] < eixo < b["x"] + b["w"]:
+            out.append(Achado("ERRO", "Peninsula no eixo visual",
+                              f"{b['cod']} cruza x = {eixo:.0f}, o eixo estar-piscina"))
     return out

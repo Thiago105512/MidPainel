@@ -1904,3 +1904,102 @@ mudança — e foi exatamente assim que a despensa, a cortina de vidro e a troca
 banho/closet foram validadas nesta sessão.
 
 **35 pranchas constroem. PDF ainda não gerado, conforme combinado.**
+
+---
+
+# Revisão 22 — R10: uma cocção só, e a península onde ela deve estar
+
+Duas perguntas do proprietário, as duas certeiras. Fui medir e as duas tinham
+razão.
+
+## Defeito 20 — havia dois cooktops na mesma sala, a 6,7 m um do outro
+
+| | |
+|---|---|
+| BC-02 | cooktop na cozinha |
+| BC-04 | churrasqueira **+ cooktop + cuba** + 3,60 m de bancada no gourmet |
+
+E o briefing dizia, com todas as letras, `segunda_cozinha_completa_no_gourmet:
+false`. A legenda de BC-04 chegava a afirmar "não é segunda cozinha" — mas
+**bancada de 3,60 m com cooktop e cuba é exatamente uma segunda cozinha**, por
+mais que a legenda diga o contrário. E não há parede nenhuma entre as duas:
+é a mesma sala.
+
+**Correção: o cooktop do gourmet saiu.** Fica a churrasqueira, que é a razão de
+existir de um gourmet, e a cuba de apoio, que tem uso real — enxaguar mão e
+utensílio junto à grelha evita atravessar a sala pingando. O gourmet **assa**; a
+cocção é uma só, na cozinha, a 6,7 m dali e sem parede no caminho.
+
+Sai um cooktop, um ponto de GLP e uma coifa da lista. A auditoria agora reprova
+mais de um ponto de cocção por volume integrado, e a verificação de afastamento
+de GLP passou a enxergar `ignicao=True` na churrasqueira, que continua sendo
+fonte de ignição mesmo sem cooktop.
+
+## Defeito 21 — era uma ilha chamada de península, e estava na porta
+
+A "península" BC-03 ocupava x 4.800 a 6.000. A fronteira cozinha/gourmet é
+x = 5.400. Ou seja: **atravessava a fronteira**, 600 mm de cada lado, ficando
+exatamente na área de transição — o único lugar onde ela não deveria estar. E
+não encostava em nada: 1.700 mm de vão até a bancada de trabalho.
+
+Península que não encosta em nada **é ilha**. E ilha não cabe numa cozinha de
+3,00 m de largura.
+
+**Correção: virou península de verdade.** Encostada na ponta da fila da cozinha
+(na geladeira) e avançando **1.500 mm para dentro do gourmet**, perpendicular à
+fronteira.
+
+| | antes | agora |
+|---|---|---|
+| Ocupa da linha de fronteira | 2.400 mm | **600 mm** |
+| Fronteira aberta | 4.800 de 7.200 | **6.600 de 7.200** |
+| Ancorada em | nada | geladeira, na ponta da fila |
+| Distância ao eixo visual da piscina (x = 7.500) | — | **600 mm de folga** |
+
+Ela passa a fazer o que uma península faz: passa-pratos da cozinha, apoio de
+serviço do gourmet e refeição rápida, com banquetas pelo lado do gourmet. E
+**marca** a transição em vez de atravancá-la.
+
+## Defeito 22 — três profundidades em sequência na mesma fila
+
+Ao conferir a pergunta, apareceu um terceiro problema que ninguém tinha visto:
+
+| peça | face leste | profundidade |
+|---|---|---|
+| Forno | x = 5.000 | 600 |
+| Micro-ondas | x = 5.000 | 600 |
+| Geladeira | x = 5.300 | 900 |
+| Península | x = 6.000 | 1.200 |
+
+Três profundidades diferentes em sequência, com uma folga de 150 mm entre a
+torre e a geladeira. Isso não é projeto, é acaso — e aparece como degraus na
+frente da marcenaria.
+
+**Correção:** torre quente com **750 mm** de profundidade, que é a da geladeira.
+Forno e micro-ondas embutidos têm ~560 mm e montam rentes à frente do armário,
+então o alinhamento sai de graça. **A fila leste inteira termina em x = 5.400.**
+
+Lava-louças e lixo também estavam errados: o lava-louças ficava **sob a bancada
+do cooktop**, onde não há sifão nem ralo. Ambos foram para baixo da bancada da
+cuba.
+
+## Quatro verificações novas
+
+| verificação | o que impede |
+|---|---|
+| `checar_coccao` | mais de um ponto de cocção por volume integrado; cocção sem exaustão |
+| `checar_peninsula` | península que não encosta em nada, e península cruzando o eixo visual |
+| `checar_equipamento_sob_bancada` | lava-louças ou lixo fora da bancada da cuba; forno ou micro sem torre |
+| `checar_marcenaria_fila` | degrau de frente entre peças vizinhas de uma mesma fila |
+
+A última precisou de duas correções minhas antes de servir: agrupava por
+orientação da peça e comparava móvel de parede oposta com móvel de parede oposta
+(acusava 2.300 mm de "degrau" entre a bancada da cuba e a geladeira), e depois
+comparava também o **fundo** das peças, quando só a **frente** importa — um
+equipamento embutido em armário mais fundo deixa folga de sombra atrás, que é
+como se constrói de verdade.
+
+## Estado
+
+**46 funções, 231 condições, 0 erros, 0 atenções, 53 notas.** 39 das 63
+auditorias rodam sozinhas (61,9 %). 35 pranchas constroem.
