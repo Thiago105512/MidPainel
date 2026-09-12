@@ -1213,10 +1213,15 @@ def checar_estrutura() -> list[Achado]:
     out = []
     abertos = {a.cod: a for a in pj.TERREO_ABERTO}
     for v in pj.dimensionar_vigas():
-        if v["vao"] > pj.VAO_MAX_VIGA:
+        lim_vao = v.get("vao_max", pj.VAO_MAX_VIGA)
+        if v["vao"] > lim_vao:
             out.append(Achado("ERRO", "Vao de viga acima do limite",
-                              f"{v['cod']}: {v['vao']} mm (max {pj.VAO_MAX_VIGA} mm "
+                              f"{v['cod']}: {v['vao']} mm (max {lim_vao} mm "
                               f"sem apoio intermediario)"))
+        elif v["vao"] > pj.VAO_MAX_VIGA:
+            out.append(Achado("NOTA", "Vao acima do padrao do projeto",
+                              f"{v['cod']}: {v['vao']} mm contra {pj.VAO_MAX_VIGA} mm "
+                              f"de padrao — excecao declarada: {v['desc'][:60]}"))
         if v["sobre"] not in abertos and v["sobre"] not in {a.cod for a in pj.TERREO}:
             out.append(Achado("ERRO", "Viga sobre ambiente inexistente",
                               f"{v['cod']} -> {v['sobre']}"))
@@ -1730,18 +1735,30 @@ def checar_fechamento() -> list[Achado]:
             if v % pj.SUBGRID:
                 out.append(Achado("ERRO", "Eixo de locacao fora da malha",
                                   f"{eixo} = {v} mm"))
-    # paisagismo: afastamento da especie contra o limite do canteiro
+    # paisagismo: afastamento medido da POSICAO da muda, nao do canteiro
     for p in pj.PAISAGISMO:
         amb = next((a for a in pj.TERREO_ABERTO if a.cod == p["amb"]), None)
         if amb is None:
             continue
-        menor = min(amb.w, amb.h)
-        if p["afast_min"] and menor < p["afast_min"] * 2:
-            nivel = "ERRO" if menor < p["afast_min"] else "ATENCAO"
-            out.append(Achado(nivel, "Especie grande para o canteiro",
-                              f"{p['cod']} {p['especie'].split('(')[0].strip()} pede "
-                              f"{p['afast_min']} mm de afastamento em canteiro de "
-                              f"{menor} mm de menor dimensao"))
+        if p.get("x") and not (amb.x <= p["x"] <= amb.x + amb.w
+                               and amb.y <= p["y"] <= amb.y + amb.h):
+            out.append(Achado("ERRO", "Muda fora do canteiro declarado",
+                              f"{p['cod']} em ({p['x']}, {p['y']}) fora de {amb.cod}"))
+            continue
+        d = pj.afastamentos_especie(p)
+        # muda em VASO nao tem raiz no solo: a distancia a edificacao deixa de
+        # ser criterio (a horta da varanda esta encostada na casa de proposito)
+        if "vaso" in str(p.get("raiz", "")) or "vaso" in p["especie"].lower():
+            d.pop("edificacao", None)
+        for onde, val in d.items():
+            if p["afast_min"] and val < p["afast_min"]:
+                nivel = "ERRO" if val < p["afast_min"] * 0.7 else "ATENCAO"
+                out.append(Achado(nivel, "Especie perto demais",
+                                  f"{p['cod']} {p['especie'].split('(')[0].strip()} a "
+                                  f"{val:.0f} mm de {onde}; pede {p['afast_min']} mm"))
+        if p.get("poda") and "rotineira" in str(p.get("poda", "")):
+            out.append(Achado("ERRO", "Especie com poda rotineira",
+                              f"{p['cod']}: o programa proibe poda rotineira"))
     # irrigacao: demanda calculada tem de constar do balanco pluvial
     b = pj.balanco_pluvial()
     if b["autonomia_dias"] < 7:
@@ -1842,6 +1859,82 @@ def checar_lounge() -> list[Achado]:
     return out
 
 
+
+# ------------------------- 32. cortina de vidro e eixo visual
+DESALINHAMENTO_MAX = 900       # entre o eixo do social e o da piscina
+
+
+def checar_cortina_vidro() -> list[Achado]:
+    """A abertura que o proprietario quer so existe se tres coisas derem certo:
+    a verga nao travar o trilho, nada estacionar na frente dela, e o piso
+    atravessar a soleira sem degrau."""
+    out = []
+    cv, vg = pj.CORTINA_VIDRO, pj.VARANDA_GOURMET
+    tipo = pj.ESQUADRIAS.get(cv["vao"])
+    if tipo is None:
+        out.append(Achado("ERRO", "Cortina sem esquadria declarada", cv["vao"]))
+        return out
+    if tipo[0] != cv["largura"]:
+        out.append(Achado("ERRO", "Cortina divergente da esquadria",
+                          f"{cv['largura']} mm contra {tipo[0]} mm em ESQUADRIAS"))
+    if cv["folhas"] * cv["largura_folha"] != cv["largura"]:
+        out.append(Achado("ERRO", "Folhas nao fecham o vao",
+                          f"{cv['folhas']} x {cv['largura_folha']} = "
+                          f"{cv['folhas']*cv['largura_folha']} para "
+                          f"{cv['largura']} mm"))
+    # a verga precisa do limite proprio de trilho
+    v10 = next((v for v in pj.dimensionar_vigas()
+                if v.get("limite_flecha") == "cortina_vidro"), None)
+    if v10 is None:
+        out.append(Achado("ERRO", "Cortina sem verga dimensionada",
+                          "nenhuma viga declara limite_flecha de cortina_vidro"))
+    elif v10["flecha"] > v10["flecha_adm"]:
+        out.append(Achado("ERRO", "Verga da cortina flete demais",
+                          f"{v10['flecha']} mm contra {v10['flecha_adm']} — o "
+                          f"trilho fecha sobre as folhas"))
+    # nada de mobiliario encostado na linha da cortina, dos dois lados
+    faixa = (cv["x"], cv["y"] - 900, cv["largura"], 1_800)
+    for cod, ctipo, x, y, w, h in _pecas_do_pav("T"):
+        if _sobrepoe(faixa, (x, y, w, h)) > 0.05:
+            out.append(Achado("ERRO", "Mobiliario na linha da cortina",
+                              f"{cod} ({ctipo}) ocupa a faixa de 900 mm dos dois "
+                              f"lados da cortina: e ele que tapa a vista, nao a "
+                              f"esquadria"))
+    # continuidade interno/externo
+    cont = pj.CONTINUIDADE_INTERNO_EXTERNO
+    if cont["desnivel_piso"] != 0:
+        out.append(Achado("ERRO", "Degrau na soleira da cortina",
+                          f"{cont['desnivel_piso']} mm: com degrau o olho le dois "
+                          f"ambientes, nao um"))
+    if not cont["junta_alinhada"]:
+        out.append(Achado("ATENCAO", "Paginacao interrompida na soleira",
+                          "a junta precisa atravessar a linha da cortina"))
+    # a varanda precisa de profundidade de permanencia
+    if vg["prof"] < 2_400:
+        out.append(Achado("ERRO", "Varanda rasa demais",
+                          f"{vg['prof']} mm nao abrigam mesa durante chuva com vento"))
+    if vg["largura"] != cv["largura"]:
+        out.append(Achado("ATENCAO", "Varanda mais estreita que a abertura",
+                          f"{vg['largura']} contra {cv['largura']} mm"))
+    # ralo sob o trilho
+    if not any(r["amb"] == "T-ALP" and "cortina" in r["tipo"] for r in pj.RALOS):
+        out.append(Achado("ERRO", "Cortina sem ralo linear sob o trilho",
+                          "7,20 m de fresta rente ao piso sem canal de drenagem"))
+    # eixo visual
+    ev = pj.eixo_visual()
+    if ev["desalinhamento"] > DESALINHAMENTO_MAX:
+        out.append(Achado("ATENCAO", "Piscina fora do eixo do social",
+                          f"{ev['desalinhamento']:.0f} mm entre o eixo do estar e o "
+                          f"da piscina (max {DESALINHAMENTO_MAX})"))
+    else:
+        out.append(Achado("NOTA", "Eixo visual verificado",
+                          f"estar -> cortina -> varanda -> piscina em "
+                          f"{ev['profundidade_total']/1000:.1f} m de profundidade, "
+                          f"com {ev['desalinhamento']:.0f} mm de desalinhamento e "
+                          f"{ev['vao_livre']} mm de vao livre quando aberta"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def verificacoes() -> list:
     """As funcoes de verificacao, em ordem de execucao."""
@@ -1855,7 +1948,7 @@ def verificacoes() -> list:
             checar_altura_livre, checar_chamine, checar_hidraulica,
             checar_eletrica, checar_drenagem,
             checar_integridade_referencial, checar_fechamento,
-            checar_piscina, checar_lounge]
+            checar_piscina, checar_lounge, checar_cortina_vidro]
 
 
 def metrica() -> dict:
@@ -1886,7 +1979,7 @@ def auditar() -> list[Achado]:
             checar_altura_livre() + checar_chamine() +
             checar_hidraulica() + checar_eletrica() + checar_drenagem() +
             checar_integridade_referencial() + checar_fechamento() +
-            checar_piscina() + checar_lounge())
+            checar_piscina() + checar_lounge() + checar_cortina_vidro())
 
 
 if __name__ == "__main__":

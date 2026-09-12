@@ -180,7 +180,9 @@ def desenhar_vaos(cv: Canvas, vw: View, paredes: list[Parede], vaos,
             continue
         e = par.esp
         t = v["tipo"]
-        if t == "PG01":
+        if t.startswith("CV"):
+            _cortina_vidro(cv, vw, v, par, e)
+        elif t == "PG01":
             _portao_correr(cv, vw, v, par, e)
         elif t == "P05":
             _correr(cv, vw, v, par, e)
@@ -302,3 +304,54 @@ def _correr(cv: Canvas, vw: View, v, par, e) -> None:
         cv.linha_p(vw.pt(P(x - e / 2, y0 + L)), vw.pt(P(x + e / 2, y0 + L)), "corte")
         cv.linha_p(vw.pt(P(x - e / 6, y0)), vw.pt(P(x - e / 6, y0 + L * 0.55)), "vista")
         cv.linha_p(vw.pt(P(x + e / 6, y0 + L * 0.45)), vw.pt(P(x + e / 6, y0 + L)), "vista")
+
+
+def _cortina_vidro(cv: Canvas, vw: View, v, par, e) -> None:
+    """Cortina de vidro retratil: folhas soltas e os dois nichos de recolhimento.
+
+    O desenho tem de mostrar o que diferencia a cortina da porta de correr: as
+    folhas estacionam DE PERFIL nos nichos das pontas, e o vao entre eles fica
+    limpo. Por isso os nichos aparecem hachurados e o vao livre e cotado.
+    """
+    c = pj.CORTINA_VIDRO
+    L = v["larg"]
+    nl = c["nicho_w"]
+    n_lado = c["folhas"] // 2
+    if par.horizontal:
+        x0, y = v["x"] - L / 2, v["y"]
+        # batentes
+        for x in (x0, x0 + L):
+            cv.linha_p(vw.pt(P(x, y - e / 2)), vw.pt(P(x, y + e / 2)), "corte")
+        # nichos de recolhimento nas duas pontas
+        for xa in (x0, x0 + L - nl):
+            cv.poli_p([vw.pt(P(xa, y - e / 2)), vw.pt(P(xa + nl, y - e / 2)),
+                       vw.pt(P(xa + nl, y + e / 2)), vw.pt(P(xa, y + e / 2))],
+                      "corte", fechado=True, preenche="#b5651d", cor="#b5651d")
+        # folhas de vidro na posicao fechada
+        for i in range(c["folhas"]):
+            xa = x0 + nl + i * (L - 2 * nl) / c["folhas"]
+            xb = x0 + nl + (i + 1) * (L - 2 * nl) / c["folhas"]
+            cv.linha_p(vw.pt(P(xa + 40, y)), vw.pt(P(xb - 40, y)), "vista", cor="#06c")
+            cv.linha_p(vw.pt(P(xb, y - e / 4)), vw.pt(P(xb, y + e / 4)), "cota", cor="#9cf")
+        # setas de recolhimento
+        for xa, s in ((x0 + nl + 300, -1), (x0 + L - nl - 300, 1)):
+            a = vw.pt(P(xa, y - e / 2 - 180))
+            b = vw.pt(P(xa + s * 700, y - e / 2 - 180))
+            cv.linha_p(a, b, "cota", cor="#b5651d")
+            cv.poli_p([b, (b[0] - s * 2.4, b[1] - 1.4), (b[0] - s * 2.4, b[1] + 1.4)],
+                      "cota", fechado=True, preenche="#b5651d", cor="#b5651d")
+        cv.texto_p(vw.pt(P(v["x"], y - e / 2 - 420)),
+                   f'CV-01 · {c["folhas"]} folhas · vao livre {c["vao_livre_aberto"]}',
+                   TXT["micro"], "middle", cor="#06c")
+    else:
+        x, y0 = v["x"], v["y"] - L / 2
+        for yy in (y0, y0 + L):
+            cv.linha_p(vw.pt(P(x - e / 2, yy)), vw.pt(P(x + e / 2, yy)), "corte")
+        for ya in (y0, y0 + L - nl):
+            cv.poli_p([vw.pt(P(x - e / 2, ya)), vw.pt(P(x + e / 2, ya)),
+                       vw.pt(P(x + e / 2, ya + nl)), vw.pt(P(x - e / 2, ya + nl))],
+                      "corte", fechado=True, preenche="#b5651d", cor="#b5651d")
+        for i in range(c["folhas"]):
+            ya = y0 + nl + i * (L - 2 * nl) / c["folhas"]
+            yb = y0 + nl + (i + 1) * (L - 2 * nl) / c["folhas"]
+            cv.linha_p(vw.pt(P(x, ya + 40)), vw.pt(P(x, yb - 40)), "vista", cor="#06c")

@@ -27,7 +27,7 @@ G = pj.GRID
 CATEGORIA = {
     "T-REV": "intimo", "S-S02": "intimo", "S-S03": "intimo", "S-MAS": "intimo",
     "T-SOC": "social", "T-GOU": "social", "T-COZ": "social",
-    "T-LAV": "servico", "T-DEP": "servico", "T-DES": "servico",
+    "T-LAV": "servico", "T-DEP": "servico",
     "T-OFI": "oficina",
     "T-HAL": "circulacao", "T-CIR": "circulacao", "T-COR": "circulacao",
     "S-HAL": "circulacao",

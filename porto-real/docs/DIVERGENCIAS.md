@@ -1660,3 +1660,132 @@ verificação tridimensional de altura livre pegou isso na primeira rodada.
 De 29 para **31 funções e 171 condições**, com duas novas: piscina (faixa seca,
 recirculação, drenos, sucção, ventilação da casa de máquinas) e lounge (distância
 de visão e parede do painel). **0 erros, 0 atenções, 19 notas.** 34 pranchas.
+
+---
+
+# Revisão 20 — R07: o eixo social e a cortina de vidro
+
+Você disse que não entendia como a cozinha e o gourmet se integram à piscina.
+Fui ao modelo medir, e a razão de não entender é que **eles não se integravam**.
+Três defeitos no mesmo lugar, todos mensuráveis:
+
+## Defeito 11 — a despensa ficava exatamente entre a cozinha e a piscina
+
+A cozinha ia de y = 19.200 a **25.200**. A despensa ocupava y 25.200 a 26.400,
+no mesmo x da cozinha (2.400 a 5.400). Ou seja: **a cozinha não tinha uma única
+parede voltada para o fundo.** Da cozinha só se via a piscina de esguelha,
+atravessando o gourmet na diagonal.
+
+Correção: a despensa saiu, a cozinha alcança y = 26.400 e passa de 18,00 para
+**21,60 m²**. A área fechada do térreo não mudou — a cozinha absorveu exatamente
+os 3,60 m² da despensa.
+
+O armazenamento não se perdeu: virou **parede de armários de 600 mm de
+profundidade**. 1,80 m de frente com prateleira funda rende mais que os 3,00 m de
+prateleira rasa da despensa antiga, e devolve à cozinha a parede do fundo — que
+é o que interessa aqui.
+
+## Defeito 12 — a bancada da churrasqueira tapava a vista
+
+BC-04 estava em x 5.550 a 9.450, y **25.700 a 26.300**: colada na parede do
+fundo, ocupando **3.900 dos 4.200 mm** que deveriam abrir para a piscina.
+
+Não era a esquadria que impedia a integração. **Era a bancada.** E isso
+contradizia frontalmente o próprio briefing, que dizia
+`bancada_gourmet: bloquear_vista_da_piscina: false`.
+
+Correção: BC-04 foi para a **parede leste** (x 9.000 a 9.600, y 19.800 a 23.400),
+de costas para o pátio. Ganhos além do óbvio: a coifa sobe pela face técnica, e
+quem cozinha fica **de frente para a água** em vez de de costas.
+
+## Defeito 13 — o alpendre de 1.200 mm era um pingadeiro
+
+O briefing pedia `cobertura_gourmet: proteger_chuva_forte; uso_durante_chuva:
+objetivo; beiral_generoso`. Com 1.200 mm de profundidade não se usa o espaço
+durante chuva nenhuma — em Manaus a chuva vem com vento.
+
+Correção: **varanda gourmet de 7.200 × 3.000 = 21,60 m²**, cobrindo a largura
+inteira de cozinha + gourmet. E **sem pilar na frente**: a cobertura é laje em
+balanço de 3.000 mm (vigas V-11 a cada 1.200 mm), porque qualquer coluna ali
+apareceria exatamente entre a mesa e a piscina.
+
+## A cortina de vidro
+
+Não é porta de correr com outro nome. A diferença está no que sobra quando se
+abre: a porta de correr empilha folha sobre folha e deixa montantes verticais no
+meio do vão; a cortina tem folhas **soltas** que correm no trilho e giram 90° para
+estacionar de perfil num nicho lateral.
+
+| | antes (PV01) | agora (CV-01) |
+|---|---|---|
+| Largura do vão | 3.600 mm de uma parede de 4.200 | **7.200 mm — a parede inteira** |
+| Ambientes que abrem | só o gourmet | **cozinha + gourmet** |
+| Vão livre quando aberta | ~1.800 (uma folha sobre a outra) | **6.800 mm** |
+| Montante no meio da vista | sim | **nenhum** |
+
+Oito folhas de 900 mm em vidro temperado de 10 mm, quatro estacionando em cada
+ponta, em nicho de 200 × 950 mm embutido na parede.
+
+### O preço técnico, escrito
+
+1. **Não é esquadria de desempenho.** Cortina de vidro não tem borracha de
+   compressão nem estanqueidade classificada — veda chuva e vento, não veda ar.
+   Por isso a fita social **nunca dependeu dela** para climatização: a zona fria
+   é o estar, com a fronteira aerodinâmica da R02, e o gourmet é área ventilada
+   por definição. A carga térmica do projeto continua válida sem uma linha de
+   alteração.
+2. **O trilho inferior é o ponto de entrada de água mais provável da casa** —
+   7,20 m de fresta rente ao piso, voltada para o vento de chuva. Daí o ralo
+   linear RL-11 contínuo sob ele, com o trilho drenando **para dentro** do canal.
+3. **A verga é governada pelo trilho, não pelo gesso.** Adotei limite de flecha
+   **L/700** em vez de L/500: com os 13,75 mm que um W250 daria, o perfil fecha
+   sobre as folhas e o sistema trava. V-10 passou a W310×23,8, com **7,25 mm**
+   contra 10,29 admissíveis.
+4. Vidro temperado sem caixilho pede película de segurança e faixa fosca a
+   1.500 mm. Vidro limpo é invisível, e alguém vai tentar atravessar.
+
+## As três medidas que fazem a integração funcionar
+
+A abertura grande é necessária e não é suficiente. Degrau, junta desalinhada e
+forro interrompido são os três erros que fazem uma abertura de 7 m continuar
+parecendo uma porta:
+
+| medida | projeto |
+|---|---|
+| Desnível de piso na soleira | **0 mm** |
+| Paginação de piso | mesma malha ZP-1 atravessando a linha da cortina |
+| Forro | contínuo, passando por cima do trilho |
+
+## O eixo, em números
+
+A piscina foi recuada 1.800 mm e alinhada ao eixo do social:
+
+| trecho | cota Y | profundidade acumulada |
+|---|---|---|
+| Início do estar | 13.200 | 0 |
+| Cozinha e gourmet (integrados) | 19.200 | 6,00 m |
+| **Cortina de vidro** | 26.400 | 13,20 m |
+| Borda da varanda coberta | 29.400 | 16,20 m |
+| Borda da piscina | 30.600 | 17,40 m |
+| Fim da piscina | 33.900 | **20,70 m** |
+
+**Desalinhamento entre o eixo do estar e o da piscina: 0 mm.** Quem está no
+estar olha em linha reta por 20,70 m e a água está no centro do quadro.
+
+## Correção de método na auditoria
+
+A verificação de paisagismo exigia canteiro com o **dobro** do afastamento —
+critério que só vale para muda plantada no centro. Substituída por posição
+declarada (x, y por espécie) e distâncias reais até as divisas e até a
+edificação, com isenção para espécie em vaso. Isso mudou o resultado: o ipê e a
+jabuticabeira estavam a 2.800 mm da divisa de fundo e foram recuados para 3.100.
+
+## Auditoria
+
+De 31 para **32 funções e 187 condições**, com `checar_cortina_vidro`: verga
+dentro do limite de trilho, folhas fechando o vão, nada de mobiliário na faixa de
+900 mm dos dois lados, ralo sob o trilho, continuidade de piso e eixo visual.
+**0 erros, 0 atenções, 19 notas. 35 pranchas constroem** — incluindo a PR-35
+nova, que desenha o eixo em planta e em corte.
+
+**PDF ainda não gerado**, conforme combinado.

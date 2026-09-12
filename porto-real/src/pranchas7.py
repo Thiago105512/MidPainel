@@ -315,12 +315,14 @@ INDICE = [
     ("31", "Locacao de obra e gabarito"), ("32", "Paisagismo e irrigacao"),
     ("33", "Emissao: indice, revisoes e pendencias"),
     ("34", "Piscina, deck e fachada (R06)"),
+    ("35", "Eixo social e cortina de vidro (R07)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},
             **{n: "Etapa 3 (R04)" for n, _ in INDICE[25:29]},
             **{n: "Etapa 4 (R05)" for n, _ in INDICE[29:33]},
-            **{n: "R06" for n, _ in INDICE[33:]}}
+            **{n: "R06" for n, _ in INDICE[33:34]},
+            **{n: "R07" for n, _ in INDICE[34:]}}
 
 PENDENCIAS = [
     ("1", "Certidao oficial do SU16 (CAMT, taxa de ocupacao, gabarito)",
@@ -561,3 +563,175 @@ def _simb(cv: Canvas, vw: View, x, y, letra: str, cor: str) -> None:
     c = vw.pt(P(x, y))
     cv.circ_p(c, 2.0, "vista", preenche="#fff", cor=cor)
     cv.texto_p((c[0], c[1] + 0.8), letra, TXT["micro"], "middle", cor=cor)
+
+
+# =========================================================================
+# PR-35 — EIXO SOCIAL: COZINHA, GOURMET, CORTINA DE VIDRO E PISCINA
+# =========================================================================
+def eixo_social() -> Canvas:
+    cvd, vg, ev = pj.CORTINA_VIDRO, pj.VARANDA_GOURMET, pj.eixo_visual()
+    cv = base("EIXO SOCIAL — COZINHA, GOURMET, CORTINA DE VIDRO E PISCINA",
+              "indicada", "35", notas=[
+        f"Cozinha e gourmet sao UM ambiente de {21.60 + 30.24:.2f} m2, sem parede "
+        f"entre eles, abrindo por {cvd['largura']} mm de cortina de vidro."
+        .replace(".", ","),
+        f"Aberta, a cortina deixa {cvd['vao_livre_aberto']} mm livres: as folhas "
+        f"giram 90 graus e estacionam de perfil nos nichos das duas pontas.",
+        f"Varanda de {vg['prof']} mm em balanco — nenhum pilar entre a mesa e a agua.",
+        f"Eixo continuo de {ev['profundidade_total']/1000:.1f} m do estar ao fim da "
+        f"piscina, com {ev['desalinhamento']:.0f} mm de desalinhamento."
+        .replace(".", ","),
+    ])
+
+    # ---------------- planta do eixo 1:75
+    vw = View(75, 40, 150, 1_800, 12_600)
+    an.titulo_desenho(cv, (30, 470), "1", "PLANTA DO EIXO SOCIAL", "1:75")
+    for a in pj.TERREO:
+        claro = a.cod in ("T-SOC", "T-COR", "T-GOU", "T-COZ")
+        cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
+                   vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
+                  "vista", fechado=True,
+                  preenche="#eaf4ee" if claro else "#f6f6f6",
+                  cor="#0a6a4a" if claro else "#ccc")
+        if claro:
+            cv.texto_p(vw.pt(P(a.cx, a.cy)), a.nome[:14], TXT["micro"], "middle",
+                       cor="#0a6a4a")
+    for a in pj.TERREO_ABERTO:
+        if a.cod not in ("T-ALP", "T-DKP"):
+            continue
+        cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
+                   vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
+                  "vista", fechado=True, preenche="#f3efe6", cor="#a89")
+        cv.texto_p(vw.pt(P(a.cx, a.cy + 600)), a.nome[:16], TXT["micro"], "middle",
+                   cor="#a89")
+    p = pj.PISCINA
+    cv.poli_p([vw.pt(P(p["x"], p["y"])), vw.pt(P(p["x"] + p["w"], p["y"])),
+               vw.pt(P(p["x"] + p["w"], p["y"] + p["h"])),
+               vw.pt(P(p["x"], p["y"] + p["h"]))], "corte", fechado=True,
+              preenche="#e8f4fb", cor="#06c")
+    # linha da cortina
+    cv.linha_p(vw.pt(P(cvd["x"], cvd["y"])), vw.pt(P(cvd["x"] + cvd["largura"], cvd["y"])),
+               "corte", cor="#06c")
+    for xa in (cvd["x"], cvd["x"] + cvd["largura"] - cvd["nicho_w"]):
+        cv.poli_p([vw.pt(P(xa, cvd["y"] - 100)), vw.pt(P(xa + cvd["nicho_w"], cvd["y"] - 100)),
+                   vw.pt(P(xa + cvd["nicho_w"], cvd["y"] + 100)), vw.pt(P(xa, cvd["y"] + 100))],
+                  "corte", fechado=True, preenche="#b5651d", cor="#b5651d")
+    cv.texto_p(vw.pt(P(cvd["x"] + cvd["largura"] / 2, cvd["y"] - 500)),
+               f"CORTINA DE VIDRO CV-01 — {cvd['largura']} mm", TXT["min"],
+               "middle", cor="#06c")
+    # eixo visual
+    ex = ev["eixo_x_social"]
+    cv.linha_p(vw.pt(P(ex, 13_200)), vw.pt(P(ex, p["y"] + p["h"])), "cota", cor="#c00")
+    for yy, rot in ((19_000, "ESTAR"), (23_000, "GOURMET"), (27_900, "VARANDA"),
+                    (32_200, "PISCINA")):
+        cv.texto_p(vw.pt(P(ex + 200, yy)), rot, TXT["micro"], "start", cor="#c00")
+    an.cadeia(cv, vw, [13_200, 19_200, 26_400, 29_400, 30_600, p["y"] + p["h"]],
+              2_400, "V", -14)
+    an.cadeia(cv, vw, [2_400, 5_400, 9_600], 13_200, "H", 12)
+    an.norte(cv, (200, 120), 7, pj.NORTE_EM_PLANTA)
+
+    # ---------------- corte longitudinal pelo eixo 1:75
+    vw2 = View(75, 300, 260, 13_200, 0)
+    an.titulo_desenho(cv, (290, 300), "2", "CORTE PELO EIXO — CONTINUIDADE", "1:75")
+    piso, teto, laje = 0, pj.PE_DIREITO, pj.PISO_A_PISO
+    # piso continuo do estar ate a borda da varanda
+    cv.linha_p(vw2.pt(P(13_200, piso)), vw2.pt(P(29_400, piso)), "corte")
+    cv.texto_p(vw2.pt(P(28_000, -400)), "PISO CONTINUO, MESMO NIVEL", TXT["micro"],
+               "middle", cor="#c00")
+    # forro continuo atravessando a cortina
+    cv.linha_p(vw2.pt(P(13_200, teto)), vw2.pt(P(29_400, teto)), "vista", cor="#0a6a4a")
+    cv.texto_p(vw2.pt(P(28_000, teto + 350)), "FORRO CONTINUO", TXT["micro"],
+               "middle", cor="#0a6a4a")
+    # laje do superior ate y = 25.200 (master) e cobertura da varanda em balanco
+    cv.linha_p(vw2.pt(P(19_200, laje)), vw2.pt(P(25_200, laje)), "corte")
+    cv.linha_p(vw2.pt(P(26_400, teto + 300)), vw2.pt(P(29_400, teto + 300)), "corte")
+    cv.texto_p(vw2.pt(P(27_900, teto + 700)),
+               f"BALANCO {vg['prof']} mm — sem pilar", TXT["micro"], "middle", cor="#b5651d")
+    # a cortina em elevacao
+    for i in range(cvd["folhas"] + 1):
+        yy = 26_400
+        cv.linha_p(vw2.pt(P(yy, piso)), vw2.pt(P(yy, cvd["altura"])), "cota", cor="#9cf")
+    cv.linha_p(vw2.pt(P(26_400, piso)), vw2.pt(P(26_400, cvd["altura"])), "vista", cor="#06c")
+    cv.texto_p(vw2.pt(P(26_400, cvd["altura"] + 350)), "CV-01", TXT["micro"],
+               "middle", cor="#06c")
+    # piscina em corte
+    cv.linha_p(vw2.pt(P(29_400, piso)), vw2.pt(P(p["y"], piso)), "corte")
+    cv.poli_p([vw2.pt(P(p["y"], piso)), vw2.pt(P(p["y"] + p["h"], piso)),
+               vw2.pt(P(p["y"] + p["h"], -p["prof_principal"])),
+               vw2.pt(P(p["y"], -p["prof_principal"]))], "corte", fechado=True,
+              preenche="#e8f4fb", cor="#06c")
+    an.cadeia(cv, vw2, [13_200, 26_400, 29_400, p["y"], p["y"] + p["h"]], -1_500, "H", 14)
+
+    _tabela(cv, (35, 330), "CORTINA DE VIDRO CV-01",
+            ["ITEM", "PROJETO", "RAZAO"],
+            [["Largura do vao", f"{cvd['largura']} mm",
+              "a parede inteira de cozinha + gourmet, nao um trecho dela"],
+             ["Folhas", f"{cvd['folhas']} x {cvd['largura_folha']} mm",
+              "soltas, sem montante vertical entre elas"],
+             ["Vidro", cvd["vidro"], "sem caixilho aparente na vertical"],
+             ["Seguranca", cvd["pelicula"],
+              "vidro limpo e invisivel: alguem vai tentar atravessar"],
+             ["Recolhimento", cvd["recolhimento"],
+              f"aberta sobram {cvd['vao_livre_aberto']} mm livres — e isso que "
+              f"separa cortina de porta de correr"],
+             ["Nicho", f"{cvd['nicho_w']} x {cvd['nicho_prof']} mm em cada ponta",
+              "embutido na parede, folhas estacionadas de perfil"],
+             ["Trilho superior", cvd["trilho_sup"],
+              "regulagem absorve a flecha residual da verga"],
+             ["Trilho inferior", cvd["trilho_inf"],
+              "drena para dentro do canal, nunca para o piso interno"],
+             ["Verga", "V-10 W310x23,8 · L/700",
+              "limite dado pelo TRILHO, nao pelo gesso: 13 mm de flecha travariam "
+              "o sistema"],
+             ["Uso padrao", cvd["uso_padrao"],
+              "fecha em chuva com vento de sudoeste, ausencia e uso do estar "
+              "climatizado com a casa vazia"]],
+            larguras=[44, 62, 154])
+
+    _tabela(cv, (35, 400), "O QUE A CORTINA NAO E",
+            ["NAO SERVE PARA", "CONSEQUENCIA DE PROJETO"],
+            [["Estanqueidade ao ar",
+              "nao ha borracha de compressao: por isso a zona climatizada e o "
+              "ESTAR, com a fronteira aerodinamica, e nao o gourmet"],
+             ["Isolamento acustico",
+              "vidro monolitico sem vedacao perimetral: o gourmet nunca foi "
+              "contado como ambiente de silencio"],
+             ["Barreira termica",
+              "fechar a cortina nao transforma a varanda em ambiente interno; "
+              "a carga termica do projeto nunca contou com isso"]],
+            larguras=[54, 206])
+
+    cont = pj.CONTINUIDADE_INTERNO_EXTERNO
+    _tabela(cv, (300, 330), "AS TRES MEDIDAS QUE FAZEM A INTEGRACAO FUNCIONAR",
+            ["MEDIDA", "PROJETO", "SE ERRAR"],
+            [["Desnivel de piso na soleira", f"{cont['desnivel_piso']} mm",
+              "qualquer degrau e lido como limite: o olho passa a ver dois "
+              "ambientes, nao um"],
+             ["Paginacao atravessando a linha",
+              "sim — mesma malha ZP-1 dentro e fora",
+              "junta desalinhada na soleira denuncia a costura exatamente onde "
+              "nao ha parede para disfarcar"],
+             ["Forro continuo sobre o trilho", "sim",
+              "forro interrompido no vao devolve a leitura de porta"],
+             ["Bancada fora da linha da vista",
+              "BC-04 foi para a parede leste",
+              "a bancada estava encostada no fundo ocupando 3.900 dos 4.200 mm: "
+              "era ela, e nao a esquadria, o que tapava a piscina"],
+             ["Profundidade da varanda", f"{vg['prof']} mm",
+              "com 1.200 mm nao se usa o espaco durante chuva, que era o "
+              "objetivo declarado"],
+             ["Piscina no eixo", f"{ev['desalinhamento']:.0f} mm de desalinhamento",
+              "piscina fora do eixo transforma a abertura em janela para o lado"]],
+            larguras=[52, 54, 154])
+
+    _tabela(cv, (300, 415), "O EIXO, EM NUMEROS",
+            ["TRECHO", "COTA Y", "PROFUNDIDADE ACUMULADA"],
+            [["Inicio do estar", f"{ev['origem_y']} mm", "0"],
+             ["Cozinha e gourmet (integrados)", "19.200 mm", "6,00 m"],
+             ["Cortina de vidro CV-01", f"{ev['cortina_y']} mm", "13,20 m"],
+             ["Borda da varanda coberta", f"{ev['varanda_y']} mm", "16,20 m"],
+             ["Borda da piscina", f"{ev['piscina_y']} mm", "17,40 m"],
+             ["Fim da piscina", f"{ev['fim_piscina_y']} mm",
+              f"{ev['profundidade_total']/1000:.2f} m".replace(".", ",")]],
+            larguras=[74, 40, 146])
+    return cv
