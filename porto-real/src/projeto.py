@@ -187,8 +187,8 @@ SUBDIVISOES = [
     ("S-S02", "CLOSET", 2_400, 15_600,   600, 2_400),
     ("S-S03", "BANHO",  2_400, 18_000, 1_800, 2_400),
     ("S-S03", "CLOSET", 2_400, 20_400,   600, 2_400),
-    ("S-MAS", "BANHO",   7_800, 19_200, 2_400, 3_000),
-    ("S-MAS", "CLOSET",  7_800, 22_200, 2_400, 1_800),
+    ("S-MAS", "BANHO",  11_400, 19_200, 2_400, 3_000),
+    ("S-MAS", "CLOSET", 11_400, 22_200, 2_400, 1_800),
 ]
 
 # =========================================================================
@@ -203,6 +203,8 @@ ESQUADRIAS = {
     "J01":  (1_200, 1_200, 1_100, "janela de dormitorio, aluminio"),
     "J02":  (  600,   600, 1_500, "janela de banheiro, alta translucida"),
     "J03":  (  900, 1_500,   900, "janela de office/master, aluminio"),
+    "J04":  (  800,   900, 1_500, "janela alta de banheiro, basculante"),
+    "J05":  (1_800, 1_200, 1_100, "janela ampla de dormitorio, aluminio"),
     "PV01": (3_600, 2_400,     0, "vao social posterior"),
     "PV02": (2_400, 2_400,     0, "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)"),
 }
@@ -211,27 +213,26 @@ ESQUADRIAS = {
 # orientacao: "H" vao em parede horizontal, "V" em parede vertical
 VAOS = [
     # ---- faixa frontal
-    ("PG01",  5_400,  7_200, "H", "T"),   # portao da garagem (testada leste)
+    ("PG01",  5_400,  7_200, "H", "T"),   # portao da garagem (ventila a garagem)
     ("P01",   9_300,  9_600, "H", "T"),   # entrada principal
     ("P02",   8_400, 12_000, "V", "T"),   # hall -> garagem
     ("P02",  10_200, 12_000, "V", "T"),   # hall -> banho compartilhado
     ("P02",  12_000, 12_000, "V", "T"),   # banho -> quarto reversivel
-    ("J01",  13_500,  7_200, "H", "T"),   # janela reversivel (leste)
-    ("J01",  15_000, 10_200, "V", "T"),   # janela reversivel (norte)
-    ("J02",  11_100, 10_800, "H", "T"),   # janela banho
+    ("J05",  13_500,  7_200, "H", "T"),   # janela ampla do reversivel (leste)
+    ("J01",  15_000, 10_200, "V", "T"),   # janela do reversivel (norte)
+    ("J04",  11_100, 10_800, "H", "T"),   # janela alta do banho
     # ---- enfilade de servico: garagem -> oficina -> lavanderia -> cozinha
-    ("P04",   3_900, 13_200, "H", "T"),   # garagem -> oficina (invisivel do social)
+    ("P04",   3_900, 13_200, "H", "T"),   # garagem -> oficina
     ("P04",   3_900, 16_200, "H", "T"),   # oficina -> lavanderia
     ("P04",   3_900, 19_200, "H", "T"),   # lavanderia -> cozinha
     ("P02",   3_900, 25_200, "H", "T"),   # cozinha -> despensa
-    ("J01",   2_400, 14_700, "V", "T"),   # janela oficina (sul)
-    ("J01",   2_400, 17_700, "V", "T"),   # janela lavanderia (sul)
-    ("J01",   2_400, 21_000, "V", "T"),   # janela cozinha (sul)
-    ("J01",   2_400, 23_400, "V", "T"),   # janela cozinha (sul)
-    ("J02",   2_400, 25_800, "V", "T"),   # janela despensa (sul)
-    # ---- faixa social
+    ("J05",   2_400, 14_700, "V", "T"),   # janela ampla da oficina (sul)
+    ("J01",   2_400, 17_700, "V", "T"),   # janela da lavanderia (sul)
+    ("J01",   2_400, 21_000, "V", "T"),   # janela da cozinha (sul)
+    ("J01",   2_400, 23_400, "V", "T"),   # janela da cozinha (sul)
+    ("J04",   2_400, 25_800, "V", "T"),   # janela alta da despensa (sul)
+    # ---- faixa social (estar e core sao integrados: sem porta entre eles)
     ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
-    ("P02",   9_600, 16_200, "V", "T"),   # estar -> core/escada
     ("PV01", 12_000, 16_200, "V", "T"),   # core envidracado -> deck norte
     ("P04",   9_600, 20_700, "V", "T"),   # gourmet -> deposito/DML
     ("PV01",  9_600, 24_000, "V", "T"),   # gourmet -> patio norte
@@ -240,11 +241,15 @@ VAOS = [
     ("P02",   7_800, 17_400, "V", "S"),   # hall -> suite 02
     ("P02",   7_800, 18_600, "V", "S"),   # hall -> suite 03
     ("P02",   9_000, 19_200, "H", "S"),   # hall -> suite master
-    ("J01",   2_400, 15_600, "V", "S"),   # janela suite 02 (sul)
-    ("J01",   2_400, 21_000, "V", "S"),   # janela suite 03 (sul)
+    ("J05",   2_400, 16_800, "V", "S"),   # janela ampla suite 02 (sul)
+    ("J01",   6_000, 13_200, "H", "S"),   # janela suite 02 (leste)
     ("J02",   3_600, 13_200, "H", "S"),   # janela banho suite 02
+    ("J05",   2_400, 21_600, "V", "S"),   # janela ampla suite 03 (sul)
+    ("J01",   6_000, 22_800, "H", "S"),   # janela suite 03 (oeste)
+    ("J04",   2_400, 19_200, "V", "S"),   # janela alta banho suite 03
+    ("J05",   8_700, 24_000, "H", "S"),   # janela ampla master -> varanda
     ("J03",  10_800, 24_000, "H", "S"),   # master -> varanda
-    ("J01",  13_800, 21_600, "V", "S"),   # janela master (norte)
+    ("J04",  13_800, 20_700, "V", "S"),   # janela alta banho master
 ]
 
 # =========================================================================
@@ -436,3 +441,15 @@ def balanco_pluvial() -> dict:
                 demanda_ano=demanda_dia * 365 / 1000,
                 autonomia_dias=PLUVIAL["volume_l"] / demanda_dia,
                 aproveitamento=(demanda_dia * 365 / 1000) / captacao)
+
+
+# =========================================================================
+# PILARES — apoio do pavimento superior sobre areas abertas.
+# O trecho da suite master que avanca sobre o patio norte NAO e balanco:
+# apoia-se em pilares metalicos, criando terraco coberto no terreo.
+# =========================================================================
+PILARES = [
+    dict(x=10_800, y=19_200), dict(x=13_800, y=19_200),
+    dict(x=10_800, y=24_000), dict(x=13_800, y=24_000),
+]
+PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"

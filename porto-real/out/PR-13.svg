@@ -28,7 +28,7 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">13</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 13</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 19</text>
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Especificar 'superior em tudo' encarece sem melhorar o desempenho percebido.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Cada item responde ao que acontece nos seus dois lados.</text>
@@ -180,8 +180,8 @@
 <text x="132.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">VIDRO</text>
 <text x="224.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">POR QUE</text>
 <polygon points="35.000,196.800 315.000,196.800 315.000,202.000 35.000,202.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J01</text>
-<text x="52.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1200x1200</text>
+<text x="36.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J05</text>
+<text x="52.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1800x1200</text>
 <text x="78.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">L</text>
 <text x="94.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
 <text x="118.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
@@ -192,63 +192,111 @@
 <text x="52.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1200x1200</text>
 <text x="78.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">N</text>
 <text x="94.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
-<text x="118.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="118.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="132.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 8 mm comum</text>
 <text x="224.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face protegida: sem exigencia</text>
 <polygon points="35.000,207.200 315.000,207.200 315.000,212.400 35.000,212.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J02</text>
-<text x="52.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">600x600</text>
+<text x="36.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J04</text>
+<text x="52.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">800x900</text>
 <text x="78.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">L</text>
 <text x="94.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">molhado</text>
-<text x="118.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
-<text x="132.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 6 mm translucido</text>
-<text x="224.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banheiro: sem exigencia</text>
+<text x="118.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="132.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">laminado 6+6 PVB acustico + controle solar</text>
+<text x="224.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face critica em sol E em ruido</text>
 <polygon points="35.000,212.400 315.000,212.400 315.000,217.600 35.000,217.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J01</text>
-<text x="52.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1200x1200</text>
+<text x="36.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J05</text>
+<text x="52.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1800x1200</text>
 <text x="78.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S</text>
 <text x="94.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">oficina</text>
-<text x="118.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="118.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
 <text x="132.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 8 mm comum</text>
 <text x="224.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face protegida: sem exigencia</text>
 <polygon points="35.000,217.600 315.000,217.600 315.000,222.800 35.000,222.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J02</text>
-<text x="52.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">600x600</text>
+<text x="36.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J01</text>
+<text x="52.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1200x1200</text>
 <text x="78.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S</text>
 <text x="94.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">servico</text>
-<text x="118.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="132.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 6 mm translucido</text>
-<text x="224.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banheiro: sem exigencia</text>
+<text x="118.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
+<text x="132.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 8 mm comum</text>
+<text x="224.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face protegida: sem exigencia</text>
 <polygon points="35.000,222.800 315.000,222.800 315.000,228.000 35.000,228.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PV01</text>
-<text x="52.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3600x2400</text>
-<text x="78.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">N</text>
-<text x="94.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">circulacao</text>
+<text x="36.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J04</text>
+<text x="52.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">800x900</text>
+<text x="78.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S</text>
+<text x="94.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">servico</text>
 <text x="118.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <text x="132.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 8 mm comum</text>
 <text x="224.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face protegida: sem exigencia</text>
 <polygon points="35.000,228.000 315.000,228.000 315.000,233.200 35.000,233.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="36.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PV01</text>
 <text x="52.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3600x2400</text>
-<text x="78.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O</text>
-<text x="94.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">social</text>
-<text x="118.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="132.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">laminado 6+6 PVB acustico + controle solar</text>
-<text x="224.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face critica em sol E em ruido</text>
+<text x="78.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">N</text>
+<text x="94.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">circulacao</text>
+<text x="118.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="132.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 8 mm comum</text>
+<text x="224.500" y="230.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face protegida: sem exigencia</text>
 <polygon points="35.000,233.200 315.000,233.200 315.000,238.400 35.000,238.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J03</text>
-<text x="52.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">900x1500</text>
+<text x="36.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PV01</text>
+<text x="52.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3600x2400</text>
 <text x="78.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O</text>
-<text x="94.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="94.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">social</text>
 <text x="118.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="132.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">laminado 6+6 com controle solar</text>
-<text x="224.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sol rasante, sem ruido</text>
-<line x1="51.000" y1="191.600" x2="51.000" y2="238.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="77.000" y1="191.600" x2="77.000" y2="238.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="93.000" y1="191.600" x2="93.000" y2="238.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="117.000" y1="191.600" x2="117.000" y2="238.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="131.000" y1="191.600" x2="131.000" y2="238.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="223.000" y1="191.600" x2="223.000" y2="238.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="132.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">laminado 6+6 PVB acustico + controle solar</text>
+<text x="224.500" y="235.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face critica em sol E em ruido</text>
+<polygon points="35.000,238.400 315.000,238.400 315.000,243.600 35.000,243.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="241.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J01</text>
+<text x="52.500" y="241.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1200x1200</text>
+<text x="78.500" y="241.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">L</text>
+<text x="94.500" y="241.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="118.500" y="241.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="132.500" y="241.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">laminado 6+6 PVB acustico + controle solar</text>
+<text x="224.500" y="241.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face critica em sol E em ruido</text>
+<polygon points="35.000,243.600 315.000,243.600 315.000,248.800 35.000,248.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="246.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J02</text>
+<text x="52.500" y="246.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">600x600</text>
+<text x="78.500" y="246.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">L</text>
+<text x="94.500" y="246.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="118.500" y="246.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="132.500" y="246.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 6 mm translucido</text>
+<text x="224.500" y="246.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banheiro: sem exigencia</text>
+<polygon points="35.000,248.800 315.000,248.800 315.000,254.000 35.000,254.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="251.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J01</text>
+<text x="52.500" y="251.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1200x1200</text>
+<text x="78.500" y="251.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O</text>
+<text x="94.500" y="251.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="118.500" y="251.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="132.500" y="251.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">laminado 6+6 com controle solar</text>
+<text x="224.500" y="251.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sol rasante, sem ruido</text>
+<polygon points="35.000,254.000 315.000,254.000 315.000,259.200 35.000,259.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J05</text>
+<text x="52.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1800x1200</text>
+<text x="78.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O</text>
+<text x="94.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="118.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="132.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">laminado 6+6 com controle solar</text>
+<text x="224.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sol rasante, sem ruido</text>
+<polygon points="35.000,259.200 315.000,259.200 315.000,264.400 35.000,264.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="261.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J03</text>
+<text x="52.500" y="261.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">900x1500</text>
+<text x="78.500" y="261.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O</text>
+<text x="94.500" y="261.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="118.500" y="261.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="132.500" y="261.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">laminado 6+6 com controle solar</text>
+<text x="224.500" y="261.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sol rasante, sem ruido</text>
+<polygon points="35.000,264.400 315.000,264.400 315.000,269.600 35.000,269.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="267.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J04</text>
+<text x="52.500" y="267.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">800x900</text>
+<text x="78.500" y="267.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">N</text>
+<text x="94.500" y="267.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="118.500" y="267.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="132.500" y="267.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">temperado 8 mm comum</text>
+<text x="224.500" y="267.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">face protegida: sem exigencia</text>
+<line x1="51.000" y1="191.600" x2="51.000" y2="269.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="77.000" y1="191.600" x2="77.000" y2="269.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="93.000" y1="191.600" x2="93.000" y2="269.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="117.000" y1="191.600" x2="117.000" y2="269.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="131.000" y1="191.600" x2="131.000" y2="269.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="223.000" y1="191.600" x2="223.000" y2="269.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="35.000" y="297.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">HIERARQUIA DE INVESTIMENTO — RETORNO DECRESCENTE</text>
 <polygon points="35.000,300.000 345.000,300.000 345.000,305.200 35.000,305.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="302.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>

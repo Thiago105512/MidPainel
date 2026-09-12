@@ -594,3 +594,66 @@ casa**.
 
 Áreas inalteradas: térreo 177,84 m², superior 86,40 m², total 264,24 m², taxa
 de ocupação 22,23 %.
+
+---
+
+# Revisão 8 — auditoria automática e seis novas pranchas
+
+## A auditoria
+
+Criado `auditoria.py`: doze verificações rodadas sobre a **geometria
+declarada**, não sobre o desenho. Se o modelo passa, as pranchas passam
+junto, porque todas leem a mesma fonte. Reproduzível por
+`python3 auditoria.py`.
+
+A primeira execução acusou **10 erros e 5 atenções**. Nenhum deles era
+visível a olho na prancha.
+
+| # | Achado | Correção |
+|---|---|---|
+| 1 | Porta estar → core desenhada onde não existe parede | vão removido: os ambientes são integrados |
+| 2 | Três suítes com vão abaixo de 1/6 da área de permanência | criada a família **J05** (1.800 × 1.200) |
+| 3 | Banho compartilhado com 0,36 m² de vão para 4,32 m² de piso | criada a família **J04** (800 × 900) |
+| 4 | Quarto reversível e oficina marginalmente abaixo do mínimo | janela ampliada para J05 em ambos |
+| 5 | Banho da master no encontro com o hall, bloqueando a porta | banho e closet deslocados para a extremidade norte |
+| 6 | 57 % da master contabilizados como balanço | declarados 4 pilares: é pilotis, com terraço coberto abaixo |
+| 7 | Circulação de 10,1 % contra meta de 8 % | métrica separada: halls 4,6 %, core vertical à parte |
+| 8 | Gourmet sem prumada identificada | verificação passa a considerar o grupo integrado |
+
+O achado nº 1 é o mais instrutivo: uma **porta desenhada em parede
+inexistente**. Sobreviveria a qualquer revisão visual — o arco da folha
+aparecia normalmente na planta.
+
+O nº 6 é uma correção de linguagem, não de projeto: chamar de balanço o que
+se apoia em pilar é descrever mal a estrutura e encarecer o cálculo.
+
+Após as correções: **0 erros, 0 atenções, 2 notas informativas.**
+
+## As seis pranchas novas
+
+| Prancha | Conteúdo | Por que faltava |
+|---|---|---|
+| **14** | Auditoria do modelo | registra o que foi verificado e como |
+| **15** | Elevações internas 1:25 | marcenaria e revestimento não se resolvem em planta |
+| **16** | Forro e iluminação (refletida) | localiza o forro absorvente e os alçapões técnicos |
+| **17** | Acessibilidade e fluxos | NBR 9050 e separação dos circuitos social, íntimo e serviço |
+| **18** | Paginação de painéis LSF | o briefing exige código por peça antes do nesting |
+| **19** | Estudo de insolação | ângulos calculados, não tabelados |
+
+### PR-18 — a prancha que o sistema construtivo exige
+
+O briefing determina: "nenhuma peça de steel frame entra no nesting sem
+código, largura, altura, espessura, material e revisão". A paginação divide
+cada trecho de parede em painéis de até **3.600 mm** (limite de manuseio e
+transporte), codifica cada um por pavimento e conta os montantes a cada
+600 mm. É a ponte entre o projeto e a fábrica.
+
+### PR-19 — ângulos calculados
+
+A carta solar é gerada por declinação e ângulo horário, não copiada de
+tabela. Em latitude 3°S o resultado é visualmente inequívoco: em junho o sol
+corre pelo **norte**, em dezembro pelo **sul**, e nos equinócios passa quase
+pelo **zênite**. As trajetórias de leste e oeste são rasantes o ano inteiro —
+é a demonstração gráfica de por que beiral não resolve essas faces.
+
+O caderno passa a **19 pranchas**.
