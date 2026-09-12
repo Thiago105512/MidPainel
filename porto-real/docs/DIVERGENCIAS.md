@@ -774,3 +774,71 @@ primeiros verões a face oeste vai depender só do ripado.
 
 Áreas fechadas inalteradas: 177,84 m² no térreo. Áreas abertas: 133,92 m².
 Fundo livre além do deck: 8.200 mm.
+
+---
+
+# Revisão 11 — bancadas no modelo, pontos de água e espaços mortos
+
+Observação do cliente: bancada demais, duas grandes com pia; e verificar
+espaços mortos.
+
+## Primeiro, a causa: as bancadas não estavam no modelo
+
+Estavam escritas direto no código de desenho, como chamadas gráficas. **O que
+não está no modelo a auditoria não verifica.** Foram trazidas para
+`projeto.BANCADAS`, com código, ambiente, dimensão, profundidade, número de
+cubas, cooktop e uso declarado. Agora o desenho lê do modelo, e a auditoria
+também.
+
+## Pontos de água: 3 → 2
+
+A cozinha e o gourmet são **um único ambiente integrado**. Havia três cubas
+dentro da mesma sala: bancada principal, península e gourmet.
+
+| Bancada | Antes | Depois |
+|---|---|---|
+| BC-01 principal, 4.700 mm | 1 cuba | **1 cuba** — a principal |
+| BC-02 cocção, 2.200 mm | — | — |
+| BC-03 península, 2.400 mm | 1 cuba | **seca** — apoio, serviço e refeição |
+| BC-04 gourmet, 3.900 mm | 1 cuba cheia | **cuba de apoio 400 × 340** |
+
+A cuba da península era a mais cara das três e a menos necessária: alimentar
+e drenar uma bancada no meio do piso obriga a passar água e esgoto **sob o
+contrapiso seco**, em sistema Light Steel Frame. É ponto de vazamento em
+lugar de difícil inspeção, por uma pia que fica a 3 m da principal.
+
+No gourmet, cuba de apoio ao lado da churrasqueira resolve lavar mão e
+utensílio durante o churrasco. Cuba cheia ali é segunda cozinha — que o
+briefing proíbe explicitamente.
+
+Bancada linear na fita social: **13,20 m**, ou 2,64 m por pessoa. Fica dentro
+da faixa usual (1,5 a 2,5 m por pessoa é o comum; acima de 3,0 a auditoria
+passa a acusar). É generosa, mas justificável numa casa com gourmet.
+
+## Espaços mortos: o critério estava errado
+
+A primeira varredura acusou **85,68 m² sem função declarada** encostando na
+edificação. Mas jardim amplo não é espaço morto — é jardim. O critério foi
+refinado: espaço morto é o bolsão **estreito** (menos de 2.400 mm no menor
+lado) ou o **pequeno e enclausurado** (abaixo de 10 m² cercado).
+
+Com o critério correto e os jardins declarados como áreas de função —
+jardim sul, jardim norte e jardim de fundo —, o resultado é **zero espaços
+mortos**.
+
+Áreas abertas com função sobem para 288,72 m², que é o lote inteiro fora da
+edificação, dos recuos de acesso e da faixa técnica. Nada sobra sem nome.
+
+## Três verificações novas
+
+| Verificação | Critério |
+|---|---|
+| Espaços mortos | bolsão estreito ou enclausurado acima de 0,50 m² |
+| Pontos de água redundantes | mais de 2 cubas em ambiente integrado |
+| Densidade de bancada | acima de 3,0 m lineares por pessoa |
+| Circulação em frente a bancada | mínimo 1.000 mm, desejado 1.100 mm |
+
+A regra de pontos de água foi testada contra a configuração anterior e
+dispara corretamente: *"3 cubas na mesma sala integrada"*.
+
+Resultado da auditoria: **0 erros, 0 atenções, 4 notas.**

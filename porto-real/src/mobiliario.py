@@ -159,12 +159,12 @@ def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
         vaso(cv, vw, 10_500, 10_950)
         lavatorio(cv, vw, 11_250, 10_950, 700, 450)
         box(cv, vw, 10_350, 12_200, 900, 900)
-        # cozinha 3000x6000 em (2400, 19200): bancada em L voltada ao gourmet
-        bancada(cv, vw, 2_500, 19_900, 600, 4_700, cubas=1, cooktop=False)
-        bancada(cv, vw, 3_100, 19_300, 2_200, 600, cubas=0, cooktop=True)
+        # bancadas lidas do modelo (projeto.BANCADAS)
+        for b in pj.BANCADAS:
+            if b["amb"] in ("T-COZ", "T-GOU", "T-OFI"):
+                bancada(cv, vw, b["x"], b["y"], b["w"], b["h"],
+                        cubas=b["cubas"], cooktop=b["cooktop"])
         geladeira(cv, vw, 4_400, 24_450, 900, 750)
-        # ilha da integracao cozinha/gourmet (peninsula sobre o eixo X=5.400)
-        bancada(cv, vw, 4_800, 21_600, 1_200, 2_400, cubas=1, cooktop=False)
         # lavanderia (9600, 19200) — face norte, aberta para o varal
         tanque(cv, vw, 9_750, 19_350, 600, 550)
         maquina(cv, vw, 9_750, 20_050, 600, "ML")
@@ -174,10 +174,9 @@ def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
             yv = 19_800 + i * 600
             cv.linha_p(vw.pt(P(13_200, yv)), vw.pt(P(16_200, yv)), "fino", cor=CINZA)
         cv.texto_p(vw.pt(P(14_700, 22_400)), "VARAL COBERTO", TXT["micro"], "middle", cor=CINZA)
-        # gourmet: bancada + churrasqueira
-        bancada(cv, vw, 5_550, 25_700, 3_900, 600, cubas=1, cooktop=True)
+
         # oficina: bancada 2400x600
-        bancada(cv, vw, 2_550, 30_000, 2_400, 600, cubas=0)   # oficina (2400, 27600)
+        
         escada_u(cv, vw)
         if layout:
             carro(cv, vw, 3_000, 8_000)

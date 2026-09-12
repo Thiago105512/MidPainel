@@ -322,11 +322,122 @@ def checar_vedacao() -> list[Achado]:
     return out
 
 
+# ------------------------------------------- 10. espacos mortos
+def espacos_mortos() -> list[tuple[float, int, int]]:
+    """Varre o lote em celulas de 600 mm e acha bolsoes sem funcao declarada
+    que encostam na edificacao. Jardim e recuo declarado nao contam."""
+    G = pj.GRID
+    nx, ny = pj.LOTE_L // G, pj.LOTE_P // G
+    declarado = [[False] * ny for _ in range(nx)]
+
+    def marcar(x, y, w, h):
+        for i in range(max(0, x // G), min(nx, (x + w) // G)):
+            for j in range(max(0, y // G), min(ny, (y + h) // G)):
+                declarado[i][j] = True
+
+    for amb in pj.TERREO + pj.TERREO_ABERTO:
+        marcar(amb.x, amb.y, amb.w, amb.h)
+    marcar(pj.PISCINA["x"], pj.PISCINA["y"], pj.PISCINA["w"], pj.PISCINA["h"])
+    marcar(pj.DECK["x"], pj.DECK["y"], pj.DECK["w"], pj.DECK["h"])
+    ft = pj.FAIXA_TECNICA
+    marcar(ft["x"], ft["y"], ft["w"], ft["h"])
+    marcar(0, 0, pj.LOTE_L, pj.RECUO_FRENTE)              # acesso e manobra
+    marcar(0, 0, pj.RECUO_ESQ, pj.LOTE_P)                  # recuo lateral sul
+
+    edif = [[False] * ny for _ in range(nx)]
+    for amb in pj.TERREO:
+        for i in range(amb.x // G, (amb.x + amb.w) // G):
+            for j in range(amb.y // G, (amb.y + amb.h) // G):
+                edif[i][j] = True
+
+    vistos, achados = set(), []
+    for i in range(nx):
+        for j in range(ny):
+            if declarado[i][j] or (i, j) in vistos:
+                continue
+            fila, comp, encosta = [(i, j)], [], False
+            vistos.add((i, j))
+            while fila:
+                ci, cj = fila.pop()
+                comp.append((ci, cj))
+                for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    ni, nj = ci + di, cj + dj
+                    if not (0 <= ni < nx and 0 <= nj < ny):
+                        continue
+                    if edif[ni][nj]:
+                        encosta = True
+                    elif not declarado[ni][nj] and (ni, nj) not in vistos:
+                        vistos.add((ni, nj))
+                        fila.append((ni, nj))
+            area = len(comp) * (G / 1000) ** 2
+            # jardim amplo NAO e espaco morto. E morto o bolsao estreito
+            # (menos de 2.400 mm no menor lado) ou o pequeno e enclausurado.
+            xs = [c[0] for c in comp]
+            ys = [c[1] for c in comp]
+            menor = min((max(xs) - min(xs) + 1), (max(ys) - min(ys) + 1)) * G
+            estreito = menor < 2_400
+            pequeno_fechado = area < 10.0
+            if encosta and area > MAX_RESIDUAL and (estreito or pequeno_fechado):
+                cx = sum(xs) / len(comp) * G
+                cy = sum(ys) / len(comp) * G
+                achados.append((area, int(cx), int(cy), int(menor)))
+    return sorted(achados, reverse=True)
+
+
+def checar_espacos_mortos() -> list[Achado]:
+    out = []
+    for area, cx, cy, menor in espacos_mortos():
+        out.append(Achado("ATENCAO", "Espaco morto",
+                          f"{area:.2f} m2 encostando na edificacao, centro em "
+                          f"({cx}, {cy}), menor dimensao {menor} mm — "
+                          f"estreito ou enclausurado demais para ter uso",
+                          f"briefing: maximo {MAX_RESIDUAL:.2f} m2"))
+    return out
+
+
+# ---------------------------------- 11. bancadas: densidade e folga
+def checar_bancadas() -> list[Achado]:
+    out = []
+    social = [b for b in pj.BANCADAS if b["amb"] in ("T-COZ", "T-GOU")]
+    linear = sum(max(b["w"], b["h"]) / 1000 for b in social)
+    cubas = sum(b["cubas"] for b in social)
+    pessoas = 5
+    if linear / pessoas > 3.0:
+        out.append(Achado("ATENCAO", "Densidade de bancada",
+                          f"{linear:.2f} m lineares na fita social para {pessoas} pessoas "
+                          f"({linear/pessoas:.2f} m por pessoa); referencia usual 1,5 a 2,5",
+                          "pratica corrente"))
+    if cubas > 2:
+        out.append(Achado("ATENCAO", "Pontos de agua redundantes",
+                          f"{cubas} cubas na mesma sala integrada; o usual e uma principal "
+                          f"mais, quando muito, uma de apoio"))
+    for b in pj.BANCADAS:
+        amb = next((x for x in pj.TERREO if x.cod == b["amb"]), None)
+        if amb is None:
+            continue
+        vertical = b["h"] > b["w"]
+        livre = (amb.w - b["w"]) if vertical else (amb.h - b["h"])
+        outras = [o for o in pj.BANCADAS
+                  if o["amb"] == b["amb"] and o["cod"] != b["cod"]
+                  and (o["h"] > o["w"]) == vertical]
+        livre -= sum((o["w"] if vertical else o["h"]) for o in outras)
+        if livre < pj.CIRC_BANCADA_MIN:
+            out.append(Achado("ERRO", "Circulacao em frente a bancada",
+                              f"{b['cod']} em {b['amb']}: {livre:.0f} mm livres, "
+                              f"minimo {pj.CIRC_BANCADA_MIN}", "briefing"))
+        elif livre < pj.CIRC_BANCADA_DESEJADA:
+            out.append(Achado("NOTA", "Circulacao em frente a bancada",
+                              f"{b['cod']}: {livre:.0f} mm — atende o minimo, abaixo do "
+                              f"desejado de {pj.CIRC_BANCADA_DESEJADA}"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
             checar_vaos() + checar_iluminacao() + checar_acessibilidade() +
-            checar_metas() + checar_escada() + checar_vedacao())
+            checar_metas() + checar_escada() + checar_vedacao() +
+            checar_espacos_mortos() + checar_bancadas())
 
 
 if __name__ == "__main__":

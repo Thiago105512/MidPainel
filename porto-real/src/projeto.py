@@ -145,6 +145,12 @@ TERREO_ABERTO: list[Amb] = [
     Amb("T-PAT", "PATIO NORTE",          9_600, 23_400, 7_200, 3_000, aberto=True),
     Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 1_200, aberto=True),
     Amb("T-DKP", "DECK DA PISCINA",      4_200, 27_600, 7_200, 4_200, aberto=True),
+    # jardins: area aberta com funcao declarada, nao sobra
+    Amb("T-JSU", "JARDIM SUL",           2_400, 26_400, 3_000, 1_200, aberto=True),
+    Amb("T-JS2", "JARDIM SUL",           2_400, 27_600, 1_800, 4_200, aberto=True),
+    Amb("T-JN2", "JARDIM NORTE",         9_600, 26_400, 1_800, 1_200, aberto=True),
+    Amb("T-JN3", "JARDIM NORTE",        11_400, 26_400, 5_400, 5_400, aberto=True),
+    Amb("T-JFU", "JARDIM DE FUNDO",      2_400, 31_800, 14_400, 7_800, aberto=True),
 ]
 
 def cobertos() -> list[Amb]:
@@ -488,3 +494,37 @@ VIGAS = [
               "oficina e da cozinha; sustenta as suites 02 e 03"),
 ]
 VAO_MAX_VIGA = 6_000
+
+
+# =========================================================================
+# BANCADAS E PONTOS DE AGUA — declarados no MODELO, nao so no desenho.
+# O que nao esta no modelo a auditoria nao verifica.
+#
+# REVISAO: a cozinha e o gourmet sao um unico ambiente integrado. Manter duas
+# bancadas molhadas grandes a 6 m de distancia, mais uma cuba na peninsula,
+# e triplicar o ponto de agua dentro da mesma sala.
+# =========================================================================
+BANCADAS = [
+    dict(cod="BC-01", amb="T-COZ", x=2_500, y=19_900, w=600, h=4_700,
+         prof=600, cubas=1, cooktop=False, tipo="granito",
+         uso="bancada principal de preparo e lavagem"),
+    dict(cod="BC-02", amb="T-COZ", x=3_100, y=19_300, w=2_200, h=600,
+         prof=600, cubas=0, cooktop=True, tipo="granito",
+         uso="coccao — cooktop e apoio"),
+    dict(cod="BC-03", amb="T-COZ", x=4_800, y=21_600, w=1_200, h=2_400,
+         prof=600, cubas=0, cooktop=False, tipo="granito",
+         uso="peninsula SECA: apoio, servico e refeicao rapida"),
+    dict(cod="BC-04", amb="T-GOU", x=5_550, y=25_700, w=3_900, h=600,
+         prof=600, cubas=1, cooktop=True, tipo="granito", cuba_apoio=True,
+         uso="churrasqueira e cuba de apoio (400 x 340) — nao e segunda cozinha"),
+    dict(cod="BC-05", amb="T-LAV", x=9_750, y=19_350, w=600, h=550,
+         prof=600, cubas=1, cooktop=False, tipo="tanque",
+         uso="tanque de lavanderia"),
+    dict(cod="BC-06", amb="T-OFI", x=2_550, y=30_000, w=2_400, h=600,
+         prof=600, cubas=0, cooktop=False, tipo="MDF",
+         uso="bancada de trabalho da oficina"),
+]
+
+# folgas minimas de circulacao em frente a bancada (briefing)
+CIRC_BANCADA_MIN = 1_000
+CIRC_BANCADA_DESEJADA = 1_100
