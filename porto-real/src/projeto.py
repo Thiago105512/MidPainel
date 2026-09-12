@@ -581,7 +581,7 @@ PLUVIAL = dict(
     usos=[("Lavagem de deck, calcada e veiculos", 21),
           ("Ducha externa do deck", 90),
           ("Reposicao da piscina por evaporacao", 58),
-          ("Irrigacao com paisagismo adaptado", 100)],
+          ("Irrigacao com paisagismo adaptado", None)],   # calculado: ver usos_pluviais()
     nao_estender_a="vasos sanitarios",
     porque_nao=(
         "Descarga com agua de chuva renderia ~55 m3/ano, mas exige tubulacao "
@@ -596,11 +596,24 @@ PLUVIAL = dict(
 )
 
 
+def usos_pluviais() -> list[tuple[str, float]]:
+    """Usos do reuso, com a irrigacao CALCULADA dos setores declarados.
+
+    Os 100 L/dia de irrigacao eram estimativa. Com o paisagismo e os setores de
+    gotejamento definidos na Etapa 4, o numero passa a ser consequencia:
+    3 setores x 240 L/h x 20 min, 2 vezes por semana.
+    """
+    out = []
+    for nome, v in PLUVIAL["usos"]:
+        out.append((nome, demanda_irrigacao_ldia() if v is None else float(v)))
+    return out
+
+
 def balanco_pluvial() -> dict:
-    area = sum(a.area_mod for a in cobertos())
+    area = projecao_coberta_m2()
     captacao = area * (PLUVIAL["precipitacao_mm_ano"] / 1000) * \
         PLUVIAL["coef_escoamento"] * (1 - PLUVIAL["descarte_inicial"])
-    demanda_dia = sum(v for _, v in PLUVIAL["usos"])
+    demanda_dia = sum(v for _, v in usos_pluviais())
     return dict(area=area, captacao_m3=captacao,
                 demanda_dia=demanda_dia,
                 demanda_ano=demanda_dia * 365 / 1000,
@@ -1689,3 +1702,190 @@ IMPERMEABILIZACAO = dict(sistema="manta liquida poliuretanica, 2 demaos",
 def area_drenada_externa_m2() -> float:
     return round(sum(a.area_mod for a in TERREO_ABERTO if not a.coberto
                      and a.cod in ("T-DKP", "T-DKL", "T-PT2")), 2)
+
+# =========================================================================
+# ETAPA 4 — FECHAMENTO: ACABAMENTOS, LOCACAO, PAISAGISMO E EMISSAO
+# =========================================================================
+
+# ----------------------------------------------------------- ACABAMENTOS
+# Nao e uma lista nova: e DERIVADA do que ja foi decidido em outras pranchas
+# (zonas de paginacao, forros acusticos, alturas de revestimento, categoria de
+# uso). Lista paralela de acabamento e a campea de divergencia em obra, porque
+# e a ultima a ser feita e a primeira a ser esquecida quando algo muda.
+PISOS_PADRAO = {
+    "intimo": "porcelanato retificado 900 x 900, acetinado",
+    "social": "porcelanato retificado 900 x 900, acetinado",
+    "molhado": "porcelanato retificado 900 x 900, antiderrapante R10",
+    "servico": "porcelanato 600 x 600 antiderrapante R11",
+    "circulacao": "porcelanato retificado 900 x 900, acetinado",
+    "apoio": "cimenticio polido com endurecedor de superficie",
+    "oficina": "cimenticio polido com endurecedor de superficie",
+}
+FORRO_H = {"padrao": PE_DIREITO, "banho": 2_400}
+# banho recebe forro rebaixado para 2.400 mm: e onde passam o dreno do ar, o
+# duto de exaustao e a luminaria embutida. O rebaixo nao e perda de pe-direito,
+# e o unico lugar onde essa instalacao cabe sem shaft adicional.
+RODAPE = dict(h=100, tipo="poliestireno 100 x 15 mm, pintado",
+              molhado="em porcelanato recortado da mesma peca do piso")
+SOLEIRAS = dict(interna="sem soleira — piso continuo na mesma cota",
+                molhada=f"granito cinza 150 mm, desnivel de {15} mm",
+                externa="granito cinza 150 mm com pingadeira")
+PINTURA = dict(interna="latex acrilico acetinado, 2 demaos sobre selador",
+               umida="latex acrilico premium com biocida, 2 demaos",
+               externa="acrilico elastomerico sobre base cimenticia",
+               forro="latex PVA fosco branco")
+
+
+def acabamentos() -> list[dict]:
+    """Acabamento por ambiente, derivado das decisoes ja tomadas."""
+    import especificacao as ep
+    forros = {f[0]: f[1] for f in FORROS_SRC()}
+    alt_rev = alturas_revestimento()
+    out = []
+    for a in TERREO + SUPERIOR:
+        cat = ep.CATEGORIA.get(a.cod, "apoio")
+        z = zona_de(a.cod)
+        if z and z["peca"] == "monolitico":
+            piso = "cimenticio polido com endurecedor de superficie"
+        elif a.cod in ep.MOLHADOS or a.cod in alt_rev:
+            piso = PISOS_PADRAO["molhado"]
+        else:
+            piso = PISOS_PADRAO.get(cat, PISOS_PADRAO["social"])
+        h = alt_rev.get(a.cod)
+        parede = (f"{PECA_PAREDE['tipo']} ate {h} mm + {PINTURA['umida']} acima"
+                  if h else
+                  PINTURA["umida"] if a.cod in ep.MOLHADOS else PINTURA["interna"])
+        forro = forros.get(a.cod, "gesso acartonado liso, branco")
+        rod = RODAPE["molhado"] if (h or a.cod in ep.MOLHADOS) else RODAPE["tipo"]
+        fh = FORRO_H["banho"] if a.cod in ("T-BWC",) else FORRO_H["padrao"]
+        out.append(dict(amb=a.cod, nome=a.nome, cat=cat, area=a.area_mod,
+                        piso=piso, parede=parede, forro=forro, forro_h=fh,
+                        rodape=rod, revest_h=h, zona=z["cod"] if z else "padrao"))
+    return out
+
+
+def FORROS_SRC():
+    import especificacao as ep
+    return ep.FORROS
+
+
+# -------------------------------------------------------------- LOCACAO
+# Locacao de obra e o unico desenho em que o erro nao tem conserto barato: a
+# casa sai do lugar. Por isso ela e cotada a partir de DUAS referencias
+# independentes (as duas divisas), nunca em cadeia de cotas acumuladas.
+RN = dict(cota_local=0, descricao="RN no eixo da testada, alinhado ao medidor "
+          "TC-08; cota 0,00 = piso acabado do terreo",
+          amarracao="marco de concreto 200 x 200 x 500 mm, fora da area de obra")
+EIXOS_LOCACAO = dict(
+    x=[2_400, 5_400, 8_400, 9_600, 12_000, 13_800, 15_000, 16_800],
+    y=[7_200, 9_600, 13_200, 16_200, 19_200, 23_400, 26_400, 31_800],
+)
+GABARITO = dict(afastamento=1_000, madeira="pontalete 75 x 75 e tabua 25 x 150",
+                obs="gabarito continuo nos dois lados da obra; conferencia por "
+                    "diagonal antes de concretar o radier")
+
+
+def cantos_locacao() -> list[dict]:
+    """Cantos da edificacao cotados das DUAS divisas, sem cadeia acumulada."""
+    cob = cobertos()
+    x0 = min(a.x for a in cob); x1 = max(a.x + a.w for a in cob)
+    y0 = min(a.y for a in cob); y1 = max(a.y + a.h for a in cob)
+    out = []
+    for nome, x, y in (("A", x0, y0), ("B", x1, y0), ("C", x1, y1), ("D", x0, y1)):
+        out.append(dict(canto=nome, x=x, y=y, da_divisa_sul=x,
+                        da_divisa_norte=LOTE_L - x, da_testada=y,
+                        do_fundo=LOTE_P - y))
+    d1 = math.hypot(x1 - x0, y1 - y0)
+    for o in out:
+        o["diagonal"] = round(d1, 1)
+    return out
+
+
+# ----------------------------------------------------------- PAISAGISMO
+# Paisagismo aqui nao e decoracao: e a ultima camada do projeto termico. A
+# arvore certa na posicao certa faz o que nenhum brise faz — sombreia ANTES de
+# o sol chegar na parede, transpira (resfriamento evaporativo) e nao aquece por
+# reirradiacao, porque a folha nao acumula calor como a alvenaria.
+#
+# Criterio de escolha, nesta ordem:
+#   1. porte compativel com o afastamento (raiz e copa);
+#   2. funcao termica: sombra de copa ALTA a oeste e a norte;
+#   3. especie nativa ou adaptada a Manaus, sem irrigacao permanente;
+#   4. nada de raiz agressiva perto de radier, piscina ou tubulacao.
+PAISAGISMO = [
+    # Arvore de porte vai no jardim de fundo, que tem 14,4 x 7,8 m. Nas faixas
+    # de 1,8 m (T-JS2 ao sul e T-JNO ao norte) arvore nenhuma cabe: a copa
+    # invade o vizinho e a raiz encontra o radier. Ali a resposta e sebe e
+    # trepadeira em estrutura — mesma funcao de sombra e vedacao visual, sem
+    # conflito de raiz e sem poda eterna.
+    dict(cod="PA-01", amb="T-JFU", especie="Ipe-amarelo (Handroanthus)",
+         porte="8 a 12 m", funcao="sombra alta no fundo e floracao de estacao",
+         qtd=1, raiz="pivotante, nao agressiva", afast_min=3_000),
+    dict(cod="PA-02", amb="T-JFU", especie="Jabuticabeira (Plinia cauliflora)",
+         porte="6 a 9 m", funcao="sombra densa e fruto no proprio tronco",
+         qtd=1, raiz="nao agressiva, crescimento lento", afast_min=3_000,
+         obs="escolhida em lugar de mangueira: a manga cai de 12 m de altura no "
+             "telhado do vizinho; a jabuticaba nasce no tronco"),
+    dict(cod="PA-03", amb="T-JNO", especie="Trelica com Thunbergia grandiflora",
+         porte="3,0 m de altura em estrutura", funcao="sombra do nicho de "
+         "condensadoras e da faixa tecnica, sem raiz perto da cisterna",
+         qtd=1, raiz="superficial, em canteiro de 400 mm", afast_min=400,
+         obs="vegetacao em estrutura, nao arvore: em faixa tecnica de 1.800 mm "
+             "a sombra precisa vir de trelica, nao de copa"),
+    dict(cod="PA-09", amb="T-JS2", especie="Murta em sebe (Murraya paniculata)",
+         porte="2,0 a 2,5 m conduzida", funcao="vedacao visual da divisa sul e "
+         "filtro de poeira, na faixa de 1.800 mm",
+         qtd=8, raiz="superficial", afast_min=600),
+    dict(cod="PA-04", amb="T-JN3", especie="Palmeira-acai (Euterpe oleracea)",
+         porte="10 a 15 m", funcao="verticalidade e sombra pontual no patio",
+         qtd=3, raiz="fasciculada, proxima ao tronco", afast_min=1_500),
+    dict(cod="PA-05", amb="T-JLE", especie="Moreia e Agapanthus",
+         porte="0,6 a 1,0 m", funcao="macico baixo no jardim de inverno leste",
+         qtd=12, raiz="superficial", afast_min=300),
+    dict(cod="PA-06", amb="T-JSU", especie="Capim-limao e alecrim",
+         porte="0,4 a 0,8 m", funcao="horta aromatica junto a cozinha",
+         qtd=10, raiz="superficial", afast_min=300),
+    dict(cod="PA-07", amb="T-JN2", especie="Philodendron e Zamioculca",
+         porte="0,8 a 1,5 m", funcao="macico de meia-sombra sob o beiral",
+         qtd=8, raiz="superficial", afast_min=300),
+    dict(cod="PA-08", amb="T-DKP", especie="Grama esmeralda (Zoysia japonica)",
+         porte="rasteira", funcao="piso permeavel no entorno do deck",
+         qtd=0, raiz="superficial", afast_min=0),
+]
+IRRIGACAO = dict(
+    sistema="gotejamento em linha autocompensante, 2 L/h por gotejador",
+    setores=3, vazao_setor_lh=240, tempo_min=20, frequencia="2 x por semana",
+    fonte="reservatorio pluvial TC-03, por gravidade com filtro de 130 mesh",
+    obs="gotejamento e nao aspersao: evapora menos, nao molha fachada e nao "
+        "lava o solo. Em cidade com 2.300 mm de chuva, irrigacao e para a "
+        "estiagem curta, nao para o ano inteiro",
+)
+
+
+def area_jardim_m2() -> float:
+    return round(sum(a.area_mod for a in TERREO_ABERTO
+                     if a.cod.startswith("T-J")), 2)
+
+
+def demanda_irrigacao_ldia() -> float:
+    """Demanda media diaria da irrigacao, a partir dos setores declarados."""
+    ir = IRRIGACAO
+    por_evento = ir["setores"] * ir["vazao_setor_lh"] * (ir["tempo_min"] / 60)
+    return round(por_evento * 2 / 7, 1)
+
+
+# -------------------------------------------------------------- EMISSAO
+REVISOES = [
+    ("R00", "Modelo parametrico inicial: 19 pranchas de estudo"),
+    ("R01", "Etapa 1 — areas tecnicas locadas; projecao coberta corrigida"),
+    ("R02", "Fita social climatizada por zona, com fronteira aerodinamica"),
+    ("R03", "Etapa 2 — detalhamento construtivo; auditoria em tres dimensoes"),
+    ("R04", "Etapa 3 — coordenacao de instalacoes; vazao pluvial recalculada"),
+    ("R05", "Etapa 4 — acabamentos, locacao, paisagismo e emissao"),
+]
+EMISSAO = dict(
+    revisao="R05", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
+                    "sem nesting codificado", "aprovacao legal sem ART/RRT"),
+    unidade="milimetro", origem="canto frontal esquerdo do lote",
+)

@@ -1359,3 +1359,90 @@ casa. A auditoria agora **reprova** qualquer fd menor que 1,00 em climatização
 ## Auditoria
 
 De 40 para **47 verificações**. 29 pranchas constroem. **0 erros, 0 atenções.**
+
+### Correção de um número meu
+
+As revisões 15 a 17 citaram "32 → 35 → 40 → 47 verificações". Essa contagem era
+minha, incrementada à mão, e portanto exatamente o tipo de literal que este
+projeto passou a combater. Medido no próprio código: **27 funções de verificação
+e 144 condições distintas**. A função `auditoria.metrica()` agora conta por
+inspeção do código-fonte, e as pranchas leem dela — o número não pode mais
+divergir do que a auditoria de fato faz.
+
+---
+
+# Revisão 18 — Etapa 4: fechamento e emissão
+
+Quatro pranchas novas (30 a 33) e duas verificações novas que fecham o método.
+
+## A verificação que deveria existir desde o começo
+
+`checar_integridade_referencial()` percorre **25 listas do modelo** e confere que
+todo código de ambiente citado existe de fato. Nasceu de três achados reais:
+`T-PSE` e `T-CSE` em definições mortas de `cobertos()`, e agora **`T-DML` na
+lista de forros** — um ambiente que deixou de existir e cuja decisão ("sem forro,
+estrutura aparente") simplesmente nunca chegava a desenho nenhum.
+
+Código órfão não quebra nada. É exatamente por isso que é perigoso: o projeto
+passa a ter uma decisão tomada que não se aplica a lugar algum, silenciosamente.
+A verificação também confere unicidade de código em 11 listas.
+
+## Defeito 10 — árvore de 12 m em faixa de 1,8 m
+
+O paisagismo inicial colocava um ipê-amarelo (8 a 12 m, 3 m de afastamento) no
+jardim sul de **1.800 mm de largura**, e um pau-brasil na faixa técnica norte,
+igualmente de 1.800 mm. A verificação exige que a menor dimensão do canteiro
+comporte o afastamento nos dois lados.
+
+| antes | problema | agora |
+|---|---|---|
+| PA-01 Ipê em T-JS2 (1,8 m) | copa invade o vizinho, raiz encontra o radier | Ipê vai para T-JFU (14,4 × 7,8 m); T-JS2 recebe **murta em sebe** conduzida a 2,0–2,5 m |
+| PA-03 Pau-brasil em T-JNO (1,8 m) | idem, e raiz junto à cisterna TC-01 | **treliça com Thunbergia**: sombreia o nicho de condensadoras com canteiro de 400 mm |
+| PA-02 Mangueira em T-JFU | 12 m de altura jogando manga no telhado do vizinho por 40 anos | **jabuticabeira**: 6 a 9 m, raiz não agressiva, e o fruto nasce no tronco |
+
+Em faixa técnica de 1.800 mm a sombra vem de **estrutura com trepadeira**, não de
+copa. Mesma função térmica — sombreia a condensadora antes do sol chegar nela,
+melhorando o rendimento do equipamento — sem nenhum conflito de raiz e sem poda
+eterna.
+
+## A irrigação deixou de ser estimativa
+
+`PLUVIAL["usos"]` declarava "irrigação: 100 L/dia", número posto à mão. Com os
+setores de gotejamento definidos (3 × 240 L/h × 20 min, 2 × por semana), a
+demanda passa a ser **consequência: 68,6 L/dia**, ou 0,39 L/m² por dia nos
+174,24 m² de jardim. O literal virou função (`usos_pluviais()`).
+
+O balanço do reuso, agora sobre a área de captação correta:
+
+| | antes (R00) | agora |
+|---|---|---|
+| Área de captação | 174,24 m² | **226,08 m²** |
+| Captação anual líquida | 371 m³ | **444,59 m³** |
+| Demanda anual | 98 m³ | **86,72 m³** |
+| Autonomia | 9,3 dias | **10,5 dias** |
+
+A decisão de 2.500 L fica **reforçada**, não revista: mais captação e menos
+demanda que o estimado.
+
+## Acabamentos derivados, não listados
+
+O quadro de acabamentos é a campeã de divergência em obra — é a última prancha a
+ser feita e a primeira a ser esquecida quando algo muda. Por isso `acabamentos()`
+é **função**, derivada das decisões já tomadas: zonas de paginação dão o piso,
+`FORROS` (que existe por razão acústica) dá o forro, `alturas_revestimento()` dá a
+parede, e `CATEGORIA` dá o padrão. A auditoria confere que o acabamento não
+divergiu da sua origem e que nenhum ambiente fechado ficou sem especificação.
+
+## Locação: duas referências, nunca cadeia
+
+Locação é o único desenho em que o erro não tem conserto barato — a casa sai do
+lugar. Cada canto é cotado das **duas divisas independentes**, nunca em cadeia de
+cotas acumuladas: erro de cadeia soma, erro de referência independente não.
+Conferência obrigatória pela diagonal A-C de **24.970,4 mm** com tolerância de
+10 mm, antes de concretar o radier.
+
+## Auditoria final
+
+**29 funções de verificação, 160 condições. 0 erros, 0 atenções, 16 notas
+informativas. 33 pranchas.** O caderno inteiro é reproduzível por
+`python3 build.py` a partir do modelo.

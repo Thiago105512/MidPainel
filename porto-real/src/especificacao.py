@@ -234,7 +234,9 @@ FORROS = [
     ("T-GAR", "sem forro (estrutura aparente)", 36.00,
      "ambiente sem exigencia acustica nem termica"),
     ("T-OFI", "sem forro (estrutura aparente)", 9.00, "idem"),
-    ("T-DML", "sem forro (estrutura aparente)", 3.60, "idem"),
+    # era T-DML, ambiente que nao existe mais: a decisao nunca chegava ao
+    # desenho. O deposito herdou a funcao e o criterio.
+    ("T-DEP", "sem forro (estrutura aparente)", 3.60, "idem"),
 ]
 
 

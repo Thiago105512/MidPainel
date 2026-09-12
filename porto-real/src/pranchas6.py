@@ -445,8 +445,10 @@ def drenagem() -> Canvas:
              ["Descidas", f"{cb['descidas']} x DN{cb['dn_descida']}"],
              ["Precipitacao anual", f"{pl['precipitacao_mm_ano']} mm"],
              ["Volume de reuso", f"{pl['volume_l']} L"],
-             ["Usos previstos", ", ".join(u[0].split()[0].lower() for u in pl["usos"])],
-             ["Demanda diaria de reuso", f"{sum(u[1] for u in pl['usos'])} L/dia"],
+             ["Usos previstos",
+              ", ".join(f"{u[0].split()[0].lower()} {u[1]:.0f} L" for u in pj.usos_pluviais())],
+             ["Demanda diaria de reuso",
+              f"{sum(u[1] for u in pj.usos_pluviais()):.1f} L/dia"],
              ["Area externa drenada", f"{pj.area_drenada_externa_m2():.2f} m2"],
              ["Nao estender a", pl["nao_estender_a"]]],
             larguras=[74, 120])

@@ -33,25 +33,25 @@ def auditoria() -> Canvas:
         "Reproduzivel por 'python3 auditoria.py'.",
     ])
 
-    verificacoes = [
-        ["Malha modular", "toda coordenada multipla de 300 mm", "projeto", "OK"],
-        ["Sobreposicao", "nenhum par de ambientes se sobrepoe", "geometria", "OK"],
-        ["Conectividade", "todo ambiente alcancavel a partir da entrada", "grafo de vaos", "OK"],
-        ["Vaos x paredes", "nenhum vao extrapola o trecho de parede", "geometria", "OK"],
-        ["Iluminacao e ventilacao", "1/6 em permanencia prolongada, 1/8 nos demais",
-         "LC 003/2014 (H)", "OK"],
-        ["Vao livre de porta", "minimo 800 mm livres", "NBR 9050", "OK"],
-        ["Circulo de giro", "1.500 mm no banho acessivel", "NBR 9050", "ver nota"],
-        ["Circulacao", "halls ate 8 % da area interna", "briefing", "4,6 %"],
-        ["Apoio estrutural", "pavimento superior apoiado ou sobre pilares", "geometria", "OK"],
-        ["Escada", "Blondel entre 630 e 650 mm; espelho ate 180 mm", "pratica corrente", "OK"],
-        ["Prumada x oficina", "nenhuma parede hidraulica no ambiente de silencio",
-         "decisao de projeto", "OK"],
-        ["Ambientes molhados", "prumada identificada em cada um", "coordenacao", "OK"],
-    ]
-    y = _tabela(cv, (35, 44), "VERIFICACOES AUTOMATICAS — 12 CRITERIOS",
-                ["VERIFICACAO", "CRITERIO", "REFERENCIA", "RESULTADO"],
-                verificacoes, larguras=[62, 108, 62, 30]) + 18
+    # A tabela e GERADA das proprias funcoes de verificacao: nome, o que ela
+    # testa (primeira linha da docstring), quantas condicoes emite e quantos
+    # achados produziu nesta rodada. Lista escrita a mao envelhece; esta nao.
+    import inspect
+    met = au.metrica()
+    verificacoes = []
+    for fn in au.verificacoes():
+        src = inspect.getsource(fn)
+        doc = (fn.__doc__ or "").strip().split("\n")[0] or "—"
+        achs = fn()
+        pior = ("ERRO" if any(a.nivel == "ERRO" for a in achs) else
+                "ATENCAO" if any(a.nivel == "ATENCAO" for a in achs) else
+                f"{len(achs)} nota(s)" if achs else "OK")
+        verificacoes.append([fn.__name__.replace("checar_", ""), doc[:92],
+                             str(src.count("Achado(")), pior])
+    y = _tabela(cv, (35, 44), f"VERIFICACOES AUTOMATICAS — {met['funcoes']} FUNCOES, "
+                f"{met['condicoes']} CONDICOES",
+                ["VERIFICACAO", "O QUE TESTA", "COND.", "RESULTADO"],
+                verificacoes, larguras=[44, 170, 18, 30]) + 18
 
     cv.texto_p((35, y), f"RESULTADO: {len(erros)} ERRO(S) · {len(aten)} ATENCAO(OES) · "
                         f"{len(notas)} NOTA(S)", TXT["med"], "start", peso="bold",

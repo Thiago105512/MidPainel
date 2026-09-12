@@ -28,134 +28,235 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">14</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 19</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 33</text>
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Verificacoes rodadas sobre a geometria declarada, nao sobre o desenho.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Se o modelo passa, todas as pranchas passam: leem a mesma fonte.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Reproduzivel por 'python3 auditoria.py'.</text>
-<text x="35.000" y="41.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">VERIFICACOES AUTOMATICAS — 12 CRITERIOS</text>
+<text x="35.000" y="41.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">VERIFICACOES AUTOMATICAS — 29 FUNCOES, 160 CONDICOES</text>
 <polygon points="35.000,44.000 297.000,44.000 297.000,49.200 35.000,49.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="46.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">VERIFICACAO</text>
-<text x="98.500" y="46.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CRITERIO</text>
-<text x="206.500" y="46.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">REFERENCIA</text>
+<text x="80.500" y="46.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">O QUE TESTA</text>
+<text x="250.500" y="46.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COND.</text>
 <text x="268.500" y="46.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">RESULTADO</text>
 <polygon points="35.000,49.200 297.000,49.200 297.000,54.400 35.000,54.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="51.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Malha modular</text>
-<text x="98.500" y="51.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">toda coordenada multipla de 300 mm</text>
-<text x="206.500" y="51.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">projeto</text>
+<text x="36.500" y="51.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">malha</text>
+<text x="80.500" y="51.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="51.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="268.500" y="51.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,54.400 297.000,54.400 297.000,59.600 35.000,59.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="57.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Sobreposicao</text>
-<text x="98.500" y="57.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">nenhum par de ambientes se sobrepoe</text>
-<text x="206.500" y="57.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">geometria</text>
+<text x="36.500" y="57.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">colisoes</text>
+<text x="80.500" y="57.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="57.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="268.500" y="57.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,59.600 297.000,59.600 297.000,64.800 35.000,64.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="62.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Conectividade</text>
-<text x="98.500" y="62.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">todo ambiente alcancavel a partir da entrada</text>
-<text x="206.500" y="62.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">grafo de vaos</text>
+<text x="36.500" y="62.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">conectividade</text>
+<text x="80.500" y="62.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="62.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <text x="268.500" y="62.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,64.800 297.000,64.800 297.000,70.000 35.000,70.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="67.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Vaos x paredes</text>
-<text x="98.500" y="67.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">nenhum vao extrapola o trecho de parede</text>
-<text x="206.500" y="67.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">geometria</text>
+<text x="36.500" y="67.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vaos</text>
+<text x="80.500" y="67.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="67.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <text x="268.500" y="67.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,70.000 297.000,70.000 297.000,75.200 35.000,75.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="72.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Iluminacao e ventilacao</text>
-<text x="98.500" y="72.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1/6 em permanencia prolongada, 1/8 nos demais</text>
-<text x="206.500" y="72.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC 003/2014 (H)</text>
+<text x="36.500" y="72.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">acesso_por_molhado</text>
+<text x="80.500" y="72.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Ambiente de permanencia nao pode ter como unico acesso um ambiente</text>
+<text x="250.500" y="72.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="268.500" y="72.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,75.200 297.000,75.200 297.000,80.400 35.000,80.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="77.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Vao livre de porta</text>
-<text x="98.500" y="77.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">minimo 800 mm livres</text>
-<text x="206.500" y="77.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">NBR 9050</text>
+<text x="36.500" y="77.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">iluminacao</text>
+<text x="80.500" y="77.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="77.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="268.500" y="77.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,80.400 297.000,80.400 297.000,85.600 35.000,85.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circulo de giro</text>
-<text x="98.500" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.500 mm no banho acessivel</text>
-<text x="206.500" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">NBR 9050</text>
-<text x="268.500" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ver nota</text>
+<text x="36.500" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">acessibilidade</text>
+<text x="80.500" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="268.500" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,85.600 297.000,85.600 297.000,90.800 35.000,90.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="88.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circulacao</text>
-<text x="98.500" y="88.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">halls ate 8 % da area interna</text>
-<text x="206.500" y="88.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">briefing</text>
-<text x="268.500" y="88.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4,6 %</text>
+<text x="36.500" y="88.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">metas</text>
+<text x="80.500" y="88.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="88.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
+<text x="268.500" y="88.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5 nota(s)</text>
 <polygon points="35.000,90.800 297.000,90.800 297.000,96.000 35.000,96.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="93.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Apoio estrutural</text>
-<text x="98.500" y="93.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">pavimento superior apoiado ou sobre pilares</text>
-<text x="206.500" y="93.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">geometria</text>
+<text x="36.500" y="93.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">escada</text>
+<text x="80.500" y="93.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="93.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
 <text x="268.500" y="93.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,96.000 297.000,96.000 297.000,101.200 35.000,101.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="98.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Escada</text>
-<text x="98.500" y="98.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Blondel entre 630 e 650 mm; espelho ate 180 mm</text>
-<text x="206.500" y="98.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">pratica corrente</text>
+<text x="36.500" y="98.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vedacao</text>
+<text x="80.500" y="98.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="98.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <text x="268.500" y="98.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,101.200 297.000,101.200 297.000,106.400 35.000,106.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Prumada x oficina</text>
-<text x="98.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">nenhuma parede hidraulica no ambiente de silencio</text>
-<text x="206.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">decisao de projeto</text>
+<text x="36.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">espacos_mortos</text>
+<text x="80.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="268.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
 <polygon points="35.000,106.400 297.000,106.400 297.000,111.600 35.000,111.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="109.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Ambientes molhados</text>
-<text x="98.500" y="109.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">prumada identificada em cada um</text>
-<text x="206.500" y="109.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">coordenacao</text>
+<text x="36.500" y="109.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">bancadas</text>
+<text x="80.500" y="109.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="109.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
 <text x="268.500" y="109.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
-<line x1="97.000" y1="44.000" x2="97.000" y2="111.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="205.000" y1="44.000" x2="205.000" y2="111.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="267.000" y1="44.000" x2="267.000" y2="111.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="35.000" y="129.600" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#0a6a4a" text-anchor="start" dominant-baseline="middle">RESULTADO: 0 ERRO(S) · 0 ATENCAO(OES) · 8 NOTA(S)</text>
-<text x="35.000" y="139.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Circulacao</text>
-<text x="90.000" y="139.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">halls 12.24 m2 (4.6 %) + core vertical 14.40 m2; a meta de 8 % do briefing incide sobre halls</text>
-<text x="35.000" y="145.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Vao vencido por viga</text>
-<text x="90.000" y="145.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02: 5.40 m2 sobre area aberta, vencidos por viga entre apoios existentes — laje apoiada, nao balanco</text>
-<text x="35.000" y="151.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Vao vencido por viga</text>
-<text x="90.000" y="151.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03: 3.60 m2 sobre area aberta, vencidos por viga entre apoios existentes — laje apoiada, nao balanco</text>
-<text x="35.000" y="157.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Apoio sobre pilares</text>
-<text x="90.000" y="157.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS: 7.56 m2 sobre area aberta, apoiados em 4 pilares — terraco coberto no terreo, nao balanco</text>
-<text x="35.000" y="163.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Lado de abertura definido</text>
-<text x="90.000" y="163.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P02 em (12000, 10800): abre para o lado oposto a -X — LC-03 (box) ocupa a varredura</text>
-<text x="35.000" y="169.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Lado de abertura definido</text>
-<text x="90.000" y="169.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P04 em (3900, 19200): abre para o lado oposto a +Y — BC-02 (bancada) ocupa a varredura</text>
-<text x="35.000" y="175.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Lado de abertura definido</text>
-<text x="90.000" y="175.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P04 em (12600, 22800): abre para o lado oposto a -X — AR-03 (prateleiras) ocupa a varredura</text>
-<text x="35.000" y="181.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Lado de abertura definido</text>
-<text x="90.000" y="181.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P04 em (10800, 22200): abre para o lado oposto a +Y — AR-03 (prateleiras) ocupa a varredura</text>
-<text x="35.000" y="198.600" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CORRECOES APLICADAS NESTA REVISAO</text>
-<polygon points="35.000,201.600 297.000,201.600 297.000,206.800 35.000,206.800" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
-<text x="36.500" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>
-<text x="44.500" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ACHADO</text>
-<text x="160.500" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CORRECAO</text>
-<polygon points="35.000,206.800 297.000,206.800 297.000,212.000 35.000,212.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="209.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="44.500" y="209.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Porta estar -&gt; core sem parede correspondente</text>
-<text x="160.500" y="209.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vao removido: os ambientes sao integrados, nao ha parede</text>
-<polygon points="35.000,212.000 297.000,212.000 297.000,217.200 35.000,217.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
-<text x="44.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Suites com vao de janela abaixo de 1/6 da area de permanencia</text>
-<text x="160.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">criada a familia J05 (1.800 x 1.200) para os tres dormitorios</text>
-<polygon points="35.000,217.200 297.000,217.200 297.000,222.400 35.000,222.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="219.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
-<text x="44.500" y="219.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Banho compartilhado com 0,36 m2 de vao para 4,32 m2 de piso</text>
-<text x="160.500" y="219.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">criada a familia J04 (800 x 900) alta e basculante</text>
-<polygon points="35.000,222.400 297.000,222.400 297.000,227.600 35.000,227.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="225.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
-<text x="44.500" y="225.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Quarto reversivel e oficina marginalmente abaixo do minimo</text>
-<text x="160.500" y="225.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">janela ampliada para J05 em ambos</text>
-<polygon points="35.000,227.600 297.000,227.600 297.000,232.800 35.000,232.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="230.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
-<text x="44.500" y="230.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Banho da master no encontro com o hall, bloqueando a porta</text>
-<text x="160.500" y="230.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho e closet deslocados para a extremidade norte do modulo</text>
-<polygon points="35.000,232.800 297.000,232.800 297.000,238.000 35.000,238.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="235.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
-<text x="44.500" y="235.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">57 % da suite master contabilizados como balanco</text>
-<text x="160.500" y="235.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">declarados 4 pilares metalicos: e pilotis com terraco coberto abaixo</text>
-<polygon points="35.000,238.000 297.000,238.000 297.000,243.200 35.000,243.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="240.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7</text>
-<text x="44.500" y="240.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circulacao de 10,1 % contra meta de 8 %</text>
-<text x="160.500" y="240.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">metrica separada: halls 4,6 % e core vertical a parte</text>
-<polygon points="35.000,243.200 297.000,243.200 297.000,248.400 35.000,248.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="36.500" y="245.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
-<text x="44.500" y="245.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Gourmet sem prumada hidraulica identificada</text>
-<text x="160.500" y="245.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">verificacao passa a considerar o grupo integrado com a cozinha</text>
-<line x1="43.000" y1="201.600" x2="43.000" y2="248.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="159.000" y1="201.600" x2="159.000" y2="248.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="35.000,111.600 297.000,111.600 297.000,116.800 35.000,116.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="114.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">loucas</text>
+<text x="80.500" y="114.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="114.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="268.500" y="114.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,116.800 297.000,116.800 297.000,122.000 35.000,122.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="119.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">subdivisoes</text>
+<text x="80.500" y="119.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="119.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
+<text x="268.500" y="119.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,122.000 297.000,122.000 297.000,127.200 35.000,127.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="124.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">colisao_porta</text>
+<text x="80.500" y="124.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A folha de porta varre um quadrado de lado igual a sua largura.</text>
+<text x="250.500" y="124.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="268.500" y="124.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 nota(s)</text>
+<polygon points="35.000,127.200 297.000,127.200 297.000,132.400 35.000,132.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="129.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">janela_mobiliario</text>
+<text x="80.500" y="129.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="129.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="268.500" y="129.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,132.400 297.000,132.400 297.000,137.600 35.000,137.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="135.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tecnicos</text>
+<text x="80.500" y="135.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Auditoria das areas tecnicas: existencia, lugar, folga e distancia.</text>
+<text x="250.500" y="135.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">27</text>
+<text x="268.500" y="135.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,137.600 297.000,137.600 297.000,142.800 35.000,142.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="140.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">projecao_superior</text>
+<text x="80.500" y="140.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Todo trecho do superior precisa de apoio e cobre o que esta embaixo.</text>
+<text x="250.500" y="140.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
+<text x="268.500" y="140.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,142.800 297.000,142.800 297.000,148.000 35.000,148.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="145.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fronteira_climatica</text>
+<text x="80.500" y="145.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A fita social e climatizada sem parede: a fronteira tem de existir.</text>
+<text x="250.500" y="145.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">16</text>
+<text x="268.500" y="145.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,148.000 297.000,148.000 297.000,153.200 35.000,153.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="150.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">estrutura</text>
+<text x="80.500" y="150.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Cada viga resolvida pela flecha, com junta de deslizamento onde ha gesso.</text>
+<text x="250.500" y="150.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10</text>
+<text x="268.500" y="150.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1 nota(s)</text>
+<polygon points="35.000,153.200 297.000,153.200 297.000,158.400 35.000,158.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="155.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">penetracoes</text>
+<text x="80.500" y="155.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Tubo maior que o furo admissivel nao passa em montante. Nunca.</text>
+<text x="250.500" y="155.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
+<text x="268.500" y="155.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,158.400 297.000,158.400 297.000,163.600 35.000,163.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="161.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">paginacao</text>
+<text x="80.500" y="161.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Recorte pequeno sempre aparece; e junta desalinhada em sala integrada</text>
+<text x="250.500" y="161.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="268.500" y="161.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6 nota(s)</text>
+<polygon points="35.000,163.600 297.000,163.600 297.000,168.800 35.000,168.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="166.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">altura_livre</text>
+<text x="80.500" y="166.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Primeira verificacao que sai da planta: cada degrau contra o que ha acima.</text>
+<text x="250.500" y="166.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
+<text x="268.500" y="166.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,168.800 297.000,168.800 297.000,174.000 35.000,174.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">chamine</text>
+<text x="80.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
+<text x="268.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,174.000 297.000,174.000 297.000,179.200 35.000,179.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="176.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">hidraulica</text>
+<text x="80.500" y="176.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="176.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9</text>
+<text x="268.500" y="176.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,179.200 297.000,179.200 297.000,184.400 35.000,184.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="181.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">eletrica</text>
+<text x="80.500" y="181.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="181.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10</text>
+<text x="268.500" y="181.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,184.400 297.000,184.400 297.000,189.600 35.000,189.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="187.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">drenagem</text>
+<text x="80.500" y="187.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="187.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="268.500" y="187.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,189.600 297.000,189.600 297.000,194.800 35.000,194.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="192.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">integridade_referencial</text>
+<text x="80.500" y="192.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Todo codigo de ambiente citado em qualquer lista tem de existir.</text>
+<text x="250.500" y="192.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
+<text x="268.500" y="192.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<polygon points="35.000,194.800 297.000,194.800 297.000,200.000 35.000,200.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="197.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fechamento</text>
+<text x="80.500" y="197.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="250.500" y="197.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13</text>
+<text x="268.500" y="197.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">OK</text>
+<line x1="79.000" y1="44.000" x2="79.000" y2="200.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="249.000" y1="44.000" x2="249.000" y2="200.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="267.000" y1="44.000" x2="267.000" y2="200.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="35.000" y="218.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#0a6a4a" text-anchor="start" dominant-baseline="middle">RESULTADO: 0 ERRO(S) · 0 ATENCAO(OES) · 16 NOTA(S)</text>
+<text x="35.000" y="228.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Circulacao</text>
+<text x="90.000" y="228.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">halls 12.24 m2 (4.6 %) + core vertical 14.40 m2; a meta de 8 % do briefing incide sobre halls</text>
+<text x="35.000" y="234.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Vao vencido por viga</text>
+<text x="90.000" y="234.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02: 5.40 m2 sobre area aberta, vencidos por viga entre apoios existentes — laje apoiada, nao balanco</text>
+<text x="35.000" y="240.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Vao vencido por viga</text>
+<text x="90.000" y="240.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03: 3.60 m2 sobre area aberta, vencidos por viga entre apoios existentes — laje apoiada, nao balanco</text>
+<text x="35.000" y="246.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Vao vencido por viga</text>
+<text x="90.000" y="246.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS: 10.08 m2 sobre area aberta, vencidos por viga entre apoios existentes — laje apoiada, nao balanco</text>
+<text x="35.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Vao vencido por viga</text>
+<text x="90.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-BAL: 15.12 m2 sobre area aberta, vencidos por viga entre apoios existentes — laje apoiada, nao balanco</text>
+<text x="35.000" y="258.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Lado de abertura definido</text>
+<text x="90.000" y="258.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P02 em (12000, 10800): abre para o lado oposto a -X — LC-03 (box) ocupa a varredura</text>
+<text x="35.000" y="264.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Lado de abertura definido</text>
+<text x="90.000" y="264.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P04 em (3900, 19200): abre para o lado oposto a +Y — BC-02 (bancada) ocupa a varredura</text>
+<text x="35.000" y="270.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Lado de abertura definido</text>
+<text x="90.000" y="270.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P04 em (12600, 22800): abre para o lado oposto a -X — AR-03 (prateleiras) ocupa a varredura</text>
+<text x="35.000" y="276.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Lado de abertura definido</text>
+<text x="90.000" y="276.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P04 em (10800, 22200): abre para o lado oposto a +Y — AR-03 (prateleiras) ocupa a varredura</text>
+<text x="35.000" y="282.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Pavimento pressurizado</text>
+<text x="90.000" y="282.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">superior: 0.5 mca por gravidade — atendido pelo TC-14 de 0.5 cv</text>
+<text x="35.000" y="288.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Recorte de peca abaixo de 1/3</text>
+<text x="90.000" y="288.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COR eixo x: 284 mm (1/3 seria 300 mm) — aceito, o recorte cai em fita social inteira em uma malha: origem</text>
+<text x="35.000" y="294.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Recorte de peca abaixo de 1/3</text>
+<text x="90.000" y="294.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ eixo x: 292 mm (1/3 seria 300 mm) — aceito, o recorte cai em fita social inteira em uma malha: origem</text>
+<text x="35.000" y="300.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Recorte de peca abaixo de 1/3</text>
+<text x="90.000" y="300.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ eixo y: 272 mm (1/3 seria 300 mm) — aceito, o recorte cai em fita social inteira em uma malha: origem</text>
+<text x="35.000" y="306.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Recorte de peca abaixo de 1/3</text>
+<text x="90.000" y="306.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS eixo y: 288 mm (1/3 seria 300 mm) — aceito, o recorte cai em origem no eixo da porta da suite</text>
+<text x="35.000" y="312.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Recorte de peca abaixo de 1/3</text>
+<text x="90.000" y="312.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02 eixo y: 288 mm (1/3 seria 300 mm) — aceito, o recorte cai em suites 02 e 03 na mesma malha: a parede </text>
+<text x="35.000" y="318.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">[NOTA] Ambientes sem paginacao declarada</text>
+<text x="90.000" y="318.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4: T-HAL, T-CIR, T-REV, S-HAL — recebem a malha padrao a partir do proprio canto de entrada</text>
+<text x="35.000" y="335.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CORRECOES APLICADAS NESTA REVISAO</text>
+<polygon points="35.000,338.000 297.000,338.000 297.000,343.200 35.000,343.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="36.500" y="340.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>
+<text x="44.500" y="340.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ACHADO</text>
+<text x="160.500" y="340.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CORRECAO</text>
+<polygon points="35.000,343.200 297.000,343.200 297.000,348.400 35.000,348.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="345.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="44.500" y="345.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Porta estar -&gt; core sem parede correspondente</text>
+<text x="160.500" y="345.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vao removido: os ambientes sao integrados, nao ha parede</text>
+<polygon points="35.000,348.400 297.000,348.400 297.000,353.600 35.000,353.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="351.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="44.500" y="351.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Suites com vao de janela abaixo de 1/6 da area de permanencia</text>
+<text x="160.500" y="351.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">criada a familia J05 (1.800 x 1.200) para os tres dormitorios</text>
+<polygon points="35.000,353.600 297.000,353.600 297.000,358.800 35.000,358.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="356.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
+<text x="44.500" y="356.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Banho compartilhado com 0,36 m2 de vao para 4,32 m2 de piso</text>
+<text x="160.500" y="356.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">criada a familia J04 (800 x 900) alta e basculante</text>
+<polygon points="35.000,358.800 297.000,358.800 297.000,364.000 35.000,364.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="361.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
+<text x="44.500" y="361.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Quarto reversivel e oficina marginalmente abaixo do minimo</text>
+<text x="160.500" y="361.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">janela ampliada para J05 em ambos</text>
+<polygon points="35.000,364.000 297.000,364.000 297.000,369.200 35.000,369.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="366.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
+<text x="44.500" y="366.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Banho da master no encontro com o hall, bloqueando a porta</text>
+<text x="160.500" y="366.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho e closet deslocados para a extremidade norte do modulo</text>
+<polygon points="35.000,369.200 297.000,369.200 297.000,374.400 35.000,374.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="371.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="44.500" y="371.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">57 % da suite master contabilizados como balanco</text>
+<text x="160.500" y="371.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">declarados 4 pilares metalicos: e pilotis com terraco coberto abaixo</text>
+<polygon points="35.000,374.400 297.000,374.400 297.000,379.600 35.000,379.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="377.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7</text>
+<text x="44.500" y="377.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circulacao de 10,1 % contra meta de 8 %</text>
+<text x="160.500" y="377.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">metrica separada: halls 4,6 % e core vertical a parte</text>
+<polygon points="35.000,379.600 297.000,379.600 297.000,384.800 35.000,384.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="382.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
+<text x="44.500" y="382.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Gourmet sem prumada hidraulica identificada</text>
+<text x="160.500" y="382.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">verificacao passa a considerar o grupo integrado com a cozinha</text>
+<line x1="43.000" y1="338.000" x2="43.000" y2="384.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="159.000" y1="338.000" x2="159.000" y2="384.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 </svg>

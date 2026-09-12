@@ -1592,7 +1592,182 @@ def checar_drenagem() -> list[Achado]:
     return out
 
 
+
+# ------------------------- 27. integridade referencial de codigos
+def _todos_os_codigos() -> set[str]:
+    cods = {a.cod for a in pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO
+            + pj.SUPERIOR_ABERTO}
+    cods |= {sd["nome"] for sd in pj.SUBDIVISOES}
+    return cods
+
+
+def checar_integridade_referencial() -> list[Achado]:
+    """Todo codigo de ambiente citado em qualquer lista tem de existir.
+
+    Esta verificacao nasceu de tres achados reais: T-PSE e T-CSE em definicoes
+    mortas de cobertos(), e T-DML na lista de forros. Codigo orfao nao quebra
+    nada — simplesmente deixa de ser aplicado, silenciosamente, e o projeto
+    passa a ter uma decisao que nao chega ao desenho.
+    """
+    out = []
+    validos = _todos_os_codigos()
+    fontes = [
+        ("FORROS", [f[0] for f in ep.FORROS]),
+        ("CATEGORIA", list(ep.CATEGORIA.keys())),
+        ("MOLHADOS", list(ep.MOLHADOS)),
+        ("SILENCIO", list(ep.SILENCIO)),
+        ("CLIMATIZACAO.amb", [c["amb"] for c in pj.CLIMATIZACAO]),
+        ("CLIMATIZACAO.mais", [x for c in pj.CLIMATIZACAO for x in c.get("mais", [])]),
+        ("CLIMATIZACAO.zona_aberta",
+         [x for c in pj.CLIMATIZACAO for x in c.get("zona_aberta", [])]),
+        ("TECNICOS.amb", [t["amb"] for t in pj.TECNICOS if t.get("amb")]),
+        ("DIFUSORES", [d["amb"] for d in pj.DIFUSORES]),
+        ("VENTILADORES", [v["amb"] for v in pj.VENTILADORES]),
+        ("EXAUSTAO", [e["amb"] for e in pj.EXAUSTAO]),
+        ("RALOS", [r["amb"] for r in pj.RALOS]),
+        ("LOUCAS", [l["amb"] for l in pj.LOUCAS]),
+        ("BANCADAS", [b["amb"] for b in pj.BANCADAS]),
+        ("EQUIPAMENTOS", [e["amb"] for e in pj.EQUIPAMENTOS]),
+        ("ARMARIOS", [a["amb"] for a in pj.ARMARIOS]),
+        ("SUBDIVISOES.pai", [sd["pai"] for sd in pj.SUBDIVISOES]),
+        ("VIGAS.sobre", [v["sobre"] for v in pj.VIGAS]),
+        ("PAISAGISMO", [p["amb"] for p in pj.PAISAGISMO]),
+        ("PE_DIREITO_DUPLO", list(pj.PE_DIREITO_DUPLO)),
+        ("ZONAS_PAGINACAO", [c for z in pj.ZONAS_PAGINACAO for c in z["ambientes"]]),
+        ("FRONTEIRA_CLIMATICA.entre", list(pj.FRONTEIRA_CLIMATICA["entre"])),
+        ("PRESSURIZADOR.atende", list(pj.PRESSURIZADOR["atende"])),
+        ("INTEGRADOS", [c for g in pj.INTEGRADOS for c in g]),
+        ("PROLONGADA", list(PROLONGADA)),
+        ("DISPENSADOS", list(DISPENSADOS)),
+    ]
+    for nome, lst in fontes:
+        for cod in lst:
+            if cod not in validos:
+                out.append(Achado("ERRO", "Codigo de ambiente orfao",
+                                  f"{nome} cita {cod}, que nao existe no modelo"))
+    # codigos internos unicos
+    for nome, lst in (("TECNICOS", [t["cod"] for t in pj.TECNICOS]),
+                      ("LOUCAS", [l["cod"] for l in pj.LOUCAS]),
+                      ("BANCADAS", [b["cod"] for b in pj.BANCADAS]),
+                      ("ARMARIOS", [a["cod"] for a in pj.ARMARIOS]),
+                      ("RALOS", [r["cod"] for r in pj.RALOS]),
+                      ("VIGAS", [v["cod"] for v in pj.VIGAS]),
+                      ("DIFUSORES", [d["cod"] for d in pj.DIFUSORES]),
+                      ("VENTILADORES", [v["cod"] for v in pj.VENTILADORES]),
+                      ("PENETRACOES", [p["cod"] for p in pj.PENETRACOES]),
+                      ("PAISAGISMO", [p["cod"] for p in pj.PAISAGISMO]),
+                      ("CARGAS_ESPECIAIS", [c["cod"] for c in pj.CARGAS_ESPECIAIS])):
+        vistos = set()
+        for c in lst:
+            if c in vistos:
+                out.append(Achado("ERRO", "Codigo duplicado",
+                                  f"{nome}: {c} aparece mais de uma vez"))
+            vistos.add(c)
+    # ambiente fechado sem acabamento definido
+    cobertos_fechados = {a.cod for a in pj.TERREO + pj.SUPERIOR}
+    com_acab = {a["amb"] for a in pj.acabamentos()}
+    for cod in sorted(cobertos_fechados - com_acab):
+        out.append(Achado("ERRO", "Ambiente sem acabamento", cod))
+    return out
+
+
+# ------------------------- 28. acabamentos, locacao e paisagismo
+def checar_fechamento() -> list[Achado]:
+    out = []
+    # acabamento coerente com as decisoes de origem
+    alt = pj.alturas_revestimento()
+    for a in pj.acabamentos():
+        if a["amb"] in alt and str(alt[a["amb"]]) not in a["parede"]:
+            out.append(Achado("ERRO", "Acabamento divergente da paginacao",
+                              f"{a['amb']}: revestimento de {alt[a['amb']]} mm nao "
+                              f"aparece na especificacao de parede"))
+        if a["amb"] in ep.MOLHADOS and "antiderrapante" not in a["piso"] \
+                and "cimenticio" not in a["piso"]:
+            out.append(Achado("ERRO", "Area molhada sem piso antiderrapante",
+                              f"{a['amb']}: {a['piso'][:40]}"))
+        if a["forro_h"] > pj.PE_DIREITO:
+            out.append(Achado("ERRO", "Forro acima do pe-direito",
+                              f"{a['amb']}: {a['forro_h']} mm"))
+        if a["forro_h"] < ALTURA_LIVRE_MIN:
+            out.append(Achado("ERRO", "Forro abaixo da altura livre minima",
+                              f"{a['amb']}: {a['forro_h']} mm"))
+    # locacao: cantos dentro do lote e fora dos recuos
+    for c in pj.cantos_locacao():
+        if not (0 <= c["x"] <= pj.LOTE_L and 0 <= c["y"] <= pj.LOTE_P):
+            out.append(Achado("ERRO", "Canto de locacao fora do lote", c["canto"]))
+        if c["da_divisa_sul"] < pj.RECUO_ESQ:
+            out.append(Achado("ERRO", "Canto dentro do recuo esquerdo",
+                              f"{c['canto']}: {c['da_divisa_sul']} mm"))
+        if c["da_testada"] < pj.RECUO_FRENTE:
+            out.append(Achado("ERRO", "Canto dentro do recuo frontal",
+                              f"{c['canto']}: {c['da_testada']} mm"))
+        if c["do_fundo"] < pj.RECUO_FUNDO_MIN:
+            out.append(Achado("ERRO", "Canto dentro do recuo de fundo",
+                              f"{c['canto']}: {c['do_fundo']} mm"))
+    # eixos de locacao tem de existir na malha
+    for eixo, lst in (("x", pj.EIXOS_LOCACAO["x"]), ("y", pj.EIXOS_LOCACAO["y"])):
+        for v in lst:
+            if v % pj.SUBGRID:
+                out.append(Achado("ERRO", "Eixo de locacao fora da malha",
+                                  f"{eixo} = {v} mm"))
+    # paisagismo: afastamento da especie contra o limite do canteiro
+    for p in pj.PAISAGISMO:
+        amb = next((a for a in pj.TERREO_ABERTO if a.cod == p["amb"]), None)
+        if amb is None:
+            continue
+        menor = min(amb.w, amb.h)
+        if p["afast_min"] and menor < p["afast_min"] * 2:
+            nivel = "ERRO" if menor < p["afast_min"] else "ATENCAO"
+            out.append(Achado(nivel, "Especie grande para o canteiro",
+                              f"{p['cod']} {p['especie'].split('(')[0].strip()} pede "
+                              f"{p['afast_min']} mm de afastamento em canteiro de "
+                              f"{menor} mm de menor dimensao"))
+    # irrigacao: demanda calculada tem de constar do balanco pluvial
+    b = pj.balanco_pluvial()
+    if b["autonomia_dias"] < 7:
+        out.append(Achado("ATENCAO", "Autonomia pluvial curta",
+                          f"{b['autonomia_dias']:.1f} dias de reuso"))
+    if b["aproveitamento"] > 1.0:
+        out.append(Achado("ERRO", "Demanda de reuso acima da captacao",
+                          f"{b['aproveitamento']:.0%} da chuva captada"))
+    # emissao coerente com o historico de revisoes
+    if pj.EMISSAO["revisao"] != pj.REVISOES[-1][0]:
+        out.append(Achado("ERRO", "Revisao de emissao divergente",
+                          f"EMISSAO diz {pj.EMISSAO['revisao']} e REVISOES termina em "
+                          f"{pj.REVISOES[-1][0]}"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
+def verificacoes() -> list:
+    """As funcoes de verificacao, em ordem de execucao."""
+    return [checar_malha, checar_colisoes, checar_conectividade, checar_vaos,
+            checar_acesso_por_molhado, checar_iluminacao, checar_acessibilidade,
+            checar_metas, checar_escada, checar_vedacao, checar_espacos_mortos,
+            checar_bancadas, checar_loucas, checar_subdivisoes,
+            checar_colisao_porta, checar_janela_mobiliario, checar_tecnicos,
+            checar_projecao_superior, checar_fronteira_climatica,
+            checar_estrutura, checar_penetracoes, checar_paginacao,
+            checar_altura_livre, checar_chamine, checar_hidraulica,
+            checar_eletrica, checar_drenagem,
+            checar_integridade_referencial, checar_fechamento]
+
+
+def metrica() -> dict:
+    """Quantas verificacoes e quantas CONDICOES a auditoria testa.
+
+    Medido no proprio codigo, por contagem de emissoes de Achado, para que o
+    numero citado nas pranchas e nos documentos nao possa divergir do que a
+    auditoria de fato faz. Os numeros informados nas revisoes 15 a 17 do
+    DIVERGENCIAS contavam "verificacoes" de forma inconsistente; esta funcao
+    encerra a questao medindo em vez de estimar.
+    """
+    import inspect
+    fns = verificacoes()
+    cond = sum(inspect.getsource(f).count("Achado(") for f in fns)
+    return dict(funcoes=len(fns), condicoes=cond)
+
+
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
             checar_vaos() + checar_acesso_por_molhado() +
@@ -1604,7 +1779,8 @@ def auditar() -> list[Achado]:
             checar_fronteira_climatica() + checar_estrutura() +
             checar_penetracoes() + checar_paginacao() +
             checar_altura_livre() + checar_chamine() +
-            checar_hidraulica() + checar_eletrica() + checar_drenagem())
+            checar_hidraulica() + checar_eletrica() + checar_drenagem() +
+            checar_integridade_referencial() + checar_fechamento())
 
 
 if __name__ == "__main__":
