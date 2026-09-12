@@ -2003,3 +2003,116 @@ como se constrói de verdade.
 
 **46 funções, 231 condições, 0 erros, 0 atenções, 53 notas.** 39 das 63
 auditorias rodam sozinhas (61,9 %). 35 pranchas constroem.
+
+---
+
+# R11 — o visualizador entra no modelo
+
+Até aqui a auditoria alcançava a geometria, mas não alcançava a peça pela qual
+o projeto é efetivamente lido. O proprietário relatou o sintoma com precisão:
+*"quando coloco o zoom ele aumenta de forma nada proporcional e não consigo ver
+bem"*. Cinco defeitos saíram daí — quatro deles só apareceram quando o
+visualizador passou a ser testado num navegador de verdade, por
+`viewer_teste.py`.
+
+## Defeito 20 — o zoom esticava um bitmap em vez de redesenhar o vetor
+
+A prancha era ampliada com `transform: scale()` sobre a `<img>`. O navegador
+rasteriza o SVG **uma vez**, no tamanho natural (3.179 × 2.245 px para o A1), e
+`scale()` estica esse bitmap. Ampliar não revelava cota nenhuma: borrava as que
+já estavam na tela. É o oposto do que um caderno técnico precisa — o desenho é
+vetorial justamente para suportar aproximação.
+
+Havia um segundo erro somado ao primeiro: o passo era multiplicativo **por
+evento de roda** (×1,14 a cada `wheel`). Um mouse de catraca emite um evento por
+clique; um trackpad emite dezenas por gesto, com `deltaY` de magnitude
+completamente diferente. O mesmo gesto dava 14 % num aparelho e 400 % em outro.
+Daí o "nada proporcional".
+
+**Correção.** O zoom passa a escrever `width` e `height` em pixel, o que obriga
+o navegador a **redesenhar o vetor** no tamanho novo, e a percorrer uma escada
+fixa de dez degraus — 100, 150, 200, 300, 400, 600, 800, 1.200, 1.600 e
+2.400 % — ancorada no ponto sob o cursor. O gesto de pinça (`ctrl` + roda, que é
+como o trackpad se anuncia) continua contínuo, porque ali o dedo controla a
+razão diretamente. Verificado: em 400 % a imagem mede exatamente 4,000× a de
+100 %, o ponto sob o cursor desloca 0,00 px do desenho, e `img.style.transform`
+não contém mais `scale(`.
+
+## Defeito 21 — o deck tapava a piscina
+
+O próprio `DECK` traz o comentário *"envolve a piscina"*, mas a exportação 3D o
+emitia como uma laje inteira de 7.800 × 5.400 mm, de −60 a 0 mm. A piscina, com
+lâmina a −100 mm, ficava debaixo dela. Na cena "fachada oeste — piscina" não
+havia piscina: havia um retângulo marrom.
+
+**Correção.** O deck sai como **quatro faixas** em volta do espelho d'água,
+calculadas do retângulo real da piscina. Se algum dia a piscina deixar de caber
+dentro do deck, a exportação volta sozinha à laje inteira — a condição está no
+código, não na conferência visual.
+
+## Defeito 22 — a cena do eixo colocava a câmera dentro de uma parede
+
+A cena "eixo da piscina" prometia *"20,70 m do estar até o fim da água"* com a
+câmera a 6° de elevação e 21 m de distância. A conta põe o olho em
+(7.500, 5.115, 3.795) — ou seja, **dentro do volume da frente**. A cena exibia
+uma parede cinza e a promessa por cima dela.
+
+**Correção.** Vista de cima com a casa **cortada em +2,20 m**: o eixo atravessa
+cozinha, cortina de vidro, varanda e piscina sem que nenhuma parede o
+interrompa. Cada cena passou a poder carregar o próprio corte e a própria hora
+do dia, porque uma fachada leste só se lê de manhã e uma fachada oeste só se lê
+à tarde — com uma hora única, metade das cenas fica contra a luz.
+
+## Defeito 23 — anéis de sombra sobre as lajes
+
+As coberturas apareciam com anéis concêntricos. Não era moiré de textura nem
+z-fighting: era **acne de sombra**, a superfície se auto-sombreando na precisão
+do mapa, num modelo cujas dimensões estão em milímetros e cuja câmera de sombra
+cobre 52 m. Corrigido com `bias` e `normalBias` de 80 mm — a mesma unidade do
+resto do projeto.
+
+Junto com ele, um erro de fotometria: céu + sol somavam mais de 1,0 numa face
+voltada para cima e o terreno saía branco. As intensidades passaram a ser
+dimensionadas para que a soma feche em 1,0 no zênite.
+
+## Defeito 24 — `hidden` que não escondia
+
+A troca entre 2D e 3D esconde metade da interface pelo atributo `hidden`. Mas
+qualquer regra de autor com `display:` — `.barra{display:flex}`, por exemplo —
+vence o `[hidden]{display:none}` da folha do navegador. A barra de zoom
+continuava na tela em cima do modelo 3D. Corrigido com a regra explícita no
+próprio CSS, que também faz a página funcionar aberta direto do disco.
+
+## O que ficou
+
+| peça | o que faz |
+|---|---|
+| `modelo3d.py` | exporta 329 sólidos do mesmo modelo que gera as pranchas |
+| `viewer.py` | monta a página; os oito números do cabeçalho são **calculados**, não digitados |
+| `viewer_parte2.py` | CSS e HTML do modo 3D |
+| `viewer_parte3.py` | zoom 2D e motor 3D |
+| `viewer_texto.json` | somente a redação de cada prancha vive fora do código |
+| `viewer_teste.py` | **34 verificações** num Chromium de verdade |
+
+O visualizador só publica depois de passar em `viewer_teste.py`: escada de
+zoom, ancoragem no cursor, navegação entre as 35 pranchas, montagem dos 329
+sólidos, oito cenas, nove camadas, altura solar ao meio-dia de equinócio
+(87° na latitude −3,10°), corte horizontal chegando ao plano de recorte,
+identificação de ambiente por clique e ausência de erro de console.
+
+**Estado: 46 funções, 231 condições e 0 erros no modelo; 34 verificações e 0
+falhas no visualizador. 35 pranchas constroem.**
+
+## Defeito 25 — a prancha solta não dizia a que revisão pertencia
+
+Encontrado ao conferir por que uma mudança de revisão só alterava um arquivo:
+`REVISOES` e `EMISSAO` eram impressos **apenas na prancha 33**. As outras 34
+saíam do plotter sem nenhuma marca de revisão. Numa obra, prancha impressa
+circula solta — e uma planta baixa de R08 é indistinguível de uma de R11 quando
+nenhuma das duas se identifica. A NBR 10582 pede a identificação no carimbo,
+não num índice guardado em outra folha.
+
+**Correção.** O carimbo passa a trazer `REV` ao lado do número da prancha e na
+linha de emissão, lido de `EMISSAO["revisao"]`. Uma verificação já existente
+(`EMISSAO` contra o último item de `REVISOES`) garante que esse código nunca
+fique para trás do histórico.

@@ -136,8 +136,12 @@ def escala_grafica(cv: Canvas, pos: tuple[float, float], vw: View,
 
 # ------------------------------------------------------------- carimbo
 def carimbo(cv: Canvas, titulo: str, escala: str, prancha: str,
-            total: str, notas: list[str] | None = None) -> None:
+            total: str, notas: list[str] | None = None,
+            revisao: str | None = None) -> None:
     """Legenda na margem inferior direita (NBR 10582), 175 mm de largura."""
+    if revisao is None:
+        import projeto as _pj
+        revisao = _pj.EMISSAO["revisao"]
     L, A, m = cv.larg, cv.alt, cv.marg
     w, h = 175.0, 62.0
     x0, y0 = L - m - w, A - m - h
@@ -173,13 +177,13 @@ def carimbo(cv: Canvas, titulo: str, escala: str, prancha: str,
     texto(col[1] + 3, y0 + 58, "MALHA 600/300/150", TXT["micro"])
 
     texto(col[2] + 3, y0 + 38, "EMISSAO", TXT["micro"], cor=CINZA)
-    texto(col[2] + 3, y0 + 44, "ESTUDO PRELIMINAR", TXT["min"])
+    texto(col[2] + 3, y0 + 44, f"ESTUDO PRELIMINAR  {revisao}", TXT["min"])
     texto(col[2] + 3, y0 + 50, "NAO LIBERADO PARA OBRA", TXT["micro"], cor="#c00")
     texto(col[2] + 3, y0 + 56, "SEM ART / RRT", TXT["micro"], cor="#c00")
 
     texto(col[3] + 3, y0 + 38, "PRANCHA", TXT["micro"], cor=CINZA)
     texto(col[3] + 3, y0 + 48, prancha, TXT["tit"], peso="bold")
-    texto(col[3] + 3, y0 + 57, f"de {total}", TXT["micro"])
+    texto(col[3] + 3, y0 + 57, f"de {total}   REV {revisao}", TXT["micro"])
 
     if notas:
         ny = y0 - 4 - 4.2 * len(notas)

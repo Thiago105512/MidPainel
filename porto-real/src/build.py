@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pipeline: gera todas as pranchas em SVG, PNG e um PDF unico do caderno."""
+"""Pipeline: pranchas em SVG/PNG/PDF, modelo 3D e visualizador do caderno."""
 from __future__ import annotations
 
 import os
@@ -77,6 +77,11 @@ def main(png: bool = True, pdf: bool = True) -> None:
                 cairosvg.svg2png(url=c, write_to=c.replace(".svg", ".png"), output_width=2400)
             if pdf:
                 cairosvg.svg2pdf(url=c, write_to=c.replace(".svg", ".pdf"))
+
+    import modelo3d
+    import viewer
+    modelo3d.exportar(os.path.join(OUT, "modelo3d.json"))
+    viewer.main()
 
     if pdf:
         import pymupdf

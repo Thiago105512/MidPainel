@@ -2291,9 +2291,12 @@ REVISOES = [
             "privacidade das suites"),
     ("R10", "Coccao unica: o cooktop do gourmet sai; a peninsula deixa a area de "
             "transicao e a fila leste da cozinha alinha a frente em x = 5.400"),
+    ("R11", "Visualizador auditado: zoom 2D por degraus fixos que redesenham o "
+            "vetor, modelo 3D navegavel com oito cenas, sol real, corte "
+            "horizontal e camadas; deck deixa de tapar a piscina"),
 ]
 EMISSAO = dict(
-    revisao="R10", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R11", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
