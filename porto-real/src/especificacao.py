@@ -27,11 +27,14 @@ G = pj.GRID
 CATEGORIA = {
     "T-REV": "intimo", "S-S02": "intimo", "S-S03": "intimo", "S-MAS": "intimo",
     "T-SOC": "social", "T-GOU": "social", "T-COZ": "social",
-    "T-LAV": "servico", "T-OFI": "servico", "T-DML": "servico",
+    "T-LAV": "servico", "T-DEP": "servico", "T-DES": "servico",
+    "T-OFI": "oficina",
     "T-HAL": "circulacao", "T-COR": "circulacao", "S-HAL": "circulacao",
     "T-GAR": "apoio", "T-BWC": "molhado",
 }
 MOLHADOS = {"T-BWC", "T-COZ", "T-LAV", "T-GOU"}
+# a oficina e fonte E receptor: quer silencio para dentro e para fora
+SILENCIO = {"T-OFI"}
 
 # fontes de ruido relevantes: o que exige parede acustica do outro lado
 FONTES = {"social", "apoio", "circulacao", "servico"}
@@ -59,7 +62,7 @@ FAMILIAS = {
         esp=100, nome="Parede acustica",
         comp="dupla chapa 12,5 + montante 48 c/ la 48 + dupla chapa 12,5",
         U=None, Rw=49, indice=1.35,
-        onde="entre ambiente intimo e qualquer fonte de ruido, e no entorno do core",
+        onde="intimo x fonte de ruido, social x servico, entorno do core e toda a oficina",
         porque="Dupla chapa e o unico ganho acustico barato: +5 dB por chapa "
                "adicional. Decupla-se a massa sem mudar a espessura modular."),
     "PI-1": dict(
@@ -139,11 +142,16 @@ def classificar(a: str | None, b: str | None, externa: bool) -> str:
     if externa:
         return "PE-1"
     ca, cb = CATEGORIA.get(a, "outro"), CATEGORIA.get(b, "outro")
+    # a oficina tem precedencia: nenhuma prumada encosta nela — agua descendo
+    # em tubo e ruido de impacto continuo dentro do ambiente que pede silencio
+    if a in SILENCIO or b in SILENCIO:
+        return "PA-1"
     if a in MOLHADOS or b in MOLHADOS:
-        # so e PH-1 se houver prumada: banho, cozinha e lavanderia a tem
         if a in ("T-BWC", "T-COZ", "T-LAV") or b in ("T-BWC", "T-COZ", "T-LAV"):
             return "PH-1"
     if "intimo" in (ca, cb) and (ca in FONTES or cb in FONTES or ca == cb == "intimo"):
+        return "PA-1"
+    if {"social", "servico"} <= {ca, cb}:
         return "PA-1"
     if "T-COR" in (a, b) or "S-HAL" in (a, b):
         return "PA-1"
@@ -277,8 +285,8 @@ def _face_do_vao(x, y, ori, pav):
 # onde NAO gastar
 # =========================================================================
 NAO_APLICAR = [
-    ["Parede acustica (PA-1)", "entre ambientes de servico",
-     "oficina, lavanderia e DML ja convivem com o mesmo tipo de ruido"],
+    ["Parede acustica (PA-1)", "entre lavanderia e deposito",
+     "ambos de servico, com o mesmo tipo de ruido — o reforco vai para a oficina"],
     ["Parede acustica (PA-1)", "dentro da fita social integrada",
      "o cliente pediu integracao: parede ali contradiz o partido"],
     ["Parede hidraulica 150 mm", "onde nao passa prumada DN100",

@@ -44,7 +44,7 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
         "Parede externa 150 mm / divisoria interna 100 mm (H).",
         "Mobiliario fixo indica pontos de agua e esgoto (NBR 6492).",
     ])
-    vw = View(50, 78, 476, 2_400, 7_200)
+    vw = View(50, 78, 522, 2_400, 7_200)
 
     fechados = pj.TERREO if pav == "T" else pj.SUPERIOR
     abertos = pj.TERREO_ABERTO if pav == "T" else pj.SUPERIOR_ABERTO
@@ -124,7 +124,8 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
         an.nivel(cv, vw, P(5_400, 10_200), 0)
         an.nivel(cv, vw, P(7_500, 16_200), 0)
         an.nivel(cv, vw, P(7_500, 22_800), 0)
-        an.nivel(cv, vw, P(7_800, 28_800), -150)
+        an.nivel(cv, vw, P(6_900, 29_100), -20)
+        an.nivel(cv, vw, P(13_200, 26_400), -150)
     else:
         an.nivel(cv, vw, P(5_100, 15_600), pj.NIVEL_SUPERIOR)
         an.nivel(cv, vw, P(13_200, 18_600), pj.NIVEL_SUPERIOR)
@@ -142,7 +143,7 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
 
     # ---- eixos modulares estruturais
     eixos_x = [2_400, 8_400, 9_600, 12_000, 16_800]
-    eixos_y = [7_200, 13_200, 19_200, 26_400]
+    eixos_y = [7_200, 13_200, 19_200, 26_400, 30_600]
     for i, xv in enumerate(eixos_x):
         an.eixo_modular(cv, vw, xv, y0, y1, "V", chr(65 + i))
     for i, yv in enumerate(eixos_y):
@@ -151,7 +152,7 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     # ---- indicacao dos cortes
     if pav == "T":
         an.marca_corte(cv, vw, P(1_200, 16_200), P(18_000, 16_200), "A")
-        an.marca_corte(cv, vw, P(7_500, 5_400), P(7_500, 31_200), "B")
+        an.marca_corte(cv, vw, P(7_500, 5_400), P(7_500, 32_400), "B")
 
     an.norte(cv, (800, 46), 9, pj.NORTE_EM_PLANTA)
 
@@ -182,9 +183,9 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     # ---- legenda de convencoes
     _legenda_convencoes(cv, (470, fim2 + 18))
 
-    _rosa_solar(cv, (762, 120))
-    an.titulo_desenho(cv, (78, 520), "1", nome.split("—")[-1].strip(), "1:50")
-    an.escala_grafica(cv, (78, 536), vw, 1_000, 5)
+    _rosa_solar(cv, (768, 128))
+    an.titulo_desenho(cv, (78, 560), "1", nome.split("—")[-1].strip(), "1:50")
+    an.escala_grafica(cv, (78, 574), vw, 1_000, 5)
     return cv
 
 

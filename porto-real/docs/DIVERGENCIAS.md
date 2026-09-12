@@ -329,3 +329,93 @@ Registrado na prancha PR-13. Os casos de maior economia:
 - **isolamento adicional na cobertura** — o PIR já entrega U = 0,276 contra
   limite de 2,30; o próximo ganho real está no sombreamento, não em mais
   isolante.
+
+---
+
+# Revisão 5 — bloco de serviço no fundo, com acesso externo
+
+Pedido do cliente: lavanderia e depósito atrás do gourmet, com entrada pelos
+corredores externos; oficina silenciosa; piscina realocada.
+
+## O corredor aberto resolve três problemas de uma vez
+
+Entre o gourmet (que termina em Y = 26.400) e o bloco de serviço (que começa
+em Y = 27.600) foi interposto um **corredor de serviço coberto de 7.200 × 1.200
+mm**, aberto nas duas pontas. Ele:
+
+1. **dá a entrada externa pedida** — as três portas (oficina, lavanderia,
+   depósito) abrem para ele, e nenhuma rota de serviço atravessa a área social;
+2. **desacopla acusticamente** o bloco de serviço do gourmet por uma lâmina de
+   ar, que isola muito melhor que qualquer parede compartilhada;
+3. **conecta-se ao recuo sul e ao deck norte**, tornando-se passagem contínua
+   de um lado ao outro do lote.
+
+## O ganho térmico que veio de brinde
+
+Com a piscina migrando para o lado **norte**, o gourmet passa a abrir para o
+norte — orientação onde o sol é alto (63° a 87°) e um beiral resolve. E o bloco
+de serviço assume a face **oeste**, transformando-se em **barreira térmica**
+contra o sol das 16h.
+
+Isso é melhor que o alpendre de 2.400 mm que existia antes: um volume
+construído de 3.000 mm de profundidade, ocupado por ambientes de permanência
+curta, protege a fita social muito mais do que uma varanda. O pedido funcional
+do cliente resolveu, por tabela, o pior problema de orientação do projeto.
+
+## A oficina ficou com três faces externas
+
+| Face | Confronta |
+|---|---|
+| Sul | recuo lateral — exterior |
+| Oeste | fundo do lote — exterior |
+| Leste | corredor de serviço — ar livre |
+| Norte | lavanderia — **única parede interna**, classificada PA-1 |
+
+A regra de classificação passou a dar **precedência ao silêncio**: nenhuma
+prumada hidráulica encosta na oficina. Por isso o tanque e as máquinas da
+lavanderia foram deslocados para a parede do depósito — água descendo em tubo
+é ruído de impacto contínuo, e seria absurdo blindar a parede e deixar o tubo
+passar por ela.
+
+A oficina está a mais de 12 m do estar, com uma lâmina de ar no caminho.
+
+## A loggia sul
+
+A saída da oficina e da lavanderia da faixa central liberou 3.000 × 6.000 mm
+na face sul, que viraram **loggia coberta de 18,00 m²** sob as suítes. Ela:
+
+- dá ao estar/jantar a **face externa que ele nunca teve** — antes o ambiente
+  era cercado por outros ambientes em todos os lados;
+- fecha a **ventilação cruzada** da fita social: entrada a sul pela loggia,
+  saída a norte pelo gourmet, mais o efeito chaminé do core;
+- **sustenta o pavimento superior**, que de outro modo ficaria em balanço.
+
+Face sul em latitude 3°S recebe sol alto entre outubro e fevereiro — sombreada
+pela própria laje superior, sem necessidade de brise.
+
+## Áreas e o custo da mudança
+
+| | Antes | Depois | Δ |
+|---|---|---|---|
+| Térreo fechado | 174,24 m² | **177,84 m²** | +3,60 |
+| Total fechado | 260,64 m² | **264,24 m²** | +3,60 |
+| Taxa de ocupação | 21,78 % | 22,23 % | dentro dos 50 % |
+| Áreas abertas com função | 67,68 m² | 120,24 m² | +52,56 |
+| **Vedação total** | 430,56 m² | **478,92 m²** | **+48,36** |
+
+Os +3,60 m² vêm da separação entre **despensa** (alimentos, junto à cozinha) e
+**depósito/DML** (limpeza, no bloco de serviço) — que o briefing mantinha como
+um único ambiente. Guardar produto de limpeza junto de alimento é a prática
+que a separação corrige.
+
+Os +48,36 m² de vedação são o custo real da decisão: destacar o bloco de
+serviço aumenta o perímetro externo. É o preço do isolamento acústico da
+oficina e do desacoplamento do serviço — pago em parede externa, que na
+classificação é a família mais barata por m².
+
+## Piscina
+
+Movida para (10.800, 23.400), no lado norte, alinhada ao deck e diretamente
+visível do gourmet pelo vão PV01. Não fica sob o balanço da varanda master
+(que termina em Y = 22.800), preservando sol pleno sobre a lâmina — o que se
+quer numa piscina, ao contrário do que se quer sobre o vidro.

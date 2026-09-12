@@ -116,28 +116,38 @@ INTEGRADOS = {
 }
 
 TERREO: list[Amb] = [
-    Amb("T-GAR", "GARAGEM",            2_400,  7_200, 6_000, 6_000),
-    Amb("T-HAL", "HALL",               8_400,  9_600, 1_800, 3_600),
-    Amb("T-REV", "QUARTO REVERSIVEL", 12_000,  7_200, 3_000, 6_000),
+    # ---- faixa frontal (leste)
+    Amb("T-GAR", "GARAGEM",              2_400,  7_200, 6_000, 6_000),
+    Amb("T-HAL", "HALL",                 8_400,  9_600, 1_800, 3_600),
     Amb("T-BWC", "BANHO COMPARTILHADO", 10_200, 10_800, 1_800, 2_400, molhado=True),
-    Amb("T-OFI", "OFICINA",            2_400, 13_200, 3_000, 3_000),
-    Amb("T-LAV", "LAVANDERIA",         2_400, 16_200, 3_000, 3_000, molhado=True),
-    Amb("T-SOC", "ESTAR / JANTAR",     5_400, 13_200, 4_200, 6_000),
-    Amb("T-COR", "CORE / ESCADA",      9_600, 13_200, 2_400, 6_000),
-    Amb("T-COZ", "COZINHA",            2_400, 19_200, 3_000, 6_000, molhado=True),
-    Amb("T-GOU", "GOURMET",            5_400, 19_200, 4_200, 7_200, molhado=True),
-    Amb("T-DML", "DESPENSA / DML",     2_400, 25_200, 3_000, 1_200),
+    Amb("T-REV", "QUARTO REVERSIVEL",   12_000,  7_200, 3_000, 6_000),
+    # ---- faixa social
+    Amb("T-SOC", "ESTAR / JANTAR",       5_400, 13_200, 4_200, 6_000),
+    Amb("T-COR", "CORE / ESCADA",        9_600, 13_200, 2_400, 6_000),
+    Amb("T-COZ", "COZINHA",              2_400, 19_200, 3_000, 6_000, molhado=True),
+    Amb("T-GOU", "GOURMET",              5_400, 19_200, 4_200, 7_200, molhado=True),
+    Amb("T-DES", "DESPENSA",             2_400, 25_200, 3_000, 1_200),
+    # ---- bloco de servico, atras do gourmet, separado por corredor aberto
+    Amb("T-OFI", "OFICINA",              2_400, 27_600, 3_000, 3_000),
+    Amb("T-LAV", "LAVANDERIA",           5_400, 27_600, 3_000, 3_000, molhado=True),
+    Amb("T-DEP", "DEPOSITO / DML",       8_400, 27_600, 1_200, 3_000),
 ]
 
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
 TERREO_ABERTO: list[Amb] = [
-    Amb("T-VAR", "VARANDA DE ENTRADA", 8_400,  7_200, 1_800, 2_400, aberto=True),
-    Amb("T-JLE", "JARDIM LESTE",      10_200,  7_200, 1_800, 3_600, aberto=True),
-    Amb("T-JNO", "JARDIM NORTE",      15_000,  7_200, 1_800, 6_000, aberto=True),
-    Amb("T-ALP", "ALPENDRE OESTE",     5_400, 26_400, 4_200, 2_400, aberto=True),
-    Amb("T-DKL", "DECK NORTE",        12_000, 13_200, 4_800, 6_000, aberto=True),
-    Amb("T-DKP", "DECK DA PISCINA",    9_600, 19_200, 4_800, 7_200, aberto=True),
+    Amb("T-VAR", "VARANDA DE ENTRADA",   8_400,  7_200, 1_800, 2_400, aberto=True),
+    Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 3_600, aberto=True),
+    Amb("T-JNO", "JARDIM NORTE",        15_000,  7_200, 1_800, 6_000, aberto=True),
+    Amb("T-LOG", "LOGGIA SUL",           2_400, 13_200, 3_000, 6_000, aberto=True),
+    Amb("T-CSE", "CORREDOR DE SERVICO",  2_400, 26_400, 7_200, 1_200, aberto=True),
+    Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 6_000, aberto=True),
+    Amb("T-DKP", "DECK DA PISCINA",      9_600, 21_600, 7_200, 6_000, aberto=True),
 ]
+
+# ambientes cobertos = fechados + areas com cobertura propria
+def cobertos() -> list[Amb]:
+    return TERREO + [a for a in TERREO_ABERTO
+                     if a.cod in ("T-VAR", "T-LOG", "T-CSE")]
 
 # ambientes cobertos = fechados + alpendre (para a planta de cobertura)
 def cobertos() -> list[Amb]:
@@ -194,50 +204,53 @@ ESQUADRIAS = {
 # (tipo, x, y, orientacao, pavimento) — x,y = centro do vao no eixo da parede
 # orientacao: "H" vao em parede horizontal, "V" em parede vertical
 VAOS = [
-    # ---- terreo: faixa frontal
-    ("PG01",  5_400,  7_200, "H", "T"),   # portao da garagem (testada)
+    # ---- faixa frontal
+    ("PG01",  5_400,  7_200, "H", "T"),   # portao da garagem (testada leste)
     ("P01",   9_300,  9_600, "H", "T"),   # entrada principal
     ("P02",   8_400, 12_000, "V", "T"),   # hall -> garagem
-    ("P02",  10_200, 12_000, "V", "T"),   # hall -> banho compartilhado (uso social)
-    ("P02",  12_000, 12_000, "V", "T"),   # banho compartilhado -> quarto reversivel
-    ("J01",  13_500,  7_200, "H", "T"),   # janela quarto reversivel (leste)
-    ("J01",  15_000, 10_200, "V", "T"),   # janela quarto reversivel (norte)
-    ("J02",  11_100, 10_800, "H", "T"),   # janela banho compartilhado
-    # ---- terreo: faixa social
+    ("P02",  10_200, 12_000, "V", "T"),   # hall -> banho compartilhado
+    ("P02",  12_000, 12_000, "V", "T"),   # banho -> quarto reversivel
+    ("J01",  13_500,  7_200, "H", "T"),   # janela reversivel (leste)
+    ("J01",  15_000, 10_200, "V", "T"),   # janela reversivel (norte)
+    ("J02",  11_100, 10_800, "H", "T"),   # janela banho
+    # ---- faixa social
     ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
     ("P02",   6_900, 13_200, "H", "T"),   # garagem -> estar/jantar
-    ("PV01", 12_000, 16_200, "V", "T"),   # core envidracado -> deck lateral
-    ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> alpendre oeste e piscina
-    ("PV01",  9_600, 22_800, "V", "T"),   # gourmet -> deck lateral
-    # ---- terreo: prumada de servico na face oeste
-    ("P04",   3_900, 13_200, "H", "T"),   # garagem -> oficina (fora da vista social)
-    ("P04",   3_900, 16_200, "H", "T"),   # oficina -> lavanderia
-    ("P04",   3_900, 19_200, "H", "T"),   # lavanderia -> cozinha
-    ("P04",   3_900, 25_200, "H", "T"),   # cozinha -> despensa/DML
-    ("J01",   2_400, 14_700, "V", "T"),   # janela oficina
-    ("J01",   2_400, 17_700, "V", "T"),   # janela lavanderia
-    ("J01",   2_400, 21_000, "V", "T"),   # janela cozinha
-    ("J01",   2_400, 23_400, "V", "T"),   # janela cozinha (bancada)
+    ("PV02",  5_400, 16_200, "V", "T"),   # estar -> loggia sul (ventilacao cruzada)
+    ("P02",   9_600, 16_200, "V", "T"),   # estar -> core/escada
+    ("PV01", 12_000, 16_200, "V", "T"),   # core envidracado -> deck norte
+    ("J01",   2_400, 21_000, "V", "T"),   # janela cozinha (sul)
+    ("J01",   2_400, 23_400, "V", "T"),   # janela cozinha (sul)
+    ("P02",   3_900, 25_200, "H", "T"),   # cozinha -> despensa
+    ("PV01",  9_600, 22_800, "V", "T"),   # gourmet -> deck e piscina
+    ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> corredor de servico coberto
+    # ---- bloco de servico: todas as portas pelo corredor externo coberto
+    ("P04",   3_900, 27_600, "H", "T"),   # corredor -> oficina
+    ("P04",   6_900, 27_600, "H", "T"),   # corredor -> lavanderia
+    ("P04",   9_000, 27_600, "H", "T"),   # corredor -> deposito/DML
+    ("J01",   2_400, 29_100, "V", "T"),   # janela oficina (sul)
+    ("J03",   3_900, 30_600, "H", "T"),   # janela alta da oficina (oeste)
+    ("J01",   2_400, 26_400, "V", "T"),   # janela despensa (sul)
     # ---- superior
     ("P02",   7_800, 17_400, "V", "S"),   # hall -> suite 02
     ("P02",   7_800, 18_600, "V", "S"),   # hall -> suite 03
     ("P02",  10_200, 18_000, "V", "S"),   # hall -> suite master
-    ("J01",   2_400, 15_600, "V", "S"),   # janela suite 02
-    ("J01",   2_400, 20_400, "V", "S"),   # janela suite 03
+    ("J01",   2_400, 15_600, "V", "S"),   # janela suite 02 (sul)
+    ("J01",   2_400, 21_000, "V", "S"),   # janela suite 03 (sul)
     ("J02",   3_600, 13_200, "H", "S"),   # janela banho suite 02
     ("J03",  13_200, 21_000, "H", "S"),   # master -> varanda
-    ("J01",  16_200, 18_600, "V", "S"),   # janela master (lateral direita)
+    ("J01",  16_200, 18_600, "V", "S"),   # janela master (norte)
     ("J02",  11_400, 16_200, "H", "S"),   # janela banho master
 ]
 
 # =========================================================================
 # ELEMENTOS EXTERNOS
 # =========================================================================
-PISCINA = dict(x=5_400, y=29_400, w=4_800, h=2_400,
+PISCINA = dict(x=10_800, y=23_400, w=4_800, h=2_400,
                prainha_w=1_200, prof_prainha=300, prof_principal=1_150,
                lamina_m2=11.52, volume_m3=10.80)
-CASA_MAQUINAS = dict(x=10_800, y=29_400, w=1_500, h=1_200)
-DECK = dict(x=4_200, y=28_800, w=7_200, h=4_800)          # envolve a piscina
+CASA_MAQUINAS = dict(x=15_000, y=26_400, w=1_500, h=1_200)
+DECK = dict(x=9_600, y=21_600, w=7_200, h=6_000)          # envolve a piscina
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 CAIXA_DAGUA = dict(x=10_200, y=16_200, w=2_400, h=2_400,
                    volume_l=2_000, pe_direito=2_100, carga_kg=2_500)
@@ -302,12 +315,15 @@ if __name__ == "__main__":
 # Nas faces norte e sul o sol e alto (63 a 87 graus) e o beiral resolve.
 # =========================================================================
 BRISES = [
-    dict(cod="BR-O", face="O", x=5_400, y=28_800, w=4_200, h=150,
-         tipo="ripado vertical movel", passo=150, desc="alpendre oeste - fita social"),
-    dict(cod="BR-L", face="L", x=10_200, y=7_200, w=4_800, h=150,
-         tipo="ripado vertical fixo", passo=150, desc="quarto reversivel e banho - testada leste"),
+    dict(cod="BR-O", face="O", x=2_400, y=30_600, w=7_200, h=150,
+         tipo="ripado vertical fixo", passo=150,
+         desc="face oeste do bloco de servico - barreira de sol da tarde"),
+    dict(cod="BR-L", face="L", x=12_000, y=7_200, w=3_000, h=150,
+         tipo="ripado vertical fixo", passo=150,
+         desc="quarto reversivel - testada leste"),
     dict(cod="BR-OS", face="O", x=10_200, y=22_800, w=6_000, h=150,
-         tipo="ripado vertical movel", passo=150, desc="varanda master - pavimento superior"),
+         tipo="ripado vertical movel", passo=150,
+         desc="varanda master - pavimento superior"),
 ]
 
 BEIRAIS = {"N": 1_200, "S": 1_200, "L": 600, "O": 600}
