@@ -28,7 +28,7 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">24</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 34</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35</text>
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Paginar no projeto e decidir onde fica o corte. Nao paginar e deixar o corte aparecer no lugar mais visivel.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Ambientes integrados recebem UMA malha: a junta desalinhada no meio da sala nao tem parede para disfarcar.</text>
@@ -54,12 +54,10 @@
 <text x="113.333" y="27.333" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">ZP-1</text>
 <polygon points="141.333,67.333 173.333,67.333 173.333,-12.667 141.333,-12.667" stroke="#888" stroke-width="0.3" fill="#e8f4fb" stroke-linejoin="miter"/>
 <text x="157.333" y="27.333" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">ZP-1</text>
-<polygon points="45.333,-12.667 85.333,-12.667 85.333,-92.667 45.333,-92.667" stroke="#888" stroke-width="0.3" fill="#e8f4fb" stroke-linejoin="miter"/>
-<text x="65.333" y="-52.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">ZP-1</text>
+<polygon points="45.333,-12.667 85.333,-12.667 85.333,-108.667 45.333,-108.667" stroke="#888" stroke-width="0.3" fill="#e8f4fb" stroke-linejoin="miter"/>
+<text x="65.333" y="-60.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">ZP-1</text>
 <polygon points="85.333,-12.667 141.333,-12.667 141.333,-108.667 85.333,-108.667" stroke="#888" stroke-width="0.3" fill="#e8f4fb" stroke-linejoin="miter"/>
 <text x="113.333" y="-60.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">ZP-1</text>
-<polygon points="45.333,-92.667 85.333,-92.667 85.333,-108.667 45.333,-108.667" stroke="#888" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
-<text x="65.333" y="-100.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">ZP-5</text>
 <polygon points="141.333,-12.667 181.333,-12.667 181.333,-52.667 141.333,-52.667" stroke="#888" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
 <text x="161.333" y="-32.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">ZP-5</text>
 <polygon points="141.333,-52.667 181.333,-52.667 181.333,-68.667 141.333,-68.667" stroke="#888" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
@@ -174,7 +172,7 @@
 <text x="74.500" y="527.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">(5400, 13200)</text>
 <text x="108.500" y="527.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-SOC, T-COR, T-GOU, T-COZ</text>
 <text x="170.500" y="527.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porcelanato retificado 900 x 900</text>
-<text x="228.500" y="527.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">272</text>
+<text x="228.500" y="527.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">284</text>
 <text x="252.500" y="527.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fita social inteira em uma malha: origem no eixo da porta do h</text>
 <polygon points="35.000,530.400 391.000,530.400 391.000,535.600 35.000,535.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="36.500" y="533.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ZP-2</text>
@@ -212,7 +210,7 @@
 <text x="36.500" y="553.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ZP-5</text>
 <text x="52.500" y="553.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">parede</text>
 <text x="74.500" y="553.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">canto do ambiente</text>
-<text x="108.500" y="553.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LAV, T-DEP, T-DES</text>
+<text x="108.500" y="553.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LAV, T-DEP</text>
 <text x="170.500" y="553.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ceramico retificado 300 x 600</text>
 <text x="228.500" y="553.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">280</text>
 <text x="252.500" y="553.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">meia parede de 1.800 mm atras do tanque, das maquinas e das pr</text>

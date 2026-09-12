@@ -28,7 +28,7 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">17</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 34</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35</text>
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Rota acessivel do passeio ao quarto reversivel e ao banho compartilhado.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Circulo de giro de 1.500 mm verificado nos pontos de manobra.</text>
@@ -50,12 +50,10 @@
 <text x="138.000" y="280.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">ESTAR / JANTAR</text>
 <polygon points="166.000,320.000 198.000,320.000 198.000,240.000 166.000,240.000" stroke="#fff" stroke-width="0.18" fill="#dfe6e9" stroke-linejoin="miter"/>
 <text x="182.000" y="280.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">CORE / ESCADA</text>
-<polygon points="70.000,240.000 110.000,240.000 110.000,160.000 70.000,160.000" stroke="#fff" stroke-width="0.18" fill="#f6c453" stroke-linejoin="miter"/>
-<text x="90.000" y="200.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">COZINHA</text>
+<polygon points="70.000,240.000 110.000,240.000 110.000,144.000 70.000,144.000" stroke="#fff" stroke-width="0.18" fill="#f6c453" stroke-linejoin="miter"/>
+<text x="90.000" y="192.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">COZINHA</text>
 <polygon points="110.000,240.000 166.000,240.000 166.000,144.000 110.000,144.000" stroke="#fff" stroke-width="0.18" fill="#f6c453" stroke-linejoin="miter"/>
 <text x="138.000" y="192.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">GOURMET</text>
-<polygon points="70.000,160.000 110.000,160.000 110.000,144.000 70.000,144.000" stroke="#fff" stroke-width="0.18" fill="#74b9ff" stroke-linejoin="miter"/>
-<text x="90.000" y="152.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">DESPENSA</text>
 <polygon points="166.000,240.000 206.000,240.000 206.000,200.000 166.000,200.000" stroke="#fff" stroke-width="0.18" fill="#74b9ff" stroke-linejoin="miter"/>
 <text x="186.000" y="220.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">LAVANDERIA</text>
 <polygon points="166.000,200.000 206.000,200.000 206.000,184.000 166.000,184.000" stroke="#fff" stroke-width="0.18" fill="#74b9ff" stroke-linejoin="miter"/>

@@ -28,7 +28,7 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">23</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 34</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35</text>
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Paginacao de piso em linha fina: a malha vem da ZONA de paginacao, nao do canto do ambiente.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Peca de piso porcelanato retificado 900 x 900; parede ceramico retificado 300 x 600; junta 2 mm.</text>
@@ -493,22 +493,22 @@
 <line x1="448.000" y1="-2.320" x2="760.000" y2="-2.320" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="448.000" y1="-38.400" x2="760.000" y2="-38.400" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="448.000" y1="-74.480" x2="760.000" y2="-74.480" stroke="#bbb" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<polygon points="496.000,142.000 640.000,142.000 640.000,22.000 496.000,22.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
-<text x="568.000" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">CLOSET</text>
-<polygon points="640.000,142.000 760.000,142.000 760.000,22.000 640.000,22.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
-<text x="700.000" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="496.000,142.000 616.000,142.000 616.000,22.000 496.000,22.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
+<text x="556.000" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="616.000,142.000 760.000,142.000 760.000,22.000 616.000,22.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
+<text x="688.000" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">CLOSET</text>
 <polygon points="688.000,22.000 760.000,22.000 760.000,-98.000 688.000,-98.000" stroke="#666" stroke-width="0.4" fill="none" stroke-linejoin="miter"/>
 <text x="724.000" y="-38.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">OFFICE</text>
-<polygon points="640.000,134.000 656.000,134.000 656.000,128.000 640.000,128.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="648.000" cy="118.800" r="8.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="656.000" y="138.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-10</text>
-<polygon points="676.000,138.000 748.000,138.000 748.000,118.000 676.000,118.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="712.000" cy="128.000" r="6.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="712.000" y="142.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-11</text>
-<polygon points="644.000,82.000 700.000,82.000 700.000,26.000 644.000,26.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="672.000" cy="54.000" r="3.600" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="644.000" y1="82.000" x2="700.000" y2="26.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="672.000" y="86.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-12</text>
+<polygon points="496.000,134.000 512.000,134.000 512.000,128.000 496.000,128.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="504.000" cy="118.800" r="8.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="512.000" y="138.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-10</text>
+<polygon points="532.000,138.000 604.000,138.000 604.000,118.000 532.000,118.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="568.000" cy="128.000" r="6.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="568.000" y="142.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-11</text>
+<polygon points="548.000,82.000 604.000,82.000 604.000,26.000 548.000,26.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="576.000" cy="54.000" r="3.600" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="548.000" y1="82.000" x2="604.000" y2="26.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="576.000" y="86.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-12</text>
 <text x="454.000" y="136.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">i 1,5 %</text>
 <line x1="448.000" y1="142.000" x2="448.000" y2="155.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="760.000" y1="142.000" x2="760.000" y2="155.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>

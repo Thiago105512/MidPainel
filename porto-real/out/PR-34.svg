@@ -28,7 +28,7 @@
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">34</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 34</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35</text>
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Piscina 5,40 x 3,30 m = 17,82 m2 de lamina, 17,13 m3, O YAML fixa 5,50 x 3,20; adotado modular sobre a malha de 300 mm,</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Faixa seca perimetral minima 900 mm, verificada nos quatro lados.</text>
@@ -94,10 +94,10 @@
 <line x1="44.300" y1="58.700" x2="45.700" y2="57.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="44.300" y1="40.700" x2="45.700" y2="39.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="43.884" y="49.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 43.884 49.000)">0,90</text>
-<polygon points="313.000,112.000 343.000,112.000 343.000,72.000 313.000,72.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6" stroke-linejoin="miter"/>
-<text x="328.000" y="92.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 328.000 92.000)">TC-13</text>
-<line x1="189.000" y1="91.000" x2="313.000" y2="92.000" stroke="#b5651d" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="251.000" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">succao 6,2 m</text>
+<polygon points="325.000,148.000 355.000,148.000 355.000,108.000 325.000,108.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6" stroke-linejoin="miter"/>
+<text x="340.000" y="128.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 340.000 128.000)">TC-13</text>
+<line x1="189.000" y1="91.000" x2="325.000" y2="128.000" stroke="#b5651d" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="257.000" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">succao 6,8 m</text>
 <text x="300.000" y="41.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PISCINA — GEOMETRIA E SISTEMA</text>
 <polygon points="300.000,44.000 566.000,44.000 566.000,49.200 300.000,49.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="301.500" y="46.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ITEM</text>
