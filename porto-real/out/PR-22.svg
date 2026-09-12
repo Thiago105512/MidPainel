@@ -663,27 +663,27 @@
 <circle cx="453.280" cy="17.200" r="3.600" stroke="#000000" stroke-width="0.18" fill="none"/>
 <circle cx="465.280" cy="17.200" r="3.600" stroke="#000000" stroke-width="0.18" fill="none"/>
 <text x="454.000" y="22.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">BC-02</text>
-<polygon points="534.000,22.000 582.000,22.000 582.000,-74.000 534.000,-74.000" stroke="#000000" stroke-width="0.3" fill="#f4f4f4" stroke-linejoin="miter"/>
-<text x="558.000" y="-26.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">BC-03</text>
-<polygon points="518.000,52.000 548.000,52.000 548.000,22.000 518.000,22.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="533.000" cy="37.000" r="9.600" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="533.000" y="48.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">GE</text>
-<polygon points="442.000,10.000 466.000,10.000 466.000,-14.000 442.000,-14.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="454.000" cy="-2.000" r="7.680" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="454.000" y="7.120" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">LA</text>
-<polygon points="468.000,-68.000 486.000,-68.000 486.000,-86.000 468.000,-86.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="477.000" cy="-77.000" r="5.760" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="477.000" y="-70.160" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">LI</text>
-<polygon points="518.000,106.000 542.000,106.000 542.000,82.000 518.000,82.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="530.000" cy="94.000" r="7.680" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="530.000" y="103.120" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">FO</text>
-<polygon points="518.000,82.000 542.000,82.000 542.000,58.000 518.000,58.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="530.000" cy="70.000" r="7.680" stroke="#000000" stroke-width="0.18" fill="none"/>
-<text x="530.000" y="79.120" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">MI</text>
+<polygon points="528.000,10.000 558.000,10.000 558.000,-20.000 528.000,-20.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="543.000" cy="-5.000" r="9.600" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="543.000" y="6.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">GE</text>
+<polygon points="442.000,-14.000 466.000,-14.000 466.000,-38.000 442.000,-38.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="454.000" cy="-26.000" r="7.680" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="454.000" y="-16.880" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">LA</text>
+<polygon points="442.000,-74.000 460.000,-74.000 460.000,-92.000 442.000,-92.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="451.000" cy="-83.000" r="5.760" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="451.000" y="-76.160" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">LI</text>
+<polygon points="534.000,58.000 558.000,58.000 558.000,34.000 534.000,34.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="546.000" cy="46.000" r="7.680" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="546.000" y="55.120" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">FO</text>
+<polygon points="534.000,34.000 558.000,34.000 558.000,10.000 534.000,10.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="546.000" cy="22.000" r="7.680" stroke="#000000" stroke-width="0.18" fill="none"/>
+<text x="546.000" y="31.120" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">MI</text>
 <polygon points="438.000,142.000 450.000,142.000 450.000,58.000 438.000,58.000" stroke="#8a8a8a" stroke-width="0.18" fill="#f5f5f5" stroke-linejoin="miter"/>
 <text x="444.000" y="100.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">AR-06</text>
 <polygon points="498.000,142.000 510.000,142.000 510.000,58.000 498.000,58.000" stroke="#8a8a8a" stroke-width="0.18" fill="#f5f5f5" stroke-linejoin="miter"/>
 <text x="504.000" y="100.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">AR-07</text>
+<polygon points="528.000,58.000 558.000,58.000 558.000,10.000 528.000,10.000" stroke="#8a8a8a" stroke-width="0.18" fill="#f5f5f5" stroke-linejoin="miter"/>
+<text x="543.000" y="34.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">AR-08</text>
 <text x="444.000" y="136.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">i 1,5 %</text>
 <line x1="438.000" y1="142.000" x2="438.000" y2="155.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="558.000" y1="142.000" x2="558.000" y2="155.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>

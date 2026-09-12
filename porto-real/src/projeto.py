@@ -2284,9 +2284,16 @@ REVISOES = [
             "paisagismo sem poda e rasgos de luz na fachada"),
     ("R07", "Eixo social: cozinha alcanca o fundo, cortina de vidro de 7.200 mm, "
             "varanda gourmet de 3.000 mm em balanco e piscina no eixo"),
+    ("R08", "Despensa volta na ponta de servico, com a porta da loggia abrindo "
+            "dentro dela; cuba para o fundo, de frente para a cortina"),
+    ("R09", "Programa de 63 auditorias: segundo bloco de verificacoes e seis "
+            "defeitos corrigidos, entre eles a prumada da master e a "
+            "privacidade das suites"),
+    ("R10", "Coccao unica: o cooktop do gourmet sai; a peninsula deixa a area de "
+            "transicao e a fila leste da cozinha alinha a frente em x = 5.400"),
 ]
 EMISSAO = dict(
-    revisao="R07", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R10", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
