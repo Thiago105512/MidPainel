@@ -137,8 +137,8 @@
 <path d="M 216.000 435.000 A 18.000 18.000 0 0 1 198.000 453.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 <line x1="233.000" y1="435.000" x2="235.000" y2="435.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="233.000" y1="417.000" x2="235.000" y2="417.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="234.000" y1="435.000" x2="252.000" y2="435.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 252.000 435.000 A 18.000 18.000 0 0 1 234.000 453.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="233.667" y1="435.000" x2="233.667" y2="425.100" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="234.333" y1="426.900" x2="234.333" y2="417.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="269.000" y1="435.000" x2="271.000" y2="435.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="269.000" y1="417.000" x2="271.000" y2="417.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="270.000" y1="435.000" x2="288.000" y2="435.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
@@ -177,8 +177,8 @@
 <line x1="76.500" y1="354.000" x2="79.500" y2="354.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="99.000" y1="283.500" x2="99.000" y2="280.500" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="117.000" y1="283.500" x2="117.000" y2="280.500" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="99.000" y1="282.000" x2="99.000" y2="264.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 99.000 264.000 A 18.000 18.000 0 0 1 117.000 282.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="99.000" y1="282.000" x2="99.000" y2="300.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 117.000 282.000 A 18.000 18.000 0 0 1 99.000 300.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 <line x1="76.500" y1="258.000" x2="76.500" y2="234.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="77.500" y1="258.000" x2="77.500" y2="234.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="78.500" y1="258.000" x2="78.500" y2="234.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
@@ -258,7 +258,7 @@
 <circle cx="231.000" cy="245.000" r="3.840" stroke="#000000" stroke-width="0.18" fill="none"/>
 <text x="231.000" y="249.560" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">SEC</text>
 <polygon points="124.000,398.000 136.000,398.000 136.000,386.000 124.000,386.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
-<polygon points="80.000,160.000 136.000,160.000 136.000,154.000 80.000,154.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
+<polygon points="130.000,160.000 136.000,160.000 136.000,140.000 130.000,140.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
 <polygon points="224.000,220.000 280.000,220.000 280.000,214.000 224.000,214.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
 <polygon points="80.000,268.000 92.000,268.000 92.000,174.000 80.000,174.000" stroke="#000000" stroke-width="0.3" fill="#f4f4f4" stroke-linejoin="miter"/>
 <polygon points="82.000,224.500 90.000,224.500 90.000,217.500 82.000,217.500" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
@@ -827,7 +827,7 @@
 <text x="471.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P02</text>
 <text x="485.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">900x2100</text>
 <text x="511.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
-<text x="525.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
+<text x="525.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
 <text x="537.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porta interna (familia unificada)</text>
 <polygon points="470.000,234.800 634.000,234.800 634.000,240.000 470.000,240.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="471.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P04</text>
@@ -836,40 +836,46 @@
 <text x="525.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
 <text x="537.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porta de servico, resistente a umidade</text>
 <polygon points="470.000,240.000 634.000,240.000 634.000,245.200 470.000,245.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="471.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PG01</text>
-<text x="485.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5400x2400</text>
+<text x="471.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">P05</text>
+<text x="485.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">900x2100</text>
 <text x="511.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="525.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="537.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portao de correr, aluminio ripado</text>
+<text x="537.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porta DE CORRER — sem area de varredura</text>
 <polygon points="470.000,245.200 634.000,245.200 634.000,250.400 470.000,250.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="471.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PV01</text>
-<text x="485.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3600x2400</text>
+<text x="471.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PG01</text>
+<text x="485.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5400x2400</text>
 <text x="511.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
-<text x="525.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
-<text x="537.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vao social posterior</text>
+<text x="525.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="537.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portao de correr, aluminio ripado</text>
 <polygon points="470.000,250.400 634.000,250.400 634.000,255.600 470.000,255.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="471.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PV02</text>
-<text x="485.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2400x2400</text>
+<text x="471.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PV01</text>
+<text x="485.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3600x2400</text>
 <text x="511.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="525.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
-<text x="537.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porta-balcao do estar (familia adicional — ver</text>
-<line x1="484.000" y1="203.600" x2="484.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="510.000" y1="203.600" x2="510.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="524.000" y1="203.600" x2="524.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="536.000" y1="203.600" x2="536.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="470.000" y="270.600" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">LEGENDA E CONVENCOES (NBR 6492 / 8403)</text>
-<line x1="470.000" y1="278.600" x2="486.000" y2="278.600" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<text x="490.000" y="278.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Elemento seccionado pelo plano de corte (h = 1,50 m)</text>
-<line x1="470.000" y1="283.600" x2="486.000" y2="283.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<text x="490.000" y="283.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Aresta vista / folha de esquadria</text>
-<line x1="470.000" y1="288.600" x2="486.000" y2="288.600" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="490.000" y="288.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Mobiliario fixo, equipamentos e simbologia</text>
-<line x1="470.000" y1="293.600" x2="486.000" y2="293.600" stroke="#000000" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linecap="round"/>
-<text x="490.000" y="293.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Projecao do pavimento superior e da cobertura</text>
-<line x1="470.000" y1="298.600" x2="486.000" y2="298.600" stroke="#0a6" stroke-width="0.13" fill="none" stroke-dasharray="6,2,1,2" stroke-linecap="round"/>
-<text x="490.000" y="298.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Eixo modular e linha de corte</text>
-<line x1="470.000" y1="303.600" x2="486.000" y2="303.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="490.000" y="303.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Linha de cota e linha auxiliar</text>
+<text x="537.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vao social posterior</text>
+<polygon points="470.000,255.600 634.000,255.600 634.000,260.800 470.000,260.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="471.500" y="258.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PV02</text>
+<text x="485.500" y="258.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2400x2400</text>
+<text x="511.500" y="258.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
+<text x="525.500" y="258.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="537.500" y="258.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porta-balcao do estar (familia adicional — ver</text>
+<line x1="484.000" y1="203.600" x2="484.000" y2="260.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="510.000" y1="203.600" x2="510.000" y2="260.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="524.000" y1="203.600" x2="524.000" y2="260.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="536.000" y1="203.600" x2="536.000" y2="260.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="470.000" y="275.800" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">LEGENDA E CONVENCOES (NBR 6492 / 8403)</text>
+<line x1="470.000" y1="283.800" x2="486.000" y2="283.800" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<text x="490.000" y="283.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Elemento seccionado pelo plano de corte (h = 1,50 m)</text>
+<line x1="470.000" y1="288.800" x2="486.000" y2="288.800" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<text x="490.000" y="288.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Aresta vista / folha de esquadria</text>
+<line x1="470.000" y1="293.800" x2="486.000" y2="293.800" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="490.000" y="293.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Mobiliario fixo, equipamentos e simbologia</text>
+<line x1="470.000" y1="298.800" x2="486.000" y2="298.800" stroke="#000000" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linecap="round"/>
+<text x="490.000" y="298.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Projecao do pavimento superior e da cobertura</text>
+<line x1="470.000" y1="303.800" x2="486.000" y2="303.800" stroke="#0a6" stroke-width="0.13" fill="none" stroke-dasharray="6,2,1,2" stroke-linecap="round"/>
+<text x="490.000" y="303.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Eixo modular e linha de corte</text>
+<line x1="470.000" y1="308.800" x2="486.000" y2="308.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="490.000" y="308.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Linha de cota e linha auxiliar</text>
 <text x="768.000" y="96.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">PERCURSO SOLAR — MANAUS 3 S</text>
 <circle cx="768.000" cy="128.000" r="22.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
 <text x="795.000" y="128.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#0a6" text-anchor="middle" dominant-baseline="middle">N</text>

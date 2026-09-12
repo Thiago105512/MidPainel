@@ -220,6 +220,7 @@ ESQUADRIAS = {
     "P01":  (1_100, 2_800,     0, "porta principal, alta opaca"),
     "P02":  (  900, 2_100,     0, "porta interna (familia unificada)"),
     "P04":  (  900, 2_100,     0, "porta de servico, resistente a umidade"),
+    "P05":  (  900, 2_100,     0, "porta DE CORRER — sem area de varredura"),
     "J01":  (1_200, 1_200, 1_100, "janela de dormitorio, aluminio"),
     "J02":  (  600,   600, 1_500, "janela de banheiro, alta translucida"),
     "J03":  (  900, 1_500,   900, "janela de office/master, aluminio"),
@@ -236,7 +237,7 @@ VAOS = [
     ("PG01",  5_400,  7_200, "H", "T"),   # portao da garagem (ventila a garagem)
     ("P01",   9_300,  9_600, "H", "T"),   # entrada principal
     ("P02",   8_400, 12_000, "V", "T"),   # hall -> garagem
-    ("P02",  10_200, 12_000, "V", "T"),   # hall -> banho compartilhado
+    ("P05",  10_200, 12_000, "V", "T"),   # hall -> banho: de correr (NBR 9050)
     ("P02",  12_000, 12_000, "V", "T"),   # banho -> quarto reversivel
     ("J05",  13_500,  7_200, "H", "T"),   # janela ampla do reversivel (leste)
     ("J01",  15_000, 10_200, "V", "T"),   # janela do reversivel (norte)
@@ -271,7 +272,7 @@ VAOS = [
     ("J02",   3_600, 13_200, "H", "S"),   # janela banho suite 02
     ("J05",   2_400, 21_600, "V", "S"),   # janela ampla suite 03 (sul)
     ("J01",   6_000, 22_800, "H", "S"),   # janela suite 03 (oeste)
-    ("J04",   2_400, 19_200, "V", "S"),   # janela alta banho suite 03
+    ("J04",   2_400, 18_600, "V", "S"),   # janela alta banho suite 03 (fora do box)
     ("J05",   8_700, 24_000, "H", "S"),   # janela ampla master -> varanda
     ("J03",  10_800, 24_000, "H", "S"),   # master -> varanda
     ("J04",  13_800, 20_700, "V", "S"),   # janela alta banho master
@@ -573,7 +574,7 @@ EQUIPAMENTOS = [
 
 ARMARIOS = [
     dict(cod="AR-01", amb="T-OFI", tipo="armario alto", x=4_700, y=13_400, w=600, h=600),
-    dict(cod="AR-02", amb="T-DES", tipo="prateleiras",  x=2_500, y=25_300, w=2_800, h=300),
+    dict(cod="AR-02", amb="T-DES", tipo="prateleiras",  x=5_000, y=25_300, w=300, h=1_000),
     dict(cod="AR-03", amb="T-DEP", tipo="prateleiras",  x=9_700, y=22_300, w=2_800, h=300),
 ]
 

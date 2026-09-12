@@ -172,7 +172,8 @@ def _bloco(cv: Canvas, vw: View, x, y, w, h, pat) -> None:
 # =========================================================================
 # simbolos de esquadria
 # =========================================================================
-def desenhar_vaos(cv: Canvas, vw: View, paredes: list[Parede], vaos) -> None:
+def desenhar_vaos(cv: Canvas, vw: View, paredes: list[Parede], vaos,
+                  pav: str = "T") -> None:
     for v in vaos:
         par = _parede_do_vao(paredes, v)
         if par is None:
@@ -181,10 +182,12 @@ def desenhar_vaos(cv: Canvas, vw: View, paredes: list[Parede], vaos) -> None:
         t = v["tipo"]
         if t == "PG01":
             _portao_correr(cv, vw, v, par, e)
+        elif t == "P05":
+            _correr(cv, vw, v, par, e)
         elif t.startswith("PV"):
             _correr(cv, vw, v, par, e)
         elif t.startswith("P"):
-            _porta(cv, vw, v, par, e)
+            _porta(cv, vw, v, par, e, lado_livre(v, pav))
         else:
             _janela(cv, vw, v, par, e)
 
@@ -200,24 +203,57 @@ def _parede_do_vao(paredes, v):
     return None
 
 
-def _porta(cv: Canvas, vw: View, v, par, e) -> None:
+def lado_livre(v, pav: str) -> int:
+    """+1 ou -1: para que lado a folha varre, evitando mobiliario.
+
+    Usa as mesmas pecas que a auditoria le do modelo. Se os dois lados
+    estiverem livres, mantem o positivo.
+    """
+    L = v["larg"]
+    pref = "T-" if pav == "T" else "S-"
+    pecas = []
+    for p in pj.LOUCAS + pj.EQUIPAMENTOS + pj.ARMARIOS:
+        if p["amb"].startswith(pref):
+            pecas.append((p["x"], p["y"], p["w"], p["h"]))
+    for b in pj.BANCADAS:
+        if b["amb"].startswith(pref):
+            pecas.append((b["x"], b["y"], b["w"], b["h"]))
+
+    def obstruido(bx, by, bw, bh):
+        for cx, cy, cw, ch in pecas:
+            ox = max(0, min(bx + bw, cx + cw) - max(bx, cx))
+            oy = max(0, min(by + bh, cy + ch) - max(by, cy))
+            if ox * oy / 1e6 > 0.05:
+                return True
+        return False
+
+    if v["ori"] == "H":
+        pos = obstruido(v["x"] - L / 2, v["y"], L, L)
+        neg = obstruido(v["x"] - L / 2, v["y"] - L, L, L)
+    else:
+        pos = obstruido(v["x"], v["y"] - L / 2, L, L)
+        neg = obstruido(v["x"] - L, v["y"] - L / 2, L, L)
+    if pos and not neg:
+        return -1
+    return 1
+
+
+def _porta(cv: Canvas, vw: View, v, par, e, lado: int = 1) -> None:
     L = v["larg"]
     if par.horizontal:
         x0, y0 = v["x"] - L / 2, v["y"]
-        # batentes
         cv.linha_p(vw.pt(P(x0, y0 - e / 2)), vw.pt(P(x0, y0 + e / 2)), "corte")
         cv.linha_p(vw.pt(P(x0 + L, y0 - e / 2)), vw.pt(P(x0 + L, y0 + e / 2)), "corte")
-        # folha + arco de varredura
-        cv.linha_p(vw.pt(P(x0, y0)), vw.pt(P(x0, y0 + L)), "vista")
+        cv.linha_p(vw.pt(P(x0, y0)), vw.pt(P(x0, y0 + L * lado)), "vista")
         c = vw.pt(P(x0, y0))
-        cv.arco_p(c, vw.d(L), 90, 0, "fino")
+        cv.arco_p(c, vw.d(L), 90 if lado > 0 else 0, 0 if lado > 0 else -90, "fino")
     else:
         x0, y0 = v["x"], v["y"] - L / 2
         cv.linha_p(vw.pt(P(x0 - e / 2, y0)), vw.pt(P(x0 + e / 2, y0)), "corte")
         cv.linha_p(vw.pt(P(x0 - e / 2, y0 + L)), vw.pt(P(x0 + e / 2, y0 + L)), "corte")
-        cv.linha_p(vw.pt(P(x0, y0)), vw.pt(P(x0 + L, y0)), "vista")
+        cv.linha_p(vw.pt(P(x0, y0)), vw.pt(P(x0 + L * lado, y0)), "vista")
         c = vw.pt(P(x0, y0))
-        cv.arco_p(c, vw.d(L), 0, -90, "fino")
+        cv.arco_p(c, vw.d(L), 0 if lado > 0 else 180, -90 if lado > 0 else -90 + 180, "fino")
 
 
 def _janela(cv: Canvas, vw: View, v, par, e) -> None:

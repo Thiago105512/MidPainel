@@ -87,7 +87,7 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
 
     # ---- paredes e vaos
     el.desenhar_paredes(cv, vw, paredes, vaos)
-    el.desenhar_vaos(cv, vw, paredes, vaos)
+    el.desenhar_vaos(cv, vw, paredes, vaos, pav)
 
     # ---- divisorias internas de suite (banho e closet)
     _desenhar_subdivisoes(cv, vw, pav)

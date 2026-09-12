@@ -903,3 +903,58 @@ cada uma, o desenho acompanhou — porque o desenho é gerado do modelo. Mas o
 mobiliário não acompanhava, porque **não era modelo, era desenho**. Enquanto
 um elemento vive no código gráfico, ele não migra com o ambiente e ninguém
 percebe: continua desenhado, bonito, e errado.
+
+---
+
+# Revisão 13 — verificações de subdivisão, varredura de porta e obstrução de janela
+
+Escritas as verificações que faltavam, mais três que não estavam previstas.
+
+## Verificações acrescentadas
+
+**Subdivisões** (7 critérios): dentro do módulo pai; sem sobreposição entre si;
+porta em face interna, não coincidente com a parede externa; vão de porta
+cabendo na face; banho com no mínimo 1.500 mm na menor dimensão; closet com no
+mínimo 600 mm; sobra de dormitório de no mínimo 9,00 m².
+
+**Varredura de porta.** A folha varre um quadrado de lado igual à sua largura.
+A verificação testa **os dois lados**: se ambos estão obstruídos é erro; se um
+está, define o lado de abertura.
+
+**Obstrução de janela.** Compara o peitoril com a altura da peça que estiver na
+faixa de 1.400 mm à frente do vão.
+
+## O que encontraram
+
+| Achado | Correção |
+|---|---|
+| Janela alta da suíte 03 **dentro do box** — peitoril 1.500, box de 1.900 | vão deslocado de Y 19.200 para 18.600, fora do box |
+| Janela da despensa obstruída por prateleiras de 1.800 mm | prateleiras movidas para a parede norte |
+| Porta do banho compartilhado com varredura sobre o box | passa a ser **P05, de correr** |
+| Cinco portas com lado de abertura indefinido | lado determinado e levado ao desenho |
+
+O primeiro é o mais grave: uma janela dentro do box de banho. Funcionaria, mas
+molharia o caixilho a cada banho — patologia garantida em esquadria de alumínio
+com vidro sobre alvenaria úmida.
+
+## A porta de correr fecha duas pendências de uma vez
+
+A porta do banho compartilhado tinha varredura sobre o box. A solução — **P05,
+de correr, 900 × 2.100** — resolve também o círculo de giro de 1.500 mm da
+NBR 9050, que a prancha PR-17 já apontava como condicionado a porta de correr.
+A pendência de acessibilidade que estava anotada como "ver nota" fica atendida.
+
+## O desenho passou a obedecer à auditoria
+
+A determinação do lado de abertura deixou de ser só um aviso: `lado_livre()`
+lê as mesmas peças do modelo que a auditoria e **inverte a folha no desenho**
+quando o lado positivo está ocupado. Uma porta precisou ser invertida.
+
+É o ciclo fechado: o modelo alimenta a verificação, e a verificação alimenta o
+desenho.
+
+## Estado
+
+A auditoria passa de 21 para **31 verificações**. Resultado: **0 erros,
+0 atenções, 7 notas** — três delas documentando o lado de abertura de portas,
+que é especificação de ferragem, não defeito.

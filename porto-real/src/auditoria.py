@@ -534,12 +534,157 @@ def checar_loucas() -> list[Achado]:
     return out
 
 
+# ------------------------------------------- 13. subdivisoes
+BANHO_MIN = 1_500          # menor dimensao util de banho
+CLOSET_PROF_MIN = 600      # profundidade minima de closet
+
+
+def checar_subdivisoes() -> list[Achado]:
+    out = []
+    por_pai: dict[str, list] = {}
+    for sd in pj.SUBDIVISOES:
+        por_pai.setdefault(sd["pai"], []).append(sd)
+
+    for pai_cod, lista in por_pai.items():
+        pai = next((a for a in pj.TERREO + pj.SUPERIOR if a.cod == pai_cod), None)
+        if pai is None:
+            out.append(Achado("ERRO", "Subdivisao orfa",
+                              f"{pai_cod} nao existe como ambiente"))
+            continue
+        for sd in lista:
+            # dentro do pai
+            if not (pai.x <= sd["x"] and sd["x"] + sd["w"] <= pai.x + pai.w and
+                    pai.y <= sd["y"] and sd["y"] + sd["h"] <= pai.y + pai.h):
+                out.append(Achado("ERRO", "Subdivisao fora do ambiente",
+                                  f"{pai_cod}/{sd['nome']} nao cabe em "
+                                  f"[{pai.x}, {pai.y}, {pai.w} x {pai.h}]"))
+            # dimensoes minimas
+            if sd["nome"] == "BANHO" and min(sd["w"], sd["h"]) < BANHO_MIN:
+                out.append(Achado("ATENCAO", "Banho estreito",
+                                  f"{pai_cod}: {min(sd['w'], sd['h'])} mm, "
+                                  f"minimo util {BANHO_MIN}"))
+            if sd["nome"] == "CLOSET" and min(sd["w"], sd["h"]) < CLOSET_PROF_MIN:
+                out.append(Achado("ATENCAO", "Closet raso",
+                                  f"{pai_cod}: {min(sd['w'], sd['h'])} mm, "
+                                  f"minimo {CLOSET_PROF_MIN}"))
+            # a face da porta e interna?
+            f = sd["face"]
+            externa = ((f == "S" and sd["x"] == pai.x) or
+                       (f == "N" and sd["x"] + sd["w"] == pai.x + pai.w) or
+                       (f == "L" and sd["y"] == pai.y) or
+                       (f == "O" and sd["y"] + sd["h"] == pai.y + pai.h))
+            if externa:
+                out.append(Achado("ERRO", "Porta em face externa",
+                                  f"{pai_cod}/{sd['nome']}: a porta esta na face {f}, "
+                                  f"que coincide com a parede externa do modulo"))
+            # o vao cabe na face?
+            if f in ("S", "N"):
+                a0, a1 = sd["y"], sd["y"] + sd["h"]
+            else:
+                a0, a1 = sd["x"], sd["x"] + sd["w"]
+            if not (a0 <= sd["pos"] - sd["vao"] / 2 and sd["pos"] + sd["vao"] / 2 <= a1):
+                out.append(Achado("ERRO", "Vao de subdivisao extrapola a face",
+                                  f"{pai_cod}/{sd['nome']}: vao de {sd['vao']} mm em "
+                                  f"{sd['pos']}, face de {a0} a {a1}"))
+        # sobreposicao entre subdivisoes do mesmo modulo
+        for i, s1 in enumerate(lista):
+            for s2 in lista[i + 1:]:
+                ox = max(0, min(s1["x"] + s1["w"], s2["x"] + s2["w"]) - max(s1["x"], s2["x"]))
+                oy = max(0, min(s1["y"] + s1["h"], s2["y"] + s2["h"]) - max(s1["y"], s2["y"]))
+                if ox and oy:
+                    out.append(Achado("ERRO", "Subdivisoes sobrepostas",
+                                      f"{pai_cod}: {s1['nome']} e {s2['nome']} em "
+                                      f"{ox*oy/1e6:.2f} m2"))
+        # sobra de dormitorio
+        resto = pai.area_mod - sum(s["w"] * s["h"] / 1e6 for s in lista)
+        if resto < 9.0:
+            out.append(Achado("ATENCAO", "Dormitorio pequeno",
+                              f"{pai_cod}: {resto:.2f} m2 livres apos banho e closet"))
+    return out
+
+
+# --------------------------- 14. colisao de porta com mobiliario
+def _pecas_do_pav(pav: str):
+    pref = "T-" if pav == "T" else "S-"
+    for p in pj.LOUCAS + pj.EQUIPAMENTOS + pj.ARMARIOS:
+        if p["amb"].startswith(pref):
+            yield p["cod"], p["tipo"], p["x"], p["y"], p["w"], p["h"]
+    for b in pj.BANCADAS:
+        if b["amb"].startswith(pref):
+            yield b["cod"], "bancada", b["x"], b["y"], b["w"], b["h"]
+
+
+def checar_colisao_porta() -> list[Achado]:
+    """A folha de porta varre um quadrado de lado igual a sua largura."""
+    out = []
+    for pav in ("T", "S"):
+        pecas = list(_pecas_do_pav(pav))
+        for tipo, x, y, ori, p in pj.VAOS:
+            if p != pav or not tipo.startswith("P") or tipo.startswith(("PG", "PV", "P05")):
+                continue
+            lg = pj.ESQUADRIAS[tipo][0]
+            if ori == "H":
+                lados = {"+Y": (x - lg / 2, y, lg, lg), "-Y": (x - lg / 2, y - lg, lg, lg)}
+            else:
+                lados = {"+X": (x, y - lg / 2, lg, lg), "-X": (x - lg, y - lg / 2, lg, lg)}
+            bloqueado = {}
+            for nome, (bx, by, bw, bh) in lados.items():
+                for cod, ctipo, cx, cy, cw, ch in pecas:
+                    ox = max(0, min(bx + bw, cx + cw) - max(bx, cx))
+                    oy = max(0, min(by + bh, cy + ch) - max(by, cy))
+                    if ox * oy / 1e6 > 0.05:
+                        bloqueado.setdefault(nome, []).append(f"{cod} ({ctipo})")
+            if len(bloqueado) == 2:
+                out.append(Achado("ERRO", "Porta sem lado livre",
+                                  f"{tipo} em ({x}, {y}): varredura obstruida dos dois lados "
+                                  f"por {', '.join(sorted({v for l in bloqueado.values() for v in l}))}"))
+            elif bloqueado:
+                lado, itens = next(iter(bloqueado.items()))
+                out.append(Achado("NOTA", "Lado de abertura definido",
+                                  f"{tipo} em ({x}, {y}): abre para o lado oposto a {lado} — "
+                                  f"{', '.join(itens)} ocupa a varredura"))
+    return out
+
+
+# ------------------------ 15. janela contra mobiliario alto
+ALTURA_PECA = {"bancada": 900, "armario alto": 2_200, "prateleiras": 1_800,
+               "geladeira": 1_900, "lavadora": 900, "secadora": 900,
+               "box": 1_900, "tanque": 900, "vaso": 800, "lavatorio": 900}
+
+
+def checar_janela_mobiliario() -> list[Achado]:
+    out = []
+    for pav in ("T", "S"):
+        pecas = list(_pecas_do_pav(pav))
+        for tipo, x, y, ori, p in pj.VAOS:
+            if p != pav or not tipo.startswith("J"):
+                continue
+            lg, al, peit, _ = pj.ESQUADRIAS[tipo]
+            if ori == "H":
+                bx, by, bw, bh = x - lg / 2, y - 700, lg, 1_400
+            else:
+                bx, by, bw, bh = x - 700, y - lg / 2, 1_400, lg
+            for cod, ctipo, cx, cy, cw, ch in pecas:
+                ox = max(0, min(bx + bw, cx + cw) - max(bx, cx))
+                oy = max(0, min(by + bh, cy + ch) - max(by, cy))
+                if ox * oy / 1e6 <= 0.05:
+                    continue
+                altura = ALTURA_PECA.get(ctipo, 900)
+                if altura > peit:
+                    nivel = "ERRO" if altura > peit + 400 else "ATENCAO"
+                    out.append(Achado(nivel, "Janela obstruida por mobiliario",
+                                      f"{tipo} em ({x}, {y}) com peitoril {peit} mm contra "
+                                      f"{cod} ({ctipo}) de {altura} mm de altura"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
             checar_vaos() + checar_iluminacao() + checar_acessibilidade() +
             checar_metas() + checar_escada() + checar_vedacao() +
-            checar_espacos_mortos() + checar_bancadas() + checar_loucas())
+            checar_espacos_mortos() + checar_bancadas() + checar_loucas() +
+            checar_subdivisoes() + checar_colisao_porta() + checar_janela_mobiliario())
 
 
 if __name__ == "__main__":
