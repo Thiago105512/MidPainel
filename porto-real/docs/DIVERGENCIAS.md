@@ -842,3 +842,64 @@ A regra de pontos de água foi testada contra a configuração anterior e
 dispara corretamente: *"3 cubas na mesma sala integrada"*.
 
 Resultado da auditoria: **0 erros, 0 atenções, 4 notas.**
+
+---
+
+# Revisão 12 — louças, equipamentos e armários no modelo
+
+Sequência da revisão anterior: tudo que estava só no código de desenho passou
+a ser dado do modelo, e portanto verificável.
+
+## Três bugs que só apareceram depois
+
+**1. Louças do banho da master fora do ambiente.** Estavam em (10.550, 16.350),
+coordenadas de um arranjo abandonado três revisões antes. O banho da master é
+hoje (11.400, 19.200): as peças flutuavam no vazio da escada. O desenho não
+denunciava porque um vaso desenhado no lugar errado continua parecendo um vaso.
+
+**2. Bancada e armário da oficina em Y = 30.000.** Mesma causa: a oficina
+esteve no fundo do lote e voltou para (2.400, 13.200). Bancada e armário
+ficaram para trás. Corrigidos para dentro do ambiente, com a bancada sob a
+janela — luz natural sobre o plano de trabalho.
+
+**3. As subdivisões nunca haviam sido desenhadas.** `SUBDIVISOES` existia como
+dado desde a primeira revisão, mas nenhuma prancha a lia: **banhos e closets
+das três suítes apareciam sem paredes**. Agora são desenhados como divisórias
+de 100 mm, com vão de porta de 800 mm na face declarada.
+
+A auditoria também não via o problema 3, porque não havia verificação de
+subdivisão. Segue como lacuna conhecida — a checar numa próxima passada.
+
+## O que entrou no modelo
+
+| Estrutura | Itens | Verificações que passou a permitir |
+|---|---|---|
+| `LOUCAS` | 13 peças | contenção, louça obrigatória, folga frontal, afastamento lateral do vaso, box mínimo |
+| `EQUIPAMENTOS` | 3 peças | contenção e folga de abertura |
+| `ARMARIOS` | 3 peças | contenção |
+| `SUBDIVISOES` | 6, agora com porta | geometria de banho e closet no desenho |
+
+A contenção respeita **ambientes integrados**: a península atravessa o eixo
+X = 5.400 entre cozinha e gourmet, e isso é intencional, não erro. A
+verificação testa a peça contra a união do grupo integrado, não contra um
+retângulo isolado.
+
+## Verificações acrescentadas
+
+- peça fora do ambiente (louça, equipamento, armário e **bancada**);
+- louça obrigatória por ambiente molhado: vaso, lavatório e box nos banhos;
+  tanque na lavanderia;
+- folga frontal mínima de 600 mm em vaso e lavatório (NBR 9050);
+- afastamento lateral do eixo do vaso: mínimo 400 mm;
+- box com menor dimensão de no mínimo 900 mm.
+
+A auditoria passa de 16 para **21 verificações**. Resultado: **0 erros,
+0 atenções, 4 notas.**
+
+## A lição
+
+Três revisões seguidas moveram a oficina, a lavanderia e o banho da master. Em
+cada uma, o desenho acompanhou — porque o desenho é gerado do modelo. Mas o
+mobiliário não acompanhava, porque **não era modelo, era desenho**. Enquanto
+um elemento vive no código gráfico, ele não migra com o ambiente e ninguém
+percebe: continua desenhado, bonito, e errado.

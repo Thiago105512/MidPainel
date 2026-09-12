@@ -153,22 +153,15 @@ def piscina(cv, vw, ps=pj.PISCINA):
 # ------------------------------------------------------- mapa por ambiente
 def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
     """Mobiliario fixo (sempre) e solto (apenas na planta de layout)."""
+    _desenhar_do_modelo(cv, vw, pav)
     if pav == "T":
-        # banho compartilhado 1800x2400 em (10200, 10800): serve o quarto
-        # reversivel, a area social e os usuarios da piscina
-        vaso(cv, vw, 10_500, 10_950)
-        lavatorio(cv, vw, 11_250, 10_950, 700, 450)
-        box(cv, vw, 10_350, 12_200, 900, 900)
+
         # bancadas lidas do modelo (projeto.BANCADAS)
         for b in pj.BANCADAS:
             if b["amb"] in ("T-COZ", "T-GOU", "T-OFI"):
                 bancada(cv, vw, b["x"], b["y"], b["w"], b["h"],
                         cubas=b["cubas"], cooktop=b["cooktop"])
-        geladeira(cv, vw, 4_400, 24_450, 900, 750)
-        # lavanderia (9600, 19200) — face norte, aberta para o varal
-        tanque(cv, vw, 9_750, 19_350, 600, 550)
-        maquina(cv, vw, 9_750, 20_050, 600, "ML")
-        maquina(cv, vw, 9_750, 20_750, 600, "SEC")
+        # varal coberto no patio lateral
         # varal coberto no patio lateral
         for i in range(4):
             yv = 19_800 + i * 600
@@ -186,16 +179,36 @@ def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
             mesa(cv, vw, 7_500, 23_400, 2_400, 1_000, 8)
             cama(cv, vw, 10_500, 7_700, 1_600, 2_000)
     else:
-        # suites 2 e 3 — modulos espelhados
-        for y0 in (13_200, 18_000):
-            vaso(cv, vw, 2_750, 13_300 if y0 == 13_200 else 18_100)
-            lavatorio(cv, vw, 3_350, y0 + 100, 700, 450)
-            box(cv, vw, 2_550, y0 + 1_500, 900, 900)
-            if layout:
-                cama(cv, vw, 5_000, y0 + 1_400, 1_600, 2_000)
-        # master
-        vaso(cv, vw, 10_550, 16_350)
-        lavatorio(cv, vw, 11_350, 16_300, 1_200, 500)
-        box(cv, vw, 10_350, 18_000, 1_100, 1_100)
         if layout:
-            cama(cv, vw, 13_600, 17_400, 1_800, 2_100)
+            cama(cv, vw, 5_000, 14_600, 1_600, 2_000)
+            cama(cv, vw, 5_000, 19_400, 1_600, 2_000)
+            cama(cv, vw, 8_700, 20_400, 1_800, 2_100)
+
+
+def _desenhar_do_modelo(cv: Canvas, vw: View, pav: str) -> None:
+    """Loucas, equipamentos e armarios lidos de projeto — nao mais do desenho."""
+    alvo = ("T-", "S-")
+    for p in pj.LOUCAS:
+        if not p["amb"].startswith("T-" if pav == "T" else "S-"):
+            continue
+        t = p["tipo"]
+        if t == "vaso":
+            vaso(cv, vw, p["x"] + p["w"] / 2, p["y"])
+        elif t == "lavatorio":
+            lavatorio(cv, vw, p["x"], p["y"], p["w"], p["h"])
+        elif t == "box":
+            box(cv, vw, p["x"], p["y"], p["w"], p["h"])
+        elif t == "tanque":
+            tanque(cv, vw, p["x"], p["y"], p["w"], p["h"])
+    for e in pj.EQUIPAMENTOS:
+        if not e["amb"].startswith("T-" if pav == "T" else "S-"):
+            continue
+        if e["tipo"] == "geladeira":
+            geladeira(cv, vw, e["x"], e["y"], e["w"], e["h"])
+        else:
+            maquina(cv, vw, e["x"], e["y"], e["w"],
+                    "ML" if e["tipo"] == "lavadora" else "SEC")
+    for a in pj.ARMARIOS:
+        if not a["amb"].startswith("T-" if pav == "T" else "S-"):
+            continue
+        _ret(cv, vw, a["x"], a["y"], a["w"], a["h"], "fino", "#f1ede4")

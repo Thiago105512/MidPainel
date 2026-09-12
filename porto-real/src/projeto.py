@@ -196,12 +196,19 @@ SUPERIOR_ABERTO: list[Amb] = [
 # ------------------------------------------- subdivisoes internas (1:50)
 # (cod_pai, nome, x, y, w, h) — particoes dentro do modulo
 SUBDIVISOES = [
-    ("S-S02", "BANHO",  2_400, 13_200, 1_800, 2_400),
-    ("S-S02", "CLOSET", 2_400, 15_600,   600, 2_400),
-    ("S-S03", "BANHO",  2_400, 18_000, 1_800, 2_400),
-    ("S-S03", "CLOSET", 2_400, 20_400,   600, 2_400),
-    ("S-MAS", "BANHO",  11_400, 19_200, 2_400, 3_000),
-    ("S-MAS", "CLOSET", 11_400, 22_200, 2_400, 1_800),
+    # face: onde fica a porta ("S"=-X, "N"=+X, "L"=-Y, "O"=+Y); pos: centro do vao
+    dict(pai="S-S02", nome="BANHO",  x=2_400, y=13_200, w=1_800, h=2_400,
+         face="N", pos=14_400, vao=800),
+    dict(pai="S-S02", nome="CLOSET", x=2_400, y=15_600, w=600,   h=2_400,
+         face="N", pos=16_800, vao=800),
+    dict(pai="S-S03", nome="BANHO",  x=2_400, y=18_000, w=1_800, h=2_400,
+         face="N", pos=19_200, vao=800),
+    dict(pai="S-S03", nome="CLOSET", x=2_400, y=20_400, w=600,   h=2_400,
+         face="N", pos=21_600, vao=800),
+    dict(pai="S-MAS", nome="BANHO",  x=11_400, y=19_200, w=2_400, h=3_000,
+         face="S", pos=20_400, vao=800),
+    dict(pai="S-MAS", nome="CLOSET", x=11_400, y=22_200, w=2_400, h=1_800,
+         face="S", pos=23_100, vao=800),
 ]
 
 # =========================================================================
@@ -520,11 +527,57 @@ BANCADAS = [
     dict(cod="BC-05", amb="T-LAV", x=9_750, y=19_350, w=600, h=550,
          prof=600, cubas=1, cooktop=False, tipo="tanque",
          uso="tanque de lavanderia"),
-    dict(cod="BC-06", amb="T-OFI", x=2_550, y=30_000, w=2_400, h=600,
+    dict(cod="BC-06", amb="T-OFI", x=2_500, y=13_500, w=600, h=2_400,
          prof=600, cubas=0, cooktop=False, tipo="MDF",
-         uso="bancada de trabalho da oficina"),
+         uso="bancada de trabalho da oficina, sob a janela"),
 ]
 
 # folgas minimas de circulacao em frente a bancada (briefing)
 CIRC_BANCADA_MIN = 1_000
 CIRC_BANCADA_DESEJADA = 1_100
+
+
+# =========================================================================
+# LOUCAS, EQUIPAMENTOS E ARMARIOS — no modelo, verificaveis.
+# x, y = canto inferior-esquerdo da peca; w, h = dimensoes em planta.
+# =========================================================================
+LOUCAS = [
+    # banho compartilhado (10.200, 10.800, 1.800 x 2.400)
+    dict(cod="LC-01", amb="T-BWC", tipo="vaso",      x=10_400, y=10_950, w=400, h=650),
+    dict(cod="LC-02", amb="T-BWC", tipo="lavatorio", x=11_050, y=10_950, w=700, h=450),
+    dict(cod="LC-03", amb="T-BWC", tipo="box",       x=10_350, y=12_050, w=900, h=1_000),
+    # suite 02 — banho (2.400, 13.200, 1.800 x 2.400)
+    dict(cod="LC-04", amb="S-S02", tipo="vaso",      x=2_600, y=13_350, w=400, h=650),
+    dict(cod="LC-05", amb="S-S02", tipo="lavatorio", x=3_250, y=13_350, w=700, h=450),
+    dict(cod="LC-06", amb="S-S02", tipo="box",       x=2_550, y=14_500, w=900, h=1_000),
+    # suite 03 — banho (2.400, 18.000, 1.800 x 2.400)
+    dict(cod="LC-07", amb="S-S03", tipo="vaso",      x=2_600, y=18_150, w=400, h=650),
+    dict(cod="LC-08", amb="S-S03", tipo="lavatorio", x=3_250, y=18_150, w=700, h=450),
+    dict(cod="LC-09", amb="S-S03", tipo="box",       x=2_550, y=19_300, w=900, h=1_000),
+    # suite master — banho (11.400, 19.200, 2.400 x 3.000)
+    dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=11_600, y=19_350, w=400, h=650),
+    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=12_300, y=19_350, w=1_200, h=500),
+    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=11_550, y=20_900, w=1_100, h=1_100),
+    # lavanderia
+    dict(cod="LC-13", amb="T-LAV", tipo="tanque",    x=9_750, y=19_350, w=600, h=550),
+]
+
+EQUIPAMENTOS = [
+    dict(cod="EQ-01", amb="T-COZ", tipo="geladeira", x=4_400, y=24_450, w=900, h=750,
+         abertura=900, uso="nicho de 900 mm previsto no briefing"),
+    dict(cod="EQ-02", amb="T-LAV", tipo="lavadora",  x=9_750, y=20_050, w=600, h=600,
+         abertura=600, uso="base antivibratoria"),
+    dict(cod="EQ-03", amb="T-LAV", tipo="secadora",  x=9_750, y=20_750, w=600, h=600,
+         abertura=600, uso="base antivibratoria"),
+]
+
+ARMARIOS = [
+    dict(cod="AR-01", amb="T-OFI", tipo="armario alto", x=4_700, y=13_400, w=600, h=600),
+    dict(cod="AR-02", amb="T-DES", tipo="prateleiras",  x=2_500, y=25_300, w=2_800, h=300),
+    dict(cod="AR-03", amb="T-DEP", tipo="prateleiras",  x=9_700, y=22_300, w=2_800, h=300),
+]
+
+# folgas minimas (NBR 9050 e pratica corrente)
+FOLGA_FRONTAL_LOUCA = 600      # frente livre de vaso e lavatorio
+FOLGA_LATERAL_VASO = 400       # eixo do vaso ate a parede lateral
+BOX_MIN = 900                  # menor dimensao interna do box

@@ -125,27 +125,51 @@
 <line x1="307.500" y1="260.000" x2="307.500" y2="244.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="304.500" y1="260.000" x2="307.500" y2="260.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="304.500" y1="244.000" x2="307.500" y2="244.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<polygon points="81.000,400.000 89.000,400.000 89.000,397.000 81.000,397.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="85.000" cy="392.400" r="4.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<polygon points="97.000,400.000 111.000,400.000 111.000,391.000 97.000,391.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="104.000" cy="395.500" r="2.700" stroke="#000000" stroke-width="0.18" fill="none"/>
-<polygon points="81.000,372.000 99.000,372.000 99.000,354.000 81.000,354.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="90.000" cy="363.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="81.000" y1="372.000" x2="99.000" y2="354.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<polygon points="81.000,304.000 89.000,304.000 89.000,301.000 81.000,301.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="85.000" cy="296.400" r="4.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<polygon points="97.000,304.000 111.000,304.000 111.000,295.000 97.000,295.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="104.000" cy="299.500" r="2.700" stroke="#000000" stroke-width="0.18" fill="none"/>
-<polygon points="81.000,276.000 99.000,276.000 99.000,258.000 81.000,258.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="90.000" cy="267.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="81.000" y1="276.000" x2="99.000" y2="258.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<polygon points="237.000,339.000 245.000,339.000 245.000,336.000 237.000,336.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="241.000" cy="331.400" r="4.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<polygon points="257.000,340.000 281.000,340.000 281.000,330.000 257.000,330.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="269.000" cy="335.000" r="3.000" stroke="#000000" stroke-width="0.18" fill="none"/>
-<polygon points="237.000,306.000 259.000,306.000 259.000,284.000 237.000,284.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="248.000" cy="295.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="237.000" y1="306.000" x2="259.000" y2="284.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polygon points="113.000,402.000 115.000,402.000 115.000,386.000 113.000,386.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="113.000,370.000 115.000,370.000 115.000,354.000 113.000,354.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="78.000,355.000 114.000,355.000 114.000,353.000 78.000,353.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="96.000" y="378.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="89.000,354.000 91.000,354.000 91.000,338.000 89.000,338.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="89.000,322.000 91.000,322.000 91.000,306.000 89.000,306.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="78.000,355.000 90.000,355.000 90.000,353.000 78.000,353.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="84.000" y="330.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 84.000 330.000)">CLOSET</text>
+<polygon points="113.000,306.000 115.000,306.000 115.000,290.000 113.000,290.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="113.000,274.000 115.000,274.000 115.000,258.000 113.000,258.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="78.000,259.000 114.000,259.000 114.000,257.000 78.000,257.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="96.000" y="282.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="89.000,258.000 91.000,258.000 91.000,242.000 89.000,242.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="89.000,226.000 91.000,226.000 91.000,210.000 89.000,210.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="78.000,259.000 90.000,259.000 90.000,257.000 78.000,257.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="84.000" y="234.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 84.000 234.000)">CLOSET</text>
+<polygon points="257.000,282.000 259.000,282.000 259.000,266.000 257.000,266.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="257.000,250.000 259.000,250.000 259.000,222.000 257.000,222.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="258.000,223.000 306.000,223.000 306.000,221.000 258.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="282.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="257.000,222.000 259.000,222.000 259.000,212.000 257.000,212.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="257.000,196.000 259.000,196.000 259.000,186.000 257.000,186.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="258.000,223.000 306.000,223.000 306.000,221.000 258.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="282.000" y="204.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">CLOSET</text>
+<polygon points="82.000,399.000 90.000,399.000 90.000,396.000 82.000,396.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="86.000" cy="391.400" r="4.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="95.000,399.000 109.000,399.000 109.000,390.000 95.000,390.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="102.000" cy="394.500" r="2.700" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="81.000,376.000 99.000,376.000 99.000,356.000 81.000,356.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="90.000" cy="366.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="81.000" y1="376.000" x2="99.000" y2="356.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polygon points="82.000,303.000 90.000,303.000 90.000,300.000 82.000,300.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="86.000" cy="295.400" r="4.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="95.000,303.000 109.000,303.000 109.000,294.000 95.000,294.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="102.000" cy="298.500" r="2.700" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="81.000,280.000 99.000,280.000 99.000,260.000 81.000,260.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="90.000" cy="270.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="81.000" y1="280.000" x2="99.000" y2="260.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polygon points="262.000,279.000 270.000,279.000 270.000,276.000 262.000,276.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="266.000" cy="271.400" r="4.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="276.000,279.000 300.000,279.000 300.000,269.000 276.000,269.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="288.000" cy="274.000" r="3.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="261.000,248.000 283.000,248.000 283.000,226.000 261.000,226.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="272.000" cy="237.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="261.000" y1="248.000" x2="283.000" y2="226.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="132.000" y="351.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>
 <text x="132.000" y="354.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">25,92 m2</text>
 <text x="132.000" y="357.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">S-S02</text>

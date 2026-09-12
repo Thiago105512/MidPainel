@@ -200,8 +200,8 @@ def checar_iluminacao() -> list[Achado]:
                 continue
             # desconta banho e closet: a exigencia recai sobre o compartimento
             # de permanencia, nao sobre o modulo inteiro da suite
-            desc = sum(w * h / 1e6 for cod, _, _, _, w, h in pj.SUBDIVISOES
-                       if cod in grupo)
+            desc = sum(sd["w"] * sd["h"] / 1e6 for sd in pj.SUBDIVISOES
+                       if sd["pai"] in grupo)
             piso = sum(por_cod[c].area_mod for c in grupo) - desc
             aber = sum(vaos.get(c, 0.0) for c in grupo)
             frac = FRAC_PROLONGADA if grupo & PROLONGADA else FRAC_DEMAIS
@@ -398,6 +398,18 @@ def checar_espacos_mortos() -> list[Achado]:
 # ---------------------------------- 11. bancadas: densidade e folga
 def checar_bancadas() -> list[Achado]:
     out = []
+    for b in pj.BANCADAS:
+        amb = next((x for x in pj.TERREO + pj.SUPERIOR if x.cod == b["amb"]), None)
+        if amb is None:
+            out.append(Achado("ERRO", "Bancada sem ambiente",
+                              f"{b['cod']} referencia {b['amb']}"))
+            continue
+        dentro = (amb.x <= b["x"] and b["x"] + b["w"] <= amb.x + amb.w and
+                  amb.y <= b["y"] and b["y"] + b["h"] <= amb.y + amb.h)
+        if not dentro and not _cabe_no_grupo(b):
+            out.append(Achado("ERRO", "Bancada fora do ambiente",
+                              f"{b['cod']} em ({b['x']}, {b['y']}) nao cabe em {b['amb']} "
+                              f"[{amb.x}, {amb.y}, {amb.w} x {amb.h}]"))
     social = [b for b in pj.BANCADAS if b["amb"] in ("T-COZ", "T-GOU")]
     linear = sum(max(b["w"], b["h"]) / 1000 for b in social)
     cubas = sum(b["cubas"] for b in social)
@@ -432,12 +444,102 @@ def checar_bancadas() -> list[Achado]:
     return out
 
 
+# ------------------------------------ 12. loucas e equipamentos
+def _cabe_no_grupo(peca) -> bool:
+    """A peca cabe na uniao do grupo integrado do seu ambiente?"""
+    cod = peca["amb"]
+    grupo = {cod}
+    for par in pj.INTEGRADOS:
+        if cod in par:
+            grupo |= set(par)
+    rects = [(a.x, a.y, a.w, a.h) for a in pj.TERREO + pj.SUPERIOR if a.cod in grupo]
+    passo = 100
+    x, y = peca["x"], peca["y"]
+    while x < peca["x"] + peca["w"]:
+        y = peca["y"]
+        while y < peca["y"] + peca["h"]:
+            if not any(rx <= x < rx + rw and ry <= y < ry + rh for rx, ry, rw, rh in rects):
+                return False
+            y += passo
+        x += passo
+    return True
+
+
+def _area_alvo(peca) -> tuple[int, int, int, int] | None:
+    """Onde a peca deve caber: a subdivisao BANHO, quando existir; senao o ambiente."""
+    cod = peca["amb"]
+    if peca["tipo"] in ("vaso", "lavatorio", "box"):
+        for sd in pj.SUBDIVISOES:
+            if sd["pai"] == cod and sd["nome"] == "BANHO":
+                return sd["x"], sd["y"], sd["w"], sd["h"]
+    for a_ in pj.TERREO + pj.SUPERIOR:
+        if a_.cod == cod:
+            return a_.x, a_.y, a_.w, a_.h
+    return None
+
+
+def checar_loucas() -> list[Achado]:
+    out = []
+    for p in pj.LOUCAS + pj.EQUIPAMENTOS + pj.ARMARIOS:
+        alvo = _area_alvo(p)
+        if alvo is None:
+            out.append(Achado("ERRO", "Peca sem ambiente",
+                              f"{p['cod']} referencia {p['amb']}, que nao existe"))
+            continue
+        ax, ay, aw, ah = alvo
+        if not (ax <= p["x"] and p["x"] + p["w"] <= ax + aw and
+                ay <= p["y"] and p["y"] + p["h"] <= ay + ah) and not _cabe_no_grupo(p):
+            out.append(Achado("ERRO", "Peca fora do ambiente",
+                              f"{p['cod']} ({p['tipo']}) em ({p['x']}, {p['y']}) "
+                              f"nao cabe em {p['amb']} [{ax}, {ay}, {aw} x {ah}]"))
+
+    # loucas obrigatorias por ambiente molhado
+    exigidas = {"T-BWC": {"vaso", "lavatorio", "box"},
+                "S-S02": {"vaso", "lavatorio", "box"},
+                "S-S03": {"vaso", "lavatorio", "box"},
+                "S-MAS": {"vaso", "lavatorio", "box"},
+                "T-LAV": {"tanque"}}
+    for cod, req in exigidas.items():
+        tem = {p["tipo"] for p in pj.LOUCAS if p["amb"] == cod}
+        faltando = req - tem
+        if faltando:
+            out.append(Achado("ERRO", "Louca faltando",
+                              f"{cod}: sem {', '.join(sorted(faltando))}"))
+
+    # folgas
+    for p in pj.LOUCAS:
+        alvo = _area_alvo(p)
+        if alvo is None:
+            continue
+        ax, ay, aw, ah = alvo
+        if p["tipo"] == "box":
+            if min(p["w"], p["h"]) < pj.BOX_MIN:
+                out.append(Achado("ERRO", "Box abaixo do minimo",
+                                  f"{p['cod']}: {min(p['w'], p['h'])} mm, "
+                                  f"minimo {pj.BOX_MIN}", "NBR 15575"))
+            continue
+        frente = (ay + ah) - (p["y"] + p["h"])
+        frente = max(frente, p["y"] - ay)
+        if frente < pj.FOLGA_FRONTAL_LOUCA:
+            out.append(Achado("ATENCAO", "Folga frontal de louca",
+                              f"{p['cod']} ({p['tipo']}): {frente} mm livres, "
+                              f"minimo {pj.FOLGA_FRONTAL_LOUCA}", "NBR 9050"))
+        if p["tipo"] == "vaso":
+            eixo = p["x"] + p["w"] / 2
+            lateral = min(eixo - ax, (ax + aw) - eixo)
+            if lateral < pj.FOLGA_LATERAL_VASO:
+                out.append(Achado("ATENCAO", "Afastamento lateral do vaso",
+                                  f"{p['cod']}: eixo a {lateral:.0f} mm da parede, "
+                                  f"minimo {pj.FOLGA_LATERAL_VASO}"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
             checar_vaos() + checar_iluminacao() + checar_acessibilidade() +
             checar_metas() + checar_escada() + checar_vedacao() +
-            checar_espacos_mortos() + checar_bancadas())
+            checar_espacos_mortos() + checar_bancadas() + checar_loucas())
 
 
 if __name__ == "__main__":

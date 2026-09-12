@@ -89,6 +89,9 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     el.desenhar_paredes(cv, vw, paredes, vaos)
     el.desenhar_vaos(cv, vw, paredes, vaos)
 
+    # ---- divisorias internas de suite (banho e closet)
+    _desenhar_subdivisoes(cv, vw, pav)
+
     # ---- mobiliario
     mob.desenhar(cv, vw, pav, layout=layout)
 
@@ -418,3 +421,46 @@ def _rosa_solar(cv: Canvas, pos) -> None:
             ("faces N e S: sol 63 a 87 graus", "#0a6"),
             ("-> beiral de 1.200 mm resolve", "#0a6")]):
         cv.texto_p((x, y + r + 12 + i * 4.6), t, TXT["micro"], "middle", cor=cor)
+
+
+def _desenhar_subdivisoes(cv: Canvas, vw: View, pav: str) -> None:
+    """Divisorias de banho e closet dentro dos modulos de suite.
+
+    So recebem parede as faces internas ao modulo: as que coincidem com a
+    parede externa do ambiente ja foram desenhadas pela derivacao.
+    """
+    ambs = {a.cod: a for a in (pj.TERREO if pav == "T" else pj.SUPERIOR)}
+    esp = pj.PAR_INT
+    pat = cv.hachura("lsf", espac=0.9, ang=45, w=0.06, cor="#444")
+    for sd in pj.SUBDIVISOES:
+        pai = ambs.get(sd["pai"])
+        if pai is None:
+            continue
+        x, y, w, h = sd["x"], sd["y"], sd["w"], sd["h"]
+        faces = [
+            ("S", x, x, y, y + h, x > pai.x),
+            ("N", x + w, x + w, y, y + h, x + w < pai.x + pai.w),
+            ("L", x, x + w, y, y, y > pai.y),
+            ("O", x, x + w, y + h, y + h, y + h < pai.y + pai.h),
+        ]
+        for face, x1, x2, y1, y2, interna in faces:
+            if not interna:
+                continue
+            vertical = x1 == x2
+            a0, a1 = (y1, y2) if vertical else (x1, x2)
+            trechos = [(a0, a1)]
+            if face == sd["face"]:
+                v0 = sd["pos"] - sd["vao"] / 2
+                v1 = sd["pos"] + sd["vao"] / 2
+                trechos = [t for t in ((a0, v0), (v1, a1)) if t[1] - t[0] > 1]
+            for t0, t1 in trechos:
+                if vertical:
+                    bx, by, bw, bh = x1 - esp / 2, t0, esp, t1 - t0
+                else:
+                    bx, by, bw, bh = t0, y1 - esp / 2, t1 - t0, esp
+                cv.poli_p([vw.pt(P(bx, by)), vw.pt(P(bx + bw, by)),
+                           vw.pt(P(bx + bw, by + bh)), vw.pt(P(bx, by + bh))],
+                          "corte", fechado=True, preenche=f"url(#{pat})")
+        c = vw.pt(P(x + w / 2, y + h / 2))
+        cv.texto_p(c, sd["nome"], TXT["micro"], "middle", cor=CINZA,
+                   rot=90 if h > w * 1.5 else 0)
