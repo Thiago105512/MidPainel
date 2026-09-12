@@ -121,16 +121,16 @@ TERREO: list[Amb] = [
     Amb("T-HAL", "HALL",                 8_400,  9_600, 1_800, 3_600),
     Amb("T-BWC", "BANHO COMPARTILHADO", 10_200, 10_800, 1_800, 2_400, molhado=True),
     Amb("T-REV", "QUARTO REVERSIVEL",   12_000,  7_200, 3_000, 6_000),
-    # ---- faixa social
+    # ---- faixa social (sul e centro)
     Amb("T-SOC", "ESTAR / JANTAR",       5_400, 13_200, 4_200, 6_000),
     Amb("T-COR", "CORE / ESCADA",        9_600, 13_200, 2_400, 6_000),
     Amb("T-COZ", "COZINHA",              2_400, 19_200, 3_000, 6_000, molhado=True),
     Amb("T-GOU", "GOURMET",              5_400, 19_200, 4_200, 7_200, molhado=True),
     Amb("T-DES", "DESPENSA",             2_400, 25_200, 3_000, 1_200),
-    # ---- bloco de servico, atras do gourmet, separado por corredor aberto
-    Amb("T-OFI", "OFICINA",              2_400, 27_600, 3_000, 3_000),
-    Amb("T-LAV", "LAVANDERIA",           5_400, 27_600, 3_000, 3_000, molhado=True),
-    Amb("T-DEP", "DEPOSITO / DML",       8_400, 27_600, 1_200, 3_000),
+    # ---- espinha de servico na lateral norte, colada a faixa tecnica
+    Amb("T-OFI", "OFICINA",             13_800, 21_600, 3_000, 3_000),
+    Amb("T-LAV", "LAVANDERIA",          13_800, 24_600, 3_000, 3_000, molhado=True),
+    Amb("T-DEP", "DEPOSITO / DML",      13_800, 27_600, 3_000, 1_200),
 ]
 
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
@@ -139,10 +139,16 @@ TERREO_ABERTO: list[Amb] = [
     Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 3_600, aberto=True),
     Amb("T-JNO", "JARDIM NORTE",        15_000,  7_200, 1_800, 6_000, aberto=True),
     Amb("T-LOG", "LOGGIA SUL",           2_400, 13_200, 3_000, 6_000, aberto=True),
-    Amb("T-CSE", "CORREDOR DE SERVICO",  2_400, 26_400, 7_200, 1_200, aberto=True),
     Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 6_000, aberto=True),
-    Amb("T-DKP", "DECK DA PISCINA",      9_600, 21_600, 7_200, 6_000, aberto=True),
+    Amb("T-PSE", "PASSAGEM DE SERVICO", 12_000, 21_600, 1_800, 7_200, aberto=True),
+    Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 2_400, aberto=True),
+    Amb("T-DKP", "DECK DA PISCINA",      4_200, 28_800, 7_200, 4_800, aberto=True),
 ]
+
+# ambientes cobertos = fechados + areas com cobertura propria
+def cobertos() -> list[Amb]:
+    return TERREO + [a for a in TERREO_ABERTO
+                     if a.cod in ("T-VAR", "T-LOG", "T-PSE", "T-ALP")]
 
 # ambientes cobertos = fechados + areas com cobertura propria
 def cobertos() -> list[Amb]:
@@ -223,13 +229,14 @@ VAOS = [
     ("J01",   2_400, 23_400, "V", "T"),   # janela cozinha (sul)
     ("P02",   3_900, 25_200, "H", "T"),   # cozinha -> despensa
     ("PV01",  9_600, 22_800, "V", "T"),   # gourmet -> deck e piscina
-    ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> corredor de servico coberto
-    # ---- bloco de servico: todas as portas pelo corredor externo coberto
-    ("P04",   3_900, 27_600, "H", "T"),   # corredor -> oficina
-    ("P04",   6_900, 27_600, "H", "T"),   # corredor -> lavanderia
-    ("P04",   9_000, 27_600, "H", "T"),   # corredor -> deposito/DML
-    ("J01",   2_400, 29_100, "V", "T"),   # janela oficina (sul)
-    ("J03",   3_900, 30_600, "H", "T"),   # janela alta da oficina (oeste)
+    ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> alpendre e piscina
+    # ---- espinha de servico: portas abrem para a faixa tecnica lateral
+    ("P04",  16_800, 23_100, "V", "T"),   # corredor lateral -> oficina
+    ("P04",  16_800, 26_100, "V", "T"),   # corredor lateral -> lavanderia
+    ("P04",  16_800, 28_200, "V", "T"),   # corredor lateral -> deposito/DML
+    ("J03",  15_300, 21_600, "H", "T"),   # janela alta da oficina (leste)
+    ("P04",  13_800, 23_100, "V", "T"),   # oficina -> passagem de servico coberta
+    ("P04",  13_800, 26_100, "V", "T"),   # lavanderia -> passagem de servico
     ("J01",   2_400, 26_400, "V", "T"),   # janela despensa (sul)
     # ---- superior
     ("P02",   7_800, 17_400, "V", "S"),   # hall -> suite 02
@@ -246,11 +253,11 @@ VAOS = [
 # =========================================================================
 # ELEMENTOS EXTERNOS
 # =========================================================================
-PISCINA = dict(x=10_800, y=23_400, w=4_800, h=2_400,
+PISCINA = dict(x=5_400, y=28_800, w=4_800, h=2_400,
                prainha_w=1_200, prof_prainha=300, prof_principal=1_150,
                lamina_m2=11.52, volume_m3=10.80)
-CASA_MAQUINAS = dict(x=15_000, y=26_400, w=1_500, h=1_200)
-DECK = dict(x=9_600, y=21_600, w=7_200, h=6_000)          # envolve a piscina
+CASA_MAQUINAS = dict(x=11_400, y=28_800, w=1_500, h=1_200)
+DECK = dict(x=4_200, y=28_800, w=7_200, h=4_800)          # envolve a piscina
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 CAIXA_DAGUA = dict(x=10_200, y=16_200, w=2_400, h=2_400,
                    volume_l=2_000, pe_direito=2_100, carga_kg=2_500)
@@ -315,9 +322,9 @@ if __name__ == "__main__":
 # Nas faces norte e sul o sol e alto (63 a 87 graus) e o beiral resolve.
 # =========================================================================
 BRISES = [
-    dict(cod="BR-O", face="O", x=2_400, y=30_600, w=7_200, h=150,
-         tipo="ripado vertical fixo", passo=150,
-         desc="face oeste do bloco de servico - barreira de sol da tarde"),
+    dict(cod="BR-O", face="O", x=5_400, y=28_800, w=4_200, h=150,
+         tipo="ripado vertical movel", passo=150,
+         desc="face oeste do gourmet - sol das 16h sobre a fita social"),
     dict(cod="BR-L", face="L", x=12_000, y=7_200, w=3_000, h=150,
          tipo="ripado vertical fixo", passo=150,
          desc="quarto reversivel - testada leste"),

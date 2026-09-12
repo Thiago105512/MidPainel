@@ -419,3 +419,79 @@ Movida para (10.800, 23.400), no lado norte, alinhada ao deck e diretamente
 visível do gourmet pelo vão PV01. Não fica sob o balanço da varanda master
 (que termina em Y = 22.800), preservando sol pleno sobre a lâmina — o que se
 quer numa piscina, ao contrário do que se quer sobre o vidro.
+
+---
+
+# Revisão 6 — espinha de serviço na lateral norte
+
+Pedido do cliente: lavanderia e oficina na região onde estava a piscina, com
+entrada pelo corredor lateral; piscina em frente ao gourmet. Serviço e lazer
+**trocam de lugar**.
+
+## Arranjo
+
+| Ambiente | Posição | Acesso |
+|---|---|---|
+| Oficina | (13.800, 21.600) 3.000 × 3.000 | faixa técnica (X = 16.800) + passagem coberta |
+| Lavanderia | (13.800, 24.600) 3.000 × 3.000 | idem |
+| Depósito/DML | (13.800, 27.600) 3.000 × 1.200 | faixa técnica |
+| Piscina | (5.400, 28.800) 4.800 × 2.400 | alpendre do gourmet |
+
+A lateral norte passa a concentrar **tudo que é técnico**: condensadoras,
+registros, drenagem, nicho da piscina — e agora oficina, lavanderia e depósito.
+O briefing já destinava essa faixa à manutenção; a mudança completa a ideia,
+transformando-a em espinha de serviço contínua da frente ao fundo.
+
+Entre a espinha e o deck norte corre uma **passagem de serviço coberta de
+1.800 × 7.200 mm**, que dá a segunda porta a oficina e lavanderia e liga o
+deck ao fundo sem entrar na casa.
+
+## O que se perdeu — e precisa ser decidido
+
+**1. A face oeste voltou a ficar exposta.** Na revisão anterior, o bloco de
+serviço fazia de barreira térmica contra o sol das 16h. Com a piscina nessa
+posição, a fita social volta a olhar para o poente. Foram reinstalados o
+**alpendre de 4.200 × 2.400 mm** e o **brise vertical móvel** — mitigação,
+não solução equivalente: 2.400 mm de varanda protegem menos que 3.000 mm de
+volume construído.
+
+Em compensação, a piscina ganhou o sol da tarde, que é o que se quer sobre a
+lâmina d'água.
+
+**2. Cozinha e lavanderia ficaram em faces opostas.** Distância de cerca de
+11 m, e a rota atravessa gourmet e deck — exatamente o cruzamento de serviço
+sobre área social que a revisão anterior eliminava.
+
+Solução possível, não implementada por depender de decisão: manter um
+**apoio de serviço junto à cozinha** (tanque + uma máquina, ~2,0 m²), com a
+lavanderia principal na espinha norte. É a solução corrente em casas cuja
+área de serviço fica distante.
+
+**3. A varanda master passa sobre 2,88 m² da oficina.** Laje de varanda sobre
+ambiente de trabalho: exige o mesmo tratamento de ruído de impacto
+especificado para as suítes (manta resiliente + forro com lã mineral).
+
+**4. Condensadoras na faixa técnica, junto à parede da oficina.** Compressor
+é ruído contínuo de 50 a 60 dB(A). A parede PE-1 (Rw 45 dB) resolve, mas a
+posição dos equipamentos deve evitar o trecho em frente à janela alta da
+oficina.
+
+## Silêncio da oficina — comparativo entre as duas posições
+
+| | Revisão 5 (fundo) | Revisão 6 (lateral norte) |
+|---|---|---|
+| Paredes internas | 1 (lavanderia) | 1 (lavanderia) |
+| Faces livres | 3 | 3 |
+| Distância até o estar | > 12 m | ~ 9 m |
+| Ruído externo vizinho | nenhum | condensadoras na faixa técnica |
+| Pavimento acima | nenhum | varanda master sobre 2,88 m² |
+
+As duas posições isolam bem. A do fundo era acusticamente superior; a da
+lateral norte é funcionalmente melhor integrada à manutenção e libera todo o
+fundo do lote para lazer.
+
+## Áreas
+
+Inalteradas: térreo 177,84 m², superior 86,40 m², total 264,24 m², taxa de
+ocupação 22,23 %, CAMT 0,330. Áreas abertas com função sobem para 126,00 m².
+O fundo do lote mantém 6.400 mm livres além do deck da piscina.
