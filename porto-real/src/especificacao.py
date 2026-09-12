@@ -65,6 +65,16 @@ FAMILIAS = {
         onde="intimo x fonte de ruido, social x servico, entorno do core e toda a oficina",
         porque="Dupla chapa e o unico ganho acustico barato: +5 dB por chapa "
                "adicional. Decupla-se a massa sem mudar a espessura modular."),
+    "PA-2": dict(
+        esp=150, nome="Parede acustica de alto desempenho",
+        comp="dupla chapa 12,5 + perfil resiliente + montante 70 c/ la 50 + dupla chapa 12,5",
+        U=None, Rw=56, indice=1.62,
+        onde="EXCLUSIVAMENTE a parede entre a oficina e o estar/jantar",
+        porque="O perfil resiliente desacopla a chapa do montante e acrescenta 7 a "
+               "9 dB sobre a PA-1, dentro da mesma espessura de 150 mm. Uma "
+               "serra a 105 dB(A) chega ao estar em cerca de 49 dB(A); no sentido "
+               "inverso, a TV a 70 dB(A) chega a oficina em 14 dB(A) — inaudivel. "
+               "E a unica parede da casa que recebe este tratamento."),
     "PI-1": dict(
         esp=100, nome="Divisoria interna simples",
         comp="gesso 12,5 + montante 70 c/ la 50 + gesso 12,5",
@@ -145,7 +155,9 @@ def classificar(a: str | None, b: str | None, externa: bool) -> str:
     # a oficina tem precedencia: nenhuma prumada encosta nela — agua descendo
     # em tubo e ruido de impacto continuo dentro do ambiente que pede silencio
     if a in SILENCIO or b in SILENCIO:
-        return "PA-1"
+        # oficina contra ambiente social: a unica parede PA-2 da casa
+        outro = CATEGORIA.get(b if a in SILENCIO else a, "outro")
+        return "PA-2" if outro == "social" else "PA-1"
     if a in MOLHADOS or b in MOLHADOS:
         if a in ("T-BWC", "T-COZ", "T-LAV") or b in ("T-BWC", "T-COZ", "T-LAV"):
             return "PH-1"
@@ -181,7 +193,11 @@ def sobreposicao() -> list[dict]:
             if ox > 0 and oy > 0:
                 area = ox * oy / 1e6
                 cat_inf = CATEGORIA.get(t.cod, "outro")
-                if CATEGORIA.get(s.cod) == "intimo" and cat_inf in ("social", "servico"):
+                if t.cod == "T-OFI":
+                    trat, just = ("laje flutuante + forro desacoplado com perfil resiliente",
+                                  "dormitorio sobre OFICINA: o unico trecho com "
+                                  "tratamento duplo do projeto")
+                elif CATEGORIA.get(s.cod) == "intimo" and cat_inf in ("social", "servico"):
                     trat, just = ("manta 5 mm + forro suspenso com la",
                                   f"dormitorio sobre {cat_inf}: ruido aereo e de impacto")
                 elif CATEGORIA.get(s.cod) == "intimo":
@@ -285,8 +301,10 @@ def _face_do_vao(x, y, ori, pav):
 # onde NAO gastar
 # =========================================================================
 NAO_APLICAR = [
+    ["Parede acustica de alto desempenho (PA-2)", "qualquer parede alem da oficina/estar",
+     "7,80 m2 de tratamento premium resolvem; espalha-lo nao acrescenta nada"],
     ["Parede acustica (PA-1)", "entre lavanderia e deposito",
-     "ambos de servico, com o mesmo tipo de ruido — o reforco vai para a oficina"],
+     "ambos de servico, com o mesmo tipo de ruido"],
     ["Parede acustica (PA-1)", "dentro da fita social integrada",
      "o cliente pediu integracao: parede ali contradiz o partido"],
     ["Parede hidraulica 150 mm", "onde nao passa prumada DN100",
@@ -345,7 +363,8 @@ def payback_iso_strip(area_parede_m2: float) -> dict:
 # =========================================================================
 # PR-12 — mapa de familias de vedacao
 # =========================================================================
-CORES_FAM = {"PE-1": "#2d6a4f", "PH-1": "#1d4e89", "PA-1": "#c1121f", "PI-1": "#adb5bd"}
+CORES_FAM = {"PE-1": "#2d6a4f", "PH-1": "#1d4e89", "PA-1": "#c1121f",
+             "PA-2": "#6a040f", "PI-1": "#adb5bd"}
 
 
 def _mapa(cv: Canvas, vw: View, ambs, titulo: str) -> None:

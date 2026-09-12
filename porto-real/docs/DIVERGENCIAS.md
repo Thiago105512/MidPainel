@@ -495,3 +495,102 @@ fundo do lote para lazer.
 Inalteradas: térreo 177,84 m², superior 86,40 m², total 264,24 m², taxa de
 ocupação 22,23 %, CAMT 0,330. Áreas abertas com função sobem para 126,00 m².
 O fundo do lote mantém 6.400 mm livres além do deck da piscina.
+
+---
+
+# Revisão 7 — banda de serviço interna, em enfilade
+
+O cliente rejeitou o arranjo anterior: a oficina e a lavanderia não podem ser
+algo **destacado da casa**, e a lateral técnica não é lugar para elas.
+
+## A tensão que precisa ser nomeada
+
+Numa casa de 14.400 mm de largura com banda de serviço de 3.000 mm, o serviço
+**sempre** encosta na faixa social. Não há geometria que escape disso. As duas
+tentativas anteriores contornaram o problema saindo do volume — bloco no fundo
+(rev. 5) e espinha na faixa técnica (rev. 6) —, e as duas produziram o anexo
+que o cliente recusa.
+
+Integrar e silenciar são objetivos que brigam. A saída não é geométrica: é
+**especificação pontual**. Uma parede tratada resolve o que nenhum remanejo
+resolveria.
+
+## O arranjo: enfilade de serviço na face sul
+
+Todos os ambientes de serviço voltam para dentro do volume, em faixa contínua
+na face sul, encadeados a partir da garagem:
+
+**garagem → oficina → lavanderia → cozinha → despensa**
+
+| Ambiente | Posição | Face sul |
+|---|---|---|
+| Oficina | (2.400, 13.200) 3.000 × 3.000 | janela para o recuo |
+| Lavanderia | (2.400, 16.200) 3.000 × 3.000 | janela para o recuo |
+| Cozinha | (2.400, 19.200) 3.000 × 6.000 | duas janelas |
+| Despensa | (2.400, 25.200) 3.000 × 1.200 | janela alta |
+
+Consequências:
+
+- **A oficina é acessada pela garagem** — invisível da área social, como o
+  briefing exige, e no lugar certo para receber material e ferramenta.
+- **Nenhuma rota de serviço cruza a área social.** O percurso inteiro corre
+  pela face sul, de ponta a ponta.
+- **Todos os ambientes de serviço têm janela** para o recuo sul, com sol alto
+  (63° a 87°) sombreado pela própria laje superior — sem brise.
+- **Cozinha e lavanderia voltam a ser vizinhas**, com prumada única na face sul.
+- **Não existe mais anexo.** O volume é um só.
+
+## A parede que decide o silêncio
+
+A oficina tem quatro paredes, e cada uma recebe o que a sua condição exige:
+
+| Face | Confronta | Família | Área |
+|---|---|---|---|
+| Sul | recuo — exterior | PE-1 | 7,80 m² |
+| Leste | garagem | PA-1 | 7,80 m² |
+| Oeste | lavanderia | PA-1 | 7,80 m² |
+| **Norte** | **estar/jantar** | **PA-2** | **7,80 m²** |
+
+A **PA-2** é nova e existe para um único trecho da casa: dupla chapa + perfil
+resiliente + montante 70 com lã 50 + dupla chapa, dentro dos mesmos 150 mm.
+O perfil resiliente desacopla a chapa do montante e acrescenta 7 a 9 dB sobre
+a PA-1. Resultado calculado:
+
+- serra circular a 105 dB(A) na oficina → cerca de **49 dB(A)** no estar;
+- televisão a 70 dB(A) no estar → **14 dB(A)** na oficina, inaudível.
+
+Vale notar a assimetria: **a parede protege a oficina da casa de forma quase
+perfeita; protege a casa da oficina de forma apenas adequada.** Como o pedido
+é "paz para meus projetos", a direção que importa é justamente a que funciona
+melhor.
+
+## A laje sobre a oficina
+
+A suíte 02 apoia-se integralmente sobre a banda de serviço, e 9,00 m² dela
+ficam sobre a oficina. Esse é o **único trecho do projeto com tratamento
+duplo**: laje flutuante (contrapiso desolidarizado sobre manta resiliente) e
+forro desacoplado por perfil resiliente com lã mineral.
+
+Fica registrado o limite honesto: com dormitório acima, a oficina nunca será
+tão silenciosa quanto seria destacada no fundo do lote. O tratamento leva a
+serra a cerca de 47 dB(A) no quarto — audível, no nível de chuva leve.
+**Silêncio absoluto exigiria o anexo que o cliente recusou.** É escolha de
+prioridade, não falha de projeto.
+
+## Quantitativo
+
+| Família | Área | Observação |
+|---|---|---|
+| PE-1 externa | 299,52 m² | ISO strip contínuo |
+| PA-1 acústica | 67,08 m² | íntimo × ruído, social × serviço, core |
+| **PA-2 alto desempenho** | **7,80 m²** | **uma única parede** |
+| PH-1 hidráulica | 40,56 m² | só onde há prumada |
+| PI-1 simples | 20,28 m² | zonas homogêneas |
+| **Total** | **435,24 m²** | contra 478,92 na revisão 6 |
+
+O volume compacto devolveu **43,68 m² de vedação** em relação ao arranjo com
+bloco destacado. O tratamento premium custa 7,80 m² — **1,8 % da vedação da
+casa**.
+
+Áreas inalteradas: térreo 177,84 m², superior 86,40 m², total 264,24 m², taxa
+de ocupação 22,23 %.

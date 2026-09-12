@@ -38,22 +38,22 @@
 <polygon points="210.000,446.000 228.000,446.000 228.000,410.000 210.000,410.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
 <polygon points="228.000,434.000 246.000,434.000 246.000,410.000 228.000,410.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
 <polygon points="246.000,470.000 276.000,470.000 276.000,410.000 246.000,410.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
+<polygon points="150.000,410.000 180.000,410.000 180.000,380.000 150.000,380.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
+<polygon points="150.000,380.000 180.000,380.000 180.000,350.000 150.000,350.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
+<polygon points="150.000,350.000 180.000,350.000 180.000,290.000 150.000,290.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
+<polygon points="150.000,290.000 180.000,290.000 180.000,278.000 150.000,278.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
 <polygon points="180.000,410.000 222.000,410.000 222.000,350.000 180.000,350.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
 <polygon points="222.000,410.000 246.000,410.000 246.000,350.000 222.000,350.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
-<polygon points="150.000,350.000 180.000,350.000 180.000,290.000 150.000,290.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
 <polygon points="180.000,350.000 222.000,350.000 222.000,278.000 180.000,278.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
-<polygon points="150.000,290.000 180.000,290.000 180.000,278.000 150.000,278.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
-<polygon points="264.000,326.000 294.000,326.000 294.000,296.000 264.000,296.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
-<polygon points="264.000,296.000 294.000,296.000 294.000,266.000 264.000,266.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
-<polygon points="264.000,266.000 294.000,266.000 294.000,254.000 264.000,254.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
+<polygon points="222.000,350.000 234.000,350.000 234.000,320.000 222.000,320.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
 <polygon points="210.000,470.000 228.000,470.000 228.000,446.000 210.000,446.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
 <polygon points="180.000,278.000 222.000,278.000 222.000,254.000 180.000,254.000" stroke="#aaa" stroke-width="0.18" fill="url(#pir)" stroke-linejoin="miter"/>
-<polygon points="150.000,470.000 294.000,470.000 294.000,254.000 150.000,254.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linejoin="miter"/>
+<polygon points="150.000,470.000 276.000,470.000 276.000,254.000 150.000,254.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linejoin="miter"/>
 <polygon points="150.000,410.000 204.000,410.000 204.000,362.000 150.000,362.000" stroke="#666" stroke-width="0.4" fill="#f2f2f2" stroke-linejoin="miter"/>
 <polygon points="150.000,362.000 204.000,362.000 204.000,314.000 150.000,314.000" stroke="#666" stroke-width="0.4" fill="#f2f2f2" stroke-linejoin="miter"/>
 <polygon points="204.000,374.000 228.000,374.000 228.000,350.000 204.000,350.000" stroke="#666" stroke-width="0.4" fill="#f2f2f2" stroke-linejoin="miter"/>
-<polygon points="228.000,380.000 288.000,380.000 288.000,332.000 228.000,332.000" stroke="#666" stroke-width="0.4" fill="#f2f2f2" stroke-linejoin="miter"/>
-<polygon points="150.000,410.000 288.000,410.000 288.000,314.000 150.000,314.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linejoin="miter"/>
+<polygon points="204.000,350.000 264.000,350.000 264.000,302.000 204.000,302.000" stroke="#666" stroke-width="0.4" fill="#f2f2f2" stroke-linejoin="miter"/>
+<polygon points="150.000,410.000 264.000,410.000 264.000,302.000 150.000,302.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linejoin="miter"/>
 <line x1="180.000" y1="440.000" x2="180.000" y2="454.000" stroke="#09a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="180.000" y1="454.000" x2="181.094" y2="450.993" stroke="#09a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="180.000" y1="454.000" x2="178.906" y2="450.993" stroke="#09a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
@@ -78,47 +78,47 @@
 <line x1="272.000" y1="356.000" x2="268.993" y2="354.906" stroke="#09a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="272.000" y1="356.000" x2="268.993" y2="357.094" stroke="#09a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="265.000" y="353.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="middle" dominant-baseline="middle">i=5%</text>
-<polygon points="150.000,470.000 294.000,470.000 294.000,254.000 150.000,254.000" stroke="#09a" stroke-width="0.18" fill="none" stroke-dasharray="2,1.4" stroke-linejoin="miter"/>
+<polygon points="150.000,470.000 276.000,470.000 276.000,254.000 150.000,254.000" stroke="#09a" stroke-width="0.18" fill="none" stroke-dasharray="2,1.4" stroke-linejoin="miter"/>
 <circle cx="150.000" cy="470.000" r="2.400" stroke="#09a" stroke-width="0.3" fill="#fff"/>
 <text x="150.000" y="470.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="middle" dominant-baseline="middle">1</text>
 <text x="154.000" y="470.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">DN100  2.0691 L/s</text>
-<circle cx="294.000" cy="470.000" r="2.400" stroke="#09a" stroke-width="0.3" fill="#fff"/>
-<text x="294.000" y="470.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="middle" dominant-baseline="middle">2</text>
-<text x="298.000" y="470.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">DN100  2.0691 L/s</text>
+<circle cx="276.000" cy="470.000" r="2.400" stroke="#09a" stroke-width="0.3" fill="#fff"/>
+<text x="276.000" y="470.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="middle" dominant-baseline="middle">2</text>
+<text x="280.000" y="470.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">DN100  2.0691 L/s</text>
 <circle cx="150.000" cy="254.000" r="2.400" stroke="#09a" stroke-width="0.3" fill="#fff"/>
 <text x="150.000" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="middle" dominant-baseline="middle">3</text>
 <text x="154.000" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">DN100  2.0691 L/s</text>
-<circle cx="294.000" cy="254.000" r="2.400" stroke="#09a" stroke-width="0.3" fill="#fff"/>
-<text x="294.000" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="middle" dominant-baseline="middle">4</text>
-<text x="298.000" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">DN100  2.0691 L/s</text>
+<circle cx="276.000" cy="254.000" r="2.400" stroke="#09a" stroke-width="0.3" fill="#fff"/>
+<text x="276.000" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="middle" dominant-baseline="middle">4</text>
+<text x="280.000" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#09a" text-anchor="start" dominant-baseline="middle">DN100  2.0691 L/s</text>
 <polygon points="228.000,380.000 252.000,380.000 252.000,356.000 228.000,356.000" stroke="#06c" stroke-width="0.6" fill="#eef6ff" stroke-linejoin="miter"/>
 <text x="240.000" y="365.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AREA TECNICA</text>
 <text x="240.000" y="368.800" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">CX. 2000 L</text>
 <text x="240.000" y="372.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">2500 kg</text>
 <line x1="150.000" y1="470.000" x2="150.000" y2="485.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="288.000" y1="470.000" x2="288.000" y2="485.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="294.000" y1="470.000" x2="294.000" y2="485.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="150.000" y1="484.000" x2="294.000" y2="484.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="264.000" y1="470.000" x2="264.000" y2="485.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="276.000" y1="470.000" x2="276.000" y2="485.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="150.000" y1="484.000" x2="276.000" y2="484.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="149.300" y1="484.700" x2="150.700" y2="483.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="287.300" y1="484.700" x2="288.700" y2="483.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="219.000" y="482.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">13,80</text>
-<line x1="287.300" y1="484.700" x2="288.700" y2="483.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="293.300" y1="484.700" x2="294.700" y2="483.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="291.000" y="482.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+<line x1="263.300" y1="484.700" x2="264.700" y2="483.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="207.000" y="482.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">11,40</text>
+<line x1="263.300" y1="484.700" x2="264.700" y2="483.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="275.300" y1="484.700" x2="276.700" y2="483.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="270.000" y="482.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">1,20</text>
 <line x1="150.000" y1="470.000" x2="134.800" y2="470.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="150.000" y1="410.000" x2="134.800" y2="410.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="150.000" y1="314.000" x2="134.800" y2="314.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="150.000" y1="302.000" x2="134.800" y2="302.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="150.000" y1="254.000" x2="134.800" y2="254.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="136.000" y1="470.000" x2="136.000" y2="254.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="135.300" y1="470.700" x2="136.700" y2="469.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="135.300" y1="410.700" x2="136.700" y2="409.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="134.884" y="440.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 134.884 440.000)">6,00</text>
 <line x1="135.300" y1="410.700" x2="136.700" y2="409.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="135.300" y1="314.700" x2="136.700" y2="313.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="134.884" y="362.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 134.884 362.000)">9,60</text>
-<line x1="135.300" y1="314.700" x2="136.700" y2="313.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="135.300" y1="302.700" x2="136.700" y2="301.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="134.884" y="356.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 134.884 356.000)">10,80</text>
+<line x1="135.300" y1="302.700" x2="136.700" y2="301.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="135.300" y1="254.700" x2="136.700" y2="253.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="134.884" y="284.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 134.884 284.000)">6,00</text>
+<text x="134.884" y="278.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 134.884 278.000)">4,80</text>
 <circle cx="735.000" cy="92.000" r="9.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
 <polygon points="744.000,92.000 732.744,94.067 735.000,92.000 732.744,89.933" stroke="#000000" stroke-width="0.3" fill="#000" stroke-linejoin="miter"/>
 <text x="748.000" y="92.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">N</text>

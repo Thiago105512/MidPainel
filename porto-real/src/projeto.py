@@ -121,16 +121,16 @@ TERREO: list[Amb] = [
     Amb("T-HAL", "HALL",                 8_400,  9_600, 1_800, 3_600),
     Amb("T-BWC", "BANHO COMPARTILHADO", 10_200, 10_800, 1_800, 2_400, molhado=True),
     Amb("T-REV", "QUARTO REVERSIVEL",   12_000,  7_200, 3_000, 6_000),
-    # ---- faixa social (sul e centro)
+    # ---- banda de servico interna, face sul: enfilade a partir da garagem
+    Amb("T-OFI", "OFICINA",              2_400, 13_200, 3_000, 3_000),
+    Amb("T-LAV", "LAVANDERIA",           2_400, 16_200, 3_000, 3_000, molhado=True),
+    Amb("T-COZ", "COZINHA",              2_400, 19_200, 3_000, 6_000, molhado=True),
+    Amb("T-DES", "DESPENSA",             2_400, 25_200, 3_000, 1_200),
+    # ---- faixa social
     Amb("T-SOC", "ESTAR / JANTAR",       5_400, 13_200, 4_200, 6_000),
     Amb("T-COR", "CORE / ESCADA",        9_600, 13_200, 2_400, 6_000),
-    Amb("T-COZ", "COZINHA",              2_400, 19_200, 3_000, 6_000, molhado=True),
     Amb("T-GOU", "GOURMET",              5_400, 19_200, 4_200, 7_200, molhado=True),
-    Amb("T-DES", "DESPENSA",             2_400, 25_200, 3_000, 1_200),
-    # ---- espinha de servico na lateral norte, colada a faixa tecnica
-    Amb("T-OFI", "OFICINA",             13_800, 21_600, 3_000, 3_000),
-    Amb("T-LAV", "LAVANDERIA",          13_800, 24_600, 3_000, 3_000, molhado=True),
-    Amb("T-DEP", "DEPOSITO / DML",      13_800, 27_600, 3_000, 1_200),
+    Amb("T-DEP", "DEPOSITO / DML",       9_600, 19_200, 1_200, 3_000),
 ]
 
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
@@ -138,12 +138,14 @@ TERREO_ABERTO: list[Amb] = [
     Amb("T-VAR", "VARANDA DE ENTRADA",   8_400,  7_200, 1_800, 2_400, aberto=True),
     Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 3_600, aberto=True),
     Amb("T-JNO", "JARDIM NORTE",        15_000,  7_200, 1_800, 6_000, aberto=True),
-    Amb("T-LOG", "LOGGIA SUL",           2_400, 13_200, 3_000, 6_000, aberto=True),
     Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 6_000, aberto=True),
-    Amb("T-PSE", "PASSAGEM DE SERVICO", 12_000, 21_600, 1_800, 7_200, aberto=True),
+    Amb("T-PAT", "PATIO NORTE",         10_800, 19_200, 6_000, 7_200, aberto=True),
     Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 2_400, aberto=True),
     Amb("T-DKP", "DECK DA PISCINA",      4_200, 28_800, 7_200, 4_800, aberto=True),
 ]
+
+def cobertos() -> list[Amb]:
+    return TERREO + [a for a in TERREO_ABERTO if a.cod in ("T-VAR", "T-ALP")]
 
 # ambientes cobertos = fechados + areas com cobertura propria
 def cobertos() -> list[Amb]:
@@ -170,25 +172,23 @@ SUPERIOR: list[Amb] = [
     Amb("S-S02", "SUITE 02",  2_400, 13_200, 5_400, 4_800, pav="S", nivel=NIVEL_SUPERIOR),
     Amb("S-S03", "SUITE 03",  2_400, 18_000, 5_400, 4_800, pav="S", nivel=NIVEL_SUPERIOR),
     Amb("S-HAL", "HALL",      7_800, 16_800, 2_400, 2_400, pav="S", nivel=NIVEL_SUPERIOR),
-    Amb("S-MAS", "SUITE MASTER", 10_200, 16_200, 6_000, 4_800, pav="S", nivel=NIVEL_SUPERIOR),
+    Amb("S-MAS", "SUITE MASTER", 7_800, 19_200, 6_000, 4_800, pav="S", nivel=NIVEL_SUPERIOR),
 ]
 
 SUPERIOR_ABERTO: list[Amb] = [
-    Amb("S-BAL", "VARANDA MASTER", 10_200, 21_000, 6_000, 1_800,
+    Amb("S-BAL", "VARANDA MASTER", 7_800, 24_000, 6_000, 1_800,
         pav="S", nivel=NIVEL_SUPERIOR, aberto=True),
 ]
 
 # ------------------------------------------- subdivisoes internas (1:50)
 # (cod_pai, nome, x, y, w, h) — particoes dentro do modulo
 SUBDIVISOES = [
-    # suites 2 e 3: banheiro 1800x2400 + closet 600 de profundidade
     ("S-S02", "BANHO",  2_400, 13_200, 1_800, 2_400),
     ("S-S02", "CLOSET", 2_400, 15_600,   600, 2_400),
     ("S-S03", "BANHO",  2_400, 18_000, 1_800, 2_400),
     ("S-S03", "CLOSET", 2_400, 20_400,   600, 2_400),
-    # master 6000x4800: banho 2400x3000 + closet 2400x1800 + dormitorio
-    ("S-MAS", "BANHO",  10_200, 16_200, 2_400, 3_000),
-    ("S-MAS", "CLOSET", 10_200, 19_200, 2_400, 1_800),
+    ("S-MAS", "BANHO",   7_800, 19_200, 2_400, 3_000),
+    ("S-MAS", "CLOSET",  7_800, 22_200, 2_400, 1_800),
 ]
 
 # =========================================================================
@@ -219,35 +219,32 @@ VAOS = [
     ("J01",  13_500,  7_200, "H", "T"),   # janela reversivel (leste)
     ("J01",  15_000, 10_200, "V", "T"),   # janela reversivel (norte)
     ("J02",  11_100, 10_800, "H", "T"),   # janela banho
-    # ---- faixa social
-    ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
-    ("P02",   6_900, 13_200, "H", "T"),   # garagem -> estar/jantar
-    ("PV02",  5_400, 16_200, "V", "T"),   # estar -> loggia sul (ventilacao cruzada)
-    ("P02",   9_600, 16_200, "V", "T"),   # estar -> core/escada
-    ("PV01", 12_000, 16_200, "V", "T"),   # core envidracado -> deck norte
+    # ---- enfilade de servico: garagem -> oficina -> lavanderia -> cozinha
+    ("P04",   3_900, 13_200, "H", "T"),   # garagem -> oficina (invisivel do social)
+    ("P04",   3_900, 16_200, "H", "T"),   # oficina -> lavanderia
+    ("P04",   3_900, 19_200, "H", "T"),   # lavanderia -> cozinha
+    ("P02",   3_900, 25_200, "H", "T"),   # cozinha -> despensa
+    ("J01",   2_400, 14_700, "V", "T"),   # janela oficina (sul)
+    ("J01",   2_400, 17_700, "V", "T"),   # janela lavanderia (sul)
     ("J01",   2_400, 21_000, "V", "T"),   # janela cozinha (sul)
     ("J01",   2_400, 23_400, "V", "T"),   # janela cozinha (sul)
-    ("P02",   3_900, 25_200, "H", "T"),   # cozinha -> despensa
-    ("PV01",  9_600, 22_800, "V", "T"),   # gourmet -> deck e piscina
+    ("J02",   2_400, 25_800, "V", "T"),   # janela despensa (sul)
+    # ---- faixa social
+    ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
+    ("P02",   9_600, 16_200, "V", "T"),   # estar -> core/escada
+    ("PV01", 12_000, 16_200, "V", "T"),   # core envidracado -> deck norte
+    ("P04",   9_600, 20_700, "V", "T"),   # gourmet -> deposito/DML
+    ("PV01",  9_600, 24_000, "V", "T"),   # gourmet -> patio norte
     ("PV01",  7_500, 26_400, "H", "T"),   # gourmet -> alpendre e piscina
-    # ---- espinha de servico: portas abrem para a faixa tecnica lateral
-    ("P04",  16_800, 23_100, "V", "T"),   # corredor lateral -> oficina
-    ("P04",  16_800, 26_100, "V", "T"),   # corredor lateral -> lavanderia
-    ("P04",  16_800, 28_200, "V", "T"),   # corredor lateral -> deposito/DML
-    ("J03",  15_300, 21_600, "H", "T"),   # janela alta da oficina (leste)
-    ("P04",  13_800, 23_100, "V", "T"),   # oficina -> passagem de servico coberta
-    ("P04",  13_800, 26_100, "V", "T"),   # lavanderia -> passagem de servico
-    ("J01",   2_400, 26_400, "V", "T"),   # janela despensa (sul)
     # ---- superior
     ("P02",   7_800, 17_400, "V", "S"),   # hall -> suite 02
     ("P02",   7_800, 18_600, "V", "S"),   # hall -> suite 03
-    ("P02",  10_200, 18_000, "V", "S"),   # hall -> suite master
+    ("P02",   9_000, 19_200, "H", "S"),   # hall -> suite master
     ("J01",   2_400, 15_600, "V", "S"),   # janela suite 02 (sul)
     ("J01",   2_400, 21_000, "V", "S"),   # janela suite 03 (sul)
     ("J02",   3_600, 13_200, "H", "S"),   # janela banho suite 02
-    ("J03",  13_200, 21_000, "H", "S"),   # master -> varanda
-    ("J01",  16_200, 18_600, "V", "S"),   # janela master (norte)
-    ("J02",  11_400, 16_200, "H", "S"),   # janela banho master
+    ("J03",  10_800, 24_000, "H", "S"),   # master -> varanda
+    ("J01",  13_800, 21_600, "V", "S"),   # janela master (norte)
 ]
 
 # =========================================================================
