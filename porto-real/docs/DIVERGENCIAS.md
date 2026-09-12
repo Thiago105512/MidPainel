@@ -1269,3 +1269,93 @@ rua.
 
 De 35 para **40 verificações**, agora incluindo a primeira em três dimensões.
 **0 erros, 0 atenções, 16 notas informativas.** 25 pranchas constroem.
+
+---
+
+# Revisão 17 — Etapa 3: coordenação de instalações
+
+Quatro pranchas novas (26 a 29). Dois defeitos, e o segundo é dos que só
+aparecem quando se força o modelo a calcular em vez de repetir.
+
+## Defeito 8 — a chuva estava sendo calculada sobre a área errada
+
+`COBERTURA` trazia `area_contrib_m2 = 174,24` — o número do briefing para a área
+**fechada** do térreo, congelado como literal. Área de contribuição pluvial não é
+isso: é a projeção horizontal de **tudo o que tem telhado**, mais os beirais que
+avançam além dela.
+
+| | antes | agora |
+|---|---|---|
+| Área de contribuição | 174,24 m² | **288,72 m²** |
+| Vazão total | 8,2764 L/s | **13,7142 L/s** |
+| Por descida (4 × DN100) | 2,07 L/s | **3,43 L/s** |
+
+**66 % de vazão a mais.** O sistema continua aprovado — DN100 aceita 8,0 L/s de
+projeto e a calha de 150 × 100 a 0,5 % carrega 6,92 L/s por Manning — mas a
+margem caiu de 4× para 2×, e com três descidas em vez de quatro teria reprovado.
+E esse é o tipo de falha que não se manifesta como transbordo visível na calha:
+manifesta-se como infiltração na parede, meses depois, longe da causa.
+
+Agora `area_contribuicao_m2()`, `vazao_pluvial_ls()` e `capacidade_calha_ls()`
+são funções. O literal saiu do modelo.
+
+## Defeito 9 — meu próprio limite de descida estava errado
+
+A primeira versão da verificação reprovava qualquer descida acima de 1,5 L/s.
+Errado: a NBR 10844 dá cerca de 12,5 L/s para DN100 com 3 m de altura. Corrigido
+para uma tabela explícita (`CAPACIDADE_DESCIDA`), com 8,0 L/s adotados em DN100 —
+abaixo do valor cheio porque a tabela pressupõe curva suave na base e convém
+deixar margem para folha e detrito. A verificação que grita errado é pior que a
+verificação ausente: ensina a ignorar o aviso.
+
+## Hidráulica: a decisão do aquecimento reaparece como diâmetro
+
+O chuveiro **elétrico** tem peso 0,10 no método dos pesos da NBR 5626, não 0,40 —
+ele trabalha com 3 L/min, não com 12. Consequência em cascata:
+
+| trecho | peças | pesos | Q | DN | v |
+|---|---|---|---|---|---|
+| Superior | 9 | 2,10 | 0,435 L/s | DN25 | 1,19 m/s |
+| Térreo | 9 | 4,90 | 0,664 L/s | DN25 | 1,81 m/s |
+| **Alimentador** | 18 | 7,00 | 0,794 L/s | **DN32** | 1,31 m/s |
+
+Com chuveiros de peso 0,40 a soma iria a 8,2 pesos e o alimentador subiria para
+DN40. **Uma decisão tomada no aquecimento volta como economia na hidráulica** —
+é o argumento mais forte a favor de coordenar sistemas em um modelo único em vez
+de projetá-los em pranchas separadas.
+
+O DN32 do alimentador, aliás, não vem da norma: vem do **ruído**. DN25 atenderia
+a NBR 5626 a 2,17 m/s, dentro dos 3,0 m/s permitidos, e produziria uma casa que
+assobia quando alguém abre uma torneira. O limite adotado é 2,0 m/s.
+
+## Elétrica: onde a norma precisa ser lida com cabeça local
+
+| grupo | instalada | fd | demanda |
+|---|---|---|---|
+| Aquecimento (4 chuveiros) | 18.000 VA | 0,75 | 13.500 VA |
+| **Climatização** | 7.900 VA | **1,00** | 7.900 VA |
+| Iluminação + TUGs | 22.400 VA | 0,24 | 5.376 VA |
+| Cozinha | 4.500 VA | 0,60 | 2.700 VA |
+| Serviço | 5.200 VA | 0,50 | 2.600 VA |
+| Motores | 1.500 VA | 0,93 | 1.400 VA |
+| Ventilação | 1.450 VA | 0,67 | 970 VA |
+| Diversos | 800 VA | 0,56 | 450 VA |
+| **TOTAL** | **61.750 VA** | 0,57 | **34.896 VA** |
+
+Entrada trifásica 127/220 V: **91,6 A → padrão de 100 A com cabo de 35 mm².**
+
+O ponto que merece argumento escrito é o **fd = 1,00 da climatização**. Os
+fatores de demanda da NBR 5410 vêm de média nacional, onde ar condicionado é
+carga intermitente e sazonal. Em Manaus os cinco equipamentos funcionam juntos em
+**todas as tardes do ano** — não existe a diversidade que o fator pressupõe.
+
+Com fd de 0,70 a demanda cairia 2.370 VA e o padrão desceria um degrau. O ramal
+aqueceria e o disjuntor geral desligaria exatamente na hora de maior calor. E o
+proprietário faria o que todo proprietário faz: trocaria o disjuntor por um maior
+em vez do cabo — convertendo uma proteção em risco de incêndio. Custo de acertar:
+cabo de 35 mm² em vez de 25 mm², algumas dezenas de metros, uma vez na vida da
+casa. A auditoria agora **reprova** qualquer fd menor que 1,00 em climatização.
+
+## Auditoria
+
+De 40 para **47 verificações**. 29 pranchas constroem. **0 erros, 0 atenções.**

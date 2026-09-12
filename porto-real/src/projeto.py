@@ -376,10 +376,56 @@ def escada_lances() -> list[dict]:
 
 # ---------------------------------------------------------------- cobertura
 # planos de cobertura com 5 % de caimento e calha externa 150x100
+# A area de contribuicao pluvial estava congelada em 174,24 m2 — o numero do
+# briefing para a area FECHADA do terreo. Area de contribuicao nao e isso: e a
+# projecao horizontal de TUDO o que tem telhado, mais os beirais que avancam
+# alem dela. Calcular a chuva sobre 174 m2 quando caem 235 m2 de telhado e
+# subdimensionar calha e descida em 35 %, justamente no lugar onde a falha se
+# manifesta como infiltracao na parede, nao como transbordo visivel.
 COBERTURA = dict(inclinacao=INCLIN_COBERTURA, calha_l=150, calha_h=100,
-                 descidas=4, dn_descida=100,
-                 area_contrib_m2=174.24, intensidade_mm_h=180,
-                 coef_escoamento=0.95, vazao_total_ls=8.2764)
+                 descidas=4, dn_descida=100, intensidade_mm_h=180,
+                 coef_escoamento=0.95, rugosidade_calha=0.011,
+                 decliv_calha=0.005, enchimento_calha=2 / 3)
+
+
+def area_contribuicao_m2() -> float:
+    """Projecao coberta mais a faixa de beiral no perimetro do conjunto.
+
+    Simplificacao declarada: o beiral e somado como uma faixa no perimetro do
+    retangulo envolvente dos ambientes cobertos, com a largura media dos quatro
+    lados. Nao e exato no recorte da planta em L, mas erra para MAIS, que e o
+    lado seguro em drenagem.
+    """
+    base = projecao_coberta_m2()
+    cob = cobertos()
+    x0 = min(a.x for a in cob); x1 = max(a.x + a.w for a in cob)
+    y0 = min(a.y for a in cob); y1 = max(a.y + a.h for a in cob)
+    perim = 2 * ((x1 - x0) + (y1 - y0)) / 1_000
+    b_med = sum(BEIRAIS.values()) / len(BEIRAIS) / 1_000
+    return round(base + perim * b_med, 2)
+
+
+def vazao_pluvial_ls() -> float:
+    """Q = C . i . A / 3600 (i em mm/h, A em m2, Q em L/s)."""
+    return round(COBERTURA["coef_escoamento"] * COBERTURA["intensidade_mm_h"]
+                 * area_contribuicao_m2() / 3_600, 4)
+
+
+def capacidade_calha_ls() -> float:
+    """Manning em calha retangular: Q = (1/n) A Rh^(2/3) S^(1/2)."""
+    cb = COBERTURA
+    b = cb["calha_l"] / 1_000
+    h = cb["calha_h"] / 1_000 * cb["enchimento_calha"]
+    a = b * h
+    rh = a / (b + 2 * h)
+    return round((1 / cb["rugosidade_calha"]) * a * rh ** (2 / 3)
+                 * math.sqrt(cb["decliv_calha"]) * 1_000, 2)
+
+
+# NBR 10844, condutores verticais: DN100 com 3 m de altura suporta cerca de
+# 12,5 L/s. Adotado 8,0 L/s como limite de projeto, porque a tabela pressupoe
+# curva suave na base e o valor cheio nao deixa margem para folha e detrito.
+CAPACIDADE_DESCIDA = {75: 4.5, 100: 8.0, 125: 14.0, 150: 22.0}
 
 
 # =========================================================================
@@ -1353,3 +1399,293 @@ VEDACAO_REFORCADA = [
 LINHA_FRIG_MAX = 15_000
 LINHA_FRIG_LIMITE = 25_000
 GLP_DIST_VAO = 1_500        # NBR 13523
+
+
+# =========================================================================
+# ETAPA 3 — COORDENACAO DE INSTALACOES
+# =========================================================================
+
+# ------------------------------------------------------------- HIDRAULICA
+# NBR 5626: metodo dos pesos relativos. Q = 0,30 . raiz(soma dos pesos).
+# O peso do chuveiro ELETRICO e 0,1, nao 0,4 — ele trabalha com 3 L/min, nao
+# com 12. Essa diferenca sozinha derruba o diametro do ramal de 32 para 25 mm
+# em toda a casa, e e a consequencia hidraulica da decisao ja tomada no
+# aquecimento. Decisao em um sistema reaparece como economia em outro.
+PESOS_NBR5626 = {
+    "vaso": 0.30,          # com caixa acoplada
+    "lavatorio": 0.30,
+    "box": 0.10,           # chuveiro ELETRICO (3 L/min)
+    "tanque": 0.70,
+    "pia": 0.70,
+    "lavadora": 1.00,
+    "ducha_externa": 0.40,
+}
+# UHC — unidades Hunter de contribuicao (NBR 8160)
+UHC = {"vaso": 6, "lavatorio": 1, "box": 2, "tanque": 3, "pia": 3, "lavadora": 3}
+# diametro interno util (mm) de PVC soldavel e vazao maxima a 3 m/s
+TUBOS_AGUA = ((25, 21.6), (32, 27.8), (40, 35.2), (50, 44.0), (60, 53.4))
+VEL_MAX_AGUA = 3.0          # limite normativo (NBR 5626)
+VEL_CONFORTO = 2.0          # limite de ruido: acima disso o tubo assobia e
+                            # o golpe de ariete fica audivel na casa toda
+# ramal de esgoto por UHC acumulada (NBR 8160)
+RAMAIS_ESGOTO = ((40, 3), (50, 6), (75, 20), (100, 160))
+
+
+def pecas_hidraulicas() -> list[dict]:
+    """Todas as pecas de utilizacao do modelo, com peso e UHC."""
+    out = []
+    for lc in LOUCAS:
+        out.append(dict(cod=lc["cod"], amb=lc["amb"], tipo=lc["tipo"],
+                        x=lc["x"], y=lc["y"],
+                        peso=PESOS_NBR5626.get(lc["tipo"], 0.3),
+                        uhc=UHC.get(lc["tipo"], 1),
+                        quente=lc["tipo"] == "box"))
+    for b in BANCADAS:
+        if not b["cubas"]:
+            continue
+        out.append(dict(cod=b["cod"], amb=b["amb"], tipo="pia",
+                        x=b["x"], y=b["y"], peso=PESOS_NBR5626["pia"],
+                        uhc=UHC["pia"], quente=False))
+    for e in EQUIPAMENTOS:
+        if e["tipo"] != "lavadora":
+            continue
+        out.append(dict(cod=e["cod"], amb=e["amb"], tipo="lavadora",
+                        x=e["x"], y=e["y"], peso=PESOS_NBR5626["lavadora"],
+                        uhc=UHC["lavadora"], quente=False))
+    out.append(dict(cod="DX-01", amb="T-DKP", tipo="ducha_externa",
+                    x=DECK["x"] + 300, y=DECK["y"] + 300,
+                    peso=PESOS_NBR5626["ducha_externa"], uhc=2, quente=False))
+    return out
+
+
+def vazao_ls(pesos: float) -> float:
+    return round(0.30 * math.sqrt(pesos), 3)
+
+
+def dn_agua(q_ls: float, conforto: bool = False) -> int:
+    """Diametro pelo limite de velocidade. conforto=True usa 2,0 m/s.
+
+    O alimentador e as prumadas usam o limite de conforto: 2,17 m/s em DN25
+    atende a norma e produz uma casa que assobia quando alguem abre a torneira.
+    Subir para DN32 custa alguns metros de tubo.
+    """
+    lim = VEL_CONFORTO if conforto else VEL_MAX_AGUA
+    for dn, di in TUBOS_AGUA:
+        area_m2 = math.pi * (di / 1_000) ** 2 / 4
+        if (q_ls / 1_000) / area_m2 <= lim:
+            return dn
+    return TUBOS_AGUA[-1][0]
+
+
+def velocidade_ms(q_ls: float, dn: int) -> float:
+    di = next(d for n, d in TUBOS_AGUA if n == dn)
+    return round((q_ls / 1_000) / (math.pi * (di / 1_000) ** 2 / 4), 2)
+
+
+def dn_esgoto(uhc: int) -> int:
+    for dn, lim in RAMAIS_ESGOTO:
+        if uhc <= lim:
+            return dn
+    return RAMAIS_ESGOTO[-1][0]
+
+
+def prumadas_hidraulicas() -> list[dict]:
+    """Ramais por pavimento e por grupo, com vazao e diametro."""
+    pecas = pecas_hidraulicas()
+    grupos = {}
+    for p in pecas:
+        pav = "S" if p["amb"].startswith("S-") else "T"
+        grupos.setdefault(pav, []).append(p)
+    out = []
+    for pav, lst in sorted(grupos.items()):
+        pesos = sum(p["peso"] for p in lst)
+        uhc = sum(p["uhc"] for p in lst)
+        q = vazao_ls(pesos)
+        dn = dn_agua(q, conforto=True)
+        out.append(dict(pav=pav, pecas=len(lst), pesos=round(pesos, 2), q=q,
+                        dn_agua=dn, v=velocidade_ms(q, dn), uhc=uhc,
+                        dn_esgoto=dn_esgoto(uhc), pressurizado=pav == "S"))
+    pesos = sum(p["peso"] for p in pecas)
+    uhc = sum(p["uhc"] for p in pecas)
+    q = vazao_ls(pesos)
+    dn = dn_agua(q, conforto=True)
+    out.append(dict(pav="GERAL", pecas=len(pecas), pesos=round(pesos, 2), q=q,
+                    dn_agua=dn, v=velocidade_ms(q, dn), uhc=uhc,
+                    dn_esgoto=dn_esgoto(uhc), pressurizado=False))
+    return out
+
+
+# --------------------------------------------------------------- ELETRICA
+# NBR 5410. O ponto onde a norma precisa ser lida com cabeca local:
+#
+# As tabelas de fator de demanda foram construidas sobre media nacional, onde o
+# ar condicionado e intermitente. Em Manaus ele e CONTINUO — os cinco
+# equipamentos funcionam juntos todas as tardes do ano. Aplicar fd de 0,7 ao ar
+# condicionado aqui nao e economia, e subdimensionamento: o ramal de entrada
+# aquece, o disjuntor geral desliga na hora de maior calor, e o proprietario
+# troca o disjuntor por um maior em vez do cabo. Adotado fd = 1,00 para
+# climatizacao, com justificativa escrita.
+TENSAO = dict(fn=127, ff=220, fases=3, esquema="trifasico 127/220 V (H)")
+ILUM_VA_BASE = 100          # primeiros 6 m2
+ILUM_VA_EXTRA = 100         # a cada 4 m2 adicionais
+TUG_VA_SECA = 100
+TUG_VA_MOLHADA = 600        # primeiras 3 tomadas de area molhada
+TUG_PERIM_SECA = 5_000      # 1 tomada a cada 5 m de perimetro
+TUG_PERIM_MOLHADA = 3_500
+MOLHADAS_ELETRICA = {"T-COZ", "T-LAV", "T-BWC", "T-DES", "T-DEP", "T-GOU"}
+
+CARGAS_ESPECIAIS = [
+    dict(cod="TUE-1", desc="Chuveiro eletrico suite master", va=4_500, v=220,
+         grupo="aquecimento", fd=0.75),
+    dict(cod="TUE-2", desc="Chuveiro eletrico suite 02", va=4_500, v=220,
+         grupo="aquecimento", fd=0.75),
+    dict(cod="TUE-3", desc="Chuveiro eletrico suite 03", va=4_500, v=220,
+         grupo="aquecimento", fd=0.75),
+    dict(cod="TUE-4", desc="Chuveiro eletrico banho social", va=4_500, v=220,
+         grupo="aquecimento", fd=0.75),
+    dict(cod="TUE-5", desc="Split duto 30.000 BTU (zona social)", va=2_300, v=220,
+         grupo="climatizacao", fd=1.00),
+    dict(cod="TUE-6", desc="Split 18.000 BTU suite master", va=1_400, v=220,
+         grupo="climatizacao", fd=1.00),
+    dict(cod="TUE-7", desc="Split 18.000 BTU suite 02", va=1_400, v=220,
+         grupo="climatizacao", fd=1.00),
+    dict(cod="TUE-8", desc="Split 18.000 BTU suite 03", va=1_400, v=220,
+         grupo="climatizacao", fd=1.00),
+    dict(cod="TUE-9", desc="Split 18.000 BTU quarto reversivel", va=1_400, v=220,
+         grupo="climatizacao", fd=1.00),
+    dict(cod="TUE-10", desc="Secadora de roupa", va=2_700, v=220,
+         grupo="servico", fd=0.50),
+    dict(cod="TUE-11", desc="Lavadora de roupa", va=1_000, v=127,
+         grupo="servico", fd=0.50),
+    dict(cod="TUE-12", desc="Lava-loucas", va=1_500, v=127, grupo="servico", fd=0.50),
+    dict(cod="TUE-13", desc="Forno eletrico embutido", va=3_000, v=220,
+         grupo="cozinha", fd=0.60),
+    dict(cod="TUE-14", desc="Micro-ondas", va=1_500, v=127, grupo="cozinha", fd=0.60),
+    dict(cod="TUE-15", desc="Motobomba de recalque (TC-02)", va=500, v=220,
+         grupo="motores", fd=1.00),
+    dict(cod="TUE-16", desc="Pressurizador do superior (TC-14)", va=500, v=220,
+         grupo="motores", fd=1.00),
+    dict(cod="TUE-17", desc="Bomba e filtro da piscina (TC-13)", va=500, v=220,
+         grupo="motores", fd=0.80),
+    dict(cod="TUE-18", desc="Ventiladores de teto (10 un.)", va=1_000, v=127,
+         grupo="ventilacao", fd=0.70),
+    dict(cod="TUE-19", desc="Exaustores e coifas", va=450, v=127,
+         grupo="ventilacao", fd=0.60),
+    dict(cod="TUE-20", desc="Portao automatico", va=500, v=220, grupo="diversos", fd=0.30),
+    dict(cod="TUE-21", desc="Rack, CFTV e rede", va=300, v=127, grupo="diversos", fd=1.00),
+]
+# fator de demanda de iluminacao e TUG por faixa de potencia (NBR 5410)
+FD_ILUM_TUG = ((1_000, 0.86), (2_000, 0.75), (3_000, 0.66), (4_000, 0.59),
+               (5_000, 0.52), (6_000, 0.45), (7_000, 0.40), (8_000, 0.35),
+               (9_000, 0.31), (10_000, 0.27), (10 ** 9, 0.24))
+
+
+def _perimetro(a: Amb) -> int:
+    return 2 * (a.w + a.h)
+
+
+def previsao_iluminacao_tug() -> list[dict]:
+    """Previsao de carga por ambiente conforme NBR 5410 9.5.2."""
+    out = []
+    for a in TERREO + SUPERIOR:
+        area = a.area_mod
+        ilum = ILUM_VA_BASE + max(0, math.ceil((area - 6) / 4)) * ILUM_VA_EXTRA \
+            if area > 6 else ILUM_VA_BASE
+        molhada = a.cod in MOLHADAS_ELETRICA
+        passo = TUG_PERIM_MOLHADA if molhada else TUG_PERIM_SECA
+        n = max(1, math.ceil(_perimetro(a) / passo))
+        if molhada:
+            va = min(n, 3) * TUG_VA_MOLHADA + max(0, n - 3) * TUG_VA_SECA
+        else:
+            va = n * TUG_VA_SECA
+        out.append(dict(amb=a.cod, nome=a.nome, area=area, perim=_perimetro(a),
+                        ilum_va=ilum, tugs=n, tug_va=va, molhada=molhada))
+    return out
+
+
+def fd_ilum_tug(total_va: float) -> float:
+    for lim, f in FD_ILUM_TUG:
+        if total_va <= lim:
+            return f
+    return FD_ILUM_TUG[-1][1]
+
+
+def demanda_eletrica() -> dict:
+    """Carga instalada e demanda provavel, grupo por grupo."""
+    prev = previsao_iluminacao_tug()
+    ilum = sum(p["ilum_va"] for p in prev)
+    tug = sum(p["tug_va"] for p in prev)
+    base = ilum + tug
+    fd_base = fd_ilum_tug(base)
+    grupos = {}
+    for c in CARGAS_ESPECIAIS:
+        g = grupos.setdefault(c["grupo"], dict(instalada=0, demanda=0, fd=c["fd"]))
+        g["instalada"] += c["va"]
+        g["demanda"] += c["va"] * c["fd"]
+        g["fd"] = round(g["demanda"] / g["instalada"], 2)
+    instalada = base + sum(g["instalada"] for g in grupos.values())
+    demanda = base * fd_base + sum(g["demanda"] for g in grupos.values())
+    i_a = demanda / (math.sqrt(3) * TENSAO["ff"])
+    return dict(ilum_va=ilum, tug_va=tug, base_va=base, fd_base=fd_base,
+                grupos=grupos, instalada_va=int(instalada),
+                demanda_va=int(demanda), corrente_a=round(i_a, 1),
+                padrao_a=next(p for p in (40, 50, 63, 80, 100, 125) if p >= i_a),
+                secao_mm2=next(s for s, lim in ((10, 50), (16, 68), (25, 89),
+                                                (35, 111), (50, 134))
+                               if lim >= i_a))
+
+
+# --------------------------------------------- LINHAS FRIGORIGENAS E DRENOS
+BITOLA_FRIG = {9_000: ("1/4", "3/8"), 12_000: ("1/4", "1/2"),
+               18_000: ("1/4", "1/2"), 24_000: ("3/8", "5/8"),
+               30_000: ("3/8", "5/8"), 36_000: ("3/8", "5/8")}
+DRENO_DN = 25
+DRENO_CAIMENTO = 0.02
+
+
+def linhas_frigorigenas() -> list[dict]:
+    """Uma linha por equipamento, com percurso, bitola, dreno e carga extra."""
+    out = []
+    for c in CLIMATIZACAO:
+        nicho = next(t for t in TECNICOS if t["cod"] == c["nicho"])
+        amb = next((a for a in TERREO + SUPERIOR if a.cod == c["amb"]), None)
+        if amb is None:
+            continue
+        dx = max(nicho["x"] - (amb.x + amb.w), amb.x - (nicho["x"] + nicho["w"]), 0)
+        dy = max(nicho["y"] - (amb.y + amb.h), amb.y - (nicho["y"] + nicho["h"]), 0)
+        subida = (PISO_A_PISO + 600) if amb.pav == "S" else PE_DIREITO
+        comp = dx + dy + subida + 1_500
+        suc, liq = BITOLA_FRIG[c["capacidade"]]
+        out.append(dict(cod=f"LF-{c['amb']}", amb=c["amb"], nicho=c["nicho"],
+                        capacidade=c["capacidade"], comp=comp,
+                        horizontal=dx + dy, subida=subida,
+                        suc=suc, liq=liq, dreno=DRENO_DN,
+                        carga_extra_g=max(0, int((comp - 7_500) / 1_000) * 20),
+                        reserva=bool(c.get("reserva"))))
+    return out
+
+
+# ------------------------------------------------------ DRENAGEM E RALOS
+RALOS = [
+    dict(cod="RL-01", amb="T-BWC", tipo="ralo linear 600", x=10_350, y=10_850, dn=50),
+    dict(cod="RL-02", amb="S-S02", tipo="ralo linear 600", x=2_550, y=14_500, dn=50),
+    dict(cod="RL-03", amb="S-S03", tipo="ralo linear 600", x=2_550, y=19_300, dn=50),
+    dict(cod="RL-04", amb="S-MAS", tipo="ralo linear 900", x=11_550, y=20_900, dn=50),
+    dict(cod="RL-05", amb="T-LAV", tipo="ralo sifonado 150", x=10_800, y=20_400, dn=50),
+    dict(cod="RL-06", amb="T-COZ", tipo="ralo sifonado 100", x=3_600, y=22_200, dn=50),
+    dict(cod="RL-07", amb="T-GAR", tipo="ralo linear 6.000", x=2_400, y=7_300, dn=75),
+    dict(cod="RL-08", amb="T-DKP", tipo="canaleta com grelha", x=4_200, y=27_700, dn=75),
+    dict(cod="RL-09", amb="T-VRL", tipo="ralo sifonado 150", x=12_700, y=19_300, dn=50),
+    dict(cod="RL-10", amb="T-LOG", tipo="ralo sifonado 150", x=2_500, y=16_300, dn=50),
+]
+CAIMENTO_AREA_MOLHADA = 0.015
+CAIMENTO_AREA_EXTERNA = 0.01
+SOLEIRA_BOX = 15            # mm de desnivel na soleira do box
+IMPERMEABILIZACAO = dict(sistema="manta liquida poliuretanica, 2 demaos",
+                         subida_parede=300, subida_box=1_800,
+                         teste="estanqueidade com lamina de 50 mm por 72 h")
+
+
+def area_drenada_externa_m2() -> float:
+    return round(sum(a.area_mod for a in TERREO_ABERTO if not a.coberto
+                     and a.cod in ("T-DKP", "T-DKL", "T-PT2")), 2)

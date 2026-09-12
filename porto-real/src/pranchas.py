@@ -9,7 +9,7 @@ import mobiliario as mob
 import anotacao as an
 from core import P, Canvas, View, TXT, CINZA, PRETO
 
-TOTAL_PRANCHAS = "25"
+TOTAL_PRANCHAS = "29"
 
 
 def base(titulo: str, escala: str, prancha: str, formato: str = "A1",
@@ -329,8 +329,8 @@ def cobertura() -> Canvas:
     cv = base("PLANTA DE COBERTURA", "1:100", "05", notas=[
         f"Painel sanduiche PIR {pj.ESP_PAINEL_PIR} mm; inclinacao {cb['inclinacao']*100:.0f} %.",
         f"Calha externa {cb['calha_l']}x{cb['calha_h']} mm; {cb['descidas']} descidas DN{cb['dn_descida']}.",
-        f"Contribuicao {cb['area_contrib_m2']:.2f} m2 | i = {cb['intensidade_mm_h']} mm/h | "
-        f"C = {cb['coef_escoamento']} -> Q = {cb['vazao_total_ls']:.4f} L/s.",
+        f"Contribuicao {pj.area_contribuicao_m2():.2f} m2 | i = {cb['intensidade_mm_h']} mm/h | "
+        f"C = {cb['coef_escoamento']} -> Q = {pj.vazao_pluvial_ls():.4f} L/s.",
         "Reservatorio de retencao pluvial 2.500 L — irrigacao e lavagem, sem ligacao a rede potavel.",
     ])
     vw = View(100, 150, 470, 2_400, 7_200)
@@ -376,7 +376,7 @@ def cobertura() -> Canvas:
         p = vw.pt(P(dx, dy))
         cv.circ_p(p, 2.4, "vista", preenche="#fff", cor="#09a")
         cv.texto_p(p, str(i), TXT["micro"], "middle", cor="#09a")
-        cv.texto_p((p[0] + 4, p[1]), f"DN{cb['dn_descida']}  {cb['vazao_total_ls']/4:.4f} L/s",
+        cv.texto_p((p[0] + 4, p[1]), f"DN{cb['dn_descida']}  {pj.vazao_pluvial_ls()/4:.4f} L/s",
                    TXT["micro"], "start", cor="#09a")
 
     # ---- area tecnica da caixa d'agua

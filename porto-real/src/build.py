@@ -12,6 +12,7 @@ import desempenho as dp
 import especificacao as ep
 import pranchas4 as p4
 import pranchas5 as p5
+import pranchas6 as p6
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -42,6 +43,11 @@ CADERNO = [
     ("23", "AMPLIACOES MOLHADAS — SUPERIOR",   lambda: p5.ampliacoes("S", "23")),
     ("24", "PAGINACAO DE PISO",                lambda: p5.paginacao_piso()),
     ("25", "ESCADA EXECUTIVA",                 lambda: p5.escada()),
+    # ---- Etapa 3: coordenacao de instalacoes
+    ("26", "INSTALACOES HIDROSSANITARIAS",     lambda: p6.hidrossanitaria()),
+    ("27", "ELETRICA, ILUMINACAO E DADOS",     lambda: p6.eletrica()),
+    ("28", "CLIMATIZACAO — LINHAS E DUTOS",    lambda: p6.climatizacao()),
+    ("29", "DRENAGEM PLUVIAL E DE PISO",       lambda: p6.drenagem()),
 ]
 
 

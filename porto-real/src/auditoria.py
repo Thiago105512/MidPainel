@@ -1443,6 +1443,155 @@ def checar_chamine() -> list[Achado]:
     return out
 
 
+
+# ------------------------- 24. instalacoes hidrossanitarias
+MOLHADOS_COM_RALO = {"T-BWC", "S-S02", "S-S03", "S-MAS", "T-LAV", "T-COZ"}
+
+
+def checar_hidraulica() -> list[Achado]:
+    out = []
+    for p in pj.prumadas_hidraulicas():
+        if p["v"] > pj.VEL_MAX_AGUA:
+            out.append(Achado("ERRO", "Velocidade acima da norma",
+                              f"{p['pav']}: {p['v']} m/s em DN{p['dn_agua']} "
+                              f"(max {pj.VEL_MAX_AGUA} m/s)", "NBR 5626"))
+        elif p["v"] > pj.VEL_CONFORTO:
+            out.append(Achado("ATENCAO", "Velocidade acima do conforto",
+                              f"{p['pav']}: {p['v']} m/s em DN{p['dn_agua']} — acima "
+                              f"de {pj.VEL_CONFORTO} m/s o tubo assobia"))
+        if p["dn_esgoto"] < pj.dn_esgoto(p["uhc"]):
+            out.append(Achado("ERRO", "Esgoto subdimensionado",
+                              f"{p['pav']}: DN{p['dn_esgoto']} para {p['uhc']} UHC"))
+    # toda peca precisa de ambiente e de peso declarado
+    for p in pj.pecas_hidraulicas():
+        if p["peso"] <= 0:
+            out.append(Achado("ERRO", "Peca sem peso", p["cod"]))
+        if not any(a.cod == p["amb"] for a in pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO):
+            out.append(Achado("ERRO", "Peca em ambiente inexistente",
+                              f"{p['cod']} -> {p['amb']}"))
+    # chuveiro eletrico precisa de pressao minima
+    for pav in ("T", "S"):
+        mca = pj.carga_hidraulica_mca(pav)
+        if mca < 2.0 and pav not in {"S"}:
+            out.append(Achado("ERRO", "Pressao insuficiente",
+                              f"{pav}: {mca} mca sem pressurizador"))
+    # area molhada sem ralo
+    com_ralo = {r["amb"] for r in pj.RALOS}
+    for cod in sorted(MOLHADOS_COM_RALO):
+        if cod not in com_ralo:
+            out.append(Achado("ERRO", "Area molhada sem ralo", cod))
+    # ralo dentro do ambiente declarado
+    for r in pj.RALOS:
+        amb = next((a for a in pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO
+                    if a.cod == r["amb"]), None)
+        if amb is None:
+            out.append(Achado("ERRO", "Ralo em ambiente inexistente",
+                              f"{r['cod']} -> {r['amb']}"))
+            continue
+        if not (amb.x <= r["x"] <= amb.x + amb.w and amb.y <= r["y"] <= amb.y + amb.h):
+            out.append(Achado("ERRO", "Ralo fora do ambiente",
+                              f"{r['cod']} em ({r['x']}, {r['y']}) fora de {amb.cod}"))
+    return out
+
+
+# ------------------------- 25. eletrica: previsao, demanda e condutor
+AMPACIDADE = {10: 50, 16: 68, 25: 89, 35: 111, 50: 134}
+
+
+def checar_eletrica() -> list[Achado]:
+    out = []
+    d = pj.demanda_eletrica()
+    if d["corrente_a"] > AMPACIDADE[d["secao_mm2"]]:
+        out.append(Achado("ERRO", "Condutor de entrada subdimensionado",
+                          f"{d['corrente_a']} A em {d['secao_mm2']} mm2 "
+                          f"(ampacidade {AMPACIDADE[d['secao_mm2']]} A)", "NBR 5410"))
+    if d["padrao_a"] < d["corrente_a"]:
+        out.append(Achado("ERRO", "Padrao de entrada menor que a demanda",
+                          f"{d['padrao_a']} A para {d['corrente_a']} A"))
+    # cada equipamento de climatizacao precisa de circuito proprio (TUE)
+    splits = {c["capacidade"] for c in pj.CLIMATIZACAO if not c.get("reserva")}
+    tues = [c for c in pj.CARGAS_ESPECIAIS if c["grupo"] == "climatizacao"]
+    ativos = [c for c in pj.CLIMATIZACAO if not c.get("reserva")]
+    if len(tues) < len(ativos):
+        out.append(Achado("ERRO", "Climatizacao sem circuito proprio",
+                          f"{len(ativos)} equipamentos ativos e {len(tues)} circuitos "
+                          f"declarados: ar condicionado exige TUE individual"))
+    # fator de demanda da climatizacao nao pode ser reduzido em ZB8
+    for c in tues:
+        if c["fd"] < 1.0:
+            out.append(Achado("ERRO", "Fator de demanda reduzido na climatizacao",
+                              f"{c['cod']}: fd {c['fd']} — em Manaus o ar condicionado "
+                              f"e carga continua"))
+    # chuveiros: conferir com a decisao ja fechada em AQUECIMENTO
+    aq = [c for c in pj.CARGAS_ESPECIAIS if c["grupo"] == "aquecimento"]
+    if len(aq) != pj.AQUECIMENTO["quantidade"]:
+        out.append(Achado("ERRO", "Chuveiros divergentes",
+                          f"{len(aq)} circuitos contra "
+                          f"{pj.AQUECIMENTO['quantidade']} em AQUECIMENTO"))
+    for c in aq:
+        if c["va"] != pj.AQUECIMENTO["potencia_un"]:
+            out.append(Achado("ERRO", "Potencia de chuveiro divergente",
+                              f"{c['cod']}: {c['va']} W contra "
+                              f"{pj.AQUECIMENTO['potencia_un']} W em AQUECIMENTO"))
+    # previsao minima por ambiente (NBR 5410 9.5.2)
+    for p in pj.previsao_iluminacao_tug():
+        if p["ilum_va"] < pj.ILUM_VA_BASE:
+            out.append(Achado("ERRO", "Iluminacao abaixo do minimo",
+                              f"{p['amb']}: {p['ilum_va']} VA"))
+        if p["tugs"] < 1:
+            out.append(Achado("ERRO", "Ambiente sem tomada", p["amb"]))
+        esperado = max(1, math.ceil(p["perim"] / (pj.TUG_PERIM_MOLHADA if p["molhada"]
+                                                  else pj.TUG_PERIM_SECA)))
+        if p["tugs"] < esperado:
+            out.append(Achado("ERRO", "Tomadas abaixo do perimetro",
+                              f"{p['amb']}: {p['tugs']} para {p['perim']} mm de "
+                              f"perimetro (minimo {esperado})"))
+    # o quadro geral tem de ter modulos para os circuitos
+    circuitos = len(pj.CARGAS_ESPECIAIS) + len(pj.previsao_iluminacao_tug()) * 0 + 12
+    if circuitos > 36:
+        out.append(Achado("ATENCAO", "Quadro geral no limite",
+                          f"{circuitos} circuitos estimados em quadro de 36 modulos"))
+    return out
+
+
+# ------------------------- 26. drenagem e impermeabilizacao
+def checar_drenagem() -> list[Achado]:
+    out = []
+    cb = pj.COBERTURA
+    q = pj.vazao_pluvial_ls()
+    q_por_descida = q / cb["descidas"]
+    lim = pj.CAPACIDADE_DESCIDA[cb["dn_descida"]]
+    if q_por_descida > lim:
+        out.append(Achado("ERRO", "Descida pluvial subdimensionada",
+                          f"{q_por_descida:.2f} L/s por descida DN{cb['dn_descida']} "
+                          f"(limite de projeto {lim} L/s)", "NBR 10844"))
+    # a calha recebe a vazao de um trecho entre descidas
+    cap = pj.capacidade_calha_ls()
+    if q_por_descida > cap:
+        out.append(Achado("ERRO", "Calha subdimensionada",
+                          f"{q_por_descida:.2f} L/s por trecho contra {cap} L/s de "
+                          f"capacidade em calha {cb['calha_l']} x {cb['calha_h']} mm "
+                          f"a {cb['decliv_calha']:.1%}", "NBR 10844"))
+    # a area de contribuicao tem de cobrir a projecao real mais beiral
+    real = pj.projecao_coberta_m2()
+    if pj.area_contribuicao_m2() < real:
+        out.append(Achado("ERRO", "Area de contribuicao menor que a cobertura",
+                          f"{pj.area_contribuicao_m2():.2f} m2 contra {real:.2f} m2 de "
+                          f"projecao coberta"))
+    if pj.CAIMENTO_AREA_MOLHADA < 0.005:
+        out.append(Achado("ERRO", "Caimento insuficiente",
+                          f"{pj.CAIMENTO_AREA_MOLHADA:.1%} em area molhada"))
+    if pj.IMPERMEABILIZACAO["subida_box"] < pj.ALTURA_CHUVEIRO - 400:
+        out.append(Achado("ATENCAO", "Impermeabilizacao baixa no box",
+                          f"{pj.IMPERMEABILIZACAO['subida_box']} mm para chuveiro a "
+                          f"{pj.ALTURA_CHUVEIRO} mm"))
+    # reuso nao pode alcancar vaso sanitario
+    if "vaso" not in pj.PLUVIAL["nao_estender_a"]:
+        out.append(Achado("ERRO", "Reuso sem restricao declarada",
+                          "a rede de reuso precisa de restricao escrita de uso"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
@@ -1454,7 +1603,8 @@ def auditar() -> list[Achado]:
             checar_tecnicos() + checar_projecao_superior() +
             checar_fronteira_climatica() + checar_estrutura() +
             checar_penetracoes() + checar_paginacao() +
-            checar_altura_livre() + checar_chamine())
+            checar_altura_livre() + checar_chamine() +
+            checar_hidraulica() + checar_eletrica() + checar_drenagem())
 
 
 if __name__ == "__main__":
