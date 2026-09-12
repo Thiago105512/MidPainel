@@ -719,3 +719,58 @@ Resultado após correções: **0 erros, 0 atenções, 4 notas.**
 
 Áreas inalteradas: térreo 177,84 m², superior 86,40 m², total 264,24 m².
 Áreas abertas com função sobem para 143,28 m².
+
+---
+
+# Revisão 10 — gourmet aberto para a piscina
+
+Dois problemas apontados: a posição da piscina e o volume solto ao lado dela.
+
+## O que estava errado
+
+**A piscina estava longe demais.** Entre o vão do gourmet e a água havia um
+alpendre de 2.400 mm mais o deck — a água começava a 4.800 mm do vão. O
+alpendre tinha virado um cômodo intermediário, não uma soleira, e a piscina
+lia-se como elemento separado no fundo do lote.
+
+**A casa de máquinas era uma caixa solta.** Um volume de 1.500 × 1.200 mm
+plantado no meio do jardim, sem relação com nada.
+
+## Correções
+
+| | Antes | Depois |
+|---|---|---|
+| Alpendre do gourmet | 2.400 mm | **1.200 mm** (soleira coberta) |
+| Início da lâmina d'água | Y = 28.800 | **Y = 27.600** |
+| Distância do vão até a água | 4.800 mm | **1.200 mm** |
+| Casa de máquinas | volume solto no jardim | **enterrada sob o deck**, alçapão 800 × 800 |
+
+Do gourmet passa-se 1.200 mm de piso coberto e chega-se à borda. O alpendre
+deixa de ser ambiente e volta a ser o que deveria: a soleira entre o interior
+e a água.
+
+Enterrar a casa de máquinas é prática corrente em piscina residencial e
+elimina o volume do jardim. Passa a ser representada em tracejado, com o
+alçapão cotado.
+
+## A consequência que não tem solução barata
+
+Com a piscina colada ao gourmet, a face oeste volta a ficar exposta ao sol das
+16h — e desta vez **não há brise que resolva sem destruir o que o cliente
+pediu**. O cálculo é direto: a 30° de altitude, um anteparo vertical a
+5.400 mm do vão precisaria de **3.120 mm de altura** para sombreá-lo. Qualquer
+anteparo mais próximo fecha exatamente a vista da piscina.
+
+A proteção principal da face oeste passa, portanto, a ser **arbórea**:
+
+- renque de copa média na divisa de fundo, altura-alvo 4.000 mm, recuado
+  1.200 mm da divisa;
+- muro de 2.200 mm, já previsto no briefing;
+- ripado BR-O no alpendre, agora especificado como **recolhível** — fecha às
+  16h, abre no resto do dia.
+
+É a solução certa e a mais barata, mas tem prazo: árvore leva anos. Nos
+primeiros verões a face oeste vai depender só do ripado.
+
+Áreas fechadas inalteradas: 177,84 m² no térreo. Áreas abertas: 133,92 m².
+Fundo livre além do deck: 8.200 mm.

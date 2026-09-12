@@ -143,8 +143,8 @@ TERREO_ABERTO: list[Amb] = [
     Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 6_000, aberto=True),
     Amb("T-VRL", "VARAL COBERTO",       12_600, 19_200, 4_200, 4_200, aberto=True),
     Amb("T-PAT", "PATIO NORTE",          9_600, 23_400, 7_200, 3_000, aberto=True),
-    Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 2_400, aberto=True),
-    Amb("T-DKP", "DECK DA PISCINA",      4_200, 28_800, 7_200, 4_800, aberto=True),
+    Amb("T-ALP", "ALPENDRE DO GOURMET",  5_400, 26_400, 4_200, 1_200, aberto=True),
+    Amb("T-DKP", "DECK DA PISCINA",      4_200, 27_600, 7_200, 4_200, aberto=True),
 ]
 
 def cobertos() -> list[Amb]:
@@ -267,11 +267,13 @@ VAOS = [
 # =========================================================================
 # ELEMENTOS EXTERNOS
 # =========================================================================
-PISCINA = dict(x=5_400, y=28_800, w=4_800, h=2_400,
+PISCINA = dict(x=5_400, y=27_600, w=4_800, h=2_400,
                prainha_w=1_200, prof_prainha=300, prof_principal=1_150,
                lamina_m2=11.52, volume_m3=10.80)
-CASA_MAQUINAS = dict(x=11_400, y=28_800, w=1_500, h=1_200)
-DECK = dict(x=4_200, y=28_800, w=7_200, h=4_800)          # envolve a piscina
+CASA_MAQUINAS = dict(x=10_200, y=28_800, w=1_500, h=1_200, enterrada=True,
+                     acesso="alcapao 800 x 800 mm no deck",
+                     nota="enterrada sob o deck: elimina o volume solto no jardim")
+DECK = dict(x=4_200, y=27_600, w=7_200, h=4_200)          # envolve a piscina
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 CAIXA_DAGUA = dict(x=10_200, y=16_200, w=2_400, h=2_400,
                    volume_l=2_000, pe_direito=2_100, carga_kg=2_500)
@@ -336,9 +338,9 @@ if __name__ == "__main__":
 # Nas faces norte e sul o sol e alto (63 a 87 graus) e o beiral resolve.
 # =========================================================================
 BRISES = [
-    dict(cod="BR-O", face="O", x=5_400, y=28_800, w=4_200, h=150,
-         tipo="ripado vertical movel", passo=150,
-         desc="face oeste do gourmet - sol das 16h sobre a fita social"),
+    dict(cod="BR-O", face="O", x=5_400, y=27_600, w=4_200, h=150,
+         tipo="ripado vertical MOVEL, recolhivel", passo=150,
+         desc="alpendre do gourmet - recolhe totalmente para liberar a vista da piscina"),
     dict(cod="BR-L", face="L", x=12_000, y=7_200, w=3_000, h=150,
          tipo="ripado vertical fixo", passo=150,
          desc="quarto reversivel - testada leste"),
@@ -346,6 +348,17 @@ BRISES = [
          tipo="ripado vertical movel", passo=150,
          desc="varanda master - pavimento superior"),
 ]
+
+# Sol das 16h a 30 graus de altitude: um anteparo vertical a 5.400 mm do vao
+# precisaria de 3.120 mm de altura para sombrea-lo. Nenhum brise proximo
+# resolve sem fechar a vista que o cliente quer. A protecao principal da face
+# oeste passa a ser ARBOREA, na divisa de fundo.
+BARREIRA_OESTE = dict(
+    tipo="renque arboreo de copa media na divisa de fundo",
+    altura_alvo=4_000, recuo_da_divisa=1_200,
+    especie="a definir com paisagismo — copa alta e raiz nao agressiva",
+    complemento="muro de 2.200 mm ja previsto; ripado BR-O recolhivel no alpendre",
+)
 
 BEIRAIS = {"N": 1_200, "S": 1_200, "L": 600, "O": 600}
 

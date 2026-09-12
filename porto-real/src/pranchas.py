@@ -72,10 +72,11 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
         cm = pj.CASA_MAQUINAS
         cv.poli_p([vw.pt(P(cm["x"], cm["y"])), vw.pt(P(cm["x"] + cm["w"], cm["y"])),
                    vw.pt(P(cm["x"] + cm["w"], cm["y"] + cm["h"])),
-                   vw.pt(P(cm["x"], cm["y"] + cm["h"]))], "corte2", fechado=True,
-                  preenche="#f7f7f7")
-        cv.texto_p(vw.pt(P(cm["x"] + cm["w"] / 2, cm["y"] + cm["h"] / 2)),
-                   "C. MAQ.", TXT["micro"], "middle")
+                   vw.pt(P(cm["x"], cm["y"] + cm["h"]))], "oculto", fechado=True,
+                  preenche="none", cor="#06c")
+        c = vw.pt(P(cm["x"] + cm["w"] / 2, cm["y"] + cm["h"] / 2))
+        cv.texto_p((c[0], c[1] - 1.6), "C. MAQ. ENTERRADA", TXT["micro"], "middle", cor="#06c")
+        cv.texto_p((c[0], c[1] + 1.8), "alcapao 800x800", TXT["micro"], "middle", cor="#06c")
 
     # ---- projecao do pavimento superior / da cobertura
     proj = pj.SUPERIOR + pj.SUPERIOR_ABERTO if pav == "T" else []
