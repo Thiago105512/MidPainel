@@ -163,3 +163,60 @@ O modelo dizia "enterrada" com 1.200 mm. Errado por dois motivos técnicos:
 grelha resolve ventilação e iluminação de manutenção ao mesmo tempo, e o dreno
 vai para vala de infiltração. Continua sem volume solto no jardim — que era o
 ganho que motivou enterrar.
+
+---
+
+## CORREÇÃO — a fita social passa a ser climatizada, com fronteira aerodinâmica
+
+A decisão anterior (só infraestrutura) estava certa no diagnóstico e curta na
+solução. O diagnóstico: climatizar os 87,84 m² inteiros exigiria 71.700 BTU/h
+para resfriar justamente os dois ambientes que **produzem** calor —
+churrasqueira e cooktop — e cuja exaustão joga o ar tratado fora. Pagar para
+resfriar o que se está aquecendo e expulsando é termodinamicamente absurdo.
+
+Mas a alternativa não é desistir do conforto. É **não climatizar o volume, e
+sim a zona** — estabelecendo uma fronteira aerodinâmica na linha estar/gourmet,
+sem nenhuma parede nova. Quatro medidas que se reforçam:
+
+| medida | por que funciona |
+|---|---|
+| **Rebaixo de forro de 300 mm** na linha de fronteira | ar frio estratifica embaixo, ar quente retorna pelo teto. O rebaixo corta o caminho de retorno. Altura livre 2.300 mm — não atrapalha a passagem |
+| **Insuflamento longe da fronteira, retorno junto a ela** | a circulação induzida puxa o ar para dentro da zona fria, não para fora |
+| **Exaustão de 600 + 450 m³/h** na churrasqueira e no cooktop | mantém o gourmet em leve depressão: o fluxo fica estar → gourmet → exaustão, **uma direção só**. A fronteira deixa de ser reversível |
+| **Ventiladores de teto no lado quente** | a 0,8 m/s, 27,5 °C tem a mesma temperatura operativa de 25 °C em ar parado (NBR 16401-2) |
+
+Resultado: estar e jantar a 24–25 °C, gourmet a 27–28 °C com brisa. **Gradiente
+de 3 °C em 12 m de planta, estável e numa direção.**
+
+### O ventilador pagou um degrau do equipamento
+
+A carga do estar + core era 33.200 BTU/h. Com o ventilador de teto permanente
+na zona (VT-05), a NBR 16401-2 autoriza elevar a temperatura operativa de
+projeto em ~2,5 °C — cerca de 8 % de carga por grau, fator 0,85. Com a perda de
+5 % na rede de dutos: 33.200 × 0,85 × 1,05 = **29.700 BTU/h → equipamento de
+30.000 em vez de 36.000.**
+
+Um degrau comercial inteiro economizado por um ventilador de teto. É a melhor
+relação custo-benefício do caderno, e não é coincidência: em clima quente-úmido
+o conforto vem da velocidade do ar sobre a pele, não da temperatura do ar.
+
+**Onde NÃO descontei:** nos dormitórios. Eles também recebem pá (VT-07 a VT-10),
+mas o morador desliga o ventilador para dormir — ali a pá entra como economia de
+**operação**, não como redução de **capacidade**. Descontar capacidade contando
+com um equipamento que o usuário desliga é a forma mais comum de
+subdimensionamento em projeto residencial. A auditoria agora reprova o desconto
+quando não há pá declarada no ambiente.
+
+### Carga final
+
+| | BTU/h |
+|---|---|
+| 4 dormitórios × 18.000 | 72.000 |
+| Zona social (duto, 30.000) | 30.000 |
+| **Instalado** | **102.000** |
+| Reservado (oficina) | 9.000 |
+
+Contra os 144.000 BTU/h que a solução ingênua (climatizar tudo) exigiria —
+**29 % menos equipamento**, e o projeto ganhou 10 ventiladores, 4 pontos de
+exaustão e um rebaixo de forro, que juntos custam menos que uma única
+condensadora de 36.000.

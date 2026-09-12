@@ -699,6 +699,8 @@ CLIMA_Q_VIDRO = 200         # BTU/h por m2 de vidro sombreado
 CLIMA_Q_PESSOA = 600        # BTU/h por ocupante acima de dois
 CLIMA_Q_EQUIP = 200         # BTU/h por equipamento (TV, computador)
 CAPACIDADES_COMERCIAIS = (9_000, 12_000, 18_000, 24_000, 30_000, 36_000)
+FATOR_VENTILADOR = 0.85     # NBR 16401-2: 0,8 m/s eleva o setpoint ~2,5 C
+FATOR_DUTO = 1.05           # perda termica e de vazao na rede de dutos
 # largura de nicho por faixa de capacidade (condensadora + folga lateral)
 LARGURA_NICHO = ((18_000, 1_200), (36_000, 1_400))
 
@@ -712,10 +714,12 @@ CLIMATIZACAO = [
          tipo="split hi-wall inverter"),
     dict(amb="S-S03", nicho="TC-10", pessoas=2, equip=1, capacidade=18_000,
          tipo="split hi-wall inverter"),
-    dict(amb="T-SOC", nicho="TC-09", pessoas=6, equip=1, capacidade=36_000,
-         mais=["T-COR"], reserva=True,
-         tipo="split duto, 2 insuflamentos (INFRAESTRUTURA)",
-         obs="carga somada com o core, que e o mesmo volume; so a infraestrutura"),
+    dict(amb="T-SOC", nicho="TC-09", pessoas=6, equip=1, capacidade=30_000,
+         mais=["T-COR"], zona_aberta=["T-GOU", "T-COZ"],
+         conta_ventilador=True, duto=True,
+         tipo="split duto inverter, 2 insuflamentos + 1 retorno",
+         obs="zona social climatizada; gradiente controlado para o gourmet pela "
+             "FRONTEIRA_CLIMATICA, nao por parede"),
     dict(amb="T-OFI", nicho="TC-10", pessoas=2, equip=1, capacidade=9_000,
          reserva=True, tipo="split hi-wall (INFRAESTRUTURA)",
          obs="oficina: furo, dreno e circuito previstos; equipamento opcional"),
@@ -751,7 +755,8 @@ def area_vidro(cod: str) -> float:
 
 
 def carga_termica(cod: str, pessoas: int = 2, equip: int = 0,
-                  mais: list[str] | None = None) -> int:
+                  mais: list[str] | None = None,
+                  ventilador: bool = False, duto: bool = False) -> int:
     """Carga termica em BTU/h, arredondada para cima em 100.
 
     'mais' soma ambientes que formam um unico volume com o principal: o core
@@ -761,6 +766,10 @@ def carga_termica(cod: str, pessoas: int = 2, equip: int = 0,
     vidro = area_vidro(cod) + sum(area_vidro(c) for c in (mais or []))
     q = (area * CLIMA_Q_M2 + vidro * CLIMA_Q_VIDRO
          + max(0, pessoas - 2) * CLIMA_Q_PESSOA + equip * CLIMA_Q_EQUIP)
+    if ventilador:
+        q *= FATOR_VENTILADOR
+    if duto:
+        q *= FATOR_DUTO
     return int(math.ceil(q / 100.0) * 100)
 
 
@@ -778,6 +787,101 @@ def nicho_de(cod_nicho: str) -> list[dict]:
 def carga_instalada_btu(incluir_reserva: bool = False) -> int:
     return sum(c["capacidade"] for c in CLIMATIZACAO
                if incluir_reserva or not c.get("reserva"))
+
+
+# =========================================================================
+# FRONTEIRA CLIMATICA — como a fita social recebe ar condicionado sem parede
+#
+# O problema: estar + core + gourmet + cozinha formam 87,84 m2 de volume
+# continuo. Climatizar o conjunto exigiria 71.700 BTU/h (2 x 36.000) para
+# resfriar justamente os dois ambientes que PRODUZEM calor — churrasqueira e
+# cooktop — e cuja exaustao joga o ar tratado fora. E termodinamicamente
+# absurdo pagar para resfriar o que se esta aquecendo e expulsando.
+#
+# A solucao nao e fechar o vao (o briefing quer a integracao) nem desistir do
+# conforto: e estabelecer uma FRONTEIRA AERODINAMICA na linha estar/gourmet,
+# com quatro medidas que se reforcam. Ar frio estratifica embaixo; ar quente
+# retorna pelo teto. Quem controla a troca e o teto, nao o piso.
+#
+#   1. REBAIXO DE FORRO de 300 mm na linha de fronteira: nao atrapalha a
+#      passagem (altura livre 2.300 mm) e corta o caminho de retorno da camada
+#      quente pelo teto. E o recurso classico de ambiente integrado.
+#   2. INSUFLAMENTO longe da fronteira e RETORNO junto a ela: a circulacao
+#      induzida puxa o ar para dentro da zona fria, nao para fora.
+#   3. EXAUSTAO da churrasqueira (600 m3/h) e do cooktop (450 m3/h) mantem o
+#      gourmet em leve depressao. O fluxo fica estar -> gourmet -> exaustao,
+#      uma direcao so: a fronteira para de ser reversivel.
+#   4. VENTILADORES DE TETO no lado nao climatizado: a 0,8 m/s, 27,5 C tem a
+#      mesma temperatura operativa de 25 C em ar parado (NBR 16401-2).
+#
+# Resultado esperado: estar e jantar a 24-25 C, gourmet a 27-28 C com brisa.
+# Gradiente de 3 C em 12 m de planta, estavel e numa direcao. Custo: um
+# equipamento de 36.000 em vez de dois, e nenhuma parede nova.
+# =========================================================================
+FRONTEIRA_CLIMATICA = dict(
+    entre=("T-SOC", "T-GOU"), x=5_400, y=19_200, comprimento=4_200, eixo="H",
+    rebaixo=300, altura_livre=PE_DIREITO - 300,
+    medidas=("rebaixo de forro", "insuflamento distante e retorno na fronteira",
+             "exaustao mantendo depressao no gourmet", "ventiladores no lado quente"),
+)
+
+# difusores do split duto: insuflamento no extremo oposto a fronteira
+DIFUSORES = [
+    dict(cod="DF-01", amb="T-SOC", tipo="insuflamento", x=6_000, y=14_100,
+         w=1_200, h=300, vazao_m3h=750, obs="jantar, parede oeste do estar"),
+    dict(cod="DF-02", amb="T-COR", tipo="insuflamento", x=10_200, y=14_100,
+         w=1_200, h=300, vazao_m3h=750, obs="core, sob o poco de luz"),
+    dict(cod="DF-03", amb="T-SOC", tipo="retorno", x=7_200, y=18_900,
+         w=1_800, h=300, vazao_m3h=1_800, obs="junto a fronteira com o gourmet"),
+]
+EVAPORADORA_DUTO = dict(amb="T-COR", x=9_700, y=16_400, w=1_200, h=700,
+                        altura=350, obs="no entreforro do core, acesso por "
+                                        "alcapao 600 x 600 no forro")
+
+# Ventilador de teto nao e conforto acessorio em clima quente-umido: e o
+# equipamento de maior retorno por real investido. A NBR 16401-2 aceita elevar
+# a temperatura operativa de projeto conforme a velocidade do ar; a 0,8 m/s a
+# elevacao e de cerca de 2,5 C, e cada grau a mais economiza ~8 % da carga.
+#
+# Mas so vale DESCONTAR da capacidade onde o ventilador e parte do partido e
+# vai estar sempre la (a fita social). Em dormitorio o morador desliga a pa
+# para dormir: ali o ventilador entra como economia de OPERACAO, nao como
+# reducao de capacidade — conta_ventilador fica False.
+VENTILADORES = [
+    dict(cod="VT-01", amb="T-GOU", diam=1_400, qtd=2, vazao_m3h=9_000,
+         obs="lado nao climatizado da fita: 0,8 m/s na zona de permanencia"),
+    dict(cod="VT-02", amb="T-COZ", diam=1_200, qtd=1, vazao_m3h=7_000),
+    dict(cod="VT-03", amb="T-VAR", diam=  800, qtd=1, vazao_m3h=4_500,
+         obs="varanda de 1.800 mm: pa de 800 mm e o maior que cabe com folga"),
+    dict(cod="VT-04", amb="T-LOG", diam=1_200, qtd=1, vazao_m3h=7_000),
+    dict(cod="VT-05", amb="T-SOC", diam=1_400, qtd=1, vazao_m3h=9_000,
+         obs="dentro da zona climatizada: e o que autoriza o setpoint de 25,5 C "
+             "e o equipamento um degrau menor"),
+    dict(cod="VT-06", amb="T-OFI", diam=1_200, qtd=1, vazao_m3h=7_000),
+    dict(cod="VT-07", amb="S-MAS", diam=1_400, qtd=1, vazao_m3h=9_000),
+    dict(cod="VT-08", amb="S-S02", diam=1_200, qtd=1, vazao_m3h=7_000),
+    dict(cod="VT-09", amb="S-S03", diam=1_200, qtd=1, vazao_m3h=7_000),
+    dict(cod="VT-10", amb="T-REV", diam=1_200, qtd=1, vazao_m3h=7_000),
+]
+# o alpendre de 1.200 mm e beiral de sombra sobre a piscina, nao estar: nao
+# recebe ventilador (nao ha zona de permanencia sob ele)
+
+EXAUSTAO = [
+    dict(cod="EX-01", amb="T-GOU", fonte="churrasqueira", vazao_m3h=600,
+         dn=150, obs="coifa de parede, duto em inox ate acima da cobertura"),
+    dict(cod="EX-02", amb="T-COZ", fonte="cooktop", vazao_m3h=450, dn=125,
+         obs="coifa de ilha sobre BC-02, saida pela fachada sul"),
+    dict(cod="EX-03", amb="T-BWC", fonte="banho social", vazao_m3h=90, dn=100),
+    dict(cod="EX-04", amb="T-LAV", fonte="lavanderia", vazao_m3h=120, dn=100,
+         obs="retira umidade da secadora e do tanque"),
+]
+
+# vaos envidracados do volume climatizado: exigem caixilho com vedacao
+# (escova dupla e batente com gaxeta), nao o caixilho padrao de correr
+VEDACAO_REFORCADA = [
+    ("PV01", 12_000, 16_200),   # core -> deck norte
+    ("PV02",  5_400, 17_700),   # estar -> loggia sul
+]
 
 # comprimento maximo confortavel de linha frigorigena de split de 12.000 BTU
 LINHA_FRIG_MAX = 15_000

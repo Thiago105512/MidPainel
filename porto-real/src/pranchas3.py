@@ -178,6 +178,9 @@ def quadros() -> Canvas:
              ["Pluvial reuso", "Decisao (FECHADA)", "2.500 L, dimensionado pela demanda"],
              ["Pluvial reuso", "Captacao x demanda", "371 m3/ano disponiveis | 98 m3/ano usados"],
              ["Pluvial reuso", "Autonomia", "9,3 dias | nao estender a vasos sanitarios"],
+             ["Climatizacao", "Movimentacao de ar",
+              f"{sum(v['qtd'] for v in pj.VENTILADORES)} ventiladores de teto | "
+              f"{len(pj.EXAUSTAO)} pontos de exaustao"],
              ["Climatizacao", "Carga instalada (ver quadro proprio)",
               f"{pj.carga_instalada_btu():,} BTU/h".replace(",", ".")],
              ["Climatizacao", "Infraestrutura reservada",
@@ -193,7 +196,8 @@ def quadros() -> Canvas:
 
     lin_cl = []
     for c in pj.CLIMATIZACAO:
-        cg = pj.carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"))
+        cg = pj.carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"),
+                              c.get("conta_ventilador", False), c.get("duto", False))
         amb = next((a for a in pj.TERREO + pj.SUPERIOR if a.cod == c["amb"]), None)
         nome = amb.nome if amb else c["amb"]
         if c.get("mais"):
@@ -206,6 +210,10 @@ def quadros() -> Canvas:
             f"{c['capacidade']:,}".replace(",", "."),
             c["nicho"],
             "RESERVA" if c.get("reserva") else "ATIVO"])
+    fr = pj.FRONTEIRA_CLIMATICA
+    lin_cl.append(["—", f"FRONTEIRA {fr['entre'][0]} / {fr['entre'][1]}: rebaixo "
+                   f"{fr['rebaixo']} mm, altura livre {fr['altura_livre']} mm",
+                   "—", "—", "—", "—", "—", "AR"])
     _tabela(cv, (35, 375),
             f"CLIMATIZACAO — CARGA CALCULADA x EQUIPAMENTO (q = {pj.CLIMA_Q_M2} "
             f"BTU/h.m2, ZB8 com o pacote de sombreamento do projeto)",

@@ -854,7 +854,13 @@ def checar_tecnicos() -> list[Achado]:
             out.append(Achado("ERRO", "Climatizacao sem referencia",
                               f"{c['amb']} / {c['nicho']}"))
             continue
-        carga = pj.carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"))
+        carga = pj.carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"),
+                                 c.get("conta_ventilador", False),
+                                 c.get("duto", False))
+        if c.get("conta_ventilador") and c["amb"] not in {v["amb"] for v in pj.VENTILADORES}:
+            out.append(Achado("ERRO", "Desconto de ventilador sem ventilador",
+                              f"{c['amb']}: a carga foi reduzida por "
+                              f"FATOR_VENTILADOR e nao ha pa declarada no ambiente"))
         minimo = pj.capacidade_comercial(carga)
         if c["capacidade"] < carga:
             out.append(Achado("ERRO", "Evaporadora subdimensionada",
@@ -876,16 +882,18 @@ def checar_tecnicos() -> list[Achado]:
                               f"{nicho['cod']} -> {c['amb']}: {comp/1000:.1f} m "
                               f"(acima de {pj.LINHA_FRIG_MAX/1000:.0f} m exige carga "
                               f"extra de refrigerante e perde rendimento)"))
-        # volume aberto: evaporadora em ambiente integrado a outro sem climatizacao
+        # volume aberto: so e aceitavel com fronteira climatica declarada
         if not c.get("reserva"):
             for g in grupos:
-                if c["amb"] in g:
-                    fora = sorted(g - {c["amb"]} - set(c.get("mais", [])))
-                    if fora:
-                        out.append(Achado(
-                            "ATENCAO", "Evaporadora em volume aberto",
-                            f"{c['amb']} e integrado a {', '.join(fora)} sem parede: "
-                            f"a carga real e a do volume inteiro, nao a do modulo"))
+                if c["amb"] not in g:
+                    continue
+                fora = sorted(g - {c["amb"]} - set(c.get("mais", []))
+                              - set(c.get("zona_aberta", [])))
+                if fora:
+                    out.append(Achado(
+                        "ATENCAO", "Evaporadora em volume aberto",
+                        f"{c['amb']} e integrado a {', '.join(fora)} sem parede e "
+                        f"sem fronteira declarada: a carga real e a do volume inteiro"))
     # 16.7 nicho: comprimento suficiente para as condensadoras alocadas
     for t in tecs:
         alocadas = pj.nicho_de(t["cod"])
@@ -1033,6 +1041,147 @@ def checar_projecao_superior() -> list[Achado]:
     return out
 
 
+
+# ------------------------- 18. fronteira climatica e movimentacao de ar
+ALTURA_LIVRE_MIN = 2_100      # altura livre sob rebaixo de forro
+REBAIXO_MIN = 200             # abaixo disso o rebaixo nao retem a camada fria
+VAZAO_POR_1000BTU = 50        # m3/h por 1.000 BTU/h em split duto
+TOLERANCIA_VAZAO = 0.15
+VEL_AR_ALVO = 0.8             # m/s na zona de permanencia (NBR 16401-2)
+
+
+def checar_fronteira_climatica() -> list[Achado]:
+    """A fita social e climatizada sem parede: a fronteira tem de existir.
+
+    Nao basta escrever 'ambiente integrado climatizado'. Cada medida da
+    FRONTEIRA_CLIMATICA e verificavel: o rebaixo esta na linha certa, o
+    insuflamento esta longe dela, o retorno esta junto dela, o lado quente tem
+    ventilador e a exaustao existe para manter a depressao.
+    """
+    out = []
+    fr = pj.FRONTEIRA_CLIMATICA
+    amb_por_cod = {a.cod: a for a in pj.TERREO + pj.SUPERIOR}
+    ventilados = {v["amb"] for v in pj.VENTILADORES}
+    exauridos = {e["amb"] for e in pj.EXAUSTAO}
+
+    ativos = [c for c in pj.CLIMATIZACAO
+              if not c.get("reserva") and c.get("zona_aberta")]
+    for c in ativos:
+        a, b = fr["entre"]
+        if c["amb"] not in fr["entre"]:
+            out.append(Achado("ERRO", "Fronteira climatica ausente",
+                              f"{c['amb']} climatiza volume aberto para "
+                              f"{', '.join(c['zona_aberta'])} e nao aparece em "
+                              f"FRONTEIRA_CLIMATICA"))
+            continue
+        if fr["rebaixo"] < REBAIXO_MIN:
+            out.append(Achado("ERRO", "Rebaixo de forro insuficiente",
+                              f"{fr['rebaixo']} mm nao retem a camada fria "
+                              f"(min {REBAIXO_MIN} mm)"))
+        if fr["altura_livre"] < ALTURA_LIVRE_MIN:
+            out.append(Achado("ERRO", "Altura livre sob o rebaixo",
+                              f"{fr['altura_livre']} mm sob a fronteira "
+                              f"(min {ALTURA_LIVRE_MIN} mm)"))
+        # a linha da fronteira deve coincidir com o contato real dos ambientes
+        ra, rb = amb_por_cod.get(a), amb_por_cod.get(b)
+        if ra and rb:
+            contato = (abs(ra.y + ra.h - rb.y) <= 1 or abs(rb.y + rb.h - ra.y) <= 1
+                       or abs(ra.x + ra.w - rb.x) <= 1 or abs(rb.x + rb.w - ra.x) <= 1)
+            if not contato:
+                out.append(Achado("ERRO", "Fronteira fora do contato",
+                                  f"{a} e {b} nao se encostam: a linha declarada "
+                                  f"em ({fr['x']}, {fr['y']}) nao existe"))
+        # lado quente: ventilador e exaustao
+        for z in c["zona_aberta"]:
+            if z not in ventilados:
+                out.append(Achado("ERRO", "Lado quente sem ventilador",
+                                  f"{z} fica fora da zona climatizada e nao tem "
+                                  f"ventilador: sem {VEL_AR_ALVO} m/s o gradiente "
+                                  f"de 3 C deixa de ser confortavel"))
+        if not (set(c["zona_aberta"]) & exauridos):
+            out.append(Achado("ERRO", "Fronteira sem depressao",
+                              f"nenhum ambiente de {', '.join(c['zona_aberta'])} tem "
+                              f"exaustao: sem depressao o fluxo se inverte e o ar "
+                              f"quente volta para a zona fria"))
+
+    # difusores: dentro do ambiente, vazao coerente e geometria da fronteira
+    if ativos:
+        cap = sum(c["capacidade"] for c in ativos)
+        ins = sum(d["vazao_m3h"] for d in pj.DIFUSORES if d["tipo"] == "insuflamento")
+        ret = sum(d["vazao_m3h"] for d in pj.DIFUSORES if d["tipo"] == "retorno")
+        alvo = cap / 1_000 * VAZAO_POR_1000BTU
+        if abs(ins - alvo) > alvo * TOLERANCIA_VAZAO:
+            out.append(Achado("ATENCAO", "Vazao de insuflamento fora da faixa",
+                              f"{ins} m3/h para {cap} BTU/h (esperado "
+                              f"{alvo:.0f} +/- {TOLERANCIA_VAZAO*100:.0f} %)"))
+        if ret < ins * 0.95:
+            out.append(Achado("ERRO", "Retorno menor que o insuflamento",
+                              f"retorno {ret} m3/h contra insuflamento {ins} m3/h: "
+                              f"a zona pressuriza e empurra o ar frio para fora"))
+        eixo_fr = fr["y"] if fr["eixo"] == "H" else fr["x"]
+        d_ins, d_ret = [], []
+        for d in pj.DIFUSORES:
+            amb = amb_por_cod.get(d["amb"])
+            if amb is None or not (amb.x <= d["x"] and d["x"] + d["w"] <= amb.x + amb.w
+                                   and amb.y <= d["y"] and d["y"] + d["h"] <= amb.y + amb.h):
+                out.append(Achado("ERRO", "Difusor fora do ambiente",
+                                  f"{d['cod']} em ({d['x']}, {d['y']}) nao cabe em "
+                                  f"{d['amb']}"))
+                continue
+            pos = d["y"] if fr["eixo"] == "H" else d["x"]
+            (d_ins if d["tipo"] == "insuflamento" else d_ret).append(
+                (abs(pos - eixo_fr), d["cod"]))
+        if d_ins and d_ret and min(x for x, _ in d_ins) <= max(x for x, _ in d_ret):
+            out.append(Achado("ERRO", "Insuflamento e retorno invertidos",
+                              "o insuflamento precisa ficar LONGE da fronteira e o "
+                              "retorno JUNTO a ela, para a circulacao puxar o ar "
+                              "para dentro da zona fria"))
+        ev = pj.EVAPORADORA_DUTO
+        amb = amb_por_cod.get(ev["amb"])
+        if amb and not (amb.x <= ev["x"] and ev["x"] + ev["w"] <= amb.x + amb.w
+                        and amb.y <= ev["y"] and ev["y"] + ev["h"] <= amb.y + amb.h):
+            out.append(Achado("ERRO", "Evaporadora de duto fora do ambiente",
+                              f"{ev['amb']} em ({ev['x']}, {ev['y']})"))
+        if ev["altura"] > pj.PISO_A_PISO - pj.PE_DIREITO:
+            out.append(Achado("ERRO", "Evaporadora nao cabe no entreforro",
+                              f"{ev['altura']} mm de equipamento em "
+                              f"{pj.PISO_A_PISO - pj.PE_DIREITO} mm de entreforro"))
+
+    # ventiladores: pa a 2.300 mm do piso e folga de 500 mm ate a parede
+    for v in pj.VENTILADORES:
+        amb = (amb_por_cod.get(v["amb"])
+               or next((a for a in pj.TERREO_ABERTO if a.cod == v["amb"]), None))
+        if amb is None:
+            out.append(Achado("ERRO", "Ventilador sem ambiente", v["cod"]))
+            continue
+        menor = min(amb.w, amb.h)
+        if menor < v["diam"] + 1_000:
+            out.append(Achado("ATENCAO", "Ventilador grande para o ambiente",
+                              f"{v['cod']} de {v['diam']} mm em {amb.cod} de "
+                              f"{menor} mm de menor dimensao (min 500 mm de folga "
+                              f"por lado)"))
+        if v["qtd"] > 1 and amb.area_mod / v["qtd"] < 12:
+            out.append(Achado("NOTA", "Ventiladores adensados",
+                              f"{v['cod']}: {v['qtd']} pas em {amb.area_mod:.2f} m2"))
+
+    # exaustao mecanica obrigatoria em molhado sem janela
+    com_janela = set()
+    for tipo, x, y, ori, pav in pj.VAOS:
+        if not tipo.startswith("J"):
+            continue
+        for a in pj.TERREO + pj.SUPERIOR:
+            if a.pav != pav:
+                continue
+            if (a.x - 200 <= x <= a.x + a.w + 200 and a.y - 200 <= y <= a.y + a.h + 200):
+                com_janela.add(a.cod)
+    for cod in sorted(ep.MOLHADOS):
+        if cod in com_janela or cod in exauridos:
+            continue
+        out.append(Achado("ATENCAO", "Molhado sem janela nem exaustao",
+                          f"{cod} nao tem vao de ventilacao nem exaustao mecanica"))
+    return out
+
+
 # -------------------------------------------------------- consolidado
 def auditar() -> list[Achado]:
     return (checar_malha() + checar_colisoes() + checar_conectividade() +
@@ -1041,7 +1190,8 @@ def auditar() -> list[Achado]:
             checar_metas() + checar_escada() + checar_vedacao() +
             checar_espacos_mortos() + checar_bancadas() + checar_loucas() +
             checar_subdivisoes() + checar_colisao_porta() + checar_janela_mobiliario() +
-            checar_tecnicos() + checar_projecao_superior())
+            checar_tecnicos() + checar_projecao_superior() +
+            checar_fronteira_climatica())
 
 
 if __name__ == "__main__":
