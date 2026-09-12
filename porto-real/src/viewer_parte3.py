@@ -1,91 +1,6 @@
-"""JavaScript do visualizador: zoom 2D corrigido e motor 3D. Ver viewer.py."""
+"""JavaScript do visualizador: motor 3D e abas. O motor 2D esta em viewer_parte4.py."""
 
-JS = r'''
-// =====================================================================
-// 2D — ZOOM CORRIGIDO
-//
-// O defeito anterior: a prancha era ampliada com transform:scale() sobre a
-// <img>. O navegador rasteriza o SVG UMA vez no tamanho natural e depois
-// estica o bitmap — por isso ampliar borrava em vez de revelar detalhe.
-// Agora o zoom muda width/height em pixel e o navegador REDESENHA o vetor
-// no tamanho novo. E os passos deixam de ser multiplicativos por evento
-// (que variam absurdamente entre mouse e trackpad) e passam a ser uma
-// escada fixa de niveis, ancorada no ponto sob o cursor.
-// =====================================================================
-const NIVEIS = [1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24];
-let escala = 1, base = 1, tx = 0, ty = 0, nat = {w: 841, h: 594};
-
-const img = document.getElementById("sheet"), stage = document.getElementById("stage");
-const zval = document.getElementById("zval");
-
-function calcBase() {
-  const r = stage.getBoundingClientRect();
-  base = Math.min(r.width / nat.w, r.height / nat.h) * 0.94;
-}
-function aplicar() {
-  const w = nat.w * escala, h = nat.h * escala;
-  img.style.width = w + "px";
-  img.style.height = h + "px";
-  img.style.transform = `translate(${Math.round(tx)}px,${Math.round(ty)}px)`;
-  zval.textContent = Math.round(escala / base * 100) + "%";
-}
-function ajustar() {
-  calcBase();
-  escala = base;
-  const r = stage.getBoundingClientRect();
-  tx = (r.width - nat.w * escala) / 2;
-  ty = (r.height - nat.h * escala) / 2;
-  aplicar();
-}
-function zoomPara(nova, cx, cy) {
-  const r = stage.getBoundingClientRect();
-  const px = (cx ?? r.width / 2 + r.left) - r.left;
-  const py = (cy ?? r.height / 2 + r.top) - r.top;
-  nova = Math.min(Math.max(nova, base * 0.6), base * 40);
-  tx = px - (px - tx) * (nova / escala);
-  ty = py - (py - ty) * (nova / escala);
-  escala = nova;
-  aplicar();
-}
-function passo(dir, cx, cy) {
-  const atual = escala / base;
-  let alvo;
-  if (dir > 0) alvo = NIVEIS.find(n => n > atual + 0.01) ?? NIVEIS[NIVEIS.length - 1];
-  else alvo = [...NIVEIS].reverse().find(n => n < atual - 0.01) ?? NIVEIS[0];
-  zoomPara(base * alvo, cx, cy);
-}
-img.addEventListener("load", () => {
-  nat = {w: img.naturalWidth || 841, h: img.naturalHeight || 594};
-  ajustar();
-});
-stage.addEventListener("wheel", e => {
-  e.preventDefault();
-  if (e.ctrlKey) {                       // pinch de trackpad: continuo
-    zoomPara(escala * Math.pow(0.99, e.deltaY), e.clientX, e.clientY);
-  } else {
-    passo(e.deltaY < 0 ? 1 : -1, e.clientX, e.clientY);
-  }
-}, {passive: false});
-let arr = null, pinch = null;
-stage.addEventListener("pointerdown", e => {
-  stage.setPointerCapture(e.pointerId);
-  arr = {x: e.clientX, y: e.clientY, tx, ty};
-  stage.classList.add("dragging");
-});
-stage.addEventListener("pointermove", e => {
-  if (!arr) return;
-  tx = arr.tx + (e.clientX - arr.x);
-  ty = arr.ty + (e.clientY - arr.y);
-  aplicar();
-});
-["pointerup", "pointercancel"].forEach(ev => stage.addEventListener(ev, () => {
-  arr = null; stage.classList.remove("dragging");
-}));
-stage.addEventListener("dblclick", e => passo(1, e.clientX, e.clientY));
-document.getElementById("zin").onclick = () => passo(1);
-document.getElementById("zout").onclick = () => passo(-1);
-document.getElementById("fit").onclick = ajustar;
-
+JS_3D = r'''
 // =====================================================================
 // 3D — motor proprio sobre three.js
 // =====================================================================
@@ -367,12 +282,13 @@ function aplicarCena(c) {
 let carregou3d = false;
 function modo(qual) {
   const e2 = qual === "3d";
-  [["stage", e2], ["barra2d", e2], ["rail2d", e2], ["notas2d", e2], ["dica2d", e2],
+  [["stage", e2], ["barra2d", e2], ["barra2", e2], ["rail2d", e2],
+   ["notas2d", e2], ["dica2d", e2],
    ["stage3d", !e2], ["rail3d", !e2], ["notas3d", !e2], ["dica3d", !e2]
   ].forEach(([id, esconde]) => { document.getElementById(id).hidden = esconde; });
   document.querySelectorAll(".modos button").forEach(b =>
     b.setAttribute("aria-selected", (b.dataset.modo === qual) + ""));
-  if (!e2) { if (img.naturalWidth) ajustar(); return; }
+  if (!e2) { if (svg2d) ajustar(semMoldura ? caixaDesenho() : null); return; }
   if (!carregou3d) {
     carregou3d = true;
     fetch("modelo3d.json").then(r => r.json()).then(d => {

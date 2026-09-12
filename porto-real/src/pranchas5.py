@@ -194,7 +194,7 @@ def furacao() -> Canvas:
     ])
 
     # ---------------- elevacao de painel com zonas de furacao (1:20)
-    vw = View(20, 40, 180, 0, 0)
+    vw = View(20, 54, 180, 0, 0)
     an.titulo_desenho(cv, (30, 200), "1", "PAINEL TIPO — ZONAS DE FURACAO", "1:20")
     pw, ph = 2_400, pj.PE_DIREITO
     cv.poli_p([vw.pt(P(0, 0)), vw.pt(P(pw, 0)), vw.pt(P(pw, ph)), vw.pt(P(0, ph))],
@@ -281,20 +281,71 @@ def furacao() -> Canvas:
 # =========================================================================
 # PR-22 / PR-23 — AMPLIACOES DE AREA MOLHADA 1:25
 # =========================================================================
+# Ate R11 cada entrada trazia uma origem fixa no papel e o desenho saia inteiro
+# — o pavimento TODO a 1:25, quatro vezes, sobreposto. A folha ficava ilegivel e
+# transbordava 541 mm acima e 339 abaixo. Agora cada ampliacao declara APENAS o
+# compartimento, e a posicao no papel e calculada: cada uma ganha uma janela
+# recortada, do tamanho do que precisa mostrar.
+#
+# No superior o alvo deixa de ser a suite inteira e passa a ser o banho e o
+# closet — que e o que uma prancha de AREA MOLHADA existe para detalhar. A suite
+# inteira a 1:25 daria 336 mm de papel para mostrar um dormitorio que a planta
+# baixa ja mostra.
 _AMPLIACOES = {
-    "T": [("T-BWC", "BANHO SOCIAL", 40, 150), ("T-LAV", "LAVANDERIA", 230, 150),
-          ("T-COZ", "COZINHA", 430, 150), ("T-DEP", "DEPOSITO", 40, 330)],
-    "S": [("S-S02", "SUITE 02 — BANHO E CLOSET", 40, 150),
-          ("S-S03", "SUITE 03 — BANHO E CLOSET", 240, 150),
-          ("S-MAS", "SUITE MASTER — BANHO E CLOSET", 440, 150)],
+    "T": [("T-BWC", None, "BANHO SOCIAL"), ("T-LAV", None, "LAVANDERIA"),
+          ("T-COZ", None, "COZINHA"), ("T-DEP", None, "DEPOSITO / DML")],
+    "S": [("S-S02", "BANHO", "SUITE 02 — BANHO"),
+          ("S-S03", "BANHO", "SUITE 03 — BANHO"),
+          ("S-MAS", "BANHO", "MASTER — BANHO"),
+          ("S-MAS", "CLOSET", "MASTER — CLOSET")],
 }
+FOLGA_AMPL = 400          # mm de modelo em volta do compartimento
+ESC_AMPL = 25
 
 
-def _ampliacao(cv: Canvas, cod: str, nome: str, ox: float, oy: float,
-               num: str, pav: str) -> None:
+def _alvo_ampliacao(cod: str, sub: str | None):
+    """Retangulo do modelo que a ampliacao mostra: o compartimento, com folga."""
+    if sub:
+        sd = next(d for d in pj.SUBDIVISOES if d["pai"] == cod and d["nome"] == sub)
+        x, y, w, h = sd["x"], sd["y"], sd["w"], sd["h"]
+    else:
+        a = next(a for a in pj.TERREO + pj.SUPERIOR if a.cod == cod)
+        x, y, w, h = a.x, a.y, a.w, a.h
+    f = FOLGA_AMPL
+    return (x - f, y - f, w + 2 * f, h + 2 * f)
+
+
+def _arranjo(pav: str, x0=35.0, y0=45.0, x1=805.0, gap=22.0):
+    """Empacota as janelas da esquerda para a direita, quebrando linha.
+
+    A posicao no papel deixa de ser um literal digitado e passa a ser
+    consequencia do tamanho de cada compartimento."""
+    saida, x, y, alt_linha = [], x0, y0, 0.0
+    for cod, sub, nome in _AMPLIACOES[pav]:
+        mx, my, mw, mh = _alvo_ampliacao(cod, sub)
+        w, h = mw / ESC_AMPL, mh / ESC_AMPL
+        if x + w > x1 and saida:
+            x, y, alt_linha = x0, y + alt_linha + gap + 14, 0.0
+        saida.append(dict(cod=cod, sub=sub, nome=nome, modelo=(mx, my, mw, mh),
+                          px=x, py=y, pw=w, ph=h))
+        x += w + gap
+        alt_linha = max(alt_linha, h)
+    return saida
+
+
+def _ampliacao(cv: Canvas, j: dict, num: str, pav: str) -> None:
+    """Uma janela recortada: fora dela o pavimento existe, mas nao e desta vista."""
+    cod, nome = j["cod"], j["nome"]
     amb = next(a for a in pj.TERREO + pj.SUPERIOR if a.cod == cod)
-    vw = View(25, ox, oy, amb.x - 200, amb.y - 200)
-    an.titulo_desenho(cv, (ox - 10, oy + 20), num, nome, "1:25")
+    mx, my, mw, mh = j["modelo"]
+    ox, oy = j["px"], j["py"] + j["ph"]          # oy = base da janela no papel
+    vw = View(ESC_AMPL, ox, oy, mx, my)
+    an.titulo_desenho(cv, (j["px"] - 6, j["py"] + j["ph"] + 12), num, nome, "1:25")
+    cv.poli_p([(j["px"], j["py"]), (j["px"] + j["pw"], j["py"]),
+               (j["px"] + j["pw"], j["py"] + j["ph"]), (j["px"], j["py"] + j["ph"])],
+              "cota", fechado=True, cor="#bbb")
+    _rec = cv.recorte(j["px"], j["py"], j["px"] + j["pw"], j["py"] + j["ph"])
+    _rec.__enter__()
 
     paredes = el.derivar_paredes(pj.TERREO if pav == "T" else pj.SUPERIOR)
     vaos = list(el.vaos_do_pavimento(pav))
@@ -378,6 +429,7 @@ def _ampliacao(cv: Canvas, cod: str, nome: str, ox: float, oy: float,
     if alt:
         cv.texto_p(vw.pt(P(amb.x, amb.y + amb.h + 500)),
                    f"revestimento h = {alt} mm", TXT["micro"], "start", cor="#06c")
+    _rec.__exit__(None, None, None)
 
 
 def ampliacoes(pav: str, prancha: str) -> Canvas:
@@ -393,11 +445,11 @@ def ampliacoes(pav: str, prancha: str) -> Canvas:
         "Impermeabilizacao: manta liquida em 2 demaos, subindo 300 mm na parede e "
         "1.800 mm nos boxes.",
     ])
-    for i, (cod, nome, ox, oy) in enumerate(_AMPLIACOES[pav], 1):
-        _ampliacao(cv, cod, nome, ox, oy, str(i), pav)
+    for i, j in enumerate(_arranjo(pav), 1):
+        _ampliacao(cv, j, str(i), pav)
 
     linhas = []
-    for cod, nome, _, _ in _AMPLIACOES[pav]:
+    for cod, _sub, nome in _AMPLIACOES[pav]:
         r = pj.paginar(cod)
         if not r:
             continue
@@ -428,7 +480,7 @@ def paginacao_piso() -> Canvas:
     cores = {"ZP-1": "#e8f4fb", "ZP-2": "#eef7e8", "ZP-3": "#fdf3e0",
              "ZP-4": "#f6e8f4", "ZP-5": "#fff3d6", "ZP-6": "#ececec"}
     for pav, ox, num in (("T", 40, "1"), ("S", 420, "2")):
-        vw = View(75, ox, 150, 2_000, 7_000)
+        vw = View(75, ox, 360, 2_000, 7_000)
         ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
         an.titulo_desenho(cv, (ox - 10, 500),
                           num, f"PAGINACAO — {'TERREO' if pav == 'T' else 'SUPERIOR'}", "1:75")
@@ -508,8 +560,8 @@ def escada() -> Canvas:
     ])
 
     # ---------------- planta 1:25
-    vw = View(25, 50, 170, e["x"] - 400, e["y"] - 400)
-    an.titulo_desenho(cv, (40, 200), "1", "PLANTA DA ESCADA", "1:25")
+    vw = View(25, 50, 290, e["x"] - 400, e["y"] - 400)
+    an.titulo_desenho(cv, (40, 310), "1", "PLANTA DA ESCADA", "1:25")
     cv.poli_p([vw.pt(P(e["x"], e["y"])), vw.pt(P(e["x"] + e["w"], e["y"])),
                vw.pt(P(e["x"] + e["w"], e["y"] + e["h"])),
                vw.pt(P(e["x"], e["y"] + e["h"]))], "fino", fechado=True,

@@ -185,6 +185,17 @@ PROGRAMA = [
     (62, "Regressao", ["checar_integridade_referencial", "checar_padronizacao"],
      "PARCIAL", "orfao e duplicado sao automaticos; perda de decisao validada e "
      "rastreada pelo historico de revisoes"),
+    # R12 — a folha entra no programa. Ate aqui o programa auditava o MODELO;
+    # a peca que o cliente efetivamente le e a PRANCHA, e ela nunca havia sido
+    # verificada. Catorze das 35 desenhavam fora da moldura.
+    (64, "Representacao: conteudo dentro da moldura",
+     ["checar_extravasamento"], "AUTOMATIZADA",
+     "NBR 10068: o que passa da moldura nao chega ao papel nem a tela. "
+     "Cortar e legitimo quando declarado por linha de ruptura (NBR 8403)."),
+    (65, "Representacao: procedencia do traco",
+     ["checar_procedencia"], "AUTOMATIZADA",
+     "Cada traco carrega de onde veio (data-tipo/data-cod). Sem isso a prancha "
+     "na tela e uma figura: da para amplia-la e nada mais."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

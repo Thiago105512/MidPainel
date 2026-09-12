@@ -15,6 +15,7 @@ Convencoes normativas adotadas:
 from __future__ import annotations
 
 import math
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from xml.sax.saxutils import escape
 
@@ -151,6 +152,78 @@ class Canvas:
         self._el: list[str] = []
         self._defs: list[str] = []
         self._def_ids: set[str] = set()
+        self._abertos = 0
+        self._cx0 = self._cy0 = 1e9      # caixa do que ja foi desenhado
+        self._cx1 = self._cy1 = -1e9
+        self._n_rec = 0
+        self._folha = None          # recorte da folha, aberto por pranchas.base
+        self._corte_folha = None
+
+    # ---- caixa do desenho -------------------------------------------------
+    def _marcar(self, *pts) -> None:
+        for x, y in pts:
+            if x < self._cx0: self._cx0 = x
+            if y < self._cy0: self._cy0 = y
+            if x > self._cx1: self._cx1 = x
+            if y > self._cy1: self._cy1 = y
+
+    def caixa_desenho(self) -> tuple[float, float, float, float]:
+        """(x0, y0, x1, y1) do que foi emitido, em mm de papel."""
+        return (self._cx0, self._cy0, self._cx1, self._cy1)
+
+    def extravasamento(self, folga: float = 0.0) -> dict:
+        """Quanto o desenho passou de cada lado da moldura.
+
+        Traco fora da moldura nao e traco discreto: e traco que NAO EXISTE.
+        O papel corta, o SVG corta no viewBox, e ninguem fica sabendo."""
+        # folga ALARGA a area aceita: a estimativa de caixa do texto e grosseira
+        m, e = self.marg - folga, MARGEM_ESQ - folga
+        x0, y0, x1, y1 = self.caixa_desenho()
+        if x1 < x0:
+            return {}
+        fora = {}
+        if x0 < e: fora["esquerda"] = round(e - x0, 1)
+        if y0 < m: fora["cima"] = round(m - y0, 1)
+        if x1 > self.larg - m: fora["direita"] = round(x1 - (self.larg - m), 1)
+        if y1 > self.alt - m: fora["baixo"] = round(y1 - (self.alt - m), 1)
+        return fora
+
+    # ---- recorte -----------------------------------------------------------
+    @contextmanager
+    def recorte(self, x0: float, y0: float, x1: float, y1: float):
+        """Limita ao retangulo o que for desenhado no bloco.
+
+        Nao e enfeite: e o que impede que uma vista grande demais para a folha
+        vaze para fora da moldura sem que ninguem perceba."""
+        self._n_rec += 1
+        nome = f"rec{self._n_rec}"
+        self._defs.append(
+            f'<clipPath id="{nome}"><rect x="{x0:.2f}" y="{y0:.2f}" '
+            f'width="{x1 - x0:.2f}" height="{y1 - y0:.2f}"/></clipPath>')
+        self._el.append(f'<g clip-path="url(#{nome})" data-tipo="recorte">')
+        self._abertos += 1
+        fora = (self._cx0, self._cy0, self._cx1, self._cy1)
+        self._cx0 = self._cy0 = 1e9
+        self._cx1 = self._cy1 = -1e9
+        rec = {"cortou": {}, "caixa": None}
+        try:
+            yield rec
+        finally:
+            self._el.append("</g>")
+            self._abertos -= 1
+            ix0, iy0, ix1, iy1 = self._cx0, self._cy0, self._cx1, self._cy1
+            if ix1 >= ix0:
+                rec["caixa"] = (ix0, iy0, ix1, iy1)
+                if ix0 < x0: rec["cortou"]["esquerda"] = round(x0 - ix0, 1)
+                if iy0 < y0: rec["cortou"]["cima"] = round(y0 - iy0, 1)
+                if ix1 > x1: rec["cortou"]["direita"] = round(ix1 - x1, 1)
+                if iy1 > y1: rec["cortou"]["baixo"] = round(iy1 - y1, 1)
+            # o que foi recortado nao conta como extravasamento: foi contido
+            gx0, gy0, gx1, gy1 = fora
+            self._cx0 = min(gx0, max(ix0, x0)) if ix1 >= ix0 else gx0
+            self._cy0 = min(gy0, max(iy0, y0)) if ix1 >= ix0 else gy0
+            self._cx1 = max(gx1, min(ix1, x1)) if ix1 >= ix0 else gx1
+            self._cy1 = max(gy1, min(iy1, y1)) if ix1 >= ix0 else gy1
 
     # ---- primitivas em coordenadas de PAPEL -------------------------------
     def _stroke(self, estilo: str, cor: str | None = None, dash: str | None = None) -> str:
@@ -166,6 +239,7 @@ class Canvas:
 
     def linha_p(self, a: tuple[float, float], b: tuple[float, float],
                 estilo: str = "vista", cor: str | None = None, dash: str | None = None) -> None:
+        self._marcar(a, b)
         self._el.append(
             f'<line x1="{a[0]:.3f}" y1="{a[1]:.3f}" x2="{b[0]:.3f}" y2="{b[1]:.3f}" '
             f'{self._stroke(estilo, cor, dash)} stroke-linecap="round"/>')
@@ -173,6 +247,7 @@ class Canvas:
     def poli_p(self, pts: list[tuple[float, float]], estilo: str = "vista",
                fechado: bool = False, preenche: str = "none",
                cor: str | None = None, dash: str | None = None) -> None:
+        self._marcar(*pts)
         d = " ".join(f"{x:.3f},{y:.3f}" for x, y in pts)
         tag = "polygon" if fechado else "polyline"
         st = self._stroke(estilo, cor, dash).replace('fill="none"', f'fill="{preenche}"')
@@ -180,6 +255,7 @@ class Canvas:
 
     def circ_p(self, c: tuple[float, float], r: float, estilo: str = "vista",
                preenche: str = "none", cor: str | None = None) -> None:
+        self._marcar((c[0] - r, c[1] - r), (c[0] + r, c[1] + r))
         st = self._stroke(estilo, cor).replace('fill="none"', f'fill="{preenche}"')
         self._el.append(f'<circle cx="{c[0]:.3f}" cy="{c[1]:.3f}" r="{r:.3f}" {st}/>')
 
@@ -190,6 +266,7 @@ class Canvas:
         y0 = c[1] - r * math.sin(math.radians(a0))
         x1 = c[0] + r * math.cos(math.radians(a1))
         y1 = c[1] - r * math.sin(math.radians(a1))
+        self._marcar((x0, y0), (x1, y1))
         grande = 1 if abs(a1 - a0) > 180 else 0
         varr = 0 if a1 > a0 else 1
         self._el.append(
@@ -200,17 +277,58 @@ class Canvas:
                 anc: str = "middle", rot: float = 0.0, cor: str = PRETO,
                 peso: str = "normal", base: str = "middle",
                 fam: str = "Helvetica, Arial, sans-serif") -> None:
+        # o texto ocupa area: sem isso um rotulo fora da moldura passaria batido
+        meia = len(s) * h * 0.30
+        if rot:
+            self._marcar((pos[0] - h, pos[1] - meia), (pos[0] + h, pos[1] + meia))
+        else:
+            dx = {"start": (0, 2 * meia), "end": (2 * meia, 0)}.get(anc, (meia, meia))
+            self._marcar((pos[0] - dx[0], pos[1] - h * 0.7),
+                         (pos[0] + dx[1], pos[1] + h * 0.7))
         tr = f' transform="rotate({-rot:.2f} {pos[0]:.3f} {pos[1]:.3f})"' if rot else ""
         self._el.append(
             f'<text x="{pos[0]:.3f}" y="{pos[1]:.3f}" font-family="{fam}" '
             f'font-size="{h:.2f}" font-weight="{peso}" fill="{cor}" '
             f'text-anchor="{anc}" dominant-baseline="{base}"{tr}>{escape(s)}</text>')
 
+    # ---- proveniencia -----------------------------------------------------
+    #
+    # O modelo sabe que aquele retangulo e a COZINHA, codigo T-COZ, 21,60 m2.
+    # Ate aqui o SVG recebia `<line>` e `<polygon>` soltos: a informacao morria
+    # entre o modelo e o papel, e por isso a prancha na tela nao passava de uma
+    # fotografia de si mesma. O escopo carrega a procedencia para dentro do
+    # desenho — sem alterar um unico traco do que se imprime, porque `data-*`
+    # nao tem efeito visual nenhum.
+    @staticmethod
+    def _at(v) -> str:
+        return (str(v).replace("&", "&amp;").replace("<", "&lt;")
+                .replace(">", "&gt;").replace('"', "&quot;"))
+
+    @contextmanager
+    def escopo(self, tipo: str, cod: str | None = None, **dados):
+        """Agrupa o que for emitido no bloco num <g> com data-tipo/data-cod."""
+        at = f' data-tipo="{self._at(tipo)}"'
+        if cod:
+            at += f' data-cod="{self._at(cod)}"'
+        for k, v in dados.items():
+            if v is None or v == "":
+                continue
+            at += f' data-{k}="{self._at(v)}"'
+        self._el.append(f"<g{at}>")
+        self._abertos += 1
+        try:
+            yield self
+        finally:
+            self._el.append("</g>")
+            self._abertos -= 1
+
     def grupo(self, nome: str) -> None:
         self._el.append(f'<g id="{nome}">')
+        self._abertos += 1
 
     def fim_grupo(self) -> None:
         self._el.append("</g>")
+        self._abertos -= 1
 
     # ---- padroes de hachura ----------------------------------------------
     def hachura(self, nome: str, espac: float = 1.2, ang: float = 45.0,
@@ -253,12 +371,39 @@ class Canvas:
     # ---- moldura e carimbo ------------------------------------------------
     def moldura(self) -> None:
         m, e = self.marg, MARGEM_ESQ
-        self._el.append(
-            f'<rect x="{e}" y="{m}" width="{self.larg - e - m:.2f}" '
-            f'height="{self.alt - 2*m:.2f}" fill="none" stroke="#000" '
-            f'stroke-width="{LW["moldura"]}"/>')
+        with self.escopo("moldura"):
+            self._el.append(
+                f'<rect x="{e}" y="{m}" width="{self.larg - e - m:.2f}" '
+                f'height="{self.alt - 2*m:.2f}" fill="none" stroke="#000" '
+                f'stroke-width="{LW["moldura"]}"/>')
+
+    # ---- recorte da folha --------------------------------------------------
+    def abrir_folha(self) -> None:
+        """Recorta TODO o desenho a moldura, uma vez, para a folha inteira.
+
+        Garantia estrutural: depois disto nenhuma prancha consegue emitir
+        conteudo fora da moldura sem que o corte seja medido e relatado.
+        """
+        self._folha = self.recorte(MARGEM_ESQ, self.marg,
+                                   self.larg - self.marg, self.alt - self.marg)
+        self._corte_folha = self._folha.__enter__()
+
+    def fechar_folha(self) -> None:
+        if self._folha is not None:
+            self._folha.__exit__(None, None, None)
+            self._folha = None
+
+    def cortado(self) -> dict:
+        """Quanto de desenho a moldura comeu, por lado, em mm de papel."""
+        self.fechar_folha()
+        return dict(self._corte_folha["cortou"]) if self._corte_folha else {}
 
     def svg(self) -> str:
+        self.fechar_folha()
+        if self._abertos:
+            raise RuntimeError(
+                f"{self._abertos} escopo(s) sem fechar: tudo o que veio depois "
+                f"herdaria uma procedencia que nao e a sua")
         defs = f"<defs>{''.join(self._defs)}</defs>" if self._defs else ""
         return (
             f'<?xml version="1.0" encoding="UTF-8"?>\n'

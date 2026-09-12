@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="841mm" height="594mm" viewBox="0 0 841 594">
 <rect width="841" height="594" fill="#ffffff"/>
-
+<defs><clipPath id="rec1"><rect x="25.00" y="10.00" width="806.00" height="574.00"/></clipPath></defs>
+<g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
+</g>
+<g data-tipo="carimbo" data-cod="34" data-rev="R12">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -23,17 +26,21 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R11</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R12</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">34</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R11</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R12</text>
+</g>
+<g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Piscina 5,40 x 3,30 m = 17,82 m2 de lamina, 17,13 m3, O YAML fixa 5,50 x 3,20; adotado modular sobre a malha de 300 mm,</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Faixa seca perimetral minima 900 mm, verificada nos quatro lados.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Recirculacao 2,85 m3/h para renovar o volume em 6 h,</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Fachada: tres familias de material, confirmadas pela referencia visual; a novidade e o rasgo de luz indireto.</text>
+</g>
+<g clip-path="url(#rec1)" data-tipo="recorte">
 <circle cx="39.000" cy="286.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
 <text x="39.000" y="286.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
 <text x="46.000" y="284.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PISCINA E DECK</text>
@@ -66,6 +73,7 @@
 <text x="187.400" y="91.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#e0a" text-anchor="middle" dominant-baseline="middle">L</text>
 <circle cx="187.400" cy="69.000" r="2.000" stroke="#e0a" stroke-width="0.3" fill="#fff"/>
 <text x="187.400" y="69.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#e0a" text-anchor="middle" dominant-baseline="middle">L</text>
+<g data-tipo="cota" data-eixo="H" data-parciais="3">
 <line x1="57.000" y1="148.000" x2="57.000" y2="161.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="81.000" y1="148.000" x2="81.000" y2="161.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="189.000" y1="148.000" x2="189.000" y2="161.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -80,6 +88,8 @@
 <line x1="188.300" y1="160.700" x2="189.700" y2="159.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="212.300" y1="160.700" x2="213.700" y2="159.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="201.000" y="158.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">1,20</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="3">
 <line x1="57.000" y1="148.000" x2="43.800" y2="148.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="57.000" y1="124.000" x2="43.800" y2="124.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="57.000" y1="58.000" x2="43.800" y2="58.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -94,6 +104,7 @@
 <line x1="44.300" y1="58.700" x2="45.700" y2="57.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="44.300" y1="40.700" x2="45.700" y2="39.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="43.884" y="49.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 43.884 49.000)">0,90</text>
+</g>
 <polygon points="325.000,148.000 355.000,148.000 355.000,108.000 325.000,108.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6" stroke-linejoin="miter"/>
 <text x="340.000" y="128.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 340.000 128.000)">TC-13</text>
 <line x1="189.000" y1="91.000" x2="325.000" y2="128.000" stroke="#b5651d" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -237,4 +248,5 @@
 <text x="301.500" y="339.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Piso claro refletindo a iluminacao</text>
 <text x="373.500" y="339.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">coincide com a decisao tomada por desempenho termico: albedo alto no piso externo</text>
 <line x1="372.000" y1="300.000" x2="372.000" y2="341.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+</g>
 </svg>

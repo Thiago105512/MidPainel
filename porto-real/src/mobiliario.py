@@ -111,6 +111,9 @@ def carro(cv, vw, x, y, w=1900, h=4700):
 
 def escada_u(cv, vw, e=pj.ESCADA):
     """Escada em U: dois lances de 1.000 mm e patamar, com seta de subida."""
+    _esc = cv.escopo("escada", "ESC-01", espelhos=18,
+                     piso=e["piso"], patamar=e["patamar"])
+    _esc.__enter__()
     x, y, w, h = e["x"], e["y"], e["w"], e["h"]
     lar, piso, pat = e["larg_lance"], e["piso"], e["patamar"]
     n_lance = 8
@@ -131,9 +134,13 @@ def escada_u(cv, vw, e=pj.ESCADA):
     cv.poli_p([b, (b[0] - 1.4, b[1] + 3.2), (b[0] + 1.4, b[1] + 3.2)], "fino",
               fechado=True, preenche="#000")
     cv.texto_p((a[0] + 2.2, a[1] + 2.0), "SOBE", TXT["micro"], "start", cor=CINZA)
+    _esc.__exit__(None, None, None)
 
 
 def piscina(cv, vw, ps=pj.PISCINA):
+    _psc = cv.escopo("piscina", "PSC-01", lamina=f"{ps['lamina_m2']:.2f}",
+                     prof=ps["prof_principal"], volume=f"{ps['volume_m3']:.2f}")
+    _psc.__enter__()
     x, y, w, h = ps["x"], ps["y"], ps["w"], ps["h"]
     _ret(cv, vw, x, y, w, h, "corte2", "#e8f4fb")
     _ret(cv, vw, x + 150, y + 150, w - 300, h - 300, "fino")
@@ -148,6 +155,7 @@ def piscina(cv, vw, ps=pj.PISCINA):
     cv.texto_p(vw.pt(P(x + pw + (w - pw) / 2, y + h / 2 - 500)),
                f"prof. {ps['prof_principal']/1000:.3f} m".replace(".", ","),
                TXT["micro"], "middle", cor="#0a6")
+    _psc.__exit__(None, None, None)
 
 
 # ------------------------------------------------------- mapa por ambiente
@@ -159,8 +167,11 @@ def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
         # bancadas lidas do modelo (projeto.BANCADAS)
         for b in pj.BANCADAS:
             if b["amb"] in ("T-COZ", "T-GOU", "T-OFI"):
-                bancada(cv, vw, b["x"], b["y"], b["w"], b["h"],
-                        cubas=b["cubas"], cooktop=b["cooktop"])
+                with cv.escopo("bancada", b["cod"], amb=b["amb"], larg=b["w"],
+                               prof=b["h"], cubas=b["cubas"],
+                               coccao="sim" if b["cooktop"] else "nao"):
+                    bancada(cv, vw, b["x"], b["y"], b["w"], b["h"],
+                            cubas=b["cubas"], cooktop=b["cooktop"])
         # varal coberto no patio lateral
         # varal coberto no patio lateral
         for i in range(4):
@@ -188,27 +199,34 @@ def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
 def _desenhar_do_modelo(cv: Canvas, vw: View, pav: str) -> None:
     """Loucas, equipamentos e armarios lidos de projeto — nao mais do desenho."""
     alvo = ("T-", "S-")
+    pref = "T-" if pav == "T" else "S-"
     for p in pj.LOUCAS:
-        if not p["amb"].startswith("T-" if pav == "T" else "S-"):
+        if not p["amb"].startswith(pref):
             continue
         t = p["tipo"]
-        if t == "vaso":
-            vaso(cv, vw, p["x"] + p["w"] / 2, p["y"])
-        elif t == "lavatorio":
-            lavatorio(cv, vw, p["x"], p["y"], p["w"], p["h"])
-        elif t == "box":
-            box(cv, vw, p["x"], p["y"], p["w"], p["h"])
-        elif t == "tanque":
-            tanque(cv, vw, p["x"], p["y"], p["w"], p["h"])
+        with cv.escopo("louca", p["cod"], familia=t, amb=p["amb"],
+                       larg=p["w"], prof=p["h"]):
+            if t == "vaso":
+                vaso(cv, vw, p["x"] + p["w"] / 2, p["y"])
+            elif t == "lavatorio":
+                lavatorio(cv, vw, p["x"], p["y"], p["w"], p["h"])
+            elif t == "box":
+                box(cv, vw, p["x"], p["y"], p["w"], p["h"])
+            elif t == "tanque":
+                tanque(cv, vw, p["x"], p["y"], p["w"], p["h"])
     for e in pj.EQUIPAMENTOS:
-        if not e["amb"].startswith("T-" if pav == "T" else "S-"):
+        if not e["amb"].startswith(pref):
             continue
-        if e["tipo"] == "geladeira":
-            geladeira(cv, vw, e["x"], e["y"], e["w"], e["h"])
-        else:
-            maquina(cv, vw, e["x"], e["y"], e["w"],
-                    "ML" if e["tipo"] == "lavadora" else "SEC")
+        with cv.escopo("equipamento", e["cod"], familia=e["tipo"], amb=e["amb"],
+                       larg=e["w"], prof=e["h"]):
+            if e["tipo"] == "geladeira":
+                geladeira(cv, vw, e["x"], e["y"], e["w"], e["h"])
+            else:
+                maquina(cv, vw, e["x"], e["y"], e["w"],
+                        "ML" if e["tipo"] == "lavadora" else "SEC")
     for a in pj.ARMARIOS:
-        if not a["amb"].startswith("T-" if pav == "T" else "S-"):
+        if not a["amb"].startswith(pref):
             continue
-        _ret(cv, vw, a["x"], a["y"], a["w"], a["h"], "fino", "#f1ede4")
+        with cv.escopo("marcenaria", a["cod"], familia=a["tipo"], amb=a["amb"],
+                       larg=a["w"], prof=a["h"]):
+            _ret(cv, vw, a["x"], a["y"], a["w"], a["h"], "fino", "#f1ede4")

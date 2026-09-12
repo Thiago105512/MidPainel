@@ -18,8 +18,10 @@ import os
 import projeto as pj
 import pranchas7 as p7
 import programa as pg
+import especificacao as ep
 import viewer_parte2 as v2
 import viewer_parte3 as v3
+import viewer_parte4 as v4
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(AQUI, "..", "out", "porto-real-caderno.html")
@@ -56,11 +58,44 @@ def figuras() -> list[tuple[str, str, str]]:
     ]
 
 
+def fichas() -> dict:
+    """O que a interface mostra ao clicar num ambiente da planta.
+
+    Nada aqui e redigido: forro vem de especificacao, climatizacao e paginacao
+    vem de projeto. Clicar na COZINHA devolve o que as pranchas 11, 16, 24 e 28
+    ja dizem sobre ela — sem que o leitor precise ir ate elas."""
+    forro = {c: d for c, d, *_ in ep.FORROS}
+    clima: dict[str, list] = {}
+    for c in pj.CLIMATIZACAO:
+        clima.setdefault(c["amb"], []).append(c)
+    zona = {}
+    for z in pj.ZONAS_PAGINACAO:
+        for a in z.get("ambientes", []):
+            zona.setdefault(a, []).append(z["cod"])
+    out = {}
+    for a in pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO + pj.SUPERIOR_ABERTO:
+        f = {}
+        if a.cod in forro:
+            f["forro"] = forro[a.cod]
+        if a.cod in clima:
+            btu = sum(c["capacidade"] for c in clima[a.cod])
+            f["climatização"] = f"{btu:,} BTU/h".replace(",", ".") + \
+                                f" · {clima[a.cod][0]['tipo']}"
+        if a.cod in zona:
+            f["paginação"] = ", ".join(zona[a.cod])
+        if getattr(a, "molhado", False):
+            f["revestimento"] = "impermeabilizado; ver prancha 22/23"
+        if f:
+            out[a.cod] = f
+    return out
+
+
 def dados() -> dict:
     """Tudo o que o HTML precisa, montado a partir do modelo."""
     sheets = json.load(open(os.path.join(AQUI, "viewer_texto.json"), encoding="utf-8"))
     pend = [(n, f"{t} — {ond}", st) for n, t, _norma, ond, st in p7.PENDENCIAS]
     return dict(sheets=sheets, figures=figuras(), pend=pend,
+                fichas=fichas(),
                 revisoes=[list(r) for r in pj.REVISOES],
                 revisao=pj.EMISSAO["revisao"])
 
@@ -252,6 +287,7 @@ HEAD = r'''<title>Caderno Porto Real</title>
   .colofon + .colofon{margin-top:10px}
   @media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }
 __CSS_EXTRA__
+__CSS_2D__
 </style>
 '''
 
@@ -309,16 +345,19 @@ __FIGS__
           <span class="zoomval" id="zval">100%</span>
           <button class="btn" id="zin" type="button" aria-label="Ampliar">+</button>
           <button class="btn" id="fit" type="button">Ajustar</button>
+          <button class="btn" id="semmold" type="button" aria-pressed="false"
+                  title="Esconde moldura e carimbo e usa a tela inteira">Sem moldura</button>
+          <button class="btn" id="medir" type="button" aria-pressed="false"
+                  title="Dois cliques medem a distância real em milímetros">Medir</button>
         </div>
       </div>
-      <div class="stage" id="stage">
-        <img id="sheet" alt="" draggable="false">
-      </div>
+__HTML2D__
+__PALCO2D__
 __HTML3D__
-      <p class="hint" id="dica2d">Arraste para deslocar · roda do mouse amplia em passos fixos
-        (100 · 150 · 200 · 300 · 400 · 600 · 800 · 1200 · 1600 · 2400 %) ancorados no cursor ·
-        duplo clique amplia · <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> pelo teclado ·
-        <kbd>←</kbd> <kbd>→</kbd> trocam de prancha</p>
+      <p class="hint" id="dica2d">Clique em qualquer parede, vão ou ambiente para abrir a ficha ·
+        as camadas ligam e desligam cotas, mobiliário e a própria moldura ·
+        a busca acha texto dentro do desenho · roda amplia em passos fixos ancorados no cursor ·
+        <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> e <kbd>←</kbd> <kbd>→</kbd> pelo teclado</p>
       <p class="hint" id="dica3d" hidden>Oito cenas na coluna ao lado · época e hora movem o sol
         de verdade (latitude −3,10°) · o corte horizontal sobe de 0 a +6,40 m ·
         as camadas ligam e desligam pavimento, laje, cobertura, mobiliário e escada</p>
@@ -399,7 +438,9 @@ __PEND__
 <script src="__TRES__"></script>
 <script>
 const SHEETS = __SHEETS__;
-__JS__
+const FICHAS = __FICHAS__;
+__JS_2D__
+__JS_3D__
 
 // =====================================================================
 // navegacao das pranchas
@@ -434,8 +475,12 @@ function mostrar(i) {
   botoes.forEach((b, j) => b.setAttribute("aria-current", j === idxPrancha ? "true" : "false"));
   titleEl.childNodes[0].nodeValue = s.t;
   metaEl.textContent = `Prancha ${s.n}/__N__ · ${s.etapa} · escala ${s.esc} · A1 841 × 594 mm`;
-  img.alt = `Prancha ${s.n} — ${s.t}`;
-  img.src = `PR-${s.n}.svg`;
+  const m = /1:\s*(\d+)/.exec(s.esc);
+  denom = m ? parseInt(m[1], 10) : 0;
+  ficha.hidden = true;
+  limparRegua();
+  buscaInp.value = ""; buscar("");
+  carregarFolha(`PR-${s.n}.svg`);
   noteText.textContent = s.d;
   noteKeys.innerHTML = s.k.map(([k, v]) =>
     `<li><span class="k">${k}</span><span class="v">${v}</span></li>`).join("");
@@ -462,15 +507,19 @@ def partes() -> tuple[str, str]:
         f'      <li><span class="n">{esc(n)}</span><span>{esc(txt)}</span>'
         f'<span class="s {st.lower()}">{esc(st)}</span></li>'
         for n, txt, st in D["pend"])
-    cabeca = HEAD.replace("__CSS_EXTRA__", v2.CSS_EXTRA)
+    cabeca = HEAD.replace("__CSS_EXTRA__", v2.CSS_EXTRA).replace("__CSS_2D__", v4.CSS_2D)
     corpo = (BODY.replace("__N__", str(len(D["sheets"])))
                  .replace("__REV__", D["revisao"])
                  .replace("__FIGS__", figs)
                  .replace("__REVS__", revs)
                  .replace("__PEND__", pend)
+                 .replace("__HTML2D__", v4.HTML_2D)
+                 .replace("__PALCO2D__", v4.HTML_PALCO_2D)
                  .replace("__HTML3D__", v2.HTML_3D)
                  .replace("__TRES__", TRES)
-                 .replace("__JS__", v3.JS)
+                 .replace("__JS_2D__", v4.JS_2D)
+                 .replace("__JS_3D__", v3.JS_3D)
+                 .replace("__FICHAS__", json.dumps(D["fichas"], ensure_ascii=False))
                  .replace("__SHEETS__", json.dumps(D["sheets"], ensure_ascii=False)))
     return cabeca, corpo
 

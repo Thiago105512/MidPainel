@@ -266,8 +266,8 @@ def axonometria() -> Canvas:
         "Cores por zona funcional: social, intimo, servico, apoio e circulacao.",
         "Volume superior em balanco sobre o deck lateral — estrutura metalica especifica (H).",
     ])
-    k = 0.0125
-    ox, oy = 330, 470
+    k = 0.0085          # o lote inteiro em isometrica nao cabe a 0,0125
+    ox, oy = 360, 470
     cores = {
         "T-SOC": "#f6c453", "T-GOU": "#f6c453", "T-HAL": "#dfe6e9", "T-COR": "#b2bec3",
         "T-COZ": "#74b9ff", "T-LAV": "#74b9ff", "T-DML": "#74b9ff", "T-OFI": "#74b9ff",

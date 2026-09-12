@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="841mm" height="594mm" viewBox="0 0 841 594">
 <rect width="841" height="594" fill="#ffffff"/>
-<defs><pattern id="proib" patternUnits="userSpaceOnUse" width="1.4" height="1.4" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.4" stroke="#c00" stroke-width="0.06"/></pattern></defs>
+<defs><clipPath id="rec1"><rect x="25.00" y="10.00" width="806.00" height="574.00"/></clipPath><pattern id="proib" patternUnits="userSpaceOnUse" width="1.4" height="1.4" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.4" stroke="#c00" stroke-width="0.06"/></pattern></defs>
+<g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
+</g>
+<g data-tipo="carimbo" data-cod="21" data-rev="R12">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -23,80 +26,88 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R11</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R12</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">21</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R11</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R12</text>
+</g>
+<g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Em alvenaria, furar parede e decisao de obra. Em LSF e decisao de projeto.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Furo centrado na alma, diametro maximo 50% da altura do perfil: 45 mm no montante de 90 mm.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Distancia minima entre centros 600 mm; ao apoio 250 mm no montante e 450 mm na viga.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Tubo maior que o furo admissivel NAO passa no montante: passa em shaft ou em entreforro. Nao ha terceira opcao.</text>
+</g>
+<g clip-path="url(#rec1)" data-tipo="recorte">
 <circle cx="34.000" cy="196.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
 <text x="34.000" y="196.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
 <text x="41.000" y="194.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PAINEL TIPO — ZONAS DE FURACAO</text>
 <text x="41.000" y="199.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:20</text>
 <line x1="30.000" y1="201.600" x2="104.000" y2="201.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<polygon points="40.000,180.000 160.000,180.000 160.000,50.000 40.000,50.000" stroke="#000000" stroke-width="0.6" fill="#fafafa" stroke-linejoin="miter"/>
-<polygon points="39.000,180.000 41.000,180.000 41.000,50.000 39.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
-<polygon points="69.000,180.000 71.000,180.000 71.000,50.000 69.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
-<polygon points="99.000,180.000 101.000,180.000 101.000,50.000 99.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
-<polygon points="129.000,180.000 131.000,180.000 131.000,50.000 129.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
-<polygon points="159.000,180.000 161.000,180.000 161.000,50.000 159.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
-<polygon points="40.000,180.000 160.000,180.000 160.000,167.500 40.000,167.500" stroke="#c00" stroke-width="0.13" fill="url(#proib)" stroke-linejoin="miter"/>
-<polygon points="40.000,62.500 160.000,62.500 160.000,50.000 40.000,50.000" stroke="#c00" stroke-width="0.13" fill="url(#proib)" stroke-linejoin="miter"/>
-<text x="170.000" y="173.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">zona proibida 250 mm do apoio</text>
-<circle cx="40.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="40.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="40.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="70.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="70.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="70.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="100.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="100.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="100.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="130.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="130.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="130.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="160.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="160.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<circle cx="160.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<text x="170.000" y="115.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="start" dominant-baseline="middle">furo centrado 45 mm, a cada 600 mm</text>
-<text x="170.000" y="56.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">chapa de 1,55 mm parafusada no contorno</text>
-<line x1="30.000" y1="180.000" x2="16.800" y2="180.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="30.000" y1="167.500" x2="16.800" y2="167.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="30.000" y1="62.500" x2="16.800" y2="62.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="30.000" y1="50.000" x2="16.800" y2="50.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="18.000" y1="180.000" x2="18.000" y2="50.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="17.300" y1="180.700" x2="18.700" y2="179.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="17.300" y1="168.200" x2="18.700" y2="166.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="16.884" y="173.750" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 16.884 173.750)">0,25</text>
-<line x1="17.300" y1="168.200" x2="18.700" y2="166.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="17.300" y1="63.200" x2="18.700" y2="61.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="16.884" y="115.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 16.884 115.000)">2,10</text>
-<line x1="17.300" y1="63.200" x2="18.700" y2="61.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="17.300" y1="50.700" x2="18.700" y2="49.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="16.884" y="56.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 16.884 56.250)">0,25</text>
-<line x1="40.000" y1="180.000" x2="40.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="70.000" y1="180.000" x2="70.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="100.000" y1="180.000" x2="100.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="130.000" y1="180.000" x2="130.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="160.000" y1="180.000" x2="160.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="40.000" y1="192.000" x2="160.000" y2="192.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="39.300" y1="192.700" x2="40.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="69.300" y1="192.700" x2="70.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="55.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
-<line x1="69.300" y1="192.700" x2="70.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="99.300" y1="192.700" x2="100.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="85.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
-<line x1="99.300" y1="192.700" x2="100.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="129.300" y1="192.700" x2="130.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="115.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
-<line x1="129.300" y1="192.700" x2="130.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="159.300" y1="192.700" x2="160.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="145.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+<polygon points="54.000,180.000 174.000,180.000 174.000,50.000 54.000,50.000" stroke="#000000" stroke-width="0.6" fill="#fafafa" stroke-linejoin="miter"/>
+<polygon points="53.000,180.000 55.000,180.000 55.000,50.000 53.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
+<polygon points="83.000,180.000 85.000,180.000 85.000,50.000 83.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
+<polygon points="113.000,180.000 115.000,180.000 115.000,50.000 113.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
+<polygon points="143.000,180.000 145.000,180.000 145.000,50.000 143.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
+<polygon points="173.000,180.000 175.000,180.000 175.000,50.000 173.000,50.000" stroke="#000000" stroke-width="0.3" fill="#cfd8dc" stroke-linejoin="miter"/>
+<polygon points="54.000,180.000 174.000,180.000 174.000,167.500 54.000,167.500" stroke="#c00" stroke-width="0.13" fill="url(#proib)" stroke-linejoin="miter"/>
+<polygon points="54.000,62.500 174.000,62.500 174.000,50.000 54.000,50.000" stroke="#c00" stroke-width="0.13" fill="url(#proib)" stroke-linejoin="miter"/>
+<text x="184.000" y="173.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">zona proibida 250 mm do apoio</text>
+<circle cx="54.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="54.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="54.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="84.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="84.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="84.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="114.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="114.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="114.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="144.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="144.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="144.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="174.000" cy="152.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="174.000" cy="122.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<circle cx="174.000" cy="92.500" r="1.125" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<text x="184.000" y="115.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="start" dominant-baseline="middle">furo centrado 45 mm, a cada 600 mm</text>
+<text x="184.000" y="56.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">chapa de 1,55 mm parafusada no contorno</text>
+<g data-tipo="cota" data-eixo="V" data-parciais="3">
+<line x1="44.000" y1="180.000" x2="30.800" y2="180.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="44.000" y1="167.500" x2="30.800" y2="167.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="44.000" y1="62.500" x2="30.800" y2="62.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="44.000" y1="50.000" x2="30.800" y2="50.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="32.000" y1="180.000" x2="32.000" y2="50.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="31.300" y1="180.700" x2="32.700" y2="179.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="31.300" y1="168.200" x2="32.700" y2="166.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="30.884" y="173.750" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 30.884 173.750)">0,25</text>
+<line x1="31.300" y1="168.200" x2="32.700" y2="166.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="31.300" y1="63.200" x2="32.700" y2="61.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="30.884" y="115.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 30.884 115.000)">2,10</text>
+<line x1="31.300" y1="63.200" x2="32.700" y2="61.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="31.300" y1="50.700" x2="32.700" y2="49.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="30.884" y="56.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 30.884 56.250)">0,25</text>
+</g>
+<g data-tipo="cota" data-eixo="H" data-parciais="4">
+<line x1="54.000" y1="180.000" x2="54.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="84.000" y1="180.000" x2="84.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="114.000" y1="180.000" x2="114.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="144.000" y1="180.000" x2="144.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="174.000" y1="180.000" x2="174.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="54.000" y1="192.000" x2="174.000" y2="192.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="53.300" y1="192.700" x2="54.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="83.300" y1="192.700" x2="84.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="69.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+<line x1="83.300" y1="192.700" x2="84.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="113.300" y1="192.700" x2="114.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="99.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+<line x1="113.300" y1="192.700" x2="114.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="143.300" y1="192.700" x2="144.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="129.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+<line x1="143.300" y1="192.700" x2="144.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="173.300" y1="192.700" x2="174.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="159.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+</g>
 <circle cx="216.000" cy="196.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
 <text x="216.000" y="196.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">2</text>
 <text x="223.000" y="194.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">SHAFT VERTICAL</text>
@@ -108,6 +119,7 @@
 <text x="265.000" y="155.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">DN100</text>
 <text x="300.000" y="165.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 chapas RU + la de rocha 50 mm</text>
 <text x="240.000" y="205.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">300 x 300 mm — inspecionavel por alcapao a cada pavimento</text>
+<g data-tipo="cota" data-eixo="H" data-parciais="3">
 <line x1="240.000" y1="180.000" x2="240.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="250.000" y1="180.000" x2="250.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="280.000" y1="180.000" x2="280.000" y2="193.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -122,6 +134,7 @@
 <line x1="279.300" y1="192.700" x2="280.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="289.300" y1="192.700" x2="290.700" y2="191.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="285.000" y="190.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,10</text>
+</g>
 <text x="35.000" y="242.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PENETRACOES DECLARADAS — O QUE ATRAVESSA O QUE</text>
 <polygon points="35.000,245.000 301.000,245.000 301.000,250.200 35.000,250.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="247.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COD</text>
@@ -233,4 +246,5 @@
 <text x="148.500" y="379.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">duto de insuflamento de 250 mm passa aqui, nunca no montante</text>
 <line x1="93.000" y1="340.000" x2="93.000" y2="381.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="147.000" y1="340.000" x2="147.000" y2="381.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+</g>
 </svg>

@@ -133,19 +133,22 @@ def recortes_na_parede(par: Parede, vaos) -> list[tuple[int, int]]:
 # =========================================================================
 def desenhar_paredes(cv: Canvas, vw: View, paredes: list[Parede], vaos) -> None:
     pat = cv.hachura("lsf", espac=0.9, ang=45, w=0.06, cor="#444")
-    for par in paredes:
+    for i, par in enumerate(paredes, 1):
         cortes = recortes_na_parede(par, vaos)
         e = par.esp
-        if par.horizontal:
-            a, b = min(par.x1, par.x2), max(par.x1, par.x2)
-            trechos = _subtrair(a, b, cortes)
-            for t0, t1 in trechos:
-                _bloco(cv, vw, t0, par.y1 - e / 2, t1 - t0, e, pat)
-        else:
-            a, b = min(par.y1, par.y2), max(par.y1, par.y2)
-            trechos = _subtrair(a, b, cortes)
-            for t0, t1 in trechos:
-                _bloco(cv, vw, par.x1 - e / 2, t0, e, t1 - t0, pat)
+        with cv.escopo("parede", f"PAR-{i:03d}", esp=e,
+                       face="externa" if par.externa else "interna",
+                       familia="PA-1" if par.externa else "PD-1"):
+            if par.horizontal:
+                a, b = min(par.x1, par.x2), max(par.x1, par.x2)
+                trechos = _subtrair(a, b, cortes)
+                for t0, t1 in trechos:
+                    _bloco(cv, vw, t0, par.y1 - e / 2, t1 - t0, e, pat)
+            else:
+                a, b = min(par.y1, par.y2), max(par.y1, par.y2)
+                trechos = _subtrair(a, b, cortes)
+                for t0, t1 in trechos:
+                    _bloco(cv, vw, par.x1 - e / 2, t0, e, t1 - t0, pat)
 
 
 def _subtrair(a: int, b: int, cortes: list[tuple[int, int]]):
@@ -180,18 +183,20 @@ def desenhar_vaos(cv: Canvas, vw: View, paredes: list[Parede], vaos,
             continue
         e = par.esp
         t = v["tipo"]
-        if t.startswith("CV"):
-            _cortina_vidro(cv, vw, v, par, e)
-        elif t == "PG01":
-            _portao_correr(cv, vw, v, par, e)
-        elif t == "P05":
-            _correr(cv, vw, v, par, e)
-        elif t.startswith("PV"):
-            _correr(cv, vw, v, par, e)
-        elif t.startswith("P"):
-            _porta(cv, vw, v, par, e, lado_livre(v, pav))
-        else:
-            _janela(cv, vw, v, par, e)
+        with cv.escopo("vao", t, larg=v["larg"], alt=v["alt"],
+                       peitoril=v["peitoril"], desc=v.get("desc", "")):
+            if t.startswith("CV"):
+                _cortina_vidro(cv, vw, v, par, e)
+            elif t == "PG01":
+                _portao_correr(cv, vw, v, par, e)
+            elif t == "P05":
+                _correr(cv, vw, v, par, e)
+            elif t.startswith("PV"):
+                _correr(cv, vw, v, par, e)
+            elif t.startswith("P"):
+                _porta(cv, vw, v, par, e, lado_livre(v, pav))
+            else:
+                _janela(cv, vw, v, par, e)
 
 
 def _parede_do_vao(paredes, v):

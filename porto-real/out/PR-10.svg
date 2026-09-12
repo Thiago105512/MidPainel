@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="841mm" height="594mm" viewBox="0 0 841 594">
 <rect width="841" height="594" fill="#ffffff"/>
-
+<defs><clipPath id="rec1"><rect x="25.00" y="10.00" width="806.00" height="574.00"/></clipPath></defs>
+<g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
+</g>
+<g data-tipo="carimbo" data-cod="10" data-rev="R12">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -23,55 +26,61 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R11</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R12</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">10</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R11</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R12</text>
+</g>
+<g data-tipo="notas">
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Detalhes de estudo — nao liberados para fabricacao ou corte (sem nesting codificado).</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Parede externa consolidada em 150 mm; divisoria interna em 100 mm (H).</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Escada reconciliar com estrutura, guarda-corpo e espessura de acabamento antes de definitiva.</text>
+</g>
+<g clip-path="url(#rec1)" data-tipo="recorte">
 <circle cx="64.000" cy="88.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
 <text x="64.000" y="88.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
 <text x="71.000" y="86.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PAREDE EXTERNA EM LIGHT STEEL FRAME</text>
 <text x="71.000" y="91.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:5</text>
 <line x1="60.000" y1="93.600" x2="144.500" y2="93.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<polygon points="70.000,160.000 72.000,160.000 72.000,-80.000 70.000,-80.000" stroke="#000000" stroke-width="0.6" fill="#9aa5b1" stroke-linejoin="miter"/>
-<line x1="71.000" y1="-80.000" x2="71.000" y2="-88.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="71.000" y="-90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Chapa cimenticia 10 mm (externa)</text>
-<polygon points="72.000,160.000 90.000,160.000 90.000,-80.000 72.000,-80.000" stroke="#000000" stroke-width="0.6" fill="#f2f2f2" stroke-linejoin="miter"/>
-<line x1="81.000" y1="-80.000" x2="81.000" y2="-93.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="81.000" y="-95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Montante Steel Frame 90 mm @ 600 mm (400 mm onde exigido)</text>
-<polygon points="90.000,160.000 92.500,160.000 92.500,-80.000 90.000,-80.000" stroke="#000000" stroke-width="0.6" fill="#e8e8e8" stroke-linejoin="miter"/>
-<line x1="91.250" y1="-80.000" x2="91.250" y2="-98.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="91.250" y="-100.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Chapa de gesso 12,5 mm (RU em area umida)</text>
-<polygon points="92.500,160.000 100.000,160.000 100.000,-80.000 92.500,-80.000" stroke="#000000" stroke-width="0.6" fill="#fff6d6" stroke-linejoin="miter"/>
-<line x1="96.250" y1="-80.000" x2="96.250" y2="-103.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="96.250" y="-105.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Camara / la mineral 50 mm</text>
-<polygon points="72.000,136.000 90.000,136.000 90.000,128.000 72.000,128.000" stroke="#000000" stroke-width="0.6" fill="#b0bec5" stroke-linejoin="miter"/>
-<polygon points="72.000,40.000 90.000,40.000 90.000,32.000 72.000,32.000" stroke="#000000" stroke-width="0.6" fill="#b0bec5" stroke-linejoin="miter"/>
-<polygon points="72.000,-56.000 90.000,-56.000 90.000,-64.000 72.000,-64.000" stroke="#000000" stroke-width="0.6" fill="#b0bec5" stroke-linejoin="miter"/>
-<line x1="70.000" y1="160.000" x2="70.000" y2="175.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="72.000" y1="160.000" x2="72.000" y2="175.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="90.000" y1="160.000" x2="90.000" y2="175.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="92.500" y1="160.000" x2="92.500" y2="175.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="100.000" y1="160.000" x2="100.000" y2="175.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="70.000" y1="174.000" x2="100.000" y2="174.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="69.300" y1="174.700" x2="70.700" y2="173.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="71.300" y1="174.700" x2="72.700" y2="173.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="71.000" y="171.300" font-family="Helvetica, Arial, sans-serif" font-size="1.53" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 71.000 171.300)">0,01</text>
-<line x1="71.300" y1="174.700" x2="72.700" y2="173.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="89.300" y1="174.700" x2="90.700" y2="173.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="81.000" y="172.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,09</text>
-<line x1="89.300" y1="174.700" x2="90.700" y2="173.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="91.800" y1="174.700" x2="93.200" y2="173.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="91.250" y="171.300" font-family="Helvetica, Arial, sans-serif" font-size="1.53" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 91.250 171.300)">0,01</text>
-<line x1="91.800" y1="174.700" x2="93.200" y2="173.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="99.300" y1="174.700" x2="100.700" y2="173.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="96.250" y="172.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,04</text>
-<text x="85.000" y="240.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">esp. total 150 mm</text>
+<polygon points="70.000,280.000 72.000,280.000 72.000,40.000 70.000,40.000" stroke="#000000" stroke-width="0.6" fill="#9aa5b1" stroke-linejoin="miter"/>
+<line x1="71.000" y1="40.000" x2="71.000" y2="32.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="71.000" y="30.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Chapa cimenticia 10 mm (externa)</text>
+<polygon points="72.000,280.000 90.000,280.000 90.000,40.000 72.000,40.000" stroke="#000000" stroke-width="0.6" fill="#f2f2f2" stroke-linejoin="miter"/>
+<line x1="81.000" y1="40.000" x2="81.000" y2="27.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="81.000" y="25.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Montante Steel Frame 90 mm @ 600 mm (400 mm onde exigido)</text>
+<polygon points="90.000,280.000 92.500,280.000 92.500,40.000 90.000,40.000" stroke="#000000" stroke-width="0.6" fill="#e8e8e8" stroke-linejoin="miter"/>
+<line x1="91.250" y1="40.000" x2="91.250" y2="22.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="91.250" y="20.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Chapa de gesso 12,5 mm (RU em area umida)</text>
+<polygon points="92.500,280.000 100.000,280.000 100.000,40.000 92.500,40.000" stroke="#000000" stroke-width="0.6" fill="#fff6d6" stroke-linejoin="miter"/>
+<line x1="96.250" y1="40.000" x2="96.250" y2="17.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="96.250" y="15.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Camara / la mineral 50 mm</text>
+<polygon points="72.000,256.000 90.000,256.000 90.000,248.000 72.000,248.000" stroke="#000000" stroke-width="0.6" fill="#b0bec5" stroke-linejoin="miter"/>
+<polygon points="72.000,160.000 90.000,160.000 90.000,152.000 72.000,152.000" stroke="#000000" stroke-width="0.6" fill="#b0bec5" stroke-linejoin="miter"/>
+<polygon points="72.000,64.000 90.000,64.000 90.000,56.000 72.000,56.000" stroke="#000000" stroke-width="0.6" fill="#b0bec5" stroke-linejoin="miter"/>
+<g data-tipo="cota" data-eixo="H" data-parciais="4">
+<line x1="70.000" y1="280.000" x2="70.000" y2="295.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="72.000" y1="280.000" x2="72.000" y2="295.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="90.000" y1="280.000" x2="90.000" y2="295.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="92.500" y1="280.000" x2="92.500" y2="295.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="100.000" y1="280.000" x2="100.000" y2="295.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="70.000" y1="294.000" x2="100.000" y2="294.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="69.300" y1="294.700" x2="70.700" y2="293.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="71.300" y1="294.700" x2="72.700" y2="293.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="71.000" y="291.300" font-family="Helvetica, Arial, sans-serif" font-size="1.53" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 71.000 291.300)">0,01</text>
+<line x1="71.300" y1="294.700" x2="72.700" y2="293.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="89.300" y1="294.700" x2="90.700" y2="293.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="81.000" y="292.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,09</text>
+<line x1="89.300" y1="294.700" x2="90.700" y2="293.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="91.800" y1="294.700" x2="93.200" y2="293.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="91.250" y="291.300" font-family="Helvetica, Arial, sans-serif" font-size="1.53" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 91.250 291.300)">0,01</text>
+<line x1="91.800" y1="294.700" x2="93.200" y2="293.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="99.300" y1="294.700" x2="100.700" y2="293.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="96.250" y="292.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,04</text>
+</g>
+<text x="85.000" y="360.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">esp. total 150 mm</text>
 <circle cx="219.000" cy="88.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
 <text x="219.000" y="88.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">2</text>
 <text x="226.000" y="86.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCADA — CORTE ESQUEMATICO</text>
@@ -82,6 +91,7 @@
 <line x1="230.000" y1="200.000" x2="446.000" y2="80.000" stroke="#c00" stroke-width="0.13" fill="none" stroke-dasharray="6,2,1,2" stroke-linecap="round"/>
 <line x1="242.000" y1="156.000" x2="446.000" y2="36.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="242.000" y1="163.200" x2="446.000" y2="43.200" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<g data-tipo="cota" data-eixo="H" data-parciais="2">
 <line x1="230.000" y1="200.000" x2="230.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="242.000" y1="200.000" x2="242.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="254.000" y1="200.000" x2="254.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -92,6 +102,8 @@
 <line x1="241.300" y1="212.700" x2="242.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="253.300" y1="212.700" x2="254.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="248.000" y="210.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,30</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="3">
 <line x1="230.000" y1="200.000" x2="216.800" y2="200.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="230.000" y1="193.333" x2="216.800" y2="193.333" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="230.000" y1="186.667" x2="216.800" y2="186.667" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -106,6 +118,7 @@
 <line x1="217.300" y1="187.367" x2="218.700" y2="185.967" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="217.300" y1="80.700" x2="218.700" y2="79.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="216.884" y="133.333" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 216.884 133.333)">2,67</text>
+</g>
 <text x="230.000" y="214.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 18 espelhos x 166.67 mm</text>
 <text x="230.000" y="218.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- piso 300 mm | Blondel 633.33 mm</text>
 <text x="230.000" y="222.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- largura util 1000 mm | patamar 1000x1000 mm</text>
@@ -122,6 +135,7 @@
 <text x="592.000" y="224.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">LAMINA 17,82 m2 | V = 17,13 m3</text>
 <polygon points="656.000,246.000 676.000,246.000 676.000,228.000 656.000,228.000" stroke="#000000" stroke-width="0.18" fill="#cfe7f5" stroke-linejoin="miter"/>
 <text x="666.000" y="218.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">BANCO 450 (H)</text>
+<g data-tipo="cota" data-eixo="H" data-parciais="2">
 <line x1="460.000" y1="200.000" x2="460.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="508.000" y1="200.000" x2="508.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="676.000" y1="200.000" x2="676.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -132,6 +146,7 @@
 <line x1="507.300" y1="212.700" x2="508.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="675.300" y1="212.700" x2="676.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="592.000" y="210.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">4,20</text>
+</g>
 <text x="460.000" y="214.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- bomba 0,50 cv | vazao 3,60 m3/h | renovacao 3 h</text>
 <text x="460.000" y="218.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- filtro nominal 4,00 m3/h | succao/retorno DN50</text>
 <text x="460.000" y="222.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 1 skimmer | 2 ralos de fundo | 2 retornos | 1 aspiracao</text>
@@ -149,6 +164,7 @@
 <text x="682.000" y="174.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">CONDENSADORA</text>
 <line x1="700.000" y1="200.000" x2="700.000" y2="128.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <text x="700.000" y="120.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">PAINEL VENTILADO h=1.800</text>
+<g data-tipo="cota" data-eixo="H" data-parciais="4">
 <line x1="660.000" y1="200.000" x2="660.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="666.000" y1="200.000" x2="666.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="698.000" y1="200.000" x2="698.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -167,9 +183,11 @@
 <line x1="699.300" y1="212.700" x2="700.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="787.300" y1="212.700" x2="788.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="744.000" y="210.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">2,20</text>
+</g>
 <text x="660.000" y="214.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- faixa livre minima 3.000 mm (projeto: 3.200 mm)</text>
 <text x="660.000" y="218.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- equipamentos ocupam ate 800 mm</text>
 <text x="660.000" y="222.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- corredor livre apos equipamentos &gt;= 1.200 mm (desejavel 1.500)</text>
 <text x="660.000" y="227.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- base 200 mm acima do piso | folga traseira 300 mm</text>
 <text x="660.000" y="231.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- folga frontal de manutencao 1.000 mm</text>
+</g>
 </svg>

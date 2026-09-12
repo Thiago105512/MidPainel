@@ -96,8 +96,8 @@ def locacao() -> Canvas:
         f"A e C antes de concretar o radier.",
         pj.RN["descricao"],
     ])
-    vw = View(100, 60, 150, 0, 0)
-    an.titulo_desenho(cv, (50, 520), "1", "LOCACAO — EIXOS E COORDENADAS", "1:100")
+    vw = View(100, 60, 480, 0, 0)
+    an.titulo_desenho(cv, (50, 512), "1", "LOCACAO — EIXOS E COORDENADAS", "1:100")
     L, Pf = pj.LOTE_L, pj.LOTE_P
     cv.poli_p([vw.pt(P(0, 0)), vw.pt(P(L, 0)), vw.pt(P(L, Pf)), vw.pt(P(0, Pf))],
               "corte", fechado=True, preenche="#fdfdfd")
@@ -205,8 +205,8 @@ def paisagismo() -> Canvas:
         f"{pj.demanda_irrigacao_ldia()} L/dia em media.",
         f"Fonte: {ir['fonte']}",
     ])
-    vw = View(100, 60, 150, 0, 0)
-    an.titulo_desenho(cv, (50, 520), "1", "PAISAGISMO — IMPLANTACAO", "1:100")
+    vw = View(100, 60, 480, 0, 0)
+    an.titulo_desenho(cv, (50, 512), "1", "PAISAGISMO — IMPLANTACAO", "1:100")
     L, Pf = pj.LOTE_L, pj.LOTE_P
     cv.poli_p([vw.pt(P(0, 0)), vw.pt(P(L, 0)), vw.pt(P(L, Pf)), vw.pt(P(0, Pf))],
               "fino", fechado=True, preenche="#fdfdfd", cor="#ccc")
@@ -584,8 +584,8 @@ def eixo_social() -> Canvas:
     ])
 
     # ---------------- planta do eixo 1:75
-    vw = View(75, 40, 150, 1_800, 12_600)
-    an.titulo_desenho(cv, (30, 470), "1", "PLANTA DO EIXO SOCIAL", "1:75")
+    vw = View(75, 40, 440, 1_800, 12_600)
+    an.titulo_desenho(cv, (30, 462), "1", "PLANTA DO EIXO SOCIAL", "1:75")
     for a in pj.TERREO:
         claro = a.cod in ("T-SOC", "T-COR", "T-GOU", "T-COZ")
         cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),

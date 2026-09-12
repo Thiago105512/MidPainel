@@ -7,7 +7,7 @@ import projeto as pj
 import elementos as el
 import mobiliario as mob
 import anotacao as an
-from core import P, Canvas, View, TXT, CINZA, PRETO
+from core import P, Canvas, View, TXT, CINZA, PRETO, MARGEM_ESQ
 
 TOTAL_PRANCHAS = "35"
 
@@ -17,6 +17,7 @@ def base(titulo: str, escala: str, prancha: str, formato: str = "A1",
     cv = Canvas(formato)
     cv.moldura()
     an.carimbo(cv, titulo, escala, prancha, TOTAL_PRANCHAS, notas)
+    cv.abrir_folha()          # nada mais nesta folha sai da moldura sem ser medido
     return cv
 
 
@@ -46,6 +47,10 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     ])
     vw = View(50, 78, 522, 2_400, 7_200)
 
+    # A 1:50 os 40 m de lote dariam 800 mm de papel numa folha de 594: a planta
+    # baixa nao comporta o lote inteiro, e ate R11 o excedente era simplesmente
+    # emitido fora da moldura — invisivel no papel, invisivel na tela, e nunca
+    # declarado. Agora e recortado de proposito e anunciado por linha de ruptura.
     fechados = pj.TERREO if pav == "T" else pj.SUPERIOR
     abertos = pj.TERREO_ABERTO if pav == "T" else pj.SUPERIOR_ABERTO
     paredes = el.derivar_paredes(fechados)
@@ -54,17 +59,19 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     # ---- pisos e areas abertas
     pat_deck = cv.hachura("deck", espac=1.4, ang=0, w=0.08, cor="#bbb")
     for a in abertos:
-        cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
-                   vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
-                  "fino", fechado=True, preenche=f"url(#{pat_deck})", cor=CINZA)
+        with cv.escopo("piso", a.cod, rot=a.nome, area=f"{a.area_mod:.2f}"):
+            cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
+                       vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
+                      "fino", fechado=True, preenche=f"url(#{pat_deck})", cor=CINZA)
 
     # ---- piso impermeavel dos ambientes molhados (simbologia da aula de DT)
     pat_cer = cv.hachura_dupla("ceramica", espac=2.2, w=0.05, cor="#ccc")
     for a in fechados:
         if a.molhado:
-            cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
-                       vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
-                      "hachura", fechado=True, preenche=f"url(#{pat_cer})", cor="#ddd")
+            with cv.escopo("piso", a.cod, rot=a.nome, molhado="sim"):
+                cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
+                           vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
+                          "hachura", fechado=True, preenche=f"url(#{pat_cer})", cor="#ddd")
 
     # ---- elementos externos no terreo
     if pav == "T":
@@ -97,17 +104,29 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
 
     # ---- rotulos de ambiente: nome, area e cota de nivel
     ext_faces = {"O", "L", "S", "N"}
+    def _caixa(a):
+        """Retangulo do ambiente em coordenadas de PAPEL — e o que a interface
+        usa para realcar o ambiente inteiro, nao apenas o rotulo."""
+        p0, p1 = vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y + a.h))
+        return (f"{min(p0[0], p1[0]):.2f} {min(p0[1], p1[1]):.2f} "
+                f"{abs(p1[0] - p0[0]):.2f} {abs(p1[1] - p0[1]):.2f}")
+
     for a in fechados:
         c = vw.pt(P(a.cx, a.cy))
-        cv.texto_p((c[0], c[1] - 3.0), a.nome, TXT["peq"], "middle", peso="bold")
-        cv.texto_p((c[0], c[1] + 0.6), f"{a.area_mod:.2f} m2".replace(".", ","),
-                   TXT["min"], "middle")
-        cv.texto_p((c[0], c[1] + 3.8), a.cod, TXT["micro"], "middle", cor=CINZA)
+        with cv.escopo("ambiente", a.cod, rot=a.nome, area=f"{a.area_mod:.2f}",
+                       pav=pav, molhado="sim" if a.molhado else "nao",
+                       larg=a.w, prof=a.h, box=_caixa(a)):
+            cv.texto_p((c[0], c[1] - 3.0), a.nome, TXT["peq"], "middle", peso="bold")
+            cv.texto_p((c[0], c[1] + 0.6), f"{a.area_mod:.2f} m2".replace(".", ","),
+                       TXT["min"], "middle")
+            cv.texto_p((c[0], c[1] + 3.8), a.cod, TXT["micro"], "middle", cor=CINZA)
     for a in abertos:
         c = vw.pt(P(a.cx, a.cy))
-        cv.texto_p((c[0], c[1] - 1.6), a.nome, TXT["min"], "middle", cor=CINZA)
-        cv.texto_p((c[0], c[1] + 1.8), f"{a.area_mod:.2f} m2".replace(".", ","),
-                   TXT["micro"], "middle", cor=CINZA)
+        with cv.escopo("ambiente", a.cod, rot=a.nome, area=f"{a.area_mod:.2f}",
+                       pav=pav, aberto="sim", larg=a.w, prof=a.h, box=_caixa(a)):
+            cv.texto_p((c[0], c[1] - 1.6), a.nome, TXT["min"], "middle", cor=CINZA)
+            cv.texto_p((c[0], c[1] + 1.8), f"{a.area_mod:.2f} m2".replace(".", ","),
+                       TXT["micro"], "middle", cor=CINZA)
 
     # ---- brises verticais (sombreamento das faces leste e oeste)
     for b in pj.BRISES:
@@ -190,6 +209,10 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     _rosa_solar(cv, (768, 128))
     an.titulo_desenho(cv, (78, 560), "1", nome.split("—")[-1].strip(), "1:50")
     an.escala_grafica(cv, (78, 574), vw, 1_000, 5)
+    if cv.cortado():
+        an.ruptura(cv, 60, 520, cv.marg + 3,
+                   "AREAS EXTERNAS CONTINUAM ALEM DESTE LIMITE — VER PR-01 (1:200) E PR-34")
+
     return cv
 
 
@@ -401,7 +424,32 @@ def cobertura() -> Canvas:
 # ------------------------------------------------------------- tabelas
 def _tabela(cv: Canvas, pos, titulo: str, cabec: list[str], linhas: list[list[str]],
             larguras: list[float], h_lin: float = 5.2) -> float:
+    """Tabela que se recusa a transbordar a folha.
+
+    Ate R11 uma tabela iniciada em y = 570 numa folha cujo quadro termina em 584
+    simplesmente continuava para fora — e as linhas de baixo, que costumam ser
+    justamente as do fim do quadro, nunca chegavam ao papel. Agora a tabela
+    mede o espaco que tem e comprime a entrelinha ate o minimo legivel; se ainda
+    assim nao couber, quebra em duas colunas lado a lado.
+    """
     x, y = pos
+    disponivel = (cv.alt - cv.marg) - y - 2
+    preciso = (len(linhas) + 1) * h_lin
+    if preciso > disponivel:
+        h_min = 3.4
+        if (len(linhas) + 1) * h_min <= disponivel:
+            h_lin = max(h_min, disponivel / (len(linhas) + 1))
+        elif x + 2 * sum(larguras) + 10 <= cv.larg - cv.marg:
+            # cabe uma segunda coluna ao lado: metade das linhas vai para la
+            meio = (len(linhas) + 1) // 2
+            _tabela(cv, (x, y), titulo, cabec, linhas[:meio], larguras, h_min)
+            _tabela(cv, (x + sum(larguras) + 10, y), "(continuacao)", cabec,
+                    linhas[meio:], larguras, h_min)
+            return y + (meio + 1) * h_min
+        else:
+            # nao ha espaco lateral: comprime ate o limite e deixa a auditoria
+            # gritar se a entrelinha ficar ilegivel
+            h_lin = disponivel / (len(linhas) + 1)
     largura = sum(larguras)
     cv.texto_p((x, y - 3), titulo, TXT["peq"], "start", peso="bold")
     cv.poli_p([(x, y), (x + largura, y), (x + largura, y + h_lin),

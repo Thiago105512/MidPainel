@@ -24,6 +24,8 @@ def cadeia(cv: Canvas, vw: View, coords: list[float], fixo: float,
     coords = sorted(set(coords))
     if len(coords) < 2:
         return
+    _cot = cv.escopo("cota", eixo=eixo, parciais=len(coords) - 1)
+    _cot.__enter__()
     if eixo == "H":
         ylin = vw.pt(P(0, fixo))[1] + offset
         for c in coords:
@@ -59,6 +61,7 @@ def cadeia(cv: Canvas, vw: View, coords: list[float], fixo: float,
                 cv.texto_p((xlin - h * 0.62, (ya + yb) / 2), _fmt(b - a), h, "middle", rot=90)
             else:
                 cv.texto_p((xlin - h * 1.5, (ya + yb) / 2), _fmt(b - a), h * 0.85, "middle")
+    _cot.__exit__(None, None, None)
 
 
 def _tique(cv: Canvas, p: tuple[float, float], r: float = 1.0) -> None:
@@ -145,6 +148,8 @@ def carimbo(cv: Canvas, titulo: str, escala: str, prancha: str,
     L, A, m = cv.larg, cv.alt, cv.marg
     w, h = 175.0, 62.0
     x0, y0 = L - m - w, A - m - h
+    ctx = cv.escopo("carimbo", prancha, rev=revisao)
+    ctx.__enter__()
     cv.poli_p([(x0, y0), (x0 + w, y0), (x0 + w, y0 + h), (x0, y0 + h)],
               "moldura", fechado=True, preenche="#fff")
 
@@ -185,8 +190,31 @@ def carimbo(cv: Canvas, titulo: str, escala: str, prancha: str,
     texto(col[3] + 3, y0 + 48, prancha, TXT["tit"], peso="bold")
     texto(col[3] + 3, y0 + 57, f"de {total}   REV {revisao}", TXT["micro"])
 
+    ctx.__exit__(None, None, None)
+
     if notas:
-        ny = y0 - 4 - 4.2 * len(notas)
-        cv.texto_p((x0, ny - 5), "NOTAS", TXT["min"], "start", peso="bold")
-        for i, n in enumerate(notas):
-            cv.texto_p((x0, ny + i * 4.2), f"- {n}", TXT["micro"], "start")
+        with cv.escopo("notas"):
+            ny = y0 - 4 - 4.2 * len(notas)
+            cv.texto_p((x0, ny - 5), "NOTAS", TXT["min"], "start", peso="bold")
+            for i, n in enumerate(notas):
+                cv.texto_p((x0, ny + i * 4.2), f"- {n}", TXT["micro"], "start")
+
+
+# ---------------------------------------------------- linha de ruptura
+def ruptura(cv: Canvas, x0: float, x1: float, y: float,
+            nota: str | None = None, passo: float = 6.0, amp: float = 1.6) -> None:
+    """Linha de ruptura (NBR 8403): declara que o desenho continua fora da folha.
+
+    Recortar sem declarar e pior do que extravasar: quem le supoe que ali
+    acaba o projeto. A ruptura diz que nao acaba — e para onde ir ver.
+    """
+    with cv.escopo("ruptura"):
+        pts, x, sobe = [], x0, True
+        while x < x1:
+            pts.append((x, y + (amp if sobe else -amp)))
+            sobe = not sobe
+            x += passo
+        pts.append((x1, y))
+        cv.poli_p([(x0, y)] + pts, "fino", cor=CINZA)
+        if nota:
+            cv.texto_p(((x0 + x1) / 2, y + 4.2), nota, TXT["micro"], "middle", cor=CINZA)

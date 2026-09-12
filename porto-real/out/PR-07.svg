@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="841mm" height="594mm" viewBox="0 0 841 594">
 <rect width="841" height="594" fill="#ffffff"/>
-<defs><pattern id="fach" patternUnits="userSpaceOnUse" width="3.2" height="3.2" patternTransform="rotate(0)"><line x1="0" y1="0" x2="0" y2="3.2" stroke="#ddd" stroke-width="0.05"/></pattern></defs>
+<defs><clipPath id="rec1"><rect x="25.00" y="10.00" width="806.00" height="574.00"/></clipPath><pattern id="fach" patternUnits="userSpaceOnUse" width="3.2" height="3.2" patternTransform="rotate(0)"><line x1="0" y1="0" x2="0" y2="3.2" stroke="#ddd" stroke-width="0.05"/></pattern></defs>
+<g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
+</g>
+<g data-tipo="carimbo" data-cod="07" data-rev="R12">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -23,17 +26,21 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R11</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R12</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">07</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R11</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R12</text>
+</g>
+<g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Maximo de 3 familias de acabamento: mineral claro, aluminio grafite, aluminio amadeirado.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Vidro reduzido na frente e concentrado no social posterior.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Condensadoras concentradas na faixa tecnica lateral direita, ocultas por painel ventilado h=1.800 mm.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Muros laterais e de fundo h = 2.200 mm; sem muro frontal.</text>
+</g>
+<g clip-path="url(#rec1)" data-tipo="recorte">
 <polygon points="60.000,160.000 63.750,160.000 63.750,83.125 60.000,83.125" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="63.750,160.000 67.500,160.000 67.500,83.125 63.750,83.125" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="67.500,160.000 71.250,160.000 71.250,83.125 67.500,83.125" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
@@ -96,6 +103,7 @@
 <polygon points="71.250,103.750 78.750,103.750 78.750,96.250 71.250,96.250" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="71.250" y1="100.000" x2="78.750" y2="100.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="75.000" y="100.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J02</text>
+<g data-tipo="cota" data-eixo="V" data-parciais="4">
 <line x1="217.500" y1="160.000" x2="230.700" y2="160.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="217.500" y1="127.500" x2="230.700" y2="127.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="217.500" y1="122.500" x2="230.700" y2="122.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -114,6 +122,7 @@
 <line x1="228.800" y1="90.700" x2="230.200" y2="89.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="228.800" y1="83.825" x2="230.200" y2="82.425" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="228.384" y="86.562" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 228.384 86.562)">0,55</text>
+</g>
 <text x="138.750" y="177.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA FRONTAL (SUL)</text>
 <polygon points="60.000,330.000 63.750,330.000 63.750,253.125 60.000,253.125" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="63.750,330.000 67.500,330.000 67.500,253.125 63.750,253.125" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
@@ -173,6 +182,7 @@
 <line x1="168.750" y1="271.250" x2="191.250" y2="271.250" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="180.000" y="271.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J05</text>
 <polygon points="45.000,330.000 60.000,330.000 60.000,302.500 45.000,302.500" stroke="#8a8a8a" stroke-width="0.18" fill="#f6f6f6" stroke-linejoin="miter"/>
+<g data-tipo="cota" data-eixo="V" data-parciais="4">
 <line x1="217.500" y1="330.000" x2="230.700" y2="330.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="217.500" y1="297.500" x2="230.700" y2="297.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="217.500" y1="292.500" x2="230.700" y2="292.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -191,6 +201,7 @@
 <line x1="228.800" y1="260.700" x2="230.200" y2="259.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="228.800" y1="253.825" x2="230.200" y2="252.425" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="228.384" y="256.562" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 228.384 256.562)">0,55</text>
+</g>
 <text x="138.750" y="347.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA POSTERIOR (NORTE)</text>
 <polygon points="60.000,500.000 63.750,500.000 63.750,460.625 60.000,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="63.750,500.000 67.500,500.000 67.500,460.625 63.750,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
@@ -282,6 +293,7 @@
 <line x1="258.750" y1="441.250" x2="281.250" y2="441.250" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="270.000" y="441.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J05</text>
 <polygon points="45.000,500.000 60.000,500.000 60.000,472.500 45.000,472.500" stroke="#8a8a8a" stroke-width="0.18" fill="#f6f6f6" stroke-linejoin="miter"/>
+<g data-tipo="cota" data-eixo="V" data-parciais="4">
 <line x1="300.000" y1="500.000" x2="313.200" y2="500.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="300.000" y1="467.500" x2="313.200" y2="467.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="300.000" y1="462.500" x2="313.200" y2="462.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -300,6 +312,7 @@
 <line x1="311.300" y1="430.700" x2="312.700" y2="429.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="311.300" y1="423.825" x2="312.700" y2="422.425" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="310.884" y="426.562" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 310.884 426.562)">0,55</text>
+</g>
 <text x="180.000" y="517.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA LATERAL ESQUERDA (OESTE)</text>
 <polygon points="400.000,500.000 403.750,500.000 403.750,460.625 400.000,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="403.750,500.000 407.500,500.000 407.500,460.625 403.750,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
@@ -393,6 +406,7 @@
 <line x1="598.750" y1="441.250" x2="613.750" y2="441.250" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="606.250" y="441.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J01</text>
 <polygon points="385.000,500.000 400.000,500.000 400.000,472.500 385.000,472.500" stroke="#8a8a8a" stroke-width="0.18" fill="#f6f6f6" stroke-linejoin="miter"/>
+<g data-tipo="cota" data-eixo="V" data-parciais="4">
 <line x1="640.000" y1="500.000" x2="653.200" y2="500.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="640.000" y1="467.500" x2="653.200" y2="467.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="640.000" y1="462.500" x2="653.200" y2="462.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -411,6 +425,7 @@
 <line x1="651.300" y1="430.700" x2="652.700" y2="429.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="651.300" y1="423.825" x2="652.700" y2="422.425" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="650.884" y="426.562" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 650.884 426.562)">0,55</text>
+</g>
 <text x="520.000" y="517.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA LATERAL DIREITA (LESTE)</text>
 <circle cx="404.000" cy="166.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
 <text x="404.000" y="166.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
@@ -428,4 +443,5 @@
 <polygon points="500.000,190.000 525.000,190.000 525.000,191.600 500.000,191.600" stroke="#000000" stroke-width="0.18" fill="#000" stroke-linejoin="miter"/>
 <text x="500.000" y="194.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">8</text>
 <text x="525.000" y="194.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 m</text>
+</g>
 </svg>

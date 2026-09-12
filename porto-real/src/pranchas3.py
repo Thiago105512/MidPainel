@@ -21,7 +21,7 @@ def detalhes() -> Canvas:
     ])
 
     # =================== DET 1 — parede externa LSF 150 mm (1:5)
-    vw = View(5, 70, 160, 0, 0)
+    vw = View(5, 70, 280, 0, 0)
     an.titulo_desenho(cv, (60, 92), "1", "PAREDE EXTERNA EM LIGHT STEEL FRAME", "1:5")
     camadas = [
         (0, 10, "#9aa5b1", "Chapa cimenticia 10 mm (externa)"),

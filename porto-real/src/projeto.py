@@ -2294,9 +2294,12 @@ REVISOES = [
     ("R11", "Visualizador auditado: zoom 2D por degraus fixos que redesenham o "
             "vetor, modelo 3D navegavel com oito cenas, sol real, corte "
             "horizontal e camadas; deck deixa de tapar a piscina"),
+    ("R12", "Procedencia no traco: cada elemento do SVG declara de onde veio, e "
+            "a prancha vira documento navegavel. A folha entra na auditoria e "
+            "14 das 35 pranchas desenhavam fora da moldura — PR-22 era ilegivel"),
 ]
 EMISSAO = dict(
-    revisao="R11", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R12", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

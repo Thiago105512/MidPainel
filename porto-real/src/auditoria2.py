@@ -622,3 +622,79 @@ def checar_peninsula() -> list[Achado]:
             out.append(Achado("ERRO", "Peninsula no eixo visual",
                               f"{b['cod']} cruza x = {eixo:.0f}, o eixo estar-piscina"))
     return out
+
+
+# =========================================================================
+# R12 — a FOLHA entra na auditoria
+# =========================================================================
+def checar_extravasamento() -> list[Achado]:
+    """Nenhuma prancha pode desenhar fora da moldura.
+
+    Ate R11 a planta baixa emitia 136 mm de conteudo acima da moldura — o fim
+    da piscina, o jardim de fundo, o rotulo "JARDIM DE FUNDO". O papel corta,
+    o SVG corta no viewBox e ninguem fica sabendo: e a mesma classe de defeito
+    do resto do caderno, so que uma camada adiante. O que nao esta na folha nao
+    existe, mesmo estando no modelo.
+
+    A verificacao constroi as 35 pranchas e mede a caixa do que cada uma
+    emitiu contra a propria moldura.
+    """
+    import build
+    out = []
+    for num, nome, fn in build.CADERNO:
+        try:
+            cv = fn()
+        except Exception as e:                       # pragma: no cover
+            out.append(Achado("ERRO", f"PR-{num}", f"prancha nao constroi: {e}"))
+            continue
+        fora = {k: v for k, v in cv.cortado().items() if v > 2.0}
+        # cortar e legitimo quando se declara: a linha de ruptura (NBR 8403) diz
+        # ao leitor que o desenho continua alem do limite, e para onde ir ver
+        if fora and 'data-tipo="ruptura"' in cv.svg():
+            out.append(Achado("NOTA", f"PR-{num}",
+                              f"{nome}: corte declarado por linha de ruptura "
+                              f"({', '.join(f'{k} {v} mm' for k, v in sorted(fora.items()))})"))
+        elif fora:
+            lados = ", ".join(f"{k} {v} mm" for k, v in sorted(fora.items()))
+            out.append(Achado("ERRO", f"PR-{num}",
+                              f"{nome}: a moldura corta desenho ({lados}) — "
+                              f"conteudo que nao chega ao papel"))
+        else:
+            out.append(Achado("NOTA", f"PR-{num}",
+                              f"{nome}: desenho contido na moldura"))
+    return out
+
+
+def checar_procedencia() -> list[Achado]:
+    """Cada prancha precisa emitir procedencia suficiente para ser navegavel.
+
+    Um SVG sem data-tipo e uma figura: o visualizador consegue amplia-lo e nada
+    mais. A planta baixa, que e a peca que se le elemento por elemento, tem de
+    trazer ambiente, parede e vao identificados.
+    """
+    import re
+    import pranchas as pr
+    out = []
+    exigido = {"02": {"ambiente", "parede", "vao", "piso", "cota"},
+               "03": {"ambiente", "parede", "vao", "cota"},
+               "04": {"ambiente", "parede", "vao"}}
+    for num, cv in (("02", pr.planta("T", "02")), ("03", pr.planta("S", "03")),
+                    ("04", pr.planta("T", "04", layout=True))):
+        svg = cv.svg()
+        tipos = set(re.findall(r'data-tipo="(\w+)"', svg))
+        falta = exigido[num] - tipos
+        if falta:
+            out.append(Achado("ERRO", f"PR-{num}",
+                              f"sem procedencia para {sorted(falta)}: o traco "
+                              f"chega ao visualizador sem saber de onde veio"))
+        else:
+            n = svg.count("data-tipo=")
+            out.append(Achado("NOTA", f"PR-{num}",
+                              f"{n} escopos com procedencia; a interface alcanca "
+                              f"{len(tipos)} tipos de elemento"))
+        # toda prancha tem de declarar carimbo e moldura, que e o que o modo
+        # sem moldura desliga
+        for t in ("carimbo", "moldura"):
+            if t not in tipos:
+                out.append(Achado("ERRO", f"PR-{num}", f"{t} sem procedencia"))
+    return out

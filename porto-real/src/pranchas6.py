@@ -69,8 +69,8 @@ def hidrossanitaria() -> Canvas:
     ])
     pecas = pj.pecas_hidraulicas()
     for pav, ox, num in (("T", 40, "1"), ("S", 330, "2")):
-        vw = View(100, ox, 150, 1_800, 6_800)
-        an.titulo_desenho(cv, (ox - 10, 480), num,
+        vw = View(100, ox, 340, 1_800, 6_800)
+        an.titulo_desenho(cv, (ox - 10, 372), num,
                           f"PONTOS HIDRAULICOS — {'TERREO' if pav == 'T' else 'SUPERIOR'}",
                           "1:100")
         _fundo(cv, vw, pav)
@@ -162,8 +162,8 @@ def eletrica() -> Canvas:
         f"quadro do superior no hall.",
     ])
     for pav, ox, num in (("T", 40, "1"), ("S", 330, "2")):
-        vw = View(100, ox, 150, 1_800, 6_800)
-        an.titulo_desenho(cv, (ox - 10, 480), num,
+        vw = View(100, ox, 340, 1_800, 6_800)
+        an.titulo_desenho(cv, (ox - 10, 372), num,
                           f"PONTOS ELETRICOS — {'TERREO' if pav == 'T' else 'SUPERIOR'}",
                           "1:100")
         _fundo(cv, vw, pav)
@@ -276,8 +276,8 @@ def climatizacao() -> Canvas:
         "Isolamento continuo na travessia de parede, com bucha de passagem: corte de "
         "isolamento na parede condensa dentro do montante.",
     ])
-    vw = View(100, 40, 150, 800, 6_800)
-    an.titulo_desenho(cv, (30, 500), "1", "PERCURSO DAS LINHAS E DUTOS", "1:100")
+    vw = View(100, 40, 430, 800, 6_800)
+    an.titulo_desenho(cv, (30, 462), "1", "PERCURSO DAS LINHAS E DUTOS", "1:100")
     _fundo(cv, vw, "T")
     # superior em tracejado
     for a in pj.SUPERIOR:
@@ -387,8 +387,8 @@ def drenagem() -> Canvas:
         f"Reuso de {pl['volume_l']} L sem nenhuma ligacao a vasos sanitarios: "
         f"rede fisicamente separada e identificada.",
     ])
-    vw = View(100, 40, 150, 800, 0)
-    an.titulo_desenho(cv, (30, 520), "1", "DRENAGEM — IMPLANTACAO", "1:100")
+    vw = View(100, 40, 440, 800, 0)
+    an.titulo_desenho(cv, (30, 472), "1", "DRENAGEM — IMPLANTACAO", "1:100")
     L, Pf = pj.LOTE_L, pj.LOTE_P
     cv.poli_p([vw.pt(P(0, 0)), vw.pt(P(L, 0)), vw.pt(P(L, Pf)), vw.pt(P(0, Pf))],
               "fino", fechado=True, preenche="#fdfdfd", cor="#ccc")

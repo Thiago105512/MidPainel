@@ -2116,3 +2116,116 @@ não num índice guardado em outra folha.
 linha de emissão, lido de `EMISSAO["revisao"]`. Uma verificação já existente
 (`EMISSAO` contra o último item de `REVISOES`) garante que esse código nunca
 fique para trás do histórico.
+
+---
+
+# R12 — a prancha vira documento, e a folha entra na auditoria
+
+O proprietário perguntou se as pranchas do visualizador eram PDF e se não havia
+algo melhor, "que não haja corte, mais interativo". Não eram PDF: eram SVG —
+vetor puro — mas carregado dentro de uma `<img>`, isto é, **vetor tratado como
+fotografia**. Dava para ampliar sem borrar (desde R11) e nada mais: nenhum
+traço dentro dela era alcançável.
+
+A causa estava uma camada antes do visualizador. O `core.Canvas` recebia do
+modelo um objeto que sabia ser a COZINHA, código T-COZ, 21,60 m², e emitia
+`<line x1=… y1=…>`. Ao abrir uma prancha: **380 linhas, 368 textos, 169
+polígonos, zero `<g>`, zero `class`, zero `id` semântico.** A informação morria
+entre o modelo e o papel. E — o detalhe que decidiu o plano inteiro — o Canvas
+**já tinha** `grupo()` e `fim_grupo()` implementados, nunca chamados.
+
+O corolário do projeto, deslocado uma camada para fora:
+
+> O que não está no modelo, a auditoria não alcança.
+> **O que não está no SVG, a interface não alcança.**
+
+## Defeito 26 — o traço chegava sem procedência
+
+**Correção.** `Canvas.escopo()` é um gerenciador de contexto que embrulha o que
+for emitido dentro dele num `<g data-tipo=… data-cod=… data-*>`. Foi chamado
+exatamente onde o código já iterava por elemento: ambiente, parede, vão, piso,
+bancada, louça, equipamento, marcenaria, escada, piscina, cota, carimbo,
+moldura. **772 escopos nas 35 pranchas, ao custo de 10 % de arquivo.** Nenhum
+traço mudou: `data-*` não tem efeito visual, e o PDF ignora.
+
+Disso saiu, sem biblioteca nenhuma: o SVG dentro do DOM, camadas que ligam e
+desligam por tipo, ficha do elemento ao clique (a da cozinha puxa o forro da
+prancha 11, a zona de paginação da 24 e a climatização da 28 — o leitor não
+precisa ir até elas), busca de texto dentro do desenho, régua que devolve
+milímetro de modelo, minimapa, escala gráfica que acompanha o zoom e o modo
+sem moldura.
+
+## Defeito 27 — catorze pranchas desenhavam fora da moldura
+
+Este é o achado grande, e apareceu porque o SVG passou a ser inspecionável.
+A planta baixa emitia **136 mm de conteúdo acima da moldura**: o fim da
+piscina, o jardim de fundo, o rótulo "JARDIM DE FUNDO". A conta é elementar e
+ninguém a tinha feito: 40 m de lote a 1:50 são **800 mm de papel numa folha de
+594**.
+
+O Canvas passou a registrar a caixa do que emite, e a verificação
+`checar_extravasamento` mediu as 35 pranchas. **Catorze extravasavam.**
+
+| prancha | fora da moldura | causa |
+|---|---|---|
+| PR-22 | 541 mm acima, 339 abaixo, 295 à esquerda | ampliações desenhavam o pavimento inteiro, quatro vezes, sobrepostas |
+| PR-23 | 349 mm acima | idem |
+| PR-29, 31, 32 | 258 a 260 mm acima | origem da vista punha o fundo do lote fora da folha |
+| PR-26, 27, 28 | 186 mm acima, 36 a 60 abaixo | idem, mais tabela iniciada em y = 570 numa folha que acaba em 584 |
+| PR-02, 04 | 136 mm acima | o lote não cabe a 1:50 |
+| PR-24, 25, 35 | 95 a 156 mm acima | origem da vista |
+| PR-08 | 128 mm à esquerda | croqui isométrico com o lote inteiro a k = 0,0125 |
+| PR-10 | 116 mm acima | detalhe de parede de 1.200 mm a 1:5 |
+| PR-21 | 9,9 mm à esquerda | cadeia de cotas com deslocamento negativo |
+
+**PR-22 era o pior: ilegível.** Quatro ampliações de área molhada, cada uma
+desenhando o pavimento inteiro a 1:25 sobre a anterior, o carimbo soterrado, a
+moldura invisível.
+
+### As correções
+
+1. **Contenção estrutural.** `pranchas.base()` abre um recorte na moldura para
+   a folha inteira, fechado na emissão. Depois disto **nenhuma prancha consegue
+   desenhar fora da moldura sem que o corte seja medido e relatado**.
+2. **PR-22 e PR-23 refeitas.** Cada ampliação ganha uma **janela recortada** do
+   tamanho do compartimento, e a posição no papel deixou de ser um literal
+   digitado: é calculada pelo empacotamento das janelas. No superior o alvo
+   passou a ser o **banho e o closet** — que é o que uma prancha de área
+   molhada existe para detalhar; a suíte inteira a 1:25 gastaria 336 mm de
+   papel para mostrar um dormitório que a planta baixa já mostra.
+3. **Origens de vista corrigidas** em PR-10, 24, 25, 29, 31, 32, 35, com o valor
+   escolhido por medição, não por tentativa visual.
+4. **`_tabela` recusa-se a transbordar**: mede o espaço disponível, comprime a
+   entrelinha até o mínimo legível e, se ainda não couber, quebra em duas
+   colunas lado a lado — desde que haja espaço lateral.
+5. **Croqui isométrico** reescalado de k = 0,0125 para 0,0085: o lote inteiro
+   em isometria não cabia.
+6. **PR-02 e PR-04 declaram o corte** por linha de ruptura (NBR 8403), com a
+   remissão a PR-01 e PR-34. Cortar é legítimo quando se declara; o que não se
+   pode é cortar em silêncio, porque quem lê supõe que ali acaba o projeto.
+
+**De 14 pranchas extravasando para 0.**
+
+## Defeito 28 — dois erros meus, achados pelo próprio teste
+
+O `viewer_teste.py` reprovou a verificação do modo sem moldura duas vezes, e nas
+duas o errado era a verificação, não o código:
+
+- a métrica exigia que o desenho **transbordasse** a página A1 — foi escrita
+  quando ele de fato transbordava; depois da correção do defeito 27 ele passou
+  a caber, e a exigência virou absurdo;
+- `getBBox()` **ignora `clip-path`**: devolvia a geometria anterior ao recorte,
+  de 780 × 721 mm, para um desenho que agora cabe em 779 × 587. A caixa útil é
+  a interseção com a página.
+
+Vale como método, de novo: *verificação que grita errado é pior que verificação
+ausente* — e um instrumento novo precisa ser conferido contra uma medida
+independente antes de servir de prova. A caixa medida pelo Canvas foi conferida
+contra as coordenadas cruas do SVG lidas por expressão regular: bateram
+exatamente.
+
+## Estado
+
+**48 funções, 238 condições, 0 erros, 0 atenções, 91 notas no modelo.
+48 verificações e 0 falhas no visualizador. 65 itens no programa de auditoria.
+35 pranchas constroem, nenhuma desenha fora da moldura.**

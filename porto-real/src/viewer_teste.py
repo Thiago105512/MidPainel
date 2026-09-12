@@ -83,24 +83,26 @@ def rodar(fotos: bool = False) -> int:
                 path=tres, content_type="application/javascript"))
 
         pag.goto(f"http://127.0.0.1:{porta}/porto-real-caderno.html")
-        pag.wait_for_function("() => typeof SHEETS !== 'undefined' "
-                              "&& document.getElementById('sheet').complete")
+        pag.wait_for_function("() => typeof svg2d !== 'undefined' && svg2d")
         pag.wait_for_timeout(400)
 
         # ---------------- 2D: o zoom precisa ser proporcional ----------------
         ok(pag.evaluate("() => typeof THREE") == "object", "three.js carregado")
         nat = pag.evaluate("() => ({w: nat.w, h: nat.h})")
-        ok(nat["w"] > 800, "prancha rasterizada no tamanho natural", str(nat))
+        ok(abs(nat["w"] - 841) < 1 and abs(nat["h"] - 594) < 1,
+           "a prancha entra no DOM em milimetros de papel A1", str(nat))
+        gs = pag.evaluate("() => svg2d.querySelectorAll('g[data-tipo]').length")
+        ok(gs > 50, "os tracos chegam com procedencia", f"{gs} escopos no DOM")
 
         pag.evaluate("() => ajustar()")
-        largura0 = pag.evaluate("() => parseFloat(img.style.width)")
+        largura0 = pag.evaluate("() => parseFloat(svg2d.style.width)")
         pct0 = pag.evaluate("() => zval.textContent")
         ok(pct0 == "100%", "ajuste inicial marca 100%", pct0)
 
         medidas = []
         for _ in range(4):
             pag.evaluate("() => passo(1)")
-            medidas.append((pag.evaluate("() => parseFloat(img.style.width)"),
+            medidas.append((pag.evaluate("() => parseFloat(svg2d.style.width)"),
                             pag.evaluate("() => zval.textContent")))
         esperado = ["150%", "200%", "300%", "400%"]
         ok([m[1] for m in medidas] == esperado,
@@ -111,10 +113,10 @@ def rodar(fotos: bool = False) -> int:
            "400% amplia a prancha exatamente 4x em pixel", f"{razao:.3f}x")
 
         # o defeito original: scale() sobre a <img> nao reamostra o vetor
-        transf = pag.evaluate("() => img.style.transform")
+        transf = pag.evaluate("() => folha.style.transform")
         ok("scale(" not in transf,
            "o zoom redesenha o SVG (nao estica bitmap com scale)", transf)
-        cr = pag.evaluate("() => { const r = img.getBoundingClientRect(); "
+        cr = pag.evaluate("() => { const r = svg2d.getBoundingClientRect(); "
                           "return {w: Math.round(r.width)}; }")
         ok(abs(cr["w"] - medidas[-1][0]) < 2,
            "a caixa do elemento acompanha o zoom", str(cr))
@@ -143,12 +145,12 @@ def rodar(fotos: bool = False) -> int:
 
         # ---------------- 2D: navegacao ----------------
         pag.evaluate("() => mostrar(0)")
-        pag.wait_for_function("() => img.complete && img.src.includes('PR-01')")
+        pag.wait_for_function("() => miniImg.src.includes('PR-01') && svg2d")
         ok(pag.evaluate("() => zval.textContent") == "100%",
            "trocar de prancha reajusta o enquadramento")
         pag.evaluate("() => mostrar(34)")
-        pag.wait_for_function("() => img.complete && img.src.includes('PR-35')")
-        ok("PR-35" in pag.evaluate("() => img.src"), "chega na ultima prancha")
+        pag.wait_for_function("() => miniImg.src.includes('PR-35') && svg2d")
+        ok("PR-35" in pag.evaluate("() => miniImg.src"), "chega na ultima prancha")
         ok(pag.evaluate("() => document.querySelectorAll('#rail button').length") == 35,
            "as 35 pranchas estao no indice")
         ok(pag.evaluate("() => noteKeys.children.length") == 4,
@@ -156,10 +158,156 @@ def rodar(fotos: bool = False) -> int:
 
         if fotos:
             pag.evaluate("() => { mostrar(1); }")
-            pag.wait_for_function("() => img.complete")
+            pag.wait_for_function("() => svg2d && miniImg.src.includes('PR-02')")
+            pag.wait_for_timeout(300)
             pag.evaluate("() => passo(1, stage.getBoundingClientRect().left + 500, "
                          "stage.getBoundingClientRect().top + 300)")
             pag.locator("#stage").screenshot(path=os.path.join(OUT, "teste-2d-zoom.png"))
+
+        # ---------------- 2D: a prancha como documento (R12) ----------------
+        pag.evaluate("() => mostrar(1)")                       # planta do terreo
+        pag.wait_for_function("() => svg2d && miniImg.src.includes('PR-02')")
+        pag.wait_for_timeout(300)
+
+        ncam = pag.evaluate("() => document.querySelectorAll('#camadas2d input').length")
+        ok(ncam >= 8, "as camadas do 2D vem dos tipos presentes na prancha",
+           f"{ncam} camadas")
+
+        # desligar cotas tem de esconder os grupos de cota, e so eles
+        pag.evaluate("""() => {
+          const i = [...document.querySelectorAll('#camadas2d label')]
+            .find(l => l.textContent.trim().toLowerCase().startsWith('cota'))
+            .querySelector('input');
+          i.checked = false; i.dispatchEvent(new Event('change'));
+        }""")
+        escondidas = pag.evaluate("""() => {
+          const c = [...svg2d.querySelectorAll('[data-tipo=cota]')];
+          const p = [...svg2d.querySelectorAll('[data-tipo=parede]')];
+          return {cota: c.filter(g => g.style.display === 'none').length, ncota: c.length,
+                  par: p.filter(g => g.style.display === 'none').length};
+        }""")
+        ok(escondidas["cota"] == escondidas["ncota"] and escondidas["par"] == 0,
+           "a camada desliga exatamente o seu tipo",
+           f"{escondidas['cota']}/{escondidas['ncota']} cotas fora, "
+           f"{escondidas['par']} paredes fora")
+        pag.evaluate("""() => {
+          const i = [...document.querySelectorAll('#camadas2d label')]
+            .find(l => l.textContent.trim().toLowerCase().startsWith('cota'))
+            .querySelector('input');
+          i.checked = true; i.dispatchEvent(new Event('change'));
+        }""")
+
+        # clicar num ambiente abre a ficha, e a ficha traz o que outras
+        # pranchas ja diziam sobre ele
+        pag.evaluate("""() => {
+          const g = [...svg2d.querySelectorAll('g[data-tipo=ambiente]')]
+            .find(x => x.dataset.cod === 'T-COZ');
+          porRealce(g); mostrarFicha(g);
+        }""")
+        fic = pag.evaluate("() => document.getElementById('ficha').textContent")
+        ok("COZINHA" in fic and "21,60" in fic.replace(".", ","),
+           "clicar no ambiente abre a ficha com nome e area", fic[:60])
+        ok("forro" in fic.lower() and "gesso" in fic.lower(),
+           "a ficha puxa o acabamento declarado em outra prancha",
+           fic[:90])
+
+        # o realce cobre o AMBIENTE, nao o rotulo: e para isso que o escopo
+        # carrega a caixa em coordenadas de papel
+        cx = pag.evaluate("""() => {
+          const g = [...svg2d.querySelectorAll('g[data-tipo=ambiente]')]
+            .find(x => x.dataset.cod === 'T-COZ');
+          const b = g.dataset.box.split(' ').map(Number);
+          const r = svg2d.querySelector('.realce');
+          return {box: b[2], realce: parseFloat(r.getAttribute('width')),
+                  rotulo: g.getBBox().width};
+        }""")
+        ok(abs(cx["realce"] - cx["box"]) < 3 and cx["box"] > cx["rotulo"] * 1.5,
+           "o realce cobre o ambiente inteiro, nao so o rotulo",
+           f"caixa {cx['box']:.0f} mm de papel contra rotulo {cx['rotulo']:.0f}")
+
+        # escala grafica
+        eg = pag.evaluate("""() => ({txt: document.getElementById('escalagTxt').textContent,
+          vis: !document.getElementById('escalag').hidden,
+          larg: parseFloat(document.getElementById('escalagBarra').style.width)})""")
+        ok(eg["vis"] and "1:50" in eg["txt"], "a escala grafica declara o denominador",
+           eg["txt"])
+        antes = eg["larg"]
+        pag.evaluate("() => passo(1)")
+        depois = pag.evaluate("() => parseFloat(document.getElementById('escalagBarra').style.width)")
+        ok(depois != antes, "e a barra acompanha o zoom, porque 1:50 so vale no papel",
+           f"{antes:.0f} px → {depois:.0f} px")
+        pag.evaluate("() => ajustar()")
+
+        # busca dentro do desenho
+        pag.evaluate("""() => { const b = document.getElementById('busca');
+          b.value = 'DESPENSA'; b.dispatchEvent(new Event('input')); }""")
+        pag.wait_for_timeout(200)
+        bq = pag.evaluate("() => ({n: achados.length, "
+                          "conta: document.getElementById('buscaConta').textContent})")
+        ok(bq["n"] >= 1, "a busca acha texto dentro da prancha",
+           f"DESPENSA: {bq['n']} ocorrencia(s), contador {bq['conta']}")
+        pag.evaluate("""() => { const b = document.getElementById('busca');
+          b.value = ''; b.dispatchEvent(new Event('input')); }""")
+
+        # medicao: dois pontos devolvem milimetro de MODELO, nao pixel de tela
+        pag.evaluate("() => ajustar()")
+        med = pag.evaluate("""() => {
+          medindo = true; denom = 50;
+          const r = stage.getBoundingClientRect();
+          const p1 = {clientX: r.left + 200, clientY: r.top + 200};
+          const p2 = {clientX: r.left + 400, clientY: r.top + 200};
+          const a = papel(p1), b = papel(p2);
+          stage.dispatchEvent(new MouseEvent('click', p1));
+          stage.dispatchEvent(new MouseEvent('click', p2));
+          const t = capaRegua.querySelector('text');
+          medindo = false;
+          return {rotulo: t ? t.textContent : null,
+                  esperado: Math.hypot(b.x - a.x, b.y - a.y) * 50};
+        }""")
+        lido = None
+        if med["rotulo"]:
+            v = med["rotulo"].replace(" m", "").replace(" mm", "").replace(",", ".")
+            lido = float(v) * (1000 if "m" in med["rotulo"] and "mm" not in med["rotulo"] else 1)
+        ok(lido is not None and abs(lido - med["esperado"]) < 20,
+           "a regua devolve milimetro do modelo, nao pixel de tela",
+           f"{med['rotulo']} contra {med['esperado']:.0f} mm calculados")
+        pag.evaluate("() => limparRegua()")
+
+        # modo sem moldura
+        pag.evaluate("() => ajustar()")
+        antes_esc = pag.evaluate("() => escala")
+        pag.click("#semmold")
+        pag.wait_for_timeout(250)
+        sm = pag.evaluate("""() => {
+          const car = svg2d.querySelector('[data-tipo=carimbo]');
+          const c = caixaDesenho();
+          return {carimbo: car.style.display, escala,
+                  caixa: [Math.round(c.width), Math.round(c.height)]};
+        }""")
+        ok(sm["carimbo"] == "none", "sem moldura esconde o carimbo")
+        # o ganho e o que sobra de pagina em volta do desenho: numa prancha bem
+        # ocupada e pequeno, e isso e uma propriedade da prancha, nao um defeito
+        ganho = sm["escala"] / antes_esc
+        ok(ganho >= 0.999,
+           "e reenquadra no desenho, nunca menor que o enquadramento da pagina",
+           f"desenho {sm['caixa'][0]}x{sm['caixa'][1]} mm de papel; "
+           f"ganho de {(ganho - 1) * 100:+.1f} %")
+        pag.click("#semmold")
+        pag.wait_for_timeout(200)
+        ok(pag.evaluate("() => svg2d.querySelector('[data-tipo=carimbo]').style.display") != "none",
+           "e devolve a moldura quando se desliga o modo")
+
+        # minimapa
+        mm = pag.evaluate("""() => {
+          const j = document.getElementById('miniJanela');
+          return {w: parseFloat(j.style.width), mw: mini.clientWidth,
+                  h: parseFloat(j.style.height)};
+        }""")
+        ok(0 < mm["w"] <= mm["mw"] + 1, "o minimapa mostra a janela visivel dentro do limite",
+           f"{mm['w']:.0f} de {mm['mw']} px")
+
+        if fotos:
+            pag.locator("#stage").screenshot(path=os.path.join(OUT, "teste-2d-ficha.png"))
 
         # ---------------- 3D ----------------
         pag.click(".modos button[data-modo='3d']")

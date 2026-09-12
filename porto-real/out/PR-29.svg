@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="841mm" height="594mm" viewBox="0 0 841 594">
 <rect width="841" height="594" fill="#ffffff"/>
-
+<defs><clipPath id="rec1"><rect x="25.00" y="10.00" width="806.00" height="574.00"/></clipPath></defs>
+<g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
+</g>
+<g data-tipo="carimbo" data-cod="29" data-rev="R12">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -23,107 +26,111 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R11</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R12</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">29</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R11</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R12</text>
+</g>
+<g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Cobertura: 331.56 m2 de contribuicao, i = 180 mm/h, C = 0.95 -&gt; Q = 15.7491 L/s em 4 descidas DN100.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Caimento de 1.5% em area molhada interna e 1% em area externa.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Impermeabilizacao: manta liquida poliuretanica, 2 demaos, subindo 300 mm na parede e 1800 mm no box.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Reuso de 2500 L sem nenhuma ligacao a vasos sanitarios: rede fisicamente separada e identificada.</text>
-<circle cx="34.000" cy="516.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
-<text x="34.000" y="516.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
-<text x="41.000" y="514.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">DRENAGEM — IMPLANTACAO</text>
-<text x="41.000" y="519.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:100</text>
-<line x1="30.000" y1="521.600" x2="87.200" y2="521.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<polygon points="32.000,150.000 232.000,150.000 232.000,-250.000 32.000,-250.000" stroke="#ccc" stroke-width="0.18" fill="#fdfdfd" stroke-linejoin="miter"/>
-<polygon points="116.000,78.000 134.000,78.000 134.000,54.000 116.000,54.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="134.000,78.000 152.000,78.000 152.000,54.000 134.000,54.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="182.000,78.000 200.000,78.000 200.000,18.000 182.000,18.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="56.000,-12.000 86.000,-12.000 86.000,-42.000 56.000,-42.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="152.000,18.000 200.000,18.000 200.000,-18.000 152.000,-18.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="152.000,-18.000 200.000,-18.000 200.000,-42.000 152.000,-42.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="158.000,-42.000 200.000,-42.000 200.000,-84.000 158.000,-84.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="128.000,-84.000 188.000,-84.000 188.000,-120.000 128.000,-120.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="188.000,-84.000 200.000,-84.000 200.000,-120.000 188.000,-120.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="56.000,-114.000 128.000,-114.000 128.000,-144.000 56.000,-144.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="68.000,-144.000 146.000,-144.000 146.000,-198.000 68.000,-198.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="56.000,-144.000 68.000,-144.000 68.000,-198.000 56.000,-198.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="128.000,-120.000 146.000,-120.000 146.000,-144.000 128.000,-144.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="146.000,-120.000 200.000,-120.000 200.000,-198.000 146.000,-198.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="56.000,-198.000 200.000,-198.000 200.000,-246.000 56.000,-246.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<polygon points="55.250,78.000 56.750,78.000 56.750,-12.000 55.250,-12.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="55.250,-42.000 56.750,-42.000 56.750,-114.000 55.250,-114.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="85.500,18.000 86.500,18.000 86.500,-12.000 85.500,-12.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="85.250,-12.000 86.750,-12.000 86.750,-42.000 85.250,-42.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="115.250,78.000 116.750,78.000 116.750,54.000 115.250,54.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="115.500,54.000 116.500,54.000 116.500,18.000 115.500,18.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="127.500,-42.000 128.500,-42.000 128.500,-84.000 127.500,-84.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="127.250,-84.000 128.750,-84.000 128.750,-114.000 127.250,-114.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="133.500,54.000 134.500,54.000 134.500,30.000 133.500,30.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="151.250,78.000 152.750,78.000 152.750,54.000 151.250,54.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="151.500,54.000 152.500,54.000 152.500,18.000 151.500,18.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="151.250,18.000 152.750,18.000 152.750,-42.000 151.250,-42.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="157.250,-42.000 158.750,-42.000 158.750,-84.000 157.250,-84.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="181.250,78.000 182.750,78.000 182.750,18.000 181.250,18.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="56.000,78.750 116.000,78.750 116.000,77.250 56.000,77.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="152.000,78.750 182.000,78.750 182.000,77.250 152.000,77.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="116.000,54.750 152.000,54.750 152.000,53.250 116.000,53.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="134.000,30.500 152.000,30.500 152.000,29.500 134.000,29.500" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="56.000,18.500 152.000,18.500 152.000,17.500 56.000,17.500" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="152.000,18.750 182.000,18.750 182.000,17.250 152.000,17.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="56.000,-11.250 86.000,-11.250 86.000,-12.750 56.000,-12.750" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="56.000,-41.250 86.000,-41.250 86.000,-42.750 56.000,-42.750" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="128.000,-41.500 152.000,-41.500 152.000,-42.500 128.000,-42.500" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="152.000,-41.250 158.000,-41.250 158.000,-42.750 152.000,-42.750" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="128.000,-71.500 158.000,-71.500 158.000,-72.500 128.000,-72.500" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="128.000,-83.250 158.000,-83.250 158.000,-84.750 128.000,-84.750" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<polygon points="56.000,-113.250 128.000,-113.250 128.000,-114.750 56.000,-114.750" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
-<text x="86.000" y="48.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-GAR</text>
-<text x="125.000" y="36.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-HAL</text>
-<text x="143.000" y="42.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-BWC</text>
-<text x="143.000" y="24.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-CIR</text>
-<text x="167.000" y="48.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-REV</text>
-<text x="71.000" y="3.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-OFI</text>
-<text x="107.000" y="-12.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-SOC</text>
-<text x="140.000" y="-12.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-COR</text>
-<text x="71.000" y="-78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-COZ</text>
-<text x="107.000" y="-78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-GOU</text>
-<text x="143.000" y="-57.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-LAV</text>
-<text x="143.000" y="-78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-DEP</text>
-<polygon points="133.700,39.700 137.300,39.700 137.300,43.300 133.700,43.300" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="138.500" y="42.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-01 DN50</text>
-<polygon points="55.700,3.200 59.300,3.200 59.300,6.800 55.700,6.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="60.500" y="5.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-02 DN50</text>
-<polygon points="55.700,-44.800 59.300,-44.800 59.300,-41.200 55.700,-41.200" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="60.500" y="-42.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-03 DN50</text>
-<polygon points="145.700,-60.800 149.300,-60.800 149.300,-57.200 145.700,-57.200" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="150.500" y="-58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-04 DN50</text>
-<polygon points="138.200,-55.800 141.800,-55.800 141.800,-52.200 138.200,-52.200" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="143.000" y="-53.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-05 DN50</text>
-<polygon points="66.200,-73.800 69.800,-73.800 69.800,-70.200 66.200,-70.200" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="71.000" y="-71.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-06 DN50</text>
-<polygon points="54.200,75.200 57.800,75.200 57.800,78.800 54.200,78.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="59.000" y="77.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-07 DN75</text>
-<polygon points="67.200,-146.800 70.800,-146.800 70.800,-143.200 67.200,-143.200" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="72.000" y="-144.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-08 DN75</text>
-<polygon points="54.200,-116.300 57.800,-116.300 57.800,-112.700 54.200,-112.700" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="59.000" y="-113.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-11 DN75</text>
-<polygon points="157.200,-44.800 160.800,-44.800 160.800,-41.200 157.200,-41.200" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="162.000" y="-42.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-09 DN50</text>
-<polygon points="55.200,-14.800 58.800,-14.800 58.800,-11.200 55.200,-11.200" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="60.000" y="-12.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-10 DN50</text>
-<polygon points="202.000,70.000 222.000,70.000 222.000,55.000 202.000,55.000" stroke="#06c" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
-<text x="212.000" y="62.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">TC-01</text>
-<polygon points="162.000,-120.000 180.000,-120.000 180.000,-135.000 162.000,-135.000" stroke="#06c" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
-<text x="171.000" y="-127.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">TC-03</text>
-<circle cx="48.000" cy="-64.000" r="2.200" stroke="#b5651d" stroke-width="0.3" fill="#fff"/>
-<text x="51.200" y="-63.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="start" dominant-baseline="middle">TC-11</text>
-<circle cx="47.000" cy="-93.000" r="2.200" stroke="#b5651d" stroke-width="0.3" fill="#fff"/>
-<text x="50.200" y="-92.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="start" dominant-baseline="middle">TC-12</text>
+</g>
+<g clip-path="url(#rec1)" data-tipo="recorte">
+<circle cx="34.000" cy="468.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
+<text x="34.000" y="468.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
+<text x="41.000" y="466.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">DRENAGEM — IMPLANTACAO</text>
+<text x="41.000" y="471.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:100</text>
+<line x1="30.000" y1="473.600" x2="87.200" y2="473.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<polygon points="32.000,440.000 232.000,440.000 232.000,40.000 32.000,40.000" stroke="#ccc" stroke-width="0.18" fill="#fdfdfd" stroke-linejoin="miter"/>
+<polygon points="116.000,368.000 134.000,368.000 134.000,344.000 116.000,344.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="134.000,368.000 152.000,368.000 152.000,344.000 134.000,344.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="182.000,368.000 200.000,368.000 200.000,308.000 182.000,308.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="56.000,278.000 86.000,278.000 86.000,248.000 56.000,248.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="152.000,308.000 200.000,308.000 200.000,272.000 152.000,272.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="152.000,272.000 200.000,272.000 200.000,248.000 152.000,248.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="158.000,248.000 200.000,248.000 200.000,206.000 158.000,206.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="128.000,206.000 188.000,206.000 188.000,170.000 128.000,170.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="188.000,206.000 200.000,206.000 200.000,170.000 188.000,170.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="56.000,176.000 128.000,176.000 128.000,146.000 56.000,146.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="68.000,146.000 146.000,146.000 146.000,92.000 68.000,92.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="56.000,146.000 68.000,146.000 68.000,92.000 56.000,92.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="128.000,170.000 146.000,170.000 146.000,146.000 128.000,146.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="146.000,170.000 200.000,170.000 200.000,92.000 146.000,92.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="56.000,92.000 200.000,92.000 200.000,44.000 56.000,44.000" stroke="#ddd" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<polygon points="55.250,368.000 56.750,368.000 56.750,278.000 55.250,278.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="55.250,248.000 56.750,248.000 56.750,176.000 55.250,176.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="85.500,308.000 86.500,308.000 86.500,278.000 85.500,278.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="85.250,278.000 86.750,278.000 86.750,248.000 85.250,248.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="115.250,368.000 116.750,368.000 116.750,344.000 115.250,344.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="115.500,344.000 116.500,344.000 116.500,308.000 115.500,308.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="127.500,248.000 128.500,248.000 128.500,206.000 127.500,206.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="127.250,206.000 128.750,206.000 128.750,176.000 127.250,176.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="133.500,344.000 134.500,344.000 134.500,320.000 133.500,320.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="151.250,368.000 152.750,368.000 152.750,344.000 151.250,344.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="151.500,344.000 152.500,344.000 152.500,308.000 151.500,308.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="151.250,308.000 152.750,308.000 152.750,248.000 151.250,248.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="157.250,248.000 158.750,248.000 158.750,206.000 157.250,206.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="181.250,368.000 182.750,368.000 182.750,308.000 181.250,308.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="56.000,368.750 116.000,368.750 116.000,367.250 56.000,367.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="152.000,368.750 182.000,368.750 182.000,367.250 152.000,367.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="116.000,344.750 152.000,344.750 152.000,343.250 116.000,343.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="134.000,320.500 152.000,320.500 152.000,319.500 134.000,319.500" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="56.000,308.500 152.000,308.500 152.000,307.500 56.000,307.500" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="152.000,308.750 182.000,308.750 182.000,307.250 152.000,307.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="56.000,278.750 86.000,278.750 86.000,277.250 56.000,277.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="56.000,248.750 86.000,248.750 86.000,247.250 56.000,247.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="128.000,248.500 152.000,248.500 152.000,247.500 128.000,247.500" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="152.000,248.750 158.000,248.750 158.000,247.250 152.000,247.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="128.000,218.500 158.000,218.500 158.000,217.500 128.000,217.500" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="128.000,206.750 158.000,206.750 158.000,205.250 128.000,205.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<polygon points="56.000,176.750 128.000,176.750 128.000,175.250 56.000,175.250" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<text x="86.000" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-GAR</text>
+<text x="125.000" y="326.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-HAL</text>
+<text x="143.000" y="332.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-BWC</text>
+<text x="143.000" y="314.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-CIR</text>
+<text x="167.000" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-REV</text>
+<text x="71.000" y="293.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-OFI</text>
+<text x="107.000" y="278.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-SOC</text>
+<text x="140.000" y="278.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-COR</text>
+<text x="71.000" y="212.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-COZ</text>
+<text x="107.000" y="212.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-GOU</text>
+<text x="143.000" y="233.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-LAV</text>
+<text x="143.000" y="212.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-DEP</text>
+<polygon points="133.700,329.700 137.300,329.700 137.300,333.300 133.700,333.300" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="138.500" y="332.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-01 DN50</text>
+<polygon points="55.700,293.200 59.300,293.200 59.300,296.800 55.700,296.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="60.500" y="295.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-02 DN50</text>
+<polygon points="55.700,245.200 59.300,245.200 59.300,248.800 55.700,248.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="60.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-03 DN50</text>
+<polygon points="145.700,229.200 149.300,229.200 149.300,232.800 145.700,232.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="150.500" y="231.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-04 DN50</text>
+<polygon points="138.200,234.200 141.800,234.200 141.800,237.800 138.200,237.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="143.000" y="236.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-05 DN50</text>
+<polygon points="66.200,216.200 69.800,216.200 69.800,219.800 66.200,219.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="71.000" y="218.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-06 DN50</text>
+<polygon points="54.200,365.200 57.800,365.200 57.800,368.800 54.200,368.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="59.000" y="367.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-07 DN75</text>
+<polygon points="67.200,143.200 70.800,143.200 70.800,146.800 67.200,146.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="72.000" y="145.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-08 DN75</text>
+<polygon points="54.200,173.700 57.800,173.700 57.800,177.300 54.200,177.300" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="59.000" y="176.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-11 DN75</text>
+<polygon points="157.200,245.200 160.800,245.200 160.800,248.800 157.200,248.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="162.000" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-09 DN50</text>
+<polygon points="55.200,275.200 58.800,275.200 58.800,278.800 55.200,278.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="60.000" y="277.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-10 DN50</text>
+<polygon points="202.000,360.000 222.000,360.000 222.000,345.000 202.000,345.000" stroke="#06c" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
+<text x="212.000" y="352.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">TC-01</text>
+<polygon points="162.000,170.000 180.000,170.000 180.000,155.000 162.000,155.000" stroke="#06c" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
+<text x="171.000" y="162.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">TC-03</text>
+<circle cx="48.000" cy="226.000" r="2.200" stroke="#b5651d" stroke-width="0.3" fill="#fff"/>
+<text x="51.200" y="226.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="start" dominant-baseline="middle">TC-11</text>
+<circle cx="47.000" cy="197.000" r="2.200" stroke="#b5651d" stroke-width="0.3" fill="#fff"/>
+<text x="50.200" y="197.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="start" dominant-baseline="middle">TC-12</text>
 <circle cx="250.000" cy="120.000" r="7.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
 <polygon points="257.000,120.000 248.245,121.608 250.000,120.000 248.245,118.392" stroke="#000000" stroke-width="0.3" fill="#000" stroke-linejoin="miter"/>
 <text x="261.000" y="120.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">N</text>
@@ -299,4 +306,5 @@
 <text x="411.500" y="363.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">caimento em uma direcao so: menos recorte de piso e menos erro de obra</text>
 <line x1="344.000" y1="330.000" x2="344.000" y2="366.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="410.000" y1="330.000" x2="410.000" y2="366.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+</g>
 </svg>
