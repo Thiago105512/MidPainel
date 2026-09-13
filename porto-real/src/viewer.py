@@ -22,6 +22,7 @@ import especificacao as ep
 import viewer_parte2 as v2
 import viewer_parte3 as v3
 import viewer_parte4 as v4
+import viewer_parte5 as v5
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(AQUI, "..", "out", "porto-real-caderno.html")
@@ -288,6 +289,7 @@ HEAD = r'''<title>Caderno Porto Real</title>
   @media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }
 __CSS_EXTRA__
 __CSS_2D__
+__CSS_ENG__
 </style>
 '''
 
@@ -322,6 +324,12 @@ __FIGS__
       <h2>Caderno · __N__ pranchas</h2>
       <ul class="sheets" id="rail"></ul>
     </div>
+    <div id="railEng" hidden>
+      <h2>Do modelo à fábrica</h2>
+      <ul class="cenas" id="vistasEng"></ul>
+      <p class="dica">Sete vistas do mesmo motor: o que a prancha não cabe.
+         Três modos de leitura mudam a explicação, nunca o número.</p>
+    </div>
     <div id="rail3d" hidden>
       <h2>Cenas do modelo</h2>
       <ul class="cenas" id="cenas"></ul>
@@ -336,6 +344,7 @@ __FIGS__
         <div class="modos" role="tablist" aria-label="Modo de visualização">
           <button type="button" data-modo="2d" role="tab" aria-selected="true">2D</button>
           <button type="button" data-modo="3d" role="tab" aria-selected="false">3D</button>
+          <button type="button" data-modo="eng" role="tab" aria-selected="false">Engenharia</button>
         </div>
         <div class="title" id="sheetTitle">—<small id="sheetMeta"></small></div>
         <div class="barra" id="barra2d">
@@ -354,6 +363,10 @@ __FIGS__
 __HTML2D__
 __PALCO2D__
 __HTML3D__
+__HTMLENG__
+      <p class="hint" id="dicaEng" hidden>Os 801 códigos de peça vêm da posição, não da
+        ordem de geração · o painel é desenhado a partir de (x, z) e comprimento, os mesmos
+        números que vão para a perfiladeira · nada nesta aba é digitado</p>
       <p class="hint" id="dica2d">Clique em qualquer parede, vão ou ambiente para abrir a ficha ·
         as camadas ligam e desligam cotas, mobiliário e a própria moldura ·
         a busca acha texto dentro do desenho · roda amplia em passos fixos ancorados no cursor ·
@@ -441,6 +454,7 @@ const SHEETS = __SHEETS__;
 const FICHAS = __FICHAS__;
 __JS_2D__
 __JS_3D__
+__JS_ENG__
 
 // =====================================================================
 // navegacao das pranchas
@@ -507,7 +521,7 @@ def partes() -> tuple[str, str]:
         f'      <li><span class="n">{esc(n)}</span><span>{esc(txt)}</span>'
         f'<span class="s {st.lower()}">{esc(st)}</span></li>'
         for n, txt, st in D["pend"])
-    cabeca = HEAD.replace("__CSS_EXTRA__", v2.CSS_EXTRA).replace("__CSS_2D__", v4.CSS_2D)
+    cabeca = HEAD.replace("__CSS_EXTRA__", v2.CSS_EXTRA).replace("__CSS_2D__", v4.CSS_2D).replace("__CSS_ENG__", v5.CSS_ENG)
     corpo = (BODY.replace("__N__", str(len(D["sheets"])))
                  .replace("__REV__", D["revisao"])
                  .replace("__FIGS__", figs)
@@ -516,8 +530,10 @@ def partes() -> tuple[str, str]:
                  .replace("__HTML2D__", v4.HTML_2D)
                  .replace("__PALCO2D__", v4.HTML_PALCO_2D)
                  .replace("__HTML3D__", v2.HTML_3D)
+                 .replace("__HTMLENG__", v5.HTML_ENG)
                  .replace("__TRES__", TRES)
                  .replace("__JS_2D__", v4.JS_2D)
+                 .replace("__JS_ENG__", v5.JS_ENG)
                  .replace("__JS_3D__", v3.JS_3D)
                  .replace("__FICHAS__", json.dumps(D["fichas"], ensure_ascii=False))
                  .replace("__SHEETS__", json.dumps(D["sheets"], ensure_ascii=False)))

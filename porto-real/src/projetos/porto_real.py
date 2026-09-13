@@ -2338,6 +2338,12 @@ REVISOES = [
     ("R25", "E20, E21 e E22 — documentos gerados do modelo em tres modos de "
             "leitura, checklist de liberacao de 16 itens com motor de erros, e "
             "scores com a formula exposta, inclusive CO2e e desmontabilidade"),
+    ("R26", "E19 — aba de engenharia no visualizador: sete vistas do motor, "
+            "painel de parede desenhado a partir da coordenada da propria peca. "
+            "Desenhar expos tres defeitos: 138 pecas fora do envelope do "
+            "painel, dois vaos mais altos que a parede emitidos em silencio e "
+            "o codigo de peca que se dizia estavel e carregava o contador de "
+            "geracao"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2363,13 +2369,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R25",
+    revisao="R26",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R25", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R26", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

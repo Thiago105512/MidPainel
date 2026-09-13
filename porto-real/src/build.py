@@ -79,8 +79,10 @@ def main(png: bool = True, pdf: bool = True) -> None:
                 cairosvg.svg2pdf(url=c, write_to=c.replace(".svg", ".pdf"))
 
     import modelo3d
+    import engenharia
     import viewer
     modelo3d.exportar(os.path.join(OUT, "modelo3d.json"))
+    engenharia.main()
     viewer.main()
 
     if pdf:

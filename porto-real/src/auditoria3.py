@@ -745,9 +745,13 @@ def checar_painelizacao() -> list[Achado]:
                                  f"icamento ({cfg.peso_max})")
             n_ab = len(p.aberturas)
             if n_ab:
+                # vao de altura total nao tem verga: o criterio e o mesmo que
+                # o gerador usou, pn.cabe_verga, e nao uma copia dele aqui
+                com_verga = sum(1 for a in p.aberturas
+                                if pn.cabe_verga(a, p.altura, cfg))
                 for nome, esperado in (("king stud", 2 * n_ab),
                                        ("jack stud", 2 * n_ab),
-                                       ("header", n_ab)):
+                                       ("header", com_verga)):
                     if fam.get(nome, 0) != esperado:
                         problemas.append(f"{p.cod}: {fam.get(nome,0)} {nome} para "
                                          f"{n_ab} abertura(s), esperado {esperado}")
@@ -767,6 +771,22 @@ def checar_painelizacao() -> list[Achado]:
             # blocking obrigatorio acima da altura de travamento
             if p.altura > cfg.blocking_a_cada and not fam.get("blocking"):
                 problemas.append(f"{p.cod}: sem blocking numa altura de {p.altura} mm")
+            # ENVELOPE: nenhuma peca fora do painel. Esta condicao parece obvia
+            # e por isso nunca tinha sido escrita — 138 pecas violavam-na ate
+            # R25, e nenhuma prancha mostrava, porque nenhuma prancha desenhava
+            # a peca a partir da propria coordenada.
+            for pc in p.pecas:
+                bwp = pn.bw(pc.perfil)
+                w = bwp if pc.vertical else pc.comp
+                h = pc.comp if pc.vertical else bwp
+                if pc.x < 0 or pc.x + w > p.comp + 1:
+                    problemas.append(f"{p.cod}: {pc.cod} ({pc.familia}) ocupa "
+                                     f"x {pc.x}..{pc.x + w} num painel de "
+                                     f"{p.comp} mm")
+                if pc.z < 0 or pc.z + h > p.altura + 1:
+                    problemas.append(f"{p.cod}: {pc.cod} ({pc.familia}) ocupa "
+                                     f"z {pc.z}..{pc.z + h} num painel de "
+                                     f"{p.altura} mm")
 
     for m in problemas[:10]:
         out.append(Achado("ERRO", "painelizacao", m))
@@ -1006,6 +1026,38 @@ def checar_pecas() -> list[Achado]:
         de_novo += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"], serv)
     if [p.cod for p in de_novo] != cods:
         problemas.append("os codigos mudam entre duas geracoes identicas")
+
+    # ESTABILIDADE DE VERDADE. Regerar o modelo identico e comparar nao testa
+    # nada: qualquer contador determinista passa nesse teste. O que precisa ser
+    # provado e que mexer NUM painel nao renumera os OUTROS — e foi exatamente
+    # ai que o codigo antigo falhava, porque carregava o contador global de
+    # geracao no numero legivel. O caso de teste tem de quebrar a simetria que
+    # o defeito usava para se esconder.
+    import copy as _copy
+    v_alt = _copy.deepcopy(list(el.vaos_do_pavimento("T")))
+    alvo = next(v for v in v_alt if v["tipo"].startswith("J"))
+    alvo["alt"] = int(alvo["alt"]) + 800     # some com os cripples superiores
+    pais0 = pn.painelizar(el.derivar_paredes(pj.TERREO),
+                          list(el.vaos_do_pavimento("T")), prefixo="TP")
+    pais1 = pn.painelizar(el.derivar_paredes(pj.TERREO), v_alt, prefixo="TP")
+    a0 = pe.detalhar(pais0, cat, "T", pj.EMISSAO["revisao"])
+    a1 = pe.detalhar(pais1, cat, "T", pj.EMISSAO["revisao"])
+    if len(a0) == len(a1):
+        problemas.append("o caso de teste nao mudou a contagem de pecas: "
+                         "ele nao testa a estabilidade que promete testar")
+    tocados = {p.painel for p in a0} ^ {p.painel for p in a1}
+    tocados |= {p.painel for p in a0
+                if p.cod not in {q.cod for q in a1}}
+    intactos = [p for p in a0 if p.painel not in tocados]
+    perdidos = [p.cod for p in intactos if p.cod not in {q.cod for q in a1}]
+    if perdidos:
+        problemas.append(f"elevar um vao renumerou {len(perdidos)} pecas de "
+                         f"paineis que nao foram tocados (ex.: {perdidos[0]})")
+    else:
+        out.append(Achado("NOTA", "identidade",
+                          f"elevar um vao 800 mm muda {len(a1)-len(a0):+d} "
+                          f"pecas e nao renomeia nenhuma das {len(intactos)} "
+                          f"pecas dos paineis intactos"))
 
     # furos dentro da zona util
     for p in todas:

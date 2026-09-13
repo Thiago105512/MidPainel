@@ -2299,3 +2299,66 @@ parede não pode ser partida ali, e o painel sai com o **motivo declarado**:
 cinco painéis do Porto Real estão nessa situação — o portão da garagem e a
 cortina de vidro ocupam a parede inteira. São painéis de montagem no local, e
 agora o projeto diz isso.
+
+## Defeito 32 — 138 peças fora do painel, e nenhuma prancha via
+
+A aba de engenharia desenha o painel **a partir da coordenada da própria peça** —
+os mesmos números que vão para a perfiladeira. Na primeira renderização, 138 de
+799 peças apareceram fora do retângulo do painel.
+
+Nenhuma delas era erro de desenho. Era o gerador que nunca tinha declarado o que
+`(x, z)` significa, e por isso usava dois significados ao mesmo tempo:
+
+| peça | nascia em | deveria nascer em |
+|---|---|---|
+| guia superior | `z = altura` | `z = altura − 92` |
+| montante de ponta | `x = comp` | `x = comp − 90` |
+| king e jack à esquerda | `x = e` (dentro do vão) | `x = e − 90` |
+| verga | vence `v`, sem apoio | vence `v + 2×90`, apoiada nos jacks |
+| cripple superior | começa em `topo`, dentro da verga | começa em `topo + 90` |
+| peitoril | face inferior na linha | face **superior** na linha |
+
+A verga é a mais séria: vencendo exatamente o vão bruto, ela **encostava** nos
+jacks em vez de **apoiar** sobre eles. Uma verga que não apoia não é uma verga.
+
+A convenção agora está escrita no código, não subentendida: *`(x, z)` é o canto
+de menor coordenada da peça no plano do painel, e nenhuma peça sai do envelope
+`0..comp × 0..altura`*. Montante atravessar guia continua valendo — isso é
+físico, o montante encaixa dentro da guia —, mas nada ultrapassa a face externa.
+
+A auditoria ganhou a condição correspondente. Ela parece óbvia demais para ser
+escrita, e é justamente por isso que faltava.
+
+## Defeito 33 — uma porta de 2,80 m numa parede de 2,60 m
+
+Com o envelope conferido, sobraram dois casos que o modelo vinha emitindo em
+silêncio: a porta principal **P01, de 2.800 mm de altura, num painel de 2.600
+mm**, e a cortina de vidro **CV01, de 2.600 mm exatos**. O painelizador gerava
+um jack stud de 2.800 mm dentro de um painel de 2.600 e seguia adiante.
+
+Agora o critério é único e público — `painel.cabe_verga()` —, consultado pelo
+gerador, pela auditoria e pelo checklist de liberação, em vez de cada um ter a
+sua cópia. Quando não há altura para verga, o vão é assumido de **altura total**
+e o painel declara a consequência: *a carga acima do vão passa a ser da
+estrutura do pavimento superior*.
+
+## Defeito 34 — o código de peça que se dizia estável
+
+`peca._codigo()` abria com "deriva da posição, não da ordem de geração" e
+devolvia `ST0289-A1F`: o número legível era `seq`, o **contador global de
+geração**.
+
+O teste de estabilidade que existia regerava o modelo idêntico e comparava os
+códigos — o que qualquer contador determinístico passa. O defeito só apareceu
+quando o Defeito 32 mudou a contagem de peças de dois painéis: mover uma janela
+600 mm passou a "afetar" **73 % da casa**, porque tudo o que vinha depois foi
+renumerado.
+
+O código agora é formado só por aquilo que a peça **é**: painel, família e hash
+da posição dentro do painel. E o ensaio passou a quebrar a simetria de que o
+defeito se servia — eleva-se um vão em 800 mm, o que **muda a contagem** (−10
+peças), e se exige que nenhuma das 435 peças dos painéis intactos mude de nome.
+Resultado: impacto de 73 % para **3,5 %**.
+
+> Um teste que regenera a mesma entrada não testa estabilidade de identidade.
+> Testa determinismo — que é outra coisa, e muito mais barata.

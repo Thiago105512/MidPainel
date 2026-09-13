@@ -174,9 +174,40 @@ def montar(par, vaos, cfg: Config, cod: str, pav: str = "T") -> list[Painel]:
     return saida
 
 
+def cabe_verga(ab: dict, altura: int, cfg: Config = None) -> bool:
+    """Ha altura para verga sobre este vao?
+
+    Criterio unico, consultado pelo gerador, pela auditoria e pelo checklist —
+    se cada um tivesse o seu, divergiriam na primeira revisao.
+    """
+    cfg = cfg or Config()
+    topo = ab["peitoril"] + ab["alt"]
+    return topo + bw(cfg.perfil_verga) <= altura - bw(cfg.perfil_track)
+
+
+def bw(perfil: str) -> int:
+    """Largura da alma declarada na designacao: "Ue 90x40x12x0,95" -> 90."""
+    return int(float(perfil.split()[1].split("x")[0].replace(",", ".")))
+
+
 def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
-    """Gera as pecas do painel: guias, montantes, reforco de abertura, blocking."""
+    """Gera as pecas do painel: guias, montantes, reforco de abertura, blocking.
+
+    CONVENCAO DE COORDENADA, e ela e o contrato com o desenho e com a maquina:
+    (x, z) e o canto de MENOR coordenada da peca no plano do painel, e nenhuma
+    peca sai do envelope 0..comp x 0..altura. Montante e cripple atravessam a
+    guia — isso e fisico, o montante encaixa DENTRO da guia — mas nada
+    ultrapassa a face externa do painel.
+
+    Ate R25 a convencao era implicita e, por isso, inconsistente: a guia
+    superior nascia em z = altura (92 mm acima do painel), o montante de ponta
+    em x = comp (90 mm alem da borda) e a verga vencia exatamente o vao livre,
+    sem apoio sobre os jacks. Nada disso aparecia em prancha porque nada
+    desenhava a peca a partir da propria coordenada. O visualizador desenhou, e
+    138 pecas apareceram fora do painel.
+    """
     n = 0
+    bt, bs, bv = bw(cfg.perfil_track), bw(cfg.perfil_stud), bw(cfg.perfil_verga)
 
     def add(familia, perfil, comp, x, z, vertical=True, obs=""):
         nonlocal n
@@ -187,7 +218,8 @@ def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
 
     # guias inferior e superior, na largura inteira do painel
     add("track", cfg.perfil_track, p.comp, 0, 0, False, "guia inferior")
-    add("track", cfg.perfil_track, p.comp, 0, p.altura, False, "guia superior")
+    add("track", cfg.perfil_track, p.comp, 0, p.altura - bt, False,
+        "guia superior")
 
     # zonas proibidas para montante modular: dentro do vao mais os king studs
     proibido = []
@@ -200,35 +232,65 @@ def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
     while x <= p.comp:
         dentro = any(a < x < b for a, b in proibido)
         if not dentro:
-            add("stud", cfg.perfil_stud, p.altura, x, 0)
+            add("stud", cfg.perfil_stud, p.altura, min(x, p.comp - bs), 0)
         x += cfg.modulacao
     if (p.comp % cfg.modulacao) != 0 and not any(a < p.comp < b for a, b in proibido):
-        add("stud", cfg.perfil_stud, p.altura, p.comp, 0, True, "montante de ponta")
+        add("stud", cfg.perfil_stud, p.altura, p.comp - bs, 0, True,
+            "montante de ponta")
 
     # reforco de cada abertura
     for ab in aberturas:
         v = ab["larg"] + 2 * cfg.folga_abertura
         e, d = ab["centro"] - v / 2, ab["centro"] + v / 2
         topo = ab["peitoril"] + ab["alt"]
-        for lado, xx in (("esq", e), ("dir", d)):
+        # o king e o jack ficam FORA do vao: a face interna deles e a borda do
+        # vao bruto, senao o vao livre entregue e 180 mm menor que o esquadria
+        for lado, xx in (("esq", max(0, e - bs)), ("dir", min(d, p.comp - bs))):
             add("king stud", cfg.perfil_stud, p.altura, xx, 0, True,
                 f"{ab['tipo']} {lado}: continuo de piso a topo")
-            add("jack stud", cfg.perfil_stud, topo, xx, 0, True,
-                f"{ab['tipo']} {lado}: apoia a verga")
-        add("header", cfg.perfil_verga, v, e, topo, False,
-            f"verga do {ab['tipo']}, vao livre {ab['larg']} mm")
+            add("jack stud", cfg.perfil_stud, min(topo, p.altura), xx, 0, True,
+                f"{ab['tipo']} {lado}: apoia a verga"
+                if cabe_verga(ab, p.altura, cfg) else
+                f"{ab['tipo']} {lado}: vao de altura total, sobe ate a guia")
+        # a verga APOIA sobre os jacks — por isso vence o vao bruto mais a
+        # largura dos dois jacks, e nao o vao livre
+        xh = max(0, e - bs)
+        ch = min(v + 2 * bs, p.comp - xh)
+        zh = min(topo, p.altura - bt - bv)
+        if not cabe_verga(ab, p.altura, cfg):
+            # Vao mais alto que o painel: nao existe verga possivel. Antes de
+            # R25 o gerador emitia um jack de 2800 mm dentro de um painel de
+            # 2600 e seguia adiante. Emitir geometria impossivel em silencio e
+            # pior do que nao emitir: aqui o vao e assumido de altura total e a
+            # falta da verga e declarada, porque a carga passa a ser da
+            # estrutura do pavimento de cima.
+            p.obs = (p.obs + " | " if p.obs else "") + (
+                f"{ab['tipo']} tem {topo} mm de topo num painel de "
+                f"{p.altura} mm: vao de altura total, sem verga — a carga "
+                f"acima do vao e da estrutura do pavimento superior")
+            continue
+        add("header", cfg.perfil_verga, ch, xh, zh, False,
+            f"verga do {ab['tipo']}, vao livre {ab['larg']} mm, "
+            f"apoio de {bs} mm em cada jack")
         if ab["peitoril"] > 0:
-            add("sill", cfg.perfil_track, v, e, ab["peitoril"], False,
-                f"peitoril do {ab['tipo']}")
+            # a face SUPERIOR do peitoril e a linha do peitoril: a esquadria
+            # senta sobre ele, nao ao lado dele
+            add("sill", cfg.perfil_track, ch, xh, max(0, ab["peitoril"] - bt),
+                False, f"peitoril do {ab['tipo']}")
         # cripples na MESMA modulacao, para a placa continuar achando montante
-        for zc, hc, fam in ((topo, p.altura - topo, "cripple superior"),
-                            (0, ab["peitoril"], "cripple inferior")):
+        # o cripple superior comeca ACIMA da verga, nao dentro dela
+        for zc, hc, fam in ((zh + bv, p.altura - zh - bv, "cripple superior"),
+                            (0, max(0, ab["peitoril"] - bt), "cripple inferior")):
             if hc < 100:
                 continue
             xc = math.ceil(e / cfg.modulacao) * cfg.modulacao
             while xc < d:
-                add(fam, cfg.perfil_stud, hc, xc, zc, True,
-                    "mantem a modulacao da placa")
+                # sem clamp: um cripple deslocado para caber sairia da
+                # modulacao, e a placa ficaria sem apoio justamente na borda.
+                # Quando nao cabe, quem apoia ali e o montante de ponta.
+                if xc + bs <= p.comp:
+                    add(fam, cfg.perfil_stud, hc, xc, zc, True,
+                        "mantem a modulacao da placa")
                 xc += cfg.modulacao
 
     # blocking: corta o comprimento de flambagem distorcional

@@ -77,12 +77,26 @@ class PecaDetalhada:
         return f"{self.cod}|{self.painel}|{self.perfil}|{self.comp:.0f}|{self.revisao}"
 
 
-def _codigo(familia: str, painel: str, x: float, z: float, seq: int) -> str:
-    """Codigo estavel: deriva da posicao, nao da ordem de geracao."""
+def _codigo(familia: str, painel: str, x: float, z: float) -> str:
+    """Codigo estavel: deriva da posicao, nao da ordem de geracao.
+
+    Ate R25 a funcao dizia isto e fazia o contrario: o numero legivel era `seq`,
+    o contador global de geracao. Enquanto duas revisoes produzissem a MESMA
+    quantidade de pecas, o defeito nao aparecia — bastou um cripple a menos num
+    painel para renumerar tudo o que vinha depois, e mover uma janela 600 mm
+    passou a "afetar" 73 % da casa. Codigo de peca e identidade: se ele muda
+    porque um vizinho mudou, a rastreabilidade entre revisoes nao existe.
+
+    Agora o codigo e formado so por coisas que a peca E: o painel a que
+    pertence, a familia estrutural e o hash da posicao dentro do painel. Nada
+    ali depende de quantas pecas existem antes. Duas pecas da mesma familia na
+    mesma posicao do mesmo painel nao podem existir, entao a chave e unica — e
+    a auditoria confere a unicidade, em vez de supor.
+    """
     p = PREFIXO.get(familia, familia[:2].upper())
     chave = f"{painel}|{familia}|{int(x)}|{int(z)}"
     h = hashlib.sha1(chave.encode()).hexdigest()[:3].upper()
-    return f"{p}{seq:04d}-{h}"
+    return f"{painel}-{p}{h}"
 
 
 def furos_de_servico(comp: float, alma: float, servicos: list) -> list[Furo]:
@@ -123,12 +137,11 @@ def detalhar(paineis: list, cat_massa: dict, pav: str, revisao: str,
              servicos_por_painel: dict = None) -> list[PecaDetalhada]:
     """Transforma as pecas do painel em pecas de fabrica, com ID e furo."""
     servicos_por_painel = servicos_por_painel or {}
-    out, seq = [], 0
+    out = []
     for pa in paineis:
         for pc in pa.pecas:
-            seq += 1
             d = PecaDetalhada(
-                cod=_codigo(pc.familia, pa.cod, pc.x, pc.z, seq),
+                cod=_codigo(pc.familia, pa.cod, pc.x, pc.z),
                 familia=pc.familia, perfil=pc.perfil, comp=pc.comp,
                 massa=cat_massa[pc.perfil] * pc.comp / 1000.0,
                 painel=pa.cod, pav=pav, x=pc.x, z=pc.z,

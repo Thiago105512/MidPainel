@@ -280,15 +280,25 @@ function aplicarCena(c) {
 // abas
 // =====================================================================
 let carregou3d = false;
+
+// De quem e cada elemento. A aba deixou de ser um booleano quando virou tres:
+// manter "e2 = qual === 3d" com uma terceira aba seria escrever o bug antes do
+// codigo. A tabela diz o dono; quem nao e dono da aba corrente fica hidden.
+const DONO = {
+  "2d":  ["stage", "barra2d", "barra2", "rail2d", "notas2d", "dica2d"],
+  "3d":  ["stage3d", "rail3d", "notas3d", "dica3d"],
+  "eng": ["stageEng", "railEng", "dicaEng"],
+};
 function modo(qual) {
   const e2 = qual === "3d";
-  [["stage", e2], ["barra2d", e2], ["barra2", e2], ["rail2d", e2],
-   ["notas2d", e2], ["dica2d", e2],
-   ["stage3d", !e2], ["rail3d", !e2], ["notas3d", !e2], ["dica3d", !e2]
-  ].forEach(([id, esconde]) => { document.getElementById(id).hidden = esconde; });
+  Object.keys(DONO).forEach(k => DONO[k].forEach(id => {
+    const n = document.getElementById(id);
+    if (n) n.hidden = (k !== qual);
+  }));
   document.querySelectorAll(".modos button").forEach(b =>
     b.setAttribute("aria-selected", (b.dataset.modo === qual) + ""));
-  if (!e2) { if (svg2d) ajustar(semMoldura ? caixaDesenho() : null); return; }
+  if (qual === "eng") { abrirEng(); return; }
+  if (qual === "2d") { if (svg2d) ajustar(semMoldura ? caixaDesenho() : null); return; }
   if (!carregou3d) {
     carregou3d = true;
     fetch("modelo3d.json").then(r => r.json()).then(d => {
@@ -321,7 +331,7 @@ document.querySelectorAll(".modos button").forEach(b =>
 
 addEventListener("keydown", e2 => {
   if (e2.target.tagName === "INPUT" || e2.target.tagName === "SELECT") return;
-  if (document.getElementById("stage3d").hidden) {
+  if (!document.getElementById("stage").hidden) {
     if (e2.key === "ArrowLeft") mostrar(idxPrancha - 1);
     if (e2.key === "ArrowRight") mostrar(idxPrancha + 1);
     if (e2.key === "+" || e2.key === "=") passo(1);

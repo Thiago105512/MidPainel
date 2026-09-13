@@ -53,7 +53,9 @@ def servir(raiz: str):
 def rodar(fotos: bool = False) -> int:
     from playwright.sync_api import sync_playwright
 
+    import engenharia
     import viewer
+    engenharia.main()
     viewer.main()
 
     srv, porta = servir(OUT)
@@ -414,6 +416,191 @@ def rodar(fotos: bool = False) -> int:
                 cid = pag.evaluate("(i) => M3.cenas[i].id", i)
                 pag.locator("#stage3d").screenshot(
                     path=os.path.join(OUT, f"teste-3d-{i}-{cid}.png"))
+
+        # =================================================================
+        # ABA DE ENGENHARIA — 62 paineis, 801 pecas e a cadeia inteira
+        # =================================================================
+        pag.click(".modos button[data-modo='eng']")
+        pag.wait_for_timeout(700)
+        ok(pag.evaluate("() => document.getElementById('stageEng').hidden") is False,
+           "a aba de engenharia abre")
+        ok(pag.evaluate("() => document.getElementById('stage').hidden") is True,
+           "e esconde o palco 2D (a tabela DONO cobre as tres abas)")
+        ok(pag.evaluate("() => !!ENG && ENG.paineis.length > 0"),
+           "engenharia.json carrega no navegador",
+           str(pag.evaluate("() => ENG && ENG.paineis.length")))
+
+        # o painel de controle mostra o que o motor decidiu, nao um texto fixo
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .cartao').length")
+           == pag.evaluate("() => ENG.resumo.length"),
+           "o painel de controle mostra todas as figuras do resumo")
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .check li').length")
+           == pag.evaluate("() => ENG.liberacao.itens.length"),
+           "e os 16 itens do checklist, um a um",
+           str(pag.evaluate("() => ENG.liberacao.itens.length")))
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .nota .form').length")
+           == pag.evaluate("() => Object.keys(ENG.scores).length"),
+           "cada nota vem com a formula que a produziu")
+        ok(pag.evaluate("() => document.querySelector('#engConteudo .selo').textContent")
+           .strip().startswith(pag.evaluate("() => ENG.liberacao.situacao")[:12]),
+           "o selo de liberacao repete a situacao do motor")
+
+        # o modo de leitura muda a explicacao
+        antes = pag.evaluate("() => document.querySelector('#engConteudo .cap').textContent")
+        pag.click("#engConteudo [data-leitura='especialista']")
+        pag.wait_for_timeout(200)
+        depois = pag.evaluate("() => document.querySelector('#engConteudo .cap').textContent")
+        ok(antes != depois and len(depois) > 40,
+           "trocar o modo de leitura troca a explicacao")
+        fig = pag.evaluate("() => document.querySelectorAll('#engConteudo .cartao .val')[0].textContent")
+        pag.click("#engConteudo [data-leitura='executivo']")
+        pag.wait_for_timeout(200)
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .cartao .val')[0].textContent")
+           == fig, "e nao troca nenhum numero", fig)
+        pag.click("#engConteudo [data-leitura='educacional']")
+        pag.wait_for_timeout(150)
+
+        # paineis: o desenho vem da posicao das pecas
+        pag.click("#vistasEng button[data-vista='paineis']")
+        pag.wait_for_timeout(350)
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .lista button').length")
+           == pag.evaluate("() => ENG.paineis.length"),
+           "a lista traz os 62 paineis")
+        ok(pag.evaluate("""() => {
+             const p = ENG.paineis.find(q => q.cod === painelSel);
+             return document.querySelectorAll('#engConteudo .desenho svg rect').length
+                    >= p.pecas.length; }"""),
+           "o desenho tem ao menos um retangulo por peca")
+        ok(pag.evaluate("""() => {
+             const p = ENG.paineis.find(q => q.cod === painelSel);
+             const rs = [...document.querySelectorAll('#engConteudo .desenho svg rect')];
+             return rs.every(r => {
+               const x = +r.getAttribute('x'), w = +r.getAttribute('width');
+               return x >= -1 && x + w <= p.comp + 1; }); }"""),
+           "nenhuma peca desenhada fora do painel")
+        ok(pag.evaluate("""() => {
+             const p = ENG.paineis.find(q => q.cod === painelSel);
+             const rs = [...document.querySelectorAll('#engConteudo .desenho svg rect')];
+             return rs.every(r => {
+               const y = +r.getAttribute('y'), h = +r.getAttribute('height');
+               return y >= -1 && y + h <= p.altura + 1; }); }"""),
+           "nem acima da guia superior")
+        com_vao = pag.evaluate("() => (ENG.paineis.find(p => p.aberturas.length) || {}).cod")
+        if com_vao:
+            pag.click(f"#engConteudo [data-painel='{com_vao}']")
+            pag.wait_for_timeout(300)
+            ok(pag.evaluate("() => painelSel") == com_vao,
+               "clicar troca o painel mostrado", com_vao)
+            ok(pag.evaluate("""() => {
+                 const p = ENG.paineis.find(q => q.cod === painelSel);
+                 const t = [...document.querySelectorAll('#engConteudo .desenho svg text')]
+                   .map(n => n.textContent);
+                 return p.aberturas.every(a => t.includes(a.tipo)); }"""),
+               "e o vao aparece rotulado pelo tipo do quadro de esquadrias")
+            ok(pag.evaluate("""() => {
+                 const p = ENG.paineis.find(q => q.cod === painelSel);
+                 return p.familias['header'] === p.aberturas.length; }"""),
+               "cada vao tem a sua verga — o desenho denuncia se faltar")
+
+        # pecas: filtro, ordenacao e busca operam sobre as 801
+        pag.click("#vistasEng button[data-vista='pecas']")
+        pag.wait_for_timeout(350)
+        total = pag.evaluate("() => todasPecas().length")
+        ok(total == sum(pag.evaluate("() => Object.values(ENG.familias)")),
+           f"a tabela enxerga as {total} pecas")
+        pag.select_option("#filFam", "header")
+        pag.wait_for_timeout(250)
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo tbody tr').length")
+           == pag.evaluate("() => ENG.familias['header']"),
+           "filtrar por familia devolve exatamente as vergas",
+           str(pag.evaluate("() => ENG.familias['header']")))
+        pag.select_option("#filFam", "")
+        pag.wait_for_timeout(200)
+        pag.click("#engConteudo th[data-ord='comp']")
+        pag.wait_for_timeout(250)
+        ok(pag.evaluate("""() => {
+             const c = [...document.querySelectorAll('#engConteudo tbody tr')]
+               .map(r => +r.children[4].textContent);
+             return c.every((v, i) => i === 0 || c[i-1] <= v); }"""),
+           "ordenar por comprimento ordena de fato")
+        pag.click("#engConteudo th[data-ord='comp']")
+        pag.wait_for_timeout(250)
+        ok(pag.evaluate("""() => {
+             const c = [...document.querySelectorAll('#engConteudo tbody tr')]
+               .map(r => +r.children[4].textContent);
+             return c.every((v, i) => i === 0 || c[i-1] >= v); }"""),
+           "e o segundo clique inverte")
+
+        # corte
+        pag.click("#vistasEng button[data-vista='corte']")
+        pag.wait_for_timeout(350)
+        ok(abs(pag.evaluate("() => ENG.nesting.bruto - ENG.nesting.usado - ENG.nesting.perda"))
+           < 1e-6, "o plano de corte fecha: bruto = usado + perda")
+        ok(pag.evaluate("""() => ENG.nesting.barras.every(b =>
+             b.pecas.reduce((s, q) => s + q.comp, 0) <= b.bruto + 1e-6)"""),
+           "nenhuma barra recebe mais peca do que cabe")
+
+        # montagem
+        pag.click("#vistasEng button[data-vista='montagem']")
+        pag.wait_for_timeout(350)
+        ok(pag.evaluate("() => document.querySelectorAll('#listaPassos button').length")
+           == pag.evaluate("() => ENG.montagem.n_passos"),
+           "a sequencia traz todos os passos",
+           str(pag.evaluate("() => ENG.montagem.n_passos")))
+        ok(pag.evaluate("""() => ENG.montagem.passos.every((s, i) =>
+             i === 0 || s.acumulado_h >= ENG.montagem.passos[i-1].acumulado_h)"""),
+           "a hora acumulada nunca anda para tras")
+        acesos = ("() => document.querySelectorAll('#engConteudo .desenho svg "
+                  "line[stroke-opacity=\"1\"]').length")
+        linhas0 = pag.evaluate(acesos)
+        # o primeiro passo e a fundacao, que nao acende painel nenhum: avancar
+        # ate o primeiro passo de painel e o que tem de mudar a planta
+        pag.click("#passoMais")
+        pag.click("#passoMais")
+        pag.wait_for_timeout(320)
+        linhas1 = pag.evaluate(acesos)
+        ok(linhas1 > linhas0,
+           "avancar ate o primeiro painel acende painel na planta",
+           f"{linhas0} -> {linhas1}")
+        pag.evaluate("() => { passoAtual = ENG.montagem.n_passos; renderEng(); }")
+        pag.wait_for_timeout(320)
+        ok(pag.evaluate(acesos) == pag.evaluate("() => ENG.paineis.length"),
+           "e no ultimo passo a planta esta inteira montada",
+           str(pag.evaluate(acesos)))
+        ok(pag.evaluate("""() => ENG.montagem.passos.filter(s => s.painel).length
+             === ENG.paineis.length"""),
+           "todo painel tem o seu passo de montagem, e so um")
+        pag.click("#passoZero")
+        pag.wait_for_timeout(150)
+        pag.click("#playMont")
+        pag.wait_for_timeout(900)
+        pag.click("#playMont")
+        pag.wait_for_timeout(250)
+        ok(pag.evaluate("() => passoAtual") > 1,
+           "a animacao anda sozinha e pausa",
+           str(pag.evaluate("() => passoAtual")))
+
+        # logistica e documentos
+        pag.click("#vistasEng button[data-vista='logistica']")
+        pag.wait_for_timeout(300)
+        ok(pag.evaluate("() => ENG.logistica.uso_peso <= 1 && ENG.logistica.uso_volume <= 1"),
+           "a carga nao excede o container")
+        pag.click("#vistasEng button[data-vista='documentos']")
+        pag.wait_for_timeout(350)
+        ok(len(pag.evaluate("() => document.querySelector('.doc-txt').textContent")) > 200,
+           "o documento sai com conteudo, nao so cabecalho")
+        pag.click("#engConteudo [data-doc='memorial_compressao']")
+        pag.wait_for_timeout(250)
+        m_edu = pag.evaluate("() => document.querySelector('.doc-txt').textContent")
+        pag.click("#engConteudo [data-leitura='especialista']")
+        pag.wait_for_timeout(250)
+        m_esp = pag.evaluate("() => document.querySelector('.doc-txt').textContent")
+        import re as _re
+        n_edu = set(_re.findall(r"\d+[.,]\d+", m_edu))
+        n_esp = set(_re.findall(r"\d+[.,]\d+", m_esp))
+        ok(m_edu != m_esp and bool(n_edu & n_esp),
+           "os tres modos mudam o texto e mantem o valor de calculo",
+           f"{len(n_edu & n_esp)} numeros identicos nos dois modos")
 
         # volta para o 2D
         pag.click(".modos button[data-modo='2d']")

@@ -112,8 +112,11 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         "perfis aprovados": all(u <= 1.0 for u in utilizacoes),
         "ligacoes": True,
         "fundacao": True,
+        # verga para todo vao que comporta uma; o vao de altura total nao tem
+        # verga por definicao, e o painel declara isso na observacao
         "aberturas": all(
-            p.por_familia().get("header", 0) == len(p.aberturas)
+            p.por_familia().get("header", 0)
+            == sum(1 for a in p.aberturas if pn.cabe_verga(a, p.altura, cfg))
             for p in todos),
         "MEP": all(f.d <= 0.5 * float(p.perfil.split()[1].split("x")[0])
                    for p in pecas for f in p.furos),
