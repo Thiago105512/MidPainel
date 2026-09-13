@@ -1369,3 +1369,124 @@ def checar_logistica() -> list[Achado]:
                       f"2,40 m de largura passa e 3,20 m nao: {r2['faltas']} "
                       f"{r2['obs']}"))
     return out
+
+
+def checar_montagem() -> list[Achado]:
+    """A ordem de montagem e uma ordem PARCIAL com restricoes fisicas.
+
+    A verificacao que mais importa: em nenhum passo a estrutura pode ficar
+    instavel. Painel de pe sozinho, sem o de canto e sem o piso superior, e
+    painel que cai — e essa e a causa mais comum de acidente em obra de LSF.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.montagem as mo
+    out = []
+    cat = pn._catalogo_massa()
+    pp = {pav: pn.painelizar(el.derivar_paredes(amb),
+                             list(el.vaos_do_pavimento(pav)), prefixo=f"{pav}P")
+          for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR))}
+    et = mo.etapas_do_projeto(pp, cat)
+    r = mo.ordenar(et)
+    if r["erro"]:
+        return [Achado("ERRO", "montagem", r["erro"])]
+
+    # toda dependencia precede a etapa que depende dela
+    pos = {c: i for i, c in enumerate(r["ordem"])}
+    fora = [(e.cod, d) for e in et for d in e.depende if pos[d] > pos[e.cod]]
+    out.append(Achado("NOTA" if not fora else "ERRO", "sequencia",
+                      f"{len(et)} etapas ordenadas; toda dependencia precede "
+                      f"quem depende dela" if not fora else
+                      f"{len(fora)} dependencias fora de ordem"))
+
+    # estabilidade passo a passo
+    falhas = mo.verificar_estabilidade(et, r["ordem"])
+    out.append(Achado("NOTA" if not falhas else "ERRO", "estabilidade",
+                      "em nenhum passo a estrutura fica instavel"
+                      if not falhas else falhas[0][:120]))
+
+    # ciclo de dependencia tem de ser detectado, nao contornado
+    ciclo = [mo.Etapa("A", "painel", "a", ("B",)),
+             mo.Etapa("B", "painel", "b", ("A",))]
+    rc = mo.ordenar(ciclo)
+    out.append(Achado("NOTA" if rc["erro"] and not rc["ordem"] else "ERRO",
+                      "ciclo",
+                      "dependencia circular e reportada como montagem "
+                      "impossivel, em vez de resolvida em ordem arbitraria"))
+
+    # desmontagem e a inversa exata
+    d = mo.desmontagem(r["ordem"])
+    out.append(Achado("NOTA" if d == list(reversed(r["ordem"])) else "ERRO",
+                      "desmontagem",
+                      f"a sequencia inversa sai de graca porque a direta foi "
+                      f"DERIVADA: comeca por {d[0]} e termina na fundacao"))
+
+    ps = mo.passo_a_passo(et, r["ordem"])
+    ms = mo.marcos(ps)
+    cresce = all(a["passo"] <= b["passo"] for a, b in zip(ms, ms[1:]))
+    out.append(Achado("NOTA" if cresce else "ERRO", "timeline",
+                      f"{ps[-1]['acumulado_h']:.0f} h no total, com marcos em "
+                      f"{[m['tipo'] for m in ms]}"))
+    return out
+
+
+def checar_otimizacao() -> list[Achado]:
+    """A decisao global contra o exemplo da propria especificacao (secao 148).
+
+    A especificacao diz, em texto: 'o sistema PODE PREFERIR B mesmo sendo
+    ligeiramente mais pesada'. Isso e um caso de teste — e e assim que ele esta
+    verificado aqui.
+    """
+    import nucleo.otimizacao as ot
+    out = []
+    A = ot.Solucao("A", "11 perfis, 4.800 kg",
+                   dict(custo=14200, peso=4800, sku=11, desperdicio=0.14,
+                        montagem=420, carbono=9600))
+    B = ot.Solucao("B", "5 perfis, 5.050 kg",
+                   dict(custo=13600, peso=5050, sku=5, desperdicio=0.09,
+                        montagem=310, carbono=10100))
+    C = ot.Solucao("C", "8 perfis, 4.900 kg",
+                   dict(custo=13950, peso=4900, sku=8, desperdicio=0.11,
+                        montagem=370, carbono=9800))
+    r = ot.ranquear([A, B, C])
+    venceu = r[0]["cod"]
+    mais_leve = min([A, B, C], key=lambda s: s.metricas["peso"]).cod
+    out.append(Achado("NOTA" if venceu == "B" else "ERRO", "secao 148",
+                      f"vence {venceu}, que NAO e a mais leve ({mais_leve}): "
+                      f"5 SKUs contra 11 e 110 h a menos de montagem pagam os "
+                      f"250 kg de aco a mais"))
+
+    # a explicacao precisa dizer tambem o que a vencedora PERDEU
+    exp = ot.explicar(r)
+    out.append(Achado("NOTA" if "PERDER" in exp else "ATENCAO", "explicacao",
+                      exp[:150]))
+
+    # peso zero num objetivo tem de mudar o resultado
+    so_peso = ot.ranquear([A, B, C], dict(custo=0, sku=0, desperdicio=0,
+                                          montagem=0, carbono=0, peso=1))
+    out.append(Achado("NOTA" if so_peso[0]["cod"] == "A" else "ERRO", "pesos",
+                      f"otimizando so por peso vence {so_peso[0]['cod']} — a "
+                      f"ponderacao muda a resposta, que e o proposito dela"))
+
+    # solucao dominada fica fora da fronteira de Pareto
+    D = ot.Solucao("D", "dominada por B em tudo",
+                   dict(custo=15000, peso=5200, sku=12, desperdicio=0.18,
+                        montagem=500, carbono=11000))
+    fr = ot.pareto([A, B, C, D], ["custo", "peso", "sku", "montagem"])
+    out.append(Achado("NOTA" if "D" not in fr else "ERRO", "Pareto",
+                      f"fronteira {sorted(fr)}: a solucao dominada em todos os "
+                      f"objetivos fica fora"))
+
+    # padronizacao nunca troca por perfil que o elemento nao aceita
+    esc = {f"e{i}": p for i, p in enumerate(
+        ["P1"] * 10 + ["P2"] * 3 + ["P3"] * 4 + ["P4"] * 1)}
+    alt = {e: ["P1", "P2"] for e in esc}
+    p = ot.padronizar(esc, alt, max_sku=2)
+    invalidas = [e for e, v in p["escolhas"].items() if v not in alt[e]
+                 and v != esc[e]]
+    out.append(Achado("NOTA" if not invalidas else "ERRO", "padronizacao",
+                      f"de 4 para {p['skus']} SKUs com {len(p['trocas'])} "
+                      f"trocas, todas por perfil ja aprovado no elemento — "
+                      f"padronizar nunca reduz seguranca"))
+    return out

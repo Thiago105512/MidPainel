@@ -308,6 +308,16 @@ PROGRAMA = [
      "Secoes 96 a 102. O centro de gravidade sai da soma dos momentos das "
      "pecas: um painel com as aberturas de um lado nao sobe equilibrado, e o "
      "montador descobre isso com o painel pendurado."),
+    (90, "Sequenciamento e montagem guiada",
+     ["checar_montagem"], "AUTOMATIZADA",
+     "Secoes 32, 33, 55 a 58. Ordenacao topologica com estabilidade passo a "
+     "passo. Ciclo de dependencia e reportado como montagem impossivel, nao "
+     "resolvido em ordem arbitraria. A desmontagem e a inversa exata."),
+    (91, "Otimizacao global e decisao explicada",
+     ["checar_otimizacao"], "AUTOMATIZADA",
+     "Secoes 19 a 22, 124 e 147 a 150. Verificado contra o exemplo da propria "
+     "especificacao (secao 148): vence a solucao mais PESADA, porque 5 SKUs "
+     "contra 11 e 110 h a menos de montagem pagam os 250 kg de aco."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
