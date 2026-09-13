@@ -2655,3 +2655,73 @@ Com as duas fechadas, a liberação voltou a **LIBERADO**, agora por 17 itens.
 
 > A auditoria verifica o que está lá. Para ver o que não está, é preciso ter
 > escrito antes o que deveria estar.
+
+## R33 — quatro correções de código, e duas delas acharam defeito
+
+Não era manutenção cosmética. Duas das quatro encontraram erro real na primeira
+execução.
+
+### 1. Acoplamento invisível por atributo enxertado
+
+`descida.py` escrevia `p._influencia` e `p._parede_acima` **dentro de objetos
+`Painel`**, que pertencem a outro módulo. Funcionava — e escondia uma
+dependência temporal:
+
+```
+>>> ds.esforco_por_montante(painel, cargas, cfg)
+AttributeError: 'Painel' object has no attribute '_influencia'
+```
+
+A função só funcionava se outra tivesse rodado antes, e **nada na assinatura
+dizia isso**. É a mesma classe do `min(0,99)`: funciona até alguém chamar na
+ordem errada. Virou dicionário lateral passado como argumento — o `Painel`
+voltou a ser só geometria, e a dependência apareceu onde tem de aparecer.
+
+A unificação revelou de quebra que **havia duas convenções para o mesmo
+parâmetro** no arquivo: uma indexada pelo pavimento de origem e a outra pelo de
+destino. Só apareceu quando os campos enxertados saíram.
+
+### 2. Fixture única — e o lugar onde ela não podia morar
+
+Catorze construções independentes do mesmo modelo na auditoria. O custo não era
+o tempo (5 s): era que **auditoria e produto podem divergir**, e já divergiram
+duas vezes.
+
+A primeira versão da fixture foi para `nucleo/fixture.py`, e a auditoria da E0
+reprovou na mesma execução: *"o motor importa 'projeto': a separação se
+desfez"*. Estava certa — o motor não conhece caso nenhum, e a fixture é por
+definição o modelo **de um caso**. A auditoria que separa os dois é mais
+confiável que a minha memória de onde as coisas vão.
+
+Migrar `_pecas_do_projeto()` para a fixture expôs o defeito: ela devolvia
+**805 peças enquanto o projeto tinha 1.033**. Vigamento, escada e
+contraventamento nunca entravam — e a verificação de **clash**, cuja única razão
+de existir é olhar tudo ao mesmo tempo, rodava sobre cinco famílias a menos.
+
+E a consolidação expôs outro: **60 códigos repetidos**. O vigamento numerava por
+ordem de geração — o Defeito 34, que eu mesmo corrigi, reintroduzido três
+semanas depois — e o mesmo cômodo é vigado duas vezes, uma para o piso e outra
+para a cobertura. O plano de corte colocava 58 peças duas vezes.
+
+### 3. `except Exception` que mentia sobre a natureza da falha
+
+Em `_documentos_ok`, qualquer exceção virava `return False`: um
+**AttributeError** aparecia no checklist como *"documentação reprovada"*. O
+sistema mentia sobre a própria falha, e mentira dessa espécie é cara — manda
+procurar o defeito no lugar errado. Sobraram quatro `except Exception`, todos em
+executores de bateria, onde capturar tudo **é** a função.
+
+### 4. Coerência de modelo — a condição que substitui a memória
+
+As duas divergências acima foram corrigidas **movendo código**. Mover código
+evita o erro daquela vez; não evita o próximo.
+
+`checar_coerencia_de_modelo()` compara peça a peça o que cada consumidor enxerga
+— auditoria, exportação e desenho 3D — mais a massa por dois caminhos
+independentes e a unicidade dos códigos. Achou na primeira execução: **o 3D não
+desenhava as 22 peças da escada**, que eu tinha adicionado ao BOM e esquecido no
+desenho.
+
+> Corrigir o defeito conserta o passado. Transformá-lo em condição é o que
+> protege o futuro — e é a diferença entre um projeto que melhora e um que
+> apenas é consertado.

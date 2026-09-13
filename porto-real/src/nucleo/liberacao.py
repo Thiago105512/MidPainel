@@ -36,12 +36,15 @@ def _documentos_ok(pj, pecas, plano, paineis, cat) -> bool:
     """
     import nucleo.documentos as dc
     todos = [p for v in paineis.values() for p in v]
-    try:
-        docs = (dc.lista_de_pecas(pecas), dc.plano_de_corte(plano),
-                dc.packing_list({}, todos, cat),
-                dc.relatorio_inspecao(pecas))
-    except Exception:
-        return False
+    # Sem try. Ate R32 havia um `except Exception: return False` aqui, e ele
+    # transformava ERRO DE PROGRAMACAO em resultado de negocio: um AttributeError
+    # dentro do gerador aparecia no checklist como "documentacao reprovada". O
+    # sistema mentia sobre a natureza da propria falha, e mentira dessa especie
+    # e cara — manda procurar o defeito no lugar errado. Se um gerador quebra,
+    # que quebre alto: e a unica forma de ser consertado.
+    docs = (dc.lista_de_pecas(pecas), dc.plano_de_corte(plano),
+            dc.packing_list({}, todos, cat),
+            dc.relatorio_inspecao(pecas))
     return all(d.count("\n") > 5 for d in docs)
 
 
@@ -66,14 +69,14 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # influencia nenhuma, o ponto fixo se fecha aqui, em duas passadas.
     cat_perfis = list(pf.catalogo())
     dim = ds.dimensionar(paineis, aco, pj.CARGAS, cfg, cat_perfis)
-    jambas, apertadas = dim["jambas"], dim["apertadas"]
+    jambas, apertadas, ctx = dim["jambas"], dim["apertadas"], dim["ctx"]
 
     # ---- juntas: cada parafuso do projeto, contado a partir de uma forca.
     # Ate R29 o checklist trazia `"ligacoes": True` literal, e o BOM estimava
     # `len(pecas) * 8`. Nenhum dos dois olhava para uma junta.
     juntas, n_parafusos = {}, 0
     for p in todos:
-        e = ds.esforco_por_montante(p, pj.CARGAS, cfg)
+        e = ds.esforco_por_montante(p, ctx, pj.CARGAS, cfg)
         n_mont = e["por_familia"]["montante"]["nsd"]
         n_jamba = (e["por_familia"].get("king stud")
                    or e["por_familia"]["montante"])["nsd"]

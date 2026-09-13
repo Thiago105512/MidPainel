@@ -397,6 +397,7 @@ CORES_LSF = {
     # vigamento e contraventamento, que ate R30 nao existiam no modelo
     "viga": "#2f7d4f", "viga de borda": "#1d5c38", "travamento": "#7fb08f",
     "diagonal": "#e0a32e",
+    "viga de escada": "#b0562f", "degrau": "#d98a5a",
 }
 
 
@@ -458,6 +459,27 @@ def _estrutura_lsf() -> list[dict]:
                  CORES_LSF.get(q["familia"], "#2f7d4f"))
         b.update(cod=q["cod"], fam=q["familia"], perf=q["perfil"],
                  painel=q["plano"], pav=q["tipo"], comp=q["comp"])
+        out.append(b)
+
+    # ---- escada: vigas de lance e degraus. Foram esquecidas aqui quando
+    # entraram na cadeia de pecas, e a verificacao de coerencia de modelo pegou
+    # na primeira execucao: 22 pecas que o produto tinha e o desenho nao.
+    esc = ps.estruturar_escada(pj, aco, cfg)
+    for q in esc["pecas"]:
+        bw = pn.bw(q["perfil"])
+        z0 = q["nivel"]
+        if q["familia"] == "degrau":
+            x0, x1 = q["x"], q["x"] + q["comp"]
+            y0, y1 = q["y"], q["y"] + pj.ESCADA["piso"]
+            alt = 50
+        else:
+            x0, x1 = q["x"], q["x"] + 50
+            y0, y1 = q["y"], q["y"] + q["comp"]
+            alt = bw
+        b = _box("lsf", x0, y0, z0, x1, y1, z0 + alt,
+                 CORES_LSF.get(q["familia"], "#b0562f"))
+        b.update(cod=q["cod"], fam=q["familia"], perf=q["perfil"],
+                 painel=q["plano"], pav="E", comp=q["comp"])
         out.append(b)
 
     # ---- contraventamento: as fitas em X, que precisam de rotacao de verdade.

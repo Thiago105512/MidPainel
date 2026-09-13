@@ -101,12 +101,22 @@ def vigar_regiao(reg: dict, carga_perm: float, carga_acid: float, aco,
         escolha = r
         esp = ESPACAMENTOS[-1]
 
-    pecas, n = [], 0
+    # A identidade sai da POSICAO, pela mesma regra das pecas de parede. Esta
+    # funcao nasceu com contador sequencial — o defeito 34, reintroduzido tres
+    # semanas depois de corrigido — e a colisao apareceu na primeira vez que a
+    # auditoria olhou o conjunto inteiro: o mesmo comodo e vigado duas vezes,
+    # uma para o piso e outra para a cobertura, e os dois planos produziam
+    # S-S02-VI001. Sessenta codigos repetidos, e o plano de corte colocava 58
+    # pecas duas vezes.
+    #
+    # O prefixo carrega o TIPO do plano porque piso e cobertura do mesmo comodo
+    # sao dois planos distintos que ocupam a mesma projecao.
+    import nucleo.peca as _pe
+    plano_id = f"{reg['cod']}-{tipo[0].upper()}"
+    pecas = []
 
     def add(familia, perfil, comp, x, y, ao_longo_x, obs=""):
-        nonlocal n
-        n += 1
-        pecas.append(dict(cod=f"{reg['cod']}-{familia[:2].upper()}{n:03d}",
+        pecas.append(dict(cod=_pe._codigo(familia, plano_id, int(x), int(y)),
                           familia=familia, perfil=perfil, comp=int(comp),
                           x=int(x), y=int(y), ao_longo_x=bool(ao_longo_x),
                           obs=obs))
@@ -140,7 +150,7 @@ def vigar_regiao(reg: dict, carga_perm: float, carga_acid: float, aco,
                 add("travamento", cfg.perfil_track, corrido, reg["x"],
                     reg["y"] + meio, True, "impede a rotacao da viga a meio vao")
 
-    return dict(regiao=reg["cod"], nome=reg["nome"], tipo=tipo,
+    return dict(regiao=reg["cod"], plano_id=plano_id, nome=reg["nome"], tipo=tipo,
                 vao=vao, corrido=corrido, vence_x=vence_x,
                 espacamento=esp, perfil=perfil, pecas=pecas,
                 dimensionamento=escolha,
@@ -190,7 +200,7 @@ def montar_casa(pj, aco, cfg: pn.Config = None) -> dict:
         v["nivel"] = pj.NIVEL_TERREO + cfg.altura
         planos.append(v)
 
-    pecas = [dict(p, plano=v["regiao"], tipo=v["tipo"], nivel=v["nivel"])
+    pecas = [dict(p, plano=v["plano_id"], tipo=v["tipo"], nivel=v["nivel"])
              for v in planos for p in v["pecas"]]
     falhas = [v for v in planos if not v["ok"]]
     return dict(planos=planos, pecas=pecas, n=len(pecas),
@@ -381,6 +391,7 @@ def estruturar_escada(pj, aco, cfg: pn.Config = None) -> dict:
     18 % num lance de 30 graus — e o momento, que cresce com o quadrado, em
     39 %.
     """
+    import nucleo.peca as _pe
     cfg = cfg or pn.Config()
     lances = [l for l in pj.escada_lances() if l["sentido"] != "patamar"]
     larg = pj.ESCADA["larg_lance"] / 1000.0
@@ -402,16 +413,19 @@ def estruturar_escada(pj, aco, cfg: pn.Config = None) -> dict:
         if not r["escolhido"]:
             continue
         for lado, dx in (("esq", 0), ("dir", pj.ESCADA["larg_lance"] - 50)):
-            pecas.append(dict(cod=f"ESC-{l['cod']}-VG{lado[:1].upper()}",
-                              familia="escada", perfil=perfil,
+            pecas.append(dict(cod=_pe._codigo("viga de escada",
+                                              f"ESC-{l['cod']}",
+                                              l["x"] + dx, l["y"]),
+                              familia="viga de escada", perfil=perfil,
                               comp=int(vao), x=l["x"] + dx, y=l["y"],
                               nivel=int(l["z_ini"]), plano=f"ESC-{l['cod']}",
                               tipo="escada",
                               obs=f"viga de lance {lado}, vence a hipotenusa "
                                   f"de {vao:.0f} mm"))
         for i in range(l["espelhos"]):
-            pecas.append(dict(cod=f"ESC-{l['cod']}-DG{i+1:02d}",
-                              familia="escada", perfil=cfg.perfil_track,
+            pecas.append(dict(cod=_pe._codigo("degrau", f"ESC-{l['cod']}",
+                                              l["x"], l["y"] + i * pj.ESCADA["piso"]),
+                              familia="degrau", perfil=cfg.perfil_track,
                               comp=pj.ESCADA["larg_lance"],
                               x=l["x"], y=l["y"] + i * pj.ESCADA["piso"],
                               nivel=int(l["z_ini"] + i * pj.ESCADA["alt_espelho"]),

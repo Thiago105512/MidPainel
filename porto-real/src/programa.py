@@ -386,6 +386,13 @@ PROGRAMA = [
      "falta do que nunca foi escrito. A lista e do SISTEMA CONSTRUTIVO, escrita "
      "antes de olhar o modelo — senao vira inventario do que ja existe e "
      "confirma tudo por construcao."),
+    (104, "Coerencia de modelo: auditoria, exportacao e desenho",
+     ["checar_coerencia_de_modelo"], "AUTOMATIZADA",
+     "A resposta ja foi NAO duas vezes, e das duas ninguem percebeu por meses: "
+     "a auditoria verificou painel sem jamba dimensionada, e depois verificou "
+     "805 pecas enquanto o projeto tinha 1.033. As duas foram corrigidas "
+     "movendo codigo — o que evita o erro daquela vez, nao o proximo. Esta "
+     "condicao compara peca a peca o que cada consumidor enxerga."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

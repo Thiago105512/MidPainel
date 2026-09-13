@@ -121,13 +121,11 @@ def medir(r: dict, area_m2: float) -> dict:
     """
     plano = r["plano"]
     us = sorted(r["verificacao"]["utilizacoes"]) if r.get("verificacao") else []
-    cat = None
-    try:
-        import nucleo.painel as pn
-        cat = pn._catalogo_massa()
-    except Exception:
-        pass
-    massa_max = max((p.massa(cat) for p in r["paineis"]), default=0.0) if cat else 0.0
+    # o catalogo de massa e requisito, nao conveniencia: sem ele a massa do
+    # painel sai zero e a faixa aprova o que nao mediu
+    import nucleo.painel as pn
+    cat = pn._catalogo_massa()
+    massa_max = max((p.massa(cat) for p in r["paineis"]), default=0.0)
     return {
         "aco_m2": r["massa_comprada"] / area_m2,
         "parafusos_m2": r["n_parafusos"] / area_m2,

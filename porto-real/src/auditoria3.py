@@ -18,6 +18,7 @@ import re
 from auditoria import Achado
 import projeto as pj
 import nucleo.perfis as pf
+import fixture as fx
 
 
 def checar_solver_secao() -> list[Achado]:
@@ -1191,15 +1192,13 @@ def checar_clash() -> list[Achado]:
 def _pecas_do_projeto():
     import projeto as pj
     import elementos as el
-    import nucleo.painel as pn
-    import nucleo.peca as pe
-    cat = pn._catalogo_massa()
-    todas = []
-    for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
-        pais = pn.painelizar(el.derivar_paredes(amb),
-                             list(el.vaos_do_pavimento(pav)), prefixo=f"{pav}P")
-        todas += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"])
-    return todas
+    # As pecas do PRODUTO, nao uma reconstrucao parecida. Enquanto esta funcao
+    # montava o seu proprio conjunto, ela devolvia 805 pecas enquanto o projeto
+    # tinha 1.033: vigamento, escada e contraventamento nunca entravam. A
+    # verificacao de clash — cuja unica razao de existir e olhar TUDO ao mesmo
+    # tempo — rodava sobre cinco familias a menos. Nao era erro de calculo: era
+    # a auditoria olhando outro edificio.
+    return fx.liberacao()["pecas"]
 
 
 def checar_nesting() -> list[Achado]:
@@ -1802,7 +1801,7 @@ def checar_liberacao() -> list[Achado]:
     import elementos as el
     import nucleo.liberacao as lb
     out = []
-    r = lb.rodar(pj, el)
+    r = fx.liberacao()
 
     lib = r["liberacao"]
     nao_ok = [i for i in lib["itens"] if i["status"] != "OK"]
@@ -1952,7 +1951,9 @@ def checar_contratos() -> list[Achado]:
                 problemas.append(f"{c.cod}: excecao sem o codigo ou sem o motivo")
             if c.fonte not in str(e):
                 problemas.append(f"{c.cod}: a excecao nao diz como suprir")
-        except Exception as e:                       # noqa: BLE001
+        except (RuntimeError, ValueError, TypeError, KeyError) as e:
+            # deliberadamente largo, e SO aqui: o proposito desta condicao e
+            # justamente pegar adaptador que levanta a excecao errada
             problemas.append(f"{c.cod}: levantou {type(e).__name__}, nao "
                              f"SemFonteDeDados")
         else:
@@ -1979,7 +1980,7 @@ def checar_contratos() -> list[Achado]:
             bons += 1
             if set(lido[0]) != set(exemplo):
                 problemas.append(f"{c.cod}: receber() perdeu campo obrigatorio")
-        except Exception as e:                       # noqa: BLE001
+        except (ValueError, TypeError) as e:
             problemas.append(f"{c.cod}: recusou registro valido — {e}")
 
         # falta de campo obrigatorio, tipo errado e campo desconhecido
@@ -2034,14 +2035,12 @@ def checar_descida() -> list[Achado]:
     import nucleo.materiais as mt
     import nucleo.descida as ds
     out = []
-    cfg = pn.Config()
-    aco = mt.POR_ACO["ZAR 230"]
-    cat = {q.cod: q for q in pf.catalogo()}
-    pais = {pav: pn.painelizar(el.derivar_paredes(amb),
-                               list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")
-            for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR))}
-    todos = pais["T"] + pais["S"]
-    sup = dict(T=pais["S"], S=[])
+    # UM modelo, construido uma vez (nucleo/fixture.py). Montar o proprio
+    # aqui foi como a auditoria ja verificou painel sem jamba dimensionada
+    # enquanto o produto usava outro.
+    m = fx.modelo()
+    cfg, aco, cat = m["cfg"], m["aco"], m["por_cod"]
+    pais, todos, sup = m["paineis"], m["todos"], m["acima_de"]
 
     # ---- 1. A TRAVA NAO PODE VOLTAR
     # carga absurda de proposito: a utilizacao tem de sair acima de 1 e o
@@ -2064,10 +2063,10 @@ def checar_descida() -> list[Achado]:
                       "reage ao resultado, nao o decora"))
 
     # ---- 3. Caminho independente: as faixas cobrem a area do pavimento
-    ds.verificar(todos, sup, cat, aco, pj.CARGAS, cfg)   # preenche _influencia
+    ctx = ds.contexto(todos, sup)
     for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
         area = sum(a.area_mod for a in amb)
-        c = ds.cobertura_de_area(pais[pav], area)
+        c = ds.cobertura_de_area(pais[pav], area, ctx)
         out.append(Achado("NOTA" if c["seguro"] else "ERRO", f"area {pav}",
                           c["leitura"]))
 
@@ -2112,8 +2111,15 @@ def checar_descida() -> list[Achado]:
     # A primeira passada e a geometria; a segunda dimensiona. Mostrar as duas e
     # o que PROVA que a segunda serve para alguma coisa: uma bateria que so
     # olhasse o estado final nao distinguiria dimensionar de nao precisar.
-    antes = ds.verificar(todos, sup, cat, aco, pj.CARGAS, cfg)
-    ds.dimensionar(pais, aco, pj.CARGAS, cfg, list(pf.catalogo()))
+    # Esta e a UNICA bateria que nao pode usar a fixture: ela precisa do
+    # estado ANTES do dimensionamento, e a fixture entrega — de proposito — o
+    # modelo do produto, que ja esta dimensionado. Construir aqui e explicito,
+    # e o comentario existe para que a proxima migracao nao o desfaca.
+    cru = {pav: pn.painelizar(el.derivar_paredes(amb),
+                              list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")
+           for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR))}
+    antes = ds.verificar(cru["T"] + cru["S"], dict(T=cru["S"], S=[]),
+                         cat, aco, pj.CARGAS, cfg)
     r = ds.verificar(todos, sup, cat, aco, pj.CARGAS, cfg)
     out.append(Achado("NOTA" if antes["reprovadas"] and not r["reprovadas"]
                       else "ERRO", "dimensionamento",
@@ -2159,17 +2165,13 @@ def checar_juntas() -> list[Achado]:
     import nucleo.juntas as ju
     import nucleo.ligacoes as lg
     out = []
-    cfg = pn.Config()
-    aco = mt.POR_ACO["ZAR 230"]
-    pais = {pav: pn.painelizar(el.derivar_paredes(amb),
-                               list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")
-            for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR))}
-    ds.dimensionar(pais, aco, pj.CARGAS, cfg, list(pf.catalogo()))
-    todos = pais["T"] + pais["S"]
+    m = fx.modelo()
+    cfg, aco, pais, todos = m["cfg"], m["aco"], m["paineis"], m["todos"]
+    dim = dict(ctx=m["ctx"], jambas=m["jambas"])
 
     progs, problemas = {}, []
     for p in todos:
-        e = ds.esforco_por_montante(p, pj.CARGAS, cfg)
+        e = ds.esforco_por_montante(p, dim["ctx"], pj.CARGAS, cfg)
         nm = e["por_familia"]["montante"]["nsd"]
         nj = (e["por_familia"].get("king stud")
               or e["por_familia"]["montante"])["nsd"]
@@ -2268,8 +2270,8 @@ def checar_vigamento() -> list[Achado]:
     import nucleo.piso as ps
     import nucleo.descida as ds
     out = []
-    cfg = pn.Config()
-    aco = mt.POR_ACO["ZAR 230"]
+    m = fx.modelo()
+    cfg, aco = m["cfg"], m["aco"]
     casa = ps.montar_casa(pj, aco, cfg)
 
     # ---- 1. todo comodo tem piso ou cobertura, e nenhum fica sem vencer
@@ -2395,7 +2397,7 @@ def checar_plausibilidade() -> list[Achado]:
                       f"com aparencia de criterio"))
 
     # ---- 4. o projeto de hoje, grandeza por grandeza
-    r = lb.rodar(pj, el)
+    r = fx.liberacao()
     a = pb.avaliar(pb.medir(r, pj.CADASTRO.area_m2))
     for x in a["avaliacoes"]:
         out.append(Achado("NOTA" if x["dentro"] else "ATENCAO",
@@ -2423,7 +2425,7 @@ def checar_completude() -> list[Achado]:
     import nucleo.liberacao as lb
     import nucleo.completude as cm
     out = []
-    r = lb.rodar(pj, el)
+    r = fx.liberacao()
     c = cm.conferir(r, pj.CADASTRO.tipologia)
 
     # ---- 1. a lista cobre sistema, nao peca: ela vale para outro projeto
@@ -2477,4 +2479,84 @@ def checar_completude() -> list[Achado]:
                           f"{i['nome']}: {i['situacao']}"
                           + (f" ({i['n']} pecas)" if i["n"] else "")
                           + f" — {i['nota']}"))
+    return out
+
+
+def checar_coerencia_de_modelo() -> list[Achado]:
+    """Auditoria, exportacao e desenho olham o MESMO modelo?
+
+    Esta bateria existe porque a resposta ja foi nao, duas vezes, e das duas
+    ninguem percebeu por meses.
+
+    A primeira: a segunda passada de dimensionamento de jamba morava dentro da
+    liberacao, entao a auditoria montava o painel sem ela e aprovava um painel
+    que o produto nao usava. A segunda: `_pecas_do_projeto()` reconstruia o
+    conjunto por conta propria e devolvia 805 pecas enquanto o projeto tinha
+    1.033 — vigamento, escada e contraventamento nunca entravam, e a
+    verificacao de clash, cuja unica razao de existir e olhar tudo ao mesmo
+    tempo, rodava sobre cinco familias a menos.
+
+    As duas foram corrigidas movendo codigo. Mover codigo evita o erro daquela
+    vez; nao evita o proximo. O que evita o proximo e transformar a coerencia em
+    CONDICAO — e e o que esta funcao faz, comparando peca a peca o que cada
+    consumidor enxerga.
+    """
+    import projeto as pj
+    import engenharia as eng
+    import modelo3d as m3
+    out = []
+
+    produto = {p.cod for p in fx.liberacao()["pecas"]}
+    auditado = {p.cod for p in _pecas_do_projeto()}
+    exportado = set()
+    d = eng.montar()
+    for p in d["paineis"]:
+        exportado |= {q["cod"] for q in p["pecas"]}
+    exportado |= {q["cod"] for q in d.get("extras", [])}
+    desenhado = {b["cod"] for b in m3.exportar() ["lsf"]}
+
+    pares = (("auditoria", auditado), ("exportacao", exportado),
+             ("desenho 3D", desenhado))
+    for nome, conj in pares:
+        so_la = conj - produto
+        so_ca = produto - conj
+        ok = not so_la and not so_ca
+        det = (f"{nome} e produto veem as mesmas {len(produto)} pecas"
+               if ok else
+               f"{nome} diverge do produto: {len(so_ca)} peca(s) que o produto "
+               f"tem e ela nao"
+               + (f" (ex.: {sorted(so_ca)[0]})" if so_ca else "")
+               + f", {len(so_la)} que ela tem e o produto nao"
+               + (f" (ex.: {sorted(so_la)[0]})" if so_la else ""))
+        out.append(Achado("NOTA" if ok else "ERRO", nome, det))
+
+    # a massa tem de fechar pelos tres caminhos, nao so a contagem
+    r = fx.liberacao()
+    massa_bom = next((i.quantidade for i in r["bom"] if i.sku == "ACO-PERF"), 0)
+    massa_pecas = sum(p.massa for p in r["pecas"])
+    massa_comprada = r["massa_comprada"]
+    dif = abs(massa_bom - massa_comprada) / max(massa_comprada, 1e-9)
+    out.append(Achado("NOTA" if dif < 0.01 else "ERRO", "massa",
+                      f"a massa fecha por dois caminhos independentes: "
+                      f"{massa_pecas:.0f} kg somando peca a peca, "
+                      f"{massa_comprada:.0f} kg comprados pelo aproveitamento "
+                      f"e {massa_bom:.0f} kg no BOM — diferenca de "
+                      f"{dif*100:.2f} %, limite 1 %"))
+
+    # e o codigo do painel tem de ser o mesmo da fabrica (defeito 39)
+    m = fx.modelo()
+    no_painel = {q.cod for p in m["todos"] for q in p.pecas}
+    fabrica = {p.cod for p in r["pecas"]}
+    orfas = no_painel - fabrica
+    out.append(Achado("NOTA" if not orfas else "ERRO", "identidade",
+                      f"as {len(no_painel)} pecas dos paineis aparecem com o "
+                      f"MESMO codigo na lista de fabrica: a peca clicada no 3D "
+                      f"e encontravel no plano de corte"))
+
+    # nenhum codigo repetido em lugar nenhum
+    import collections as _c
+    rep = [k for k, v in _c.Counter(p.cod for p in r["pecas"]).items() if v > 1]
+    out.append(Achado("NOTA" if not rep else "ERRO", "unicidade",
+                      f"nenhum dos {len(r['pecas'])} codigos se repete"
+                      + (f" — repetidos: {rep[:3]}" if rep else "")))
     return out

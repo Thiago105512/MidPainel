@@ -122,7 +122,7 @@ def conferir(r: dict, tipologia: str = "SOBRADO") -> dict:
         "ligacao": r.get("n_parafusos", 0),
         "corte": r.get("plano", {}).get("n_barras", 0),
         "sequencia": len(r.get("passos", []) or []),
-        "escada": fam.get("escada", 0),
+        "escada": fam.get("viga de escada", 0) + fam.get("degrau", 0),
     }
 
     itens, faltando = [], []

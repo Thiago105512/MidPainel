@@ -45,6 +45,33 @@ import nucleo.verificacao as vr
 VAO_MAX_LAJE = 4_500.0     # mm
 
 
+def contexto(paineis, acima_de: dict = None) -> dict:
+    """Geometria de influencia de cada painel, como DADO devolvido.
+
+    Ate R32 estes dois valores eram escritos DENTRO do objeto Painel, que
+    pertence a outro modulo: `p._influencia` e `p._parede_acima`. Funcionava —
+    e escondia uma dependencia temporal. Chamar esforco_por_montante() sem ter
+    chamado a funcao que preenche quebrava com AttributeError, e nada na
+    assinatura dizia isso. E a mesma classe do `min(0.99, ...)`: funciona ate
+    alguem chamar na ordem errada.
+
+    Agora e um dicionario lateral {cod: {...}}, passado como argumento. O
+    Painel volta a ser so geometria, e a dependencia aparece onde tem de
+    aparecer — na assinatura de quem precisa dela.
+
+    CONVENCAO: `acima_de[pav]` sao os paineis que ficam ACIMA dos paineis
+    daquele pavimento. Para o terreo de um sobrado, `acima_de["T"]` sao os
+    paineis do superior. Havia duas convencoes para este mesmo parametro no
+    arquivo — uma delas indexada pelo pavimento de origem e a outra pelo de
+    destino —, e a unificacao so apareceu quando os campos enxertados sairam.
+    """
+    acima_de = acima_de or {}
+    return {p.cod: dict(
+        influencia=largura_influencia(p, paineis),
+        parede_acima=_tem_parede_acima(p, acima_de.get(p.pav, [])))
+        for p in paineis}
+
+
 def _paralelos(p, paineis) -> list:
     """Paineis paralelos a p cuja projecao se sobrepoe a dele."""
     out = []
@@ -90,7 +117,7 @@ def largura_influencia(p, paineis) -> dict:
                 vaos=[d for d in (d1, d2) if d is not None])
 
 
-def cobertura_de_area(paineis, area_pavimento_m2: float) -> dict:
+def cobertura_de_area(paineis, area_pavimento_m2: float, ctx: dict) -> dict:
     """Quanto da area do pavimento as faixas de influencia cobrem, ao todo.
 
     Verificacao por caminho independente: a soma de (faixa x comprimento) de
@@ -99,7 +126,8 @@ def cobertura_de_area(paineis, area_pavimento_m2: float) -> dict:
     seguranca. Acima de 1 ha area contada mais de uma vez — conservador, e o
     quanto precisa estar escrito.
     """
-    coberta = sum(p._influencia["largura"] * p.comp for p in paineis) / 1e6
+    coberta = sum(ctx[p.cod]["influencia"]["largura"] * p.comp
+                  for p in paineis) / 1e6
     razao = coberta / area_pavimento_m2 if area_pavimento_m2 else 0.0
     return dict(coberta_m2=coberta, pavimento_m2=area_pavimento_m2,
                 razao=razao,
@@ -126,15 +154,16 @@ def _tem_parede_acima(p, superiores) -> bool:
     return False
 
 
-def acoes_sobre(p, superiores, cargas: dict, cfg: pn.Config) -> dict:
+def acoes_sobre(p, ctx: dict, cargas: dict, cfg: pn.Config) -> dict:
     """Acoes por metro de parede, separadas por natureza (kN/m).
 
     Separadas, e nao somadas: a NBR 8681 pondera cada natureza com um gama
     diferente, e o permanente FAVORAVEL (gama 1,0) e o que revela o
     arrancamento. Somar antes de combinar perderia isso.
     """
-    larg_m = p._influencia["largura"] / 1000.0
-    acima = p._parede_acima
+    c = ctx[p.cod]
+    larg_m = c["influencia"]["largura"] / 1000.0
+    acima = c["parede_acima"]
     g = q = 0.0
     memoria = []
 
@@ -165,7 +194,7 @@ def acoes_sobre(p, superiores, cargas: dict, cfg: pn.Config) -> dict:
     return dict(g=g, q=q, memoria=memoria)
 
 
-def esforco_por_montante(p, cargas: dict, cfg: pn.Config,
+def esforco_por_montante(p, ctx: dict, cargas: dict, cfg: pn.Config,
                          combs: list = None) -> dict:
     """N de calculo no montante mais carregado, pela combinacao que governa.
 
@@ -176,7 +205,7 @@ def esforco_por_montante(p, cargas: dict, cfg: pn.Config,
     """
     combs = combs or cb.gerar([("g", "permanente"), ("q", "acidental")],
                               {"q": "acidental"})
-    a = acoes_sobre(p, None, cargas, cfg)
+    a = acoes_sobre(p, ctx, cargas, cfg)
     mod_m = cfg.modulacao / 1000.0
 
     # o king stud mais solicitado: metade do maior vao de abertura, de cada lado
@@ -230,13 +259,10 @@ def dimensionar(paineis_por_pav: dict, aco, cargas: dict, cfg: pn.Config = None,
     cfg = cfg or pn.Config()
     perfis = perfis or list(_pf.catalogo())
     todos = [p for v in paineis_por_pav.values() for p in v]
-    for p in todos:
-        p._influencia = largura_influencia(p, todos)
-        p._parede_acima = _tem_parede_acima(
-            p, paineis_por_pav.get("S", []) if p.pav == "T" else [])
+    ctx = contexto(todos, dict(T=paineis_por_pav.get("S", []), S=[]))
     jambas, apertadas = {}, []
     for p in todos:
-        e = esforco_por_montante(p, cargas, cfg)
+        e = esforco_por_montante(p, ctx, cargas, cfg)
         alvo = e["por_familia"].get("king stud") or e["por_familia"]["montante"]
         r = pn.dimensionar_jambas(p, alvo["nsd"], aco, cfg, perfis)
         if r:
@@ -244,7 +270,7 @@ def dimensionar(paineis_por_pav: dict, aco, cargas: dict, cfg: pn.Config = None,
             if r["escolha"] and r["escolha"]["u"] > cfg.u_alvo:
                 apertadas.append((p.cod, r["escolha"]["solucao"],
                                   r["escolha"]["u"]))
-    return dict(jambas=jambas, apertadas=apertadas, paineis=todos)
+    return dict(jambas=jambas, apertadas=apertadas, paineis=todos, ctx=ctx)
 
 
 def verificar(paineis, superiores_por_pav: dict, perfis: dict, aco,
@@ -271,14 +297,9 @@ def verificar(paineis, superiores_por_pav: dict, perfis: dict, aco,
         "e a area total desce mais de uma vez — o fator esta medido em "
         "cobertura_de_area(), nao suposto",
     ]
-    # pre-calculo da geometria de influencia, uma vez por painel
+    ctx = contexto(paineis, superiores_por_pav)
     for p in paineis:
-        p._influencia = largura_influencia(p, paineis)
-        p._parede_acima = _tem_parede_acima(
-            p, superiores_por_pav.get(p.pav, []))
-
-    for p in paineis:
-        esf = esforco_por_montante(p, cargas, cfg, combs)
+        esf = esforco_por_montante(p, ctx, cargas, cfg, combs)
         tr = travamento(p, cfg)
         for q in p.pecas:
             if q.familia not in ("stud", "king stud", "jack stud"):
@@ -300,7 +321,7 @@ def verificar(paineis, superiores_por_pav: dict, perfis: dict, aco,
 
     itens.sort(key=lambda d: -d["u"])
     reprovadas = [d for d in itens if d["u"] > 1.0]
-    return dict(itens=itens, n=len(itens), reprovadas=reprovadas,
+    return dict(itens=itens, n=len(itens), reprovadas=reprovadas, ctx=ctx,
                 utilizacoes=[d["u"] for d in itens],
                 governa=itens[0] if itens else None,
                 hipoteses=hipoteses,

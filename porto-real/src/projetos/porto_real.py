@@ -2398,6 +2398,12 @@ REVISOES = [
             "A segunda disparou na primeira execucao e achou duas ausencias "
             "reais: ancoragem a fundacao, que era True literal, e a estrutura "
             "da escada, cujos 18 degraus apoiavam no ar"),
+    ("R33", "Quatro correcoes de codigo, e duas acharam defeito: a fixture "
+            "unica expos que a auditoria via 805 pecas de 1.033 e que o "
+            "vigamento tinha 60 codigos repetidos; a coerencia de modelo expos "
+            "que o 3D nao desenhava a escada. Os atributos enxertados em "
+            "Painel viraram contexto explicito e o except generico que "
+            "transformava bug em reprovacao saiu"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2423,13 +2429,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R32",
+    revisao="R33",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R32", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R33", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
