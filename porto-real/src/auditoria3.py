@@ -13,6 +13,7 @@ conservacao.
 from __future__ import annotations
 
 import math
+import re
 
 from auditoria import Achado
 import projeto as pj
@@ -713,7 +714,7 @@ def checar_painelizacao() -> list[Achado]:
     cfg = pn.Config()
     cat = pn._catalogo_massa()
     total_pecas = total_massa = 0
-    problemas, excecoes = [], []
+    problemas, excecoes, sem_apoio_dec = [], [], set()
 
     for pav, ambientes in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
         paredes = el.derivar_paredes(ambientes)
@@ -771,6 +772,57 @@ def checar_painelizacao() -> list[Achado]:
             # blocking obrigatorio acima da altura de travamento
             if p.altura > cfg.blocking_a_cada and not fam.get("blocking"):
                 problemas.append(f"{p.cod}: sem blocking numa altura de {p.altura} mm")
+            # BARRA: nenhuma peca maior que o que se compra. Uma guia de 7.800
+            # mm nao e item de catalogo — a peca que nao cabe na barra nao e
+            # uma peca, sao duas com uma emenda entre elas.
+            for pc in p.pecas:
+                if pc.comp > cfg.comp_barra:
+                    problemas.append(f"{p.cod}: {pc.cod} tem {pc.comp} mm, "
+                                     f"acima da barra de {cfg.comp_barra}")
+            # EMENDA SOBRE APOIO: a emenda tem de cair num montante, senao
+            # rotula. Onde nao cai, tem de estar declarada — e a verificacao
+            # confere as duas coisas, porque declarar errado e pior que calar.
+            verticais = {q.x for q in p.pecas if q.vertical}
+            verticais |= {q.x + pn.bw(q.perfil) for q in p.pecas if q.vertical}
+            juntas = {}
+            for pc in p.pecas:
+                m = re.search(r"emenda em x = (\d+)", pc.obs or "")
+                if not m:
+                    continue
+                x = int(m.group(1))
+                juntas.setdefault(pc.familia, set()).add(x)
+                apoiada = any(abs(x - v) <= 1 for v in verticais)
+                avisada = "SEM MONTANTE" in pc.obs
+                if apoiada and avisada:
+                    problemas.append(f"{p.cod}: {pc.cod} avisa emenda sem "
+                                     f"montante em x = {x}, mas ha montante ali")
+                if not apoiada and not avisada:
+                    problemas.append(f"{p.cod}: {pc.cod} emenda em x = {x} sem "
+                                     f"montante de apoio e sem aviso")
+                if not apoiada:
+                    if "emenda sem montante" not in (p.obs or ""):
+                        problemas.append(f"{p.cod}: emenda sem apoio nao "
+                                         f"declarada na observacao do painel")
+                    else:
+                        # declarada nao quer dizer resolvida: continua sendo
+                        # item aberto de projeto, e sai da auditoria como tal.
+                        # Uma emenda e uma so, ainda que apareca nas duas pecas
+                        # que ela une — por isso a chave e (painel, familia, x).
+                        sem_apoio_dec.add((p.cod, pc.familia, x))
+            # ESCALONAMENTO: guia inferior, superior e blocking emendados na
+            # mesma secao fazem do painel uma dobradica — e na secao exata onde
+            # ele se dobraria no icamento.
+            for fa, fb in (("track", "blocking"),):
+                comum = juntas.get(fa, set()) & juntas.get(fb, set())
+                if comum:
+                    problemas.append(f"{p.cod}: {fa} e {fb} emendam na mesma "
+                                     f"secao x = {sorted(comum)}")
+            if len(juntas.get("track", ())) == 1 and any(
+                    pc.familia == "track" and "emenda" in (pc.obs or "")
+                    for pc in p.pecas):
+                problemas.append(f"{p.cod}: as duas guias emendam na mesma "
+                                 f"secao x = {sorted(juntas['track'])}")
+
             # ENVELOPE: nenhuma peca fora do painel. Esta condicao parece obvia
             # e por isso nunca tinha sido escrita — 138 pecas violavam-na ate
             # R25, e nenhuma prancha mostrava, porque nenhuma prancha desenhava
@@ -788,9 +840,17 @@ def checar_painelizacao() -> list[Achado]:
                                      f"z {pc.z}..{pc.z + h} num painel de "
                                      f"{p.altura} mm")
 
+    for cod, familia, x in sorted(sem_apoio_dec):
+        excecoes.append(f"{cod}: emenda de {familia} em x = {x} sem montante "
+                        f"de apoio — a abertura ocupa a faixa onde a barra de "
+                        f"{cfg.comp_barra} mm termina; exige barra sob "
+                        f"encomenda ou talao dimensionado ao momento")
+
     for m in problemas[:10]:
         out.append(Achado("ERRO", "painelizacao", m))
-    for m in excecoes[:6]:
+    # Sem corte: cada excecao e um item aberto de projeto distinto, e truncar a
+    # lista esconderia justamente os que ninguem viu ainda.
+    for m in excecoes:
         out.append(Achado("ATENCAO", "painelizacao", m))
     if not problemas:
         out.append(Achado("NOTA", "painelizacao",

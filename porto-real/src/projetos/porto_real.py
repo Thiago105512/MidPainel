@@ -2350,6 +2350,10 @@ REVISOES = [
             "malformado hoje, e o criterio de aceite do dia em que o dado "
             "existir. O visualizador ganhou a oitava vista: o que o sistema "
             "nao faz, com o mesmo rigor do que faz"),
+    ("R28", "Emenda de peca horizontal: guia, blocking, verga e peitoril acima "
+            "de 6.000 mm saem em trechos emendados sobre apoio real, "
+            "escalonados entre si. Onde a abertura nao deixa apoio, a emenda "
+            "sai marcada e vira item aberto — tres em TP27"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2375,13 +2379,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R27",
+    revisao="R28",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R27", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R28", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

@@ -2362,3 +2362,41 @@ Resultado: impacto de 73 % para **3,5 %**.
 
 > Um teste que regenera a mesma entrada não testa estabilidade de identidade.
 > Testa determinismo — que é outra coisa, e muito mais barata.
+
+## Defeito 35 — a guia de 7.800 mm que não existe para comprar
+
+O nesting vinha declarando, corretamente, que **seis peças não cabiam na barra
+de 6 m** — a maior com 7.800 mm. Declarar é honesto, mas não é fabricável: a
+peça que não cabe na barra não é uma peça, são **duas**, com uma emenda entre
+elas, e a emenda tem lugar.
+
+O lugar é um montante — emenda no vão livre rotula. A primeira implementação
+colocou o corte no múltiplo da modulação mais distante que ainda coubesse na
+barra, e a verificação escrita logo em seguida reprovou seis emendas de uma vez:
+no painel do portão (**TP27**, 7.200 mm com a abertura ocupando quase tudo),
+existem apenas dois montantes, em `x = 0` e `x = 7.110`. Todo corte pela
+modulação teórica caía **no ar**, sobre a abertura.
+
+Múltiplo da modulação é onde o montante *estaria* se nada o tivesse suprimido.
+Agora a emenda consulta os apoios que **existem** naquele painel, e um apoio só
+serve se deixar trecho utilizável dos dois lados — um montante a 90 mm do início
+"cabe na barra" e produziria um pedaço de 90 mm.
+
+Três coisas passaram a ser verificadas, e as três encontraram caso real:
+
+1. **Nenhuma peça maior que a barra comprável.** Seis peças violavam.
+2. **A emenda cai sobre apoio — ou está declarada.** Em TP27 não há apoio
+   possível: as três emendas saem marcadas `SEM MONTANTE`, o painel declara a
+   consequência e a auditoria as lista uma a uma como itens abertos. A decisão
+   (barra sob encomenda ou talão dimensionado ao momento) é de quem assina.
+3. **Guia inferior, guia superior e blocking emendam em seções diferentes.**
+   Emendados na mesma seção, fazem do painel uma dobradiça — na seção exata onde
+   ele se dobraria no içamento. O escalonamento saiu em 6.000 / 5.400 / 4.800.
+
+Um detalhe pequeno com consequência grande: o flag de apoio pertence à junta
+**direita** de cada trecho, e o último trecho não tem junta direita — a dele é a
+do trecho anterior. Sem essa correção, **metade de cada emenda sem apoio sairia
+sem o aviso**. E seria justamente a metade que alguém leria na obra.
+
+> Múltiplo da modulação não é montante. É onde o montante estaria se nada o
+> tivesse suprimido — e a abertura suprime exatamente onde ela está.

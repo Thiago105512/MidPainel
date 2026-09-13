@@ -42,6 +42,7 @@ class Config:
     peso_max: float = 120.0           # kg, limite de icamento manual (4 pessoas)
     blocking_a_cada: int = 1_300      # mm de altura
     folga_abertura: int = 10          # mm de folga de vao em cada lado
+    comp_barra: int = 6_000           # mm, comprimento da barra comprada
 
 
 @dataclass
@@ -190,6 +191,57 @@ def bw(perfil: str) -> int:
     return int(float(perfil.split()[1].split("x")[0].replace(",", ".")))
 
 
+def emendas(comp: int, cfg: Config, fase: int = 0, apoios=()) -> list:
+    """Divide um trecho horizontal em barras que existem para comprar.
+
+    Uma guia de 7.800 mm nao e um item de catalogo: a barra vem com 6.000. Ate
+    R27 o modelo emitia a peca inteira e o nesting apenas declarava que ela nao
+    cabia — o que e honesto, mas nao e fabricavel. A peca que nao cabe na barra
+    nao e uma peca: sao duas, com uma emenda entre elas, e a emenda tem lugar.
+
+    O lugar e um montante: emenda no vao livre e rotula. Por isso o corte cai
+    sobre um APOIO REAL — nao sobre um multiplo da modulacao, que e onde o
+    montante estaria se nada o tivesse suprimido. A diferenca apareceu no
+    painel do portao: 7.200 mm com a abertura ocupando quase tudo, so dois
+    montantes de ponta, e toda emenda calculada pela modulacao caia no ar.
+
+    Quando nenhum apoio cabe na barra, a emenda e emitida assim mesmo, na
+    posicao limite, e devolvida marcada como SEM APOIO — o painel declara, a
+    auditoria acusa, e a decisao (barra especial sob encomenda ou talao
+    dimensionado ao momento) fica com quem assina o projeto.
+
+    `fase` recua a emenda em N modulos para ESCALONAR os trechos. Guia inferior,
+    guia superior e blocking emendados na mesma secao transformam a emenda numa
+    articulacao do painel inteiro — e e exatamente a secao onde o painel iria
+    dobrar no icamento.
+
+    Devolve [(x_inicio, comprimento, apoiada), ...] cobrindo o trecho inteiro.
+    """
+    if comp <= cfg.comp_barra:
+        return [(0, comp, True)]
+    segs, x = [], 0
+    while comp - x > cfg.comp_barra:
+        limite = x + cfg.comp_barra
+        # Apoio so serve se deixar trecho utilizavel dos dois lados: um apoio a
+        # 90 mm do inicio "cabe na barra" e produziria um pedaco de 90 mm. Por
+        # isso o candidato precisa distar ao menos um modulo do corte anterior.
+        minimo = x + cfg.modulacao
+        cabem = sorted((a for a in apoios if minimo <= a <= limite), reverse=True)
+        apoiada = bool(cabem)
+        if not cabem:
+            # nenhum apoio utilizavel: a emenda vai para a modulacao teorica e
+            # sai MARCADA. Os candidatos continuam varios para que a fase ainda
+            # escalone — emenda sem apoio, todas na mesma secao, seria a pior
+            # das combinacoes possiveis.
+            cabem = [m for m in range(int(limite // cfg.modulacao) * cfg.modulacao,
+                                      int(minimo) - 1, -cfg.modulacao)] or [limite]
+        j = cabem[min(fase, len(cabem) - 1)]
+        segs.append((x, j - x, apoiada))
+        x = j
+    segs.append((x, comp - x, True))
+    return segs
+
+
 def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
     """Gera as pecas do painel: guias, montantes, reforco de abertura, blocking.
 
@@ -216,10 +268,17 @@ def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
                             familia, perfil, int(comp), int(x), int(z),
                             vertical, obs))
 
+    # As horizontais so podem ser emendadas depois que se sabe ONDE ha apoio, e
+    # isso so se sabe depois de gerar as verticais. Por isso ficam na fila.
+    horizontais = []
+
+    def add_h(familia, perfil, comp, x0, z, obs, fase=0):
+        horizontais.append((familia, perfil, int(comp), int(x0), int(z), obs, fase))
+
     # guias inferior e superior, na largura inteira do painel
-    add("track", cfg.perfil_track, p.comp, 0, 0, False, "guia inferior")
-    add("track", cfg.perfil_track, p.comp, 0, p.altura - bt, False,
-        "guia superior")
+    add_h("track", cfg.perfil_track, p.comp, 0, 0, "guia inferior", fase=0)
+    add_h("track", cfg.perfil_track, p.comp, 0, p.altura - bt, "guia superior",
+          fase=1)
 
     # zonas proibidas para montante modular: dentro do vao mais os king studs
     proibido = []
@@ -269,14 +328,14 @@ def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
                 f"{p.altura} mm: vao de altura total, sem verga — a carga "
                 f"acima do vao e da estrutura do pavimento superior")
             continue
-        add("header", cfg.perfil_verga, ch, xh, zh, False,
-            f"verga do {ab['tipo']}, vao livre {ab['larg']} mm, "
-            f"apoio de {bs} mm em cada jack")
+        add_h("header", cfg.perfil_verga, ch, xh, zh,
+              f"verga do {ab['tipo']}, vao livre {ab['larg']} mm, "
+              f"apoio de {bs} mm em cada jack")
         if ab["peitoril"] > 0:
             # a face SUPERIOR do peitoril e a linha do peitoril: a esquadria
             # senta sobre ele, nao ao lado dele
-            add("sill", cfg.perfil_track, ch, xh, max(0, ab["peitoril"] - bt),
-                False, f"peitoril do {ab['tipo']}")
+            add_h("sill", cfg.perfil_track, ch, xh,
+                  max(0, ab["peitoril"] - bt), f"peitoril do {ab['tipo']}")
         # cripples na MESMA modulacao, para a placa continuar achando montante
         # o cripple superior comeca ACIMA da verga, nao dentro dela
         for zc, hc, fam in ((zh + bv, p.altura - zh - bv, "cripple superior"),
@@ -299,9 +358,37 @@ def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
     while z < p.altura - 200:
         alturas.append(z)
         z += cfg.blocking_a_cada
-    for z in alturas:
-        add("blocking", cfg.perfil_track, p.comp, 0, z, False,
-            "corta a flambagem distorcional do montante")
+    for i, z in enumerate(alturas):
+        add_h("blocking", cfg.perfil_track, p.comp, 0, z,
+              "corta a flambagem distorcional do montante", fase=2 + i)
+
+    # ---- agora sim: emendar as horizontais sobre os apoios que existem
+    apoios = sorted({q.x for q in p.pecas if q.vertical} |
+                    {q.x + bs for q in p.pecas if q.vertical})
+    sem_apoio = []
+    for familia, perfil, comp, x0, z, obs, fase in horizontais:
+        segs = emendas(comp, cfg, fase, [a - x0 for a in apoios if x0 < a < x0 + comp])
+        for k, (dx, c, apoiada) in enumerate(segs, 1):
+            nota = obs
+            if len(segs) > 1:
+                # o flag pertence a junta DIREITA do trecho; o ultimo trecho nao
+                # tem junta direita, e a esquerda e a do trecho anterior. Sem
+                # isso, metade de cada emenda sem apoio sairia sem o aviso —
+                # e seria justamente a metade que alguem leria na obra.
+                ultimo = k == len(segs)
+                junta = x0 + dx if ultimo else x0 + dx + c
+                apoiada = segs[k - 2][2] if ultimo else apoiada
+                nota = (f"{obs} — trecho {k} de {len(segs)}, emenda em "
+                        f"x = {junta}" + ("" if apoiada else ", SEM MONTANTE"))
+                if not apoiada and not ultimo:
+                    sem_apoio.append((familia, junta))
+            add(familia, perfil, c, x0 + dx, z, False, nota)
+    if sem_apoio:
+        onde = ", ".join(f"{f} em x = {j}" for f, j in sem_apoio)
+        p.obs = (p.obs + " | " if p.obs else "") + (
+            f"emenda sem montante de apoio ({onde}): a abertura ocupa a faixa "
+            f"onde a barra de {cfg.comp_barra} mm termina. Exige barra sob "
+            f"encomenda ou talao dimensionado ao momento da emenda")
 
 
 def painelizar(paredes, vaos, cfg: Config = None, prefixo: str = "P") -> list[Painel]:
