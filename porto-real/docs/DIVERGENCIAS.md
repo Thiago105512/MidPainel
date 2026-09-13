@@ -2788,3 +2788,58 @@ costuma passar despercebida.
 
 > Coeficiente que acerta por cancelamento é pior que coeficiente que erra: o que
 > erra é corrigido, o que acerta é defendido.
+
+## R35 — paginação, e três erros meus corrigidos pela medição
+
+A quantidade deixou de ser m² abstratos. **Ninguém compra metro quadrado:
+compra placa**, e a diferença é a perda.
+
+| | |
+|---|---|
+| placas inteiras | **696** |
+| área útil | 1.434 m² |
+| área comprada | 1.808 m² |
+| aproveitamento | 79,3 % |
+
+Os 20 % de perda não são desleixo: são geométricos. A placa tem 2.400 mm e o
+pé-direito tem 2.600 — **toda parede pede uma emenda horizontal e uma fiada de
+200 mm**. Os retalhos voltam para o corte pelo mesmo `nestar_chapas()` que corta
+o OSB, como as sobras de barra voltam para o nesting de 6 m.
+
+### Três erros meus, e como cada um apareceu
+
+**1. Face não é peça.** A primeira versão tratou a face inteira (3.600 × 2.600)
+como peça a ser *cortada* de uma placa de 1.200 × 2.400 — e 92 peças saíram como
+"não cabem", devolvendo 2 placas para a casa toda. Não era erro de cálculo, era
+de modelo: **uma face não é cortada de uma placa, é coberta por várias.**
+
+**2. Junta contada dos dois lados.** Somando o perímetro de cada placa, deu
+**16.607 m de fita** — dezesseis quilómetros para uma casa, visivelmente
+absurdo. Junta é o encontro de **duas** placas e conta uma vez. O mesmo valia um
+nível acima: a borda vertical entre dois painéis vizinhos é uma junta só, e
+contá-la de ambos os lados dava 2,44 m/m² contra 1,6–2,2 da prática. Depois da
+correção: **2,07 m/m²**, derivado.
+
+**3. A faixa mediu outra coisa.** `placa_m2` deu 7,88 contra uma faixa de 2–4,5,
+e a faixa acusou — que é exatamente para o que ela serve. O erro não era do
+projeto: eu media `area_total` de **todas as camadas** (lã e XPS incluídos)
+contra uma faixa que fala de **placa**. Grandeza e faixa têm de falar da mesma
+coisa. Corrigido: 3,58.
+
+### E duas lacunas fechadas
+
+**A norma voltou para o material.** Ela nasceu como campo da `Camada` em R34 e
+durou **uma revisão** — duas fontes para o mesmo fato divergem na primeira
+correção, e foi assim que houve dois códigos para a mesma peça (Defeito 39). Os
+18 materiais declaram norma e formato comercial; as 28 camadas **herdam**.
+
+**Piso, forro e cobertura ganharam composição.** Até R34 só a parede tinha — o
+mesmo buraco que o vigamento teve até R31, e pela mesma razão: ninguém tinha
+escrito que deviam existir.
+
+E os acessórios de junta — fita, massa, cantoneira, parafuso de placa — passaram
+a existir, derivados do perímetro que só a paginação conhece: **7,7 % do custo
+do fechamento**, contra a faixa corrente de 8 a 12 %.
+
+> Uma faixa de plausibilidade não serve só para achar erro no projeto. Serve
+> também para achar erro em quem mede.

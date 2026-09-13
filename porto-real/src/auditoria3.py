@@ -2652,6 +2652,65 @@ def checar_camadas() -> list[Achado]:
                       f"descontava abertura nenhuma, porque multiplicava a "
                       f"area de projeto, que nao sabe onde ha janela"))
 
+    # ---- 6a. norma vem do MATERIAL, fonte unica
+    import nucleo.materiais as mt
+    sem_norma = [m.cod for m in mt.MATERIAIS if not m.norma]
+    todas_cam = [c for comp in list(cd.COMPOSICOES.values())
+                 + list(cd.COMPOSICOES_PLANO.values()) for c in comp.camadas]
+    herdadas = sum(1 for c in todas_cam if c.norma)
+    out.append(Achado("NOTA" if not sem_norma else "ERRO", "norma",
+                      f"os {len(mt.MATERIAIS)} materiais declaram norma, e as "
+                      f"{herdadas} camadas a HERDAM em vez de repetir. A norma "
+                      f"nasceu como campo da camada em R34 e durou uma "
+                      f"revisao: duas fontes para o mesmo fato divergem na "
+                      f"primeira correcao, e foi assim que houve dois codigos "
+                      f"para a mesma peca"))
+
+    # ---- 6b. paginacao: placa inteira, e a perda declarada
+    pg = r["camadas"]["paginacao"]
+    ruins = [i for i in pg["itens"] if i["nao_cabem"] or i["aproveitamento"] > 1.0]
+    out.append(Achado("NOTA" if not ruins else "ERRO", "paginacao",
+                      f"{pg['placas']} placas inteiras para {pg['area_util']:.0f} "
+                      f"m2 uteis, {pg['area_bruta']:.0f} comprados. Ninguem "
+                      f"compra metro quadrado: compra placa, e a diferenca e a "
+                      f"perda. A primeira versao tratou a FACE como peca a ser "
+                      f"cortada de uma placa e 92 pecas sairam como 'nao "
+                      f"cabem' — uma face nao e cortada de uma placa, e "
+                      f"coberta por varias"))
+
+    # ---- 6c. junta contada uma vez, e so onde ha tratamento de junta
+    placa = sum(i["area_util"] for i in pg["itens"]
+                if i["material"] in ("GESSO", "GESSORU", "PLCIM"))
+    tot = (pg["junta_m"] + pg["borda_m"]) / placa if placa else 0
+    out.append(Achado("NOTA" if 1.6 <= tot <= 2.4 else "ERRO", "junta",
+                      f"{tot:.2f} m de fita e arremate por m2 de placa, dentro "
+                      f"da pratica de 1,6 a 2,4. Somar o perimetro de cada "
+                      f"placa dava 16.607 m para esta casa — dezesseis "
+                      f"quilometros, visivelmente absurdo: junta e o encontro "
+                      f"de DUAS placas e conta uma vez, e entre dois paineis "
+                      f"vale o mesmo"))
+
+    # ---- 6d. os planos horizontais tem camada
+    pl = r["camadas"]["planos"]
+    out.append(Achado("NOTA" if pl["area_total"] > 0 else "ERRO", "planos",
+                      f"entrepiso, forro e cobertura somam {pl['area_total']} "
+                      f"m2 de camada. Ate R34 so a PAREDE tinha composicao, e "
+                      f"contrapiso, forro e painel de cobertura ficavam fora "
+                      f"do BOM — o mesmo buraco do vigamento ate R31"))
+
+    # ---- 6e. acessorio de junta existe e e fracao plausivel do fechamento
+    ved = [i for i in r["bom"] if i.familia == "vedacao"]
+    ac = sum(i.total for i in ved
+             if i.sku in ("FITA", "MASSA", "CANT", "PAR-PLA"))
+    tot_v = sum(i.total for i in ved) or 1
+    out.append(Achado("NOTA" if 0.05 <= ac / tot_v <= 0.18 else "ATENCAO",
+                      "acessorio",
+                      f"fita, massa, cantoneira e parafuso de placa somam "
+                      f"{ac/tot_v*100:.1f} % do custo do fechamento — a faixa "
+                      f"corrente em drywall e 8 a 12 %, e ate R34 eles nao "
+                      f"existiam no modelo. Derivam do perimetro, que so a "
+                      f"paginacao conhece"))
+
     # ---- 6. nenhuma camada de aco no BOM em m2: ela ja esta em kg
     dobradas = [i for i in r["bom"]
                 if i.familia == "vedacao" and i.sku.startswith("ACO")]

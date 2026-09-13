@@ -115,6 +115,20 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     fam = cd.familia_por_painel(todos, segs)
     camadas = cd.quantificar(todos, fam["familia"])
     camadas["familias"] = fam
+    camadas["paginacao"] = cd.paginar(todos, fam["familia"])
+    # os planos horizontais so podem ser quantificados depois do vigamento,
+    # que e quem define quais comodos tem piso e quais tem cobertura
+    camadas["planos"] = cd.quantificar_planos(casa)
+    for it in camadas["planos"]["itens"]:
+        alvo = next((x for x in camadas["itens"]
+                     if x["material"] == it["material"]
+                     and x["espessura"] == it["espessura"]), None)
+        if alvo:
+            alvo["area"] = round(alvo["area"] + it["area"], 1)
+        else:
+            camadas["itens"].append(dict(it))
+    camadas["area_total"] = round(
+        sum(i["area"] for i in camadas["itens"]), 1)
     itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2,
                       n_parafusos=n_parafusos, camadas=camadas)
     custo = sum(i.total for i in itens)

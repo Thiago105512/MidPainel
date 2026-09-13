@@ -118,27 +118,47 @@ class Material:
     E: float             # MPa (0 = nao estrutural)
     lambda_t: float      # W/mK, condutividade
     obs: str = ""
+    # A norma pertence ao MATERIAL, nao a camada. Ela nasceu na camada em R34 e
+    # durou uma revisao: duas fontes para o mesmo fato divergem na primeira
+    # correcao, e foi exatamente esse o defeito 39 — dois codigos para a mesma
+    # peca. Nao ha razao para repetir o erro dois dias depois de documenta-lo.
+    norma: str = ""
+    # Formato comercial: largura x altura em mm, ou 0 quando nao se compra em
+    # chapa. Sem isto a quantidade fica em m2 abstratos, e ninguem compra m2.
+    chapa: tuple = ()
 
 
 MATERIAIS = [
-    Material("ACO", "Aco estrutural", 7850, 205_000, 55.0),
-    Material("ALU", "Aluminio", 2700, 70_000, 200.0, "esquadria e ACM"),
-    Material("MAD", "Madeira conifera", 500, 10_000, 0.13),
-    Material("OSB", "OSB estrutural", 650, 3_500, 0.13, "diafragma e substrato"),
-    Material("PLY", "Compensado", 600, 7_000, 0.14),
-    Material("CLT", "CLT", 480, 11_000, 0.12),
-    Material("CONC", "Concreto estrutural", 2500, 30_000, 1.75),
-    Material("PLCIM", "Placa cimenticia", 1700, 6_000, 0.35, "fechamento externo"),
-    Material("GESSO", "Chapa de gesso", 750, 2_000, 0.35),
-    Material("GESSORU", "Chapa de gesso RU", 800, 2_000, 0.35, "area umida"),
-    Material("LAROCHA", "La de rocha", 64, 0, 0.045),
-    Material("LAVIDRO", "La de vidro", 20, 0, 0.040),
-    Material("XPS", "XPS", 33, 0, 0.035, "quebra termica da ISO strip"),
-    Material("EPS", "EPS", 20, 0, 0.040),
-    Material("ACM", "ACM", 1600, 0, 0.50),
-    Material("PIR", "Painel sandwich PIR", 40, 0, 0.023, "cobertura"),
-    Material("PUR", "Painel sandwich PUR", 40, 0, 0.026),
-    Material("VIDRO", "Vidro", 2500, 70_000, 1.00),
+    Material("ACO", "Aco estrutural", 7850, 205_000, 55.0,
+             norma="NBR 15253 / NBR 6355"),
+    Material("ALU", "Aluminio", 2700, 70_000, 200.0, "esquadria e ACM",
+             norma="NBR 10821"),
+    Material("MAD", "Madeira conifera", 500, 10_000, 0.13, norma="NBR 7190"),
+    Material("OSB", "OSB estrutural", 650, 3_500, 0.13, "diafragma e substrato",
+             norma="NBR 14810 / EN 300", chapa=(1220, 2440)),
+    Material("PLY", "Compensado", 600, 7_000, 0.14, norma="NBR 12498",
+             chapa=(1220, 2440)),
+    Material("CLT", "CLT", 480, 11_000, 0.12, norma="EN 16351"),
+    Material("CONC", "Concreto estrutural", 2500, 30_000, 1.75, norma="NBR 6118"),
+    Material("PLCIM", "Placa cimenticia", 1700, 6_000, 0.35, "fechamento externo",
+             norma="NBR 15498", chapa=(1200, 2400)),
+    Material("GESSO", "Chapa de gesso", 750, 2_000, 0.35, norma="NBR 14715",
+             chapa=(1200, 2400)),
+    Material("GESSORU", "Chapa de gesso RU", 800, 2_000, 0.35, "area umida",
+             norma="NBR 14715", chapa=(1200, 2400)),
+    Material("LAROCHA", "La de rocha", 64, 0, 0.045, "rolo ou painel",
+             norma="NBR 11722", chapa=(1200, 25_000)),
+    Material("LAVIDRO", "La de vidro", 20, 0, 0.040, "rolo",
+             norma="NBR 11722", chapa=(1200, 25_000)),
+    Material("XPS", "XPS", 33, 0, 0.035, "quebra termica da ISO strip",
+             norma="NBR 11752", chapa=(600, 1250)),
+    Material("EPS", "EPS", 20, 0, 0.040, norma="NBR 11752", chapa=(1000, 2000)),
+    Material("ACM", "ACM", 1600, 0, 0.50, norma="NBR 15827", chapa=(1250, 3200)),
+    Material("PIR", "Painel sandwich PIR", 40, 0, 0.023, "cobertura",
+             norma="NBR 16373", chapa=(1000, 12_000)),
+    Material("PUR", "Painel sandwich PUR", 40, 0, 0.026, norma="NBR 16373",
+             chapa=(1000, 12_000)),
+    Material("VIDRO", "Vidro", 2500, 70_000, 1.00, norma="NBR 7199"),
 ]
 POR_MATERIAL = {m.cod: m for m in MATERIAIS}
 

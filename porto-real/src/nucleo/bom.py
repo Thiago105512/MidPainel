@@ -55,9 +55,18 @@ class ItemBOM:
 
 # Preco por m2 de cada material de camada. (H), como todos os precos: ordem de
 # grandeza para a estrutura do calculo existir.
+# Acessorio de junta: e 8 a 12 % do custo do fechamento em drywall e nao
+# existia no modelo. Deriva do PERIMETRO, que a paginacao passou a conhecer.
+PRECO_JUNTA = {          # (H), como todo preco deste arquivo
+    "fita": 0.40,          # rolo de 150 m
+    "massa": 2.50,         # balde de 30 kg rende 60 a 80 m de junta
+    "cantoneira": 4.50,
+    "parafuso_placa": 0.12,
+}
 PRECO_CAMADA = {
     "PLCIM": 62.00, "GESSO": 28.00, "GESSORU": 36.00, "LAROCHA": 34.00,
     "LAVIDRO": 22.00, "XPS": 41.00, "OSB": 58.00, "ACO": 0.0,
+    "PIR": 132.00, "PUR": 126.00, "EPS": 18.00, "ACM": 210.00,
 }
 NOME_CAMADA = {
     "PLCIM": "Placa cimenticia", "GESSO": "Chapa de gesso",
@@ -126,6 +135,26 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                                  preco, "vedacao", fonte="(H) estimado"))
 
     h_fab = len(pecas) / PRODUTIVIDADE["pecas_por_hora_fabrica"]
+    # acessorio de junta, quando a paginacao existir
+    pg = (camadas or {}).get("paginacao")
+    if pg:
+        itens.append(ItemBOM("PLACA", "Placa (gesso, RU e cimenticia)", "pc",
+                             pg["placas"], 0.0, "vedacao", fonte="derivado"))
+        itens.append(ItemBOM("FITA", "Fita de papel para junta", "m",
+                             pg["junta_m"], PRECO_JUNTA["fita"], "vedacao",
+                             fonte="derivado"))
+        itens.append(ItemBOM("MASSA", "Massa para junta, 3 demaos", "m",
+                             pg["junta_m"], PRECO_JUNTA["massa"], "vedacao",
+                             fonte="derivado"))
+        itens.append(ItemBOM("CANT", "Cantoneira de canto e arremate", "m",
+                             pg["borda_m"], PRECO_JUNTA["cantoneira"],
+                             "vedacao", fonte="derivado"))
+        # parafuso de placa: espacamento de 250 mm no campo e 200 na borda
+        n_pl = int(pg["area_util"] * 1e6 / (250 * 600))
+        itens.append(ItemBOM("PAR-PLA", "Parafuso de placa 25 mm", "un",
+                             n_pl, PRECO_JUNTA["parafuso_placa"], "vedacao",
+                             fonte="derivado"))
+
     area_fechamento = (camadas["area_total"] if camadas
                        else (area_placa_m2 or area_m2 * 2.4))
     h_mont = area_fechamento / PRODUTIVIDADE["m2_painel_por_hora_montagem"]

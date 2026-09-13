@@ -103,6 +103,23 @@ FAIXAS = (
           "INTERNA, nunca preco de mercado errado",
           "fora da faixa com precos (H) indica quantitativo errado, nao preco"),
 
+    Faixa("placa_m2", "placa por area de projeto", "m2/m2", 2.0, 4.5,
+          "(H) fechamento de parede em duas faces mais forro; sobrado tem "
+          "mais parede por m2 de piso que casa terrea",
+          "abaixo indica camada faltando no modelo — foi assim que se "
+          "descobriu que piso, forro e cobertura nao tinham composicao"),
+
+    Faixa("junta_m2", "fita e acabamento de junta", "m/m2 de placa", 1.6, 2.4,
+          "(H) pratica corrente de drywall, contando junta entre placas mais "
+          "arremate de borda",
+          "acima indica junta contada dos dois lados: entre duas placas ha "
+          "UMA junta, e entre dois paineis tambem"),
+
+    Faixa("aprov_placa", "aproveitamento da placa", "%", 70.0, 95.0,
+          "(H) placa de 2.400 num pe-direito de 2.600 obriga emenda e retalho",
+          "acima de 95 sugere retalho contado como reaproveitado sem que o "
+          "corte caiba de fato"),
+
     Faixa("uso_estrutural", "utilizacao mediana dos montantes", "-", 0.05, 0.70,
           "(H) em LSF o montante corrente e governado pela modulacao da placa, "
           "nao pela carga; mediana alta indica subdimensionamento",
@@ -136,6 +153,29 @@ def medir(r: dict, area_m2: float) -> dict:
         "massa_painel": massa_max,
         "custo_m2": r["custo"] / area_m2,
         "uso_estrutural": us[len(us) // 2] if us else 0.0,
+        **_medir_fechamento(r, area_m2),
+    }
+
+
+def _medir_fechamento(r: dict, area_m2: float) -> dict:
+    """As tres grandezas do fechamento, quando a paginacao existir."""
+    c = r.get("camadas") or {}
+    pg = c.get("paginacao")
+    if not pg:
+        return {}
+    placa = sum(i["area_util"] for i in pg["itens"]
+                if i["material"] in ("GESSO", "GESSORU", "PLCIM"))
+    # PLACA, nao camada: la de rocha e XPS nao sao placa de fechamento. Medir
+    # "area_total" contra uma faixa de placa deu 7,88 m2/m2 contra 2 a 4,5 — e a
+    # faixa acusou, que e exatamente para o que ela serve. O erro nao era do
+    # projeto, era da medicao: grandeza e faixa tem de falar da mesma coisa.
+    placas = sum(i["area"] for i in c["itens"]
+                 if i["material"] in ("GESSO", "GESSORU", "PLCIM", "OSB"))
+    return {
+        "placa_m2": placas / area_m2,
+        "junta_m2": (pg["junta_m"] + pg["borda_m"]) / placa if placa else 0.0,
+        "aprov_placa": (pg["area_util"] / pg["area_bruta"] * 100
+                        if pg["area_bruta"] else 0.0),
     }
 
 

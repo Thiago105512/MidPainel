@@ -2410,6 +2410,11 @@ REVISOES = [
             "descontada a abertura. A transcricao permitiu conferir a "
             "justificativa da PH-1: a cavidade e a alma do montante, 90 mm, e "
             "o DN100 tem 110 de diametro externo"),
+    ("R35", "Paginacao de placa: 696 placas inteiras com 79,3 % de "
+            "aproveitamento, retalho reagrupado pelo mesmo nesting das barras. "
+            "Norma e formato comercial voltam para o material, fonte unica. "
+            "Piso, forro e cobertura ganham composicao, e fita, massa e "
+            "cantoneira passam a existir, derivadas do perimetro"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2435,13 +2440,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R34",
+    revisao="R35",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R34", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R35", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
