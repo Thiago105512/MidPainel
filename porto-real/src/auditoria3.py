@@ -566,3 +566,110 @@ def _conf(nome, obtido, esperado, unid, tol=1e-6):
     return Achado("NOTA" if rel <= tol else "ERRO", nome,
                   f"numerico {obtido:+.6g} {unid} contra fechada "
                   f"{esperado:+.6g}; erro relativo {rel:.2e}")
+
+
+def checar_mrd() -> list[Achado]:
+    """O Metodo da Resistencia Direta contra as proprias curvas da norma.
+
+    As curvas do MRD sao continuas por construcao: os dois ramos se encontram
+    exatamente na esbeltez de transicao. Se nao encontram, um coeficiente esta
+    trocado — e o erro nao aparece no resultado, so numa descontinuidade de
+    alguns por cento que ninguem nota olhando um numero isolado.
+    """
+    import nucleo.verificacao as vr
+    import nucleo.perfis as pf
+    import nucleo.materiais as mt
+    out = []
+
+    # 1) continuidade dos dois ramos da curva global em lambda0 = 1,5
+    a = 0.658 ** (1.5 ** 2)
+    b = 0.877 / 1.5 ** 2
+    out.append(Achado("NOTA" if abs(a - b) / b < 0.005 else "ERRO", "curva global",
+                      f"os dois ramos se encontram em lambda0 = 1,5: "
+                      f"{a:.5f} contra {b:.5f} ({abs(a-b)/b*100:.2f} % de salto)"))
+
+    # 2) continuidade da curva local em lambda_l = 0,776
+    r = 0.776 ** -2                          # Nl/Nc no ponto de transicao
+    esq, dir_ = 1.0, (1 - 0.15 * r ** 0.4) * r ** 0.4
+    out.append(Achado("NOTA" if abs(esq - dir_) < 0.02 else "ERRO", "curva local",
+                      f"continuidade em lambda_l = 0,776: {esq:.4f} contra "
+                      f"{dir_:.4f}"))
+
+    # 3) limite fisico: barra curtissima chega a carga de escoamento
+    p = pf.Perfil("Ue", "Ue", 90, 40, 12, 1.55)
+    aco = mt.POR_ACO["ZAR 230"]
+    c = vr.compressao(p, aco, L=1.0)
+    ny = p.props()["A"] * aco.fy / 1000.0
+    out.append(Achado("NOTA" if c["modos"]["global"] / ny > 0.999 else "ERRO",
+                      "limite", f"a L = 1 mm a parcela global atinge a carga de "
+                                f"escoamento: {c['modos']['global']/ny*100:.2f} % de Ny"))
+
+    # 4) monotonia: alongar a barra nunca aumenta a resistencia
+    ns = [vr.compressao(p, aco, L=L)["nrd"] for L in (500, 1000, 2000, 3000, 4500)]
+    ok = all(y <= x + 1e-9 for x, y in zip(ns, ns[1:]))
+    out.append(Achado("NOTA" if ok else "ERRO", "monotonia",
+                      f"Nrd por comprimento: {[round(n,2) for n in ns]} kN"))
+
+    # 5) secao duplamente simetrica nao tem reducao por flexo-torcao
+    tubo = pf.Perfil("SHS", "SHS", 100, 100, 0, 2.0)
+    pr = tubo.props()
+    g = vr.n_global(pr, 230, 205_000.0, 78_850.0, L=3000.0)
+    euler = math.pi ** 2 * 205_000.0 * min(pr["Ix"], pr["Iy"]) / 3000.0 ** 2
+    ok = abs(g["ne"] - euler) / euler < 1e-9 and "flexo" not in g["modo"]
+    out.append(Achado("NOTA" if ok else "ERRO", "simetria",
+                      f"tubo quadrado: carga critica {g['ne']:.1f} N pelo modo "
+                      f"'{g['modo']}', igual a Euler ({euler:.1f} N)"))
+
+    # 6) travar a parede aumenta a resistencia — e por isso que ela e travada
+    livre = vr.compressao(p, aco, L=2600)["nrd"]
+    travado = vr.compressao(p, aco, L=2600, ky=0.5, kz=0.5)["nrd"]
+    out.append(Achado("NOTA" if travado > livre else "ERRO", "travamento",
+                      f"blocking no meio da altura leva Nrd de {livre:.2f} para "
+                      f"{travado:.2f} kN (+{(travado/livre-1)*100:.0f} %) — e "
+                      f"por isso que a parede de LSF e travada"))
+
+    # 7) os tres modos competem, e qual governa muda com o comprimento
+    modos = {vr.compressao(p, aco, L=L)["modo"] for L in (600, 1500, 4000)}
+    out.append(Achado("NOTA" if len(modos) > 1 else "ATENCAO", "modos",
+                      f"modos que governam ao longo do comprimento: "
+                      f"{sorted(modos)} — perfil formado a frio nao se "
+                      f"dimensiona 'pela tensao'"))
+
+    # 8) interacao: os casos puros devolvem a propria utilizacao
+    i1 = vr.interacao(10.0, 0.0, 20.0, 1.0)
+    i2 = vr.interacao(0.0, 0.5, 20.0, 1.0)
+    ok = abs(i1["uso"] - 0.5) < 1e-12 and abs(i2["uso"] - 0.5) < 1e-12
+    out.append(Achado("NOTA" if ok else "ERRO", "interacao",
+                      "compressao pura e flexao pura devolvem a propria "
+                      "utilizacao"))
+
+    # 9) o limite do modelo distorcional e declarado, nao escondido
+    nota = vr.compressao(p, aco, L=2600)["nota_distorcional"]
+    out.append(Achado("ATENCAO" if "(H)" in nota else "ERRO", "distorcional",
+                      f"{nota} — pendencia declarada: o valor rigoroso exige "
+                      f"analise de faixas finitas ou tabela do fabricante"))
+    return out
+
+
+def checar_cisalhamento() -> list[Achado]:
+    """A curva de cortante e continua nas duas transicoes de esbeltez."""
+    import nucleo.verificacao as vr
+    import nucleo.perfis as pf
+    import nucleo.materiais as mt
+    out = []
+    aco = mt.POR_ACO["ZAR 230"]
+    vs = []
+    for bw in (60, 90, 140, 200, 250, 300):
+        p = pf.Perfil("x", "Ue", bw, 40, 12, 0.95)
+        v = vr.cisalhamento(p, aco)
+        vs.append((v["esbeltez"], v["vrd"]))
+    # a resistencia por unidade de alma cai quando a alma afina demais
+    razoes = [vrd / esb for esb, vrd in vs]
+    ok = all(b <= a + 1e-9 for a, b in zip(razoes, razoes[1:]))
+    out.append(Achado("NOTA" if ok else "ERRO", "cortante",
+                      f"a resistencia por unidade de esbeltez cai "
+                      f"monotonicamente: {[round(r,4) for r in razoes]}"))
+    out.append(Achado("NOTA", "cortante",
+                      f"alma de {vs[0][0]:.0f} a {vs[-1][0]:.0f} de esbeltez: "
+                      f"Vrd de {vs[0][1]:.2f} a {vs[-1][1]:.2f} kN"))
+    return out

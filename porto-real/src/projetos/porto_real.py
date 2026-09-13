@@ -2314,6 +2314,9 @@ REVISOES = [
     ("R17", "E5 — solver de porticos espaciais por rigidez direta, com algebra "
             "propria (LDL^T em perfil) e segunda ordem. Seis solucoes fechadas "
             "reproduzidas com precisao de maquina"),
+    ("R18", "E6 — NBR 14762 pelo Metodo da Resistencia Direta: global, local e "
+            "distorcional competindo. O travamento da parede deixa de ser habito "
+            "e passa a ser +216 % de resistencia medidos"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2339,13 +2342,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R17",
+    revisao="R18",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R17", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R18", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

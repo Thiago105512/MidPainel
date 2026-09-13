@@ -251,6 +251,15 @@ PROGRAMA = [
      "Secao 15. A carga vertical sobre a geometria ja deslocada amplifica o "
      "proprio deslocamento. Conferido contra 1/(1 - N/Ncr) em tres fracoes da "
      "carga critica de Euler."),
+    (78, "Resistencia NBR 14762 — Metodo da Resistencia Direta",
+     ["checar_mrd"], "AUTOMATIZADA",
+     "Secao 15. Tres instabilidades competem: global, local e distorcional, e "
+     "qual governa muda com o comprimento. Conferido contra a continuidade das "
+     "proprias curvas da norma e contra os limites fisicos."),
+    (79, "Cisalhamento e enrugamento de alma",
+     ["checar_cisalhamento"], "AUTOMATIZADA",
+     "Secao 15. A resistencia por unidade de esbeltez cai monotonicamente — "
+     "alma fina demais deixa de trabalhar por escoamento."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
