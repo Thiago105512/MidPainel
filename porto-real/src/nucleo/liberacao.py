@@ -20,6 +20,8 @@ import nucleo.scores as sc
 import nucleo.verificacao as vr
 import nucleo.materiais as mt
 import nucleo.fabricacao as fb
+import nucleo.descida as ds
+import nucleo.perfis as pf
 
 
 def _documentos_ok(pj, pecas, plano, paineis, cat) -> bool:
@@ -45,15 +47,33 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     cat = pn._catalogo_massa()
     aco = mt.POR_ACO["ZAR 230"]
 
-    paineis, pecas = {}, []
+    # PRIMEIRA PASSADA: a geometria. A jamba sai com um montante de cada lado,
+    # que e o minimo construtivo, e ainda nao uma escolha estrutural.
+    paineis = {}
     for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
-        pais = pn.painelizar(el.derivar_paredes(amb),
-                             list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")
-        paineis[pav] = pais
+        paineis[pav] = pn.painelizar(el.derivar_paredes(amb),
+                                     list(el.vaos_do_pavimento(pav)), cfg,
+                                     f"{pav}P")
+    todos = [p for v in paineis.values() for p in v]
+
+    # SEGUNDA PASSADA: o dimensionamento. A carga na jamba depende da area de
+    # influencia do painel, que depende da posicao das paredes — que so existe
+    # depois da primeira passada. Como acrescentar montante nao muda area de
+    # influencia nenhuma, o ponto fixo se fecha aqui, em duas passadas.
+    cat_perfis = list(pf.catalogo())
+    dim = ds.dimensionar(paineis, aco, pj.CARGAS, cfg, cat_perfis)
+    jambas, apertadas = dim["jambas"], dim["apertadas"]
+
+    pecas = []
+    for pav, pais in paineis.items():
         pecas += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"],
                              {p.cod: [dict(servico="eletrica", d=25)]
                               for p in pais})
-    todos = [p for v in paineis.values() for p in v]
+
+    # VERIFICACAO: todos os montantes, um a um, sem teto na utilizacao
+    verif = ds.verificar(todos, dict(T=paineis["S"], S=[]),
+                         {q.cod: q for q in cat_perfis}, aco, pj.CARGAS, cfg)
+    utilizacoes = verif["utilizacoes"]
 
     plano = ns.nestar_barras([(p.cod, p.perfil, p.comp) for p in pecas])
     itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2)
@@ -68,14 +88,6 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     vols = [lo.Volume3D(p.cod, p.comp, 120, p.altura, p.massa(cat)) for p in todos]
     carga = lo.carregar_container(vols, "40HC")
     desvios = [abs(lo.cg_painel(p, cat)["desvio_rel"]) for p in todos]
-
-    # verificacao estrutural de um montante tipico por pavimento
-    perfil = next(q for q in __import__("nucleo.perfis", fromlist=["x"]).catalogo()
-                  if q.cod == cfg.perfil_stud)
-    utilizacoes = []
-    for altura, travado in ((cfg.altura, 0.5), (cfg.altura, 1.0)):
-        c = vr.compressao(perfil, aco, L=altura, ky=travado, kz=travado)
-        utilizacoes.append(min(0.99, 8.0 / max(0.1, c["nrd"])))
 
     massa_util = sum(p.massa for p in pecas)
     massa_comprada = massa_util / plano["aproveitamento"]
@@ -109,7 +121,9 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         "cargas": bool(pj.CARGAS),
         "combinacoes": True,
         "estabilidade": not instab,
-        "perfis aprovados": all(u <= 1.0 for u in utilizacoes),
+        # o item agora PODE falhar: e a verificacao de 415 montantes contra a
+        # carga que desce ate cada um, sem teto na utilizacao
+        "perfis aprovados": verif["aprovado"],
         "ligacoes": True,
         "fundacao": True,
         # verga para todo vao que comporta uma; o vao de altura total nao tem
@@ -137,4 +151,6 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                 horas=horas, carga=carga, emissao=emissao,
                 desmontabilidade=desm, scores=scores, score_geral=geral,
                 liberacao=lib, massa_util=massa_util,
-                massa_comprada=massa_comprada, utilizacoes=utilizacoes)
+                massa_comprada=massa_comprada, utilizacoes=utilizacoes,
+                verificacao=verif, jambas=jambas, jambas_apertadas=apertadas,
+                u_alvo=cfg.u_alvo)

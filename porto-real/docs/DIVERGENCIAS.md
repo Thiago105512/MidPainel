@@ -2400,3 +2400,79 @@ sem o aviso**. E seria justamente a metade que alguém leria na obra.
 
 > Múltiplo da modulação não é montante. É onde o montante estaria se nada o
 > tivesse suprimido — e a abertura suprime exatamente onde ela está.
+
+## Defeito 36 — `min(0.99, ...)`, ou o item de checklist que não podia falhar
+
+Este é o mais grave de todos, e cabia numa linha:
+
+```python
+utilizacoes.append(min(0.99, 8.0 / max(0.1, c["nrd"])))
+```
+
+Três defeitos empilhados numa expressão:
+
+**O teto.** `min(0.99, …)` limitava a utilização a 0,99. O item do checklist era
+`all(u <= 1.0 for u in utilizacoes)` — com o teto, ele **não podia falhar por
+construção**. A doutrina do projeto já dizia, sobre a liberação, que *"nenhum
+item é marcável à mão: se fosse, seria marcado"*. Este era marcável, e estava
+marcado.
+
+**A carga.** `8.0` kN, escrita à mão, igual para todo montante da casa,
+independentemente do que houvesse acima dele.
+
+**A amostra.** Dois montantes típicos representavam 415.
+
+Medido: o montante destravado tem N<sub>rd</sub> = **5,44 kN** contra os 8,0 kN
+aplicados — utilização real de **1,47**. O teto reportava 0,99, o checklist
+passava, e a liberação dizia LIBERADO PARA FABRICAÇÃO.
+
+### O que entrou no lugar
+
+`nucleo/descida.py` calcula, para cada painel: faixa de influência (metade do
+vão até a parede paralela mais próxima de cada lado, e parede externa recebe de
+um lado só — por isso uma parede **interna** costuma ser mais carregada que a da
+fachada, o que contraria a intuição), o que há acima (parede superior, laje,
+cobertura), e a combinação da NBR 8681 que governa. O `k` de flambagem sai do
+**blocking que o painel tem**, não de um 0,5 arbitrado — e a diferença vale 4×
+na carga de Euler.
+
+Resultado da primeira verificação honesta: **12 peças reprovam**, todas king e
+jack stud, a pior com utilização **2,03**. É o caso clássico do LSF — a jamba
+recebe a reação da verga, e essa cresce com o vão enquanto a carga do montante
+corrente não muda. Numa parede com portão de 4,8 m o king stud recebe 29 kN onde
+o montante corrente recebe 3.
+
+`jamba_necessaria()` passou a dimensioná-la, com as alternativas rejeitadas. Duas
+descobertas do próprio comparador:
+
+- **Dobrar o montante quase nunca é a resposta eficiente.** Duplicar é +100 % de
+  massa; a bitola seguinte é +30 %. A regra de escolha declara o trade-off:
+  a mais leve vence, mas a composta do próprio montante vence empate de até
+  **15 %** — uma espessura nova é um SKU novo no estoque, outra etiqueta, outra
+  chance de o montador pegar a errada.
+- **Alvo de projeto e limite normativo não são a mesma coisa.** Dimensionando
+  até 1,00 a jamba do portão saía com u = 0,995 — aprovada por 0,3 %, e reprovada
+  na primeira revisão de carga. `u_alvo = 0,95` é **política de projeto**, com
+  razão operacional, não estrutural; a aprovação continua sendo 1,00 da norma.
+  Custou **10 kg de aço em 2.424** — 0,4 %.
+
+### A área que descia duas vezes
+
+Verificação por caminho independente: a soma de (faixa × comprimento) de todas
+as paredes deveria cobrir a área do pavimento. Deu **1,54×** no térreo.
+
+A causa é real: o modelo não sabe a direção do vigamento, então paredes
+perpendiculares reclamam a mesma região de laje. É conservador — mas
+**conservador por acidente**, que é o que este projeto recusa em toda parte. Um
+fator de 1,54 que ninguém escolheu e ninguém mediu não é margem de segurança: é
+ignorância com aparência de prudência. Agora `cobertura_de_area()` o mede, a
+auditoria confere que é **sempre ≥ 1** (nunca contra a segurança) e o declara.
+
+### E o teste que impede a volta
+
+A bateria não confere que o projeto passa. Confere que ele **seria reprovado se
+estivesse errado**: multiplica as cargas por 20, exige utilização acima de 1 e
+resultado REPROVADO, e exige que o checklist bloqueie. Se alguém puser um teto de
+volta, o teste cai na hora.
+
+> Um item de verificação que não pode falhar não verifica. Assina.

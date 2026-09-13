@@ -353,6 +353,13 @@ PROGRAMA = [
      "aceite. Nenhum adaptador devolve numero; todos dizem o que falta e como "
      "suprir. Simulacao disfarcada de funcionalidade e pior que a ausencia, "
      "porque a ausencia se ve."),
+    (99, "Descida de cargas e verificacao de todos os montantes",
+     ["checar_descida"], "PARCIAL",
+     "Secoes 15, 16 e 38. A carga que chega a cada montante sai de area de "
+     "influencia, do que ha acima e da combinacao NBR 8681 — nao de uma "
+     "constante. Os 415 montantes sao verificados um a um, sem teto na "
+     "utilizacao. PARCIAL porque a direcao do vigamento e desconhecida: o "
+     "excesso esta medido (1,54x no terreo) e declarado, nunca suposto."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

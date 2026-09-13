@@ -43,6 +43,14 @@ class Config:
     blocking_a_cada: int = 1_300      # mm de altura
     folga_abertura: int = 10          # mm de folga de vao em cada lado
     comp_barra: int = 6_000           # mm, comprimento da barra comprada
+    # Utilizacao ALVO no dimensionamento. Nao se confunde com o limite
+    # normativo, que e 1,0 e continua sendo o criterio de aprovacao: 0,95 e
+    # POLITICA DE PROJETO, e a razao e operacional, nao estrutural. Uma peca
+    # aprovada por 0,3 % reprova na primeira revisao de carga — troca de
+    # telha, um reservatorio a mais, um vao alargado —, e refazer o
+    # dimensionamento custa mais que os 5 % de aco. Quem discordar da politica
+    # muda este numero; quem discordar da NORMA nao pode mudar nada.
+    u_alvo: float = 0.95
 
 
 @dataclass
@@ -70,6 +78,12 @@ class Painel:
     altura: int
     esp: int
     externa: bool
+    # A orientacao vem da parede que originou o painel. Ate R28 ela nao era
+    # guardada, e quem precisava dela a re-deduzia por fora — duas deducoes do
+    # mesmo fato, que divergem na primeira mudanca. A descida de cargas precisa
+    # dela para saber em que direcao a laje vence.
+    horizontal: bool = True
+    pav: str = ""
     pecas: list = field(default_factory=list)
     aberturas: list = field(default_factory=list)
     obs: str = ""
@@ -161,7 +175,7 @@ def montar(par, vaos, cfg: Config, cod: str, pav: str = "T") -> list[Painel]:
     for i, (ini, fim) in enumerate(trechos, 1):
         comp = fim - ini
         suf = f"{cod}" if len(trechos) == 1 else f"{cod}-{i}"
-        p = Painel(cod=suf, parede=cod,
+        p = Painel(cod=suf, parede=cod, horizontal=bool(par.horizontal),
                    x=par.x1 + (ini if par.horizontal else 0),
                    y=par.y1 + (0 if par.horizontal else ini),
                    comp=comp, altura=cfg.altura, esp=par.esp,
@@ -242,7 +256,7 @@ def emendas(comp: int, cfg: Config, fase: int = 0, apoios=()) -> list:
     return segs
 
 
-def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
+def _preencher(p: Painel, aberturas: list, cfg: Config, jamba=None) -> None:
     """Gera as pecas do painel: guias, montantes, reforco de abertura, blocking.
 
     CONVENCAO DE COORDENADA, e ela e o contrato com o desenho e com a maquina:
@@ -303,14 +317,30 @@ def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
         e, d = ab["centro"] - v / 2, ab["centro"] + v / 2
         topo = ab["peitoril"] + ab["alt"]
         # o king e o jack ficam FORA do vao: a face interna deles e a borda do
-        # vao bruto, senao o vao livre entregue e 180 mm menor que o esquadria
-        for lado, xx in (("esq", max(0, e - bs)), ("dir", min(d, p.comp - bs))):
-            add("king stud", cfg.perfil_stud, p.altura, xx, 0, True,
-                f"{ab['tipo']} {lado}: continuo de piso a topo")
-            add("jack stud", cfg.perfil_stud, min(topo, p.altura), xx, 0, True,
-                f"{ab['tipo']} {lado}: apoia a verga"
-                if cabe_verga(ab, p.altura, cfg) else
-                f"{ab['tipo']} {lado}: vao de altura total, sobe ate a guia")
+        # vao bruto, senao o vao livre entregue e 180 mm menor que o esquadria.
+        # Quantos sao vem do dimensionamento (jamba_necessaria), nao da praxe
+        # de "um de cada lado" — a jamba recebe a reacao da verga, e essa cresce
+        # com o vao enquanto a carga do montante corrente nao muda.
+        nj = (jamba or {}).get("n", 1)
+        pj_ = (jamba or {}).get("perfil") or cfg.perfil_stud
+        for lado, x0j, passo in (("esq", max(0, e - bs), -bs),
+                                 ("dir", min(d, p.comp - bs), +bs)):
+            for i in range(nj):
+                xx = x0j + i * passo
+                if xx < 0 or xx + bs > p.comp:
+                    p.obs = (p.obs + " | " if p.obs else "") + (
+                        f"{ab['tipo']} {lado}: a jamba exige {nj} montantes e "
+                        f"so cabem {i} dentro do painel — o vao esta perto "
+                        f"demais da borda")
+                    break
+                extra = "" if nj == 1 else f" ({i+1} de {nj}, caixa parafusada)"
+                add("king stud", pj_, p.altura, xx, 0, True,
+                    f"{ab['tipo']} {lado}: continuo de piso a topo{extra}")
+                add("jack stud", pj_, min(topo, p.altura), xx, 0, True,
+                    (f"{ab['tipo']} {lado}: apoia a verga{extra}"
+                     if cabe_verga(ab, p.altura, cfg) else
+                     f"{ab['tipo']} {lado}: vao de altura total, "
+                     f"sobe ate a guia{extra}"))
         # a verga APOIA sobre os jacks — por isso vence o vao bruto mais a
         # largura dos dois jacks, e nao o vao livre
         xh = max(0, e - bs)
@@ -391,11 +421,14 @@ def _preencher(p: Painel, aberturas: list, cfg: Config) -> None:
             f"encomenda ou talao dimensionado ao momento da emenda")
 
 
-def painelizar(paredes, vaos, cfg: Config = None, prefixo: str = "P") -> list[Painel]:
+def painelizar(paredes, vaos, cfg: Config = None, prefixo: str = "P",
+               pav: str = "") -> list[Painel]:
     cfg = cfg or Config()
     out = []
     for i, par in enumerate(paredes, 1):
         out += montar(par, vaos, cfg, f"{prefixo}{i:02d}")
+    for p in out:
+        p.pav = pav or (prefixo[0] if prefixo and prefixo[0] in "TS" else "")
     return out
 
 
@@ -440,3 +473,128 @@ def verga_necessaria(vao_mm: int, carga_kn_m: float, aco, cfg: Config = None,
                 motivo=f"utilizacao {e['uso']*100:.0f} %, flecha "
                        f"{e['flecha']:.2f} de {flecha_lim:.2f} mm admissiveis, "
                        f"menor massa entre os {len(aprovados)} perfis validos")
+
+
+def jamba_necessaria(nsd_kn: float, altura: int, aco, cfg: Config = None,
+                     k: float = 0.5, perfis=None) -> dict:
+    """Quantos montantes a jamba precisa ter, e por que nao menos.
+
+    A jamba de uma abertura nao e um montante: e o apoio da verga. Ela recebe a
+    reacao de tudo o que a verga colheu, e por isso a carga nela cresce com o
+    VAO da abertura enquanto a do montante corrente nao muda. Numa parede com
+    portao de 4,8 m o king stud recebe 29 kN onde o montante corrente recebe 3.
+
+    Ate R28 toda abertura saia com um king e um jack, independentemente do vao.
+    Isso aprovava a janela de 800 mm e reprovava o portao por 2x — e a
+    verificacao nao dizia, porque so olhava um montante tipico.
+
+    Duas familias de solucao, e as duas entram na comparacao:
+      - COMPOSTA: n montantes iguais em caixa, Nrd = n x Nrd (limite inferior;
+        a caixa parafusada tem rigidez a torcao maior que a soma, entao contar
+        so a soma e a favor da seguranca);
+      - CHAPA MAIOR: o mesmo perfil em espessura superior.
+
+    Devolve a escolha e as rejeitadas com o motivo — secao 20.
+    """
+    cfg = cfg or Config()
+    base = next((p for p in (perfis or pf.catalogo()) if p.cod == cfg.perfil_stud),
+                None)
+    if base is None:
+        raise KeyError(f"perfil de montante '{cfg.perfil_stud}' fora do catalogo")
+    massa = _catalogo_massa()
+
+    alvo = max(0.1, min(1.0, cfg.u_alvo))
+
+    def nrd(p):
+        return vr.compressao(p, aco, L=altura, kx=1.0, ky=k, kz=k)["nrd"]
+
+    n_base = nrd(base)
+    testados, escolha = [], None
+
+    # familia 1: composta com o proprio perfil
+    for n in range(1, 7):
+        cap = n * n_base
+        ok = cap * alvo >= nsd_kn
+        testados.append(dict(solucao=f"{n} x {base.cod}", n=n, perfil=base.cod,
+                             nrd=cap, u=nsd_kn / cap if cap else float("inf"),
+                             massa=n * massa[base.cod] * altura / 1000.0,
+                             aceita=ok))
+        if ok and escolha is None:
+            escolha = testados[-1]
+
+    # familia 2: mesma forma, chapa mais grossa, dois montantes no maximo
+    mesma_forma = [p for p in (perfis or pf.catalogo())
+                   if p.familia == base.familia and p.bw == base.bw
+                   and p.cod != base.cod and p.t > base.t]
+    for p in sorted(mesma_forma, key=lambda q: q.t)[:3]:
+        for n in (1, 2):
+            cap = n * nrd(p)
+            testados.append(dict(solucao=f"{n} x {p.cod}", n=n, perfil=p.cod,
+                                 nrd=cap, u=nsd_kn / cap if cap else float("inf"),
+                                 massa=n * massa[p.cod] * altura / 1000.0,
+                                 aceita=cap * alvo >= nsd_kn))
+
+    # Criterio de escolha, declarado porque e uma decisao e nao um calculo: a
+    # mais leve vence, MAS a composta do proprio montante vence empate de ate
+    # 15 % de massa. Uma espessura nova para uma peca so e um SKU novo — outro
+    # fardo no estoque, outra etiqueta, outra chance de o montador pegar o
+    # errado. Quinze por cento de aco e mais barato que isso.
+    MARGEM_SKU = 0.15
+    aceitas = [t for t in testados if t["aceita"]]
+    if aceitas:
+        leve = min(aceitas, key=lambda t: t["massa"])
+        mesma_sku = [t for t in aceitas if t["perfil"] == base.cod]
+        escolha = leve
+        if mesma_sku:
+            cand = min(mesma_sku, key=lambda t: t["massa"])
+            if cand["massa"] <= leve["massa"] * (1 + MARGEM_SKU):
+                escolha = cand
+    rejeitadas = [t for t in testados if not t["aceita"]]
+    return dict(
+        escolha=escolha, nsd=nsd_kn, nrd_unitario=n_base,
+        n=escolha["n"] if escolha else 0,
+        perfil=escolha["perfil"] if escolha else "",
+        alternativas=testados, rejeitadas=rejeitadas,
+        sku_nova=bool(escolha) and escolha["perfil"] != base.cod,
+        u_alvo=alvo,
+        motivo=(f"{escolha['solucao']} da {escolha['nrd']:.1f} kN para "
+                f"{nsd_kn:.1f} kN de calculo (u = {escolha['u']:.2f}, "
+                f"alvo {alvo:.2f}); "
+                f"{len(rejeitadas)} alternativa(s) rejeitada(s), a mais proxima "
+                f"por {min((t['u'] for t in rejeitadas), default=0):.2f} de "
+                f"utilizacao" if escolha else
+                f"NENHUMA solucao do catalogo atende {nsd_kn:.1f} kN com "
+                f"L = {altura} mm, k = {k} e utilizacao alvo {alvo:.2f}: o vao "
+                f"exige pilar, nao jamba"))
+
+
+def travamento_k(p: Painel) -> float:
+    """k de flambagem do montante, derivado do blocking que o painel TEM."""
+    zs = sorted({q.z for q in p.pecas if q.familia == "blocking"})
+    if not zs:
+        return 1.0
+    cortes = [0] + zs + [p.altura]
+    return max(b - a for a, b in zip(cortes, cortes[1:])) / p.altura
+
+
+def dimensionar_jambas(p: Painel, nsd_king: float, aco, cfg: Config = None,
+                       perfis=None) -> dict | None:
+    """Redimensiona as jambas do painel para a carga real e regenera as pecas.
+
+    Segunda passada, e a segunda passada e necessaria por um motivo que nao e
+    preguica: a carga na jamba depende da area de influencia do painel, que
+    depende da posicao das paredes, que so existe depois da painelizacao. A
+    primeira passada monta a geometria; a segunda a dimensiona. Como acrescentar
+    montante nao muda area de influencia nenhuma, duas passadas bastam — o ponto
+    fixo se fecha na segunda.
+    """
+    if not p.aberturas:
+        return None
+    cfg = cfg or Config()
+    r = jamba_necessaria(nsd_king, p.altura, aco, cfg,
+                         k=travamento_k(p), perfis=perfis)
+    p.pecas = []
+    p.obs = " | ".join(t for t in p.obs.split(" | ")
+                       if t and "jamba exige" not in t)
+    _preencher(p, p.aberturas, cfg, jamba=r)
+    return r

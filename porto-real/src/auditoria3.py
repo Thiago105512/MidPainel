@@ -1997,3 +1997,130 @@ def checar_contratos() -> list[Achado]:
     for m in problemas[:10]:
         out.append(Achado("ERRO", "contratos", m))
     return out
+
+
+def checar_descida() -> list[Achado]:
+    """Descida de cargas: a carga que chega, e a trava que nao pode voltar.
+
+    Esta bateria existe por causa de um defeito especifico, e o primeiro teste
+    e o antidoto dele. Ate R28 a utilizacao era relatada com `min(0.99, ...)`.
+    Com esse teto, um montante 47 % sobrecarregado saia como 0,99, o item
+    "perfis aprovados" do checklist passava, e a liberacao dizia LIBERADO. Um
+    item de verificacao que nao pode falhar nao verifica: assina.
+
+    Por isso aqui nao se confere que o projeto passa — confere-se que o projeto
+    seria REPROVADO se estivesse errado. Uma bateria que so testa o caso bom
+    nao testa nada.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.perfis as pf
+    import nucleo.materiais as mt
+    import nucleo.descida as ds
+    out = []
+    cfg = pn.Config()
+    aco = mt.POR_ACO["ZAR 230"]
+    cat = {q.cod: q for q in pf.catalogo()}
+    pais = {pav: pn.painelizar(el.derivar_paredes(amb),
+                               list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")
+            for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR))}
+    todos = pais["T"] + pais["S"]
+    sup = dict(T=pais["S"], S=[])
+
+    # ---- 1. A TRAVA NAO PODE VOLTAR
+    # carga absurda de proposito: a utilizacao tem de sair acima de 1 e o
+    # resultado tem de vir REPROVADO. Se algum dia alguem puser um teto de
+    # volta, este teste cai na hora.
+    pesado = {k: v * 20 for k, v in pj.CARGAS.items()}
+    r_mau = ds.verificar(todos, sup, cat, aco, pesado, cfg)
+    pior = max(r_mau["utilizacoes"])
+    out.append(Achado("NOTA" if pior > 1.0 and not r_mau["aprovado"] else "ERRO",
+                      "sem teto",
+                      f"com 20x a carga o pior montante sai com utilizacao "
+                      f"{pior:.2f} e o conjunto vem REPROVADO — a utilizacao "
+                      f"nao tem teto, e reprovacao nao vira aprovacao"))
+
+    # ---- 2. E o checklist tem de sentir
+    import nucleo.scores as sc
+    lib_mau = sc.liberar({"perfis aprovados": False})
+    out.append(Achado("NOTA" if not lib_mau["liberado"] else "ERRO", "bloqueio",
+                      "montante reprovado bloqueia a liberacao: o checklist "
+                      "reage ao resultado, nao o decora"))
+
+    # ---- 3. Caminho independente: as faixas cobrem a area do pavimento
+    ds.verificar(todos, sup, cat, aco, pj.CARGAS, cfg)   # preenche _influencia
+    for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
+        area = sum(a.area_mod for a in amb)
+        c = ds.cobertura_de_area(pais[pav], area)
+        out.append(Achado("NOTA" if c["seguro"] else "ERRO", f"area {pav}",
+                          c["leitura"]))
+
+    # ---- 4. O k sai do blocking, nao do arbitrio
+    com = [p for p in todos if any(q.familia == "blocking" for q in p.pecas)]
+    sem_bl = pn.Painel(cod="X", parede="X", x=0, y=0, comp=2400, altura=2600,
+                       esp=150, externa=True)
+    k_sem = pn.travamento_k(sem_bl)
+    k_com = pn.travamento_k(com[0]) if com else 1.0
+    out.append(Achado("NOTA" if k_sem == 1.0 and k_com < 1.0 else "ERRO",
+                      "travamento",
+                      f"painel sem blocking da k = {k_sem:.2f}; com blocking, "
+                      f"k = {k_com:.2f} — o k vem da peca que existe, e a "
+                      f"diferenca vale {1/k_com**2:.1f}x na carga de Euler"))
+
+    # ---- 5. A jamba cresce com o vao, e recusa quando nao cabe
+    cresce = [pn.jamba_necessaria(n, 2600, aco, cfg)["escolha"]
+              for n in (8.0, 20.0, 40.0)]
+    massas = [c["massa"] for c in cresce if c]
+    impossivel = pn.jamba_necessaria(400.0, 2600, aco, cfg)
+    out.append(Achado(
+        "NOTA" if (len(massas) == 3 and massas == sorted(massas)
+                   and impossivel["escolha"] is None) else "ERRO",
+        "jamba",
+        f"8, 20 e 40 kN pedem jambas de {', '.join(f'{m:.1f}' for m in massas)} "
+        f"kg, nessa ordem; 400 kN nao encontra solucao e diz que o vao exige "
+        f"pilar, em vez de devolver a maior do catalogo"))
+
+    # ---- 6. Alvo de projeto e limite normativo sao coisas diferentes
+    escolhidas = [pn.jamba_necessaria(n, 2600, aco, cfg)
+                  for n in (8.0, 15.0, 20.0, 29.5, 40.0)]
+    acima = [e for e in escolhidas
+             if e["escolha"] and e["escolha"]["u"] > cfg.u_alvo]
+    out.append(Achado("NOTA" if not acima else "ERRO", "folga",
+                      f"nenhuma jamba dimensionada passa da utilizacao alvo "
+                      f"{cfg.u_alvo:.2f}, enquanto a APROVACAO continua sendo "
+                      f"1,00 da norma — alvo de projeto e limite normativo nao "
+                      f"sao a mesma coisa, e confundi-los e como se perde a "
+                      f"margem sem perceber"))
+
+    # ---- 7. O projeto: antes e depois do dimensionamento da jamba
+    # A primeira passada e a geometria; a segunda dimensiona. Mostrar as duas e
+    # o que PROVA que a segunda serve para alguma coisa: uma bateria que so
+    # olhasse o estado final nao distinguiria dimensionar de nao precisar.
+    antes = ds.verificar(todos, sup, cat, aco, pj.CARGAS, cfg)
+    ds.dimensionar(pais, aco, pj.CARGAS, cfg, list(pf.catalogo()))
+    r = ds.verificar(todos, sup, cat, aco, pj.CARGAS, cfg)
+    out.append(Achado("NOTA" if antes["reprovadas"] and not r["reprovadas"]
+                      else "ERRO", "dimensionamento",
+                      f"com a jamba minima de praxe (um montante de cada lado) "
+                      f"{len(antes['reprovadas'])} pecas reprovam, a pior com "
+                      f"{max(antes['utilizacoes']):.2f}; dimensionada pela "
+                      f"carga, nenhuma reprova e a pior cai para "
+                      f"{max(r['utilizacoes']):.2f}"))
+    ru = sorted(r["utilizacoes"])
+    med = ru[len(ru) // 2]
+    g = r["governa"]
+    out.append(Achado("NOTA" if r["aprovado"] else "ERRO", "projeto",
+                      f"{r['n']} montantes verificados um a um: "
+                      f"{len(r['reprovadas'])} reprovam, mediana {med:.2f}, "
+                      f"maior {ru[-1]:.2f} em {g['peca']} ({g['familia']}, "
+                      f"{g['modo']}, Nsd {g['nsd']:.1f} de {g['nrd']:.1f} kN)"))
+    ociosos = sum(1 for u in ru if u < 0.30)
+    out.append(Achado("NOTA", "ociosidade",
+                      f"{ociosos} dos {len(ru)} montantes ficam abaixo de 30 % "
+                      f"de utilizacao: no montante corrente quem manda e a "
+                      f"modulacao da placa, nao a carga — so a jamba e "
+                      f"governada por esforco"))
+    for h in r["hipoteses"]:
+        out.append(Achado("ATENCAO", "hipotese de caminho de carga", h))
+    return out

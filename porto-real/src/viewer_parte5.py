@@ -142,7 +142,9 @@ const VISTAS = [
 const LEITURA = {
   executivo: {
     painel: "O projeto está liberado ou não, e quanto custa. As seis notas " +
-            "resumem seis riscos distintos; a menor delas é a que decide.",
+            "resumem seis riscos distintos; a menor delas é a que decide. " +
+            "A verificação estrutural diz quantos montantes reprovam — e o " +
+            "número que importa ali é zero.",
     paineis: "Cada painel é uma unidade de compra, de transporte e de " +
              "montagem. O que não couber no caminhão vira custo.",
     pecas: "Cada linha é uma peça que alguém vai cortar, furar e parafusar.",
@@ -155,7 +157,12 @@ const LEITURA = {
                "com o preço declarado.",
   },
   educacional: {
-    painel: "O checklist não é opinião: cada item é uma consulta ao resultado " +
+    painel: "Os 415 montantes são verificados um a um contra a carga que de " +
+            "fato desce até cada um: área de influência, o que há acima, " +
+            "combinação da NBR 8681. A utilização não tem teto — até R28 ela " +
+            "era relatada com min(0,99), e um montante 47 % sobrecarregado " +
+            "saía como aprovado. O checklist não é opinião: cada item é uma " +
+            "consulta ao resultado " +
             "de uma função do motor. Nenhum é marcável à mão — se fosse, " +
             "seria marcado. As notas trazem a fórmula que as produziu, para " +
             "que se possa discordar do critério, e não do número.",
@@ -252,13 +259,58 @@ function vistaPainel() {
        <span class="st">${esc2(i.item)}</span></li>`).join("");
   return `${barraModos()}${leitura("painel")}
     <div class="eng-sec"><h3>Números do modelo</h3><div class="cartoes">${cartoes}</div></div>
+    ${blocoEstrutura()}
     <div class="eng-sec"><h3>Liberação</h3>
-      <div class="selo${L.liberado ? "" : " nao"}">
+      <div class="selo${L.liberado ? "" : " nao"}" id="seloLiberacao">
         <b>${esc2(L.situacao)}</b>
         <span>score geral ${ENG.score_geral}/100 · revisão ${esc2(ENG.revisao)}</span></div>
       <ul class="check">${itens}</ul></div>
     <div class="eng-sec"><h3>Seis notas, seis fórmulas</h3>
       <div class="notas">${notas}</div></div>`;
+}
+
+function blocoEstrutura() {
+  const E = ENG.estrutura;
+  if (!E) return "";
+  const maior = Math.max(...E.histograma.map(h => h.n)) || 1;
+  const barras = E.histograma.map(h => {
+    const rot = h.ate > 1 ? "acima de 1,00" :
+      `${h.de.toFixed(2).replace(".", ",")} – ${h.ate.toFixed(2).replace(".", ",")}`;
+    const cor = h.ate > 1 ? "var(--alert)" : (h.de >= 0.9 ? "#d98324" : "#3f6fb5");
+    return `<div style="display:grid;grid-template-columns:104px 1fr 44px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:2px 0">
+      <span>${rot}</span>
+      <span style="height:10px;background:var(--rule-soft)"><i style="display:block;
+        height:100%;width:${(h.n / maior * 100).toFixed(1)}%;background:${cor}"></i></span>
+      <span style="text-align:right">${h.n}</span></div>`;
+  }).join("");
+  const g = E.governa;
+  const jb = E.jambas.map(j =>
+    `<li><b>${esc2(j.painel)}</b> — ${esc2(j.solucao)} ·
+      N<sub>sd</sub> ${num(j.nsd, 1)} kN · u ${j.u.toFixed(2).replace(".", ",")}
+      ${j.sku_nova ? "· SKU nova" : ""}
+      <span class="sub">${esc2(j.motivo)}</span></li>`).join("");
+  const hip = E.hipoteses.map(h => `<li>${esc2(h)}</li>`).join("");
+  return `<div class="eng-sec"><h3>Verificação estrutural — ${E.n} montantes, um a um</h3>
+    <div class="selo${E.aprovado ? "" : " nao"}" style="margin-bottom:12px">
+      <b>${E.reprovadas} reprovam de ${E.n}</b>
+      <span>mediana ${E.mediana.toFixed(2).replace(".", ",")} ·
+        máxima ${E.maxima.toFixed(2).replace(".", ",")} ·
+        alvo de projeto ${E.u_alvo.toFixed(2).replace(".", ",")} ·
+        aprovação pela norma 1,00</span></div>
+    <div class="eng-grid" style="grid-template-columns:1fr 1fr">
+      <div><h3 style="margin-bottom:8px">Distribuição de utilização</h3>${barras}
+        <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+          Governa <b>${esc2(g.peca)}</b> (${esc2(g.familia)}, ${esc2(g.perfil)}):
+          N<sub>sd</sub> ${num(g.nsd, 1)} kN de ${num(g.nrd, 1)} kN resistentes,
+          modo <b>${esc2(g.modo)}</b>, k = ${g.k.toFixed(2).replace(".", ",")},
+          combinação ${esc2(g.combinacao)}.</p></div>
+      <div><h3 style="margin-bottom:8px">Jambas dimensionadas pela carga</h3>
+        <ul class="lista" style="max-height:none">${jb || "<li><button type='button' disabled>nenhuma precisou de reforço</button></li>"}</ul>
+        <h3 style="margin:14px 0 8px">Hipóteses de caminho de carga</h3>
+        <ul style="margin:0;padding-left:18px;font-size:12.5px;color:var(--ink-soft);
+          line-height:1.55">${hip}</ul></div>
+    </div></div>`;
 }
 
 // --------------------------------------------------------------- painéis

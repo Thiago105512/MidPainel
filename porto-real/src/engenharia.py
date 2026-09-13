@@ -134,6 +134,42 @@ def _resumo(r: dict) -> list[dict]:
     ]
 
 
+def _estrutura(r: dict) -> dict:
+    """A verificacao de todos os montantes, como dado para a interface.
+
+    O histograma vai calculado daqui, e nao montado no navegador: um numero que
+    a tela deriva sozinha e um numero que pode divergir do memorial.
+    """
+    v = r["verificacao"]
+    us = sorted(v["utilizacoes"])
+    faixas = [(0.0, 0.3), (0.3, 0.5), (0.5, 0.7), (0.7, 0.9), (0.9, 1.0),
+              (1.0, 99.0)]
+    hist = [dict(de=a, ate=b, n=sum(1 for u in us if a <= u < b))
+            for a, b in faixas]
+    g = v["governa"] or {}
+    return dict(
+        n=v["n"], reprovadas=len(v["reprovadas"]), aprovado=v["aprovado"],
+        mediana=round(us[len(us) // 2], 3) if us else 0.0,
+        maxima=round(us[-1], 3) if us else 0.0,
+        histograma=hist,
+        governa=dict(peca=g.get("peca", ""), painel=g.get("painel", ""),
+                     familia=g.get("familia", ""), perfil=g.get("perfil", ""),
+                     nsd=round(g.get("nsd", 0), 2), nrd=round(g.get("nrd", 0), 2),
+                     u=round(g.get("u", 0), 3), modo=g.get("modo", ""),
+                     k=round(g.get("k", 0), 2),
+                     combinacao=g.get("combinacao", "")),
+        hipoteses=v["hipoteses"],
+        jambas=[dict(painel=k, solucao=j["escolha"]["solucao"],
+                     nsd=round(j["nsd"], 2), u=round(j["escolha"]["u"], 3),
+                     sku_nova=j["sku_nova"], motivo=j["motivo"],
+                     rejeitadas=len(j["rejeitadas"]))
+                for k, j in sorted(r["jambas"].items())
+                if j["escolha"] and (j["sku_nova"] or j["n"] > 1)],
+        apertadas=[dict(painel=a, solucao=b, u=round(c, 3))
+                   for a, b, c in r["jambas_apertadas"]],
+        u_alvo=r.get("u_alvo", 0.95))
+
+
 def _nesting(plano: dict) -> dict:
     barras = [dict(cod=b.cod, perfil=b.perfil, bruto=round(b.comp_bruto),
                    origem=b.origem,
@@ -197,6 +233,7 @@ def montar() -> dict:
                        pilhas=r["carga"]["pilhas"]),
         emissao=r["emissao"],
         desmontabilidade=r["desmontabilidade"],
+        estrutura=_estrutura(r),
         scores=r["scores"], score_geral=r["score_geral"],
         liberacao=r["liberacao"],
         documentos=dict(

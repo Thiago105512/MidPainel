@@ -441,9 +441,34 @@ def rodar(fotos: bool = False) -> int:
         ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .nota .form').length")
            == pag.evaluate("() => Object.keys(ENG.scores).length"),
            "cada nota vem com a formula que a produziu")
-        ok(pag.evaluate("() => document.querySelector('#engConteudo .selo').textContent")
+        # por id, nao por ordem: a ordem muda quando a tela ganha um bloco, e
+        # um teste que depende da ordem acusa falha onde nao ha defeito
+        ok(pag.evaluate("() => document.getElementById('seloLiberacao').textContent")
            .strip().startswith(pag.evaluate("() => ENG.liberacao.situacao")[:12]),
            "o selo de liberacao repete a situacao do motor")
+
+        # a verificacao estrutural aparece, e aparece com o numero que importa
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .eng-sec')"
+                        ".length >= 4"),
+           "o painel de controle traz o bloco de verificacao estrutural")
+        ok(pag.evaluate("() => ENG.estrutura.n") > 300,
+           "todos os montantes sao verificados, nao um tipico",
+           str(pag.evaluate("() => ENG.estrutura.n")))
+        ok(pag.evaluate("""() => ENG.estrutura.histograma
+             .reduce((s, h) => s + h.n, 0) === ENG.estrutura.n"""),
+           "o histograma soma exatamente o total verificado")
+        ok(pag.evaluate("""() => ENG.estrutura.maxima <= 1.0
+             && ENG.estrutura.reprovadas === 0"""),
+           "nenhum montante passa de 1,00 de utilizacao",
+           str(pag.evaluate("() => ENG.estrutura.maxima")))
+        ok(pag.evaluate("""() => {
+             const u = ENG.estrutura.u_alvo, g = ENG.estrutura.governa;
+             return u < 1.0 && g.nsd > 0 && g.nrd > g.nsd; }"""),
+           "o alvo de projeto e menor que o limite normativo, e a peca que "
+           "governa vem nomeada com N_sd e N_rd")
+        ok(pag.evaluate("() => ENG.estrutura.hipoteses.length") >= 5,
+           "as hipoteses de caminho de carga estao na tela, nao so no codigo",
+           str(pag.evaluate("() => ENG.estrutura.hipoteses.length")))
 
         # o modo de leitura muda a explicacao
         antes = pag.evaluate("() => document.querySelector('#engConteudo .cap').textContent")
