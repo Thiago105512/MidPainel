@@ -274,13 +274,58 @@ function vistaPainel() {
   return `${barraModos()}${leitura("painel")}
     <div class="eng-sec"><h3>Números do modelo</h3><div class="cartoes">${cartoes}</div></div>
     ${blocoEstrutura()}
+    ${blocoVerificacao()}
     <div class="eng-sec"><h3>Liberação</h3>
       <div class="selo${L.liberado ? "" : " nao"}" id="seloLiberacao">
         <b>${esc2(L.situacao)}</b>
         <span>score geral ${ENG.score_geral}/100 · revisão ${esc2(ENG.revisao)}</span></div>
-      <ul class="check">${itens}</ul></div>
+      <ul class="check" id="checklist">${itens}</ul></div>
     <div class="eng-sec"><h3>Seis notas, seis fórmulas</h3>
       <div class="notas">${notas}</div></div>`;
+}
+
+function blocoVerificacao() {
+  const P = ENG.plausibilidade, C = ENG.completude;
+  if (!P || !C) return "";
+  const faixas = P.itens.map(x => {
+    const pos = Math.max(0, Math.min(100,
+      (x.valor - x.minimo) / (x.maximo - x.minimo) * 100));
+    return `<div style="margin:0 0 9px" title="${esc2(x.fonte)}">
+      <div style="font-family:var(--mono);font-size:11px;display:flex;gap:8px">
+        <span>${esc2(x.cod)}</span>
+        <span style="margin-left:auto;color:${x.dentro ? "var(--ink-faint)" : "var(--alert)"}">
+          ${num(x.valor, 2)} ${esc2(x.unidade)}</span></div>
+      <div style="position:relative;height:8px;background:var(--rule-soft)">
+        <i style="position:absolute;left:0;right:0;top:0;bottom:0;
+          background:${x.dentro ? "var(--accent-soft)" : "var(--alert-soft)"}"></i>
+        <i style="position:absolute;left:${pos}%;top:-2px;width:3px;height:12px;
+          background:${x.dentro ? "var(--accent)" : "var(--alert)"}"></i></div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);
+        display:flex"><span>${num(x.minimo, 0)}</span>
+        <span style="margin-left:auto">${num(x.maximo, 0)}</span></div></div>`;
+  }).join("");
+  const sistemas = C.itens.map(i =>
+    `<li class="${i.situacao === "AUSENTE" ? "mau" : ""}">
+      <span class="m">${i.situacao === "AUSENTE" ? "✕" :
+        (i.situacao === "NAO SE APLICA" ? "–" : "✓")}</span>
+      <span>${esc2(i.nome)}</span>
+      <span class="st">${i.n || ""}</span></li>`).join("");
+  return `<div class="eng-sec"><h3>As duas perguntas que faltavam</h3>
+    <div class="eng-grid" style="grid-template-columns:1fr 1fr">
+      <div>
+        <h3 style="margin-bottom:8px">Isto é possível? · ${P.n - P.fora} de ${P.n} na faixa</h3>
+        ${faixas}
+        <p class="conta" style="display:block;margin-top:4px;line-height:1.5">
+          Fora da faixa não reprova: obriga a justificar. Passe o mouse para
+          ver a fonte de cada faixa.</p></div>
+      <div>
+        <h3 style="margin-bottom:8px">Isto está aqui? · ${C.presentes} de ${C.n}</h3>
+        <ul class="check" id="sistemas" style="grid-template-columns:1fr">${sistemas}</ul>
+        <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+          A lista é do <b>sistema construtivo</b>, escrita antes de olhar o
+          modelo. Foi ela que acusou, na primeira execução, que a escada não
+          tinha estrutura.</p></div>
+    </div></div>`;
 }
 
 function blocoEstrutura() {

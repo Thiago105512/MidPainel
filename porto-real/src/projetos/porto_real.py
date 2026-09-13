@@ -835,6 +835,8 @@ CARGAS = {
     "cobertura_acid": 0.25,      # manutencao
     "parede_lsf_m": 0.50,        # kN/m2 de parede (x altura = kN/m)
     "deck_acid": 3.00,           # varanda e sacada: NBR 6120
+    "escada_perm": 0.60,         # degrau em chapa dobrada + revestimento
+    "escada_acid": 2.50,         # NBR 6120: escada de uso privativo
 }
 
 # perfis laminados (Ix em cm4, massa em kg/m) — tabela Gerdau
@@ -2390,6 +2392,12 @@ REVISOES = [
             "se apoiava em nada. Entram 178 pecas de vigamento e 28 fitas em X "
             "conferidas contra o vento da NBR 6123. O consumo de aco vai de "
             "9,4 para 21,0 kg/m2 — faltava mais da metade"),
+    ("R32", "Duas classes novas de verificacao: PLAUSIBILIDADE (a grandeza e "
+            "possivel? nove faixas com fonte declarada) e COMPLETUDE (o "
+            "sistema esta presente? treze exigencias do sistema construtivo). "
+            "A segunda disparou na primeira execucao e achou duas ausencias "
+            "reais: ancoragem a fundacao, que era True literal, e a estrutura "
+            "da escada, cujos 18 degraus apoiavam no ar"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2415,13 +2423,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R31",
+    revisao="R32",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R31", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R32", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

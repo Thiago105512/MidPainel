@@ -2598,3 +2598,60 @@ que os dois conjuntos são idênticos, em vez de supor.
 
 > O Defeito 34 corrigiu o código para que ele derivasse da posição. Não percebeu
 > que existia um segundo código, logo ao lado, que continuava derivando da ordem.
+
+## R32 — as duas perguntas que a auditoria não sabia fazer
+
+Não é um defeito: é a correção da causa de três deles.
+
+Até aqui a auditoria sabia verificar **duas** coisas, e só duas:
+
+| classe | pergunta | exemplo |
+|---|---|---|
+| identidade | os dois lados fecham? | bruto = usado + perda |
+| forma fechada | bate com a solução exata? | viga biapoiada |
+| **ordem de grandeza** | **isto é possível?** | — |
+| **completude** | **isto está aqui?** | — |
+
+As duas últimas não existiam, e o custo está medido. O consumo de aço marcou
+**9,4 kg/m²** num sobrado em LSF — faixa corrente 20 a 30 — em **toda revisão
+desde a E12**, com 447 condições verdes. E o modelo passou 31 revisões com 805
+peças de estrutura, **todas de parede**, porque nenhuma condição sente falta do
+que nunca foi escrito.
+
+### Plausibilidade
+
+Nove grandezas com faixa declarada e **fonte** — oito delas marcadas (H),
+porque são prática corrente e não norma. Fora da faixa **não reprova: obriga a
+justificar**. A distinção importa: reprovar o que é apenas incomum treina quem
+lê a ignorar o aviso, e aviso ignorado é pior que aviso nenhum, porque dá
+impressão de vigilância.
+
+A prova de que serve não é o projeto passar. É o teste que alimenta a bateria
+com os **números reais de R30** e exige que ela acuse: o Defeito 38 teria sido
+pego por **dois caminhos independentes** — o consumo de aço e o CO₂e, que o
+acompanha.
+
+### Completude
+
+Treze exigências do **sistema construtivo**, não deste projeto — escritas antes
+de olhar o modelo, senão a lista vira o inventário do que já existe e confirma
+tudo por construção. Cada uma diz por que é necessária e o que a falta
+significa fisicamente.
+
+Disparou na primeira execução e achou **duas ausências reais**:
+
+- **Ancoragem à fundação** — era `"fundacao": True` literal. Em estrutura leve
+  isso é o oposto de inócuo: o peso próprio de um painel LSF é da ordem de
+  1 kN/m² e a sucção de vento é da mesma ordem. Casa pesada resiste por
+  gravidade; casa leve sobe. Agora são 14 painéis com arrancamento calculado
+  pelo tombamento, uplift máximo de 4,32 kN, chumbador escolhido com as
+  alternativas rejeitadas.
+- **Estrutura da escada** — os 18 degraus apoiavam no ar. A geometria era dado
+  do modelo desde R06; estrutura, não. E a viga de lance vence a
+  **hipotenusa**: dimensionar pela projeção horizontal subestima o vão em 18 %
+  num lance de 32°, e o momento — que cresce com o quadrado — em **39 %**.
+
+Com as duas fechadas, a liberação voltou a **LIBERADO**, agora por 17 itens.
+
+> A auditoria verifica o que está lá. Para ver o que não está, é preciso ter
+> escrito antes o que deveria estar.

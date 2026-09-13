@@ -158,11 +158,16 @@ CHECKLIST = (
     ("BOM", "massa comprada fecha com a util e a perda"),
     ("revisao", "cadastro, emissao e pecas na mesma revisao"),
     ("documentacao", "memorial, lista de pecas e manual gerados"),
+    # O decimo setimo item e de outra natureza: os dezesseis acima perguntam se
+    # o que esta no modelo esta certo; este pergunta se o que precisa estar no
+    # modelo esta la. A casa passou 31 revisoes sem vigamento com os dezesseis
+    # verdes, porque nenhum deles sentia falta do que nunca foi escrito.
+    ("completude", "todo sistema construtivo obrigatorio presente no modelo"),
 )
 
 
 def liberar(resultados: dict) -> dict:
-    """Checklist de 16 itens. Nenhum se marca a mao (secao 140)."""
+    """Checklist de 17 itens. Nenhum se marca a mao (secao 140)."""
     itens, pendentes = [], []
     for cod, desc in CHECKLIST:
         v = resultados.get(cod)

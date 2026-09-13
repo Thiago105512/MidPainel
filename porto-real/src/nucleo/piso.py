@@ -267,7 +267,8 @@ def contraventar(paineis, pj, aco, cfg: pn.Config = None) -> dict:
                 ok=all(v["ok"] for v in veredito.values()))
 
 
-def como_pecas(casa: dict, contra: dict, cat_massa: dict, revisao: str) -> list:
+def como_pecas(casa: dict, contra: dict, cat_massa: dict, revisao: str,
+               escada: dict = None) -> list:
     """Vigamento e contraventamento como pecas de fabrica.
 
     Sem esta conversao o vigamento seria uma imagem bonita e nada mais: nao
@@ -285,6 +286,14 @@ def como_pecas(casa: dict, contra: dict, cat_massa: dict, revisao: str) -> list:
             comp=q["comp"], massa=cat_massa[q["perfil"]] * q["comp"] / 1000.0,
             painel=q["plano"], pav=("S" if q["tipo"] == "piso" else "C"),
             x=q["x"], z=q["nivel"], vertical=False, revisao=revisao))
+    for q in (escada or {}).get("pecas", []):
+        if q["perfil"] not in cat_massa:
+            continue
+        out.append(pe.PecaDetalhada(
+            cod=q["cod"], familia=q["familia"], perfil=q["perfil"],
+            comp=q["comp"], massa=cat_massa[q["perfil"]] * q["comp"] / 1000.0,
+            painel=q["plano"], pav="E", x=q["x"], z=q["nivel"],
+            vertical=False, revisao=revisao))
     for q in contra["pecas"]:
         # a fita nao vem do catalogo de perfis: e chapa cortada em tira, e a
         # massa sai da propria tira (38 mm x 0,80 mm x 7.850 kg/m3)
@@ -297,3 +306,117 @@ def como_pecas(casa: dict, contra: dict, cat_massa: dict, revisao: str) -> list:
     for p in out:
         p.marcacao = p.carga_marcacao()
     return out
+
+
+# ---------------------------------------------------------------------------
+# ANCORAGEM — o que impede a casa de subir
+# ---------------------------------------------------------------------------
+def ancorar(contra: dict, paineis, cat_massa: dict, pj, cfg: pn.Config = None) -> dict:
+    """Chumbador em cada painel contraventado, dimensionado pelo arrancamento.
+
+    O item "fundacao" do checklist trazia `True` literal ate R31. Em estrutura
+    leve isso e o oposto de inocuo: o peso proprio de um painel de LSF e da
+    ordem de 1 kN/m2, e a succao de vento sobre a cobertura e da mesma ordem.
+    Uma casa pesada resiste ao arrancamento por gravidade; uma casa leve sobe.
+
+    O arrancamento vem do TOMBAMENTO do painel contraventado — o momento V.h e
+    equilibrado por um binario cujo bracо e o comprimento do painel. Por isso
+    painel curto arranca mais: metade do comprimento, dobro da tracao.
+    """
+    import nucleo.contraventamento as cv
+    import nucleo.ligacoes as lg
+    cfg = cfg or pn.Config()
+    por_cod = {p.cod: p for p in paineis}
+    esp_radier = 180.0        # mm, declarado no projeto (PR-06)
+
+    saida, problemas = {}, []
+    for e in contra["paineis"]:
+        p = por_cod.get(e["painel"])
+        if p is None:
+            continue
+        direcao = "X" if e["horizontal"] else "Y"
+        # a forca horizontal deste painel e a fracao da demanda que ele carrega,
+        # proporcional a sua capacidade dentro da direcao
+        total = sum(x["vrd"] for x in contra["paineis"]
+                    if x["horizontal"] == e["horizontal"]) or 1.0
+        v = contra["veredito"][direcao]["demanda"] * e["vrd"] / total
+        sw = cv.ShearWall(cod=p.cod, comp=p.comp, altura=p.altura,
+                          tipo="fita X", peso_permanente=p.massa(cat_massa) * 9.81e-3)
+        t = cv.tombamento(sw, v)
+        anc = lg.ancoragem(t["uplift"], esp_radier) if t["precisa_holddown"] else None
+        if anc and anc["escolhido"] is None:
+            problemas.append(f"{p.cod}: {anc['motivo']}")
+        saida[p.cod] = dict(
+            painel=p.cod, direcao=direcao, v_kn=round(v, 2),
+            uplift=round(t["uplift"], 2),
+            compressao=round(t["compressao"], 2),
+            peso_kn=round(sw.peso_permanente, 2),
+            precisa=t["precisa_holddown"],
+            chumbador=(anc["escolhido"]["chumbador"] if anc and anc["escolhido"]
+                       else ("nao exige hold-down: o peso proprio equilibra"
+                             if not t["precisa_holddown"] else "SEM SOLUCAO")),
+            motivo=anc["motivo"] if anc else
+                   (f"momento estabilizante {t['m_estabilizante']:.1f} kNm "
+                    f"supera o de tombamento {t['m_tombamento']:.1f} kNm"))
+    com_hd = sum(1 for v in saida.values() if v["precisa"])
+    return dict(paineis=saida, n=len(saida), com_holddown=com_hd,
+                problemas=problemas, ok=not problemas,
+                uplift_max=round(max((v["uplift"] for v in saida.values()),
+                                     default=0.0), 2))
+
+
+# ---------------------------------------------------------------------------
+# ESCADA — a estrutura que a geometria nao tinha
+# ---------------------------------------------------------------------------
+def estruturar_escada(pj, aco, cfg: pn.Config = None) -> dict:
+    """Vigas inclinadas e degraus dos lances, dimensionados pela carga real.
+
+    A geometria da escada e dado do modelo desde R06 — lances, patamar, altura
+    de espelho e Blondel conferido. O que nao existia era ESTRUTURA: os 18
+    degraus apoiavam no ar. A verificacao de completude acusou na primeira
+    execucao, e acusou com a frase certa: "nao ha acesso ao pavimento superior".
+
+    A viga de lance e inclinada, e o vao que ela vence e a HIPOTENUSA, nao a
+    projecao horizontal. Dimensionar pela projecao subestima o vao em cerca de
+    18 % num lance de 30 graus — e o momento, que cresce com o quadrado, em
+    39 %.
+    """
+    cfg = cfg or pn.Config()
+    lances = [l for l in pj.escada_lances() if l["sentido"] != "patamar"]
+    larg = pj.ESCADA["larg_lance"] / 1000.0
+    q = (pj.CARGAS["escada_perm"] + pj.CARGAS["escada_acid"]) * (larg / 2)
+
+    pecas, planos = [], []
+    for l in lances:
+        horizontal = l["h"]
+        subida = l["z_fim"] - l["z_ini"]
+        vao = (horizontal ** 2 + subida ** 2) ** 0.5      # hipotenusa
+        r = dimensionar_viga(int(vao), q, aco, FLECHA_PISO, cfg)
+        perfil = r["escolhido"]["perfil"] if r["escolhido"] else "—"
+        planos.append(dict(lance=l["cod"], vao=round(vao), projecao=horizontal,
+                           subida=round(subida), inclinacao=round(
+                               __import__("math").degrees(
+                                   __import__("math").atan2(subida, horizontal)), 1),
+                           perfil=perfil, dimensionamento=r,
+                           ok=r["escolhido"] is not None))
+        if not r["escolhido"]:
+            continue
+        for lado, dx in (("esq", 0), ("dir", pj.ESCADA["larg_lance"] - 50)):
+            pecas.append(dict(cod=f"ESC-{l['cod']}-VG{lado[:1].upper()}",
+                              familia="escada", perfil=perfil,
+                              comp=int(vao), x=l["x"] + dx, y=l["y"],
+                              nivel=int(l["z_ini"]), plano=f"ESC-{l['cod']}",
+                              tipo="escada",
+                              obs=f"viga de lance {lado}, vence a hipotenusa "
+                                  f"de {vao:.0f} mm"))
+        for i in range(l["espelhos"]):
+            pecas.append(dict(cod=f"ESC-{l['cod']}-DG{i+1:02d}",
+                              familia="escada", perfil=cfg.perfil_track,
+                              comp=pj.ESCADA["larg_lance"],
+                              x=l["x"], y=l["y"] + i * pj.ESCADA["piso"],
+                              nivel=int(l["z_ini"] + i * pj.ESCADA["alt_espelho"]),
+                              plano=f"ESC-{l['cod']}", tipo="escada",
+                              obs=f"degrau {i+1} de {l['espelhos']}"))
+    return dict(planos=planos, pecas=pecas, n=len(pecas),
+                ok=all(p["ok"] for p in planos),
+                carga_kn_m=q)

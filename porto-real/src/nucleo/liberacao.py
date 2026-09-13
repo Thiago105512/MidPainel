@@ -23,6 +23,8 @@ import nucleo.fabricacao as fb
 import nucleo.descida as ds
 import nucleo.juntas as ju
 import nucleo.piso as ps
+import nucleo.plausibilidade as pb
+import nucleo.completude as cm
 import nucleo.perfis as pf
 
 
@@ -89,7 +91,9 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # aparecem no 3D e somem do BOM, o desenho convence sem comprometer.
     casa = ps.montar_casa(pj, aco, cfg)
     contra = ps.contraventar(todos, pj, aco, cfg)
-    pecas += ps.como_pecas(casa, contra, cat, pj.EMISSAO["revisao"])
+    ancoragem = ps.ancorar(contra, todos, cat, pj, cfg)
+    escada = ps.estruturar_escada(pj, aco, cfg)
+    pecas += ps.como_pecas(casa, contra, cat, pj.EMISSAO["revisao"], escada)
 
     # VERIFICACAO: todos os montantes, um a um, sem teto na utilizacao
     verif = ds.verificar(todos, dict(T=paineis["S"], S=[]),
@@ -151,7 +155,9 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         "ligacoes": all(j["n_juntas"] > 0 and
                         all(x["n"] >= 2 for x in j["juntas"])
                         for j in juntas.values()),
-        "fundacao": True,
+        # o item passou a poder falhar: cada painel contraventado tem o seu
+        # arrancamento calculado e o seu chumbador escolhido
+        "fundacao": ancoragem["ok"] and ancoragem["n"] > 0,
         # verga para todo vao que comporta uma; o vao de altura total nao tem
         # verga por definicao, e o painel declara isso na observacao
         "aberturas": all(
@@ -170,6 +176,15 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         "revisao": pj.CADASTRO.revisao == pj.EMISSAO["revisao"],
         "documentacao": _documentos_ok(pj, pecas, plano, paineis, cat),
     }
+    # As duas verificacoes de R32 rodam SOBRE o resultado, e por isso vem por
+    # ultimo: completude pergunta "isto esta aqui?" e plausibilidade pergunta
+    # "isto e possivel?". As 447 condicoes anteriores so sabiam perguntar
+    # "isto esta certo?", e foi por isso que uma casa sem vigamento passou 31
+    # revisoes com a auditoria verde.
+    parcial = dict(pecas=pecas, plano=plano, paineis=todos, n_parafusos=n_parafusos,
+                   passos=passos, ancoragem=ancoragem["paineis"])
+    completo = cm.conferir(parcial, pj.CADASTRO.tipologia)
+    check["completude"] = completo["completo"]
     lib = sc.liberar(check)
     geral = round(sum(s["nota"] for s in scores.values()) / len(scores))
     return dict(paineis=todos, pecas=pecas, plano=plano, bom=itens,
@@ -180,4 +195,5 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                 massa_comprada=massa_comprada, utilizacoes=utilizacoes,
                 verificacao=verif, jambas=jambas, jambas_apertadas=apertadas,
                 u_alvo=cfg.u_alvo, juntas=juntas, n_parafusos=n_parafusos,
-                casa=casa, contraventamento=contra)
+                casa=casa, contraventamento=contra, escada=escada, ancoragem=ancoragem["paineis"],
+                ancoragem_completa=ancoragem)

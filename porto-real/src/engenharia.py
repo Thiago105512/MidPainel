@@ -173,6 +173,27 @@ def _estrutura(r: dict) -> dict:
         u_alvo=r.get("u_alvo", 0.95))
 
 
+def _plausibilidade(r: dict) -> dict:
+    """A grandeza e possivel? Terceira classe de verificacao."""
+    import nucleo.plausibilidade as pb
+    a = pb.avaliar(pb.medir(r, pj.CADASTRO.area_m2))
+    return dict(
+        n=a["n"], fora=len(a["fora"]), todas_dentro=a["todas_dentro"],
+        itens=[dict(cod=x["cod"], valor=round(x["valor"], 3),
+                    unidade=x["unidade"], dentro=x["dentro"],
+                    minimo=x["faixa"][0], maximo=x["faixa"][1],
+                    fonte=x["fonte"], leitura=x["leitura"])
+               for x in a["avaliacoes"]])
+
+
+def _completude(r: dict) -> dict:
+    """O sistema esta presente? Quarta classe."""
+    import nucleo.completude as cm
+    c = cm.conferir(r, pj.CADASTRO.tipologia)
+    return dict(situacao=c["situacao"], completo=c["completo"],
+                n=c["n"], presentes=c["presentes"], itens=c["itens"])
+
+
 def _juntas(r: dict) -> dict:
     """O programa de parafusos, agregado como a obra precisa ler.
 
@@ -283,6 +304,8 @@ def montar() -> dict:
         emissao=r["emissao"],
         desmontabilidade=r["desmontabilidade"],
         estrutura=_estrutura(r),
+        plausibilidade=_plausibilidade(r),
+        completude=_completude(r),
         juntas=_juntas(r),
         scores=r["scores"], score_geral=r["score_geral"],
         liberacao=r["liberacao"],

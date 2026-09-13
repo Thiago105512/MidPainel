@@ -475,9 +475,12 @@ def rodar(fotos: bool = False) -> int:
         ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .cartao').length")
            == pag.evaluate("() => ENG.resumo.length"),
            "o painel de controle mostra todas as figuras do resumo")
-        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .check li').length")
+        # por id: a classe .check passou a ser usada tambem pela lista de
+        # sistemas, e contar por classe somava as duas — a terceira vez que um
+        # seletor por aparencia quebra neste arquivo
+        ok(pag.evaluate("() => document.querySelectorAll('#checklist li').length")
            == pag.evaluate("() => ENG.liberacao.itens.length"),
-           "e os 16 itens do checklist, um a um",
+           "e todos os itens do checklist, um a um",
            str(pag.evaluate("() => ENG.liberacao.itens.length")))
         ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .nota .form').length")
            == pag.evaluate("() => Object.keys(ENG.scores).length"),
@@ -510,6 +513,20 @@ def rodar(fotos: bool = False) -> int:
         ok(pag.evaluate("() => ENG.estrutura.hipoteses.length") >= 5,
            "as hipoteses de caminho de carga estao na tela, nao so no codigo",
            str(pag.evaluate("() => ENG.estrutura.hipoteses.length")))
+
+        ok(pag.evaluate("() => ENG.plausibilidade.n") >= 8,
+           "as faixas de plausibilidade estao na tela",
+           str(pag.evaluate("() => ENG.plausibilidade.n")))
+        ok(pag.evaluate("""() => ENG.plausibilidade.itens.every(x =>
+             x.minimo < x.maximo && x.fonte.length > 20)"""),
+           "cada faixa tem minimo, maximo e fonte declarada")
+        ok(pag.evaluate("""() => document.querySelectorAll('#sistemas li').length
+             === ENG.completude.itens.length"""),
+           "e os sistemas construtivos obrigatorios, um a um",
+           str(pag.evaluate("() => ENG.completude.itens.length")))
+        ok(pag.evaluate("() => ENG.completude.completo"),
+           "nenhum sistema construtivo ausente",
+           pag.evaluate("() => ENG.completude.situacao"))
 
         # o modo de leitura muda a explicacao
         antes = pag.evaluate("() => document.querySelector('#engConteudo .cap').textContent")

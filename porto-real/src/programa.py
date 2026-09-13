@@ -374,6 +374,18 @@ PROGRAMA = [
      "vigamento e 28 fitas em X, conferidas contra a forca global de vento da "
      "NBR 6123. PARCIAL porque V0 e a categoria de rugosidade sao leitura, "
      "nao medicao."),
+    (102, "Plausibilidade: a grandeza e possivel?",
+     ["checar_plausibilidade"], "PARCIAL",
+     "Terceira classe de verificacao. As anteriores conferiam IDENTIDADE e "
+     "FORMA FECHADA, e eram cegas para o erro em que a conta esta certa e o "
+     "resultado e absurdo: 9,4 kg/m2 num sobrado em LSF passou 31 revisoes. "
+     "PARCIAL porque 8 das 9 faixas sao pratica corrente, nao norma."),
+    (103, "Completude: o sistema esta presente?",
+     ["checar_completude"], "AUTOMATIZADA",
+     "Quarta classe. As 447 condicoes verificavam o que existia e nao sentiam "
+     "falta do que nunca foi escrito. A lista e do SISTEMA CONSTRUTIVO, escrita "
+     "antes de olhar o modelo — senao vira inventario do que ja existe e "
+     "confirma tudo por construcao."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

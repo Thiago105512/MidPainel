@@ -2336,3 +2336,145 @@ def checar_vigamento() -> list[Achado]:
                       f"a 21,0 kg/m2; sem eles marcava 9,4, e a faixa corrente "
                       f"de um sobrado em LSF e 20 a 30"))
     return out
+
+
+def checar_plausibilidade() -> list[Achado]:
+    """Ordem de grandeza — a terceira classe de verificacao.
+
+    As 447 condicoes anteriores sabiam conferir IDENTIDADE (bruto = usado +
+    perda) e FORMA FECHADA (viga biapoiada). Nenhuma sabia olhar um numero e
+    perguntar se ele e possivel. O consumo de aco marcou 9,4 kg/m2 num sobrado
+    em LSF — faixa corrente 20 a 30 — em toda revisao desde a E12, e ninguem
+    reparou, porque nao havia com o que comparar.
+
+    A prova de que esta bateria serve nao e o projeto passar: e ela PEGAR o
+    estado anterior. Por isso o primeiro teste alimenta os numeros reais de R30
+    e exige que as faixas acusem.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.liberacao as lb
+    import nucleo.plausibilidade as pb
+    out = []
+
+    # ---- 1. teria pego o defeito 38? Numeros reais da revisao R30.
+    r30 = dict(aco_m2=2772 / 295.92, parafusos_m2=5266 / 295.92,
+               aproveitamento=87.4, horas_m2=124 / 295.92,
+               co2e_m2=6037 / 295.92, pecas_m2=805 / 295.92,
+               massa_painel=95.3, custo_m2=551.0, uso_estrutural=0.19)
+    a30 = pb.avaliar(r30)
+    pegou = {x["cod"] for x in a30["fora"]}
+    out.append(Achado("NOTA" if "aco_m2" in pegou else "ERRO", "regressao",
+                      f"alimentada com os numeros reais de R30 — a revisao em "
+                      f"que faltava mais da metade do aco — a bateria acusa "
+                      f"{len(a30['fora'])} grandeza(s): "
+                      f"{', '.join(sorted(pegou))}. O defeito 38 teria sido "
+                      f"pego por dois caminhos independentes"))
+
+    # ---- 2. faixa que nada viola nao e faixa: cada uma tem de reagir
+    mudas = []
+    for f in pb.FAIXAS:
+        fora_baixo = f.avaliar(f.minimo * 0.5)
+        fora_alto = f.avaliar(f.maximo * 2.0)
+        dentro = f.avaliar((f.minimo + f.maximo) / 2)
+        if fora_baixo["dentro"] or fora_alto["dentro"] or not dentro["dentro"]:
+            mudas.append(f.cod)
+    out.append(Achado("NOTA" if not mudas else "ERRO", "sensibilidade",
+                      f"as {len(pb.FAIXAS)} faixas reagem nos dois sentidos: "
+                      f"metade do minimo e o dobro do maximo saem, e o meio "
+                      f"entra. Faixa que nada viola nao verifica nada"))
+
+    # ---- 3. toda faixa declara de onde veio, e o que a saida significa
+    sem_fonte = [f.cod for f in pb.FAIXAS
+                 if len(f.fonte) < 25 or len(f.consequencia) < 25]
+    hip = sum(1 for f in pb.FAIXAS if f.fonte.startswith("(H)"))
+    out.append(Achado("NOTA" if not sem_fonte else "ERRO", "procedencia",
+                      f"{hip} das {len(pb.FAIXAS)} faixas sao (H) — pratica "
+                      f"corrente, nao norma — e todas dizem o que a saida da "
+                      f"faixa costuma significar. Faixa sem fonte e palpite "
+                      f"com aparencia de criterio"))
+
+    # ---- 4. o projeto de hoje, grandeza por grandeza
+    r = lb.rodar(pj, el)
+    a = pb.avaliar(pb.medir(r, pj.CADASTRO.area_m2))
+    for x in a["avaliacoes"]:
+        out.append(Achado("NOTA" if x["dentro"] else "ATENCAO",
+                          "grandeza", x["leitura"]))
+    out.append(Achado("NOTA", "resultado",
+                      f"{a['n']} grandezas conferidas, {len(a['fora'])} fora "
+                      f"da faixa. Fora da faixa nao reprova: obriga a "
+                      f"justificar — reprovar o que e apenas incomum treina "
+                      f"quem le a ignorar o aviso"))
+    return out
+
+
+def checar_completude() -> list[Achado]:
+    """O que precisa EXISTIR — a quarta classe, e a que faltava ha mais tempo.
+
+    O modelo passou trinta e uma revisoes com 805 pecas de estrutura, todas de
+    parede: sem vigamento de entrepiso, sem cobertura, sem contraventamento. As
+    447 condicoes continuaram verdes porque todas verificavam coisas que
+    existiam. Esta bateria pergunta a outra coisa, e a pergunta so vale se a
+    lista tiver sido escrita ANTES de olhar o modelo — senao ela vira o
+    inventario do que ja existe e confirma tudo por construcao.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.liberacao as lb
+    import nucleo.completude as cm
+    out = []
+    r = lb.rodar(pj, el)
+    c = cm.conferir(r, pj.CADASTRO.tipologia)
+
+    # ---- 1. a lista cobre sistema, nao peca: ela vale para outro projeto
+    sem_porque = [e.cod for e in cm.EXIGENCIAS
+                  if len(e.porque) < 20 or len(e.ausencia) < 25]
+    out.append(Achado("NOTA" if not sem_porque else "ERRO", "lista",
+                      f"{len(cm.EXIGENCIAS)} exigencias do SISTEMA "
+                      f"CONSTRUTIVO, cada uma dizendo por que e necessaria e o "
+                      f"que a falta significa fisicamente — e por isso ela "
+                      f"pode acusar falta num projeto que ninguem achava "
+                      f"incompleto"))
+
+    # ---- 2. a bateria PODE reprovar: modelo vazio tem de reprovar em massa
+    vazio = cm.conferir(dict(pecas=[], plano={}, n_parafusos=0, passos=[]),
+                        "SOBRADO")
+    out.append(Achado("NOTA" if len(vazio["faltando"]) >= 10 else "ERRO",
+                      "reacao",
+                      f"um modelo vazio reprova em {len(vazio['faltando'])} "
+                      f"dos {vazio['n']} sistemas — a verificacao reage a "
+                      f"ausencia, que e justamente o que ela existe para ver"))
+
+    # ---- 3. teria pego o defeito 38?
+    import copy as _cp
+    sem_vig = _cp.copy(r)
+    sem_vig["pecas"] = [p for p in r["pecas"]
+                        if p.familia not in ("viga", "viga de borda",
+                                             "travamento", "diagonal")
+                        and getattr(p, "pav", "") != "C"]
+    c38 = cm.conferir(sem_vig, pj.CADASTRO.tipologia)
+    faltas = {f["cod"] for f in c38["faltando"]}
+    esperadas = {"entrepiso", "cobertura", "contraventamento"}
+    out.append(Achado("NOTA" if esperadas <= faltas else "ERRO", "regressao",
+                      f"retirando o vigamento — o estado exato de R30 — a "
+                      f"bateria acusa {len(faltas)} sistemas ausentes, entre "
+                      f"eles entrepiso, cobertura e contraventamento. O "
+                      f"defeito 38 seria pego no primeiro build"))
+
+    # ---- 4. a tipologia manda: exigencia de sobrado nao vale para terreo
+    terreo = cm.conferir(r, "CASA TERREA")
+    na = [i for i in terreo["itens"] if i["situacao"] == "NAO SE APLICA"]
+    out.append(Achado("NOTA" if na else "ERRO", "tipologia",
+                      f"numa casa terrea {len(na)} exigencia(s) saem de cena "
+                      f"(entrepiso e escada): completude sem tipologia "
+                      f"reprovaria todo terreo por falta de escada"))
+
+    # ---- 5. o estado real, item a item
+    for i in c["itens"]:
+        nivel = {"PRESENTE": "NOTA", "NAO SE APLICA": "NOTA",
+                 "AUSENTE": "ERRO"}[i["situacao"]]
+        out.append(Achado(nivel, i["cod"],
+                          f"{i['nome']}: {i['situacao']}"
+                          + (f" ({i['n']} pecas)" if i["n"] else "")
+                          + f" — {i['nota']}"))
+    return out
