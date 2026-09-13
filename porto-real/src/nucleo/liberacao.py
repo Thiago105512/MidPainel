@@ -25,6 +25,7 @@ import nucleo.juntas as ju
 import nucleo.piso as ps
 import nucleo.plausibilidade as pb
 import nucleo.completude as cm
+import nucleo.camadas as cd
 import nucleo.perfis as pf
 
 
@@ -104,8 +105,18 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     utilizacoes = verif["utilizacoes"]
 
     plano = ns.nestar_barras([(p.cod, p.perfil, p.comp) for p in pecas])
+    # o fechamento sai da geometria: cada painel aponta para a composicao que
+    # a prancha PR-12 ja lhe atribui, e a area de cada camada vem do proprio
+    # painel — comprimento x altura menos as aberturas
+    import especificacao as _ep
+    segs = []
+    for _pav, _ambs in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
+        segs += _ep.paredes_classificadas(_ambs)
+    fam = cd.familia_por_painel(todos, segs)
+    camadas = cd.quantificar(todos, fam["familia"])
+    camadas["familias"] = fam
     itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2,
-                      n_parafusos=n_parafusos)
+                      n_parafusos=n_parafusos, camadas=camadas)
     custo = sum(i.total for i in itens)
 
     etapas = mo.etapas_do_projeto(paineis, cat)
@@ -198,5 +209,6 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                 massa_comprada=massa_comprada, utilizacoes=utilizacoes,
                 verificacao=verif, jambas=jambas, jambas_apertadas=apertadas,
                 u_alvo=cfg.u_alvo, juntas=juntas, n_parafusos=n_parafusos,
-                casa=casa, contraventamento=contra, escada=escada, ancoragem=ancoragem["paineis"],
+                casa=casa, contraventamento=contra, escada=escada,
+                camadas=camadas, ancoragem=ancoragem["paineis"],
                 ancoragem_completa=ancoragem)

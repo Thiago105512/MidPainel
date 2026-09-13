@@ -2725,3 +2725,66 @@ desenho.
 > Corrigir o defeito conserta o passado. Transformá-lo em condição é o que
 > protege o futuro — e é a diferença entre um projeto que melhora e um que
 > apenas é consertado.
+
+## Defeito 40 — seis coeficientes onde havia geometria
+
+O fechamento inteiro — placa, isolante, barreira, membrana — saía de um número
+escolhido a dedo:
+
+```python
+area_placa_m2 = area_m2 * 2.4          # 295,92 × 2,4 = 710,2 m²
+```
+
+e de mais cinco coeficientes por camada: OSB × 0,45, cimentícia × 0,55, gesso ×
+1,00, lã × 0,90, membrana × 0,50. **Seis números arbitrados** onde o modelo já
+sabia o comprimento, a altura e as aberturas de cada um dos 62 painéis.
+
+O mais perigoso é que **o coeficiente acertava**: 710,2 m² contra 718,6 m² de
+área real de duas faces — 1 % de erro. Não é acerto, é **cancelamento**: ele não
+descontava abertura nenhuma (116,5 m²) porque multiplicava a área de *projeto*,
+que não sabe onde há janela, e o erro para mais compensava o erro para menos.
+
+E havia uma divergência aberta: o BOM dizia **"Placa cimentícia 8 mm"** e a
+PR-10 declara **10 mm**.
+
+### O que entrou
+
+`Camada` e `Composicao` como dado — material, espessura, função, face, norma. As
+cinco composições são **transcrição** do que o campo `comp` de
+`especificacao.FAMILIAS` já dizia em prosa, e a auditoria confere espessura e
+R<sub>w</sub> contra a prancha: *transcrição é transcrição, e quem manda é o
+desenho*.
+
+Cada painel aponta para a composição do trecho de parede que o originou,
+casado por **sobreposição geométrica**. A primeira versão casava por eixo mais
+próximo e classificou 62 de 62 painéis **sem que uma única divisória simples
+aparecesse** — sinal de casamento errado, não de casa sem divisória. Com
+sobreposição: PE-1 43, PA-1 8, PH-1 7, PI-1 3 e **PA-2 exatamente 1**, que é o
+que a prancha declara (*"exclusivamente a parede entre a oficina e o estar"*).
+Confirmação independente de que o casamento está certo.
+
+### A pergunta que a prosa escondia
+
+Transcrever camada a camada permitiu conferir a própria justificativa da PH-1:
+*"a espessura de 150 mm existe para acomodar o tubo DN100"*.
+
+| | |
+|---|---|
+| cavidade real (alma do montante) | 90 mm |
+| DN100 — **diâmetro externo** | 110 mm |
+| faltam | **40 mm** com folga de 20 |
+
+A cavidade não é a espessura da parede: é a alma do montante. E **DN não é
+diâmetro externo** — o DN100 tem 110 mm, e são esses 10 mm que decidem. Por isso
+a PR-21 manda a prumada para shaft. As duas afirmações convivem no projeto e não
+dizem a mesma coisa; agora isso está declarado como atenção, em vez de
+subentendido.
+
+### E uma dupla contagem evitada
+
+As camadas estruturais apareceram no BOM em m² — e o aço já estava lá em kg,
+vindo do plano de corte. Listá-lo **nas duas unidades** é como a dupla contagem
+costuma passar despercebida.
+
+> Coeficiente que acerta por cancelamento é pior que coeficiente que erra: o que
+> erra é corrigido, o que acerta é defendido.

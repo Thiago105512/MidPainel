@@ -2560,3 +2560,104 @@ def checar_coerencia_de_modelo() -> list[Achado]:
                       f"nenhum dos {len(r['pecas'])} codigos se repete"
                       + (f" — repetidos: {rep[:3]}" if rep else "")))
     return out
+
+
+def checar_camadas() -> list[Achado]:
+    """Composicao de parede: espessura, cavidade e area derivada.
+
+    Ate R33 o fechamento inteiro saia de seis coeficientes — `area_m2 * 2.4` e
+    mais cinco fatores por camada — onde o modelo ja sabia comprimento, altura
+    e aberturas de cada um dos 62 paineis. O coeficiente acertava por acaso:
+    710,2 m2 contra 718,6 de area real de duas faces. Acerto por cancelamento
+    de dois erros grandes nao e acerto.
+    """
+    import projeto as pj
+    import especificacao as ep
+    import nucleo.camadas as cd
+    out = []
+    m = fx.modelo()
+    r = fx.liberacao()
+
+    # ---- 1. a composicao construida cabe no modulo declarado
+    esp = cd.conferir_espessuras()
+    maus = [e for e in esp if not e["cabe"]]
+    out.append(Achado("NOTA" if not maus else "ERRO", "espessura",
+                      f"as {len(esp)} composicoes cabem no modulo: folga de "
+                      + ", ".join(f"{e['cod']} {e['folga']:+.0f}" for e in esp)
+                      + " mm. A camada isolante nao soma — ela vive DENTRO da "
+                        "cavidade do montante, e soma-la daria uma parede de "
+                        "182,5 mm onde ha 150"))
+
+    # ---- 2. a transcricao bate com a prosa da prancha
+    divergentes = []
+    for cod, f in ep.FAMILIAS.items():
+        c = cd.COMPOSICOES.get(cod)
+        if c is None:
+            divergentes.append(f"{cod}: sem composicao transcrita")
+        elif c.esp_nominal != f["esp"]:
+            divergentes.append(f"{cod}: {c.esp_nominal} contra {f['esp']} da prancha")
+        elif c.rw != f["Rw"]:
+            divergentes.append(f"{cod}: Rw {c.rw} contra {f['Rw']} da prancha")
+    out.append(Achado("NOTA" if not divergentes else "ERRO", "transcricao",
+                      f"as {len(cd.COMPOSICOES)} composicoes conferem com a "
+                      f"prancha PR-12 em espessura e Rw: a transcricao e "
+                      f"transcricao, e quem manda e o desenho"
+                      if not divergentes else "; ".join(divergentes)))
+
+    # ---- 3. a prumada cabe na cavidade? (a pergunta que a prosa escondia)
+    ph = cd.cabe_prumada(cd.COMPOSICOES["PH-1"], "DN100")
+    out.append(Achado("ATENCAO" if not ph["cabe"] else "NOTA", "prumada",
+                      ph["leitura"] + ". A justificativa escrita da PH-1 e que "
+                      "os 150 mm existem para acomodar o DN100; a cavidade "
+                      "real e a alma do montante, nao a espessura da parede, e "
+                      "por isso a PR-21 manda a prumada para shaft. As duas "
+                      "afirmacoes convivem no projeto e nao dizem a mesma coisa"))
+    # e o criterio reage ao diametro, em vez de reprovar sempre
+    menor = cd.cabe_prumada(cd.COMPOSICOES["PH-1"], "DN50")
+    out.append(Achado("NOTA" if menor["cabe"] else "ERRO", "criterio",
+                      f"o mesmo criterio aprova o DN50 ({menor['diametro_externo']:.0f} "
+                      f"mm) e reprova o DN100 ({ph['diametro_externo']:.0f} mm): "
+                      f"reage ao diametro, nao ao habito. E DN nao e diametro "
+                      f"externo — o DN100 tem 110 mm, e sao esses 10 mm que "
+                      f"decidem"))
+
+    # ---- 4. todo painel tem composicao: parede sem composicao nao tem material
+    fam = r["camadas"]["familias"]
+    out.append(Achado("NOTA" if not fam["orfaos"] else "ERRO", "cobertura",
+                      f"os {len(m['todos'])} paineis foram casados com o trecho "
+                      f"de parede classificado que os originou, por "
+                      f"SOBREPOSICAO: {len(fam['orfaos'])} orfaos. A primeira "
+                      f"versao casava por eixo mais proximo e classificou 62 "
+                      f"de 62 sem que uma unica divisoria simples aparecesse — "
+                      f"sinal de casamento errado, nao de casa sem divisoria"))
+    import collections as _c
+    dist = _c.Counter(fam["familia"].values())
+    out.append(Achado("NOTA" if dist.get("PA-2", 0) == 1 else "ERRO",
+                      "distribuicao",
+                      f"{dict(dist)} — e a PA-2 sai com exatamente 1 painel, "
+                      f"que e o que a prancha declara: 'EXCLUSIVAMENTE a "
+                      f"parede entre a oficina e o estar'. Confirmacao "
+                      f"independente de que o casamento esta certo"))
+
+    # ---- 5. a area vem da geometria, e o coeficiente antigo errava
+    q = r["camadas"]
+    bruta = sum(p.comp * p.altura for p in m["todos"]) / 1e6
+    vaos = sum(a["larg"] * a["alt"] for p in m["todos"] for a in p.aberturas) / 1e6
+    coef = pj.CADASTRO.area_m2 * 2.4
+    out.append(Achado("NOTA", "geometria",
+                      f"area bruta de painel {bruta:.1f} m2 menos {vaos:.1f} de "
+                      f"abertura da {bruta-vaos:.1f} m2 liquidos; as camadas "
+                      f"somam {q['area_total']:.1f} m2. O coeficiente antigo "
+                      f"dava {coef:.1f} para TODAS as camadas juntas — nao "
+                      f"descontava abertura nenhuma, porque multiplicava a "
+                      f"area de projeto, que nao sabe onde ha janela"))
+
+    # ---- 6. nenhuma camada de aco no BOM em m2: ela ja esta em kg
+    dobradas = [i for i in r["bom"]
+                if i.familia == "vedacao" and i.sku.startswith("ACO")]
+    out.append(Achado("NOTA" if not dobradas else "ERRO", "dupla contagem",
+                      "nenhuma camada estrutural aparece em m2 no BOM: o aco "
+                      "ja esta la em kg, vindo do plano de corte. Lista-lo nas "
+                      "duas unidades e como a dupla contagem costuma passar "
+                      "despercebida"))
+    return out

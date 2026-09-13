@@ -53,9 +53,23 @@ class ItemBOM:
         return self.quantidade * self.preco_unit
 
 
+# Preco por m2 de cada material de camada. (H), como todos os precos: ordem de
+# grandeza para a estrutura do calculo existir.
+PRECO_CAMADA = {
+    "PLCIM": 62.00, "GESSO": 28.00, "GESSORU": 36.00, "LAROCHA": 34.00,
+    "LAVIDRO": 22.00, "XPS": 41.00, "OSB": 58.00, "ACO": 0.0,
+}
+NOME_CAMADA = {
+    "PLCIM": "Placa cimenticia", "GESSO": "Chapa de gesso",
+    "GESSORU": "Chapa de gesso RU", "LAROCHA": "La de rocha",
+    "LAVIDRO": "La de vidro", "XPS": "XPS (ISO strip)", "OSB": "OSB estrutural",
+    "ACO": "Perfil de aco (ja contado em massa)",
+}
+
+
 def montar(pecas: list, plano_corte: dict, area_m2: float,
            n_parafusos: int = None, area_placa_m2: float = None,
-           precos: dict = None) -> list[ItemBOM]:
+           precos: dict = None, camadas: dict = None) -> list[ItemBOM]:
     """BOM completo a partir das pecas e do plano de corte."""
     p = dict(PRECOS)
     p.update(precos or {})
@@ -81,19 +95,40 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
         n_parafusos = int(len(pecas) * 8)
     itens.append(ItemBOM("PAR-EST", "Parafuso estrutural auto-brocante", "un",
                          n_parafusos, p["parafuso_estrutural_un"], "ligacao"))
-    if area_placa_m2 is None:
-        area_placa_m2 = area_m2 * 2.4
-    for sku, desc, k, preco in (
-            ("OSB11", "OSB 11,1 mm estrutural", 0.45, p["osb_11mm_m2"]),
-            ("PLCIM", "Placa cimenticia 8 mm", 0.55, p["placa_cimenticia_8mm_m2"]),
-            ("GESSO", "Chapa de gesso 12,5 mm", 1.00, p["gesso_12.5mm_m2"]),
-            ("LAROC", "La de rocha 50 mm", 0.90, p["la_rocha_50mm_m2"]),
-            ("MEMB", "Membrana hidrofuga", 0.50, p["membrana_hidrofuga_m2"])):
-        itens.append(ItemBOM(sku, desc, "m2", round(area_placa_m2 * k, 1),
-                             preco, "vedacao"))
+    # ---- fechamento: da GEOMETRIA, nao de coeficiente.
+    # Ate R33 esta secao inteira saia de `area_m2 * 2.4` vezes mais cinco
+    # coeficientes (0,45 / 0,55 / 1,00 / 0,90 / 0,50). Seis numeros arbitrados
+    # onde o modelo ja sabia o comprimento, a altura e as aberturas de cada um
+    # dos 62 paineis. O coeficiente acertava por acaso — 710,2 m2 contra 718,6
+    # de area real —, e acerto por cancelamento de dois erros grandes nao e
+    # acerto: e a mesma coisa que o `len(pecas) * 8` dos parafusos.
+    if camadas:
+        for it in camadas["itens"]:
+            mat, esp = it["material"], it["espessura"]
+            # a camada estrutural JA esta no BOM, em kg, vinda do plano de
+            # corte. Lista-la tambem em m2 seria contar o mesmo aco duas vezes
+            # — e em duas unidades diferentes, que e como a dupla contagem
+            # costuma passar despercebida
+            if mat == "ACO":
+                continue
+            sku = f"{mat}-{esp:g}".replace(".", ",")
+            preco = PRECO_CAMADA.get(mat, 0.0)
+            itens.append(ItemBOM(
+                sku, f"{NOME_CAMADA.get(mat, mat)} {esp:g} mm", "m2",
+                it["area"], preco, "vedacao",
+                fonte="derivado" if preco else "(H) sem preco"))
+    elif area_placa_m2 is not None:
+        # caminho de compatibilidade: so para quem ainda chama sem camadas
+        for sku, desc, k, preco in (
+                ("OSB11", "OSB 11,1 mm estrutural", 0.45, p["osb_11mm_m2"]),
+                ("GESSO", "Chapa de gesso 12,5 mm", 1.00, p["gesso_12.5mm_m2"])):
+            itens.append(ItemBOM(sku, desc, "m2", round(area_placa_m2 * k, 1),
+                                 preco, "vedacao", fonte="(H) estimado"))
 
     h_fab = len(pecas) / PRODUTIVIDADE["pecas_por_hora_fabrica"]
-    h_mont = area_placa_m2 / PRODUTIVIDADE["m2_painel_por_hora_montagem"]
+    area_fechamento = (camadas["area_total"] if camadas
+                       else (area_placa_m2 or area_m2 * 2.4))
+    h_mont = area_fechamento / PRODUTIVIDADE["m2_painel_por_hora_montagem"]
     itens.append(ItemBOM("MO-FAB", "Mao de obra de fabrica", "h",
                          round(h_fab, 1), p["mao_obra_fabrica_h"], "servico"))
     itens.append(ItemBOM("MO-MON", "Mao de obra de montagem", "h",
