@@ -2305,6 +2305,9 @@ REVISOES = [
     ("R14", "E1 — perfis formados a frio: um solver de linha media no lugar de "
             "formula por forma, validado contra solucao fechada do U simples. "
             "Catalogo de 81 perfis; o labio de 12 mm nao se forma a 3,00 mm"),
+    ("R15", "E2 — materiais e normas: 9 acos com fy e fu, 6 revestimentos com "
+            "espessura de camada calculada, 6 sistemas normativos selecionaveis "
+            "e o TRRF da NBR 14432. Sem fy nao existia NBR 14762"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2330,13 +2333,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R14",
+    revisao="R15",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R14", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R15", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

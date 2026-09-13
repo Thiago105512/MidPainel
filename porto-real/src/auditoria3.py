@@ -15,6 +15,7 @@ from __future__ import annotations
 import math
 
 from auditoria import Achado
+import projeto as pj
 import nucleo.perfis as pf
 
 
@@ -150,4 +151,123 @@ def checar_familias_lsf() -> list[Achado]:
     if vazias:
         out.append(Achado("ATENCAO", "familias",
                           f"descricao curta demais para: {vazias}"))
+    return out
+
+
+def checar_materiais() -> list[Achado]:
+    """Aco, revestimento e material: identidades e coerencia fisica.
+
+    Sem fy nao existe NBR 14762 — ate R13 o projeto so sabia E, e por isso so
+    conseguia verificar flecha. E 'galvanizado' nao e especificacao: Z275 e, e
+    tem consequencia dimensional de cerca de 20 micrometros por face.
+    """
+    import nucleo.materiais as mt
+    out = []
+
+    # identidade da elasticidade: G = E / (2(1+v))
+    g = mt.E_ACO / (2 * (1 + mt.POISSON))
+    rel = abs(g - mt.G_ACO) / mt.G_ACO
+    out.append(Achado("NOTA" if rel < 1e-3 else "ERRO", "elasticidade",
+                      f"G = E/(2(1+v)) da {g:.1f} MPa contra {mt.G_ACO:.0f} "
+                      f"declarado; divergencia {rel*100:.3f} %"))
+
+    # todo aco: fu > fy, alongamento positivo, resistencias de calculo menores
+    for a in mt.ACOS:
+        if a.fu <= a.fy:
+            out.append(Achado("ERRO", a.cod, f"fu {a.fu} nao maior que fy {a.fy}"))
+        if a.along <= 0:
+            out.append(Achado("ERRO", a.cod, "alongamento nao declarado"))
+        if a.fyd >= a.fy or a.fud >= a.fu:
+            out.append(Achado("ERRO", a.cod, "resistencia de calculo nao minora"))
+
+    # revestimento: a espessura por face tem de sair da massa e da densidade
+    for r in mt.REVESTIMENTOS:
+        esp = (r.massa_total / 2) / r.densidade * 1000.0
+        if abs(esp - r.espessura_face) > 1e-9:
+            out.append(Achado("ERRO", r.cod, "espessura de camada inconsistente"))
+        if not (5 <= r.espessura_face <= 40):
+            out.append(Achado("ATENCAO", r.cod,
+                              f"{r.espessura_face:.1f} um/face fora da faixa usual"))
+    if not [a for a in out if a.nivel == "ERRO"]:
+        out.append(Achado("NOTA", "materiais",
+                          f"{len(mt.ACOS)} acos, {len(mt.REVESTIMENTOS)} revestimentos "
+                          f"e {len(mt.MATERIAIS)} materiais, todos consistentes"))
+
+    # o LSF estrutural nao aceita revestimento abaixo do minimo da NBR 15253
+    minimo = mt.POR_REV[mt.REVESTIMENTO_MINIMO_LSF]
+    fracos = [r.cod for r in mt.REVESTIMENTOS
+              if r.liga == "Zn" and r.massa_total < minimo.massa_total]
+    out.append(Achado("NOTA", "NBR 15253",
+                      f"revestimento minimo do perfil estrutural: "
+                      f"{minimo.cod} ({minimo.espessura_face:.1f} um/face); "
+                      f"{len(fracos)} revestimentos do catalogo so servem a "
+                      f"perfil nao estrutural"))
+    return out
+
+
+def checar_normas() -> list[Achado]:
+    """Um sistema normativo nao se mistura com outro.
+
+    Combinacao do Eurocode com resistencia da NBR e erro que nao aparece no
+    desenho: as duas normas sao coerentes por dentro e incompativeis entre si,
+    porque repartem a seguranca entre acao e resistencia de modos diferentes.
+    """
+    import nucleo.normas as nm
+    out = []
+    campos = ("formado_frio", "laminado", "cargas", "vento", "combinacoes", "perfis")
+    for s in nm.SISTEMAS:
+        falta = [c for c in campos if not getattr(s, c)]
+        if falta:
+            out.append(Achado("ERRO", s.cod, f"sistema incompleto: {falta}"))
+        if s.gama_a1 <= 0 or s.gama_a2 <= 0:
+            out.append(Achado("ERRO", s.cod, "coeficiente de ponderacao nao positivo"))
+    if nm.PADRAO not in nm.POR_SISTEMA:
+        out.append(Achado("ERRO", "normas", f"sistema padrao '{nm.PADRAO}' nao existe"))
+
+    # as normas do caso precisam pertencer ao sistema escolhido
+    c = getattr(pj, "CADASTRO", None)
+    if c is not None:
+        s = nm.POR_SISTEMA[nm.PADRAO]
+        exigidas = {s.cargas.split(":")[0], s.vento.split(":")[0],
+                    s.combinacoes.split(":")[0], s.perfis.split(":")[0],
+                    s.formado_frio.split(":")[0]}
+        declaradas = set(c.normas)
+        falta = sorted(n for n in exigidas if n not in declaradas)
+        if falta:
+            out.append(Achado("ATENCAO", "CADASTRO",
+                              f"sistema {s.cod} exige {falta}, que o cadastro "
+                              f"nao declara"))
+        else:
+            out.append(Achado("NOTA", "CADASTRO",
+                              f"as {len(declaradas)} normas do caso contem as "
+                              f"{len(exigidas)} estruturais do sistema {s.cod}"))
+    out.append(Achado("NOTA", "normas",
+                      f"{len(nm.SISTEMAS)} sistemas normativos selecionaveis; "
+                      f"padrao {nm.PADRAO}"))
+    return out
+
+
+def checar_incendio() -> list[Achado]:
+    """TRRF declarado e crescente com a altura, e protecao compativel."""
+    import nucleo.normas as nm
+    out = []
+    c = getattr(pj, "CADASTRO", None)
+    if c is None:
+        return [Achado("ERRO", "incendio", "sem cadastro")]
+    alt = c.pavimentos * c.pe_direito / 1000.0
+    t = nm.trrf(c.tipo.uso, alt)
+    n = nm.camadas_para_trrf(t)
+    # monotonia: mais alto nunca pode exigir menos
+    anterior = 0
+    for h in (6, 12, 23, 30):
+        v = nm.trrf(c.tipo.uso, h)
+        if v < anterior:
+            out.append(Achado("ERRO", "TRRF",
+                              f"uso {c.tipo.uso}: {h} m exige {v} min, menos que "
+                              f"a faixa anterior ({anterior} min)"))
+        anterior = v
+    out.append(Achado("NOTA", "TRRF",
+                      f"{c.tipo.uso} com {alt:.1f} m: TRRF {t} min, atendido por "
+                      f"{n} camada(s) de gesso de 12,5 mm por face (H — a "
+                      f"resistencia efetiva depende de ensaio do fabricante)"))
     return out

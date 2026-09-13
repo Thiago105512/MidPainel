@@ -214,6 +214,19 @@ PROGRAMA = [
      ["checar_catalogo", "checar_familias_lsf"], "AUTOMATIZADA",
      "Todo perfil calculavel e fisicamente possivel; toda funcao de LSF com "
      "papel estrutural declarado. Disponibilidade por fabricante e (H)."),
+    (70, "Materiais, acos e revestimentos",
+     ["checar_materiais"], "AUTOMATIZADA",
+     "Secao 10. Sem fy nao existe NBR 14762. Revestimento deixa de ser "
+     "'galvanizado' e passa a ser Z275, com consequencia dimensional medida."),
+    (71, "Sistema normativo por pais",
+     ["checar_normas"], "AUTOMATIZADA",
+     "Secao 11. Misturar combinacao do Eurocode com resistencia da NBR e erro "
+     "que nao aparece no desenho: as duas repartem a seguranca de modos "
+     "diferentes."),
+    (72, "Resistencia ao fogo",
+     ["checar_incendio"], "PARCIAL",
+     "Secao 44. TRRF pela NBR 14432 e calculavel; a resistencia efetiva da "
+     "composicao depende de ENSAIO do fabricante e entra (H)."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

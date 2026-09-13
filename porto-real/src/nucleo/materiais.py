@@ -1,0 +1,148 @@
+"""MATERIAIS — acos, revestimentos e demais materiais (secao 10).
+
+Tres coisas que ate R13 estavam implicitas viram dado aqui:
+
+1. O aco. Ate agora o projeto usava E = 205 GPa e nada mais; nao havia fy, nao
+   havia fu, e portanto nenhuma verificacao de resistencia era possivel — so de
+   flecha. Sem fy nao existe NBR 14762.
+2. O revestimento. "Galvanizado" nao e especificacao: Z275 e. E a massa de
+   zinco tem consequencia dimensional — cerca de 20 micrometros por face —, de
+   durabilidade e de soldabilidade.
+3. A classe de corrosividade. Manaus e atmosfera tropical umida; a escolha do
+   revestimento deixa de ser habito e passa a ser consequencia da classe.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+# --------------------------------------------------------------------- aco
+E_ACO = 205_000.0        # MPa, NBR 14762
+G_ACO = 78_850.0         # MPa
+POISSON = 0.30
+DENSIDADE_ACO = 7_850.0  # kg/m3
+ALFA_TERMICO = 1.2e-5    # /C
+
+
+@dataclass(frozen=True)
+class Aco:
+    cod: str
+    fy: float            # MPa, escoamento
+    fu: float            # MPa, ruptura
+    along: float         # %, alongamento minimo em 50 mm
+    norma: str
+    processo: str        # formado a frio, laminado, etc.
+    obs: str = ""
+
+    @property
+    def fyd(self) -> float:
+        """Resistencia de calculo ao escoamento (gama = 1,10, NBR 14762)."""
+        return self.fy / 1.10
+
+    @property
+    def fud(self) -> float:
+        """Resistencia de calculo a ruptura (gama = 1,65 em ligacoes)."""
+        return self.fu / 1.65
+
+
+ACOS = [
+    Aco("ZAR 230", 230, 310, 18, "NBR 7008 / NBR 15253", "formado a frio",
+        "grau usual de montante e guia de LSF"),
+    Aco("ZAR 250", 250, 330, 16, "NBR 7008", "formado a frio"),
+    Aco("ZAR 280", 280, 360, 14, "NBR 7008", "formado a frio"),
+    Aco("ZAR 345", 345, 430, 12, "NBR 7008", "formado a frio",
+        "grau estrutural; reduz peso mas exige raio de dobra maior"),
+    Aco("ASTM A653 Gr.33", 230, 310, 20, "ASTM A653", "formado a frio"),
+    Aco("ASTM A653 Gr.50", 340, 450, 12, "ASTM A653", "formado a frio"),
+    Aco("ASTM A36", 250, 400, 20, "ASTM A36", "laminado",
+        "perfil laminado da interface hibrida"),
+    Aco("ASTM A572 Gr.50", 345, 450, 18, "ASTM A572", "laminado"),
+    Aco("AISI 304", 205, 515, 40, "ASTM A240", "inox",
+        "so onde a corrosividade justifica: custo por kg e multiplo do galvanizado"),
+]
+POR_ACO = {a.cod: a for a in ACOS}
+
+# --------------------------------------------------------------- revestimento
+DENS_ZINCO = 7_140.0     # kg/m3
+DENS_ALZN = 3_750.0      # kg/m3, liga 55 % Al - 43,4 % Zn - 1,6 % Si
+
+
+@dataclass(frozen=True)
+class Revestimento:
+    cod: str
+    massa_total: float   # g/m2, somando as DUAS faces
+    liga: str
+    classes_ok: tuple    # classes de corrosividade em que se admite
+
+    @property
+    def densidade(self) -> float:
+        return DENS_ZINCO if self.liga == "Zn" else DENS_ALZN
+
+    @property
+    def espessura_face(self) -> float:
+        """Micrometros por face: massa/2 dividida pela densidade da liga."""
+        return (self.massa_total / 2) / self.densidade * 1000.0
+
+    @property
+    def acrescimo_dimensional(self) -> float:
+        """mm somados a espessura do aco base, nas duas faces."""
+        return 2 * self.espessura_face / 1000.0
+
+
+REVESTIMENTOS = [
+    Revestimento("Z120", 120, "Zn", ("C1", "C2")),
+    Revestimento("Z180", 180, "Zn", ("C1", "C2", "C3")),
+    Revestimento("Z275", 275, "Zn", ("C1", "C2", "C3", "C4")),
+    Revestimento("Z350", 350, "Zn", ("C1", "C2", "C3", "C4")),
+    Revestimento("AZ150", 150, "AlZn", ("C1", "C2", "C3", "C4")),
+    Revestimento("AZ185", 185, "AlZn", ("C1", "C2", "C3", "C4", "C5")),
+]
+POR_REV = {r.cod: r for r in REVESTIMENTOS}
+
+# Classes de corrosividade atmosferica (ISO 9223 / NBR 14643)
+CORROSIVIDADE = {
+    "C1": ("muito baixa", "interior seco e aquecido"),
+    "C2": ("baixa", "rural, interior com condensacao ocasional"),
+    "C3": ("media", "urbana e industrial leve, litoral distante"),
+    "C4": ("alta", "industrial e litoral"),
+    "C5": ("muito alta", "industrial pesado, litoral com salinidade alta"),
+}
+# NBR 15253: revestimento minimo do perfil estrutural de LSF
+REVESTIMENTO_MINIMO_LSF = "Z275"
+
+# --------------------------------------------------------------- outros
+@dataclass(frozen=True)
+class Material:
+    cod: str
+    nome: str
+    densidade: float     # kg/m3
+    E: float             # MPa (0 = nao estrutural)
+    lambda_t: float      # W/mK, condutividade
+    obs: str = ""
+
+
+MATERIAIS = [
+    Material("ACO", "Aco estrutural", 7850, 205_000, 55.0),
+    Material("ALU", "Aluminio", 2700, 70_000, 200.0, "esquadria e ACM"),
+    Material("MAD", "Madeira conifera", 500, 10_000, 0.13),
+    Material("OSB", "OSB estrutural", 650, 3_500, 0.13, "diafragma e substrato"),
+    Material("PLY", "Compensado", 600, 7_000, 0.14),
+    Material("CLT", "CLT", 480, 11_000, 0.12),
+    Material("CONC", "Concreto estrutural", 2500, 30_000, 1.75),
+    Material("PLCIM", "Placa cimenticia", 1700, 6_000, 0.35, "fechamento externo"),
+    Material("GESSO", "Chapa de gesso", 750, 2_000, 0.35),
+    Material("GESSORU", "Chapa de gesso RU", 800, 2_000, 0.35, "area umida"),
+    Material("LAROCHA", "La de rocha", 64, 0, 0.045),
+    Material("LAVIDRO", "La de vidro", 20, 0, 0.040),
+    Material("XPS", "XPS", 33, 0, 0.035, "quebra termica da ISO strip"),
+    Material("EPS", "EPS", 20, 0, 0.040),
+    Material("ACM", "ACM", 1600, 0, 0.50),
+    Material("PIR", "Painel sandwich PIR", 40, 0, 0.023, "cobertura"),
+    Material("PUR", "Painel sandwich PUR", 40, 0, 0.026),
+    Material("VIDRO", "Vidro", 2500, 70_000, 1.00),
+]
+POR_MATERIAL = {m.cod: m for m in MATERIAIS}
+
+
+def revestimento_para(classe: str) -> list[str]:
+    """Revestimentos admissiveis na classe de corrosividade."""
+    return [r.cod for r in REVESTIMENTOS if classe in r.classes_ok]
