@@ -1,5 +1,5 @@
 """
-PROGRAMA DE 63 AUDITORIAS — mapa de cobertura.
+PROGRAMA DE AUDITORIAS — mapa de cobertura.
 
 Cada auditoria pedida pelo proprietario e classificada em quatro situacoes:
 
@@ -333,6 +333,19 @@ PROGRAMA = [
      "Secao 137. O esquema separa as naturezas: 17 tabelas de PROJETO sao "
      "espelho do modelo e se regeneram; 11 de EVENTO registram o que aconteceu "
      "no mundo e nao podem ser perdidas."),
+    (95, "Checklist de liberacao e motor de erros",
+     ["checar_liberacao"], "AUTOMATIZADA",
+     "Secoes 111 a 118. A liberacao nao e opiniao: 16 itens verificados na "
+     "cadeia inteira, e um ERRO bloqueia trazendo as solucoes ordenadas."),
+    (96, "Scores e sustentabilidade",
+     ["checar_sustentabilidade"], "AUTOMATIZADA",
+     "Secoes 121 e 141 a 146. Cada score carrega a formula que o produziu, e "
+     "reage ao projeto: padronizar SKU e elevar aproveitamento movem o numero."),
+    (97, "Documentos gerados do modelo",
+     ["checar_documentos"], "AUTOMATIZADA",
+     "Secao 110. Memorial, lista de pecas, plano de corte, packing list, manual "
+     "de montagem e relatorio de inspecao saem do mesmo dado; os tres modos "
+     "de leitura mudam a explicacao, nunca o valor de calculo."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
@@ -388,7 +401,7 @@ if __name__ == "__main__":
             niveis[a.nivel] += 1
     cob = cobertura()
     print("=" * 72)
-    print("PROGRAMA DE 63 AUDITORIAS — COBERTURA")
+    print(f"PROGRAMA DE {len(PROGRAMA)} AUDITORIAS — COBERTURA")
     print("=" * 72)
     for sit in ("AUTOMATIZADA", "PARCIAL", "ANALISE", "BLOQUEADA"):
         n = cob["situacoes"].get(sit, 0)

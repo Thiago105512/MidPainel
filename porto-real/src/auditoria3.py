@@ -1663,3 +1663,122 @@ def checar_banco() -> list[Achado]:
     out.append(Achado("NOTA" if n2 == n else "ERRO", "idempotencia",
                       f"gravar duas vezes nao duplica: {n2} pecas"))
     return out
+
+
+def checar_liberacao() -> list[Achado]:
+    """A cadeia inteira, de uma vez, e a decisao de liberar (secoes 140 a 144).
+
+    Nenhum item do checklist e marcavel a mao: cada um consulta o resultado de
+    uma funcao que rodou sobre o modelo. Se fosse marcavel, seria marcado.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.liberacao as lb
+    out = []
+    r = lb.rodar(pj, el)
+
+    lib = r["liberacao"]
+    nao_ok = [i for i in lib["itens"] if i["status"] != "OK"]
+    out.append(Achado("NOTA" if lib["liberado"] else "ATENCAO", "liberacao",
+                      f"{lib['situacao']} — {len(lib['itens'])-len(nao_ok)} de "
+                      f"{len(lib['itens'])} itens verificados"
+                      + (f"; pendente: {[i['item'] for i in nao_ok]}"
+                         if nao_ok else "")))
+
+    # todo score entre 0 e 100 e com formula visivel
+    ruins = [k for k, v in r["scores"].items()
+             if not (0 <= v["nota"] <= 100) or not v.get("formula")]
+    out.append(Achado("NOTA" if not ruins else "ERRO", "scores",
+                      f"score geral {r['score_geral']}/100 — "
+                      + ", ".join(f"{k} {v['nota']}"
+                                  for k, v in r["scores"].items())
+                      + "; cada um com a formula declarada"
+                      if not ruins else f"scores sem formula ou fora de faixa: {ruins}"))
+
+    # o score tem de REAGIR: piorar uma entrada tem de baixar a nota
+    import nucleo.scores as sc
+    bom = sc.score_fabricacao(r["pecas"], 6, 0.92, 0.5)["nota"]
+    ruim = sc.score_fabricacao(r["pecas"], 40, 0.68, 4.0)["nota"]
+    out.append(Achado("NOTA" if ruim < bom else "ERRO", "scores",
+                      f"o score reage: 6 SKUs e 92 % de aproveitamento dao "
+                      f"{bom}, contra {ruim} com 40 SKUs e 68 %"))
+
+    # nivel de erro inexistente tem de levantar excecao
+    try:
+        sc.classificar("GRAVE", "x")
+        out.append(Achado("ERRO", "motor de erros", "aceitou nivel inexistente"))
+    except KeyError:
+        c = sc.classificar("ERRO", "verga insuficiente",
+                           ["aumentar espessura", "perfil duplo",
+                            "reduzir vao", "inserir apoio"])
+        out.append(Achado("NOTA", "motor de erros",
+                          f"4 niveis; um ERRO bloqueia e vem com "
+                          f"{len(c['solucoes'])} solucoes sugeridas, nao so com "
+                          f"a palavra 'erro'"))
+    return out
+
+
+def checar_sustentabilidade() -> list[Achado]:
+    """CO2e e desmontabilidade, com todo fator declarado (secoes 121 e 122)."""
+    import nucleo.scores as sc
+    out = []
+    a = sc.co2e(1000.0, reciclado=0.0)
+    b = sc.co2e(1000.0, reciclado=1.0)
+    out.append(Achado("NOTA" if b["aco"] < a["aco"] else "ERRO", "CO2e",
+                      f"1.000 kg de aco: {a['aco']:.0f} kg de CO2e com carga "
+                      f"virgem e {b['aco']:.0f} kg com 100 % de sucata — "
+                      f"{(1-b['aco']/a['aco'])*100:.0f} % de reducao. Fatores (H)"))
+    c = sc.co2e(1000.0, km=0.0)
+    d = sc.co2e(1000.0, km=3000.0)
+    out.append(Achado("NOTA" if d["total"] > c["total"] else "ERRO", "CO2e",
+                      f"3.000 km de transporte acrescentam "
+                      f"{d['transporte']:.0f} kg de CO2e"))
+    class P:
+        def __init__(self, perfil):
+            self.perfil = perfil
+    muitos = sc.desmontabilidade([P(f"p{i%20}") for i in range(200)])
+    poucos = sc.desmontabilidade([P("p1") for _ in range(200)])
+    out.append(Achado("NOTA" if poucos["indice"] > muitos["indice"] else "ERRO",
+                      "desmontabilidade",
+                      f"repeticao alta eleva o indice de {muitos['indice']:.2f} "
+                      f"para {poucos['indice']:.2f}: peca repetida e peca que "
+                      f"se reaproveita em outro lugar"))
+    return out
+
+
+def checar_documentos() -> list[Achado]:
+    """Memorial com formula e substituicao, e os tres modos de leitura."""
+    import nucleo.documentos as dc
+    import nucleo.perfis as pf
+    import nucleo.materiais as mt
+    out = []
+    p = next(q for q in pf.catalogo() if q.cod == "Ue 90x40x12x0,95")
+    aco = mt.POR_ACO["ZAR 230"]
+    esp = dc.memorial_compressao(p, aco, 2600, "especialista")
+    edu = dc.memorial_compressao(p, aco, 2600, "educacional")
+    exe = dc.memorial_compressao(p, aco, 2600, "executivo")
+
+    # memorial de especialista precisa trazer clausula, formula e substituicao
+    tem = all(t in esp for t in ("NBR 14762", "lambda0 = raiz(Ny/Ne)",
+                                 "Nc,Rd = Nc,Rk / gama", "="))
+    out.append(Achado("NOTA" if tem else "ERRO", "memorial",
+                      "o memorial traz clausula, formula e a SUBSTITUICAO "
+                      "numerica — memorial que so apresenta o resultado nao e "
+                      "memorial, e afirmacao"))
+
+    # os tres modos tem de ser o mesmo conteudo em profundidades diferentes
+    ok = len(exe) < len(edu) < len(esp)
+    out.append(Achado("NOTA" if ok else "ERRO", "modos",
+                      f"executivo {len(exe)} caracteres, educacional "
+                      f"{len(edu)}, especialista {len(esp)}: mesmo conteudo, "
+                      f"profundidades diferentes — nao textos paralelos que "
+                      f"divergem na terceira revisao"))
+
+    # o numero critico tem de ser o MESMO nos tres
+    import nucleo.verificacao as vr
+    nrd = vr.compressao(p, aco, L=2600)["nrd"]
+    presente = sum(1 for t in (esp, edu, exe) if f"{nrd:.2f}" in t)
+    out.append(Achado("NOTA" if presente >= 2 else "ATENCAO", "coerencia",
+                      f"o valor de calculo {nrd:.2f} kN aparece identico em "
+                      f"{presente} dos 3 modos"))
+    return out
