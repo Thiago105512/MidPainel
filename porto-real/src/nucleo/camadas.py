@@ -76,7 +76,17 @@ class Composicao:
 
     @property
     def esp_construida(self) -> float:
-        return sum(c.total for c in self.camadas)
+        """Espessura que a parede de fato ocupa.
+
+        A camada ISOLANTE nao soma: ela vive dentro da cavidade do montante, e
+        soma-la contaria o mesmo espaco duas vezes — daria 182,5 mm onde ha
+        150. Esta regra existia dentro de conferir_espessuras() e nao aqui, e o
+        resultado foi duas definicoes da mesma grandeza: a exportacao mostrava
+        a soma crua e o criterio usava a util, entao a interface exibia uma
+        parede "mais grossa que o modulo" que o verificador aprovava. Uma
+        definicao, num lugar so.
+        """
+        return sum(c.total for c in self.camadas if c.funcao != "isolante")
 
     @property
     def folga(self) -> float:
@@ -171,7 +181,7 @@ def conferir_espessuras() -> list[dict]:
     """
     out = []
     for c in COMPOSICOES.values():
-        util = sum(x.total for x in c.camadas if x.funcao != "isolante")
+        util = c.esp_construida
         out.append(dict(cod=c.cod, nominal=c.esp_nominal, construida=util,
                         folga=c.esp_nominal - util,
                         cabe=util <= c.esp_nominal,
@@ -485,3 +495,88 @@ def quantificar_planos(casa: dict) -> dict:
              for (m, e), a in sorted(por_material.items(), key=lambda kv: -kv[1])]
     return dict(itens=itens, detalhe=detalhe,
                 area_total=round(sum(i["area"] for i in itens), 1))
+
+
+# ---------------------------------------------------------------------------
+# ACESSORIO DE COBERTURA E IMPERMEABILIZACAO
+# ---------------------------------------------------------------------------
+def acessorios_cobertura(casa: dict, pj) -> dict:
+    """Calha, rufo, cumeeira e fixacao — do perimetro dos planos de cobertura.
+
+    O painel PIR entrou no BOM em R35 e resolveu a AREA. O que fecha uma
+    cobertura, porem, nao e a area: e o perimetro. Calha, rufo de platibanda,
+    cumeeira e o parafuso de fixacao vivem todos na borda, e nenhum existia.
+
+    Uma cobertura sem rufo nao vaza pelo painel: vaza pelo encontro.
+    """
+    planos = [p for p in casa["planos"] if p["tipo"] == "cobertura" and p["ok"]]
+    area = sum(p["vao"] * p["corrido"] for p in planos) / 1e6
+    # perimetro: soma do contorno de cada plano. Planos adjacentes partilham
+    # borda, e por isso o resultado e conservador — declarado, nao escondido.
+    perim = sum(2 * (p["vao"] + p["corrido"]) for p in planos) / 1000.0
+    cb = pj.COBERTURA
+    return dict(
+        area=round(area, 1), perimetro=round(perim, 1),
+        calha_m=round(perim * 0.5, 1),        # so no lado de jusante
+        rufo_m=round(perim, 1),
+        cumeeira_m=round(sum(p["corrido"] for p in planos) / 1000.0 * 0.3, 1),
+        # fixacao do painel sanduiche: 4 por m2 e o usual em painel de 1 m
+        parafuso_un=int(area * 4),
+        calha_secao=f"{cb['calha_l']}x{cb['calha_h']} mm",
+        inclinacao=cb["inclinacao"],
+        obs="planos adjacentes partilham borda: o perimetro somado e "
+            "conservador, e esta declarado como tal")
+
+
+def impermeabilizacao(pj) -> dict:
+    """Area e altura de impermeabilizacao das areas molhadas.
+
+    A PR-22 e a PR-23 ja fixam 1.800 mm de subida no box e caimento de 1,5 %.
+    Nada disso chegava ao BOM: a manta existia no desenho e nao no orcamento.
+    """
+    ALTURA_BOX = 1_800      # mm, onde a agua bate todo dia
+    ALTURA_GERAL = 300      # mm de rodape impermeavel no restante
+    itens, total = [], 0.0
+    for a in pj.TERREO + pj.SUPERIOR:
+        if not a.molhado:
+            continue
+        piso = a.area_mod
+        perim = 2 * (a.w + a.h) / 1000.0
+        # box: uma faixa de 1,2 m de parede sobe 1.800; o resto sobe 300
+        sobe = (1.2 * ALTURA_BOX / 1000.0
+                + (perim - 1.2) * ALTURA_GERAL / 1000.0)
+        area = piso + sobe
+        total += area
+        itens.append(dict(ambiente=a.cod, nome=a.nome, piso=round(piso, 2),
+                          parede=round(sobe, 2), area=round(area, 2)))
+    # CRUZAMENTO INDEPENDENTE. O quadro de esquadrias sabe de banheiros que o
+    # quadro de ambientes nao sabe: as janelas de banheiro (J02 e J04) contam
+    # 4, e o modelo declara molhados so no terreo. As tres suites do superior
+    # tem banho no desenho (PR-23) e nao tem ambiente molhado no dado, porque a
+    # suite e um retangulo unico e o flag `molhado` e por ambiente inteiro.
+    #
+    # A area faltante NAO e inventada aqui. Declarar um numero para ela seria
+    # exatamente o erro que este projeto recusa — a lacuna e do modelo do caso,
+    # e quem a fecha e quem subdivide a suite.
+    jan_banho = sum(1 for t, *_ in pj.VAOS if t in ("J02", "J04"))
+    molhados_sup = sum(1 for a in pj.SUPERIOR if a.molhado)
+    # comparar com TODOS os molhados diluia o achado: cozinha e lavanderia sao
+    # molhadas e nao sao banho. A janela de banheiro conta banheiro.
+    banhos = [x for x in itens
+              if "BANHO" in x["nome"].upper() or "BWC" in x["ambiente"]]
+    lacuna = max(0, jan_banho - len(banhos))
+    return dict(itens=itens, area=round(total, 1),
+                altura_box=ALTURA_BOX, altura_geral=ALTURA_GERAL,
+                caimento=0.015,
+                janelas_de_banho=jan_banho, molhados_superior=molhados_sup,
+                lacuna=lacuna,
+                aviso=("" if not lacuna else
+                       f"{jan_banho} janelas de banheiro no quadro de "
+                       f"esquadrias contra {len(banhos)} banheiro(s) "
+                       f"declarados, nenhum deles no superior: as suites sao "
+                       f"retangulo unico e o flag e por ambiente inteiro. A "
+                       f"area de impermeabilizacao de {lacuna} banho(s) esta "
+                       f"FORA desta conta, e nao foi arbitrada"),
+                obs="1.800 mm no box e 300 de rodape impermeavel; o teste de "
+                    "estanqueidade de 72 h e o que valida — em LSF o "
+                    "vazamento apodrece o OSB antes de manchar")

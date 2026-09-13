@@ -63,6 +63,15 @@ PRECO_JUNTA = {          # (H), como todo preco deste arquivo
     "cantoneira": 4.50,
     "parafuso_placa": 0.12,
 }
+PRECO_ESQ = {            # (H)
+    "caixilho_m": 185.00, "vidro_m2": 310.00,
+    "roldana": 18.00, "fecho": 42.00, "trilho_m": 96.00,
+    "dobradica": 26.00, "fechadura": 145.00, "batente": 210.00,
+}
+PRECO_COB = {            # (H)
+    "calha_m": 118.00, "rufo_m": 62.00, "cumeeira_m": 74.00,
+    "parafuso_un": 1.80, "impermeab_m2": 78.00,
+}
 PRECO_CAMADA = {
     "PLCIM": 62.00, "GESSO": 28.00, "GESSORU": 36.00, "LAROCHA": 34.00,
     "LAVIDRO": 22.00, "XPS": 41.00, "OSB": 58.00, "ACO": 0.0,
@@ -154,6 +163,44 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
         itens.append(ItemBOM("PAR-PLA", "Parafuso de placa 25 mm", "un",
                              n_pl, PRECO_JUNTA["parafuso_placa"], "vedacao",
                              fonte="derivado"))
+
+    # ---- esquadria: 12 a 18 % do custo de uma residencia, e estava em zero
+    esq = (camadas or {}).get("esquadrias")
+    if esq:
+        itens.append(ItemBOM("ESQ-CAIX", "Caixilho de aluminio", "m",
+                             esq["caixilho_m"], PRECO_ESQ["caixilho_m"],
+                             "esquadria", fonte="derivado"))
+        itens.append(ItemBOM("ESQ-VIDRO", "Vidro (ver especificacao por vao)",
+                             "m2", esq["area_vidro"], PRECO_ESQ["vidro_m2"],
+                             "esquadria", fonte="derivado"))
+        for item, q in sorted(esq["ferragem"].items()):
+            itens.append(ItemBOM(f"FER-{item[:6].upper()}",
+                                 f"Ferragem: {item.replace('_m','')}",
+                                 "m" if item.endswith("_m") else "un",
+                                 round(q, 1), PRECO_ESQ.get(item, 0.0),
+                                 "esquadria", fonte="derivado"))
+    # ---- cobertura: o que fecha uma cobertura e o perimetro, nao a area
+    cob = (camadas or {}).get("cobertura")
+    if cob:
+        for sku, desc, q, pr, un in (
+                ("COB-CALHA", "Calha externa " + cob["calha_secao"],
+                 cob["calha_m"], PRECO_COB["calha_m"], "m"),
+                ("COB-RUFO", "Rufo e contrarrufo", cob["rufo_m"],
+                 PRECO_COB["rufo_m"], "m"),
+                ("COB-CUME", "Cumeeira", cob["cumeeira_m"],
+                 PRECO_COB["cumeeira_m"], "m"),
+                ("COB-PAR", "Parafuso de fixacao do painel",
+                 cob["parafuso_un"], PRECO_COB["parafuso_un"], "un")):
+            itens.append(ItemBOM(sku, desc, un, q, pr, "cobertura",
+                                 fonte="derivado"))
+    # ---- impermeabilizacao
+    imp = (camadas or {}).get("impermeabilizacao")
+    if imp:
+        itens.append(ItemBOM("IMP-MANTA", "Impermeabilizacao de area molhada",
+                             "m2", imp["area"], PRECO_COB["impermeab_m2"],
+                             "vedacao",
+                             fonte="derivado" + (" (lacuna declarada)"
+                                                 if imp["lacuna"] else "")))
 
     area_fechamento = (camadas["area_total"] if camadas
                        else (area_placa_m2 or area_m2 * 2.4))

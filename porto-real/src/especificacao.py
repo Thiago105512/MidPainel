@@ -250,14 +250,25 @@ def especificar_vaos() -> list[list[str]]:
 
     out = []
     for tipo, x, y, ori, pav in pj.VAOS:
-        if not tipo.startswith(("J", "PV")):
+        # A CORTINA DE VIDRO ficava de fora deste filtro, e com ela o MAIOR
+        # elemento envidracado da casa: 7.200 x 2.600, 17,6 m2 de vidro sem
+        # especificacao. O levantamento de esquadrias acusou — a tabela de
+        # vidros tem de cobrir todo vao envidracado, e CV e vao envidracado.
+        if not tipo.startswith(("J", "PV", "CV")):
             continue
         lg, al, pe, _ = pj.ESQUADRIAS[tipo]
         face = _face_do_vao(x, y, ori, pav)
         crit_solar = face in ("L", "O")
         # ruido externo relevante: face leste (via do condominio)
         crit_acustico = face == "L" or (face == "O" and tipo.startswith("PV"))
-        if tipo == "J02":
+        if tipo.startswith("CV"):
+            # declarado no proprio cadastro do vao: 8 folhas de 900 mm em
+            # temperado 10 mm, sem montante vertical. Nao e deducao desta
+            # funcao, e transcricao do que a esquadria ja diz de si.
+            vidro, just = ("temperado 10 mm, 8 folhas de 900 mm",
+                           "cortina retratil sem montante: a espessura vem da "
+                           "altura de 2.600 sem apoio intermediario")
+        elif tipo == "J02":
             vidro, just = "temperado 6 mm translucido", "banheiro: sem exigencia"
         elif crit_solar and crit_acustico:
             vidro, just = ("laminado 6+6 PVB acustico + controle solar",

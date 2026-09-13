@@ -98,9 +98,22 @@ FAIXAS = (
           "limite superior de icamento manual por 4 pessoas (NR-17 e pratica)",
           "acima exige equipamento de icamento, e isso muda a logistica"),
 
-    Faixa("custo_m2", "custo da estrutura", "R$/m2", 350.0, 1200.0,
+    # RECALIBRADA EM R36, e o motivo importa mais que o numero. Uma faixa
+    # alargada porque o valor estourou deixa de verificar — e assim que a
+    # verificacao vira carimbo. Esta foi alargada porque o ESCOPO DO BOM mudou:
+    # ate R35 ele cobria estrutura e fechamento; agora cobre tambem esquadria
+    # (R$ 313/m2), cobertura (R$ 73/m2) e impermeabilizacao. Esquadria sozinha
+    # e 12 a 18 % de uma obra residencial, e estava em zero.
+    #
+    # A regra que fica: recalibrar faixa exige dizer O QUE MUDOU no que se
+    # mede. Se a resposta for "nada, so o valor", a faixa esta certa e o
+    # projeto e que precisa de explicacao.
+    Faixa("custo_m2", "custo de estrutura, fechamento, esquadria e cobertura",
+          "R$/m2", 600.0, 1800.0,
           "(H) os precos da tabela sao (H): esta faixa so detecta incoerencia "
-          "INTERNA, nunca preco de mercado errado",
+          "INTERNA, nunca preco de mercado errado. NAO inclui fundacao, "
+          "instalacoes, acabamento nem mao de obra de campo — uma residencia "
+          "completa em LSF fica bem acima disto",
           "fora da faixa com precos (H) indica quantitativo errado, nao preco"),
 
     Faixa("placa_m2", "placa por area de projeto", "m2/m2", 2.0, 4.5,

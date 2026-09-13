@@ -2652,6 +2652,36 @@ def checar_camadas() -> list[Achado]:
                       f"descontava abertura nenhuma, porque multiplicava a "
                       f"area de projeto, que nao sabe onde ha janela"))
 
+    # ---- 5b. esquadria: o vao virou material
+    import nucleo.esquadrias as esq
+    e = r["camadas"]["esquadrias"]
+    out.append(Achado("NOTA" if not e["sem_vidro"] else "ERRO", "esquadria",
+                      f"{e['n']} esquadrias, {e['area_vidro']} m2 de vidro e "
+                      f"{e['caixilho_m']} m de caixilho, derivados dos vaos que "
+                      f"o modelo ja tinha. Esquadria e 12 a 18 % do custo de "
+                      f"uma residencia e estava em ZERO no BOM"))
+    ok_d = all("(H)" in str(v) for k, v in e["desempenho"].items()
+               if k != "norma")
+    out.append(Achado("NOTA" if ok_d else "ERRO", "desempenho",
+                      f"estanqueidade a agua, ao ar e resistencia a carga de "
+                      f"vento entram como EXIGENCIA {e['desempenho']['norma']} "
+                      f"marcada (H), nunca como valor: uma classificacao "
+                      f"inventada seria indistinguivel de uma ensaiada"))
+
+    # ---- 5c. cobertura e impermeabilizacao
+    cob = r["camadas"]["cobertura"]
+    out.append(Achado("NOTA" if cob["perimetro"] > 0 else "ERRO",
+                      "acessorio de cobertura",
+                      f"calha {cob['calha_m']} m, rufo {cob['rufo_m']} m e "
+                      f"cumeeira {cob['cumeeira_m']} m saem do PERIMETRO dos "
+                      f"planos. O painel resolvia a area; uma cobertura nao "
+                      f"vaza pelo painel, vaza pelo encontro"))
+    imp = r["camadas"]["impermeabilizacao"]
+    out.append(Achado("ATENCAO" if imp["lacuna"] else "NOTA", "impermeabiliza",
+                      imp["aviso"] or
+                      f"{imp['area']} m2 de impermeabilizacao, {imp['altura_box']} "
+                      f"mm no box e {imp['altura_geral']} de rodape"))
+
     # ---- 6a. norma vem do MATERIAL, fonte unica
     import nucleo.materiais as mt
     sem_norma = [m.cod for m in mt.MATERIAIS if not m.norma]

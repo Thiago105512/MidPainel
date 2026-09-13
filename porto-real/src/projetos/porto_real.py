@@ -2415,6 +2415,12 @@ REVISOES = [
             "Norma e formato comercial voltam para o material, fonte unica. "
             "Piso, forro e cobertura ganham composicao, e fita, massa e "
             "cantoneira passam a existir, derivadas do perimetro"),
+    ("R36", "Esquadria, cobertura e impermeabilizacao passam de zero a "
+            "material: 311 m de caixilho, 62 m2 de vidro com especificacao por "
+            "vao, calha, rufo e cumeeira do perimetro, e manta das areas "
+            "molhadas. O cruzamento entre quadro de esquadrias e quadro de "
+            "ambientes achou 3 banheiros no superior que existem no desenho e "
+            "nao no dado — a area deles nao foi arbitrada"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2440,13 +2446,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R35",
+    revisao="R36",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R35", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R36", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

@@ -398,7 +398,8 @@ PROGRAMA = [
      "Secoes 40, 41 e 59. O fechamento saia de seis coeficientes — "
      "area_m2 * 2,4 e mais cinco fatores — onde havia geometria para derivar. "
      "Cada painel passa a apontar para a composicao que a PR-12 lhe atribui, e "
-     "a area de cada camada sai do proprio painel, descontada a abertura."),
+     "a area de cada camada sai do proprio painel, descontada a abertura. "
+     "Inclui paginacao de placa, esquadria, cobertura e impermeabilizacao."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

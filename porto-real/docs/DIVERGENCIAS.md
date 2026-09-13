@@ -2843,3 +2843,62 @@ do fechamento**, contra a faixa corrente de 8 a 12 %.
 
 > Uma faixa de plausibilidade não serve só para achar erro no projeto. Serve
 > também para achar erro em quem mede.
+
+## R36 — esquadria, cobertura e impermeabilização: de zero a material
+
+Três sistemas que o modelo conhecia e não orçava.
+
+**Esquadria estava em zero.** Os 29 vãos eram dado desde a primeira revisão —
+tipo, largura, altura, peitoril, orientação — e a PR-13 já decidia o vidro de
+cada um com a justificativa. Nada chegava ao BOM: nem caixilho, nem vidro, nem
+ferragem. Esquadria costuma ser **12 a 18 % do custo de uma residência**.
+Derivado: 311,1 m de caixilho, 61,96 m² de vidro, 40 unidades, ferragem contada
+por folha.
+
+**Cobertura tinha área e não tinha borda.** O painel PIR entrou em R35 e
+resolveu a área. Mas o que fecha uma cobertura é o **perímetro**: calha, rufo,
+cumeeira e fixação vivem todos na borda. *Uma cobertura não vaza pelo painel;
+vaza pelo encontro.*
+
+**Impermeabilização existia no desenho e não no orçamento.** A PR-22/23 já fixa
+1.800 mm de subida no box e 1,5 % de caimento.
+
+### O cruzamento que encontrou a lacuna
+
+Duas partes do modelo discordaram: o quadro de esquadrias tem **4 janelas de
+banheiro** (J02 + J04×3) e o quadro de ambientes declara **1 banheiro**, nenhum
+no superior. As três suítes têm banho no desenho e não no dado, porque a suíte é
+um retângulo único e o flag `molhado` é por ambiente inteiro.
+
+A área dos três banhos **não foi arbitrada**. A lacuna é do modelo do caso, e
+quem a fecha é quem subdivide a suíte — inventar um número ali seria exatamente
+o erro que o projeto recusa.
+
+### Três erros meus, de novo pela medição
+
+**Coluna por número mágico.** Li a especificação de vidro pelo índice 4 da linha,
+que é a **contagem**, não o vidro — e todas as esquadrias saíram com vidro `"1"`.
+Plausível o bastante para passar num relatório e sem sentido nenhum. As colunas
+passaram a ser nomeadas uma vez; mudança de formato agora **quebra em vez de
+mentir**.
+
+**O maior vidro da casa fora da tabela.** O filtro da PR-13 aceitava só `J` e
+`PV`, e a **cortina de vidro** — 7.200 × 2.600, 17,6 m² — não entrava. Corrigido
+na origem: a tabela de vidros cobre todo vão envidraçado.
+
+**Duas definições de espessura construída.** A regra "a camada isolante não
+soma" vivia dentro de `conferir_espessuras()` e não na propriedade. A exportação
+mostrava a soma crua e o critério usava a útil — a interface exibia parede *mais
+grossa que o módulo* que o verificador aprovava. **Terceira vez nesta sessão**
+que duas definições da mesma grandeza aparecem.
+
+### E a faixa que estourou
+
+O custo foi a **R$ 1.304/m²** contra o limite de 1.200, e a faixa acusou. Aqui
+o cuidado importa mais que o número: **alargar uma faixa porque o valor estourou
+é como a verificação vira carimbo.** Esta foi recalibrada porque o **escopo do
+que se mede mudou** — o BOM passou a cobrir esquadria (R$ 313/m²) e cobertura
+(R$ 73/m²), que antes eram zero.
+
+> Recalibrar faixa exige dizer **o que mudou no que se mede**. Se a resposta for
+> "nada, só o valor", a faixa está certa e é o projeto que precisa de explicação.

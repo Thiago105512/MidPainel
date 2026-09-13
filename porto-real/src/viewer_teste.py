@@ -685,6 +685,39 @@ def rodar(fotos: bool = False) -> int:
            "os tres modos mudam o texto e mantem o valor de calculo",
            f"{len(n_edu & n_esp)} numeros identicos nos dois modos")
 
+        # materiais: o que vai em cada estrutura, com norma e formato
+        pag.click("#vistasEng button[data-vista='materiais']")
+        pag.wait_for_timeout(350)
+        ok(pag.evaluate("() => ENG.materiais.composicoes.length") >= 5,
+           "as composicoes de parede estao na interface",
+           str(pag.evaluate("() => ENG.materiais.composicoes.length")))
+        ok(pag.evaluate("""() => ENG.materiais.composicoes.every(c =>
+             c.camadas.length > 0 && c.camadas.every(k => k.norma))"""),
+           "toda camada declara a norma do seu material")
+        ok(pag.evaluate("""() => ENG.materiais.composicoes.every(c =>
+             c.esp_construida <= c.esp_nominal)"""),
+           "nenhuma composicao se constroi mais grossa que o modulo")
+        ok(pag.evaluate("""() => ENG.materiais.paginacao.every(p =>
+             p.placas > 0 && p.aproveitamento > 0 && p.aproveitamento <= 1)"""),
+           "a paginacao devolve placa inteira com aproveitamento valido",
+           str(pag.evaluate("() => ENG.materiais.placas")) + " placas")
+        ok(pag.evaluate("""() => ENG.materiais.esquadrias.every(e =>
+             e.n > 0 && (e.area_vidro === 0 || e.vidro))"""),
+           "toda esquadria envidracada tem vidro especificado com motivo")
+        ok(pag.evaluate("""() => {
+             const d = ENG.materiais.desempenho;
+             return d.norma && Object.values(d).some(v =>
+               String(v).includes('(H)')); }"""),
+           "o desempenho de estanqueidade entra como exigencia (H), nao valor")
+        ok(pag.evaluate("() => Object.keys(ENG.materiais.por_painel).length")
+           == pag.evaluate("() => ENG.paineis.length"),
+           "todo painel aponta para uma composicao")
+        ultimo = pag.evaluate("() => ENG.materiais.composicoes.slice(-1)[0].cod")
+        pag.click(f"#engConteudo [data-comp='{ultimo}']")
+        pag.wait_for_timeout(250)
+        ok(pag.evaluate("() => compSel") == ultimo,
+           "trocar de composicao troca as camadas mostradas", ultimo)
+
         # parafusos: a pergunta "quantos e quais" tem de ter resposta na tela
         pag.click("#vistasEng button[data-vista='parafusos']")
         pag.wait_for_timeout(350)

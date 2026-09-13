@@ -136,6 +136,7 @@ const VISTAS = [
   ["montagem",   "Montagem",           "sequência animada"],
   ["logistica",  "Logística",          "container e içamento"],
   ["documentos", "Documentos",         "gerados do modelo"],
+  ["materiais",  "Materiais",          "camada a camada, com norma"],
   ["parafusos",  "Parafusos",          "5.266, e de onde vem cada um"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
@@ -153,6 +154,8 @@ const LEITURA = {
     montagem: "O prazo da obra é esta lista multiplicada pelo tamanho da equipe.",
     logistica: "Um container mal ocupado é frete pago por ar.",
     documentos: "O que vai para a fábrica e para o canteiro.",
+    materiais: "O que vai em cada estrutura: material, espessura, norma e " +
+               "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
     bloqueios: "O que este sistema não entrega, e o que seria preciso para " +
@@ -220,6 +223,10 @@ const LEITURA = {
                "limitante (peso ou volume) é declarado, não inferido.",
     documentos: "memorial_compressao() chama a mesma verificacao.compressao() " +
                 "nos três modos; a divergência entre modos seria um defeito.",
+    materiais: "Espessura NOMINAL é modular; CONSTRUÍDA é a soma das " +
+               "camadas, e a isolante não soma porque vive dentro da cavidade " +
+               "do montante. A norma vem do material, não da camada: duas " +
+               "fontes para o mesmo fato divergem na primeira correção.",
     parafusos: "Cisalhamento por NBR 14762 item 8.4: esmagamento das duas " +
                "chapas e basculamento do parafuso, com o modo governante " +
                "nomeado. A razão t2/t1 decide quais modos competem — chapas " +
@@ -658,6 +665,82 @@ function vistaDocumentos() {
 }
 '''
 JS_ENG += r'''
+// --------------------------------------------------------------- materiais
+let compSel = null;
+function vistaMateriais() {
+  const M = ENG.materiais;
+  if (!M) return barraModos() + "<p class='conta'>sem especificacao de material</p>";
+  const c = M.composicoes.find(x => x.cod === compSel) || M.composicoes[0];
+  const lista = M.composicoes.map(x =>
+    `<li><button type="button" data-comp="${esc2(x.cod)}"
+       aria-current="${x.cod === c.cod}">${esc2(x.cod)} — ${esc2(x.nome)}
+       <span class="sub">${num(x.area, 1)} m² · ${x.esp_nominal} mm ·
+         Rw ${x.rw}</span></button></li>`).join("");
+  const cam = c.camadas.map(k =>
+    `<tr><td>${esc2(k.nome)}</td><td>${num(k.espessura, 1)} mm</td>
+      <td>${k.n > 1 ? k.n + "×" : "—"}</td><td>${esc2(k.funcao)}</td>
+      <td>${esc2(k.face)}</td><td>${esc2(k.norma)}</td>
+      <td>${k.formato.length ? k.formato.join(" × ") : "—"}</td></tr>`).join("");
+  const pg = M.paginacao.map(p =>
+    `<tr><td>${esc2(p.nome)} ${num(p.espessura, 1)} mm</td>
+      <td>${esc2(p.formato)}</td><td>${num(p.placas)}</td>
+      <td>${num(p.inteiras)} + ${num(p.de_retalho)}</td>
+      <td>${num(p.area_util, 1)}</td><td>${num(p.area_bruta, 1)}</td>
+      <td>${(p.aproveitamento * 100).toFixed(1)} %</td></tr>`).join("");
+  const esq = M.esquadrias.map(e =>
+    `<tr><td>${esc2(e.tipo)}</td><td>${e.n}</td>
+      <td>${e.larg} × ${e.alt}</td><td>${esc2(e.tipologia)}</td>
+      <td>${num(e.area_vidro * e.n, 2)}</td>
+      <td style="white-space:normal">${esc2(e.vidro || "—")}</td>
+      <td style="white-space:normal;max-width:26ch">${esc2(e.motivo || "")}</td></tr>`).join("");
+  const cob = M.cobertura, imp = M.impermeabilizacao;
+  return `${barraModos()}${leitura("materiais")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Placas</span>
+        <span class="val">${num(M.placas)}</span><span class="uni">inteiras</span></div>
+      <div class="cartao"><span class="rot">Junta</span>
+        <span class="val">${num(M.junta_m)}</span><span class="uni">m de fita</span></div>
+      <div class="cartao"><span class="rot">Caixilho</span>
+        <span class="val">${num(M.esq_caixilho_m)}</span><span class="uni">m</span></div>
+      <div class="cartao"><span class="rot">Vidro</span>
+        <span class="val">${num(M.esq_vidro_m2, 1)}</span><span class="uni">m²</span></div>
+      <div class="cartao"><span class="rot">Calha e rufo</span>
+        <span class="val">${num(cob.calha_m + cob.rufo_m, 1)}</span><span class="uni">m</span></div>
+      <div class="cartao"><span class="rot">Impermeabilização</span>
+        <span class="val">${num(imp.area, 1)}</span><span class="uni">m²</span></div>
+    </div>
+    <div class="eng-grid"><ul class="lista">${lista}</ul>
+      <div>
+        <div class="desenho"><p class="cap" style="font-size:13px">
+          <b>${esc2(c.cod)} — ${esc2(c.nome)}</b><br>
+          ${num(c.area, 1)} m² · nominal <b>${c.esp_nominal} mm</b>,
+          construída <b>${num(c.esp_construida, 1)} mm</b>
+          (folga ${num(c.esp_nominal - c.esp_construida, 1)}) · Rw ${c.rw} dB<br>
+          <i>${esc2(c.onde)}</i></p></div>
+        <div class="rolagem" style="margin-top:12px">
+          <table class="tabela"><thead><tr><th>material</th><th>esp</th>
+            <th>chapas</th><th>função</th><th>face</th><th>norma</th>
+            <th>formato</th></tr></thead><tbody>${cam}</tbody></table></div>
+      </div></div>
+    <div class="eng-sec" style="margin-top:22px"><h3>Paginação — placa inteira, não metro quadrado</h3>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>material</th>
+        <th>formato</th><th>placas</th><th>inteiras + retalho</th>
+        <th>útil m²</th><th>comprada m²</th><th>aproveitamento</th>
+        </tr></thead><tbody>${pg}</tbody></table></div></div>
+    <div class="eng-sec"><h3>Esquadrias — ${M.esquadrias.reduce((s, e) => s + e.n, 0)} unidades</h3>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>tipo</th>
+        <th>n</th><th>vão mm</th><th>tipologia</th><th>vidro m²</th>
+        <th>especificação</th><th>por quê</th></tr></thead>
+        <tbody>${esq}</tbody></table></div>
+      <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+        Desempenho pela ${esc2(M.desempenho.norma)}: estanqueidade à água, ao ar
+        e resistência à carga de vento <b>exigem ensaio do sistema</b> e entram
+        como exigência declarada, nunca como valor. Uma classificação inventada
+        seria indistinguível de uma ensaiada.</p></div>
+    ${imp.aviso ? `<div class="selo nao"><b>Impermeabilização incompleta</b>
+      <span>${esc2(imp.aviso)}</span></div>` : ""}`;
+}
+
 // --------------------------------------------------------------- parafusos
 const COR_ORIGEM = {FORCA: "#0a6a4a", MINIMO: "#8a94a6", DECLARADO: "#d98324"};
 function vistaParafusos() {
@@ -767,7 +850,7 @@ function renderEng() {
   const f = {painel: vistaPainel, paineis: vistaPaineis, pecas: vistaPecas,
              corte: vistaCorte, montagem: vistaMontagem,
              logistica: vistaLogistica, documentos: vistaDocumentos,
-             parafusos: vistaParafusos, bloqueios: vistaBloqueios}[engVista];
+             materiais: vistaMateriais, parafusos: vistaParafusos, bloqueios: vistaBloqueios}[engVista];
   alvo.innerHTML = f();
   const v = VISTAS.find(x => x[0] === engVista);
   document.getElementById("sheetTitle").firstChild.nodeValue =
@@ -810,6 +893,9 @@ function ligarEng() {
     passoAtual = Number(e.currentTarget.dataset.passo); pararAnim(); renderEng();
   });
   em("[data-doc]", "click", e => { docSel = e.currentTarget.dataset.doc; renderEng(); });
+  em("[data-comp]", "click", e => {
+    compSel = e.currentTarget.dataset.comp; renderEng();
+  });
   em("[data-contrato]", "click", e => {
     contratoSel = e.currentTarget.dataset.contrato; renderEng();
   });

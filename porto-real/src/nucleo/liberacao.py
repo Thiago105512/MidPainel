@@ -119,6 +119,10 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # os planos horizontais so podem ser quantificados depois do vigamento,
     # que e quem define quais comodos tem piso e quais tem cobertura
     camadas["planos"] = cd.quantificar_planos(casa)
+    import nucleo.esquadrias as _es
+    camadas["esquadrias"] = _es.levantar(pj, _es.vidros_da_prancha(_ep))
+    camadas["cobertura"] = cd.acessorios_cobertura(casa, pj)
+    camadas["impermeabilizacao"] = cd.impermeabilizacao(pj)
     for it in camadas["planos"]["itens"]:
         alvo = next((x for x in camadas["itens"]
                      if x["material"] == it["material"]

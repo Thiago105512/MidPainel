@@ -194,6 +194,48 @@ def _completude(r: dict) -> dict:
                 n=c["n"], presentes=c["presentes"], itens=c["itens"])
 
 
+def _materiais(r: dict) -> dict:
+    """Especificacao de material, estrutura por estrutura."""
+    import nucleo.materiais as mt
+    c = r["camadas"]
+    comps = []
+    for cod, area in sorted(c["por_composicao"].items()):
+        import nucleo.camadas as cdm
+        comp = cdm.COMPOSICOES[cod]
+        comps.append(dict(
+            cod=cod, nome=comp.nome, area=round(area, 1),
+            esp_nominal=comp.esp_nominal,
+            esp_construida=round(comp.esp_construida, 1), rw=comp.rw,
+            onde=comp.onde,
+            camadas=[dict(material=x.material,
+                          nome=mt.POR_MATERIAL[x.material].nome,
+                          espessura=x.espessura, n=x.n, funcao=x.funcao,
+                          face=x.face, norma=x.norma,
+                          formato=list(x.formato) if x.formato else [],
+                          obs=x.obs)
+                     for x in comp.camadas]))
+    pg = c["paginacao"]
+    esq = c["esquadrias"]
+    return dict(
+        composicoes=comps,
+        paginacao=[dict(k, aproveitamento=round(k["aproveitamento"], 3))
+                   for k in pg["itens"]],
+        placas=pg["placas"], junta_m=pg["junta_m"], borda_m=pg["borda_m"],
+        esquadrias=[dict(tipo=e.tipo, n=e.n, larg=e.larg, alt=e.alt,
+                         tipologia=e.tipologia, folhas=e.folhas,
+                         area=round(e.area, 2),
+                         area_vidro=round(e.area_vidro, 2),
+                         vidro=e.vidro, motivo=e.justificativa)
+                    for e in esq["itens"]],
+        esq_caixilho_m=esq["caixilho_m"], esq_vidro_m2=esq["area_vidro"],
+        ferragem=esq["ferragem"], desempenho=esq["desempenho"],
+        cobertura=c["cobertura"],
+        impermeabilizacao={k: v for k, v in c["impermeabilizacao"].items()
+                           if k != "itens"},
+        por_painel={p.cod: c["familias"]["familia"].get(p.cod, "")
+                    for p in r["paineis"]})
+
+
 def _juntas(r: dict) -> dict:
     """O programa de parafusos, agregado como a obra precisa ler.
 
@@ -307,6 +349,7 @@ def montar() -> dict:
         plausibilidade=_plausibilidade(r),
         completude=_completude(r),
         juntas=_juntas(r),
+        materiais=_materiais(r),
         scores=r["scores"], score_geral=r["score_geral"],
         liberacao=r["liberacao"],
         documentos=dict(
