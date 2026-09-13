@@ -698,3 +698,66 @@ def checar_procedencia() -> list[Achado]:
             if t not in tipos:
                 out.append(Achado("ERRO", f"PR-{num}", f"{t} sem procedencia"))
     return out
+
+
+# =========================================================================
+# R13 — E0: o motor separado do caso
+# =========================================================================
+def checar_cadastro() -> list[Achado]:
+    """O projeto precisa se identificar, e a tipologia precisa fazer sentido.
+
+    Ate R12 a identidade so existia por escrito no carimbo: nada verificava se o
+    pe-direito respeitava o minimo da tipologia, nem se as coordenadas eram
+    possiveis. Texto de carimbo nao e dado — e por isso nao era auditavel.
+    """
+    import nucleo.cadastro as cd
+    out = []
+    c = getattr(pj, "CADASTRO", None)
+    if c is None:
+        return [Achado("ERRO", "CADASTRO", "o caso nao declara cadastro")]
+    for p in cd.validar(c):
+        out.append(Achado("ERRO", "CADASTRO", p))
+    if not out:
+        out.append(Achado("NOTA", c.project_id,
+                          f"{c.nome}: {c.tipo.nome}, {c.pavimentos} pav, "
+                          f"{c.area_m2:.2f} m2, {len(c.normas)} normas declaradas"))
+    # a revisao do cadastro nao pode divergir da emissao
+    if c.revisao != pj.EMISSAO["revisao"]:
+        out.append(Achado("ERRO", "CADASTRO",
+                          f"cadastro diz {c.revisao} e EMISSAO diz "
+                          f"{pj.EMISSAO['revisao']}"))
+    # sobrecarga normativa da tipologia tem de estar refletida nas cargas
+    sc = pj.CARGAS.get("sobrecarga_piso") if isinstance(pj.CARGAS, dict) else None
+    if sc is not None:
+        esperado = c.tipo.sobrecarga
+        if abs(sc - esperado) > 0.01:
+            out.append(Achado("ATENCAO", "CARGAS",
+                              f"sobrecarga de piso {sc} kN/m2 diverge dos "
+                              f"{esperado} kN/m2 da tipologia {c.tipo.nome} "
+                              f"(NBR 6120)"))
+    return out
+
+
+def checar_separacao_motor() -> list[Achado]:
+    """O nucleo nao pode conhecer o caso.
+
+    E a unica regra que impede a separacao de se desfazer sozinha: basta um
+    `import projeto` dentro de nucleo/ para o motor voltar a saber o tamanho da
+    cozinha, e dali em diante cada recurso novo nasce amarrado a esta obra.
+    """
+    import os
+    import re
+    out = []
+    raiz = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nucleo")
+    if not os.path.isdir(raiz):
+        return [Achado("ERRO", "nucleo", "o pacote do motor nao existe")]
+    arquivos = sorted(f for f in os.listdir(raiz) if f.endswith(".py"))
+    for f in arquivos:
+        txt = open(os.path.join(raiz, f), encoding="utf-8").read()
+        for mod in ("projeto", "projetos", "pranchas", "mobiliario"):
+            if re.search(rf"^\s*(import|from)\s+{mod}\b", txt, re.M):
+                out.append(Achado("ERRO", f"nucleo/{f}",
+                                  f"o motor importa '{mod}': a separacao se desfez"))
+    out.append(Achado("NOTA", "nucleo",
+                      f"{len(arquivos)} modulos de motor, nenhum conhece o caso"))
+    return out

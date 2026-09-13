@@ -196,6 +196,14 @@ PROGRAMA = [
      ["checar_procedencia"], "AUTOMATIZADA",
      "Cada traco carrega de onde veio (data-tipo/data-cod). Sem isso a prancha "
      "na tela e uma figura: da para amplia-la e nada mais."),
+    (66, "Cadastro e tipologia do projeto",
+     ["checar_cadastro"], "AUTOMATIZADA",
+     "Secao 02: identidade deixa de ser texto de carimbo e vira dado. A "
+     "tipologia carrega a sobrecarga da NBR 6120 e o pe-direito minimo."),
+    (67, "Separacao entre motor e caso",
+     ["checar_separacao_motor"], "AUTOMATIZADA",
+     "Basta um import de projeto dentro de nucleo/ para a separacao se desfazer. "
+     "A regra impede que isso passe despercebido."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
