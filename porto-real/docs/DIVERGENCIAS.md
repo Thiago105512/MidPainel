@@ -2229,3 +2229,73 @@ exatamente.
 **48 funções, 238 condições, 0 erros, 0 atenções, 91 notas no modelo.
 48 verificações e 0 falhas no visualizador. 65 itens no programa de auditoria.
 35 pranchas constroem, nenhuma desenha fora da moldura.**
+
+---
+
+# R19 — dois erros que se cancelavam dentro do solver
+
+## Defeito 29 — comparação de ponto flutuante por identidade
+
+O solver da E5 passou em seis soluções fechadas com erro da ordem de 1e-15, e
+mesmo assim estava errado. O erro só apareceu quando a verga da E7 foi calculada
+por fórmula e **cruzada com o próprio solver** num perfil real, de Ix/Iy = 31.
+
+A linha era esta:
+
+```python
+sg = 1.0 if I is s.Iz else -1.0    # o plano x-z inverte o acoplamento
+```
+
+`is` compara **identidade de objeto**, não valor. Quando o chamador passava a
+mesma inércia nos dois eixos — que é o que todos os ensaios de validação faziam,
+porque a seção de ensaio era simétrica — `I is s.Iz` dava verdadeiro nos **dois**
+blocos, e o plano x-z recebia o sinal do plano x-y. Errado, mas consistente.
+
+E foi com esse acidente em vigor que eu calibrei, empiricamente, os sinais das
+forças de engastamento perfeito. O resultado: **dois erros que se cancelavam**.
+Cada ensaio de seção simétrica confirmava o par, e nenhum deles podia
+distingui-los.
+
+O que expôs: uma seção com Ix/Iy = 31. A fórmula dava 3,7067 mm e o solver
+0,1117 mm — 33 vezes de diferença, que é aproximadamente a razão entre as duas
+inércias.
+
+**Correção.** O sinal passa a ser explícito na própria iteração, e os dois
+planos têm sinais de momento **opostos entre si**, exatamente porque o
+acoplamento translação-rotação inverte de um para o outro. Os sinais foram
+recalibrados contra **duas** soluções fechadas ao mesmo tempo — balanço e
+biapoiada — com inércias diferentes nos dois eixos: das quatro combinações
+possíveis, só uma dá 1,000000 em ambas.
+
+**E entrou um ensaio de regressão permanente**, com Ix/Iy = 31, nos dois planos.
+A lição, que vale como método:
+
+> Seção simétrica esconde par de erros. Um caso de teste cujas simetrias
+> coincidem com as simetrias do bug não testa o bug.
+
+## Defeito 30 — 1 kN/m não é 0,001 N/mm
+
+No mesmo cruzamento, antes ainda: a flecha da verga saía 0,00 mm para 14,4 kN
+num vão de 2,4 m. A conversão estava em `w = carga_kn_m / 1000`, quando a
+identidade é que **1 kN/m é exatamente 1 N/mm** — 1.000 N divididos por 1.000 mm.
+A flecha vinha três ordens de grandeza menor, e **qualquer verga era aprovada**.
+
+Os dois defeitos saíram do mesmo lugar: uma grandeza calculada por dois caminhos
+independentes e comparada. É a prática que o projeto já usava para a caixa do
+desenho (medida pelo Canvas e pelas coordenadas cruas do SVG) e que passa a
+valer também para a engenharia.
+
+## Defeito 31 — o corte que fugia da abertura e esquecia o caminhão
+
+A divisão de painéis movia o corte para fora da abertura e **não reconferia o
+limite de transporte**. Numa parede de 6.000 mm com o portão de 5.400, o corte
+fugia para 600 mm e sobrava um painel de 5.400 — acima do caminhão e do
+guindaste, sem aviso.
+
+Agora o corte é escolhido entre as posições **admissíveis** (múltiplo da
+modulação, fora de qualquer abertura com folga), tomando sempre a mais distante
+que ainda respeite o comprimento máximo. Quando não existe posição admissível, a
+parede não pode ser partida ali, e o painel sai com o **motivo declarado**:
+cinco painéis do Porto Real estão nessa situação — o portão da garagem e a
+cortina de vidro ocupam a parede inteira. São painéis de montagem no local, e
+agora o projeto diz isso.

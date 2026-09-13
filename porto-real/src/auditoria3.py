@@ -497,7 +497,30 @@ def checar_solver() -> list[Achado]:
     out.append(_conf("equilibrio vertical", rz, -carga_z, "kN", 1e-6))
     out.append(_conf("equilibrio horizontal", ry, -3.0, "kN", 1e-6))
 
-    # 6) mecanismo tem de ser detectado, nao mascarado
+    # 6) REGRESSAO: secao de inercias DIFERENTES nos dois eixos.
+    # Este ensaio existe porque a versao anterior passava em tudo com inercias
+    # iguais: um erro de sinal no acoplamento do plano x-z cancelava com um erro
+    # nas forcas de engastamento, e os dois so apareceram ao cruzar o solver com
+    # a formula fechada usando um perfil real, de Ix/Iy = 31. Secao simetrica
+    # esconde par de erros; secao assimetrica nao.
+    sa = sv.Secao("assim", A, 3.4e6, 1.1e5, J, E)
+    for nome, plano, inercia in (("plano x-z (Iy)", (0.0, -0.006), 3.4e6),
+                                 ("plano x-y (Iz)", (-0.006, 0.0), 1.1e5)):
+        m = sv.Modelo()
+        n = 8
+        for k in range(n + 1):
+            ap = ((True, True, True, True, False, False) if k == 0 else
+                  ((True, True, True, False, False, False) if k == n else sv.LIVRE))
+            m.no(f"a{k}", L * k / n, 0, 0, ap)
+        for k in range(n):
+            m.barra(f"e{k}", f"a{k}", f"a{k+1}", sa, q_local=plano)
+        rr = m.resolver()
+        comp = 2 if plano[1] else 1
+        d = m.deslocamento(rr, f"a{n//2}", comp)
+        dt = -5 * 0.006 * L ** 4 / (384 * E * inercia)
+        out.append(_conf(f"inercias diferentes, {nome}", d, dt, "mm", 1e-9))
+
+    # 7) mecanismo tem de ser detectado, nao mascarado
     m = sv.Modelo()
     m.no("a", 0, 0, 0, (True, True, True, False, False, False))
     m.no("b", L, 0, 0)
@@ -672,4 +695,143 @@ def checar_cisalhamento() -> list[Achado]:
     out.append(Achado("NOTA", "cortante",
                       f"alma de {vs[0][0]:.0f} a {vs[-1][0]:.0f} de esbeltez: "
                       f"Vrd de {vs[0][1]:.2f} a {vs[-1][1]:.2f} kN"))
+    return out
+
+
+def checar_painelizacao() -> list[Achado]:
+    """A parede virou produto: o que se corta e o que se parafusa.
+
+    Cada regra verificada aqui existe por um motivo construtivo, nao por
+    convencao de desenho. Montante dentro do vao seria peca cortada e jogada
+    fora; cripple fora da modulacao deixaria a placa sem onde parafusar; painel
+    acima do peso nao sobe sem guindaste.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    out = []
+    cfg = pn.Config()
+    cat = pn._catalogo_massa()
+    total_pecas = total_massa = 0
+    problemas, excecoes = [], []
+
+    for pav, ambientes in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
+        paredes = el.derivar_paredes(ambientes)
+        vaos = list(el.vaos_do_pavimento(pav))
+        pais = pn.painelizar(paredes, vaos, cfg, prefixo=f"{pav}P")
+        comp_paredes = sum(p.comp for p in paredes)
+        comp_paineis = sum(p.comp for p in pais)
+        if abs(comp_paredes - comp_paineis) > 1:
+            problemas.append(f"{pav}: painelizacao perde {comp_paredes-comp_paineis} "
+                             f"mm de parede")
+        for p in pais:
+            fam = p.por_familia()
+            total_pecas += len(p.pecas)
+            m = p.massa(cat)
+            total_massa += m
+            if fam.get("track", 0) < 2:
+                problemas.append(f"{p.cod}: sem guia inferior e superior")
+            if p.comp > cfg.comp_max:
+                # painel grande demais so e aceitavel se o motivo estiver
+                # declarado: abertura que ocupa a faixa inteira de corte
+                if p.obs:
+                    excecoes.append(f"{p.cod} ({p.comp} mm): {p.obs}")
+                else:
+                    problemas.append(f"{p.cod}: {p.comp} mm acima do limite de "
+                                     f"transporte ({cfg.comp_max}), sem motivo "
+                                     f"declarado")
+            if m > cfg.peso_max:
+                problemas.append(f"{p.cod}: {m:.0f} kg acima do limite de "
+                                 f"icamento ({cfg.peso_max})")
+            n_ab = len(p.aberturas)
+            if n_ab:
+                for nome, esperado in (("king stud", 2 * n_ab),
+                                       ("jack stud", 2 * n_ab),
+                                       ("header", n_ab)):
+                    if fam.get(nome, 0) != esperado:
+                        problemas.append(f"{p.cod}: {fam.get(nome,0)} {nome} para "
+                                         f"{n_ab} abertura(s), esperado {esperado}")
+            # nenhum montante modular dentro de vao
+            for ab in p.aberturas:
+                a0 = ab["centro"] - ab["larg"] / 2
+                a1 = ab["centro"] + ab["larg"] / 2
+                for pc in p.pecas:
+                    if pc.familia == "stud" and a0 < pc.x < a1:
+                        problemas.append(f"{p.cod}: montante em x = {pc.x} dentro "
+                                         f"do vao {ab['tipo']}")
+            # cripple tem de cair na modulacao, senao a placa fica sem apoio
+            for pc in p.pecas:
+                if pc.familia.startswith("cripple") and pc.x % cfg.modulacao:
+                    problemas.append(f"{p.cod}: cripple em x = {pc.x}, fora da "
+                                     f"modulacao de {cfg.modulacao} mm")
+            # blocking obrigatorio acima da altura de travamento
+            if p.altura > cfg.blocking_a_cada and not fam.get("blocking"):
+                problemas.append(f"{p.cod}: sem blocking numa altura de {p.altura} mm")
+
+    for m in problemas[:10]:
+        out.append(Achado("ERRO", "painelizacao", m))
+    for m in excecoes[:6]:
+        out.append(Achado("ATENCAO", "painelizacao", m))
+    if not problemas:
+        out.append(Achado("NOTA", "painelizacao",
+                          f"{total_pecas} pecas em paineis fabricaveis, "
+                          f"{total_massa:.0f} kg de aco, sem montante em vao, "
+                          f"sem cripple fora de modulacao e sem painel acima do "
+                          f"limite de transporte ou de icamento"))
+    return out
+
+
+def checar_verga() -> list[Achado]:
+    """A verga escolhida vem com as alternativas rejeitadas e o motivo (secao 20).
+
+    Sistema que diz so o resultado e caixa-preta. A verificacao exige que a
+    escolha traga o que falhou e por que — e que um vao impossivel devolva
+    'nenhum perfil serve' em vez de um perfil que nao serve.
+    """
+    import nucleo.painel as pn
+    import nucleo.materiais as mt
+    import nucleo.solver as sv
+    import nucleo.perfis as pf
+    out = []
+    aco = mt.POR_ACO["ZAR 230"]
+
+    v = pn.verga_necessaria(2400, 6.0, aco)
+    e = v["escolhido"]
+    if not e:
+        out.append(Achado("ERRO", "verga", "nenhum perfil para um vao corriqueiro"))
+        return out
+    rejeitados = [a for a in v["alternativas"] if not a["ok"]]
+    out.append(Achado("NOTA" if rejeitados else "ATENCAO", "verga",
+                      f"vao de 2.400 mm com 6 kN/m: {e['perfil']}, utilizacao "
+                      f"{e['uso']*100:.0f} %, com {len(rejeitados)} alternativas "
+                      f"rejeitadas e o motivo de cada uma"))
+
+    # CRUZAMENTO: a flecha pela formula tem de bater com o solver da E5.
+    # E deste cruzamento que saiu o erro de unidade (1 kN/m e 1 N/mm, nao
+    # 0,001 N/mm) e, logo depois, o erro de sinal no acoplamento do solver.
+    p = next(q for q in pf.catalogo() if q.cod == e["perfil"])
+    d = p.props()
+    L, w, n = 2400.0, 6.0, 8
+    s = sv.Secao("v", d["A"], d["Ix"], d["Iy"], d["J"])
+    m = sv.Modelo()
+    for k in range(n + 1):
+        ap = ((True, True, True, True, False, False) if k == 0 else
+              ((True, True, True, False, False, False) if k == n else sv.LIVRE))
+        m.no(f"n{k}", L * k / n, 0, 0, ap)
+    for k in range(n):
+        m.barra(f"b{k}", f"n{k}", f"n{k+1}", s, q_local=(0.0, -w))
+    r = m.resolver()
+    dsolver = abs(m.deslocamento(r, f"n{n//2}", 2))
+    rel = abs(dsolver - e["flecha"]) / e["flecha"]
+    out.append(Achado("NOTA" if rel < 1e-6 else "ERRO", "verga",
+                      f"flecha pela formula {e['flecha']:.4f} mm contra "
+                      f"{dsolver:.4f} mm pelo solver da E5; erro {rel:.2e}"))
+
+    # vao impossivel nao pode devolver perfil
+    imp = pn.verga_necessaria(12_000, 30.0, aco)
+    out.append(Achado("NOTA" if imp["escolhido"] is None else "ERRO", "verga",
+                      "vao de 12 m com 30 kN/m devolve 'nenhum perfil serve' em "
+                      "vez de um perfil que nao serve"
+                      if imp["escolhido"] is None else
+                      f"vao impossivel devolveu {imp['escolhido']['perfil']}"))
     return out

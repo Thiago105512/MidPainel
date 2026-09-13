@@ -104,9 +104,17 @@ def k_local(s: Secao, L: float) -> list:
     k[0][6] = k[6][0] = -EA
     k[3][3] = k[9][9] = GJ
     k[3][9] = k[9][3] = -GJ
-    for I, (a, b, c, d) in ((s.Iz, (1, 5, 7, 11)), (s.Iy, (2, 4, 8, 10))):
+    # O sinal do acoplamento entre translacao e rotacao INVERTE entre os dois
+    # planos de flexao. Ate R18 ele era decidido por `I is s.Iz` — comparacao de
+    # ponto flutuante por IDENTIDADE, que dava certo por acidente sempre que o
+    # chamador passava a mesma inercia nos dois eixos, e errado quando as
+    # inercias eram diferentes. Como foi com esse acidente em vigor que os
+    # sinais das forcas de engastamento foram calibrados, os dois erros se
+    # cancelavam nos ensaios de secao simetrica e so apareceram ao cruzar o
+    # solver com a formula fechada num perfil real, de Ix/Iy = 31.
+    for I, (a, b, c, d), sg in ((s.Iz, (1, 5, 7, 11), +1.0),
+                                (s.Iy, (2, 4, 8, 10), -1.0)):
         e = s.E * I
-        sg = 1.0 if I is s.Iz else -1.0        # o plano x-z inverte o acoplamento
         k[a][a] = k[c][c] = 12 * e / L ** 3
         k[a][c] = k[c][a] = -12 * e / L ** 3
         k[b][b] = k[d][d] = 4 * e / L
@@ -158,16 +166,22 @@ def _tkt(k, T):
 
 def _feq(b: Barra, L: float) -> list:
     """Forcas de engastamento perfeito da carga distribuida, local."""
-    # Os sinais NAO foram deduzidos no papel: foram determinados contra a
-    # solucao fechada do balanco com carga distribuida, delta = wL4/8EI, que os
-    # fixa sem ambiguidade. As quatro combinacoes possiveis foram testadas e so
-    # esta reproduz o valor exato.
+    # Os sinais NAO foram deduzidos no papel: foram determinados contra DUAS
+    # solucoes fechadas ao mesmo tempo — balanco (wL4/8EI) e biapoiada
+    # (5wL4/384EI) — com inercias DIFERENTES nos dois eixos. A primeira
+    # calibracao usou so o balanco e uma secao de inercias iguais, e por isso
+    # nao percebeu que estava compensando um erro de sinal no acoplamento do
+    # plano x-z: os dois erros se cancelavam. Com os dois casos e inercias
+    # distintas, so uma combinacao das quatro da 1,000000 em ambos. Os dois
+    # planos tem sinais de MOMENTO opostos entre si, exatamente porque o
+    # acoplamento translacao-rotacao inverte de um para o outro — e foi por nao
+    # ter essa simetria testada que o erro sobreviveu tres commits.
     qy, qz = b.q_local
     f = [0.0] * 12
     f[1] = f[7] = -qy * L / 2
-    f[5], f[11] = qy * L * L / 12, -qy * L * L / 12
+    f[5], f[11] = -qy * L * L / 12, qy * L * L / 12
     f[2] = f[8] = -qz * L / 2
-    f[4], f[10] = -qz * L * L / 12, qz * L * L / 12
+    f[4], f[10] = qz * L * L / 12, -qz * L * L / 12
     return f
 
 

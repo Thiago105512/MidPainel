@@ -260,6 +260,16 @@ PROGRAMA = [
      ["checar_cisalhamento"], "AUTOMATIZADA",
      "Secao 15. A resistencia por unidade de esbeltez cai monotonicamente — "
      "alma fina demais deixa de trabalhar por escoamento."),
+    (80, "Painelizacao automatica",
+     ["checar_painelizacao"], "AUTOMATIZADA",
+     "Secoes 05, 23, 24 e 25. A parede vira produto de fabrica: guias, "
+     "montantes na modulacao, king e jack stud, verga, peitoril, cripples e "
+     "blocking. Painel grande demais so passa com o motivo declarado."),
+    (81, "Verga dimensionada com as alternativas rejeitadas",
+     ["checar_verga"], "AUTOMATIZADA",
+     "Secoes 26 e 20. A escolha vem com o que falhou e por que. A flecha pela "
+     "formula e cruzada com o solver da E5 — foi desse cruzamento que sairam um "
+     "erro de unidade e um erro de sinal no proprio solver."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
