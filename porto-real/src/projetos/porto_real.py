@@ -2302,6 +2302,9 @@ REVISOES = [
     ("R13", "E0 — motor separado do caso: a obra vai para projetos/porto_real.py "
             "e nucleo/ passa a existir. Cadastro, 20 tipologias e unidades viram "
             "dado; as 35 pranchas saem identicas byte a byte"),
+    ("R14", "E1 — perfis formados a frio: um solver de linha media no lugar de "
+            "formula por forma, validado contra solucao fechada do U simples. "
+            "Catalogo de 81 perfis; o labio de 12 mm nao se forma a 3,00 mm"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2327,13 +2330,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R13",
+    revisao="R14",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R13", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R14", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

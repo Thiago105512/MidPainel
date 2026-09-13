@@ -17,6 +17,7 @@ import inspect
 
 import auditoria as au
 import auditoria2 as a2
+import auditoria3 as a3
 
 # (numero, titulo, [funcoes], situacao, observacao)
 PROGRAMA = [
@@ -204,6 +205,15 @@ PROGRAMA = [
      ["checar_separacao_motor"], "AUTOMATIZADA",
      "Basta um import de projeto dentro de nucleo/ para a separacao se desfazer. "
      "A regra impede que isso passe despercebido."),
+    (68, "Biblioteca de perfis: solver de secao",
+     ["checar_solver_secao"], "AUTOMATIZADA",
+     "Secoes 08 e 09. Nao ha formula por forma: ha um solver de linha media. "
+     "Validado contra solucao fechada do U simples — centro de torcao e "
+     "empenamento — e contra identidades (A = t.L, J = L.t3/3, eixos paralelos)."),
+    (69, "Biblioteca de perfis: catalogo",
+     ["checar_catalogo", "checar_familias_lsf"], "AUTOMATIZADA",
+     "Todo perfil calculavel e fisicamente possivel; toda funcao de LSF com "
+     "papel estrutural declarado. Disponibilidade por fabricante e (H)."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
@@ -211,7 +221,7 @@ PROGRAMA = [
 
 def _funcoes():
     d = {}
-    for mod in (au, a2):
+    for mod in (au, a2, a3):
         for nome, fn in inspect.getmembers(mod, inspect.isfunction):
             if nome.startswith("checar_"):
                 d[nome] = fn
