@@ -427,3 +427,142 @@ def checar_cargas() -> list[Achado]:
                       f"{len(cg.EQUIPAMENTOS)} equipamentos, "
                       f"{len(cg.NATUREZAS)} naturezas de acao"))
     return out
+
+
+def checar_solver() -> list[Achado]:
+    """O solver de porticos contra solucoes fechadas da resistencia dos materiais.
+
+    Um solver errado nao se denuncia: devolve numeros plausiveis. Por isso a
+    verificacao nao olha se o resultado "parece certo" — compara com os casos
+    que tem solucao exata, e conta o residuo.
+    """
+    import nucleo.solver as sv
+    out = []
+    E, G = 205_000.0, 78_850.0
+    I, A, J, L = 1.0e7, 1_000.0, 1.0e6, 3_000.0
+    s = sv.Secao("ensaio", A, I, I, J, E, G)
+
+    def modelo_barra(n=1, apoio_i=sv.ENGASTE, apoio_j=sv.LIVRE, q=(0.0, 0.0)):
+        m = sv.Modelo()
+        for k in range(n + 1):
+            ap = apoio_i if k == 0 else (apoio_j if k == n else sv.LIVRE)
+            m.no(f"n{k}", L * k / n, 0, 0, ap)
+        for k in range(n):
+            m.barra(f"b{k}", f"n{k}", f"n{k+1}", s, q_local=q)
+        return m
+
+    # 1) balanco com carga na ponta: flecha e rotacao
+    m = modelo_barra()
+    m.carga("n1", fz=-10.0)
+    r = m.resolver()
+    d = m.deslocamento(r, "n1", 2)
+    dt = -10.0 * L ** 3 / (3 * E * I)
+    th = m.deslocamento(r, "n1", 4)
+    tht = 10.0 * L ** 2 / (2 * E * I)
+    out.append(_conf("balanco: flecha PL3/3EI", d, dt, "mm"))
+    out.append(_conf("balanco: rotacao PL2/2EI", abs(th), abs(tht), "rad"))
+
+    # 2) biapoiada com carga distribuida
+    w = 0.01                                   # kN/mm
+    m = modelo_barra(8, (True, True, True, True, False, False),
+                     (True, True, True, False, False, False), q=(0.0, -w))
+    r = m.resolver()
+    d = m.deslocamento(r, "n4", 2)
+    dt = -5 * w * L ** 4 / (384 * E * I)
+    out.append(_conf("biapoiada: flecha 5wL4/384EI", d, dt, "mm"))
+    mmax = max(abs(r["esforcos"][b][10]) for b in r["esforcos"])
+    out.append(_conf("biapoiada: momento wL2/8", mmax, w * L * L / 8, "kNmm", 0.02))
+
+    # 3) barra tracionada: PL/EA
+    m = modelo_barra()
+    m.carga("n1", fx=25.0)
+    r = m.resolver()
+    out.append(_conf("axial: PL/EA", m.deslocamento(r, "n1", 0),
+                     25.0 * L / (E * A), "mm"))
+
+    # 4) torcao: TL/GJ
+    m = modelo_barra()
+    m.carga("n1", mx=1_000.0)
+    r = m.resolver()
+    out.append(_conf("torcao: TL/GJ", m.deslocamento(r, "n1", 3),
+                     1_000.0 * L / (G * J), "rad"))
+
+    # 5) equilibrio global em cada direcao
+    m = modelo_barra(4, sv.ENGASTE, sv.LIVRE, q=(0.0, -w))
+    m.carga("n4", fz=-7.0, fy=3.0)
+    r = m.resolver()
+    rz = sum(v[2] for v in r["reacoes"].values())
+    ry = sum(v[1] for v in r["reacoes"].values())
+    carga_z = -7.0 - w * L
+    out.append(_conf("equilibrio vertical", rz, -carga_z, "kN", 1e-6))
+    out.append(_conf("equilibrio horizontal", ry, -3.0, "kN", 1e-6))
+
+    # 6) mecanismo tem de ser detectado, nao mascarado
+    m = sv.Modelo()
+    m.no("a", 0, 0, 0, (True, True, True, False, False, False))
+    m.no("b", L, 0, 0)
+    m.barra("v", "a", "b", s)
+    m.carga("b", fz=-1.0)
+    try:
+        m.resolver()
+        out.append(Achado("ERRO", "mecanismo",
+                          "estrutura com rotacao livre resolveu sem avisar"))
+    except sv.Mecanismo as exc:
+        out.append(Achado("NOTA", "mecanismo",
+                          f"estrutura hipostatica detectada no grau de "
+                          f"liberdade {exc.gl}, em vez de devolver deslocamento "
+                          f"qualquer"))
+    return out
+
+
+def checar_segunda_ordem() -> list[Achado]:
+    """P-Delta contra a carga critica de Euler.
+
+    O efeito de segunda ordem e o que faz uma estrutura que passa no calculo de
+    primeira ordem cair: a carga vertical, agindo sobre a geometria ja deslocada
+    pelo vento, amplifica o proprio deslocamento. A amplificacao tem solucao
+    fechada — 1/(1 - N/Ncr) — e e contra ela que o solver e conferido.
+    """
+    import math
+    import nucleo.solver as sv
+    out = []
+    E, I, A, L, n = 205_000.0, 1.0e6, 1_000.0, 3_000.0, 10
+    s = sv.Secao("col", A, I, I, 1.0e5, E)
+    ncr = math.pi ** 2 * E * I / L ** 2
+
+    def coluna(p):
+        m = sv.Modelo()
+        for k in range(n + 1):
+            z = L * k / n
+            ap = (True, True, True, False, False, True) if k == 0 else (
+                 (True, True, False, False, False, False) if k == n else sv.LIVRE)
+            m.no(f"n{k}", 0, 0, z, ap)
+        for k in range(n):
+            m.barra(f"b{k}", f"n{k}", f"n{k+1}", s)
+        m.carga(f"n{n}", fz=-p)
+        m.carga(f"n{n//2}", fy=0.5)
+        return m
+
+    m0 = coluna(0.0)
+    r0 = m0.resolver()
+    base = abs(m0.deslocamento(r0, f"n{n//2}", 1))
+    for frac in (0.25, 0.50, 0.75):
+        m = coluna(frac * ncr)
+        r = m.resolver(segunda_ordem=True)
+        d = abs(m.deslocamento(r, f"n{n//2}", 1))
+        amp, teor = d / base, 1.0 / (1 - frac)
+        out.append(_conf(f"amplificacao P-Delta a {frac:.0%} de Ncr",
+                         amp, teor, "x", 0.05))
+    out.append(Achado("NOTA", "Euler",
+                      f"carga critica da coluna de ensaio: {ncr:.2f} kN "
+                      f"(pi2.E.I/L2), com {n} barras"))
+    return out
+
+
+def _conf(nome, obtido, esperado, unid, tol=1e-6):
+    """Compara com a solucao fechada e devolve o achado ja formatado."""
+    ref = abs(esperado) or 1.0
+    rel = abs(obtido - esperado) / ref
+    return Achado("NOTA" if rel <= tol else "ERRO", nome,
+                  f"numerico {obtido:+.6g} {unid} contra fechada "
+                  f"{esperado:+.6g}; erro relativo {rel:.2e}")

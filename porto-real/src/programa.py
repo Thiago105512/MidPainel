@@ -241,6 +241,16 @@ PROGRAMA = [
      "Secao 14. gama pondera a incerteza; psi a simultaneidade. A verificacao "
      "central e a do permanente FAVORAVEL: sem ela o levantamento da cobertura "
      "pelo vento nunca aparece."),
+    (76, "Solver de porticos espaciais",
+     ["checar_solver"], "AUTOMATIZADA",
+     "Secoes 15, 16 e 18. Rigidez direta com 12 graus de liberdade por barra, "
+     "sem dependencia externa: a fatoracao LDL^T em perfil e escrita aqui. "
+     "Conferido contra seis solucoes fechadas e contra o equilibrio global."),
+    (77, "Segunda ordem (P-Delta)",
+     ["checar_segunda_ordem"], "AUTOMATIZADA",
+     "Secao 15. A carga vertical sobre a geometria ja deslocada amplifica o "
+     "proprio deslocamento. Conferido contra 1/(1 - N/Ncr) em tres fracoes da "
+     "carga critica de Euler."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

@@ -2311,6 +2311,9 @@ REVISOES = [
     ("R16", "E3 e E4 — cargas, vento e combinacoes: NBR 6123 completa (S1, S2, "
             "S3, Cpe, Cpi) e NBR 8681 com o permanente favoravel, que e o que "
             "revela o levantamento da cobertura pelo vento"),
+    ("R17", "E5 — solver de porticos espaciais por rigidez direta, com algebra "
+            "propria (LDL^T em perfil) e segunda ordem. Seis solucoes fechadas "
+            "reproduzidas com precisao de maquina"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2336,13 +2339,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R16",
+    revisao="R17",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R16", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R17", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
