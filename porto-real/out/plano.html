@@ -1,0 +1,796 @@
+<title>Do Caderno à Fábrica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@600;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root{
+    --ground:#e9ecee; --surface:#ffffff; --sunk:#f3f5f6;
+    --ink:#13171a; --ink-soft:#566068; --ink-faint:#879198;
+    --rule:#c9d1d6; --rule-soft:#e0e5e8;
+    --feito:#0a6a4a; --feito-bg:#e0efe9;
+    --auto:#1a5f8f;  --auto-bg:#e0ebf3;
+    --hip:#8a5c06;   --hip-bg:#f6ecd8;
+    --bloq:#93382b;  --bloq-bg:#f7e6e2;
+    --display:"Chivo",system-ui,sans-serif;
+    --serif:"Source Serif 4",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#121619; --surface:#1a1f23; --sunk:#151a1e;
+      --ink:#e6eaec; --ink-soft:#9aa5ad; --ink-faint:#6e7a82;
+      --rule:#2c343a; --rule-soft:#222a2f;
+      --feito:#3fbf93; --feito-bg:#10261f;
+      --auto:#5aa8dd;  --auto-bg:#10222e;
+      --hip:#d8a33c;   --hip-bg:#2a2113;
+      --bloq:#e08070;  --bloq-bg:#2c1814;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#121619; --surface:#1a1f23; --sunk:#151a1e;
+    --ink:#e6eaec; --ink-soft:#9aa5ad; --ink-faint:#6e7a82;
+    --rule:#2c343a; --rule-soft:#222a2f;
+    --feito:#3fbf93; --feito-bg:#10261f;
+    --auto:#5aa8dd;  --auto-bg:#10222e;
+    --hip:#d8a33c;   --hip-bg:#2a2113;
+    --bloq:#e08070;  --bloq-bg:#2c1814;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:var(--serif);font-size:16.5px;line-height:1.62;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+  .prosa{max-width:66ch}
+  h1,h2,h3,h4{font-family:var(--display);letter-spacing:-.015em;text-wrap:balance;margin:0}
+  p{margin:0 0 1em}
+  .rot{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-faint);margin:0 0 8px}
+
+  /* ---- abertura ---- */
+  header{border-bottom:1px solid var(--rule);background:var(--surface)}
+  .abre{padding-block:44px 34px;display:grid;gap:26px}
+  h1{font-size:clamp(34px,6vw,58px);font-weight:900;line-height:1.02}
+  .sub{font-family:var(--serif);font-size:19px;color:var(--ink-soft);
+    max-width:58ch;margin:0}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:1px;background:var(--rule-soft);border:1px solid var(--rule-soft)}
+  .tile{background:var(--surface);padding:16px 18px 18px}
+  .tile-n{font-family:var(--mono);font-size:38px;font-weight:600;line-height:1;
+    font-variant-numeric:tabular-nums}
+  .tile-r{font-family:var(--display);font-weight:700;font-size:14px;
+    letter-spacing:.04em;text-transform:uppercase;margin:6px 0 6px}
+  .tile-x{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.45}
+  .t-feito .tile-n,.t-feito .tile-r{color:var(--feito)}
+  .t-auto  .tile-n,.t-auto  .tile-r{color:var(--auto)}
+  .t-hip   .tile-n,.t-hip   .tile-r{color:var(--hip)}
+  .t-bloq  .tile-n,.t-bloq  .tile-r{color:var(--bloq)}
+
+  /* ---- secoes ---- */
+  section{padding-block:44px}
+  section + section{border-top:1px solid var(--rule-soft)}
+  h2{font-size:clamp(23px,3.4vw,32px);font-weight:700;margin-bottom:14px}
+  .lead{font-size:18px;color:var(--ink-soft);max-width:62ch}
+
+  /* ---- regua de ciclos ---- */
+  .regua{display:flex;height:52px;border:1px solid var(--rule);
+    background:var(--surface);margin:22px 0 10px;overflow:hidden}
+  .seg{position:relative;border-right:1px solid var(--rule);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    gap:2px;min-width:34px}
+  .seg:last-child{border-right:none}
+  .seg-bl{font-family:var(--display);font-weight:700;font-size:12px;
+    letter-spacing:.08em}
+  .seg-n{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);
+    font-variant-numeric:tabular-nums}
+  .seg-i{background:var(--auto-bg)} .seg-ii{background:var(--sunk)}
+  .seg-iii{background:var(--auto-bg)} .seg-iv{background:var(--sunk)}
+  .seg-v{background:var(--auto-bg)} .seg-vi{background:var(--sunk)}
+  .seg-vii{background:var(--bloq-bg)}
+  .regua-leg{font-family:var(--mono);font-size:11px;color:var(--ink-faint);
+    display:flex;justify-content:space-between;letter-spacing:.03em}
+
+  /* ---- etapas ---- */
+  .bloco{margin:34px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+  .bloco h3{font-size:19px;font-weight:700;display:flex;gap:12px;
+    align-items:baseline;flex-wrap:wrap}
+  .bl-num{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-faint);font-weight:500}
+  .bl-meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin:4px 0 0}
+  .etapa.entregue{border-left:3px solid var(--ok,#1f8f6a)}
+  .et-selo{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ok,#1f8f6a);border:1px solid currentColor;
+    padding:2px 7px;border-radius:2px;white-space:nowrap}
+  .estado{border:1px solid var(--ok,#1f8f6a);background:rgba(31,143,106,.07);
+    padding:16px 18px;margin:0 0 26px}
+  .estado h3{margin:0 0 8px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ok,#1f8f6a);font-weight:600}
+  .estado p{margin:0 0 8px;max-width:72ch}
+  .estado p:last-child{margin-bottom:0}
+  .etapa{background:var(--surface);border:1px solid var(--rule-soft);
+    border-left:3px solid var(--rule);margin-bottom:8px;padding:14px 18px 16px}
+  .et-cab{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;
+    margin-bottom:10px}
+  .et-cod{font-family:var(--mono);font-weight:600;font-size:13px;
+    color:var(--auto);letter-spacing:.04em}
+  .et-cab h4{font-size:17px;font-weight:700;flex:1;min-width:180px}
+  .et-ciclos{display:flex;gap:3px;align-items:center;margin-left:auto}
+  .et-ciclos i{width:14px;height:9px;background:var(--auto);display:block;
+    border-radius:1px}
+  .et-ciclos em{font-family:var(--mono);font-size:11px;font-style:normal;
+    color:var(--ink-faint);margin-left:5px;font-variant-numeric:tabular-nums}
+  .et-corpo{display:grid;grid-template-columns:74px 1fr;gap:6px 16px;margin:0}
+  .et-corpo dt{font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint);padding-top:4px}
+  .et-corpo dd{margin:0;font-size:15px;color:var(--ink-soft);line-height:1.5}
+  .et-corpo dd.aceite{color:var(--ink);border-left:2px solid var(--feito);
+    padding-left:11px}
+  .secs{font-family:var(--mono)!important;font-size:12.5px!important}
+  @media (max-width:560px){ .et-corpo{grid-template-columns:1fr;gap:2px 0}
+    .et-corpo dt{padding-top:8px} }
+
+  /* ---- tabela das secoes ---- */
+  .rolagem{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+  table{border-collapse:collapse;width:100%;min-width:640px;
+    font-family:var(--display);font-size:13.5px}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-faint);text-align:left;
+    padding:10px 12px;border-bottom:1px solid var(--rule);
+    position:sticky;top:0;background:var(--surface)}
+  td{padding:7px 12px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;
+    color:var(--ink-faint);text-align:right;width:42px}
+  td.et{text-align:left;color:var(--ink-soft);width:54px}
+  td.nota{color:var(--ink-faint);font-size:12.5px;max-width:34ch}
+  .chip{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+    text-transform:uppercase;padding:2px 7px;white-space:nowrap;
+    border:1px solid currentColor;border-radius:2px}
+  .c-feito{color:var(--feito);background:var(--feito-bg)}
+  .c-auto{color:var(--auto);background:var(--auto-bg)}
+  .c-hip{color:var(--hip);background:var(--hip-bg)}
+  .c-bloq{color:var(--bloq);background:var(--bloq-bg)}
+
+  /* ---- regras ---- */
+  .regras{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:22px 30px;margin-top:8px}
+  .regra h4{font-size:16px;font-weight:700;margin-bottom:5px}
+  .regra p{font-size:14.5px;color:var(--ink-soft);margin:0}
+  .regra{border-top:2px solid var(--ink);padding-top:11px}
+
+  .destaque{background:var(--surface);border:1px solid var(--rule);
+    border-left:4px solid var(--feito);padding:20px 24px;margin-top:20px}
+  .destaque h3{font-size:18px;font-weight:700;margin-bottom:8px}
+  .destaque p{font-size:15.5px;color:var(--ink-soft)}
+  .destaque p:last-child{margin-bottom:0}
+  code{font-family:var(--mono);font-size:.88em;color:var(--ink)}
+  footer{border-top:1px solid var(--rule);background:var(--surface);
+    padding-block:26px 34px;font-size:13px;color:var(--ink-faint)}
+  footer p{max-width:74ch}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <div class="wrap abre">
+    <div>
+      <p class="rot">Porto Real · do desenho ao chão de fábrica</p>
+      <h1>Do caderno à fábrica</h1>
+      <p class="sub">As 155 seções da especificação, classificadas uma a uma, e as
+      24 etapas que as fecham. Nenhuma etapa se declara pronta sem a auditoria
+      verde.</p>
+    </div>
+    <div class="tiles"><div class="tile t-feito"><div class="tile-n">18</div><div class="tile-r">Entregue</div><p class="tile-x">ja existe no caderno R12</p></div>
+<div class="tile t-auto"><div class="tile-n">96</div><div class="tile-r">Autonomo</div><p class="tile-x">eu construo sozinho: matematica, norma e codigo</p></div>
+<div class="tile t-hip"><div class="tile-n">21</div><div class="tile-r">Hipotese</div><p class="tile-x">eu construo, mas um numero vem de fora — entra marcado (H)</p></div>
+<div class="tile t-bloq"><div class="tile-n">20</div><div class="tile-r">Fronteira</div><p class="tile-x">depende do mundo externo — entrego o contrato</p></div></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="estado">
+  <h3>Situação em R27</h3>
+  <p>As <b>24 etapas</b> do plano estão entregues —
+  46 de 46 ciclos — e as <b>155 seções</b> da
+  especificação estão fechadas. Cada etapa fechou do mesmo jeito: escrever,
+  construir as 35 pranchas, rodar a auditoria inteira, corrigir o que ela
+  acusou e commitar.</p>
+  <p>Fechada não quer dizer sem ressalva, e as ressalvas continuam contadas:
+  <b>21 seções</b> carregam ao menos um número (H) — preço,
+  ficha de máquina, fator de CO₂e — que entra marcado e vira pendência
+  declarada; <b>20 seções</b> dependem do mundo externo e
+  foram entregues como <b>contrato</b>: esquema de dados, adaptador que recusa
+  inventar número e critério de aceite. As seções
+  §20, §123 são transversais — ou o
+  sistema inteiro as tem, ou não as tem.</p>
+</div>
+
+<section>
+  <div class="prosa">
+    <h2>O que muda de natureza</h2>
+    <p class="lead">O caderno atual descreve <em>uma casa</em>. A especificação
+    descreve <em>um sistema</em>. São coisas diferentes, e a diferença não se
+    resolve acrescentando recursos.</p>
+    <p><code>projeto.py</code> tem <b>159 tabelas e 53 funções</b>, e todas as 159
+    descrevem a mesma residência em Manaus. Enquanto for assim, cada recurso novo
+    — perfil, carga, painel, peça — nasce amarrado a esse caso e precisa ser
+    escrito de novo no próximo projeto. Por isso a primeira etapa não acrescenta
+    nada: ela <b>separa o motor do caso</b>.</p>
+    <p>O teste de aceite da E0 é o mais severo do plano e o mais barato de rodar:
+    depois de separar, as 35 pranchas têm de sair <b>idênticas byte a byte</b>. Se
+    o desenho mudou, o motor está errado.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Cronograma</h2>
+  <p class="lead">Um <b>ciclo</b> é uma rodada completa de trabalho: escrever,
+  construir as 35 pranchas, rodar a auditoria inteira, corrigir o que ela acusar e
+  commitar. A régua está desenhada em escala — a largura de cada bloco é o número
+  de ciclos que ele custa.</p>
+  <div class="regua"><div class="seg seg-i" style="flex:5"><span class="seg-bl">I</span><span class="seg-n">5</span></div><div class="seg seg-ii" style="flex:9"><span class="seg-bl">II</span><span class="seg-n">9</span></div><div class="seg seg-iii" style="flex:8"><span class="seg-bl">III</span><span class="seg-n">8</span></div><div class="seg seg-iv" style="flex:8"><span class="seg-bl">IV</span><span class="seg-n">8</span></div><div class="seg seg-v" style="flex:5"><span class="seg-bl">V</span><span class="seg-n">5</span></div><div class="seg seg-vi" style="flex:9"><span class="seg-bl">VI</span><span class="seg-n">9</span></div><div class="seg seg-vii" style="flex:2"><span class="seg-bl">VII</span><span class="seg-n">2</span></div></div>
+  <div class="regua-leg"><span>0</span><span>46 ciclos · 44 deles sem depender de nada externo</span></div>
+  <div class="bloco"><h3><span class="bl-num">Bloco I</span>Fundacao — separar motor de caso e montar a base de engenharia</h3><p class="bl-meta">5 ciclos · 3 etapas</p></div>
+
+<article class="etapa entregue" id="E0">
+  <div class="et-cab">
+    <span class="et-cod">E0</span>
+    <h4>Separar o motor do caso</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>projeto.py tem 159 tabelas e 53 funcoes descrevendo UMA casa. Vira nucleo/ (motor, sem geometria de caso) + projetos/porto_real/ (dados). Entram PROJECT_ID, unidades, moeda, responsaveis, tipologia e templates.</dd>
+    <dt>Aceite</dt><dd class="aceite">As 35 pranchas saem IDENTICAS byte a byte ao commit anterior. E o melhor teste de regressao possivel: se o motor mudou o desenho, o motor esta errado.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 1–2, 7, 127–128</dd>
+    <dt>Depende</dt><dd class="secs">—</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E1">
+  <div class="et-cab">
+    <span class="et-cod">E1</span>
+    <h4>Perfis formados a frio</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>C, Ue, U, Z, Sigma, Omega, Hat, L. Propriedades pela teoria da linha media: A, Ix, Iy, Ixy, J, Cw, xo, rx, ry, Wx, Wy, peso/m. Famılias LSF (stud, track, joist, rafter, jamb, blocking, strap, hat channel).</dd>
+    <dt>Aceite</dt><dd class="aceite">Conferencia contra os valores tabelados da NBR 6355 para os perfis padronizados, peca por peca, com tolerancia declarada.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 8–9</dd>
+    <dt>Depende</dt><dd class="secs">E0</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E2">
+  <div class="et-cab">
+    <span class="et-cod">E2</span>
+    <h4>Materiais, revestimentos e normas</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="1 ciclo(s) de trabalho"><i></i><em>1</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>ZAR 230/250/280/345 com fy, fu, E, G, Poisson, densidade. Revestimentos Z120 a Z350 e AZ150 com massa e espessura de camada. Seletor de norma por pais. TRRF de incendio como tabela declarada (H).</dd>
+    <dt>Aceite</dt><dd class="aceite">Massa de zinco confere com a espessura declarada; nenhum perfil usa aco sem fy e fu declarados.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 10–11, 44</dd>
+    <dt>Depende</dt><dd class="secs">E1</dd>
+  </dl>
+</article>
+<div class="bloco"><h3><span class="bl-num">Bloco II</span>Engenharia — cargas, combinacoes, solver e norma</h3><p class="bl-meta">9 ciclos · 4 etapas</p></div>
+
+<article class="etapa entregue" id="E3">
+  <div class="et-cab">
+    <span class="et-cod">E3</span>
+    <h4>Cargas e gerador de vento</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>NBR 6120 por uso. NBR 6123 completa: S1 topografia, S2 (b, Fr, p) por rugosidade/classe/altura, S3 estatistico, Vk, q, Cpe por zona de fachada e cobertura, Cpi, acao em partes. Cargas pontual/linear/distribuida/trapezoidal.</dd>
+    <dt>Aceite</dt><dd class="aceite">Vk e q conferidos contra exemplo resolvido da norma; a soma das pressoes de fachada fecha com a forca global.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 12–13</dd>
+    <dt>Depende</dt><dd class="secs">E2</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E4">
+  <div class="et-cab">
+    <span class="et-cod">E4</span>
+    <h4>Combinacoes</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="1 ciclo(s) de trabalho"><i></i><em>1</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>NBR 8681: ELU normal e excepcional, ELS quase-permanente/frequente/rara, com psi0/psi1/psi2 por tipo de acao. Envelopes e filtros por situacao.</dd>
+    <dt>Aceite</dt><dd class="aceite">Nenhuma acao fica fora de combinacao; o envelope contem todas as combinacoes individuais por construcao.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 14</dd>
+    <dt>Depende</dt><dd class="secs">E3</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E5">
+  <div class="et-cab">
+    <span class="et-cod">E5</span>
+    <h4>Solver de barras</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="3 ciclo(s) de trabalho"><i></i><i></i><i></i><em>3</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Rigidez direta 3D, 12 graus de liberdade por barra: matriz local, rotacao, montagem, apoios, solucao, esforcos, reacoes. Segunda ordem por matriz geometrica (P-Delta). Diagramas N, Vx, Vy, Mx, My, T, deslocamento. Caminho de cargas da cobertura a fundacao.</dd>
+    <dt>Aceite</dt><dd class="aceite">Casos com solucao fechada: viga biapoiada, engastada, balanco, portico. Equilibrio global: soma das reacoes = soma das cargas, em cada combinacao.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 15–16, 18</dd>
+    <dt>Depende</dt><dd class="secs">E4</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E6">
+  <div class="et-cab">
+    <span class="et-cod">E6</span>
+    <h4>Verificacao NBR 14762</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="3 ciclo(s) de trabalho"><i></i><i></i><i></i><em>3</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Metodo da resistencia direta e largura efetiva. Compressao: flambagem global por flexao, torcao e flexo-torcao; local; distorcional. Flexao: FLT, local, distorcional. Cisalhamento. Enrugamento da alma. Interacao N+M. Flecha e vibracao de piso.</dd>
+    <dt>Aceite</dt><dd class="aceite">Cada peca sai com utilizacao %, o modo critico nomeado e a clausula citada. Nenhuma peca fica sem verificacao — ausencia de verificacao vira ERRO.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 38</dd>
+    <dt>Depende</dt><dd class="secs">E5</dd>
+  </dl>
+</article>
+<div class="bloco"><h3><span class="bl-num">Bloco III</span>Produto construtivo — painel, ligacao, peca</h3><p class="bl-meta">8 ciclos · 4 etapas</p></div>
+
+<article class="etapa entregue" id="E7">
+  <div class="et-cab">
+    <span class="et-cod">E7</span>
+    <h4>Painelizacao</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Cada parede vira PANEL_ID: track inferior e superior, studs, king/jack/cripple, header, sill, blocking, bridging. Aberturas geram reforco automatico. Vergas dimensionadas por vao e carga (simples, dupla, box, back-to-back). Divisao por peso, transporte e icamento.</dd>
+    <dt>Aceite</dt><dd class="aceite">Nenhum stud sem apoio; nenhuma abertura sem reforco; todo painel abaixo do peso e da dimensao maxima declarados.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 5, 23–26</dd>
+    <dt>Depende</dt><dd class="secs">E6</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E8">
+  <div class="et-cab">
+    <span class="et-cod">E8</span>
+    <h4>Contraventamento, shear wall e trelicas</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Fitas em X e K, paineis OSB, portal frame. Shear wall: resistencia, comprimento efetivo, fixadores, overturning, uplift, hold-down. Trelicas Fink, Howe, Pratt, Warren, Scissor, Mono, Attic.</dd>
+    <dt>Aceite</dt><dd class="aceite">Estabilidade global em cada direcao e em cada combinacao de vento; o uplift de cada hold-down fecha com a reacao do solver.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 27–29, 39</dd>
+    <dt>Depende</dt><dd class="secs">E7</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E9">
+  <div class="et-cab">
+    <span class="et-cod">E9</span>
+    <h4>Ligacoes, fundacao e ancoragem</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Parafusos auto-atarraxantes: cisalhamento, esmagamento, arrancamento, rasgamento, tracao. Gerador automatico de tipo, quantidade, diametro, espacamento e posicao. Radier/sapata/baldrame com reacoes reais. Chumbadores com profundidade e distancia de borda. Acessibilidade da parafusadeira.</dd>
+    <dt>Aceite</dt><dd class="aceite">Nenhuma ligacao com folga menor que a minima normativa; nenhum parafuso em posicao onde a parafusadeira nao entra.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 30–32, 36–37</dd>
+    <dt>Depende</dt><dd class="secs">E8</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E10">
+  <div class="et-cab">
+    <span class="et-cod">E10</span>
+    <h4>Pecas, furacao, numeracao e clash</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Cada peca ganha ID, perfil, aco, comprimento, peso, angulo, cortes, furos, notches, dobras e marcacao. Numeracao ST/TR/JO/RF/HD/AN/SC. QR por peca. Clash estrutura x MEP x arquitetura x revestimento.</dd>
+    <dt>Aceite</dt><dd class="aceite">Zero clash nao resolvido; todo furo dentro da zona permitida; todo ID unico e estavel entre revisoes.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 46–50</dd>
+    <dt>Depende</dt><dd class="secs">E9</dd>
+  </dl>
+</article>
+<div class="bloco"><h3><span class="bl-num">Bloco IV</span>Industria — nesting, BOM, CNC, logistica</h3><p class="bl-meta">8 ciclos · 4 etapas</p></div>
+
+<article class="etapa entregue" id="E11">
+  <div class="et-cab">
+    <span class="et-cod">E11</span>
+    <h4>Nesting</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>1D: barras de 6.000 mm, consulta as SOBRAS antes de abrir barra nova. 2D: guillotine para OSB, gesso e cimenticia. Bobina: largura, espessura, metros e kg por perfil. Nesting entre projetos.</dd>
+    <dt>Aceite</dt><dd class="aceite">Aproveitamento declarado e conferido: soma dos comprimentos + perda = soma das barras. Nenhuma peca maior que a barra.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 61–63, 85–86</dd>
+    <dt>Depende</dt><dd class="secs">E10</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E12">
+  <div class="et-cab">
+    <span class="et-cod">E12</span>
+    <h4>BOM, quantitativos e custo</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>BOM da peca ao m2. Quantitativos de aco, placas, parafusos, chumbadores, isolamento, membranas. Landed cost (produto + frete + tributo + despacho). Curva ABC. Cenarios A/B/C. Monte Carlo para cambio, aco e frete.</dd>
+    <dt>Aceite</dt><dd class="aceite">O peso do BOM fecha com o peso do modelo 3D dentro de 1 %. Todo preco entra marcado (H) e listado como pendencia.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 59–60, 84, 87–95, 145–146</dd>
+    <dt>Depende</dt><dd class="secs">E11</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E13">
+  <div class="et-cab">
+    <span class="et-cod">E13</span>
+    <h4>CNC, fabricacao e QC</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Exportacao neutra (CSV/JSON) com comprimento, cortes, furos, notches, dimples, slots e marcacao, mais um dialeto NC em texto. Status DESIGN a INSTALLED. Tempos, balanceamento de linha, OEE. QC com tolerancias por dimensao. Rastreabilidade bobina → heat number → peca → painel → obra.</dd>
+    <dt>Aceite</dt><dd class="aceite">Toda peca exportada volta a geometria original quando reimportada. Nenhuma peca fora da capacidade da maquina declarada.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 51, 64–75, 129–130</dd>
+    <dt>Depende</dt><dd class="secs">E12</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E14">
+  <div class="et-cab">
+    <span class="et-cod">E14</span>
+    <h4>Logistica</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Peso, volume, pallet, crate. Container loading 20&#x27;, 40&#x27;, 40HC em 3D com sequencia de carga. Centro de gravidade por painel, modulo e container. Pontos de icamento com carga por ponto e sling angle. Simulacao de icamento pelo solver da E5. Limites rodoviarios (H).</dd>
+    <dt>Aceite</dt><dd class="aceite">O centro de gravidade calculado fecha com a soma dos momentos das pecas; nenhum painel icado ultrapassa a flecha admissivel no icamento.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 96–102</dd>
+    <dt>Depende</dt><dd class="secs">E13</dd>
+  </dl>
+</article>
+<div class="bloco"><h3><span class="bl-num">Bloco V</span>Obra e decisao — montagem, otimizacao, revisao</h3><p class="bl-meta">5 ciclos · 3 etapas</p></div>
+
+<article class="etapa entregue" id="E15">
+  <div class="et-cab">
+    <span class="et-cod">E15</span>
+    <h4>Montagem</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Sequenciamento topologico com regras de estabilidade, acesso e seguranca. Passo a passo com peca, posicao, orientacao, fixador e ferramenta. Deteccao de montagem impossivel com sugestao de correcao. Sequencia inversa de desmontagem.</dd>
+    <dt>Aceite</dt><dd class="aceite">Em nenhum passo a estrutura fica instavel; nenhuma peca e instalada em posicao que outra ja instalada impeca.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 33, 55–56, 58</dd>
+    <dt>Depende</dt><dd class="secs">E14</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E16">
+  <div class="et-cab">
+    <span class="et-cod">E16</span>
+    <h4>Otimizacao</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Comparacao de perfis por peca com alternativas e motivo. Padronizacao: reduzir variedade mantendo seguranca. Otimizacao multiobjetivo ponderada (custo, peso, SKU, desperdicio, tempo de montagem, carbono). What-if. Decisao GLOBAL, nao peca a peca. Geracao de alternativas com ranking.</dd>
+    <dt>Aceite</dt><dd class="aceite">Toda escolha vem com as alternativas rejeitadas e o motivo. Uma solucao ligeiramente mais pesada pode vencer — e o relatorio precisa dizer por que.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 19, 21–22, 124, 147–149</dd>
+    <dt>Depende</dt><dd class="secs">E15</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E17">
+  <div class="et-cab">
+    <span class="et-cod">E17</span>
+    <h4>Revisoes, impacto e freeze</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="1 ciclo(s) de trabalho"><i></i><em>1</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Diff entre revisoes (verde/vermelho/amarelo). Impact analysis: mover uma janela mostra studs, verga, placas, MEP, BOM, CNC, custo e pecas ja fabricadas afetadas. Change order. Freeze impede fabricar revisao vencida.</dd>
+    <dt>Aceite</dt><dd class="aceite">O diff de duas revisoes identicas e vazio; o impacto declarado contem todas as pecas que de fato mudaram de geometria.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 79–83, 135</dd>
+    <dt>Depende</dt><dd class="secs">E16</dd>
+  </dl>
+</article>
+<div class="bloco"><h3><span class="bl-num">Bloco VI</span>Interface e entrega — interoperabilidade, visualizador, documento</h3><p class="bl-meta">9 ciclos · 5 etapas</p></div>
+
+<article class="etapa entregue" id="E18">
+  <div class="et-cab">
+    <span class="et-cod">E18</span>
+    <h4>Interoperabilidade e banco</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Esquema de 28 entidades em SQLite. Exportacao DXF, IFC4 (subconjunto), OBJ, STL, CSV, XLSX, JSON, XML, PDF, ZIP. Importacao DXF, IFC, CSV, XLSX, JSON. DWG, RVT e SKP recebem adaptador declarado, nao implementacao.</dd>
+    <dt>Aceite</dt><dd class="aceite">Ida e volta: exportar e reimportar devolve o mesmo modelo. O IFC abre em visualizador externo — conferido pelo esquema, nao por fe.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 3, 137–139</dd>
+    <dt>Depende</dt><dd class="secs">E17</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E19">
+  <div class="et-cab">
+    <span class="et-cod">E19</span>
+    <h4>Visualizador completo</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="3 ciclo(s) de trabalho"><i></i><i></i><i></i><em>3</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Modos arquitetura / estrutura / paineis / MEP / termica / acustica / fabricacao / montagem / logistica / as-built. Raio-X. Filtros. Cores por utilizacao, tensao, flecha, perfil, etapa. Diagramas. Exploded view. Animacao de montagem na timeline. Dashboard. Modos educacional, especialista e executivo.</dd>
+    <dt>Aceite</dt><dd class="aceite">Cada modo passa pelo viewer_teste.py num navegador de verdade, como os 48 testes de hoje.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 17, 53–54, 57, 103–108, 150–154</dd>
+    <dt>Depende</dt><dd class="secs">E18</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E20">
+  <div class="et-cab">
+    <span class="et-cod">E20</span>
+    <h4>Documentacao</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Memorial de calculo com formula, coeficiente, clausula e substituicao numerica. Memorial descritivo. Shop drawings por peca, painel e ligacao. Lista de pecas e fixadores. Plano de corte. Packing list. Manual de montagem. Relatorio de inspecao. Pranchas A0 a A4. Biblioteca de detalhes.</dd>
+    <dt>Aceite</dt><dd class="aceite">Nenhum numero do memorial e digitado: todos sao lidos do modelo. Um numero que divirja da prancha e ERRO.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 52, 109–110, 119, 126</dd>
+    <dt>Depende</dt><dd class="secs">E19</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E21">
+  <div class="et-cab">
+    <span class="et-cod">E21</span>
+    <h4>Verificacao final e scores</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="1 ciclo(s) de trabalho"><i></i><em>1</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Checklist de liberacao de 16 itens. Motor de erros com CRITICO / ERRO / ATENCAO / INFO. Auto-correcao com solucoes ordenadas. Scores estrutural, fabricabilidade, montabilidade, custo, logistica e sustentabilidade.</dd>
+    <dt>Aceite</dt><dd class="aceite">Nenhum item do checklist pode ser marcado a mao: cada um e uma funcao que roda sobre o modelo.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 34–35, 140–144, 155</dd>
+    <dt>Depende</dt><dd class="secs">E20</dd>
+  </dl>
+</article>
+
+<article class="etapa entregue" id="E22">
+  <div class="et-cab">
+    <span class="et-cod">E22</span>
+    <h4>Sustentabilidade</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="1 ciclo(s) de trabalho"><i></i><em>1</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>CO2e por kg de aco (H), aco reciclado, energia incorporada, desperdicio, reutilizacao. Design for disassembly com indice de desmontabilidade.</dd>
+    <dt>Aceite</dt><dd class="aceite">O CO2e fecha com o peso do BOM; o fator de emissao entra como pendencia declarada, nunca como verdade.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 121–122</dd>
+    <dt>Depende</dt><dd class="secs">E21</dd>
+  </dl>
+</article>
+<div class="bloco"><h3><span class="bl-num">Bloco VII</span>Fronteira — o que depende do mundo externo</h3><p class="bl-meta">2 ciclos · 1 etapa</p></div>
+
+<article class="etapa entregue" id="E23">
+  <div class="et-cab">
+    <span class="et-cod">E23</span>
+    <h4>Contratos do que e bloqueado</h4><span class="et-selo">entregue</span>
+    <span class="et-ciclos" title="2 ciclo(s) de trabalho"><i></i><i></i><em>2</em></span>
+  </div>
+  <dl class="et-corpo">
+    <dt>Entrega</dt><dd>Para cada item que depende do mundo externo — DWG/RVT, LiDAR, visao computacional, AR, app de obra, sensores, ERP, usuarios e permissoes — entrego o CONTRATO: esquema de dados, adaptador vazio e o teste que valida quando o dado chegar. Nao entrego simulacao disfarcada de funcionalidade.</dd>
+    <dt>Aceite</dt><dd class="aceite">Cada adaptador falha explicitamente com &#x27;sem fonte de dados&#x27;, nunca devolve numero inventado.</dd>
+    <dt>Fecha</dt><dd class="secs">§ 4, 76–78, 111–118, 120, 125, 131–134, 136</dd>
+    <dt>Depende</dt><dd class="secs">E22</dd>
+  </dl>
+</article>
+</section>
+
+<section>
+  <h2>Como o plano se governa</h2>
+  <div class="regras">
+    <div class="regra">
+      <h4>O critério de pronto é a verificação</h4>
+      <p>Cada etapa entrega funções de auditoria novas, que passam a rodar em todas
+      as seguintes. Hoje são 48 funções e 238 condições; ao fim do plano o número
+      importa menos que a regra: recurso sem verificação não conta como entregue.</p>
+    </div>
+    <div class="regra">
+      <h4>Todo número de fora entra marcado (H)</h4>
+      <p>Preço, tempo de máquina, fator de emissão, ensaio de incêndio, lead time.
+      Entram como hipótese declarada e viram pendência listada — nunca como
+      verdade. São as 21 seções de fronteira macia.</p>
+    </div>
+    <div class="regra">
+      <h4>Explicar a decisão é transversal, não é etapa</h4>
+      <p>A seção 20 pede que o sistema não seja caixa-preta. Isso não pode vir no
+      fim: toda escolha — perfil, verga, ligação, nesting — nasce com as
+      alternativas rejeitadas e o motivo, desde a primeira etapa que a produz.</p>
+    </div>
+    <div class="regra">
+      <h4>A fronteira não recebe simulação</h4>
+      <p>Para as 20 seções bloqueadas eu entrego o contrato — esquema, adaptador e
+      teste — e o adaptador falha dizendo “sem fonte de dados”. Um número inventado
+      ali seria pior que a ausência dele.</p>
+    </div>
+  </div>
+
+  <div class="destaque">
+    <h3>O que posso executar sem novo comando</h3>
+    <p>Os blocos <b>I a VI</b> — 44 dos 46 ciclos, 96 seções
+    classificadas como autônomas mais as 21 de hipótese declarada. Não dependem
+    de dado externo, de licença, de máquina nem de decisão sua: são matemática,
+    norma e código, e cada uma termina com a auditoria verde e um commit.</p>
+    <p>O que <b>precisa</b> de você, quando chegar a hora: catálogo do fabricante
+    de perfis, tabela de preços, ficha da perfiladeira, sondagem do solo e a
+    certidão do SU16 — as cinco já listadas como pendências abertas do caderno.</p>
+  </div>
+</section>
+
+<section>
+  <h2>As 155 seções, uma a uma</h2>
+  <p class="lead">Classificação completa, com a etapa que fecha cada uma. Esta
+  tabela não é redigida: é gerada de <code>escopo.py</code>, que confere sozinho se
+  alguma seção ficou órfã ou se alguma etapa promete seção inexistente.</p>
+  <div class="rolagem">
+    <table>
+      <thead><tr><th>§</th><th>Seção</th><th>Situação</th><th>Etapa</th><th>Nota</th></tr></thead>
+      <tbody><tr><td class="num">1</td><td>Tipos de projeto</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E0</td><td class="nota">deixa de ser uma casa e passa a ser um caso do motor</td></tr>
+<tr><td class="num">2</td><td>Cadastro do projeto</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E0</td><td class="nota"></td></tr>
+<tr><td class="num">3</td><td>Entradas / importacao</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E18</td><td class="nota">DXF/IFC/CSV/JSON/OBJ/STL sim; DWG/RVT/SKP sao proprietarios</td></tr>
+<tr><td class="num">4</td><td>Reconhecimento automatico da planta</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota">visao computacional treinada</td></tr>
+<tr><td class="num">5</td><td>Configurador automatico</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E7</td><td class="nota"></td></tr>
+<tr><td class="num">6</td><td>Modelagem parametrica</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">—</td><td class="nota">e o nucleo do projeto desde R00</td></tr>
+<tr><td class="num">7</td><td>Eixos / niveis / grids</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E0</td><td class="nota">malha de 600 mm e EIXOS_LOCACAO; falta grid inclinado</td></tr>
+<tr><td class="num">8</td><td>Biblioteca de perfis</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E1</td><td class="nota">propriedades pela teoria da linha media</td></tr>
+<tr><td class="num">9</td><td>Perfis LSF</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E1</td><td class="nota"></td></tr>
+<tr><td class="num">10</td><td>Materiais</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E2</td><td class="nota"></td></tr>
+<tr><td class="num">11</td><td>Normas</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E2</td><td class="nota">16 normas ja citadas; falta o seletor por pais</td></tr>
+<tr><td class="num">12</td><td>Cargas</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E3</td><td class="nota"></td></tr>
+<tr><td class="num">13</td><td>Gerador de vento</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E3</td><td class="nota">NBR 6123 completa: S1, S2, S3, Cpe, Cpi</td></tr>
+<tr><td class="num">14</td><td>Combinacoes</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E4</td><td class="nota">NBR 8681</td></tr>
+<tr><td class="num">15</td><td>Analise estrutural</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E5</td><td class="nota">rigidez direta 3D + P-Delta</td></tr>
+<tr><td class="num">16</td><td>Caminho de cargas</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E5</td><td class="nota"></td></tr>
+<tr><td class="num">17</td><td>Resultados visuais</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">18</td><td>Diagramas</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E5</td><td class="nota"></td></tr>
+<tr><td class="num">19</td><td>Comparacao automatica de perfis</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E16</td><td class="nota"></td></tr>
+<tr><td class="num">20</td><td>Explicacao de decisoes</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">*</td><td class="nota">requisito TRANSVERSAL, nao etapa</td></tr>
+<tr><td class="num">21</td><td>Otimizacao multiobjetivo</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E16</td><td class="nota"></td></tr>
+<tr><td class="num">22</td><td>Padronizacao automatica</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E16</td><td class="nota"></td></tr>
+<tr><td class="num">23</td><td>Painelizacao automatica</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E7</td><td class="nota"></td></tr>
+<tr><td class="num">24</td><td>Divisao inteligente de paineis</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E7</td><td class="nota"></td></tr>
+<tr><td class="num">25</td><td>Aberturas</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E7</td><td class="nota"></td></tr>
+<tr><td class="num">26</td><td>Vergas</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E7</td><td class="nota"></td></tr>
+<tr><td class="num">27</td><td>Trelicas</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E8</td><td class="nota"></td></tr>
+<tr><td class="num">28</td><td>Contraventamento</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E8</td><td class="nota"></td></tr>
+<tr><td class="num">29</td><td>Shear wall</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E8</td><td class="nota"></td></tr>
+<tr><td class="num">30</td><td>Ligacoes</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E9</td><td class="nota"></td></tr>
+<tr><td class="num">31</td><td>Gerador automatico de ligacoes</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E9</td><td class="nota"></td></tr>
+<tr><td class="num">32</td><td>Acessibilidade de montagem</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E9</td><td class="nota">verificacao geometrica do bocal da parafusadeira</td></tr>
+<tr><td class="num">33</td><td>Deteccao de montagem impossivel</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E15</td><td class="nota"></td></tr>
+<tr><td class="num">34</td><td>Sistema de regras fisicas</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E21</td><td class="nota">48 funcoes, 238 condicoes</td></tr>
+<tr><td class="num">35</td><td>Auto-correcao</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E21</td><td class="nota"></td></tr>
+<tr><td class="num">36</td><td>Fundacoes</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E9</td><td class="nota"></td></tr>
+<tr><td class="num">37</td><td>Ancoragem</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E9</td><td class="nota"></td></tr>
+<tr><td class="num">38</td><td>Piso</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E6</td><td class="nota">camadas ja declaradas; falta vibracao</td></tr>
+<tr><td class="num">39</td><td>Cobertura</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E8</td><td class="nota"></td></tr>
+<tr><td class="num">40</td><td>Paredes</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">—</td><td class="nota">familias de vedacao, PR-12 e PR-13</td></tr>
+<tr><td class="num">41</td><td>Biblioteca de composicoes</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">—</td><td class="nota"></td></tr>
+<tr><td class="num">42</td><td>Termica</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">—</td><td class="nota">desempenho.py: U, FSo, ponte termica</td></tr>
+<tr><td class="num">43</td><td>Acustica</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">—</td><td class="nota">Rw composto e reverberacao</td></tr>
+<tr><td class="num">44</td><td>Incendio</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E2</td><td class="nota">TRRF depende de ensaio tabelado do fabricante</td></tr>
+<tr><td class="num">45</td><td>MEP</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">—</td><td class="nota">PR-26 a PR-29</td></tr>
+<tr><td class="num">46</td><td>Clash detection</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E10</td><td class="nota"></td></tr>
+<tr><td class="num">47</td><td>Furos em perfis</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E10</td><td class="nota">FURACAO e PENETRACOES ja verificadas</td></tr>
+<tr><td class="num">48</td><td>Detalhamento por peca</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E10</td><td class="nota"></td></tr>
+<tr><td class="num">49</td><td>Identificacao</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E10</td><td class="nota"></td></tr>
+<tr><td class="num">50</td><td>QR code / datamatrix</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E10</td><td class="nota"></td></tr>
+<tr><td class="num">51</td><td>Marcacao direta</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota">depende do cabecote da maquina</td></tr>
+<tr><td class="num">52</td><td>Shop drawings</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E20</td><td class="nota"></td></tr>
+<tr><td class="num">53</td><td>Exploded view</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">54</td><td>Desenho colorido de montagem</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">55</td><td>Modo de montagem</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E15</td><td class="nota"></td></tr>
+<tr><td class="num">56</td><td>Sequenciamento automatico</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E15</td><td class="nota"></td></tr>
+<tr><td class="num">57</td><td>Animacao de montagem</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">58</td><td>Desmontagem</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E15</td><td class="nota"></td></tr>
+<tr><td class="num">59</td><td>BOM</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">60</td><td>Quantitativos</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">61</td><td>Nesting de perfis</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E11</td><td class="nota"></td></tr>
+<tr><td class="num">62</td><td>Nesting de chapas</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E11</td><td class="nota"></td></tr>
+<tr><td class="num">63</td><td>Otimizacao de bobina</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E11</td><td class="nota"></td></tr>
+<tr><td class="num">64</td><td>Rastreabilidade de bobina</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota">certificado vem da usina</td></tr>
+<tr><td class="num">65</td><td>Heat number</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">66</td><td>Passaporte digital da peca</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">67</td><td>CNC</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E13</td><td class="nota">formato neutro sim; dialeto da maquina e (H)</td></tr>
+<tr><td class="num">68</td><td>Perfiladeiras</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">69</td><td>Producao (status)</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">70</td><td>Linha de producao</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota">tempos reais vem do chao de fabrica</td></tr>
+<tr><td class="num">71</td><td>Tempo de producao</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">72</td><td>Balanceamento de linha</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">73</td><td>OEE</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">74</td><td>Controle de qualidade</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">75</td><td>Controle de tolerancias</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">76</td><td>Visao computacional</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">77</td><td>Laser / scanner</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">78</td><td>As-designed x as-built</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">79</td><td>Revisoes</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E17</td><td class="nota">13 revisoes registradas</td></tr>
+<tr><td class="num">80</td><td>Freeze de revisao</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E17</td><td class="nota"></td></tr>
+<tr><td class="num">81</td><td>Impact analysis</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E17</td><td class="nota">viavel porque tudo e funcao do modelo</td></tr>
+<tr><td class="num">82</td><td>Change order</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E17</td><td class="nota"></td></tr>
+<tr><td class="num">83</td><td>Comparacao de revisoes</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E17</td><td class="nota"></td></tr>
+<tr><td class="num">84</td><td>Estoque</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">85</td><td>Sobras</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E11</td><td class="nota">nesting consulta sobras antes de barra nova</td></tr>
+<tr><td class="num">86</td><td>Multiproject nesting</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E11</td><td class="nota"></td></tr>
+<tr><td class="num">87</td><td>Compras / RFQ</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E12</td><td class="nota">documento sim; preco e (H)</td></tr>
+<tr><td class="num">88</td><td>Fornecedores</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">89</td><td>Comparador de fornecedores</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">90</td><td>Equivalencia de produtos</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E12</td><td class="nota">criterio estrutural e calculavel</td></tr>
+<tr><td class="num">91</td><td>Landed cost</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">92</td><td>Custos</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">93</td><td>Curva ABC</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">94</td><td>Cenarios</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">95</td><td>Simulacao de risco</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E12</td><td class="nota">Monte Carlo em Python puro</td></tr>
+<tr><td class="num">96</td><td>Logistica</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E14</td><td class="nota"></td></tr>
+<tr><td class="num">97</td><td>Container loading</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E14</td><td class="nota"></td></tr>
+<tr><td class="num">98</td><td>Packing list</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E14</td><td class="nota"></td></tr>
+<tr><td class="num">99</td><td>Centro de gravidade</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E14</td><td class="nota"></td></tr>
+<tr><td class="num">100</td><td>Pontos de icamento</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E14</td><td class="nota"></td></tr>
+<tr><td class="num">101</td><td>Simulacao de icamento</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E14</td><td class="nota">usa o mesmo solver da E5</td></tr>
+<tr><td class="num">102</td><td>Limites de transporte</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E14</td><td class="nota">legislacao rodoviaria por regiao</td></tr>
+<tr><td class="num">103</td><td>Visualizador 2D</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E19</td><td class="nota">R12: prancha navegavel</td></tr>
+<tr><td class="num">104</td><td>Visualizador 3D</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E19</td><td class="nota">R11: 8 cenas, sol real, corte</td></tr>
+<tr><td class="num">105</td><td>Raio-X</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">106</td><td>Filtros</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">107</td><td>Selecao de elemento</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E19</td><td class="nota">ficha ja existe; falta o dado industrial</td></tr>
+<tr><td class="num">108</td><td>Dashboard</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">109</td><td>Pranchas</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E20</td><td class="nota">A1 pronto; A0 a A4 e parametrizacao</td></tr>
+<tr><td class="num">110</td><td>Documentacao</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E20</td><td class="nota"></td></tr>
+<tr><td class="num">111</td><td>AR / realidade aumentada</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">112</td><td>Modo obra</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota">precisa de app movel</td></tr>
+<tr><td class="num">113</td><td>Modo offline</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">114</td><td>Fotos vinculadas</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">115</td><td>Punch list</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">116</td><td>Diario de obra</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">117</td><td>As-built</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">118</td><td>Digital twin</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">119</td><td>Manutencao</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E20</td><td class="nota">plano de manutencao sim; operacao e BLOQ</td></tr>
+<tr><td class="num">120</td><td>Sensoriamento</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">121</td><td>Sustentabilidade</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E22</td><td class="nota">fator de CO2e por kg de aco</td></tr>
+<tr><td class="num">122</td><td>Design for disassembly</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E22</td><td class="nota"></td></tr>
+<tr><td class="num">123</td><td>Inteligencia artificial</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">*</td><td class="nota">sou eu; o requisito e ser auditavel, nao caixa-preta</td></tr>
+<tr><td class="num">124</td><td>Engenharia generativa</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E16</td><td class="nota"></td></tr>
+<tr><td class="num">125</td><td>Aprendizado com projetos anteriores</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota">precisa de historico real</td></tr>
+<tr><td class="num">126</td><td>Biblioteca de detalhes</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E20</td><td class="nota"></td></tr>
+<tr><td class="num">127</td><td>Templates</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E0</td><td class="nota"></td></tr>
+<tr><td class="num">128</td><td>Configurador modular</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E0</td><td class="nota"></td></tr>
+<tr><td class="num">129</td><td>Regras por fabricante</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">130</td><td>Regras por perfiladeira</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E13</td><td class="nota"></td></tr>
+<tr><td class="num">131</td><td>Controle de usuarios</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota">precisa de servidor</td></tr>
+<tr><td class="num">132</td><td>Permissoes</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">133</td><td>Aprovacoes</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">134</td><td>Assinatura digital</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">135</td><td>Auditoria (log de alteracoes)</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E17</td><td class="nota">o git ja registra quem, o que e quando</td></tr>
+<tr><td class="num">136</td><td>API</td><td><span class="chip c-bloq">Fronteira</span></td><td class="num et">E23</td><td class="nota"></td></tr>
+<tr><td class="num">137</td><td>Banco de dados</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E18</td><td class="nota">esquema + SQLite; 28 entidades</td></tr>
+<tr><td class="num">138</td><td>Exportacao</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E18</td><td class="nota">menos DWG e RVT</td></tr>
+<tr><td class="num">139</td><td>Importacao</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E18</td><td class="nota">menos DWG, RVT e SKP</td></tr>
+<tr><td class="num">140</td><td>Verificacao automatica final</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E21</td><td class="nota"></td></tr>
+<tr><td class="num">141</td><td>Motor de erros</td><td><span class="chip c-feito">Entregue</span></td><td class="num et">E21</td><td class="nota">ERRO / ATENCAO / NOTA ja existem</td></tr>
+<tr><td class="num">142</td><td>Scoring do projeto</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E21</td><td class="nota"></td></tr>
+<tr><td class="num">143</td><td>Fabricability score</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E21</td><td class="nota"></td></tr>
+<tr><td class="num">144</td><td>Assemblability score</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E21</td><td class="nota"></td></tr>
+<tr><td class="num">145</td><td>Resiliencia de fornecimento</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">146</td><td>Disponibilidade de material</td><td><span class="chip c-hip">Hipotese</span></td><td class="num et">E12</td><td class="nota"></td></tr>
+<tr><td class="num">147</td><td>Otimizacao global</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E16</td><td class="nota"></td></tr>
+<tr><td class="num">148</td><td>Exemplo de decisao global</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E16</td><td class="nota"></td></tr>
+<tr><td class="num">149</td><td>Simulacao what-if</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E16</td><td class="nota"></td></tr>
+<tr><td class="num">150</td><td>Configuracao visual</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">151</td><td>Modos de visualizacao</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">152</td><td>Modo educacional</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">153</td><td>Modo especialista</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">154</td><td>Modo executivo</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E19</td><td class="nota"></td></tr>
+<tr><td class="num">155</td><td>Objetivo final do sistema</td><td><span class="chip c-auto">Autonomo</span></td><td class="num et">E21</td><td class="nota">e a soma das etapas, nao uma etapa</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Projeto Porto Real · revisão R12 · plano gerado por <code>python3 plano.py</code>
+    a partir de <code>escopo.py</code>. Estado atual do modelo: 48 funções de
+    verificação, 238 condições, 0 erros, 35 pranchas, nenhuma desenhando fora da
+    moldura. Este plano não libera fabricação: continuam abertas as pendências de
+    ART/RRT, sondagem e nesting codificado.</p>
+  </div>
+</footer>

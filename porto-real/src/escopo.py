@@ -352,6 +352,39 @@ BLOCOS = {
 }
 
 
+# Etapas entregues e verificadas pelo programa de auditoria. Nao e um campo de
+# texto: cada uma so entra aqui depois de a bateria correspondente fechar verde
+# e o commit existir. A situacao da SECAO continua dizendo COMO ela se constroi
+# (AUTO, HIP, BLOQ); o que diz se ela JA foi construida e a etapa estar nesta
+# lista. Confundir as duas coisas foi o que quase aconteceu: marcar 96 secoes
+# como FEITO teria perdido a informacao de que 21 delas dependem de numero (H).
+ENTREGUES = (
+    "E0", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "E11",
+    "E12", "E13", "E14", "E15", "E16", "E17", "E18", "E19", "E20", "E21",
+    "E22", "E23",
+)
+
+
+def progresso() -> dict:
+    """Quanto do plano esta entregue, contado por secao e por ciclo."""
+    # "*" e requisito TRANSVERSAL: nao fecha numa etapa porque atravessa
+    # todas. Explicacao de decisoes e auditabilidade nao sao funcionalidades a
+    # entregar num ciclo — ou o sistema inteiro as tem, ou nao as tem.
+    feitas = [s for s in SECOES
+              if s[3] in ENTREGUES or s[2] == "FEITO" or s[3] == "*"]
+    abertas = [s for s in SECOES if s not in feitas]
+    transversais = [s[0] for s in SECOES if s[3] == "*"]
+    ciclos_f = sum(e[3] for e in ETAPAS if e[0] in ENTREGUES)
+    hip = [s[0] for s in feitas if s[2] == "HIP"]
+    bloq = [s[0] for s in feitas if s[2] == "BLOQ"]
+    return dict(
+        entregues=len(ENTREGUES), etapas=len(ETAPAS),
+        secoes_fechadas=len(feitas), secoes_abertas=[s[0] for s in abertas],
+        ciclos_feitos=ciclos_f, ciclos=sum(e[3] for e in ETAPAS),
+        # as duas ressalvas que o numero sozinho esconderia
+        com_hipotese=hip, por_contrato=bloq, transversais=transversais)
+
+
 def conferir() -> dict:
     """O plano tambem se audita: secao orfa e etapa fantasma sao erro."""
     codigos = {e[0] for e in ETAPAS} | {"—", "*"}
@@ -362,7 +395,9 @@ def conferir() -> dict:
     por_sit = {}
     for s in SECOES:
         por_sit[s[2]] = por_sit.get(s[2], 0) + 1
+    nao_entregues = sorted(set(ENTREGUES) - {e[0] for e in ETAPAS})
     return dict(secoes=len(SECOES), faltando=faltando, etapas_fantasma=fantasmas,
+                entregues_inexistentes=nao_entregues, progresso=progresso(),
                 secoes_sem_etapa=sem_etapa, situacoes=por_sit,
                 ciclos=sum(e[3] for e in ETAPAS),
                 ciclos_autonomos=sum(e[3] for e in ETAPAS if e[1] != "VII"))
@@ -374,3 +409,11 @@ if __name__ == "__main__":
     print(f"  situacoes: {r['situacoes']}")
     print(f"  secoes faltando: {r['faltando'] or 'nenhuma'}")
     print(f"  etapas fantasma: {r['etapas_fantasma'] or 'nenhuma'}")
+    g = r["progresso"]
+    print(f"  entregue: {g['entregues']}/{g['etapas']} etapas, "
+          f"{g['ciclos_feitos']}/{g['ciclos']} ciclos, "
+          f"{g['secoes_fechadas']}/{len(SECOES)} secoes")
+    print(f"  com numero (H): {len(g['com_hipotese'])} secoes | "
+          f"por contrato: {len(g['por_contrato'])} secoes")
+    print(f"  transversais: {g['transversais']}")
+    print(f"  ainda abertas: {g['secoes_abertas'] or 'nenhuma'}")

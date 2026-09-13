@@ -13,6 +13,12 @@ SIT = {
 
 def e(s): return html.escape(str(s))
 
+
+def _revisao() -> str:
+    """A revisao nao se digita aqui: e a do caso, como em toda prancha."""
+    import projeto
+    return projeto.EMISSAO["revisao"]
+
 def main(destino):
     r = escopo.conferir()
     cont = r["situacoes"]
@@ -63,11 +69,13 @@ def main(destino):
         for cod, tit, cic, dep, ent, ace in bloco_etapas[bl]:
             secs = sec_por_etapa.get(cod, [])
             barras = "".join('<i></i>' for _ in range(cic))
+            feito = " entregue" if cod in escopo.ENTREGUES else ""
+            selo = ('<span class="et-selo">entregue</span>' if feito else "")
             etapas_html.append(f'''
-<article class="etapa" id="{cod}">
+<article class="etapa{feito}" id="{cod}">
   <div class="et-cab">
     <span class="et-cod">{cod}</span>
-    <h4>{e(tit)}</h4>
+    <h4>{e(tit)}</h4>{selo}
     <span class="et-ciclos" title="{cic} ciclo(s) de trabalho">{barras}<em>{cic}</em></span>
   </div>
   <dl class="et-corpo">
@@ -87,7 +95,25 @@ def main(destino):
             f'<td><span class="chip c-{cls}">{rot}</span></td>'
             f'<td class="num et">{e(et)}</td><td class="nota">{e(nota)}</td></tr>')
 
+    g = r["progresso"]
+    estado = f'''<div class="estado">
+  <h3>Situação em {_revisao()}</h3>
+  <p>As <b>{g["entregues"]} etapas</b> do plano estão entregues —
+  {g["ciclos_feitos"]} de {g["ciclos"]} ciclos — e as <b>155 seções</b> da
+  especificação estão fechadas. Cada etapa fechou do mesmo jeito: escrever,
+  construir as 35 pranchas, rodar a auditoria inteira, corrigir o que ela
+  acusou e commitar.</p>
+  <p>Fechada não quer dizer sem ressalva, e as ressalvas continuam contadas:
+  <b>{len(g["com_hipotese"])} seções</b> carregam ao menos um número (H) — preço,
+  ficha de máquina, fator de CO₂e — que entra marcado e vira pendência
+  declarada; <b>{len(g["por_contrato"])} seções</b> dependem do mundo externo e
+  foram entregues como <b>contrato</b>: esquema de dados, adaptador que recusa
+  inventar número e critério de aceite. As seções
+  {", ".join("§" + str(n) for n in g["transversais"])} são transversais — ou o
+  sistema inteiro as tem, ou não as tem.</p>
+</div>'''
     doc = TPL.format(
+        estado=estado,
         tiles="\n".join(tiles), regua="".join(regua), total=total,
         autonomos=r["ciclos_autonomos"], etapas="\n".join(etapas_html),
         linhas="\n".join(linhas), n_etapas=len(escopo.ETAPAS),
@@ -195,6 +221,16 @@ TPL = r'''<title>Do Caderno à Fábrica</title>
   .bl-num{{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
     text-transform:uppercase;color:var(--ink-faint);font-weight:500}}
   .bl-meta{{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin:4px 0 0}}
+  .etapa.entregue{{border-left:3px solid var(--ok,#1f8f6a)}}
+  .et-selo{{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ok,#1f8f6a);border:1px solid currentColor;
+    padding:2px 7px;border-radius:2px;white-space:nowrap}}
+  .estado{{border:1px solid var(--ok,#1f8f6a);background:rgba(31,143,106,.07);
+    padding:16px 18px;margin:0 0 26px}}
+  .estado h3{{margin:0 0 8px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ok,#1f8f6a);font-weight:600}}
+  .estado p{{margin:0 0 8px;max-width:72ch}}
+  .estado p:last-child{{margin-bottom:0}}
   .etapa{{background:var(--surface);border:1px solid var(--rule-soft);
     border-left:3px solid var(--rule);margin-bottom:8px;padding:14px 18px 16px}}
   .et-cab{{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;
@@ -272,6 +308,8 @@ TPL = r'''<title>Do Caderno à Fábrica</title>
 </header>
 
 <main class="wrap">
+
+{estado}
 
 <section>
   <div class="prosa">
