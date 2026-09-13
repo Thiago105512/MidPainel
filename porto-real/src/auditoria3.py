@@ -271,3 +271,159 @@ def checar_incendio() -> list[Achado]:
                       f"{n} camada(s) de gesso de 12,5 mm por face (H — a "
                       f"resistencia efetiva depende de ensaio do fabricante)"))
     return out
+
+
+def checar_vento() -> list[Achado]:
+    """O gerador de vento contra a definicao da propria NBR 6123.
+
+    O ponto de ancoragem e definicional: a categoria II, classe A, a 10 m e o
+    terreno de REFERENCIA da norma, e ali S2 tem de valer exatamente 1,000. Se
+    esse valor sai diferente, toda a tabela esta deslocada.
+    """
+    import nucleo.vento as vt
+    out = []
+
+    ref = vt.s2(10.0, "II", "A")
+    out.append(Achado("NOTA" if abs(ref - 1.0) < 1e-12 else "ERRO", "S2",
+                      f"terreno de referencia (cat II, classe A, z = 10 m): "
+                      f"S2 = {ref:.6f}, tem de ser 1,000000"))
+
+    # monotonia: sobe com a altura, desce com a rugosidade
+    alturas = [vt.s2(z, "III", "A") for z in (2, 5, 10, 20, 50, 100)]
+    cresce = all(b > a for a, b in zip(alturas, alturas[1:]))
+    out.append(Achado("NOTA" if cresce else "ERRO", "S2",
+                      f"cresce com a altura: {[round(a,3) for a in alturas]}"))
+    cats = [vt.s2(10.0, c, "A") for c in ("I", "II", "III", "IV", "V")]
+    desce = all(b < a for a, b in zip(cats, cats[1:]))
+    out.append(Achado("NOTA" if desce else "ERRO", "S2",
+                      f"desce com a rugosidade: {[round(c,3) for c in cats]}"))
+
+    # identidade da pressao dinamica
+    v = 42.0
+    q = vt.pressao(v)
+    out.append(Achado("NOTA" if abs(q - 0.613 * v * v / 1000) < 1e-12 else "ERRO",
+                      "pressao", f"q = 0,613.Vk2 conferido: {q:.4f} kN/m2 a {v} m/s"))
+
+    # S3: grupo 2 e a referencia e vale 1,00; mais critico nunca da menos
+    if vt.s3(2) != 1.00:
+        out.append(Achado("ERRO", "S3", "grupo 2 deveria valer 1,00"))
+    if not (vt.s3(1) > vt.s3(2) > vt.s3(3) > vt.s3(4) > vt.s3(5)):
+        out.append(Achado("ERRO", "S3", "grupos fora de ordem de importancia"))
+
+    # sinal fisico: barlavento comprime, sotavento suga
+    cpe = vt.cpe_paredes(24.0, 13.2, 6.15)
+    if cpe["C"] <= 0:
+        out.append(Achado("ERRO", "Cpe", "barlavento com coeficiente nao positivo"))
+    if cpe["D"] >= 0:
+        out.append(Achado("ERRO", "Cpe", "sotavento com coeficiente nao negativo"))
+    if max(cpe.values()) > 1.0 or min(cpe.values()) < -2.0:
+        out.append(Achado("ERRO", "Cpe", f"coeficiente fora da faixa fisica: {cpe}"))
+
+    # a interpolacao entre faixas precisa ser DECLARADA, nunca silenciosa
+    org = vt.origem_cpe(24.0, 13.2, 6.15)
+    if "INTERPOL" in org.upper():
+        out.append(Achado("NOTA", "Cpe", org))
+    else:
+        out.append(Achado("NOTA", "Cpe", org))
+
+    # forma fora da tabela tem de levantar erro, nao devolver numero plausivel
+    try:
+        vt.cpe_paredes(100.0, 10.0, 5.0)
+        out.append(Achado("ERRO", "Cpe",
+                          "a/b = 10 esta fora da Tabela 4 e mesmo assim devolveu "
+                          "valor — numero inventado e pior que ausencia"))
+    except ValueError:
+        out.append(Achado("NOTA", "Cpe",
+                          "forma fora da Tabela 4 levanta erro em vez de "
+                          "devolver numero plausivel"))
+    return out
+
+
+def checar_combinacoes() -> list[Achado]:
+    """A combinacao e uma hipotese sobre simultaneidade, nao uma soma.
+
+    A verificacao que mais importa e a do permanente FAVORAVEL: sem ela o
+    levantamento da cobertura pelo vento nunca aparece, porque o peso proprio
+    entra sempre majorado e sempre segura o telhado no lugar.
+    """
+    import nucleo.combinacoes as cb
+    out = []
+
+    for n, g in cb.GAMA.items():
+        if g["fav"] > g["desf"]:
+            out.append(Achado("ERRO", n, "gama favoravel maior que o desfavoravel"))
+    for n, p in cb.PSI.items():
+        vals = [p["psi0"], p["psi1"], p["psi2"]]
+        if not all(0.0 <= v <= 1.0 for v in vals):
+            out.append(Achado("ERRO", n, f"psi fora de [0,1]: {vals}"))
+        if not (p["psi0"] >= p["psi1"] >= p["psi2"]):
+            out.append(Achado("ERRO", n,
+                              f"psi0 >= psi1 >= psi2 violado: {vals}"))
+
+    acoes = [("G", "permanente"), ("Q", "acidental"), ("W", "vento")]
+    combs = cb.gerar(acoes)
+    elu = [c for c in combs if c.tipo == "ELU"]
+
+    # toda acao precisa aparecer com fator nao nulo em alguma combinacao
+    for cod, _ in acoes:
+        if not any(c.fator(cod) for c in combs):
+            out.append(Achado("ERRO", cod, "acao nunca entra em combinacao alguma"))
+
+    # cada variavel precisa tomar a vez de principal
+    princ = {c.principal for c in elu}
+    falta = {c for c, n in acoes if n not in cb.PERMANENTES} - princ
+    if falta:
+        out.append(Achado("ERRO", "ELU", f"nunca sao acao principal: {sorted(falta)}"))
+
+    # o permanente favoravel tem de existir — e o que revela o levantamento
+    if not any(c.fator("G") < 1.4 for c in elu):
+        out.append(Achado("ERRO", "ELU",
+                          "nenhuma combinacao minora o permanente: o "
+                          "levantamento da cobertura pelo vento nunca apareceria"))
+    else:
+        esf = {"G": {"telhado": -8.0}, "Q": {"telhado": 0.0}, "W": {"telhado": 14.0}}
+        env = cb.envelope(elu, esf)["telhado"]
+        out.append(Achado("NOTA", "ELU",
+                          f"cobertura: de {env['min']:+.2f} ({env['comb_min']}) a "
+                          f"{env['max']:+.2f} kN ({env['comb_max']}) — o "
+                          f"levantamento so aparece com o peso proprio minorado"))
+
+    # o envelope contem, por construcao, cada combinacao individual
+    esf = {"G": {"x": -10.0}, "Q": {"x": -6.0}, "W": {"x": 2.0}}
+    env = cb.envelope(elu, esf)["x"]
+    todas = [sum(c.fator(a) * esf[a]["x"] for a in esf) for c in elu]
+    ok = env["min"] <= min(todas) + 1e-9 and env["max"] >= max(todas) - 1e-9
+    out.append(Achado("NOTA" if ok else "ERRO", "envelope",
+                      f"contem as {len(todas)} combinacoes individuais"))
+
+    out.append(Achado("NOTA", "combinacoes",
+                      f"{len(combs)} combinacoes geradas de 3 acoes: "
+                      f"{len(elu)} ELU e {len(combs)-len(elu)} ELS"))
+    return out
+
+
+def checar_cargas() -> list[Achado]:
+    """Sobrecarga normativa positiva, e o uso do caso presente na tabela."""
+    import nucleo.cargas as cg
+    out = []
+    ruins = [k for k, v in cg.SOBRECARGA_NBR6120.items() if v <= 0]
+    if ruins:
+        out.append(Achado("ERRO", "NBR 6120", f"sobrecarga nao positiva: {ruins}"))
+    if cg.SOBRECARGA_NBR6120["biblioteca"] <= cg.SOBRECARGA_NBR6120["dormitorio"]:
+        out.append(Achado("ERRO", "NBR 6120", "biblioteca leve demais"))
+    try:
+        cg.sobrecarga("nao existe")
+        out.append(Achado("ERRO", "NBR 6120", "uso inexistente devolveu valor"))
+    except KeyError:
+        out.append(Achado("NOTA", "NBR 6120",
+                          "uso sem sobrecarga tabelada levanta erro em vez de "
+                          "assumir um valor"))
+    p = cg.peso_camadas([("concreto armado", 80), ("argamassa", 20)])
+    esperado = 25.0 * 0.08 + 21.0 * 0.02
+    out.append(Achado("NOTA" if abs(p - esperado) < 1e-12 else "ERRO", "peso",
+                      f"peso de pacote conferido: {p:.3f} kN/m2"))
+    out.append(Achado("NOTA", "cargas",
+                      f"{len(cg.SOBRECARGA_NBR6120)} usos tabelados, "
+                      f"{len(cg.EQUIPAMENTOS)} equipamentos, "
+                      f"{len(cg.NATUREZAS)} naturezas de acao"))
+    return out

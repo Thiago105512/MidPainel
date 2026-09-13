@@ -2308,6 +2308,9 @@ REVISOES = [
     ("R15", "E2 — materiais e normas: 9 acos com fy e fu, 6 revestimentos com "
             "espessura de camada calculada, 6 sistemas normativos selecionaveis "
             "e o TRRF da NBR 14432. Sem fy nao existia NBR 14762"),
+    ("R16", "E3 e E4 — cargas, vento e combinacoes: NBR 6123 completa (S1, S2, "
+            "S3, Cpe, Cpi) e NBR 8681 com o permanente favoravel, que e o que "
+            "revela o levantamento da cobertura pelo vento"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2333,13 +2336,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R15",
+    revisao="R16",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R15", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R16", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

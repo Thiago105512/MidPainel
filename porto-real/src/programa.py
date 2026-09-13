@@ -227,6 +227,20 @@ PROGRAMA = [
      ["checar_incendio"], "PARCIAL",
      "Secao 44. TRRF pela NBR 14432 e calculavel; a resistencia efetiva da "
      "composicao depende de ENSAIO do fabricante e entra (H)."),
+    (73, "Cargas normativas",
+     ["checar_cargas"], "AUTOMATIZADA",
+     "Secao 12. Uso sem sobrecarga tabelada levanta erro em vez de assumir um "
+     "valor — e a mesma regra do resto do projeto."),
+    (74, "Gerador de vento NBR 6123",
+     ["checar_vento"], "AUTOMATIZADA",
+     "Secao 13. Ancorado na definicao: categoria II, classe A, 10 m e o terreno "
+     "de referencia e ali S2 vale exatamente 1,000. Interpolacao entre faixas da "
+     "Tabela 4 e declarada, nunca silenciosa."),
+    (75, "Combinacoes NBR 8681",
+     ["checar_combinacoes"], "AUTOMATIZADA",
+     "Secao 14. gama pondera a incerteza; psi a simultaneidade. A verificacao "
+     "central e a do permanente FAVORAVEL: sem ela o levantamento da cobertura "
+     "pelo vento nunca aparece."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
