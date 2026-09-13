@@ -346,6 +346,13 @@ PROGRAMA = [
      "Secao 110. Memorial, lista de pecas, plano de corte, packing list, manual "
      "de montagem e relatorio de inspecao saem do mesmo dado; os tres modos "
      "de leitura mudam a explicacao, nunca o valor de calculo."),
+    (98, "Contratos do que e bloqueado",
+     ["checar_contratos"], "AUTOMATIZADA",
+     "Secoes 3, 4, 76 a 78, 111 a 118, 120, 125, 131 a 134 e 136. As 20 secoes "
+     "que dependem do mundo externo tem esquema, adaptador vazio e criterio de "
+     "aceite. Nenhum adaptador devolve numero; todos dizem o que falta e como "
+     "suprir. Simulacao disfarcada de funcionalidade e pior que a ausencia, "
+     "porque a ausencia se ve."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

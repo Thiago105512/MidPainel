@@ -136,6 +136,7 @@ const VISTAS = [
   ["montagem",   "Montagem",           "sequência animada"],
   ["logistica",  "Logística",          "container e içamento"],
   ["documentos", "Documentos",         "gerados do modelo"],
+  ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
 const LEITURA = {
@@ -149,6 +150,9 @@ const LEITURA = {
     montagem: "O prazo da obra é esta lista multiplicada pelo tamanho da equipe.",
     logistica: "Um container mal ocupado é frete pago por ar.",
     documentos: "O que vai para a fábrica e para o canteiro.",
+    bloqueios: "O que este sistema não entrega, e o que seria preciso para " +
+               "entregar. Nenhum destes itens está pela metade: estão fora, " +
+               "com o preço declarado.",
   },
   educacional: {
     painel: "O checklist não é opinião: cada item é uma consulta ao resultado " +
@@ -173,6 +177,12 @@ const LEITURA = {
     documentos: "Os seis documentos saem do mesmo dado das telas anteriores. " +
                 "Trocar o modo de leitura muda a explicação; o valor de " +
                 "cálculo é idêntico nos três.",
+    bloqueios: "Há três respostas possíveis para o que depende do mundo " +
+               "externo: simular, não entregar, ou entregar o contrato. " +
+               "Simular é a pior — uma funcionalidade falsa é pior que a " +
+               "ausência, porque a ausência se vê. Cada contrato traz o " +
+               "esquema de dados, o adaptador que recusa inventar número e o " +
+               "critério que o valida no dia em que o dado existir.",
   },
   especialista: {
     painel: "Notas normalizadas em [0,100] por funções monotônicas declaradas; " +
@@ -193,6 +203,10 @@ const LEITURA = {
                "limitante (peso ou volume) é declarado, não inferido.",
     documentos: "memorial_compressao() chama a mesma verificacao.compressao() " +
                 "nos três modos; a divergência entre modos seria um defeito.",
+    bloqueios: "Adaptador vazio levanta SemFonteDeDados com código, motivo e " +
+               "remédio; receber() já valida tipo, unidade, domínio e campo " +
+               "desconhecido hoje, antes de o dado existir. A auditoria chama " +
+               "consultar() nos dez e reprova qualquer retorno, None inclusive.",
   },
 };
 
@@ -520,13 +534,59 @@ function vistaDocumentos() {
 }
 '''
 JS_ENG += r'''
+// --------------------------------------------------------------- bloqueios
+let contratoSel = null;
+function vistaBloqueios() {
+  const cs = ENG.contratos || [];
+  if (!cs.length) return barraModos() + "<p class='conta'>sem contratos</p>";
+  const c = cs.find(x => x.cod === contratoSel) || cs[0];
+  const lista = cs.map(x =>
+    `<li><button type="button" data-contrato="${esc2(x.cod)}"
+       aria-current="${x.cod === c.cod}">${esc2(x.cod)}
+       <span class="sub">${x.secoes.length} seç${x.secoes.length > 1 ? "ões" : "ão"} ·
+         ${x.esquema.length} campos</span></button></li>`).join("");
+  const campos = c.esquema.map(k =>
+    `<tr><td>${esc2(k.nome)}</td><td>${esc2(k.tipo)}</td>
+      <td>${esc2(k.unidade || "—")}</td>
+      <td>${k.obrigatorio ? "obrigatório" : "opcional"}</td>
+      <td>${esc2(k.dominio.length ? k.dominio.join(" · ") : (k.descricao || ""))}</td></tr>`).join("");
+  const nSec = cs.reduce((s, x) => s + x.secoes.length, 0);
+  const nCam = cs.reduce((s, x) => s + x.esquema.length, 0);
+  return `${barraModos()}${leitura("bloqueios")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Contratos</span>
+        <span class="val">${cs.length}</span><span class="uni">bloqueios declarados</span></div>
+      <div class="cartao"><span class="rot">Seções cobertas</span>
+        <span class="val">${nSec}</span><span class="uni">das 155 da especificação</span></div>
+      <div class="cartao"><span class="rot">Campos</span>
+        <span class="val">${nCam}</span><span class="uni">com tipo e unidade</span></div>
+      <div class="cartao"><span class="rot">Números inventados</span>
+        <span class="val">0</span><span class="uni">e a auditoria confere</span></div>
+    </div>
+    <div class="eng-grid"><ul class="lista">${lista}</ul>
+      <div>
+        <div class="desenho">
+          <p class="cap" style="font-size:13px"><b>${esc2(c.cod)} — ${esc2(c.titulo)}</b><br><br>
+            <b>Bloqueio.</b> ${esc2(c.bloqueio)}.<br><br>
+            <b>Fonte.</b> ${esc2(c.fonte)}.<br><br>
+            <b>Aceite.</b> ${esc2(c.aceite)}.
+            ${c.esforco ? "<br><br><b>Falta escrever.</b> " + esc2(c.esforco) + "." : ""}<br><br>
+            <b>Seções da especificação.</b> ${c.secoes.join(", ")}.</p></div>
+        <div class="rolagem" style="margin-top:12px">
+          <table class="tabela"><thead><tr><th>campo</th><th>tipo</th>
+            <th>unidade</th><th>exigência</th><th>domínio ou descrição</th></tr></thead>
+            <tbody>${campos}</tbody></table></div>
+      </div></div>`;
+}
+
 // ---------------------------------------------------------------- roteador
 function renderEng() {
   const alvo = document.getElementById("engConteudo");
   if (!ENG) { alvo.innerHTML = "<p class='conta'>carregando engenharia.json…</p>"; return; }
   const f = {painel: vistaPainel, paineis: vistaPaineis, pecas: vistaPecas,
              corte: vistaCorte, montagem: vistaMontagem,
-             logistica: vistaLogistica, documentos: vistaDocumentos}[engVista];
+             logistica: vistaLogistica, documentos: vistaDocumentos,
+             bloqueios: vistaBloqueios}[engVista];
   alvo.innerHTML = f();
   const v = VISTAS.find(x => x[0] === engVista);
   document.getElementById("sheetTitle").firstChild.nodeValue =
@@ -569,6 +629,9 @@ function ligarEng() {
     passoAtual = Number(e.currentTarget.dataset.passo); pararAnim(); renderEng();
   });
   em("[data-doc]", "click", e => { docSel = e.currentTarget.dataset.doc; renderEng(); });
+  em("[data-contrato]", "click", e => {
+    contratoSel = e.currentTarget.dataset.contrato; renderEng();
+  });
   const play = document.getElementById("playMont");
   if (play) {
     play.addEventListener("click", () => animar ? pararAnim(true) : tocarAnim());

@@ -24,6 +24,7 @@ import nucleo.painel as pn
 import nucleo.liberacao as lb
 import nucleo.bom as bo
 import nucleo.documentos as dc
+import nucleo.contratos as ct
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(AQUI, "..", "out", "engenharia.json")
@@ -206,6 +207,16 @@ def montar() -> dict:
             inspecao=dc.relatorio_inspecao(r["pecas"]),
             memorial=dc.memorial_descritivo(pj, r),
         ),
+        contratos=[dict(cod=c.cod, titulo=c.titulo, secoes=list(c.secoes),
+                        bloqueio=c.bloqueio, fonte=c.fonte, aceite=c.aceite,
+                        esforco=c.esforco,
+                        esquema=[dict(nome=k.nome, tipo=k.tipo,
+                                      unidade=k.unidade,
+                                      obrigatorio=k.obrigatorio,
+                                      descricao=k.descricao,
+                                      dominio=list(k.dominio))
+                                 for k in c.esquema])
+                   for c in ct.CONTRATOS],
         memoriais={m: dc.memorial_compressao(_stud(cfg), _aco(), cfg.altura, m)
                    for m in dc.MODOS},
     )

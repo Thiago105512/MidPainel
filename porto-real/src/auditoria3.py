@@ -1834,3 +1834,106 @@ def checar_documentos() -> list[Achado]:
                       f"o valor de calculo {nrd:.2f} kN aparece identico em "
                       f"{presente} dos 3 modos"))
     return out
+
+
+def checar_contratos() -> list[Achado]:
+    """E23 — o que e bloqueado tem contrato, e o contrato recusa dado errado.
+
+    Duas coisas precisam ser provadas aqui, e a segunda e a que importa.
+
+    A primeira e cobertura: toda secao marcada BLOQ na especificacao tem um
+    contrato. Sem isso, "bloqueado" viraria sinonimo de esquecido.
+
+    A segunda e que o adaptador NUNCA devolve numero. E facil escrever um
+    adaptador que levanta excecao; e facil, tambem, escrever um que levanta em
+    alguns caminhos e devolve zero noutros. Por isso a verificacao chama
+    consultar() em todos os contratos e exige SemFonteDeDados em todos —
+    qualquer retorno, mesmo None, reprova.
+    """
+    import escopo as es
+    import nucleo.contratos as ct
+    out, problemas = [], []
+
+    # cobertura das secoes BLOQ
+    bloq = {n for n, _t, sit, _e, _o in es.SECOES if sit == "BLOQ"}
+    cobertas = ct.bloqueadas_cobertas()
+    faltam = sorted(bloq - cobertas)
+    sobram = sorted(cobertas - bloq)
+    if faltam:
+        problemas.append(f"secoes BLOQ sem contrato: {faltam}")
+    if sobram:
+        problemas.append(f"contrato para secao que nao esta BLOQ: {sobram}")
+    out.append(Achado("NOTA" if not (faltam or sobram) else "ERRO", "cobertura",
+                      f"{len(ct.CONTRATOS)} contratos cobrem as {len(bloq)} "
+                      f"secoes bloqueadas, uma a uma"))
+
+    # o adaptador nunca devolve numero
+    devolveram = []
+    for c in ct.CONTRATOS:
+        try:
+            v = c.consultar()
+        except ct.SemFonteDeDados as e:
+            if c.cod not in str(e) or "sem fonte de dados" not in str(e):
+                problemas.append(f"{c.cod}: excecao sem o codigo ou sem o motivo")
+            if c.fonte not in str(e):
+                problemas.append(f"{c.cod}: a excecao nao diz como suprir")
+        except Exception as e:                       # noqa: BLE001
+            problemas.append(f"{c.cod}: levantou {type(e).__name__}, nao "
+                             f"SemFonteDeDados")
+        else:
+            devolveram.append(f"{c.cod} devolveu {v!r}")
+    problemas += devolveram
+    out.append(Achado("NOTA" if not devolveram else "ERRO", "adaptador",
+                      f"os {len(ct.CONTRATOS)} adaptadores levantam "
+                      f"SemFonteDeDados dizendo o que falta e como suprir; "
+                      f"nenhum devolve valor"))
+
+    # o validador ja funciona: aceita o certo e recusa o errado
+    bons, maus = 0, 0
+    for c in ct.CONTRATOS:
+        exemplo = {}
+        for campo in c.esquema:
+            if not campo.obrigatorio:
+                continue
+            exemplo[campo.nome] = (campo.dominio[0] if campo.dominio else
+                                   {"texto": "x", "inteiro": 1, "real": 1.0,
+                                    "booleano": True, "lista": [1.0],
+                                    "registro": {}}[campo.tipo])
+        try:
+            lido = c.receber([exemplo])
+            bons += 1
+            if set(lido[0]) != set(exemplo):
+                problemas.append(f"{c.cod}: receber() perdeu campo obrigatorio")
+        except Exception as e:                       # noqa: BLE001
+            problemas.append(f"{c.cod}: recusou registro valido — {e}")
+
+        # falta de campo obrigatorio, tipo errado e campo desconhecido
+        for nome, ruim in (("campo ausente", {}),
+                           ("campo desconhecido",
+                            dict(exemplo, campo_que_nao_existe=1))):
+            try:
+                c.receber([ruim])
+            except ValueError:
+                maus += 1
+            else:
+                problemas.append(f"{c.cod}: aceitou registro com {nome}")
+    out.append(Achado("NOTA" if bons == len(ct.CONTRATOS) else "ERRO",
+                      "validacao",
+                      f"os {bons} validadores aceitam o registro completo e "
+                      f"recusam {maus} registros malformados — o validador "
+                      f"existe antes do dado"))
+
+    # todo contrato diz o que falta escrever e como sera aceito
+    mudos = [c.cod for c in ct.CONTRATOS
+             if len(c.aceite) < 40 or len(c.bloqueio) < 40 or not c.esquema]
+    if mudos:
+        problemas.append(f"contratos sem criterio de aceite ou sem esquema: {mudos}")
+    campos = sum(len(c.esquema) for c in ct.CONTRATOS)
+    out.append(Achado("NOTA" if not mudos else "ERRO", "esquema",
+                      f"{campos} campos com tipo, unidade e obrigatoriedade "
+                      f"declarados: o fornecedor do dado sabe exatamente o que "
+                      f"entregar antes de escrever a primeira linha"))
+
+    for m in problemas[:10]:
+        out.append(Achado("ERRO", "contratos", m))
+    return out

@@ -602,6 +602,27 @@ def rodar(fotos: bool = False) -> int:
            "os tres modos mudam o texto e mantem o valor de calculo",
            f"{len(n_edu & n_esp)} numeros identicos nos dois modos")
 
+        # o que o sistema NAO faz, com o mesmo rigor do que faz
+        pag.click("#vistasEng button[data-vista='bloqueios']")
+        pag.wait_for_timeout(350)
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo .lista button').length")
+           == pag.evaluate("() => ENG.contratos.length"),
+           "os contratos do que e bloqueado estao na interface",
+           str(pag.evaluate("() => ENG.contratos.length")))
+        ok(pag.evaluate("""() => ENG.contratos.every(c =>
+             c.bloqueio.length > 40 && c.fonte.length > 20 && c.aceite.length > 40
+             && c.esquema.length > 0)"""),
+           "cada um diz o bloqueio, a fonte, o aceite e o esquema")
+        ok(pag.evaluate("() => document.querySelectorAll('#engConteudo tbody tr').length")
+           == pag.evaluate("() => (ENG.contratos.find(c => c.cod === contratoSel) "
+                           "|| ENG.contratos[0]).esquema.length"),
+           "e a tabela mostra os campos que o fornecedor tera de entregar")
+        ultimo = pag.evaluate("() => ENG.contratos[ENG.contratos.length-1].cod")
+        pag.click(f"#engConteudo [data-contrato='{ultimo}']")
+        pag.wait_for_timeout(250)
+        ok(pag.evaluate("() => contratoSel") == ultimo,
+           "trocar de contrato troca o esquema mostrado", ultimo)
+
         # volta para o 2D
         pag.click(".modos button[data-modo='2d']")
         pag.wait_for_timeout(250)
