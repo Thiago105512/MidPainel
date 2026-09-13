@@ -835,3 +835,136 @@ def checar_verga() -> list[Achado]:
                       if imp["escolhido"] is None else
                       f"vao impossivel devolveu {imp['escolhido']['perfil']}"))
     return out
+
+
+def checar_contraventamento() -> list[Achado]:
+    """Estabilidade horizontal: o que impede a casa de deitar.
+
+    A verificacao que importa nao e a resistencia da diagonal — e o tombamento.
+    O momento nao some porque a diagonal e forte: ele desce pelo montante de
+    extremidade e tenta arrancar a parede do radier.
+    """
+    import nucleo.contraventamento as cv
+    out = []
+
+    # segmento esbelto demais nao pode ser contado como parede de cisalhamento
+    estreito = cv.ShearWall("x", 900, 2600, "OSB")
+    c = cv.capacidade(estreito, "OSB 11,1 mm, parafuso a 150 mm")
+    out.append(Achado("NOTA" if not c["conta"] and c["vrd"] == 0 else "ERRO",
+                      "aspecto", f"segmento de 900 x 2.600 mm: {c['motivo'][:80]}"))
+
+    # o peso proprio alivia o tombamento — e por isso entra minorado
+    sw = cv.ShearWall("y", 3000, 2600, "OSB", peso_permanente=12.0)
+    leve = cv.tombamento(cv.ShearWall("y", 3000, 2600, "OSB", 0.0), 19.5)
+    pesado = cv.tombamento(sw, 19.5)
+    out.append(Achado("NOTA" if pesado["uplift"] < leve["uplift"] else "ERRO",
+                      "tombamento",
+                      f"o peso proprio reduz o arrancamento de "
+                      f"{leve['uplift']:.2f} para {pesado['uplift']:.2f} kN; "
+                      f"entra minorado em 0,9 porque aliviar e efeito favoravel"))
+
+    # a fita so serve num intervalo de angulo
+    for comp, esperado in ((3000, True), (8000, False), (700, False)):
+        d = cv.forca_na_diagonal(10.0, comp, 2600)
+        if d["eficiente"] != esperado:
+            out.append(Achado("ERRO", "diagonal",
+                              f"angulo {d['angulo']:.1f} classificado errado"))
+    out.append(Achado("NOTA", "diagonal",
+                      "a fita so e eficiente entre 30 e 60 graus: muito deitada "
+                      "puxa a guia, muito em pe nao resiste a horizontal"))
+
+    # trelicas: equilibrio e sinal dos banzos
+    import nucleo.perfis as pf
+    import nucleo.solver as sv
+    p = pf.Perfil("t", "Ue", 140, 40, 12, 1.55)
+    d2 = p.props()
+    s = sv.Secao("t", d2["A"], d2["Ix"], d2["Iy"], d2["J"])
+    for tipo in ("Fink", "Howe", "Pratt", "Warren", "Scissor", "Mono"):
+        g = cv.geometria_trelica(tipo, 8000, 2000, 4)
+        r = cv.resolver_trelica(g, s, 3.0)
+        rz = sum(r["reacoes"][c][2] for c in r["apoios"])
+        rel = abs(rz - r["carga_total"]) / r["carga_total"]
+        if rel > 1e-6:
+            out.append(Achado("ERRO", tipo,
+                              f"equilibrio nao fecha: reacoes {rz:.3f} contra "
+                              f"carga {r['carga_total']:.3f} kN"))
+        if tipo not in ("Mono", "Scissor"):
+            sup = [v["N"] for v in r["esforcos"].values()
+                   if v["papel"] == "banzo superior"]
+            inf = [v["N"] for v in r["esforcos"].values()
+                   if v["papel"] == "banzo inferior"]
+            if sup and inf and not (min(sup) < 0 < max(inf)):
+                out.append(Achado("ERRO", tipo,
+                                  "banzo superior deveria comprimir e o "
+                                  "inferior tracionar numa trelica biapoiada"))
+    out.append(Achado("NOTA", "trelicas",
+                      f"{len(cv.TIPOS_TRELICA)} tipos geram geometria, rodam no "
+                      f"solver da E5 e fecham o equilibrio"))
+    return out
+
+
+def checar_ligacoes() -> list[Achado]:
+    """Cinco modos de ruina, e nenhum deles e o parafuso.
+
+    Em chapa de 0,95 mm a ligacao falha na CHAPA, sempre. Se algum calculo
+    apontar o parafuso como modo critico numa chapa fina, ha erro — e essa e a
+    verificacao mais util deste bloco.
+    """
+    import nucleo.ligacoes as lg
+    out = []
+    p = lg.POR_PARAFUSO["AB 4,8x19 ponta broca"]
+
+    c = lg.cisalhamento(p, 0.95, 0.95, 310, 310)
+    if "parafuso" in c["modo"] and "basculamento" not in c["modo"]:
+        out.append(Achado("ERRO", "ligacao",
+                          f"em chapa de 0,95 mm o modo critico deu "
+                          f"'{c['modo']}': a chapa deveria governar"))
+    else:
+        out.append(Achado("NOTA", "ligacao",
+                          f"chapa de 0,95 mm: governa '{c['modo']}' com "
+                          f"{c['nvrd']:.2f} kN por parafuso — e por isso que LSF "
+                          f"leva dezenas de milhares deles"))
+
+    # engrossar a chapa tem de aumentar a capacidade
+    caps = [lg.cisalhamento(p, t, t, 310, 310)["nvrd"]
+            for t in (0.80, 0.95, 1.25, 1.55, 2.00)]
+    ok = all(b > a for a, b in zip(caps, caps[1:]))
+    out.append(Achado("NOTA" if ok else "ERRO", "ligacao",
+                      f"capacidade por espessura: {[round(x,2) for x in caps]} kN"))
+
+    # tracao: em chapa fina o rosqueamento arranca antes de tudo
+    t = lg.tracao(p, 0.95, 0.95, 310, 310)
+    out.append(Achado("NOTA", "ligacao",
+                      f"tracao em 0,95 mm: {t['ntrd']:.2f} kN, governa "
+                      f"'{t['modo']}'"))
+
+    # geometria: espacamento e borda
+    ruins = lg.verificar_geometria([5.0, 12.0, 60.0], 70.0, p)
+    out.append(Achado("NOTA" if len(ruins) >= 2 else "ERRO", "geometria",
+                      f"espacamento e borda insuficientes detectados: "
+                      f"{len(ruins)} violacoes"))
+    bons = lg.verificar_geometria([20.0, 40.0, 60.0], 80.0, p)
+    out.append(Achado("NOTA" if not bons else "ERRO", "geometria",
+                      "arranjo correto passa sem apontamento"))
+
+    # acessibilidade: reduzir a folga acaba deixando sem ferramenta
+    seq = [lg.acessivel(f) for f in (250, 150, 90, 50, 30)]
+    n_ok = sum(1 for a in seq if a["ok"])
+    sem = [a for a in seq if not a["alternativas"]]
+    out.append(Achado("NOTA" if n_ok >= 1 and sem else "ERRO", "acessibilidade",
+                      f"de 250 a 30 mm de folga: {n_ok} posicao(oes) aceitam a "
+                      f"parafusadeira comum e {len(sem)} nao aceitam ferramenta "
+                      f"alguma — nenhuma norma verifica isto e toda obra encontra"))
+
+    # chumbador: escolha com alternativas, e impossivel devolve None
+    a = lg.ancoragem(11.5, 180)
+    out.append(Achado("NOTA" if a["escolhido"] else "ERRO", "ancoragem",
+                      f"uplift de 11,5 kN em radier de 180 mm: "
+                      f"{a['escolhido']['chumbador'] if a['escolhido'] else 'nenhum'}, "
+                      f"com {len(a['alternativas'])} alternativas avaliadas"))
+    imp = lg.ancoragem(200.0, 100)
+    out.append(Achado("NOTA" if imp["escolhido"] is None else "ERRO", "ancoragem",
+                      "demanda impossivel devolve 'nenhum chumbador serve'"
+                      if imp["escolhido"] is None else
+                      "demanda impossivel devolveu um chumbador"))
+    return out

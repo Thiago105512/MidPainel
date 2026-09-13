@@ -270,6 +270,16 @@ PROGRAMA = [
      "Secoes 26 e 20. A escolha vem com o que falhou e por que. A flecha pela "
      "formula e cruzada com o solver da E5 — foi desse cruzamento que sairam um "
      "erro de unidade e um erro de sinal no proprio solver."),
+    (82, "Contraventamento, shear wall e trelicas",
+     ["checar_contraventamento"], "AUTOMATIZADA",
+     "Secoes 27, 28 e 29. Montante e guia formam um quadrilatero articulado, "
+     "que e um MECANISMO. A verificacao central nao e a diagonal: e o "
+     "tombamento, que desce pelo montante de extremidade e arranca a parede."),
+    (83, "Ligacoes, ancoragem e acessibilidade de montagem",
+     ["checar_ligacoes"], "AUTOMATIZADA",
+     "Secoes 30 a 33 e 37. Cinco modos de ruina e nenhum e o parafuso: em chapa "
+     "de 0,95 mm a ligacao falha na CHAPA. Mais o sexto modo que nenhuma norma "
+     "verifica e toda obra encontra — a parafusadeira que nao entra."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
