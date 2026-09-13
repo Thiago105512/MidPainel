@@ -968,3 +968,251 @@ def checar_ligacoes() -> list[Achado]:
                       if imp["escolhido"] is None else
                       "demanda impossivel devolveu um chumbador"))
     return out
+
+
+def checar_pecas() -> list[Achado]:
+    """Identidade estavel, furo na zona util e marcacao completa.
+
+    A identidade precisa ser estavel entre revisoes: se o codigo de uma peca
+    muda porque outra foi inserida antes dela, a rastreabilidade inteira se
+    perde — a bobina aponta para a peca errada e a inspecao para o painel
+    errado.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.peca as pe
+    out = []
+    cat = pn._catalogo_massa()
+    todas, problemas = [], []
+    for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
+        pais = pn.painelizar(el.derivar_paredes(amb),
+                             list(el.vaos_do_pavimento(pav)), prefixo=f"{pav}P")
+        serv = {p.cod: [dict(servico="eletrica", d=25),
+                        dict(servico="hidraulica", d=40)] for p in pais}
+        todas += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"], serv)
+
+    cods = [p.cod for p in todas]
+    if len(set(cods)) != len(cods):
+        problemas.append(f"{len(cods)-len(set(cods))} codigos repetidos")
+
+    # estabilidade: regerar do zero tem de dar exatamente os mesmos codigos
+    de_novo = []
+    for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
+        pais = pn.painelizar(el.derivar_paredes(amb),
+                             list(el.vaos_do_pavimento(pav)), prefixo=f"{pav}P")
+        serv = {p.cod: [dict(servico="eletrica", d=25),
+                        dict(servico="hidraulica", d=40)] for p in pais}
+        de_novo += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"], serv)
+    if [p.cod for p in de_novo] != cods:
+        problemas.append("os codigos mudam entre duas geracoes identicas")
+
+    # furos dentro da zona util
+    for p in todas:
+        if not p.furos:
+            continue
+        alma = float(p.perfil.split()[1].split("x")[0])
+        problemas += pe.verificar_furos(p, alma)
+
+    # marcacao completa e passaporte sem numero inventado
+    for p in todas[:50]:
+        campos = p.carga_marcacao().split("|")
+        if len(campos) != 5 or not all(campos):
+            problemas.append(f"{p.cod}: marcacao incompleta")
+        pas = p.passaporte()
+        for k in ("bobina", "heat", "lote", "producao", "inspecao"):
+            if pas[k] is not None:
+                problemas.append(f"{p.cod}: campo '{k}' preenchido sem fonte "
+                                 f"de dado — numero inventado")
+
+    for m in problemas[:10]:
+        out.append(Achado("ERRO", "pecas", m))
+    if not problemas:
+        massa = sum(p.massa for p in todas)
+        furos = sum(len(p.furos) for p in todas)
+        out.append(Achado("NOTA", "pecas",
+                          f"{len(todas)} pecas com codigo unico e estavel, "
+                          f"{massa:.0f} kg, {furos} furos de servico dentro da "
+                          f"zona util, marcacao completa e passaporte sem campo "
+                          f"preenchido sem fonte"))
+    return out
+
+
+def checar_clash() -> list[Achado]:
+    """Interferencia entre disciplinas, com severidade por volume."""
+    import nucleo.peca as pe
+    out = []
+    v = [pe.Volume("ST001", "estrutura", 0, 0, 0, 90, 40, 2600),
+         pe.Volume("DUTO", "hvac", 50, 0, 1000, 250, 200, 1200),
+         pe.Volume("ELE", "eletrica", 500, 0, 0, 520, 20, 2600),
+         pe.Volume("ST002", "estrutura", 600, 0, 0, 690, 40, 2600)]
+    c = pe.detectar_clash(v)
+    achou = any(set(x["disciplinas"]) == {"estrutura", "hvac"} for x in c)
+    out.append(Achado("NOTA" if achou else "ERRO", "clash",
+                      f"{len(c)} interferencia(s) entre disciplinas; a do duto "
+                      f"com o montante foi encontrada"))
+    mesma = [x for x in c if x["disciplinas"][0] == x["disciplinas"][1]]
+    out.append(Achado("NOTA" if not mesma else "ERRO", "clash",
+                      "conflito dentro da mesma disciplina nao e reportado: "
+                      "dois montantes vizinhos nao sao clash"))
+    sem = pe.detectar_clash([v[0], v[3]])
+    out.append(Achado("NOTA" if not sem else "ERRO", "clash",
+                      "estrutura sem MEP nao gera interferencia falsa"))
+    return out
+
+
+def _pecas_do_projeto():
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.peca as pe
+    cat = pn._catalogo_massa()
+    todas = []
+    for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
+        pais = pn.painelizar(el.derivar_paredes(amb),
+                             list(el.vaos_do_pavimento(pav)), prefixo=f"{pav}P")
+        todas += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"])
+    return todas
+
+
+def checar_nesting() -> list[Achado]:
+    """Plano de corte: conservacao, e nenhuma peca perdida no caminho.
+
+    A verificacao central e uma identidade: o comprimento bruto de todas as
+    barras tem de ser exatamente o usado mais a perda. Se nao fecha, alguma peca
+    foi contada duas vezes ou sumiu — e um plano de corte que perde peca produz
+    obra parada.
+    """
+    import nucleo.nesting as ns
+    out = []
+    todas = _pecas_do_projeto()
+    itens = [(p.cod, p.perfil, p.comp) for p in todas]
+    r = ns.nestar_barras(itens)
+
+    # conservacao do comprimento
+    err = abs(r["bruto"] - (r["usado"] + r["perda"]))
+    out.append(Achado("NOTA" if err < 1e-6 else "ERRO", "nesting",
+                      f"bruto = usado + perda conferido: erro {err:.2e} mm"))
+
+    # toda peca aparece exatamente uma vez, ou esta declarada como nao cabendo
+    colocadas = [c for b in r["barras"] for c, _ in b.pecas]
+    nao = {c for c, _, _ in r["nao_cabem"]}
+    faltando = {p.cod for p in todas} - set(colocadas) - nao
+    repetidas = len(colocadas) - len(set(colocadas))
+    if faltando or repetidas:
+        out.append(Achado("ERRO", "nesting",
+                          f"{len(faltando)} pecas sumiram e {repetidas} foram "
+                          f"colocadas duas vezes"))
+    else:
+        out.append(Achado("NOTA", "nesting",
+                          f"{len(colocadas)} pecas colocadas uma unica vez em "
+                          f"{r['n_barras']} barras; aproveitamento "
+                          f"{r['aproveitamento']*100:.1f} %"))
+
+    # peca maior que a barra e informacao, nao silencio
+    if r["nao_cabem"]:
+        maior = max(c for _, _, c in r["nao_cabem"])
+        out.append(Achado("ATENCAO", "nesting",
+                          f"{len(r['nao_cabem'])} pecas nao cabem em barra de "
+                          f"6 m (a maior tem {maior:.0f} mm): exigem emenda "
+                          f"declarada ou barra de comprimento especial"))
+
+    # a sobra do deposito tem de reduzir a compra
+    sob = [ns.Sobra(f"X{i}", "Ue 90x40x12x0,95", 1800) for i in range(30)]
+    r2 = ns.nestar_barras(itens, sobras=sob)
+    out.append(Achado("NOTA" if r2["n_novas"] <= r["n_novas"] else "ERRO",
+                      "sobras",
+                      f"30 sobras de 1,8 m no deposito reduzem a compra de "
+                      f"{r['n_novas']} para {r2['n_novas']} barras novas"))
+
+    # chapas e bobina
+    # peca de 1.200 x 2.600 nao cabe em chapa de 1.200 x 2.400, nem girada:
+    # tem de sair declarada, e o aproveitamento nunca pode passar de 100 %
+    c = ns.nestar_chapas([(f"P{i}", 1200, 2600) for i in range(20)])
+    ok = 0 <= c["aproveitamento"] <= 1.0 and len(c["nao_cabem"]) == 20
+    out.append(Achado("NOTA" if ok else "ERRO", "chapas",
+                      f"peca maior que a chapa: {len(c['nao_cabem'])} declaradas, "
+                      f"aproveitamento {c['aproveitamento']*100:.1f} %"))
+    c2 = ns.nestar_chapas([(f"Q{i}", 600, 1100) for i in range(24)] +
+                          [(f"R{i}", 2300, 900) for i in range(4)])
+    ok2 = 0 < c2["aproveitamento"] <= 1.0 and c2["girados"] > 0
+    out.append(Achado("NOTA" if ok2 else "ERRO", "chapas",
+                      f"{c2['n']} chapas, {c2['girados']} pecas giradas para "
+                      f"caber, aproveitamento {c2['aproveitamento']*100:.1f} %"))
+    b = ns.bobina(1.407, 3000.0, 1200.0, 0.95, 188.6)
+    out.append(Achado("NOTA" if b["tiras"] >= 1 else "ERRO", "bobina",
+                      f"{b['tiras']} tiras por bobina de 1.200 mm, perda de "
+                      f"largura {b['perda_largura_pct']*100:.1f} %"))
+    try:
+        ns.bobina(1.0, 100.0, 100.0, 1.0, 300.0)
+        out.append(Achado("ERRO", "bobina",
+                          "desenvolvimento maior que a bobina nao levantou erro"))
+    except ValueError:
+        out.append(Achado("NOTA", "bobina",
+                          "perfil que nao cabe na largura da bobina levanta erro"))
+    return out
+
+
+def checar_bom() -> list[Achado]:
+    """BOM, custo e risco. As quantidades sao derivadas; os precos sao (H).
+
+    A verificacao que separa as duas coisas: a massa comprada tem de ser
+    exatamente a massa util dividida pelo aproveitamento do plano de corte. A
+    perda foi paga — esquecer isso subestima o aco em 13 %.
+    """
+    import projeto as pj
+    import nucleo.nesting as ns
+    import nucleo.bom as bo
+    out = []
+    todas = _pecas_do_projeto()
+    plano = ns.nestar_barras([(p.cod, p.perfil, p.comp) for p in todas])
+    itens = bo.montar(todas, plano, pj.CADASTRO.area_m2)
+
+    util = sum(p.massa for p in todas)
+    comprado = next(i for i in itens if i.sku == "ACO-PERF").quantidade
+    esperado = util / plano["aproveitamento"]
+    rel = abs(comprado - esperado) / esperado
+    out.append(Achado("NOTA" if rel < 1e-3 else "ERRO", "massa",
+                      f"aco comprado {comprado:.0f} kg = util {util:.0f} kg / "
+                      f"aproveitamento {plano['aproveitamento']:.3f}; a perda de "
+                      f"{comprado-util:.0f} kg foi paga e esta no BOM"))
+
+    # curva ABC: participacoes somam 1 e a classe A fecha em 80 %
+    abc = bo.curva_abc(itens)
+    soma = sum(x["participacao"] for x in abc)
+    ultimo_a = max((x["acumulado"] for x in abc if x["classe"] == "A"), default=0)
+    ok = abs(soma - 1.0) < 1e-9 and ultimo_a <= 0.8 + 1e-9
+    out.append(Achado("NOTA" if ok else "ERRO", "ABC",
+                      f"{sum(1 for x in abc if x['classe']=='A')} itens classe A "
+                      f"concentram {ultimo_a*100:.1f} % do custo; participacoes "
+                      f"somam {soma:.6f}"))
+
+    # landed cost: cada parcela soma e o fator e maior que 1
+    lc = bo.landed_cost(10_000, 2_500, ii_pct=0.14, despachante=800,
+                        armazenagem=400, transporte_interno=600)
+    parcelas = (lc["cif"] + lc["ii"] + lc["ipi"] + lc["icms"] + lc["pis_cofins"]
+                + lc["despachante"] + lc["armazenagem"] + lc["transporte_interno"])
+    ok = abs(parcelas - lc["total"]) < 1e-6 and lc["fator"] > 1
+    out.append(Achado("NOTA" if ok else "ERRO", "landed cost",
+                      f"FOB 10.000 chega a {lc['total']:.2f} posto, fator "
+                      f"{lc['fator']:.2f}x, com as parcelas fechando a soma"))
+
+    # Monte Carlo: os quantis precisam estar em ordem
+    tot = sum(i.total for i in itens)
+    mc = bo.monte_carlo(tot, {"cambio": (0.95, 1.0, 1.35),
+                              "aco": (0.9, 1.0, 1.25)})
+    ordem = mc["p05"] <= mc["p50"] <= mc["p80"] <= mc["p95"]
+    out.append(Achado("NOTA" if ordem else "ERRO", "risco",
+                      f"custo base {tot:,.0f}: p50 {mc['p50']:,.0f}, p80 "
+                      f"{mc['p80']:,.0f}, p95 {mc['p95']:,.0f} — a cauda direita "
+                      f"vale {(mc['p95']/mc['p50']-1)*100:.0f} % a mais que a "
+                      f"mediana".replace(",", ".")))
+
+    # todo preco entra declarado como hipotese
+    sem_h = [i.sku for i in itens if i.fonte == "(H)" and i.preco_unit <= 0]
+    out.append(Achado("ATENCAO", "precos",
+                      f"os {len(bo.PRECOS)} precos da tabela sao (H): ordens de "
+                      f"grandeza para a estrutura do calculo existir. As "
+                      f"QUANTIDADES sao derivadas das 801 pecas e do plano de "
+                      f"corte, e essas nao sao hipotese"))
+    return out

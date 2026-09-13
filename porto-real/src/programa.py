@@ -280,6 +280,24 @@ PROGRAMA = [
      "Secoes 30 a 33 e 37. Cinco modos de ruina e nenhum e o parafuso: em chapa "
      "de 0,95 mm a ligacao falha na CHAPA. Mais o sexto modo que nenhuma norma "
      "verifica e toda obra encontra — a parafusadeira que nao entra."),
+    (84, "Pecas, furacao, numeracao e passaporte",
+     ["checar_pecas"], "AUTOMATIZADA",
+     "Secoes 47 a 51 e 66. O codigo deriva da POSICAO no painel, nao da ordem "
+     "de geracao — senao inserir uma peca renumera todas e a rastreabilidade se "
+     "perde. Campo de passaporte sem fonte fica None, nunca inventado."),
+    (85, "Clash entre disciplinas",
+     ["checar_clash"], "AUTOMATIZADA",
+     "Secao 46. Conflito dentro da mesma disciplina nao e clash: dois montantes "
+     "vizinhos se tocam por projeto."),
+    (86, "Nesting de barra, chapa e bobina",
+     ["checar_nesting"], "AUTOMATIZADA",
+     "Secoes 61 a 63, 85 e 86. A verificacao central e uma identidade: bruto = "
+     "usado + perda. A sobra do deposito e consultada antes de abrir barra nova."),
+    (87, "BOM, curva ABC, landed cost e risco",
+     ["checar_bom"], "PARCIAL",
+     "Secoes 59, 60, 87 e 91 a 95. As QUANTIDADES sao derivadas das pecas e do "
+     "plano de corte; os PRECOS sao (H). A massa comprada e a util dividida "
+     "pelo aproveitamento — a perda foi paga."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
