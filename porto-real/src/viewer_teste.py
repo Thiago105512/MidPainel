@@ -323,14 +323,33 @@ def rodar(fotos: bool = False) -> int:
             return relatorio()
 
         n = pag.evaluate("() => R.solidos.length")
-        esperados = pag.evaluate("""() => ['terreo','superior','lajes','platibandas',
-          'externo','mob','escada'].reduce((s,k)=>s+(M3[k]?M3[k].length:0),0)""")
+        # a lista sai das CAMADAS declaradas, nao de um rol escrito aqui: um
+        # rol escrito no teste envelhece na primeira camada nova e acusa falha
+        # onde so houve crescimento
+        esperados = pag.evaluate("""() => ['terreo','superior','lajes',
+          'platibandas','externo','mob','escada','lsf']
+          .reduce((s,k)=>s+(M3[k]?M3[k].length:0),0)""")
         ok(n == esperados, "todos os solidos exportados entraram na cena",
            f"{n} de {esperados}")
         ok(pag.evaluate("() => document.querySelectorAll('#cenas button').length") == 8,
            "as 8 cenas aparecem na coluna")
-        ok(pag.evaluate("() => document.querySelectorAll('#camadas input').length") == 9,
-           "as 9 camadas aparecem no HUD")
+        ok(pag.evaluate("() => document.querySelectorAll('#camadas input').length")
+           == pag.evaluate("() => CAMADAS.length"),
+           "toda camada declarada aparece no HUD",
+           str(pag.evaluate("() => CAMADAS.length")))
+        ok(pag.evaluate("() => M3.lsf.length") > 700,
+           "a estrutura LSF inteira esta no modelo 3D, peca a peca",
+           str(pag.evaluate("() => M3.lsf.length")))
+        ok(pag.evaluate("""() => M3.lsf.every(b => b.cod && b.fam && b.perf
+             && b.painel && b.s.every(v => v > 0))"""),
+           "cada peca da estrutura traz codigo, familia, perfil, painel e volume")
+        ok(pag.evaluate("""() => new Set(M3.lsf.map(b => b.c)).size >= 6"""),
+           "cada familia estrutural tem a sua cor",
+           str(pag.evaluate("() => new Set(M3.lsf.map(b => b.c)).size")))
+        ok(pag.evaluate("""() => {
+             const g = R.grupos.lsf;
+             return g && g.children.length === M3.lsf.length && !g.visible; }"""),
+           "a camada da estrutura entra desligada, para nao brigar com a parede")
         ok(pag.evaluate("() => document.getElementById('stage3d')"
                         ".querySelectorAll('canvas').length") == 1,
            "um unico canvas no palco")
@@ -626,6 +645,33 @@ def rodar(fotos: bool = False) -> int:
         ok(m_edu != m_esp and bool(n_edu & n_esp),
            "os tres modos mudam o texto e mantem o valor de calculo",
            f"{len(n_edu & n_esp)} numeros identicos nos dois modos")
+
+        # parafusos: a pergunta "quantos e quais" tem de ter resposta na tela
+        pag.click("#vistasEng button[data-vista='parafusos']")
+        pag.wait_for_timeout(350)
+        ok(pag.evaluate("() => ENG.juntas.total") > 3000,
+           "o programa de parafusos esta na interface",
+           str(pag.evaluate("() => ENG.juntas.total")))
+        ok(pag.evaluate("""() => ENG.juntas.por_origem
+             .reduce((s, o) => s + o.n, 0) === ENG.juntas.total"""),
+           "as origens somam exatamente o total: nenhum parafuso sem origem")
+        ok(pag.evaluate("""() => ENG.juntas.por_tipo
+             .reduce((s, t) => s + t.n, 0) === ENG.juntas.total"""),
+           "e os tipos tambem somam o total")
+        ok(pag.evaluate("""() => ENG.juntas.por_origem
+             .some(o => o.origem === 'FORCA' && o.n > 0)"""),
+           "parte dos parafusos vem de forca calculada, e a interface diz quanto",
+           str(pag.evaluate("""() => (ENG.juntas.por_origem
+             .find(o => o.origem === 'FORCA') || {}).n""")))
+        ok(pag.evaluate("""() => ENG.juntas.exemplos.every(x =>
+             x.tipo && x.parafuso && x.n >= 2 && x.origem)"""),
+           "cada tipo de junta traz o parafuso, a quantidade e a origem")
+        ok(pag.evaluate("""() => ENG.paineis.every(p =>
+             p.parafusos > 0 && p.juntas.length > 0)"""),
+           "nenhum painel fica sem junta programada")
+        ok(pag.evaluate("""() => ENG.paineis.reduce((s, p) => s + p.parafusos, 0)
+             === ENG.juntas.total"""),
+           "a soma dos paineis bate com o total: o numero e um so")
 
         # o que o sistema NAO faz, com o mesmo rigor do que faz
         pag.click("#vistasEng button[data-vista='bloqueios']")

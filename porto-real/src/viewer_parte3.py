@@ -13,6 +13,10 @@ const CAMADAS = [
   ["cobertura", "Cobertura", true], ["externo", "Externo", true],
   ["tecnico", "Técnico", true], ["mob", "Mobiliário", true],
   ["escada", "Escada", true],
+  // A estrutura entra DESLIGADA: ela e a mesma parede vista por dentro, e as
+  // duas ligadas ao mesmo tempo dao uma sopa. Ligar a estrutura e desligar o
+  // terreo e o superior e o gesto que mostra o esqueleto.
+  ["lsf", "Estrutura LSF", false],
 ];
 
 function solVetor(decl, hora) {
@@ -117,6 +121,7 @@ function montar3D(dados) {
   dados.externo.forEach(b => add(b.t === "tecnico" ? "tecnico" : "externo", b));
   dados.mob.forEach(b => add("mob", b));
   dados.escada.forEach(b => add("escada", b));
+  (dados.lsf || []).forEach(b => add("lsf", b));
 
   R = {cena, cam, ren, grupos, solidos, sol, plano, el,
        alvo: new THREE.Vector3(10000, 20000, 1500),
@@ -190,12 +195,19 @@ function montar3D(dados) {
       return dz < 2200;
     }).map(a => ({a, d: Math.hypot(a.p[0] - p.x, a.p[1] - p.y)}))
       .sort((u, v) => u.d - v.d)[0];
-    const cod = hit.object.userData.amb;
+    const u = hit.object.userData;
+    const cod = u.amb;
     const leitura = document.getElementById("leitura3d");
-    if (amb && amb.d < 4500) {
+    if (u.t !== "lsf" && amb && amb.d < 4500) {
       leitura.innerHTML = `<b>${amb.a.nome}</b><span>${amb.a.cod} · ` +
         `${amb.a.area.toFixed(2).replace(".", ",")} m² · pavimento ` +
         `${amb.a.pav === "S" ? "superior" : "térreo"}</span>`;
+    } else if (u.t === "lsf") {
+      // clicar numa peca da estrutura le a PECA, nao o ambiente: e a mesma
+      // identidade que vai para a perfiladeira e para o parafuso
+      leitura.innerHTML = `<b>${u.cod}</b><span>${u.fam} · ${u.perf}<br>` +
+        `${u.comp} mm · painel ${u.painel} · pavimento ` +
+        `${u.pav === "S" ? "superior" : "térreo"}</span>`;
     } else if (cod) {
       leitura.innerHTML = `<b>${cod}</b><span>${hit.object.userData.t}</span>`;
     }

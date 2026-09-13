@@ -136,6 +136,7 @@ const VISTAS = [
   ["montagem",   "Montagem",           "sequência animada"],
   ["logistica",  "Logística",          "container e içamento"],
   ["documentos", "Documentos",         "gerados do modelo"],
+  ["parafusos",  "Parafusos",          "5.266, e de onde vem cada um"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -152,6 +153,8 @@ const LEITURA = {
     montagem: "O prazo da obra é esta lista multiplicada pelo tamanho da equipe.",
     logistica: "Um container mal ocupado é frete pago por ar.",
     documentos: "O que vai para a fábrica e para o canteiro.",
+    parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
+               "não é o total: é quantos vêm de força calculada.",
     bloqueios: "O que este sistema não entrega, e o que seria preciso para " +
                "entregar. Nenhum destes itens está pela metade: estão fora, " +
                "com o preço declarado.",
@@ -184,6 +187,13 @@ const LEITURA = {
     documentos: "Os seis documentos saem do mesmo dado das telas anteriores. " +
                 "Trocar o modo de leitura muda a explicação; o valor de " +
                 "cálculo é idêntico nos três.",
+    parafusos: "Cada junta entre duas peças é enumerada, e cada uma declara " +
+               "DE ONDE veio a quantidade. FORÇA é esforço calculado — o " +
+               "único caso com defesa técnica. MÍNIMO é o mínimo construtivo, " +
+               "onde a junta só posiciona. DECLARADO é junta que transfere " +
+               "esforço que o modelo ainda não calcula, e a quantidade " +
+               "desenvolve uma fração escrita da capacidade da peça. Somar as " +
+               "três num número só esconderia justamente o que importa saber.",
     bloqueios: "Há três respostas possíveis para o que depende do mundo " +
                "externo: simular, não entregar, ou entregar o contrato. " +
                "Simular é a pior — uma funcionalidade falsa é pior que a " +
@@ -210,6 +220,10 @@ const LEITURA = {
                "limitante (peso ou volume) é declarado, não inferido.",
     documentos: "memorial_compressao() chama a mesma verificacao.compressao() " +
                 "nos três modos; a divergência entre modos seria um defeito.",
+    parafusos: "Cisalhamento por NBR 14762 item 8.4: esmagamento das duas " +
+               "chapas e basculamento do parafuso, com o modo governante " +
+               "nomeado. A razão t2/t1 decide quais modos competem — chapas " +
+               "parecidas basculam o parafuso, chapas muito diferentes não.",
     bloqueios: "Adaptador vazio levanta SemFonteDeDados com código, motivo e " +
                "remédio; receber() já valida tipo, unidade, domínio e campo " +
                "desconhecido hoje, antes de o dado existir. A auditoria chama " +
@@ -375,9 +389,17 @@ function vistaPaineis() {
           <p class="cap"><b>${esc2(p.cod)}</b> · parede ${esc2(p.parede)} ·
             ${p.externa ? "externa" : "interna"} · ${p.comp} × ${p.altura} mm ·
             espessura ${p.esp} mm · ${num(p.massa, 1)} kg ·
+            <b>${num(p.parafusos || 0)} parafusos</b> em ${(p.juntas || []).length} juntas ·
             ${p.horizontal ? "horizontal" : "vertical"} em planta
             ${p.obs ? "<br>" + esc2(p.obs) : ""}</p>
           <div class="legenda">${fams}</div></div>
+        <div class="rolagem" style="margin-top:12px">
+          <table class="tabela"><thead><tr><th>junta</th><th>peças</th>
+            <th>n</th><th>origem</th><th>parafuso</th></tr></thead><tbody>${
+              (p.juntas || []).map(j => `<tr><td>${esc2(j.tipo)}</td>
+                <td>${j.pecas.map(esc2).join(" + ")}</td><td>${j.n}</td>
+                <td>${esc2(j.origem)}</td><td>${esc2(j.parafuso)}</td></tr>`).join("")
+            }</tbody></table></div>
         <div class="rolagem" style="margin-top:12px">
           <table class="tabela"><thead><tr><th>peça</th><th>família</th>
             <th>perfil</th><th>comp</th><th>x</th><th>z</th><th>kg</th><th>furos</th>
@@ -586,6 +608,63 @@ function vistaDocumentos() {
 }
 '''
 JS_ENG += r'''
+// --------------------------------------------------------------- parafusos
+const COR_ORIGEM = {FORCA: "#0a6a4a", MINIMO: "#8a94a6", DECLARADO: "#d98324"};
+function vistaParafusos() {
+  const J = ENG.juntas;
+  if (!J) return barraModos() + "<p class='conta'>sem programa de juntas</p>";
+  const totalO = J.por_origem.reduce((s, o) => s + o.n, 0) || 1;
+  const origem = J.por_origem.map(o =>
+    `<div style="display:grid;grid-template-columns:104px 1fr 64px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11.5px;padding:3px 0">
+      <span style="color:${COR_ORIGEM[o.origem] || "inherit"}">${esc2(o.origem)}</span>
+      <span style="height:12px;background:var(--rule-soft)"><i style="display:block;
+        height:100%;width:${(o.n / totalO * 100).toFixed(1)}%;
+        background:${COR_ORIGEM[o.origem] || "#8a94a6"}"></i></span>
+      <span style="text-align:right">${num(o.n)}</span></div>`).join("");
+  const maiorT = Math.max(...J.por_tipo.map(t => t.n)) || 1;
+  const tipos = J.por_tipo.map(t =>
+    `<div style="display:grid;grid-template-columns:148px 1fr 56px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:2px 0">
+      <span>${esc2(t.tipo)}</span>
+      <span style="height:9px;background:var(--rule-soft)"><i style="display:block;
+        height:100%;width:${(t.n / maiorT * 100).toFixed(1)}%;background:#3f6fb5"></i></span>
+      <span style="text-align:right">${num(t.n)}</span></div>`).join("");
+  const ex = J.exemplos.map(x =>
+    `<tr><td>${esc2(x.tipo)}</td>
+      <td><span class="chip" style="background:${COR_ORIGEM[x.origem]}"></span>${esc2(x.origem)}</td>
+      <td>${x.n}</td><td>${esc2(x.parafuso)}</td>
+      <td>${x.forca_kn ? num(x.forca_kn, 2) + " kN" : "—"}</td>
+      <td style="white-space:normal;max-width:38ch">${esc2(x.nota || "")}</td></tr>`).join("");
+  const pf_ = J.por_parafuso.map(p =>
+    `<div class="cartao"><span class="rot">${esc2(p.parafuso)}</span>
+      <span class="val">${num(p.n)}</span><span class="uni">unidades</span></div>`).join("");
+  return `${barraModos()}${leitura("parafusos")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Parafusos</span>
+        <span class="val">${num(J.total)}</span><span class="uni">no total</span></div>
+      <div class="cartao"><span class="rot">Por área</span>
+        <span class="val">${J.por_m2.toFixed(1).replace(".", ",")}</span>
+        <span class="uni">por m² de projeto</span></div>
+      <div class="cartao"><span class="rot">Juntas</span>
+        <span class="val">${num(J.n_juntas)}</span><span class="uni">peça com peça</span></div>
+      ${pf_}
+    </div>
+    <div class="eng-grid" style="grid-template-columns:1fr 1fr">
+      <div class="eng-sec"><h3>De onde vem a quantidade</h3>${origem}
+        <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+          Só <b>${num(J.por_origem.find(o => o.origem === "FORCA")?.n || 0)}</b>
+          parafusos saem de um esforço calculado. O resto é mínimo construtivo
+          ou regra declarada — e saber a diferença é o que permite discutir o
+          projeto em vez de aceitá-lo.</p></div>
+      <div class="eng-sec"><h3>Por tipo de junta</h3>${tipos}</div>
+    </div>
+    <div class="eng-sec"><h3>Uma junta de cada tipo, por extenso</h3>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>junta</th>
+        <th>origem</th><th>n</th><th>parafuso</th><th>força</th><th>por quê</th>
+        </tr></thead><tbody>${ex}</tbody></table></div></div>`;
+}
+
 // --------------------------------------------------------------- bloqueios
 let contratoSel = null;
 function vistaBloqueios() {
@@ -638,7 +717,7 @@ function renderEng() {
   const f = {painel: vistaPainel, paineis: vistaPaineis, pecas: vistaPecas,
              corte: vistaCorte, montagem: vistaMontagem,
              logistica: vistaLogistica, documentos: vistaDocumentos,
-             bloqueios: vistaBloqueios}[engVista];
+             parafusos: vistaParafusos, bloqueios: vistaBloqueios}[engVista];
   alvo.innerHTML = f();
   const v = VISTAS.find(x => x[0] === engVista);
   document.getElementById("sheetTitle").firstChild.nodeValue =

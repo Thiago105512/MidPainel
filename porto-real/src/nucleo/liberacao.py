@@ -21,6 +21,7 @@ import nucleo.verificacao as vr
 import nucleo.materiais as mt
 import nucleo.fabricacao as fb
 import nucleo.descida as ds
+import nucleo.juntas as ju
 import nucleo.perfis as pf
 
 
@@ -64,6 +65,19 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     dim = ds.dimensionar(paineis, aco, pj.CARGAS, cfg, cat_perfis)
     jambas, apertadas = dim["jambas"], dim["apertadas"]
 
+    # ---- juntas: cada parafuso do projeto, contado a partir de uma forca.
+    # Ate R29 o checklist trazia `"ligacoes": True` literal, e o BOM estimava
+    # `len(pecas) * 8`. Nenhum dos dois olhava para uma junta.
+    juntas, n_parafusos = {}, 0
+    for p in todos:
+        e = ds.esforco_por_montante(p, pj.CARGAS, cfg)
+        n_mont = e["por_familia"]["montante"]["nsd"]
+        n_jamba = (e["por_familia"].get("king stud")
+                   or e["por_familia"]["montante"])["nsd"]
+        j = ju.programar(p, n_mont, n_jamba, aco, cfg)
+        juntas[p.cod] = j
+        n_parafusos += j["n_parafusos"]
+
     pecas = []
     for pav, pais in paineis.items():
         pecas += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"],
@@ -76,7 +90,8 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     utilizacoes = verif["utilizacoes"]
 
     plano = ns.nestar_barras([(p.cod, p.perfil, p.comp) for p in pecas])
-    itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2)
+    itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2,
+                      n_parafusos=n_parafusos)
     custo = sum(i.total for i in itens)
 
     etapas = mo.etapas_do_projeto(paineis, cat)
@@ -124,7 +139,11 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         # o item agora PODE falhar: e a verificacao de 415 montantes contra a
         # carga que desce ate cada um, sem teto na utilizacao
         "perfis aprovados": verif["aprovado"],
-        "ligacoes": True,
+        # o item passou a poder falhar: toda junta esta programada, nenhuma
+        # ficou sem parafuso e nenhuma passa da capacidade do parafuso
+        "ligacoes": all(j["n_juntas"] > 0 and
+                        all(x["n"] >= 2 for x in j["juntas"])
+                        for j in juntas.values()),
         "fundacao": True,
         # verga para todo vao que comporta uma; o vao de altura total nao tem
         # verga por definicao, e o painel declara isso na observacao
@@ -153,4 +172,4 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                 liberacao=lib, massa_util=massa_util,
                 massa_comprada=massa_comprada, utilizacoes=utilizacoes,
                 verificacao=verif, jambas=jambas, jambas_apertadas=apertadas,
-                u_alvo=cfg.u_alvo)
+                u_alvo=cfg.u_alvo, juntas=juntas, n_parafusos=n_parafusos)

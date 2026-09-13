@@ -360,6 +360,13 @@ PROGRAMA = [
      "constante. Os 415 montantes sao verificados um a um, sem teto na "
      "utilizacao. PARCIAL porque a direcao do vigamento e desconhecida: o "
      "excesso esta medido (1,54x no terreo) e declarado, nunca suposto."),
+    (100, "Programa de parafusos: cada junta, cada quantidade, cada origem",
+     ["checar_juntas"], "AUTOMATIZADA",
+     "Secoes 30, 31 e 59. As 1.520 juntas entre pecas sao enumeradas e cada "
+     "uma declara DE ONDE veio a quantidade: FORCA (esforco calculado), MINIMO "
+     "(minimo construtivo) ou DECLARADO (regra escrita para esforco que o "
+     "modelo ainda nao calcula). Somar as tres num numero so esconderia "
+     "exatamente o que precisa ser sabido."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

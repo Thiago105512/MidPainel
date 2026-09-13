@@ -2360,6 +2360,11 @@ REVISOES = [
             "abertura larga, a pior com 2,03. Jamba dimensionada pela carga, "
             "com alvo de projeto de 0,95 separado do limite normativo de 1,00; "
             "custou 10 kg de aco em 2.424"),
+    ("R30", "Programa de parafusos: 1.520 juntas e 5.266 parafusos, cada um "
+            "com a origem declarada — forca calculada, minimo construtivo ou "
+            "regra escrita. O checklist trazia \"ligacoes\": True literal e o "
+            "BOM estimava pecas x 8, 22 % a mais. E a estrutura inteira entrou "
+            "no 3D: 805 pecas, cada familia numa cor, cada peca clicavel"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2385,13 +2390,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R29",
+    revisao="R30",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R29", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R30", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

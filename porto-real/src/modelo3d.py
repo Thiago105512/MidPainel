@@ -371,13 +371,74 @@ def exportar(caminho: str | None = None) -> dict:
         superior=_paredes("S"),
         lajes=_lajes(), platibandas=_platibandas(),
         externo=_externos(), mob=_mobiliario(), escada=_escada(),
-        ambientes=_ambientes(), cenas=CENAS, cores=CORES)
+        ambientes=_ambientes(), cenas=CENAS, cores=CORES,
+        lsf=_estrutura_lsf(), cores_lsf=CORES_LSF)
     # separa o que e do superior para permitir ligar/desligar
     dados["superior"] = [b for b in dados["superior"]]
     if caminho:
         with open(caminho, "w") as f:
             json.dump(dados, f, separators=(",", ":"))
     return dados
+
+
+# ---------------------------------------------------------------------------
+# ESTRUTURA LSF — as 805 pecas, cada uma no seu lugar
+# ---------------------------------------------------------------------------
+# Ate R29 o 3D mostrava o EDIFICIO: paredes como blocos macicos de 150 mm. Isso
+# serve para verificar altura livre e sombra, e nao serve para ver a estrutura:
+# a parede de LSF nao e um bloco, sao 13 pecas de chapa de 0,95 mm. Quem quer
+# conferir montante, verga e travamento precisa ver a peca, nao o volume que ela
+# preenche.
+CORES_LSF = {
+    "track": "#8a94a6", "stud": "#3f6fb5", "king stud": "#1f4e96",
+    "jack stud": "#4d8fd6", "cripple superior": "#9fc0e8",
+    "cripple inferior": "#7ba7dc", "header": "#c4491f",
+    "sill": "#d98324", "blocking": "#6fae7c",
+}
+
+
+def _estrutura_lsf() -> list[dict]:
+    """Cada peca de cada painel, em coordenada do mundo.
+
+    A peca vive em coordenada LOCAL do painel: x ao longo da parede, z a partir
+    da base. O painel vive em coordenada do pavimento. A conversao e so uma, e
+    esta aqui — em qualquer outro lugar ela seria uma segunda verdade.
+    """
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.perfis as pf
+    import nucleo.materiais as mt
+    import nucleo.descida as ds
+
+    cfg = pn.Config()
+    aco = mt.POR_ACO["ZAR 230"]
+    pais = {pav: pn.painelizar(el.derivar_paredes(amb),
+                               list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")
+            for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR))}
+    ds.dimensionar(pais, aco, pj.CARGAS, cfg, list(pf.catalogo()))
+
+    base = {"T": pj.NIVEL_TERREO, "S": pj.NIVEL_SUPERIOR}
+    out = []
+    for pav, lista in pais.items():
+        z0 = base[pav]
+        for p in lista:
+            for q in p.pecas:
+                bw = pn.bw(q.perfil)
+                # medida ao longo da parede e altura da peca no plano do painel
+                ao_longo = bw if q.vertical else q.comp
+                alto = q.comp if q.vertical else bw
+                if p.horizontal:
+                    x0, x1 = p.x + q.x, p.x + q.x + ao_longo
+                    y0, y1 = p.y, p.y + p.esp
+                else:
+                    x0, x1 = p.x, p.x + p.esp
+                    y0, y1 = p.y + q.x, p.y + q.x + ao_longo
+                b = _box("lsf", x0, y0, z0 + q.z, x1, y1, z0 + q.z + alto,
+                         CORES_LSF.get(q.familia, "#8a94a6"))
+                b.update(cod=q.cod, fam=q.familia, perf=q.perfil,
+                         painel=p.cod, pav=pav, comp=q.comp)
+                out.append(b)
+    return out
 
 
 if __name__ == "__main__":

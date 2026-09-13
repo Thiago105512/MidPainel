@@ -83,7 +83,7 @@ def _orientacoes() -> dict:
     return out
 
 
-def _painel_json(p, massas: dict, cat: dict, ori: dict) -> dict:
+def _painel_json(p, massas: dict, cat: dict, ori: dict, juntas=None) -> dict:
     return dict(
         horizontal=ori.get(p.parede, True),
         cod=p.cod, parede=p.parede, x=p.x, y=p.y, comp=p.comp,
@@ -91,6 +91,9 @@ def _painel_json(p, massas: dict, cat: dict, ori: dict) -> dict:
         pav=p.cod[0] if p.cod[0] in "TS" else "T",
         massa=round(p.massa(cat), 1),
         n_pecas=len(p.pecas), obs=p.obs,
+        parafusos=(juntas or {}).get(p.cod, {}).get("n_parafusos", 0),
+        juntas=[dict(j, pecas=list(j["pecas"]))
+                for j in (juntas or {}).get(p.cod, {}).get("juntas", [])],
         familias=p.por_familia(),
         aberturas=[dict(tipo=a["tipo"], centro=a["centro"], larg=a["larg"],
                         alt=a["alt"], peitoril=a["peitoril"],
@@ -170,6 +173,43 @@ def _estrutura(r: dict) -> dict:
         u_alvo=r.get("u_alvo", 0.95))
 
 
+def _juntas(r: dict) -> dict:
+    """O programa de parafusos, agregado como a obra precisa ler.
+
+    Por tipo de junta, por origem do numero e por painel. A origem e o campo
+    que nao pode sumir na soma: 5.266 parafusos dos quais 1.538 vem de forca
+    calculada e 3.656 de minimo construtivo e uma informacao diferente de
+    "5.266 parafusos".
+    """
+    js = r["juntas"]
+    por_tipo, por_origem, por_parafuso = {}, {}, {}
+    for j in js.values():
+        for x in j["juntas"]:
+            por_tipo[x["tipo"]] = por_tipo.get(x["tipo"], 0) + x["n"]
+            por_origem[x["origem"]] = por_origem.get(x["origem"], 0) + x["n"]
+            por_parafuso[x["parafuso"]] = por_parafuso.get(x["parafuso"], 0) + x["n"]
+    # uma junta representativa de cada tipo, com o motivo por extenso
+    exemplo = {}
+    for j in js.values():
+        for x in j["juntas"]:
+            if x["tipo"] not in exemplo:
+                exemplo[x["tipo"]] = dict(x, pecas=list(x["pecas"]))
+    return dict(
+        total=r["n_parafusos"],
+        por_m2=round(r["n_parafusos"] / 295.92, 1),
+        n_juntas=sum(j["n_juntas"] for j in js.values()),
+        por_tipo=[dict(tipo=k, n=v) for k, v in
+                  sorted(por_tipo.items(), key=lambda kv: -kv[1])],
+        por_origem=[dict(origem=k, n=v) for k, v in
+                    sorted(por_origem.items(), key=lambda kv: -kv[1])],
+        por_parafuso=[dict(parafuso=k, n=v) for k, v in
+                      sorted(por_parafuso.items(), key=lambda kv: -kv[1])],
+        exemplos=list(exemplo.values()),
+        por_painel={k: dict(n=j["n_parafusos"], juntas=j["n_juntas"],
+                            tipos=j["por_tipo"])
+                    for k, j in js.items()})
+
+
 def _nesting(plano: dict) -> dict:
     barras = [dict(cod=b.cod, perfil=b.perfil, bruto=round(b.comp_bruto),
                    origem=b.origem,
@@ -209,7 +249,8 @@ def montar() -> dict:
         familias=familias,
         perfis=[dict(perfil=k, massa=round(v, 1)) for k, v in
                 sorted(perfis.items(), key=lambda kv: -kv[1])],
-        paineis=[_painel_json(p, massas, cat, ori) for p in r["paineis"]],
+        paineis=[_painel_json(p, massas, cat, ori, r["juntas"])
+                 for p in r["paineis"]],
         nesting=_nesting(r["plano"]),
         bom=[dict(sku=i.sku, descricao=i.descricao, unidade=i.unidade,
                   quantidade=round(i.quantidade, 2),
@@ -234,6 +275,7 @@ def montar() -> dict:
         emissao=r["emissao"],
         desmontabilidade=r["desmontabilidade"],
         estrutura=_estrutura(r),
+        juntas=_juntas(r),
         scores=r["scores"], score_geral=r["score_geral"],
         liberacao=r["liberacao"],
         documentos=dict(

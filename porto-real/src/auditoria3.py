@@ -2124,3 +2124,112 @@ def checar_descida() -> list[Achado]:
     for h in r["hipoteses"]:
         out.append(Achado("ATENCAO", "hipotese de caminho de carga", h))
     return out
+
+
+def checar_juntas() -> list[Achado]:
+    """Programa de parafusos: quantos, quais, e de onde veio o numero.
+
+    Ate R29 o checklist da liberacao trazia `"ligacoes": True`. Literal, uma
+    linha abaixo do `min(0.99, ...)` da verificacao estrutural e com o mesmo
+    vicio: um item que nao pode falhar nao verifica, assina. O BOM, do seu
+    lado, estimava `len(pecas) * 8` parafusos — 6.440 contra os 5.266 reais,
+    22 % de erro num item que agora e contado.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.perfis as pf
+    import nucleo.materiais as mt
+    import nucleo.descida as ds
+    import nucleo.juntas as ju
+    import nucleo.ligacoes as lg
+    out = []
+    cfg = pn.Config()
+    aco = mt.POR_ACO["ZAR 230"]
+    pais = {pav: pn.painelizar(el.derivar_paredes(amb),
+                               list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")
+            for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR))}
+    ds.dimensionar(pais, aco, pj.CARGAS, cfg, list(pf.catalogo()))
+    todos = pais["T"] + pais["S"]
+
+    progs, problemas = {}, []
+    for p in todos:
+        e = ds.esforco_por_montante(p, pj.CARGAS, cfg)
+        nm = e["por_familia"]["montante"]["nsd"]
+        nj = (e["por_familia"].get("king stud")
+              or e["por_familia"]["montante"])["nsd"]
+        progs[p.cod] = ju.programar(p, nm, nj, aco, cfg)
+
+    # ---- 1. nenhuma peca fica sem junta: peca solta cai
+    for p in todos:
+        ligadas = {c for j in progs[p.cod]["juntas"] for c in j["pecas"]}
+        soltas = [q.cod for q in p.pecas if q.cod not in ligadas]
+        if soltas:
+            problemas.append(f"{p.cod}: {len(soltas)} peca(s) sem junta "
+                             f"nenhuma (ex.: {soltas[0]})")
+    total = sum(j["n_parafusos"] for j in progs.values())
+    out.append(Achado("NOTA" if not problemas else "ERRO", "cobertura",
+                      f"{sum(j['n_juntas'] for j in progs.values())} juntas e "
+                      f"{total} parafusos; nenhuma peca do projeto fica sem "
+                      f"ligacao, e peca sem ligacao e peca que cai"))
+
+    # ---- 2. a origem do numero nunca se perde na soma
+    origens = {}
+    for j in progs.values():
+        for k, v in j["por_origem"].items():
+            origens[k] = origens.get(k, 0) + v
+    soma = sum(origens.values())
+    desconhecida = set(origens) - {"FORCA", "MINIMO", "DECLARADO"}
+    out.append(Achado("NOTA" if soma == total and not desconhecida else "ERRO",
+                      "origem",
+                      f"{origens.get('FORCA', 0)} parafusos saem de esforco "
+                      f"calculado, {origens.get('MINIMO', 0)} de minimo "
+                      f"construtivo e {origens.get('DECLARADO', 0)} de regra "
+                      f"declarada — e as tres somam o total exato, sem sobra"))
+
+    # ---- 3. nenhuma junta abaixo do minimo, nenhuma acima da capacidade
+    fracos = [(j["painel"], x) for j in progs.values() for x in j["juntas"]
+              if x["n"] < 2]
+    out.append(Achado("NOTA" if not fracos else "ERRO", "minimo",
+                      f"nenhuma junta sai com menos de 2 parafusos: um "
+                      f"parafuso so nao e ligacao, e uma rotula"))
+
+    # ---- 4. o modelo de cisalhamento reage a espessura, e reage na direcao
+    # certa: chapa mais grossa segura mais
+    par = lg.POR_PARAFUSO[ju.PADRAO]
+    caps = [lg.cisalhamento(par, t, t, aco.fu, aco.fu)["nvrd"]
+            for t in (0.95, 1.25, 1.55, 2.00)]
+    out.append(Achado("NOTA" if caps == sorted(caps) else "ERRO", "modelo",
+                      f"a capacidade por parafuso cresce com a chapa: "
+                      f"{', '.join(f'{c:.2f}' for c in caps)} kN para 0,95 a "
+                      f"2,00 mm — e o modo governante vem nomeado em cada uma"))
+
+    # ---- 5. dobrar a forca nao pode dar o mesmo numero de parafusos
+    n1 = lg.quantidade(20.0, par, 1.25, 1.25, aco.fu, aco.fu)["n"]
+    n2 = lg.quantidade(40.0, par, 1.25, 1.25, aco.fu, aco.fu)["n"]
+    out.append(Achado("NOTA" if n2 > n1 else "ERRO", "sensibilidade",
+                      f"20 kN pedem {n1} parafusos e 40 kN pedem {n2}: a "
+                      f"quantidade responde a forca, nao ao habito"))
+
+    # ---- 6. e o BOM tem de receber o numero contado, nao uma estimativa
+    import nucleo.bom as bo
+    pecas = []
+    for pav, lista in pais.items():
+        pecas += __import__("nucleo.peca", fromlist=["x"]).detalhar(
+            lista, pn._catalogo_massa(), pav, pj.EMISSAO["revisao"])
+    estimado = bo.montar(pecas, dict(barras=[], n_barras=0, n_novas=0,
+                                     bruto=0.0, usado=0.0, perda=0.0,
+                                     aproveitamento=1.0), 295.92)
+    real = bo.montar(pecas, dict(barras=[], n_barras=0, n_novas=0, bruto=0.0,
+                                 usado=0.0, perda=0.0, aproveitamento=1.0),
+                     295.92, n_parafusos=total)
+    qe = next(i.quantidade for i in estimado if i.sku == "PAR-EST")
+    qr = next(i.quantidade for i in real if i.sku == "PAR-EST")
+    out.append(Achado("NOTA" if qr == total else "ERRO", "BOM",
+                      f"o BOM recebe os {int(qr)} parafusos contados; a "
+                      f"estimativa antiga de len(pecas) x 8 daria {int(qe)}, "
+                      f"{abs(qe-qr)/qr*100:.0f} % a mais"))
+
+    for m in problemas[:8]:
+        out.append(Achado("ERRO", "juntas", m))
+    return out

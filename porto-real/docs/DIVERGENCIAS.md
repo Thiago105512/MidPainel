@@ -2476,3 +2476,57 @@ resultado REPROVADO, e exige que o checklist bloqueie. Se alguém puser um teto 
 volta, o teste cai na hora.
 
 > Um item de verificação que não pode falhar não verifica. Assina.
+
+## Defeito 37 — `"ligacoes": True`
+
+Uma linha abaixo do `min(0.99, ...)` do Defeito 36, na mesma lista de
+verificação, estava o mesmo vício:
+
+```python
+"ligacoes": True,
+```
+
+Literal. **Nenhum parafuso era contado neste projeto.** O item passava sempre, e
+o BOM, do seu lado, estimava `len(pecas) * 8` — 6.440 parafusos contra os
+**5.266 reais**, 22 % de erro num item que agora é contado.
+
+Ele não foi encontrado por auditoria: foi encontrado por uma pergunta. *"Não vi
+a estrutura toda, cada peça numerada, cada tipo uma cor, quantidade de
+parafusos, quais parafusos."* A pergunta de quem quer **ver** achou o que a
+bateria de 440 condições não achava — porque as condições verificavam o que
+existia, e o que faltava não estava lá para ser verificado.
+
+### O que entrou
+
+`nucleo/juntas.py` enumera toda junta entre duas peças e, para cada uma, diz
+quantos parafusos, qual parafuso e — a parte que separa engenharia de praxe —
+**de onde veio o número**. Três origens, que não valem o mesmo:
+
+| origem | o que significa | no Porto Real |
+|---|---|---|
+| **FORÇA** | sai de um esforço calculado; o único caso com defesa técnica | 1.538 |
+| **MÍNIMO** | mínimo construtivo — a junta posiciona, não transfere | 3.656 |
+| **DECLARADO** | transfere esforço que o modelo ainda não calcula; desenvolve fração escrita da capacidade | 72 |
+
+Somar as três num número só esconderia justamente o que precisa ser sabido:
+*"5.266 parafusos"* e *"5.266 parafusos, dos quais 1.538 vêm de força
+calculada"* são informações diferentes.
+
+### O teste de sobreposição, e os 14 parafusos
+
+A primeira versão detectava a junta montante×guia por **encosto** — e o primeiro
+painel saiu com 14 parafusos onde precisa de 70. O montante não encosta na guia:
+ele **atravessa** a guia, encaixa dentro dela. Essa é a própria convenção de
+coordenada do modelo desde o Defeito 32, e eu a esqueci três dias depois de
+escrevê-la. O teste virou sobreposição de retângulos, que é o que a física é.
+
+### E a estrutura passou a ser visível
+
+805 peças no modelo 3D, cada uma no seu lugar, com código, família, perfil e
+painel — coloridas por função estrutural, clicáveis, numa camada que entra
+desligada porque estrutura e parede ligadas ao mesmo tempo dão uma sopa. Ligar a
+estrutura e desligar o térreo e o superior é o gesto que mostra o esqueleto.
+
+> A auditoria verifica o que existe. Ela não sente falta do que nunca foi
+> escrito — para isso ainda é preciso alguém olhar e perguntar por que não está
+> ali.
