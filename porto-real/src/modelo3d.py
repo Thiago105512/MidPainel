@@ -394,6 +394,9 @@ CORES_LSF = {
     "jack stud": "#4d8fd6", "cripple superior": "#9fc0e8",
     "cripple inferior": "#7ba7dc", "header": "#c4491f",
     "sill": "#d98324", "blocking": "#6fae7c",
+    # vigamento e contraventamento, que ate R30 nao existiam no modelo
+    "viga": "#2f7d4f", "viga de borda": "#1d5c38", "travamento": "#7fb08f",
+    "diagonal": "#e0a32e",
 }
 
 
@@ -438,6 +441,49 @@ def _estrutura_lsf() -> list[dict]:
                 b.update(cod=q.cod, fam=q.familia, perf=q.perfil,
                          painel=p.cod, pav=pav, comp=q.comp)
                 out.append(b)
+
+    # ---- vigamento de entrepiso e de cobertura
+    import nucleo.piso as ps
+    casa = ps.montar_casa(pj, aco, cfg)
+    for q in casa["pecas"]:
+        bw = pn.bw(q["perfil"]) if q["perfil"] != "—" else 200
+        z0 = q["nivel"]
+        if q["ao_longo_x"]:
+            x0, x1 = q["x"], q["x"] + q["comp"]
+            y0, y1 = q["y"], q["y"] + 45
+        else:
+            x0, x1 = q["x"], q["x"] + 45
+            y0, y1 = q["y"], q["y"] + q["comp"]
+        b = _box("lsf", x0, y0, z0, x1, y1, z0 + bw,
+                 CORES_LSF.get(q["familia"], "#2f7d4f"))
+        b.update(cod=q["cod"], fam=q["familia"], perf=q["perfil"],
+                 painel=q["plano"], pav=q["tipo"], comp=q["comp"])
+        out.append(b)
+
+    # ---- contraventamento: as fitas em X, que precisam de rotacao de verdade.
+    # Em vez de deduzir angulo e eixo aqui e de novo no navegador, a peca leva
+    # as DUAS PONTAS e o navegador monta a transformacao a partir delas. Uma
+    # rotacao deduzida em dois lugares diverge no primeiro sinal trocado.
+    todos = [p for v in pais.values() for p in v]
+    contra = ps.contraventar(todos, pj, aco, cfg)
+    por_cod = {p.cod: p for p in todos}
+    for q in contra["pecas"]:
+        p = por_cod.get(q["painel"])
+        if p is None:
+            continue
+        z0 = base[p.pav]
+        ini, fim = (0, p.comp) if q["sinal"] > 0 else (p.comp, 0)
+        if p.horizontal:
+            a0 = [p.x + ini, p.y + p.esp / 2, z0]
+            a1 = [p.x + fim, p.y + p.esp / 2, z0 + p.altura]
+        else:
+            a0 = [p.x + p.esp / 2, p.y + ini, z0]
+            a1 = [p.x + p.esp / 2, p.y + fim, z0 + p.altura]
+        out.append(dict(t="lsf", de=[round(v) for v in a0],
+                        ate=[round(v) for v in a1], esp=38,
+                        c=CORES_LSF["diagonal"], cod=q["cod"],
+                        fam="diagonal", perf=q["perfil"],
+                        painel=q["painel"], pav=p.pav, comp=q["comp"]))
     return out
 
 

@@ -107,6 +107,22 @@ function montar3D(dados) {
   function add(grupo, b) {
     const transp = b.t === "vao" || b.t === "piscina";
     const m = new THREE.Mesh(caixa, material(b.c, transp));
+    if (b.de) {
+      // Peca definida pelas DUAS PONTAS — a fita em X do contraventamento.
+      // O dado diz onde ela comeca e onde termina; a rotacao sai daqui, de um
+      // lugar so. Deduzir angulo e eixo no exportador E no navegador seria
+      // manter duas rotacoes que divergem no primeiro sinal trocado.
+      const a = new THREE.Vector3(...b.de), z = new THREE.Vector3(...b.ate);
+      const d = new THREE.Vector3().subVectors(z, a);
+      m.position.copy(a).addScaledVector(d, 0.5);
+      m.scale.set(d.length(), b.esp || 38, b.esp || 38);
+      m.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0),
+                                      d.clone().normalize());
+      m.castShadow = true; m.receiveShadow = true;
+      m.userData = b;
+      grupos[grupo].add(m); solidos.push(m);
+      return;
+    }
     m.position.set(b.p[0], b.p[1], b.p[2]);
     m.scale.set(Math.max(b.s[0], 1), Math.max(b.s[1], 1), Math.max(b.s[2], 1));
     m.castShadow = !transp; m.receiveShadow = true;
@@ -217,7 +233,10 @@ function montar3D(dados) {
   const cx = document.getElementById("camadas");
   CAMADAS.forEach(([id, rot, on]) => {
     const lab = document.createElement("label");
-    lab.innerHTML = `<input type="checkbox" ${on ? "checked" : ""}>${rot}`;
+    // data-camada: sem identificador, a camada so e alcancavel pelo texto do
+    // rotulo ou pela ordem na lista — as duas coisas que mudam
+    lab.innerHTML = `<input type="checkbox" data-camada="${id}" ` +
+                    `${on ? "checked" : ""}>${rot}`;
     lab.querySelector("input").addEventListener("change", e2 => {
       grupos[id].visible = e2.target.checked;
       render();

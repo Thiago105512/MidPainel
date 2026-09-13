@@ -272,13 +272,16 @@ def _preencher(p: Painel, aberturas: list, cfg: Config, jamba=None) -> None:
     desenhava a peca a partir da propria coordenada. O visualizador desenhou, e
     138 pecas apareceram fora do painel.
     """
-    n = 0
+    # UMA identidade por peca. Ate R31 havia duas: o painel numerava por ordem
+    # de geracao (TP01-1-ST001) e a fabrica renomeava por posicao
+    # (TP01-1-ST1FB). A peca que se clica no 3D tinha codigo diferente da mesma
+    # peca no plano de corte, e rastreabilidade com dois codigos nao e
+    # rastreabilidade. O codigo da fabrica e o unico, e nasce aqui.
+    import nucleo.peca as _pe
     bt, bs, bv = bw(cfg.perfil_track), bw(cfg.perfil_stud), bw(cfg.perfil_verga)
 
     def add(familia, perfil, comp, x, z, vertical=True, obs=""):
-        nonlocal n
-        n += 1
-        p.pecas.append(Peca(f"{p.cod}-{familia[:2].upper()}{n:03d}",
+        p.pecas.append(Peca(_pe._codigo(familia, p.cod, int(x), int(z)),
                             familia, perfil, int(comp), int(x), int(z),
                             vertical, obs))
 
@@ -433,7 +436,7 @@ def painelizar(paredes, vaos, cfg: Config = None, prefixo: str = "P",
 
 
 def verga_necessaria(vao_mm: int, carga_kn_m: float, aco, cfg: Config = None,
-                     candidatos=None) -> dict:
+                     candidatos=None, flecha_div: float = 350.0) -> dict:
     """Escolhe a verga pelo vao e pela carga, com as alternativas rejeitadas.
 
     Secao 20: a escolha vem com o motivo. Nao basta dizer qual perfil entrou —
@@ -445,7 +448,13 @@ def verga_necessaria(vao_mm: int, carga_kn_m: float, aco, cfg: Config = None,
     massa = _catalogo_massa()
     L = vao_mm
     msd = carga_kn_m * (L / 1000.0) ** 2 / 8        # kNm, biapoiada
-    flecha_lim = L / 350.0
+    # O limite de flecha e PARAMETRO do problema, nao constante da funcao:
+    # verga de parede aceita L/350, piso com porcelanato colado pede L/500 e
+    # cobertura aceita L/250. Fixar 350 aqui obrigava quem precisasse de outro
+    # a filtrar por fora — e filtrar por fora de uma lista truncada foi
+    # exatamente como tres comodos foram declarados invencíveis quando o
+    # catalogo tinha perfil para eles: os mais pesados nunca entravam na lista.
+    flecha_lim = L / flecha_div
     testados = []
     for p in sorted(cands, key=lambda q: massa[q.cod]):
         f = vr.flexao(p, aco, L=L, travado=True)
@@ -465,11 +474,11 @@ def verga_necessaria(vao_mm: int, carga_kn_m: float, aco, cfg: Config = None,
                              ("momento insuficiente" if not ok_m else "flecha excedida")))
     aprovados = [t for t in testados if t["ok"]]
     if not aprovados:
-        return dict(escolhido=None, alternativas=testados[:6],
+        return dict(escolhido=None, alternativas=testados[:6], testados=testados,
                     motivo=f"nenhum perfil do catalogo vence {L} mm com "
                            f"{carga_kn_m} kN/m — reduzir vao ou inserir apoio")
     e = aprovados[0]
-    return dict(escolhido=e, alternativas=testados[:6],
+    return dict(escolhido=e, alternativas=testados[:6], testados=testados,
                 motivo=f"utilizacao {e['uso']*100:.0f} %, flecha "
                        f"{e['flecha']:.2f} de {flecha_lim:.2f} mm admissiveis, "
                        f"menor massa entre os {len(aprovados)} perfis validos")

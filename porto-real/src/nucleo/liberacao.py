@@ -22,6 +22,7 @@ import nucleo.materiais as mt
 import nucleo.fabricacao as fb
 import nucleo.descida as ds
 import nucleo.juntas as ju
+import nucleo.piso as ps
 import nucleo.perfis as pf
 
 
@@ -83,6 +84,12 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         pecas += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"],
                              {p.cod: [dict(servico="eletrica", d=25)]
                               for p in pais})
+
+    # ---- vigamento de entrepiso, cobertura e contraventamento. Sao aco: se
+    # aparecem no 3D e somem do BOM, o desenho convence sem comprometer.
+    casa = ps.montar_casa(pj, aco, cfg)
+    contra = ps.contraventar(todos, pj, aco, cfg)
+    pecas += ps.como_pecas(casa, contra, cat, pj.EMISSAO["revisao"])
 
     # VERIFICACAO: todos os montantes, um a um, sem teto na utilizacao
     verif = ds.verificar(todos, dict(T=paineis["S"], S=[]),
@@ -172,4 +179,5 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                 liberacao=lib, massa_util=massa_util,
                 massa_comprada=massa_comprada, utilizacoes=utilizacoes,
                 verificacao=verif, jambas=jambas, jambas_apertadas=apertadas,
-                u_alvo=cfg.u_alvo, juntas=juntas, n_parafusos=n_parafusos)
+                u_alvo=cfg.u_alvo, juntas=juntas, n_parafusos=n_parafusos,
+                casa=casa, contraventamento=contra)

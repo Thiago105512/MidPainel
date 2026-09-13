@@ -411,8 +411,13 @@ JS_ENG += r'''
 // ------------------------------------------------------------------ peças
 let pecaOrd = {campo: "cod", asc: true}, pecaBusca = "", pecaFam = "", pecaPav = "";
 function todasPecas() {
+  // as pecas de parede MAIS as que nao pertencem a painel nenhum — vigamento
+  // de entrepiso, cobertura e contraventamento. Percorrer so os paineis
+  // mostrava 805 de 1.011 e nao fechava com a contagem por familia
   return ENG.paineis.flatMap(p => p.pecas.map(q =>
-    Object.assign({painel: p.cod, pav: p.pav}, q)));
+    Object.assign({painel: p.cod, pav: p.pav}, q)))
+    .concat((ENG.extras || []).map(q =>
+      Object.assign({}, q, {painel: q.plano})));
 }
 function vistaPecas() {
   const todas = todasPecas();

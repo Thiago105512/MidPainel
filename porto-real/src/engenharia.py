@@ -230,6 +230,7 @@ def montar() -> dict:
     massas = {p.cod: p for p in r["pecas"]}
     ori = _orientacoes()
 
+    _de_painel = {q.cod for p in r["paineis"] for q in p.pecas}
     familias: dict[str, int] = {}
     perfis: dict[str, float] = {}
     for p in r["pecas"]:
@@ -247,6 +248,13 @@ def montar() -> dict:
         resumo=_resumo(r),
         cores=CORES_FAMILIA,
         familias=familias,
+        # pecas que nao pertencem a painel de parede: vigamento de entrepiso,
+        # cobertura e contraventamento. Sem elas a tabela mostrava 805 de 1.011
+        # e o total das familias nao fechava com o que a tela sabia percorrer.
+        extras=[dict(cod=p.cod, familia=p.familia, perfil=p.perfil,
+                     comp=round(p.comp), massa=round(p.massa, 2),
+                     plano=p.painel, pav=p.pav, marcacao=p.marcacao)
+                for p in r["pecas"] if p.cod not in _de_painel],
         perfis=[dict(perfil=k, massa=round(v, 1)) for k, v in
                 sorted(perfis.items(), key=lambda kv: -kv[1])],
         paineis=[_painel_json(p, massas, cat, ori, r["juntas"])

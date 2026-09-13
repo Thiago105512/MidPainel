@@ -340,9 +340,31 @@ def rodar(fotos: bool = False) -> int:
         ok(pag.evaluate("() => M3.lsf.length") > 700,
            "a estrutura LSF inteira esta no modelo 3D, peca a peca",
            str(pag.evaluate("() => M3.lsf.length")))
+        # a peca tem duas formas: caixa alinhada (p + s) ou definida pelas
+        # pontas (de + ate), que e a fita em X. Um teste que so conhece a
+        # primeira quebra no dia em que a segunda entra — e quebrou
         ok(pag.evaluate("""() => M3.lsf.every(b => b.cod && b.fam && b.perf
-             && b.painel && b.s.every(v => v > 0))"""),
-           "cada peca da estrutura traz codigo, familia, perfil, painel e volume")
+             && b.painel && (b.de ? b.ate && b.de.length === 3
+                                  : b.s.every(v => v > 0)))"""),
+           "cada peca da estrutura traz codigo, familia, perfil e posicao, "
+           "seja caixa alinhada ou peca inclinada")
+        ok(pag.evaluate("""() => {
+             const d = M3.lsf.filter(b => b.fam === 'diagonal');
+             return d.length > 0 && d.every(b => {
+               const dx = b.ate[0]-b.de[0], dy = b.ate[1]-b.de[1],
+                     dz = b.ate[2]-b.de[2];
+               return Math.hypot(dx, dy, dz) > 1000 && dz > 0; }); }"""),
+           "as fitas em X sao diagonais de verdade: sobem e tem comprimento",
+           str(pag.evaluate("() => M3.lsf.filter(b => b.fam === 'diagonal').length")))
+        ok(pag.evaluate("""() => {
+             const d = M3.lsf.filter(b => b.fam === 'diagonal');
+             const m = R.solidos.filter(s => s.userData.fam === 'diagonal');
+             return m.length === d.length
+                    && m.every(s => Math.abs(s.quaternion.w) < 0.9999); }"""),
+           "e chegam a cena rotacionadas, nao deitadas como caixa")
+        ok(pag.evaluate("""() => ['viga','viga de borda','travamento','diagonal']
+             .every(f => M3.lsf.some(b => b.fam === f))"""),
+           "vigamento de piso, borda, travamento e contraventamento estao no modelo")
         ok(pag.evaluate("""() => new Set(M3.lsf.map(b => b.c)).size >= 6"""),
            "cada familia estrutural tem a sua cor",
            str(pag.evaluate("() => new Set(M3.lsf.map(b => b.c)).size")))

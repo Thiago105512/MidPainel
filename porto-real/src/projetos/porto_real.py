@@ -808,6 +808,26 @@ GAMA_F = 1.4                # coeficiente de majoracao das acoes
 GAMA_M = 1.1                # coeficiente de minoracao da resistencia
 
 # cargas caracteristicas (kN/m2) — NBR 6120
+# ------------------------------------------------------------------- vento
+# Parametros da NBR 6123 para o caso. Sao (H) no sentido preciso do projeto: a
+# leitura da isopleta e a classificacao de rugosidade sao interpretacao, nao
+# medicao, e quem assina a ART pode ler diferente.
+#
+# V0 = 30 m/s — Manaus cai dentro da isopleta de 30 m/s da Figura 1 da NBR
+#   6123, que cobre quase toda a Amazonia. E, nao por acaso, o menor valor da
+#   carta: e por isso que vento raramente governa projeto residencial aqui, e
+#   por isso mesmo que o valor precisa ser conferido em vez de assumido.
+# Categoria IV — "obstaculos numerosos e pouco espacados, em zona florestal ou
+#   urbanizada". O condominio no Taruma, com mata remanescente e lotes
+#   ocupados, e IV. Quem considerar o lote mais aberto usa III, e a diferenca
+#   em S2 e da ordem de 10 %.
+# Classe B — maior dimensao da edificacao entre 20 e 50 m.
+V0_VENTO = 30.0
+CATEGORIA_VENTO = "IV"
+CLASSE_VENTO = "B"
+S1_VENTO = 1.00          # terreno plano ou fracamente acidentado
+S3_VENTO = 1.00          # residencia: grupo 2 da Tabela 3
+
 CARGAS = {
     "piso_lsf_perm": 1.20,       # vigamento + OSB + contrapiso seco + forro
     "piso_lsf_acid": 1.50,       # dormitorio e sala
@@ -2365,6 +2385,11 @@ REVISOES = [
             "regra escrita. O checklist trazia \"ligacoes\": True literal e o "
             "BOM estimava pecas x 8, 22 % a mais. E a estrutura inteira entrou "
             "no 3D: 805 pecas, cada familia numa cor, cada peca clicavel"),
+    ("R31", "Vigamento de entrepiso, cobertura e contraventamento: as 805 "
+            "pecas da estrutura eram TODAS de parede, e o piso do superior nao "
+            "se apoiava em nada. Entram 178 pecas de vigamento e 28 fitas em X "
+            "conferidas contra o vento da NBR 6123. O consumo de aco vai de "
+            "9,4 para 21,0 kg/m2 — faltava mais da metade"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2390,13 +2415,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R30",
+    revisao="R31",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R30", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R31", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

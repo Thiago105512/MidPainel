@@ -367,6 +367,13 @@ PROGRAMA = [
      "(minimo construtivo) ou DECLARADO (regra escrita para esforco que o "
      "modelo ainda nao calcula). Somar as tres num numero so esconderia "
      "exatamente o que precisa ser sabido."),
+    (101, "Vigamento de entrepiso, cobertura e contraventamento",
+     ["checar_vigamento"], "PARCIAL",
+     "Secoes 38, 39 e 28. Ate R30 as 805 pecas da estrutura eram TODAS de "
+     "parede: o piso do superior nao se apoiava em nada. Entram 178 pecas de "
+     "vigamento e 28 fitas em X, conferidas contra a forca global de vento da "
+     "NBR 6123. PARCIAL porque V0 e a categoria de rugosidade sao leitura, "
+     "nao medicao."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

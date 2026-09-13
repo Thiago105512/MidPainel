@@ -434,7 +434,7 @@
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R30 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R31 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -451,7 +451,7 @@
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>36,4 <span>kVA · 100 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>440 <span>condições · 0 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>447 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>35 <span>· A1</span></dd></div>
   </dl>
@@ -635,6 +635,7 @@
       <li><span class="r">R28</span><span>Emenda de peca horizontal: guia, blocking, verga e peitoril acima de 6.000 mm saem em trechos emendados sobre apoio real, escalonados entre si. Onde a abertura nao deixa apoio, a emenda sai marcada e vira item aberto — tres em TP27</span></li>
       <li><span class="r">R29</span><span>Descida de cargas real e verificacao dos 415 montantes, um a um. A trava min(0,99) que impedia o checklist de reprovar caiu, e com a carga que de fato desce 12 pecas reprovavam — todas jamba de abertura larga, a pior com 2,03. Jamba dimensionada pela carga, com alvo de projeto de 0,95 separado do limite normativo de 1,00; custou 10 kg de aco em 2.424</span></li>
       <li><span class="r">R30</span><span>Programa de parafusos: 1.520 juntas e 5.266 parafusos, cada um com a origem declarada — forca calculada, minimo construtivo ou regra escrita. O checklist trazia "ligacoes": True literal e o BOM estimava pecas x 8, 22 % a mais. E a estrutura inteira entrou no 3D: 805 pecas, cada familia numa cor, cada peca clicavel</span></li>
+      <li><span class="r">R31</span><span>Vigamento de entrepiso, cobertura e contraventamento: as 805 pecas da estrutura eram TODAS de parede, e o piso do superior nao se apoiava em nada. Entram 178 pecas de vigamento e 28 fitas em X conferidas contra o vento da NBR 6123. O consumo de aco vai de 9,4 para 21,0 kg/m2 — faltava mais da metade</span></li>
       </ol>
     </div>
     <div>
@@ -1200,6 +1201,22 @@ function montar3D(dados) {
   function add(grupo, b) {
     const transp = b.t === "vao" || b.t === "piscina";
     const m = new THREE.Mesh(caixa, material(b.c, transp));
+    if (b.de) {
+      // Peca definida pelas DUAS PONTAS — a fita em X do contraventamento.
+      // O dado diz onde ela comeca e onde termina; a rotacao sai daqui, de um
+      // lugar so. Deduzir angulo e eixo no exportador E no navegador seria
+      // manter duas rotacoes que divergem no primeiro sinal trocado.
+      const a = new THREE.Vector3(...b.de), z = new THREE.Vector3(...b.ate);
+      const d = new THREE.Vector3().subVectors(z, a);
+      m.position.copy(a).addScaledVector(d, 0.5);
+      m.scale.set(d.length(), b.esp || 38, b.esp || 38);
+      m.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0),
+                                      d.clone().normalize());
+      m.castShadow = true; m.receiveShadow = true;
+      m.userData = b;
+      grupos[grupo].add(m); solidos.push(m);
+      return;
+    }
     m.position.set(b.p[0], b.p[1], b.p[2]);
     m.scale.set(Math.max(b.s[0], 1), Math.max(b.s[1], 1), Math.max(b.s[2], 1));
     m.castShadow = !transp; m.receiveShadow = true;
@@ -1310,7 +1327,10 @@ function montar3D(dados) {
   const cx = document.getElementById("camadas");
   CAMADAS.forEach(([id, rot, on]) => {
     const lab = document.createElement("label");
-    lab.innerHTML = `<input type="checkbox" ${on ? "checked" : ""}>${rot}`;
+    // data-camada: sem identificador, a camada so e alcancavel pelo texto do
+    // rotulo ou pela ordem na lista — as duas coisas que mudam
+    lab.innerHTML = `<input type="checkbox" data-camada="${id}" ` +
+                    `${on ? "checked" : ""}>${rot}`;
     lab.querySelector("input").addEventListener("change", e2 => {
       grupos[id].visible = e2.target.checked;
       render();
@@ -1734,8 +1754,13 @@ function vistaPaineis() {
 // ------------------------------------------------------------------ peças
 let pecaOrd = {campo: "cod", asc: true}, pecaBusca = "", pecaFam = "", pecaPav = "";
 function todasPecas() {
+  // as pecas de parede MAIS as que nao pertencem a painel nenhum — vigamento
+  // de entrepiso, cobertura e contraventamento. Percorrer so os paineis
+  // mostrava 805 de 1.011 e nao fechava com a contagem por familia
   return ENG.paineis.flatMap(p => p.pecas.map(q =>
-    Object.assign({painel: p.cod, pav: p.pav}, q)));
+    Object.assign({painel: p.cod, pav: p.pav}, q)))
+    .concat((ENG.extras || []).map(q =>
+      Object.assign({}, q, {painel: q.plano})));
 }
 function vistaPecas() {
   const todas = todasPecas();

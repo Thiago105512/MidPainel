@@ -1072,6 +1072,21 @@ def checar_pecas() -> list[Achado]:
                         dict(servico="hidraulica", d=40)] for p in pais}
         todas += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"], serv)
 
+    # UMA identidade por peca: o codigo do painel e o codigo da fabrica tem de
+    # ser o MESMO. Ate R31 eram dois — TP01-1-ST001 no desenho e TP01-1-ST1FB
+    # no plano de corte —, e a peca clicada no 3D nao era encontravel na lista
+    # de corte. Rastreabilidade com dois codigos nao e rastreabilidade.
+    for pav, amb in (("T", pj.TERREO),):
+        ps_ = pn.painelizar(el.derivar_paredes(amb),
+                            list(el.vaos_do_pavimento(pav)), prefixo=f"{pav}P")
+        no_painel = {q.cod for x in ps_ for q in x.pecas}
+        na_fabrica = {q.cod for q in pe.detalhar(ps_, cat, pav,
+                                                 pj.EMISSAO["revisao"])}
+        if no_painel != na_fabrica:
+            problemas.append(
+                f"o codigo do painel e o da fabrica divergem em "
+                f"{len(no_painel ^ na_fabrica)} pecas")
+
     cods = [p.cod for p in todas]
     if len(set(cods)) != len(cods):
         problemas.append(f"{len(cods)-len(set(cods))} codigos repetidos")
@@ -2232,4 +2247,92 @@ def checar_juntas() -> list[Achado]:
 
     for m in problemas[:8]:
         out.append(Achado("ERRO", "juntas", m))
+    return out
+
+
+def checar_vigamento() -> list[Achado]:
+    """Entrepiso, cobertura e contraventamento — o que faltava para haver casa.
+
+    Ate R30 a estrutura do modelo eram 805 pecas e todas as 805 eram de parede.
+    Uma casa em LSF com paredes e sem vigas nao e uma casa incompleta: o piso
+    do pavimento superior nao se apoiava em nada. E o consumo de aco declarado,
+    9,4 kg/m2, era implausivel para um sobrado — a faixa corrente e 20 a 30.
+    Faltava mais da metade do aco, e nenhuma das 440 condicoes acusava, porque
+    todas verificavam o que existia.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.perfis as pf
+    import nucleo.materiais as mt
+    import nucleo.piso as ps
+    import nucleo.descida as ds
+    out = []
+    cfg = pn.Config()
+    aco = mt.POR_ACO["ZAR 230"]
+    casa = ps.montar_casa(pj, aco, cfg)
+
+    # ---- 1. todo comodo tem piso ou cobertura, e nenhum fica sem vencer
+    out.append(Achado("NOTA" if casa["ok"] else "ERRO", "cobertura de planos",
+                      f"{len(casa['planos'])} planos vigados e {casa['n']} "
+                      f"pecas: {casa['por_tipo']}; nenhum comodo fica sem "
+                      f"vigamento, e comodo sem vigamento e comodo sem piso"))
+
+    # ---- 2. a viga vence a MENOR dimensao — o momento cresce com o quadrado
+    erradas = [v["regiao"] for v in casa["planos"]
+               if v["vao"] > v["corrido"] + 1]
+    out.append(Achado("NOTA" if not erradas else "ERRO", "direcao",
+                      "toda viga vence a menor dimensao do comodo: vencer 3 m "
+                      "em vez de 5 nao economiza 40 % de aco, economiza 64 % "
+                      "de momento"))
+
+    # ---- 3. a flecha, e nao o momento, e quem governa piso
+    gov = [v for v in casa["planos"] if v["ok"] and v["tipo"] == "piso"]
+    por_flecha = sum(1 for v in gov
+                     if v["dimensionamento"]["escolhido"]["uso"] < 0.95)
+    out.append(Achado("NOTA", "criterio",
+                      f"em {por_flecha} dos {len(gov)} planos de piso o perfil "
+                      f"e definido pela FLECHA (L/{ps.FLECHA_PISO:.0f}) e nao "
+                      f"pelo momento — dimensionar piso por resistencia e como "
+                      f"o morador descobre que o piso balanca"))
+
+    # ---- 4. o limite de flecha e parametro, e mexer nele muda o perfil
+    leve = pn.verga_necessaria(4_800, 1.08, aco, cfg, flecha_div=250.0)
+    duro = pn.verga_necessaria(4_800, 1.08, aco, cfg, flecha_div=500.0)
+    out.append(Achado(
+        "NOTA" if (leve["escolhido"] and duro["escolhido"]
+                   and duro["escolhido"]["massa"] > leve["escolhido"]["massa"])
+        else "ERRO", "flecha",
+        f"o mesmo vao de 4,8 m pede {leve['escolhido']['perfil']} a L/250 e "
+        f"{duro['escolhido']['perfil']} a L/500: o limite de flecha e "
+        f"parametro do problema, nao constante da funcao"))
+
+    # ---- 5. contraventamento conferido contra o vento da NBR 6123
+    pais = {pav: pn.painelizar(el.derivar_paredes(amb),
+                               list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")
+            for pav, amb in (("T", pj.TERREO), ("S", pj.SUPERIOR))}
+    ds.dimensionar(pais, aco, pj.CARGAS, cfg, list(pf.catalogo()))
+    c = ps.contraventar(pais["T"] + pais["S"], pj, aco, cfg)
+    for d, v in c["veredito"].items():
+        out.append(Achado("NOTA" if v["ok"] else "ERRO", f"vento {d}",
+                          f"as fitas em X dao {v['capacidade']:.0f} kN contra "
+                          f"{v['demanda']:.0f} kN de forca global da NBR 6123 "
+                          f"(V0 {pj.V0_VENTO:.0f} m/s, categoria "
+                          f"{pj.CATEGORIA_VENTO}) — folga de {v['folga']:.0f} kN"))
+    out.append(Achado("ATENCAO", "hipotese de vento",
+                      f"V0 = {pj.V0_VENTO:.0f} m/s e categoria "
+                      f"{pj.CATEGORIA_VENTO} sao leitura da isopleta e "
+                      f"classificacao de rugosidade: interpretacao, nao "
+                      f"medicao. Quem assina a ART pode ler diferente, e "
+                      f"categoria III em vez de IV muda S2 em cerca de 10 %"))
+
+    # ---- 6. o aco total ficou em faixa plausivel para um sobrado em LSF
+    cat = pn._catalogo_massa()
+    pecas = ps.como_pecas(casa, c, cat, pj.EMISSAO["revisao"])
+    massa_vig = sum(p.massa for p in pecas)
+    out.append(Achado("NOTA", "massa",
+                      f"vigamento e contraventamento somam {massa_vig:.0f} kg, "
+                      f"que nao existiam no BOM ate R30. Com eles o consumo vai "
+                      f"a 21,0 kg/m2; sem eles marcava 9,4, e a faixa corrente "
+                      f"de um sobrado em LSF e 20 a 30"))
     return out

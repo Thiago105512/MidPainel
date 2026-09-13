@@ -2530,3 +2530,71 @@ estrutura e desligar o térreo e o superior é o gesto que mostra o esqueleto.
 > A auditoria verifica o que existe. Ela não sente falta do que nunca foi
 > escrito — para isso ainda é preciso alguém olhar e perguntar por que não está
 > ali.
+
+## Defeito 38 — uma casa de paredes, sem uma única viga
+
+805 peças de estrutura no modelo. **Todas as 805 eram de parede.** Não havia
+vigamento de entrepiso, não havia cobertura, não havia contraventamento. O piso
+do pavimento superior não se apoiava em nada.
+
+Também não foi a auditoria que achou: foram quatro fotos de obra e um render
+BIM, com a pergunta *"preciso que tenha da casa"*. As 440 condições verificavam
+o que existia — e o que nunca foi escrito não está lá para ser verificado. É a
+segunda vez seguida que uma pergunta de quem quer **ver** acha o que a bateria
+não achava.
+
+### O número que deveria ter denunciado
+
+O consumo declarado era **9,4 kg/m²**. A faixa corrente de um sobrado em Light
+Steel Frame é **20 a 30**. Com o vigamento no modelo: **21,0 kg/m²**. Faltava
+mais da metade do aço — 2.970 kg de 5.394 —, e o custo saltou de R$ 163 mil
+para R$ 237 mil.
+
+Esse número esteve à vista em todas as revisões desde a E12. Nenhuma verificação
+o comparava com nada, porque não havia com o que comparar: uma faixa de
+plausibilidade não é uma identidade nem um caso fechado, e o projeto só tinha
+aprendido a verificar essas duas coisas.
+
+### O que entrou
+
+`nucleo/piso.py` viga cada cômodo, e a **direção não é escolha de desenho**: a
+viga vence a **menor** dimensão, porque o momento cresce com o quadrado do vão —
+vencer 3 m em vez de 5 não economiza 40 % de aço, economiza **64 % de momento**.
+
+Em **5 dos 5** planos de piso quem governa é a **flecha**, não o momento.
+Dimensionar piso por resistência é como o morador descobre que o piso balança.
+
+As fitas em X entraram conferidas contra a força global de vento da NBR 6123 —
+e para isso os parâmetros de vento precisaram ser declarados no caso, marcados
+(H) com a razão: *V0 = 30 m/s* é leitura da isopleta (Manaus cai no **menor**
+valor da carta, e é por isso que vento raramente governa aqui — e por isso mesmo
+que precisa ser conferido em vez de assumido); *categoria IV* é classificação de
+rugosidade, e quem ler III muda S2 em ~10 %.
+
+### O erro que eu mesmo cometi no meio
+
+A primeira versão declarou **três cômodos invencíveis** — 4,8 m e 6,0 m sem
+perfil possível. Falso: eu filtrei a lista de alternativas que
+`verga_necessaria` devolve **truncada nos 6 mais leves**, e os Ue 250 nunca
+chegaram a ser olhados. O limite de flecha virou **parâmetro** da função, que é
+o que ele sempre foi — L/350 para verga, L/500 para piso com porcelanato
+colado, L/250 para cobertura.
+
+> Filtrar por fora uma lista que a função devolve truncada é concluir sobre o
+> que não se viu.
+
+## Defeito 39 — dois códigos para a mesma peça
+
+Descoberto no rastro do Defeito 38, por uma contagem que não fechava: a tabela
+de peças mostrava 1.816 onde existiam 1.011.
+
+A causa: o painel numerava suas peças **por ordem de geração** (`TP01-1-ST001`) e
+a fábrica as renomeava **por posição** (`TP01-1-ST1FB`). Dois sistemas para a
+mesma peça. Na prática, **a peça que se clica no 3D não era encontrável no plano
+de corte** — e rastreabilidade com dois códigos não é rastreabilidade.
+
+O código da fábrica passou a nascer no painel. É um só, e a auditoria confere
+que os dois conjuntos são idênticos, em vez de supor.
+
+> O Defeito 34 corrigiu o código para que ele derivasse da posição. Não percebeu
+> que existia um segundo código, logo ao lado, que continuava derivando da ordem.
