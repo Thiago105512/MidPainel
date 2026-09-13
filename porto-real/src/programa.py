@@ -298,6 +298,16 @@ PROGRAMA = [
      "Secoes 59, 60, 87 e 91 a 95. As QUANTIDADES sao derivadas das pecas e do "
      "plano de corte; os PRECOS sao (H). A massa comprada e a util dividida "
      "pelo aproveitamento — a perda foi paga."),
+    (88, "CNC, producao, linha e qualidade",
+     ["checar_fabricacao"], "PARCIAL",
+     "Secoes 67 a 75, 129 e 130. O formato NEUTRO e verificavel por ida e "
+     "volta; o dialeto de cada maquina e (H). O ciclo da linha e o da estacao "
+     "mais lenta, nunca a soma — somar e o erro que faz prometer prazo."),
+    (89, "Logistica, icamento e transporte",
+     ["checar_logistica"], "PARCIAL",
+     "Secoes 96 a 102. O centro de gravidade sai da soma dos momentos das "
+     "pecas: um painel com as aberturas de um lado nao sobe equilibrado, e o "
+     "montador descobre isso com o painel pendurado."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

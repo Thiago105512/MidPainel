@@ -1216,3 +1216,156 @@ def checar_bom() -> list[Achado]:
                       f"QUANTIDADES sao derivadas das 801 pecas e do plano de "
                       f"corte, e essas nao sao hipotese"))
     return out
+
+
+def checar_fabricacao() -> list[Achado]:
+    """CNC, compatibilidade de maquina, tempo, balanceamento e qualidade.
+
+    A verificacao central do CNC e a ida e volta: exportar e reimportar tem de
+    devolver a MESMA geometria. Um arquivo que a maquina le sozinha nao admite
+    interpretacao.
+    """
+    import nucleo.fabricacao as fb
+    out = []
+    todas = _pecas_do_projeto()
+    amostra = todas[:120]
+
+    # ida e volta do formato neutro
+    txt = fb.exportar_cnc(amostra)
+    volta = fb.importar_cnc(txt)
+    diverg = []
+    for orig, v in zip(amostra, volta):
+        if v["id"] != orig.cod or abs(v["comp"] - orig.comp) > 1e-6:
+            diverg.append(orig.cod)
+        furos_v = [o for o in v["operacoes"] if o["op"].startswith("furo")]
+        if len(furos_v) != len(orig.furos):
+            diverg.append(f"{orig.cod}: {len(furos_v)} furos contra "
+                          f"{len(orig.furos)}")
+    out.append(Achado("NOTA" if not diverg else "ERRO", "CNC",
+                      f"{len(volta)} pecas exportadas e reimportadas sem perda"
+                      if not diverg else f"divergencias: {diverg[:3]}"))
+
+    # formato desconhecido levanta erro
+    try:
+        fb.importar_cnc('{"formato": "OUTRO", "pecas": []}')
+        out.append(Achado("ERRO", "CNC", "formato desconhecido foi aceito"))
+    except ValueError:
+        out.append(Achado("NOTA", "CNC", "formato desconhecido levanta erro"))
+
+    # toda peca precisa caber em ALGUMA maquina do parque
+    orfas = []
+    for p in todas:
+        if not any(fb.compativel(p, m.cod)["ok"] for m in fb.MAQUINAS):
+            orfas.append(p.cod)
+    if orfas:
+        exemplo = fb.compativel(next(p for p in todas if p.cod == orfas[0]),
+                                "RF-02")
+        out.append(Achado("ATENCAO", "maquina",
+                          f"{len(orfas)} pecas nao cabem em maquina alguma do "
+                          f"parque declarado; a primeira falha por: "
+                          f"{exemplo['faltas']}"))
+    else:
+        out.append(Achado("NOTA", "maquina",
+                          f"as {len(todas)} pecas cabem no parque de "
+                          f"{len(fb.MAQUINAS)} maquinas (H: capacidades "
+                          f"declaradas, a confirmar com o fabricante)"))
+
+    # estados de producao: nao se pula etapa
+    if fb.avancar("CUT", "PUNCHED") and not fb.avancar("CUT", "QC"):
+        out.append(Achado("NOTA", "producao",
+                          f"os {len(fb.ESTADOS)} estados avancam um a um: nao se "
+                          f"pula do corte para a inspecao"))
+    else:
+        out.append(Achado("ERRO", "producao", "a maquina de estados aceita salto"))
+
+    # balanceamento: o ciclo e o da estacao mais lenta, nunca a media
+    b = fb.balancear({"perfilacao": 100.0, "montagem": 160.0,
+                      "fechamento": 90.0, "QC": 40.0})
+    ok = (b["gargalo"] == "montagem" and abs(b["ciclo"] - 160.0) < 1e-9
+          and b["eficiencia"] < 1.0)
+    out.append(Achado("NOTA" if ok else "ERRO", "linha",
+                      f"gargalo '{b['gargalo']}', ciclo {b['ciclo']:.0f} min, "
+                      f"eficiencia {b['eficiencia']*100:.0f} % — somar tempos em "
+                      f"vez de tomar o maximo e o erro que faz a fabrica "
+                      f"prometer prazo que nao cumpre"))
+
+    # OEE recusa fator fora de [0,1]
+    try:
+        fb.oee(1.2, 0.9, 0.9)
+        out.append(Achado("ERRO", "OEE", "aceitou disponibilidade de 120 %"))
+    except ValueError:
+        o = fb.oee(0.88, 0.92, 0.99)
+        out.append(Achado("NOTA", "OEE",
+                          f"D x P x Q = {o['oee']*100:.1f} % ({o['classe']}); "
+                          f"fator fora de [0,1] levanta erro"))
+
+    # inspecao: dentro e fora de tolerancia
+    bom = fb.inspecionar({"comprimento": 2601.5}, {"comprimento": 2600})
+    ruim = fb.inspecionar({"comprimento": 2605.0}, {"comprimento": 2600})
+    ok = bom["status"] == "APROVADO" and ruim["status"] == "REPROVADO"
+    out.append(Achado("NOTA" if ok else "ERRO", "qualidade",
+                      f"tolerancia de {fb.TOLERANCIAS['comprimento']:.1f} mm no "
+                      f"comprimento: 1,5 mm aprova e 5,0 mm reprova"))
+    return out
+
+
+def checar_logistica() -> list[Achado]:
+    """Centro de gravidade, icamento e carregamento.
+
+    O ponto que costuma faltar: um painel com as aberturas de um lado nao sobe
+    equilibrado. O ponto de icamento no meio geometrico o faz girar no ar, e
+    quem descobre isso e o montador, com o painel pendurado.
+    """
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.logistica as lo
+    out = []
+    cat = pn._catalogo_massa()
+    pais = pn.painelizar(el.derivar_paredes(pj.TERREO),
+                         list(el.vaos_do_pavimento("T")), prefixo="TP")
+
+    # CG pela soma dos momentos: a massa tem de fechar com a das pecas
+    for p in pais[:8]:
+        cg = lo.cg_painel(p, cat)
+        if abs(cg["massa"] - p.massa(cat)) > 1e-6:
+            out.append(Achado("ERRO", p.cod, "massa do CG diverge da das pecas"))
+    out.append(Achado("NOTA", "CG",
+                      "o centro de gravidade sai da soma dos momentos das "
+                      "pecas, nao do meio geometrico do painel"))
+
+    # icamento com um ponto so tem de ser recusado
+    try:
+        lo.pontos_icamento(pais[0], cat, n=1)
+        out.append(Achado("ERRO", "icamento", "aceitou icamento por um ponto so"))
+    except ValueError:
+        out.append(Achado("NOTA", "icamento",
+                          "icamento por um ponto so e recusado: o painel gira"))
+
+    # o painel mais desequilibrado tem de vir com alerta
+    piores = sorted(pais, key=lambda p: -abs(lo.cg_painel(p, cat)["desvio_rel"]))
+    pi = lo.pontos_icamento(piores[0], cat)
+    out.append(Achado("NOTA" if (abs(pi["cg"]["desvio_rel"]) < 0.08
+                                 or pi["alerta"]) else "ERRO", "icamento",
+                      f"painel mais desequilibrado ({piores[0].cod}): CG a "
+                      f"{pi['cg']['desvio']:+.0f} mm do meio "
+                      f"({pi['cg']['desvio_rel']*100:+.1f} %)"
+                      + (f" — alerta emitido" if pi["alerta"] else "")))
+
+    # carregamento: nada maior que o container entra, e o limitante e declarado
+    vols = [lo.Volume3D(p.cod, p.comp, 120, p.altura, p.massa(cat)) for p in pais]
+    vols.append(lo.Volume3D("GIGANTE", 14_000, 500, 3_000, 900))
+    c = lo.carregar_container(vols, "40HC")
+    ok = any(r[0] == "GIGANTE" for r in c["rejeitados"]) and not c["excede_peso"]
+    out.append(Achado("NOTA" if ok else "ERRO", "container",
+                      f"40HC: {c['n']} paineis, {c['massa']:.0f} kg, "
+                      f"{c['volume']:.1f} m3; limitante = {c['limitante']}; "
+                      f"peca de 14 m recusada por dimensao"))
+
+    # limites rodoviarios
+    r = lo.dentro_do_limite(7_200, 2_400, 2_800, 1_200)
+    r2 = lo.dentro_do_limite(7_200, 3_200, 2_800, 1_200)
+    out.append(Achado("NOTA" if r["ok"] and not r2["ok"] else "ERRO", "transporte",
+                      f"2,40 m de largura passa e 3,20 m nao: {r2['faltas']} "
+                      f"{r2['obs']}"))
+    return out

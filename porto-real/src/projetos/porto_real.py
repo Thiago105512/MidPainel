@@ -2326,6 +2326,9 @@ REVISOES = [
     ("R21", "E10 a E12 — peca com codigo estavel e passaporte, clash entre "
             "disciplinas, plano de corte com 87,2 % de aproveitamento e BOM com "
             "quantidades derivadas e precos declarados (H)"),
+    ("R22", "E13 e E14 — CNC em formato neutro verificado por ida e volta, "
+            "balanceamento de linha, OEE, tolerancias, centro de gravidade por "
+            "soma de momentos, icamento e carregamento de container"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2351,13 +2354,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R21",
+    revisao="R22",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R21", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R22", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
