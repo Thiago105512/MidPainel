@@ -2332,6 +2332,9 @@ REVISOES = [
     ("R23", "E15 e E16 — sequencia de montagem por ordenacao topologica com "
             "estabilidade em cada passo, e otimizacao global ponderada que "
             "prefere a solucao mais pesada quando ela custa menos para montar"),
+    ("R24", "E17 e E18 — diff entre revisoes, analise de impacto que separa o "
+            "que ja foi cortado, congelamento, DXF, IFC4, OBJ, STL, CSV, XML e "
+            "banco de 28 entidades"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2357,13 +2360,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R23",
+    revisao="R24",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R23", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R24", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

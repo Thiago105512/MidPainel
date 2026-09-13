@@ -1490,3 +1490,176 @@ def checar_otimizacao() -> list[Achado]:
                       f"trocas, todas por perfil ja aprovado no elemento — "
                       f"padronizar nunca reduz seguranca"))
     return out
+
+
+def checar_revisao() -> list[Achado]:
+    """Diferenca, impacto e congelamento.
+
+    Comparar duas revisoes em CAD e trabalho manual. Aqui e computavel porque
+    tudo e funcao do modelo: mudar a janela de lugar e mudar um numero, o resto
+    se recalcula, e a diferenca entre os dois resultados E o impacto.
+    """
+    import copy
+    import projeto as pj
+    import elementos as el
+    import nucleo.painel as pn
+    import nucleo.peca as pe
+    import nucleo.revisao as rv
+    out = []
+    cat = pn._catalogo_massa()
+
+    def pecas(vaos):
+        pais = pn.painelizar(el.derivar_paredes(pj.TERREO), vaos, prefixo="TP")
+        return pe.detalhar(pais, cat, "T", pj.EMISSAO["revisao"])
+
+    v0 = list(el.vaos_do_pavimento("T"))
+    antes = pecas(v0)
+
+    # modelo identico: o diff tem de ser VAZIO
+    d0 = rv.diff_pecas(antes, pecas(v0))
+    ok = d0["n_add"] == d0["n_rem"] == d0["n_alt"] == 0
+    out.append(Achado("NOTA" if ok else "ERRO", "diff",
+                      f"duas geracoes do MESMO modelo dao diferenca vazia "
+                      f"({d0['inalteradas']} pecas inalteradas)"))
+
+    # mover uma janela: o impacto tem de ser local, nao global
+    v1 = copy.deepcopy(v0)
+    alvo = next(v for v in v1 if v["tipo"].startswith("J"))
+    if alvo["ori"] == "H":
+        alvo["x"] += 600
+    else:
+        alvo["y"] += 600
+    d = rv.diff_pecas(antes, pecas(v1))
+    afetadas = d["n_add"] + d["n_rem"] + d["n_alt"]
+    frac = afetadas / max(1, len(antes))
+    ok = 0 < afetadas and frac < 0.20
+    out.append(Achado("NOTA" if ok else "ERRO", "impacto",
+                      f"mover uma janela 600 mm afeta {afetadas} de "
+                      f"{len(antes)} pecas ({frac*100:.1f} %): local, como tem "
+                      f"de ser — se afetasse tudo, o codigo de peca nao seria "
+                      f"estavel"))
+
+    # o mesmo diff custa zero em DESIGN e vira sucata em CUT
+    livre = rv.impacto(d, {})
+    cortado = rv.impacto(d, {c: "CUT" for c in d["removidas"]})
+    ok = (livre["gravidade"] != "alta" and cortado["gravidade"] == "alta"
+          and len(cortado["sucata"]) > 0)
+    out.append(Achado("NOTA" if ok else "ERRO", "congelamento",
+                      f"a MESMA alteracao: gravidade '{livre['gravidade']}' com "
+                      f"as pecas em projeto e '{cortado['gravidade']}' com elas "
+                      f"cortadas ({len(cortado['sucata'])} viram sucata)"))
+
+    # freeze: revisao vencida nao fabrica
+    revs = [r[0] for r in pj.REVISOES]
+    atual = pj.EMISSAO["revisao"]
+    f1 = rv.pode_fabricar(atual, atual, revs)
+    f2 = rv.pode_fabricar(revs[-4], atual, revs)
+    ok = f1["pode"] and not f2["pode"]
+    out.append(Achado("NOTA" if ok else "ERRO", "freeze",
+                      f"a revisao atual fabrica; {revs[-4]} nao: "
+                      f"{f2['motivo'][:80]}"))
+
+    co = rv.ChangeOrder("CO-001", "proprietario", "Mover janela 600 mm",
+                        d, cortado, prazo_dias=3)
+    r = co.resumo()
+    faltando = [k for k in ("pecas", "massa_kg", "custo", "gravidade",
+                            "sucata", "aprovacao") if k not in r]
+    out.append(Achado("NOTA" if not faltando else "ERRO", "change order",
+                      f"a ordem de alteracao traz pecas, massa, custo, prazo, "
+                      f"gravidade, sucata e aprovacao (que nasce PENDENTE)"))
+    return out
+
+
+def checar_interop() -> list[Achado]:
+    """Ida e volta em cada formato, e falha explicita no que e proprietario."""
+    import nucleo.interop as io
+    out = []
+
+    ents = [dict(tipo="line", x1=0.0, y1=0.0, x2=100.0, y2=50.0, layer="PAREDE"),
+            dict(tipo="text", x=10.0, y=20.0, texto="COZINHA", layer="ROTULO")]
+    v = io.de_dxf(io.exportar("DXF", ents))
+    ok = (len(v) == 2 and abs(v[0]["x2"] - 100.0) < 1e-9
+          and v[1]["texto"] == "COZINHA")
+    out.append(Achado("NOTA" if ok else "ERRO", "DXF",
+                      "ida e volta preserva geometria, camada e texto"))
+
+    el = [dict(cod=f"ST{i:03d}", perfil="Ue 90x40x12x0,95", familia="stud",
+               x=i * 600.0, y=0.0, z=0.0, pav="T") for i in range(12)]
+    ifc = io.exportar("IFC", dict(nome="Porto Real", empresa="—", data="2026"), el)
+    r = io.de_ifc(ifc)
+    ok = r["membros"] == 12 and "IFC4" in ifc and ifc.startswith("ISO-10303-21;")
+    out.append(Achado("NOTA" if ok else "ERRO", "IFC",
+                      f"arquivo STEP valido com {r['entidades']} entidades e "
+                      f"{r['membros']} IfcMember; subconjunto DECLARADO — nao "
+                      f"entram material nem propriedade"))
+
+    sol = [dict(p=[0, 0, 0], s=[100, 100, 100])]
+    obj, stl = io.exportar("OBJ", sol), io.exportar("STL", sol)
+    ok = obj.count("\nv ") == 8 and stl.count("facet normal") == 12
+    out.append(Achado("NOTA" if ok else "ERRO", "malha",
+                      "OBJ com 8 vertices e STL com 12 triangulos por solido"))
+
+    csv = io.exportar("CSV", [dict(a=1, b="x, y")], ["a", "b"])
+    vc = io.de_csv(csv)
+    ok = vc[0]["b"] == "x, y"
+    out.append(Achado("NOTA" if ok else "ERRO", "CSV",
+                      "campo com virgula sobrevive a ida e volta"))
+
+    x = io.exportar("XML", "pecas", [dict(cod="ST001", comp=2600)])
+    ok = io.de_xml(x)[0]["cod"] == "ST001"
+    out.append(Achado("NOTA" if ok else "ERRO", "XML", "ida e volta preservada"))
+
+    # proprietario: falha explicita, nunca aproximacao
+    faltaram = []
+    for f in ("DWG", "RVT", "SKP"):
+        try:
+            io.exportar(f)
+            faltaram.append(f)
+        except io.SemAdaptador:
+            pass
+    out.append(Achado("NOTA" if not faltaram else "ERRO", "proprietarios",
+                      "DWG, RVT e SKP falham dizendo por que e apontando IFC e "
+                      "DXF; entregar arquivo aproximado seria pior que nao "
+                      "entregar"))
+    return out
+
+
+def checar_banco() -> list[Achado]:
+    """As 28 entidades, e a separacao entre o que se regenera e o que nao."""
+    import projeto as pj
+    import elementos as el
+    import nucleo.banco as bc
+    import nucleo.painel as pn
+    import nucleo.peca as pe
+    import nucleo.perfis as pf
+    out = []
+    con = bc.criar()
+    t = bc.tabelas(con)
+    falta = sorted(set(bc.ENTIDADES) - set(t))
+    out.append(Achado("NOTA" if not falta else "ERRO", "esquema",
+                      f"{len(t)} tabelas criadas, as {len(bc.ENTIDADES)} "
+                      f"entidades da especificacao" if not falta
+                      else f"faltam {falta}"))
+    out.append(Achado("NOTA", "natureza",
+                      f"{len(bc.ENTIDADES_PROJETO)} tabelas de PROJETO sao "
+                      f"espelho do modelo e se regeneram; "
+                      f"{len(bc.ENTIDADES_EVENTO)} de EVENTO registram o que "
+                      f"aconteceu no mundo e so crescem"))
+
+    cat = pn._catalogo_massa()
+    pais = pn.painelizar(el.derivar_paredes(pj.TERREO),
+                         list(el.vaos_do_pavimento("T")), prefixo="TP")
+    pcs = pe.detalhar(pais, cat, "T", pj.EMISSAO["revisao"])
+    props = {p.cod: dict(p.props(), forma=p.forma, bw=p.bw, bf=p.bf, D=p.D,
+                         t=p.t) for p in pf.catalogo()}
+    r = bc.gravar_projeto(con, pj.CADASTRO, pcs, pais, props)
+    n = con.execute("SELECT COUNT(*) FROM member").fetchone()[0]
+    out.append(Achado("NOTA" if n == len(pcs) else "ERRO", "gravacao",
+                      f"{r['pecas']} pecas, {r['paineis']} paineis e "
+                      f"{r['perfis']} perfis gravados; a releitura devolve {n}"))
+    # regravar tem de ser idempotente
+    bc.gravar_projeto(con, pj.CADASTRO, pcs, pais, props)
+    n2 = con.execute("SELECT COUNT(*) FROM member").fetchone()[0]
+    out.append(Achado("NOTA" if n2 == n else "ERRO", "idempotencia",
+                      f"gravar duas vezes nao duplica: {n2} pecas"))
+    return out

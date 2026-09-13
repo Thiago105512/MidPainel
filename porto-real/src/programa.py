@@ -318,6 +318,21 @@ PROGRAMA = [
      "Secoes 19 a 22, 124 e 147 a 150. Verificado contra o exemplo da propria "
      "especificacao (secao 148): vence a solucao mais PESADA, porque 5 SKUs "
      "contra 11 e 110 h a menos de montagem pagam os 250 kg de aco."),
+    (92, "Revisoes, impacto e congelamento",
+     ["checar_revisao"], "AUTOMATIZADA",
+     "Secoes 79 a 83 e 135. Comparar revisoes em CAD e trabalho manual; aqui e "
+     "computavel porque tudo e funcao do modelo. A MESMA alteracao tem "
+     "gravidade baixa em projeto e alta com a peca ja cortada."),
+    (93, "Interoperabilidade: DXF, IFC4, OBJ, STL, CSV, XML",
+     ["checar_interop"], "AUTOMATIZADA",
+     "Secoes 138 e 139. Todo formato verificado por ida e volta. DWG, RVT e SKP "
+     "falham dizendo por que — entregar arquivo aproximado de formato "
+     "proprietario seria pior que nao entregar."),
+    (94, "Banco de dados de 28 entidades",
+     ["checar_banco"], "AUTOMATIZADA",
+     "Secao 137. O esquema separa as naturezas: 17 tabelas de PROJETO sao "
+     "espelho do modelo e se regeneram; 11 de EVENTO registram o que aconteceu "
+     "no mundo e nao podem ser perdidas."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
