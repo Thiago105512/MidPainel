@@ -2831,3 +2831,96 @@ def checar_radier() -> list[Achado]:
                       f"concreto — lastro e lona sao o que impede a umidade de "
                       f"subir por capilaridade ate o montante"))
     return out
+
+
+def checar_instalacoes() -> list[Achado]:
+    """MEP como material, e o clash que finalmente tem com o que conflitar.
+
+    As pranchas 26 a 29 desenhavam hidraulica, eletrica, climatizacao e
+    drenagem completas, e o BOM tinha zero. A razao e a mesma do vigamento ate
+    R31 e da fundacao ate R37: o dado existia como PONTO e nao como PERCURSO, e
+    ponto nao tem comprimento.
+
+    E o item "clashes" do checklist trazia `True` literal desde sempre — nao
+    por preguica: nao havia com o que conflitar. Verificacao de interferencia
+    contra o vazio acha zero conflitos, e o zero e verdadeiro e inutil.
+    """
+    import projeto as pj
+    import nucleo.instalacoes as ins
+    out = []
+    r = fx.liberacao()
+    mep = r["camadas"]["instalacoes"]
+    cl = r["camadas"]["clash"]
+
+    # ---- 1. a prumada e dado, nao literal de desenho
+    import pranchas6 as p6
+    import inspect
+    src = inspect.getsource(p6.hidrossanitaria)
+    out.append(Achado("NOTA" if "pj.PRUMADAS" in src else "ERRO", "prumada",
+                      f"as {len(pj.PRUMADAS)} prumadas sao dado do caso e o "
+                      f"desenho as LE. As coordenadas viviam dentro do modulo "
+                      f"de desenho, e por isso nao existia comprimento de tubo "
+                      f"nenhum: sem saber ONDE esta a prumada nao ha como medir "
+                      f"o ramal ate ela"))
+
+    # ---- 2. o comprimento reage ao fator de percurso, em vez de escondê-lo
+    h = mep["hidraulica"]
+    out.append(Achado("NOTA" if h["fator"] > 1.0 else "ERRO", "percurso",
+                      f"{h['comp_total']} m de tubo em {len(h['itens'])} "
+                      f"diametros, por percurso Manhattan vezes {h['fator']} "
+                      f"declarado. Nao e o percurso do instalador: e o mais "
+                      f"curto que respeita a geometria, e portanto limite "
+                      f"INFERIOR. O acrescimo entra como fator explicito, "
+                      f"nunca embutido no comprimento"))
+
+    # ---- 3. o clash agora encontra alguma coisa — e encontrou
+    out.append(Achado("NOTA" if cl["volumes"] > 500 else "ERRO", "volumes",
+                      f"{cl['volumes']} volumes confrontados entre MEP e "
+                      f"estrutura. Ate agora o item passava com True literal "
+                      f"porque nao havia tracado: a estrutura so ganhou "
+                      f"vigamento em R31 e o MEP ganhou percurso agora"))
+
+    # ---- 4. o criterio distingue cruzamento de defeito — e precisa ser
+    #         exercitado, porque hoje ele nao tem nenhum caso para classificar
+    import nucleo.camadas as _cd
+    LIM = 45.0  # metade da alma de 90 mm
+    tabela = {dn: de for dn, de in _cd.DE_ESGOTO.items()}
+    cabem = sorted(dn for dn, de in tabela.items() if de <= LIM)
+    nao = sorted(dn for dn, de in tabela.items() if de > LIM)
+    # um classificador sem instancias nao esta certo: esta calado. Aplicar o
+    # limite a tabela de diametros externos mostra que ele ainda separa.
+    armado = bool(cabem) and bool(nao)
+    out.append(Achado("NOTA" if armado else "ERRO", "criterio",
+                      f"{cl['resolviveis']} cruzamentos resolviveis e "
+                      f"{len(cl['criticos'])} criticos: as duas classes estao "
+                      f"VAZIAS depois que o esgoto passou a correr sob o piso, "
+                      f"e classe vazia nao prova criterio. Aplicado a tabela de "
+                      f"diametro externo, o limite de {LIM:.0f} mm (metade da "
+                      f"alma de 90) ainda separa {', '.join(cabem)} — que "
+                      f"cruzam em furo verificado, normal em LSF — de "
+                      f"{', '.join(nao)}, que exigem desvio ou shaft. O zero de "
+                      f"hoje e consequencia do tracado correto, nao criterio "
+                      f"desligado"))
+
+    # ---- 5. o achado real, e o que ele NAO resolve
+    if cl["shafts"]:
+        alvo = cl["shafts"][0]
+        out.append(Achado("ERRO", "shaft x parede",
+                          f"{len(cl['shafts'])} conflitos entre prumada e "
+                          f"montante, todos da mesma causa. {alvo['motivo']}"))
+    else:
+        out.append(Achado("NOTA", "shaft x parede",
+                          "nenhuma prumada conflita com linha de parede"))
+
+    # ---- 6. o esgoto horizontal corre sob o piso, nao na parede
+    vols = ins.volumes_mep(pj)
+    baixos = [v for v in vols if v.cod.endswith(("-X-DN100", "-Y-DN100"))
+              and v.z1 < 500]
+    out.append(Achado("NOTA" if baixos else "ERRO", "tracado",
+                      "o ramal de esgoto corre SOB o piso — no radier no "
+                      "terreo, no vigamento no superior — e so a prumada e "
+                      "vertical. Rotea-lo no plano da parede produziu 85 "
+                      "'conflitos criticos' que eram erro de tracado meu, nao "
+                      "do projeto: a PR-21 ja dizia que esgoto nao cabe em "
+                      "montante por definicao"))
+    return out

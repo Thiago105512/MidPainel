@@ -407,6 +407,14 @@ PROGRAMA = [
      "Concreto, aco, lastro e lona nunca entraram no BOM. PARCIAL porque "
      "espessura, fck e taxa de armadura sao (H) ate a sondagem: o modulo "
      "deriva QUANTIDADE, nao dimensiona radier."),
+    (107, "Instalacoes: percurso, quantidade e interferencia com a estrutura",
+     ["checar_instalacoes"], "PARCIAL",
+     "Secoes 26 a 29. O tracado existia no desenho e nao no modelo: pontos sem "
+     "percurso, e portanto zero metro de tubo, de eletroduto e de linha "
+     "frigorigena no BOM. Com percurso medido, o item 'clashes' do checklist "
+     "deixa de ser True literal e passa a confrontar volume a volume. PARCIAL "
+     "porque o percurso e Manhattan vezes fator declarado — limite INFERIOR, "
+     "nao projeto executivo de instalacoes."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

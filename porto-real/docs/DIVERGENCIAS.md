@@ -2941,3 +2941,82 @@ auditoria diz isso em voz alta:
 
 Um teste garante que a quantidade é função da espessura e não um número fixo ao
 lado dela: dobrar a espessura dobra o volume — **2,00×**.
+
+## Defeito 42 — o traçado que existia no desenho e valia zero no orçamento
+
+Quatro pranchas — PR-26 hidrossanitária, PR-27 elétrica, PR-28 climatização,
+PR-29 drenagem — desenham instalação completa. O que chegava ao BOM era **zero
+metro** de tubo, de eletroduto e de linha frigorígena.
+
+A causa é a mesma do vigamento até R31 e da fundação até R37, e vale a pena
+nomeá-la porque já se repetiu três vezes: **o dado existia como PONTO e não como
+PERCURSO.** Dezoito peças hidráulicas, onze ralos, vinte e quatro cargas
+especiais, oito equipamentos de clima. Ponto não tem comprimento, e o que não
+tem comprimento não tem preço.
+
+| sistema | quantidade derivada |
+|---|---|
+| tubo (água fria, quente e esgoto) | **408,8 m** em 7 diâmetros |
+| conexões | 187 (joelho, tê, luva) |
+| eletroduto | 745,3 m para 96 pontos |
+| cabo | 2.385 m |
+| linha frigorígena | 56 m em 7 equipamentos |
+| custo antes ausente | **R$ 33.565** |
+
+### O fator que é declarado, e por que isso não é detalhe
+
+O comprimento sai de percurso **Manhattan** de cada ponto até a prumada mais
+próxima, vezes `FATOR_PERCURSO = 1.20`. Não é o percurso que o instalador vai
+fazer: é o mais curto que respeita a geometria da casa, e portanto **limite
+inferior declarado**. Um tubo real serpenteia — desvia de viga, contorna shaft,
+sobe e desce.
+
+> O acréscimo entra como fator explícito, nunca embutido no comprimento. Quem
+> discordar muda um número e vê o efeito, em vez de descobrir que havia um
+> acréscimo escondido dentro do metro.
+
+### O item `"clashes": True` — o quarto literal a cair
+
+Ele estava lá desde sempre, e **não por preguiça**: não havia com o que
+conflitar. Verificação de interferência contra o vazio acha zero conflitos, e o
+zero é verdadeiro e inútil. Só depois que a estrutura ganhou vigamento (R31) e o
+MEP ganhou percurso (agora) existem os dois lados: **844 volumes** confrontados.
+
+Com eles, o critério de severidade passou a ter conteúdo: interseção **não é
+defeito** — em LSF o ramal cruza o montante e se resolve com furo, e a furação já
+é verificada desde a E10. Defeito é o furo que o perfil não comporta.
+
+### Meu erro, achado pela própria medição: 85 falsos críticos
+
+A primeira rodada acusou 217 interseções, 85 delas "críticas". Nenhuma era do
+projeto: **eu havia roteado o ramal de esgoto no plano da parede.** Esgoto
+horizontal não corre em parede — corre sob o piso, no radier no térreo e dentro
+do entrepiso no superior; só a prumada é vertical. A PR-21 já dizia, em texto,
+que DN100 não cabe em montante.
+
+Corrigido o traçado, sobraram **26**, e todas de uma única causa.
+
+### O que a medição achou e o modelo não pode resolver
+
+As três prumadas declaradas (PN-01, PN-02, AF-01) caem **dentro de linha de
+parede**, e um shaft de 300 × 300 mm não cabe numa parede de 150 mm. Cinco
+painéis atingidos: TP23, SP12-1, SP12-2, SP01-2, SP11-1.
+
+Ou o shaft é uma caixa ao lado da parede — e a coordenada precisa dizer **de que
+lado** — ou a parede é interrompida e enquadrada em volta dele. O painelizador
+não sabe que shaft existe e monta montante contínuo por cima de um vazio.
+
+> É lacuna do **modelo**, não do traçado. Arbitrá-la seria escolher por quem
+> assina. A liberação fica **NÃO LIBERADO** por um motivo real, específico e
+> acionável — que é exatamente o que um checklist serve para produzir.
+
+### A classe vazia não prova critério
+
+Depois da correção, "resolvíveis" e "críticos" ficaram ambas em zero. Um
+classificador sem instâncias não está certo: está **calado**. A auditoria passou
+a exercitar o limite contra a tabela de diâmetro externo — 45 mm (metade da alma
+de 90) ainda separa DN40 e DN50, que cruzam em furo verificado, de DN75 e DN100,
+que exigem desvio ou shaft.
+
+> Zero conflitos por traçado correto e zero conflitos por critério desligado têm
+> a mesma aparência no relatório. Só a exercitação distingue os dois.

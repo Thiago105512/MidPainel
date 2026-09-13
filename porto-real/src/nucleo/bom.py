@@ -63,6 +63,11 @@ PRECO_JUNTA = {          # (H), como todo preco deste arquivo
     "cantoneira": 4.50,
     "parafuso_placa": 0.12,
 }
+PRECO_MEP = {            # (H)
+    "tubo_agua_m": 18.00, "tubo_esgoto_m": 26.00, "conexao": 12.00,
+    "eletroduto_m": 6.50, "cabo_m": 4.20, "caixa": 9.00, "disjuntor": 38.00,
+    "linha_frigo_m": 62.00, "dreno_m": 9.00, "isolamento_m": 14.00,
+}
 PRECO_FUND = {           # (H)
     "concreto_m3": 520.00, "aco_kg": 9.80, "tela_m2": 28.00,
     "lastro_m3": 145.00, "lona_m2": 4.50, "forma_m2": 68.00,
@@ -167,6 +172,43 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
         itens.append(ItemBOM("PAR-PLA", "Parafuso de placa 25 mm", "un",
                              n_pl, PRECO_JUNTA["parafuso_placa"], "vedacao",
                              fonte="derivado"))
+
+    # ---- instalacoes: as pranchas 26 a 29 desenhavam tudo e o BOM tinha zero
+    mep = (camadas or {}).get("instalacoes")
+    if mep:
+        h = mep["hidraulica"]
+        for i in h["itens"]:
+            agua = "agua" in i["sistema"]
+            itens.append(ItemBOM(
+                f"MEP-{i['sistema'][:4].upper()}{i['dn']}",
+                f"Tubo {i['sistema']} DN{i['dn']}", "m", i["comp_m"],
+                PRECO_MEP["tubo_agua_m" if agua else "tubo_esgoto_m"],
+                "instalacao", fonte="derivado (percurso Manhattan x fator)"))
+        itens.append(ItemBOM("MEP-CONEX", "Conexoes hidraulicas", "un",
+                             h["conexoes"], PRECO_MEP["conexao"], "instalacao",
+                             fonte="derivado"))
+        e = mep["eletrica"]
+        for sku, desc, q, pr, un in (
+                ("MEP-ELET", "Eletroduto flexivel", e["eletroduto_m"],
+                 PRECO_MEP["eletroduto_m"], "m"),
+                ("MEP-CABO", "Cabo de cobre (fase, neutro e terra)",
+                 e["cabo_m"], PRECO_MEP["cabo_m"], "m"),
+                ("MEP-CAIXA", "Caixa de passagem e de tomada", e["caixas"],
+                 PRECO_MEP["caixa"], "un"),
+                ("MEP-DISJ", "Disjuntor", e["disjuntores"],
+                 PRECO_MEP["disjuntor"], "un")):
+            itens.append(ItemBOM(sku, desc, un, q, pr, "instalacao",
+                                 fonte="derivado"))
+        c = mep["climatizacao"]
+        for sku, desc, q, pr in (
+                ("MEP-FRIGO", "Linha frigorigena", c["linha_m"],
+                 PRECO_MEP["linha_frigo_m"]),
+                ("MEP-DRENO", "Dreno de condensado", c["dreno_m"],
+                 PRECO_MEP["dreno_m"]),
+                ("MEP-ISOL", "Isolamento de linha", c["isolamento_m"],
+                 PRECO_MEP["isolamento_m"])):
+            itens.append(ItemBOM(sku, desc, "m", q, pr, "instalacao",
+                                 fonte="derivado"))
 
     # ---- fundacao: 8 a 15 % do custo, e era o ultimo sistema em zero
     fun = (camadas or {}).get("fundacao")

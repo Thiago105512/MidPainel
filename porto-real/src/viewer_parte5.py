@@ -138,6 +138,7 @@ const VISTAS = [
   ["documentos", "Documentos",         "gerados do modelo"],
   ["materiais",  "Materiais",          "camada a camada, com norma"],
   ["parafusos",  "Parafusos",          "5.266, e de onde vem cada um"],
+  ["instalacoes","Instalações",        "percurso medido, e onde ele bate"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -158,6 +159,10 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    instalacoes: "Metro de tubo, de eletroduto e de linha frigorígena — o " +
+                 "que até aqui aparecia só como traçado no desenho e como " +
+                 "zero no orçamento. E os conflitos com a estrutura, que " +
+                 "alguém resolve no projeto ou o pedreiro resolve na marreta.",
     bloqueios: "O que este sistema não entrega, e o que seria preciso para " +
                "entregar. Nenhum destes itens está pela metade: estão fora, " +
                "com o preço declarado.",
@@ -227,6 +232,14 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    instalacoes: "O comprimento é percurso MANHATTAN de cada ponto até a " +
+                 "prumada mais próxima, vezes um fator declarado — limite " +
+                 "INFERIOR, nunca o percurso do instalador. O clash confronta " +
+                 "volume a volume e classifica: interseção não é defeito, em " +
+                 "LSF o ramal cruza o montante e se resolve com furo; defeito " +
+                 "é o furo que o perfil não comporta. O ramal de esgoto corre " +
+                 "SOB o piso, não no plano da parede — roteá-lo na parede " +
+                 "produziu 85 falsos críticos que eram erro de traçado.",
     parafusos: "Cisalhamento por NBR 14762 item 8.4: esmagamento das duas " +
                "chapas e basculamento do parafuso, com o modo governante " +
                "nomeado. A razão t2/t1 decide quais modos competem — chapas " +
@@ -811,6 +824,100 @@ function vistaParafusos() {
         </tr></thead><tbody>${ex}</tbody></table></div></div>`;
 }
 
+// ------------------------------------------------------------ instalacoes
+function vistaInstalacoes() {
+  const I = ENG.instalacoes;
+  if (!I) return barraModos() + "<p class='conta'>sem levantamento de instalações</p>";
+  const H = I.hidraulica, E = I.eletrica, C = I.climatizacao, K = I.clash;
+  const maiorH = Math.max(...H.itens.map(i => i.comp_m)) || 1;
+  const hid = H.itens.map(i =>
+    `<div style="display:grid;grid-template-columns:150px 1fr 92px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:2px 0">
+      <span>${esc2(i.sistema)} DN${i.dn}</span>
+      <span style="height:9px;background:var(--rule-soft)"><i style="display:block;
+        height:100%;width:${(i.comp_m / maiorH * 100).toFixed(1)}%;
+        background:${i.sistema.indexOf("esgoto") >= 0 ? "#6b4f8a" : (i.sistema.indexOf("quente") >= 0 ? "#c0392b" : "#3f6fb5")}"></i></span>
+      <span style="text-align:right">${num(i.comp_m, 1)} m</span></div>`).join("");
+  const conex = H.itens.map(i =>
+    `<tr><td>${esc2(i.sistema)}</td><td>DN${i.dn}</td>
+      <td>${num(i.comp_m, 1)}</td><td>${num(i.conexoes)}</td></tr>`).join("");
+  const clim = C.linhas.map(l =>
+    `<tr><td>${esc2(l.equip)}</td><td>${esc2(l.nicho)}</td>
+      <td>${num(l.capacidade)}</td><td>${num(l.comp_m, 1)}</td></tr>`).join("");
+  const conf = K.shafts.concat(K.criticos);
+  // um conflito por peça não interessa: 26 linhas da mesma causa são uma
+  // causa. Agrupar por motivo é o que transforma lista em decisão.
+  const porMotivo = {};
+  conf.forEach(c => {
+    (porMotivo[c.motivo] = porMotivo[c.motivo] || []).push(c);
+  });
+  const grupos = Object.keys(porMotivo).map(m => {
+    const g = porMotivo[m];
+    const pecas = g.map(c => esc2(c.peca)).join(", ");
+    const prum = [...new Set(g.map(c => c.a.indexOf("-V-") >= 0 ? c.a : c.b))]
+      .map(x => esc2(x)).join(", ");
+    return `<div class="selo nao" style="align-items:flex-start">
+      <b>${g.length} conflito${g.length > 1 ? "s" : ""} — uma causa</b>
+      <span style="line-height:1.55">${esc2(m)}<br><br>
+        <b>Prumadas.</b> ${prum}<br><b>Peças atingidas.</b> ${pecas}</span></div>`;
+  }).join("");
+  return `${barraModos()}${leitura("instalacoes")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Tubo</span>
+        <span class="val">${num(H.comp_total, 1)}</span>
+        <span class="uni">m em ${H.itens.length} diâmetros</span></div>
+      <div class="cartao"><span class="rot">Conexões</span>
+        <span class="val">${num(H.conexoes)}</span><span class="uni">joelho, tê, luva</span></div>
+      <div class="cartao"><span class="rot">Eletroduto</span>
+        <span class="val">${num(E.eletroduto_m, 1)}</span>
+        <span class="uni">m para ${E.pontos} pontos</span></div>
+      <div class="cartao"><span class="rot">Cabo</span>
+        <span class="val">${num(E.cabo_m, 1)}</span><span class="uni">m</span></div>
+      <div class="cartao"><span class="rot">Linha frigorígena</span>
+        <span class="val">${num(C.linha_m, 1)}</span>
+        <span class="uni">m em ${C.n} equipamentos</span></div>
+      <div class="cartao"><span class="rot">Volumes no clash</span>
+        <span class="val">${num(K.volumes)}</span>
+        <span class="uni">MEP contra estrutura</span></div>
+      <div class="cartao"><span class="rot">Conflitos</span>
+        <span class="val" style="color:${conf.length ? "var(--alert)" : "var(--ok)"}">${num(conf.length)}</span>
+        <span class="uni">${conf.length ? "a resolver no projeto" : "nenhum"}</span></div>
+    </div>
+    <div class="eng-sec"><h3>O fator de percurso é declarado, não embutido</h3>
+      <p class="conta" style="display:block;line-height:1.6">
+        Percurso Manhattan de cada ponto até a prumada mais próxima, vezes
+        <b>${H.fator.toFixed(2).replace(".", ",")}</b>. Um tubo real serpenteia
+        — desvia de viga, contorna shaft, sobe e desce — e por isso este número
+        é <b>limite inferior</b>. Quem discordar do fator muda um número e vê o
+        efeito, em vez de descobrir que havia um acréscimo escondido dentro do
+        comprimento. ${H.pecas} peças hidráulicas, ${H.ralos} ralos e
+        ${H.prumadas} prumadas. Quadro elétrico em
+        (${E.quadro[0]}, ${E.quadro[1]}) mm: ${esc2(E.obs)}.</p></div>
+    <div class="eng-grid" style="grid-template-columns:1fr 1fr">
+      <div class="eng-sec"><h3>Hidrossanitária por diâmetro</h3>${hid}
+        <div class="rolagem" style="margin-top:10px">
+          <table class="tabela"><thead><tr><th>sistema</th><th>DN</th>
+            <th>metros</th><th>conexões</th></tr></thead>
+            <tbody>${conex}</tbody></table></div></div>
+      <div class="eng-sec"><h3>Climatização — ${C.n} equipamentos</h3>
+        <div class="rolagem"><table class="tabela"><thead><tr><th>ambiente</th>
+          <th>nicho</th><th>BTU/h</th><th>linha m</th></tr></thead>
+          <tbody>${clim}</tbody></table></div>
+        <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+          ${esc2(C.obs)} — ${num(C.isolamento_m, 1)} m de isolamento e
+          ${num(C.dreno_m, 1)} m de dreno.</p></div>
+    </div>
+    <div class="eng-sec" style="margin-top:22px">
+      <h3>Interferência com a estrutura — o critério antes do número</h3>
+      <p class="conta" style="display:block;line-height:1.6">
+        ${esc2(K.criterio)}. Dos ${num(K.total)} cruzamentos brutos,
+        <b>${num(K.resolviveis)}</b> se resolvem com furo verificado e
+        <b>${num(conf.length)}</b> não.</p>
+      ${grupos || `<div class="selo"><b>Sem conflito</b>
+        <span>nenhuma prumada cai dentro de linha de parede e nenhum ramal
+        exige furo que o perfil não comporte</span></div>`}</div>`;
+}
+
 // --------------------------------------------------------------- bloqueios
 let contratoSel = null;
 function vistaBloqueios() {
@@ -863,7 +970,8 @@ function renderEng() {
   const f = {painel: vistaPainel, paineis: vistaPaineis, pecas: vistaPecas,
              corte: vistaCorte, montagem: vistaMontagem,
              logistica: vistaLogistica, documentos: vistaDocumentos,
-             materiais: vistaMateriais, parafusos: vistaParafusos, bloqueios: vistaBloqueios}[engVista];
+             materiais: vistaMateriais, parafusos: vistaParafusos,
+             instalacoes: vistaInstalacoes, bloqueios: vistaBloqueios}[engVista];
   alvo.innerHTML = f();
   const v = VISTAS.find(x => x[0] === engVista);
   document.getElementById("sheetTitle").firstChild.nodeValue =

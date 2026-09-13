@@ -125,6 +125,12 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     camadas["impermeabilizacao"] = cd.impermeabilizacao(pj)
     import nucleo.fundacao as _fd
     camadas["fundacao"] = _fd.levantar(pj)
+    import nucleo.instalacoes as _ins
+    camadas["instalacoes"] = dict(hidraulica=_ins.hidraulica(pj),
+                                  eletrica=_ins.eletrica(pj),
+                                  climatizacao=_ins.climatizacao(pj))
+    camadas["clash"] = _ins.conferir_clash(
+        pj, todos, dict(T=pj.NIVEL_TERREO, S=pj.NIVEL_SUPERIOR))
     for it in camadas["planos"]["itens"]:
         alvo = next((x for x in camadas["itens"]
                      if x["material"] == it["material"]
@@ -200,7 +206,11 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
             for p in todos),
         "MEP": all(f.d <= 0.5 * float(p.perfil.split()[1].split("x")[0])
                    for p in pecas for f in p.furos),
-        "clashes": True,
+        # o ultimo literal cai: o item era True desde sempre porque nao havia
+        # com o que conflitar — a estrutura so ganhou vigamento em R31 e o MEP
+        # so ganhou tracado agora. Verificar interferencia contra o vazio acha
+        # zero conflitos, e o zero e verdadeiro e inutil.
+        "clashes": camadas["clash"]["ok"],
         "painelizacao": all(p.comp <= cfg.comp_max or p.obs for p in todos),
         "fabricacao": all(any(fb.compativel(p, m.cod)["ok"] for m in fb.MAQUINAS)
                           for p in pecas),
@@ -215,8 +225,15 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # "isto e possivel?". As 447 condicoes anteriores so sabiam perguntar
     # "isto esta certo?", e foi por isso que uma casa sem vigamento passou 31
     # revisoes com a auditoria verde.
-    parcial = dict(pecas=pecas, plano=plano, paineis=todos, n_parafusos=n_parafusos,
-                   passos=passos, ancoragem=ancoragem["paineis"])
+    # O dicionario que a completude consulta e o MESMO que a funcao devolve —
+    # nao uma copia parcial. A primeira versao montava um `parcial` com seis
+    # chaves escolhidas a mao, e quando a fundacao entrou no modelo a chave
+    # `camadas` nao estava la: a completude leu volume zero e reprovou o
+    # projeto por falta de fundacao, que existia. Duas construcoes do mesmo
+    # dado divergem na primeira chave nova — pela quarta vez nesta sessao.
+    parcial = dict(pecas=pecas, plano=plano, paineis=todos,
+                   n_parafusos=n_parafusos, passos=passos,
+                   ancoragem=ancoragem["paineis"], camadas=camadas)
     completo = cm.conferir(parcial, pj.CADASTRO.tipologia)
     check["completude"] = completo["completo"]
     lib = sc.liberar(check)

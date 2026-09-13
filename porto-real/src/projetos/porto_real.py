@@ -1081,6 +1081,20 @@ def furo_max(perfil: str) -> int:
     return int(PERFIS_LSF[perfil]["h"] * FURACAO["frac_alma"])
 
 
+# Posicao das prumadas. Ate R37 as coordenadas viviam dentro do modulo de
+# desenho — `for sc, sx, sy in (("PN-01", 11_400, 19_200), ...)` — e por isso
+# nao existia comprimento de tubo nenhum: sem saber ONDE esta a prumada, nao ha
+# como medir o ramal ate ela. Mesmo padrao da espessura do radier, que era
+# literal em pranchas2.py ate R37.
+PRUMADAS = [
+    dict(cod="PN-01", x=11_400, y=19_200, tipo="esgoto", dn=100,
+         secao=(300, 300), onde="shaft do core"),
+    dict(cod="PN-02", x=2_400, y=18_000, tipo="esgoto", dn=100,
+         secao=(300, 300), onde="shaft da suite 02/03"),
+    dict(cod="AF-01", x=11_700, y=19_200, tipo="agua fria", dn=32,
+         secao=(150, 150), onde="junto ao shaft do core"),
+]
+
 # travessias declaradas: o que atravessa o que, e por onde
 PENETRACOES = [
     dict(cod="PN-01", tipo="esgoto DN100", dn=100, onde="shaft do core",
@@ -2451,6 +2465,15 @@ REVISOES = [
             "agora e dado do caso — o embutimento do chumbador so cabe se os "
             "dois falarem do mesmo radier. Espessura, fck e taxa sao (H) ate a "
             "sondagem: o modulo deriva quantidade, nao dimensiona radier"),
+    ("R38", "Instalacoes passam de tracado a quantidade: 408,8 m de tubo em "
+            "sete diametros, 745 m de eletroduto para 96 pontos, 56 m de linha "
+            "frigorigena e 187 conexoes, por percurso Manhattan vezes fator "
+            "declarado — limite INFERIOR, nunca o percurso do instalador. Com "
+            "percurso existindo, o item 'clashes' do checklist deixa de ser "
+            "True literal e confronta 844 volumes: acusou que a posicao "
+            "declarada de tres prumadas cai dentro de linha de parede, e um "
+            "shaft de 300 x 300 nao cabe em parede de 150. O modelo nao tem a "
+            "informacao que resolve isso e nao a arbitra"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2476,13 +2499,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R37",
+    revisao="R38",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R37", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R38", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

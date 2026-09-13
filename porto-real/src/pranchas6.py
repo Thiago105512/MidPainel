@@ -92,7 +92,10 @@ def hidrossanitaria() -> Canvas:
                       "vista", fechado=True, preenche="#fff", cor="#0a6")
             cv.texto_p((c[0], c[1] + 0.8), "R", TXT["micro"], "middle", cor="#0a6")
         # shaft e prumadas
-        for sc, sx, sy in (("PN-01", 11_400, 19_200), ("PN-02", 2_400, 18_000)):
+        # do caso, nao literal: sem a posicao como dado nao ha comprimento de
+        # ramal, e era por isso que o MEP nao tinha material nenhum no BOM
+        for pr in (q for q in pj.PRUMADAS if q["tipo"] == "esgoto"):
+            sc, sx, sy = pr["cod"], pr["x"], pr["y"]
             c = vw.pt(P(sx + 150, sy + 150))
             cv.circ_p(c, 3.0, "corte", preenche="#fff3d6", cor="#b5651d")
             cv.texto_p((c[0], c[1] + 0.8), "S", TXT["micro"], "middle", cor="#b5651d")

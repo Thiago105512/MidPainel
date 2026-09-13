@@ -751,6 +751,57 @@ def rodar(fotos: bool = False) -> int:
              === ENG.juntas.total"""),
            "a soma dos paineis bate com o total: o numero e um so")
 
+        # instalacoes: o percurso que existia no desenho e nao no modelo
+        pag.click("#vistasEng button[data-vista='instalacoes']")
+        pag.wait_for_timeout(350)
+        ok(pag.evaluate("() => ENG.instalacoes.hidraulica.comp_total") > 100,
+           "o tubo tem comprimento, e nao so ponto",
+           str(pag.evaluate("() => ENG.instalacoes.hidraulica.comp_total")) + " m")
+        ok(pag.evaluate("""() => {
+             const h = ENG.instalacoes.hidraulica;
+             const soma = h.itens.reduce((s, i) => s + i.comp_m, 0);
+             return Math.abs(soma - h.comp_total) < 0.5; }"""),
+           "a soma por diametro bate com o total: nao ha metro sem diametro")
+        # o fator tem de estar NA TELA: um limite inferior apresentado como
+        # numero fechado e pior que numero nenhum
+        ok(pag.evaluate("() => ENG.instalacoes.hidraulica.fator") > 1.0
+           and "1,20" in pag.evaluate(
+               "() => document.getElementById('engConteudo').textContent"),
+           "o fator de percurso aparece declarado na interface",
+           str(pag.evaluate("() => ENG.instalacoes.hidraulica.fator")))
+        ok(pag.evaluate("""() => {
+             const e = ENG.instalacoes.eletrica;
+             return e.pontos > 50 && e.eletroduto_m > 0 && e.cabo_m > e.eletroduto_m; }"""),
+           "eletroduto e cabo existem, e o cabo e mais longo que o eletroduto",
+           str(pag.evaluate("() => ENG.instalacoes.eletrica.pontos")) + " pontos")
+        ok(pag.evaluate("""() => {
+             const c = ENG.instalacoes.climatizacao;
+             return c.n > 0 && c.linhas.length === c.n
+                    && Math.abs(c.isolamento_m - c.linha_m * 2) < 0.5; }"""),
+           "a linha frigorigena traz isolamento de ida e volta")
+        ok(pag.evaluate("() => ENG.instalacoes.clash.volumes") > 500,
+           "o clash confronta volume a volume, e nao contra o vazio",
+           str(pag.evaluate("() => ENG.instalacoes.clash.volumes")) + " volumes")
+        # e o conflito nao pode chegar como contador: sem peca e motivo nao ha
+        # como resolver nenhum deles
+        ok(pag.evaluate("""() => {
+             const k = ENG.instalacoes.clash;
+             return k.shafts.concat(k.criticos).every(c =>
+               c.peca && c.dn > 0 && c.motivo && c.motivo.length > 40); }"""),
+           "cada conflito diz a peca, o diametro e o motivo por extenso")
+        ok(pag.evaluate("""() => {
+             const k = ENG.instalacoes.clash;
+             const n = k.shafts.length + k.criticos.length;
+             const t = document.getElementById('engConteudo').textContent;
+             return n === 0 ? t.includes('Sem conflito')
+                            : t.includes('uma causa'); }"""),
+           "o conflito e mostrado agrupado pela causa, nao linha a linha",
+           str(pag.evaluate("""() => ENG.instalacoes.clash.shafts.length
+             + ENG.instalacoes.clash.criticos.length""")) + " conflitos")
+        ok(pag.evaluate("""() => ENG.liberacao.itens
+             .some(i => i.item === 'clashes')"""),
+           "e o checklist de liberacao le esse resultado, nao um literal")
+
         # o que o sistema NAO faz, com o mesmo rigor do que faz
         pag.click("#vistasEng button[data-vista='bloqueios']")
         pag.wait_for_timeout(350)

@@ -236,6 +236,41 @@ def _materiais(r: dict) -> dict:
                     for p in r["paineis"]})
 
 
+def _instalacoes(r: dict) -> dict:
+    """MEP e clash: o percurso medido, e onde ele encosta na estrutura.
+
+    O que a tela precisa dizer, e que uma tabela de comprimentos nao diz: cada
+    numero aqui e limite INFERIOR, por percurso Manhattan vezes fator
+    declarado. Exportar o fator junto do comprimento e a diferenca entre um
+    dado e um numero.
+    """
+    ins = r["camadas"]["instalacoes"]
+    cl = r["camadas"]["clash"]
+    h, e, cli = ins["hidraulica"], ins["eletrica"], ins["climatizacao"]
+    return dict(
+        hidraulica=dict(itens=h["itens"], comp_total=h["comp_total"],
+                        conexoes=h["conexoes"], fator=h["fator"],
+                        pecas=h["pecas"], ralos=h["ralos"],
+                        prumadas=h["prumadas"]),
+        eletrica=dict(pontos=e["pontos"], eletroduto_m=e["eletroduto_m"],
+                      cabo_m=e["cabo_m"], caixas=e["caixas"],
+                      disjuntores=e["disjuntores"], quadro=list(e["quadro"]),
+                      fator=e["fator"], obs=e["obs"]),
+        climatizacao=dict(n=cli["n"], linha_m=cli["linha_m"],
+                          dreno_m=cli["dreno_m"],
+                          isolamento_m=cli["isolamento_m"],
+                          linhas=cli["linhas"], obs=cli["obs"]),
+        clash=dict(
+            volumes=cl["volumes"], total=cl["total"],
+            resolviveis=cl["resolviveis"], criterio=cl["criterio"], ok=cl["ok"],
+            # o conflito vai inteiro: peca, prumada e motivo por extenso. Um
+            # contador de conflitos nao permite resolver nenhum deles.
+            criticos=[dict(a=c["a"], b=c["b"], peca=c["peca"], dn=c["dn"],
+                           motivo=c["motivo"]) for c in cl["criticos"]],
+            shafts=[dict(a=c["a"], b=c["b"], peca=c["peca"], dn=c["dn"],
+                         motivo=c["motivo"]) for c in cl["shafts"]]))
+
+
 def _juntas(r: dict) -> dict:
     """O programa de parafusos, agregado como a obra precisa ler.
 
@@ -350,6 +385,7 @@ def montar() -> dict:
         completude=_completude(r),
         juntas=_juntas(r),
         materiais=_materiais(r),
+        instalacoes=_instalacoes(r),
         scores=r["scores"], score_geral=r["score_geral"],
         liberacao=r["liberacao"],
         documentos=dict(
