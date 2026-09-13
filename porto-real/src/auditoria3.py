@@ -2750,3 +2750,84 @@ def checar_camadas() -> list[Achado]:
                       "duas unidades e como a dupla contagem costuma passar "
                       "despercebida"))
     return out
+
+
+def checar_radier() -> list[Achado]:
+    """Fundacao: quantidade derivada de uma espessura que e (H).
+
+    A espessura de 180 mm existia em DOIS lugares — um literal no modulo de
+    desenho e uma copia dentro do dimensionamento de ancoragem — e nenhum dos
+    dois era dado do projeto. O desenho dizia 180 e a ancoragem acreditava; se
+    alguem mudasse um, o outro continuaria certo de si.
+
+    Concreto, aco, lastro e lona nunca entraram no BOM. Num sobrado em LSF a
+    fundacao e 8 a 15 % do custo, e era o ultimo sistema construtivo grande em
+    zero.
+    """
+    import projeto as pj
+    import pranchas2 as p2
+    import nucleo.fundacao as fd
+    import nucleo.piso as ps
+    out = []
+    r = fx.liberacao()
+    f = r["camadas"]["fundacao"]
+
+    # ---- 1. fonte unica da espessura
+    ok = (p2.RADIER == pj.RADIER["espessura"])
+    out.append(Achado("NOTA" if ok else "ERRO", "fonte unica",
+                      f"a espessura de {pj.RADIER['espessura']} mm e dado do "
+                      f"caso, e o desenho a LE em vez de repetir. Ela vivia "
+                      f"como literal em pranchas2.py e, em copia, dentro da "
+                      f"ancoragem — dois lugares para o mesmo numero divergem "
+                      f"na primeira revisao de fundacao"))
+
+    # ---- 2. a ancoragem usa a mesma espessura que o BOM
+    import inspect
+    src = inspect.getsource(ps.ancorar)
+    out.append(Achado("NOTA" if "pj.RADIER" in src else "ERRO", "coerencia",
+                      "o dimensionamento de chumbador consulta a MESMA "
+                      "espessura que o concreto do BOM: o embutimento so cabe "
+                      "no radier se os dois falarem do mesmo radier"))
+
+    # ---- 3. a quantidade reage a espessura, em vez de ser constante
+    import copy as _cp
+    grosso = _cp.copy(pj.RADIER)
+    grosso["espessura"] = pj.RADIER["espessura"] * 2
+
+    class _Pj:
+        RADIER = grosso
+        TERREO = pj.TERREO
+        CADASTRO = pj.CADASTRO
+    f2 = fd.levantar(_Pj)
+    razao = f2["volume_m3"] / f["volume_m3"] if f["volume_m3"] else 0
+    out.append(Achado("NOTA" if abs(razao - 2.0) < 0.01 else "ERRO",
+                      "sensibilidade",
+                      f"dobrar a espessura dobra o volume ({razao:.2f}x): a "
+                      f"quantidade e funcao da espessura, nao numero fixo ao "
+                      f"lado dela"))
+
+    # ---- 4. toda hipotese declarada, e a pendencia nomeada
+    out.append(Achado("ATENCAO", "hipotese de fundacao",
+                      f"espessura {f['espessura']} mm, fck {f['fck']} MPa e "
+                      f"taxa de {f['aco_kg']/f['volume_m3']:.0f} kg/m3 sao (H): "
+                      f"{f['pendencia']}. Este modulo deriva QUANTIDADE de uma "
+                      f"espessura declarada e NAO dimensiona radier — "
+                      f"apresentar a espessura como resultado seria fraude"))
+
+    # ---- 5. a area concretada e maior que a area util, e por um motivo
+    out.append(Achado("NOTA" if f["area"] > pj.CADASTRO.area_m2 * 0.5 else "ERRO",
+                      "area",
+                      f"{f['area']} m2 de radier para {sum(a.w*a.h for a in pj.TERREO)/1e6:.1f} "
+                      f"m2 de ambientes do terreo: o radier acompanha a face "
+                      f"EXTERNA e ainda avanca {pj.RADIER['balanco_borda']} mm, "
+                      f"e essa diferenca paga concreto"))
+
+    # ---- 6. o BOM recebeu os seis itens, nao um so
+    fund = [i for i in r["bom"] if i.familia == "fundacao"]
+    out.append(Achado("NOTA" if len(fund) >= 6 else "ERRO", "BOM",
+                      f"{len(fund)} itens de fundacao no BOM "
+                      f"(R$ {sum(i.total for i in fund):,.0f}): concreto, aco, "
+                      f"tela, lastro, lona e forma. Um radier nao e so "
+                      f"concreto — lastro e lona sao o que impede a umidade de "
+                      f"subir por capilaridade ate o montante"))
+    return out

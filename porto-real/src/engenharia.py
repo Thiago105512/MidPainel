@@ -229,7 +229,7 @@ def _materiais(r: dict) -> dict:
                     for e in esq["itens"]],
         esq_caixilho_m=esq["caixilho_m"], esq_vidro_m2=esq["area_vidro"],
         ferragem=esq["ferragem"], desempenho=esq["desempenho"],
-        cobertura=c["cobertura"],
+        cobertura=c["cobertura"], fundacao=c["fundacao"],
         impermeabilizacao={k: v for k, v in c["impermeabilizacao"].items()
                            if k != "itens"},
         por_painel={p.cod: c["familias"]["familia"].get(p.cod, "")

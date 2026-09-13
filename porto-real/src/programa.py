@@ -400,6 +400,13 @@ PROGRAMA = [
      "Cada painel passa a apontar para a composicao que a PR-12 lhe atribui, e "
      "a area de cada camada sai do proprio painel, descontada a abertura. "
      "Inclui paginacao de placa, esquadria, cobertura e impermeabilizacao."),
+    (106, "Fundacao: quantidade derivada de uma espessura declarada",
+     ["checar_radier"], "PARCIAL",
+     "Secoes 36 e 37. A espessura de 180 mm vivia como literal no modulo de "
+     "desenho e em copia dentro da ancoragem, e nenhum dos dois era dado. "
+     "Concreto, aco, lastro e lona nunca entraram no BOM. PARCIAL porque "
+     "espessura, fck e taxa de armadura sao (H) ate a sondagem: o modulo "
+     "deriva QUANTIDADE, nao dimensiona radier."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

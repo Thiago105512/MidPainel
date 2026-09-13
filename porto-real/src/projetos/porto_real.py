@@ -822,6 +822,30 @@ GAMA_M = 1.1                # coeficiente de minoracao da resistencia
 #   ocupados, e IV. Quem considerar o lote mais aberto usa III, e a diferenca
 #   em S2 e da ordem de 10 %.
 # Classe B — maior dimensao da edificacao entre 20 e 50 m.
+# ------------------------------------------------------------------ radier
+# A espessura vivia como literal `RADIER = 180` dentro de pranchas2.py e, em
+# copia, como `esp_radier = 180.0` dentro do dimensionamento de ancoragem. Dois
+# lugares para o mesmo numero, e nenhum deles era dado do projeto — o desenho
+# dizia 180 e a ancoragem acreditava.
+#
+# TUDO AQUI E (H) ATE A SONDAGEM. Radier e a peca que mais depende do solo, e
+# a pendencia 2 do caderno e exatamente esta. O que este bloco permite e
+# derivar QUANTIDADE para uma espessura declarada; ele nao dimensiona radier,
+# e nao substitui o calculo com ART.
+RADIER = dict(
+    espessura=180,            # mm (H): sem sondagem, e pre-dimensionamento
+    fck=30,                   # MPa (H)
+    aco="CA-50",
+    tela="Q196",              # malha soldada, 3,4 kg/m2 (H)
+    taxa_armadura=45.0,       # kg de aco por m3 de concreto (H), radier leve
+    cobrimento=30,            # mm, classe de agressividade II da NBR 6118
+    lastro=100,               # mm de brita graduada sob o radier
+    lona=1,                   # camada de lona plastica 150 micra
+    balanco_borda=100,        # mm de radier alem da face externa da parede
+    norma="NBR 6118 e NBR 6122",
+    pendencia="sondagem SPT e calculo definitivo — pendencia 2 do caderno",
+)
+
 V0_VENTO = 30.0
 CATEGORIA_VENTO = "IV"
 CLASSE_VENTO = "B"
@@ -2421,6 +2445,12 @@ REVISOES = [
             "molhadas. O cruzamento entre quadro de esquadrias e quadro de "
             "ambientes achou 3 banheiros no superior que existem no desenho e "
             "nao no dado — a area deles nao foi arbitrada"),
+    ("R37", "Fundacao entra no BOM: 33,5 m3 de concreto, 1.509 kg de aco, "
+            "tela, lastro, lona e forma, derivados da projecao. A espessura de "
+            "180 mm era literal no desenho e copia dentro da ancoragem, e "
+            "agora e dado do caso — o embutimento do chumbador so cabe se os "
+            "dois falarem do mesmo radier. Espessura, fck e taxa sao (H) ate a "
+            "sondagem: o modulo deriva quantidade, nao dimensiona radier"),
 ]
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
@@ -2446,13 +2476,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R36",
+    revisao="R37",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R36", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R37", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

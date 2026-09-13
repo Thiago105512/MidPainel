@@ -434,7 +434,7 @@
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R36 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R37 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -451,7 +451,7 @@
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>36,4 <span>kVA · 100 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>478 <span>condições · 0 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>484 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>35 <span>· A1</span></dd></div>
   </dl>
@@ -641,6 +641,7 @@
       <li><span class="r">R34</span><span>Composicao de parede como dado: camada, espessura, funcao e norma, transcritas da PR-12. O fechamento saia de seis coeficientes e passa a sair da geometria de cada painel, descontada a abertura. A transcricao permitiu conferir a justificativa da PH-1: a cavidade e a alma do montante, 90 mm, e o DN100 tem 110 de diametro externo</span></li>
       <li><span class="r">R35</span><span>Paginacao de placa: 696 placas inteiras com 79,3 % de aproveitamento, retalho reagrupado pelo mesmo nesting das barras. Norma e formato comercial voltam para o material, fonte unica. Piso, forro e cobertura ganham composicao, e fita, massa e cantoneira passam a existir, derivadas do perimetro</span></li>
       <li><span class="r">R36</span><span>Esquadria, cobertura e impermeabilizacao passam de zero a material: 311 m de caixilho, 62 m2 de vidro com especificacao por vao, calha, rufo e cumeeira do perimetro, e manta das areas molhadas. O cruzamento entre quadro de esquadrias e quadro de ambientes achou 3 banheiros no superior que existem no desenho e nao no dado — a area deles nao foi arbitrada</span></li>
+      <li><span class="r">R37</span><span>Fundacao entra no BOM: 33,5 m3 de concreto, 1.509 kg de aco, tela, lastro, lona e forma, derivados da projecao. A espessura de 180 mm era literal no desenho e copia dentro da ancoragem, e agora e dado do caso — o embutimento do chumbador so cabe se os dois falarem do mesmo radier. Espessura, fck e taxa sao (H) ate a sondagem: o modulo deriva quantidade, nao dimensiona radier</span></li>
       </ol>
     </div>
     <div>
@@ -2054,7 +2055,20 @@ function vistaMateriais() {
         <span class="val">${num(cob.calha_m + cob.rufo_m, 1)}</span><span class="uni">m</span></div>
       <div class="cartao"><span class="rot">Impermeabilização</span>
         <span class="val">${num(imp.area, 1)}</span><span class="uni">m²</span></div>
+      <div class="cartao"><span class="rot">Concreto</span>
+        <span class="val">${num(M.fundacao.volume_m3, 1)}</span>
+        <span class="uni">m³ de radier</span></div>
     </div>
+    <div class="eng-sec"><h3>Fundação — quantidade de uma espessura que é (H)</h3>
+      <p class="conta" style="display:block;line-height:1.6">
+        Radier de <b>${M.fundacao.espessura} mm</b>, fck ${M.fundacao.fck} MPa,
+        aço ${esc2(M.fundacao.aco)} · ${num(M.fundacao.area, 1)} m² ·
+        <b>${num(M.fundacao.volume_m3, 1)} m³</b> de concreto ·
+        ${num(M.fundacao.aco_kg)} kg de aço · ${num(M.fundacao.tela_m2)} m² de
+        tela ${esc2(M.fundacao.tela)} · ${num(M.fundacao.lastro_m3, 1)} m³ de
+        lastro.<br>
+        ${M.fundacao.hipoteses.map(h => "— " + esc2(h)).join("<br>")}<br>
+        <b>Pendência:</b> ${esc2(M.fundacao.pendencia)}.</p></div>
     <div class="eng-grid"><ul class="lista">${lista}</ul>
       <div>
         <div class="desenho"><p class="cap" style="font-size:13px">

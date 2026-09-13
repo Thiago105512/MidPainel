@@ -337,7 +337,9 @@ def ancorar(contra: dict, paineis, cat_massa: dict, pj, cfg: pn.Config = None) -
     import nucleo.ligacoes as lg
     cfg = cfg or pn.Config()
     por_cod = {p.cod: p for p in paineis}
-    esp_radier = 180.0        # mm, declarado no projeto (PR-06)
+    # do caso, nao copia: o literal 180 vivia aqui E em pranchas2.py, e dois
+    # lugares para o mesmo numero divergem na primeira revisao de fundacao
+    esp_radier = float(pj.RADIER["espessura"])
 
     saida, problemas = {}, []
     for e in contra["paineis"]:

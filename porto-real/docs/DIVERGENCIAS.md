@@ -2902,3 +2902,42 @@ que se mede mudou** — o BOM passou a cobrir esquadria (R$ 313/m²) e cobertura
 
 > Recalibrar faixa exige dizer **o que mudou no que se mede**. Se a resposta for
 > "nada, só o valor", a faixa está certa e é o projeto que precisa de explicação.
+
+## Defeito 41 — a espessura que existia em dois lugares e não era dado
+
+O radier de **180 mm** vivia como literal `RADIER = 180` dentro do módulo de
+desenho e, em cópia, como `esp_radier = 180.0` dentro do dimensionamento de
+ancoragem. Nenhum dos dois era dado do projeto: **o desenho dizia 180 e a
+ancoragem acreditava** — e se alguém mudasse um, o outro continuaria certo de
+si.
+
+Isso importa concretamente: o embutimento do chumbador só cabe se o chumbador e
+o concreto falarem do **mesmo** radier.
+
+E concreto, aço, tela, lastro e lona nunca entraram no BOM. Num sobrado em LSF a
+fundação é 8 a 15 % do custo, e era o último sistema construtivo grande em zero:
+
+| | |
+|---|---|
+| área concretada | 186,4 m² |
+| concreto | **33,54 m³** (0,113 m³/m²) |
+| aço CA-50 | 1.509 kg |
+| tela Q196 | 205 m² |
+| lastro + lona | 18,6 m³ + 205 m² |
+| custo | R$ 42.374 |
+
+A área concretada é **maior** que a dos ambientes (180,0 m²), e por um motivo
+que o desenho sabe e o orçamento ignorava: o radier acompanha a face **externa**
+da parede e ainda avança 100 mm. Essa diferença paga concreto.
+
+### A linha que eu não cruzei
+
+Espessura, f<sub>ck</sub> e taxa de armadura são **(H) até a sondagem** — é a
+pendência 2 do caderno. O módulo deriva **quantidade** a partir de uma espessura
+declarada, e isso é legítimo e útil. Ele **não dimensiona radier**, e a
+auditoria diz isso em voz alta:
+
+> Apresentar a espessura como resultado seria fraude.
+
+Um teste garante que a quantidade é função da espessura e não um número fixo ao
+lado dela: dobrar a espessura dobra o volume — **2,00×**.

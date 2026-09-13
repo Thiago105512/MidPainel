@@ -133,6 +133,19 @@ FAIXAS = (
           "acima de 95 sugere retalho contado como reaproveitado sem que o "
           "corte caiba de fato"),
 
+    Faixa("concreto_m2", "concreto de radier", "m3/m2 de projeto", 0.07, 0.20,
+          "(H) radier de 120 a 220 mm sobre a projecao; solo mole ou carga "
+          "concentrada elevam a espessura e com ela o consumo",
+          "abaixo indica area de radier menor que a projecao — falta laje "
+          "sob alguma parte da casa; acima, espessura de pre-dimensionamento "
+          "grande demais para o porte"),
+
+    Faixa("armadura_radier", "taxa de armadura do radier", "kg/m3", 30.0, 90.0,
+          "(H) radier residencial leve fica em 40 a 60; abaixo de 30 nao "
+          "arma nem a retracao, acima de 90 e peca de carga concentrada",
+          "fora da faixa indica taxa arbitrada sem calculo — e ela e (H) ate "
+          "a sondagem"),
+
     Faixa("uso_estrutural", "utilizacao mediana dos montantes", "-", 0.05, 0.70,
           "(H) em LSF o montante corrente e governado pela modulacao da placa, "
           "nao pela carga; mediana alta indica subdimensionamento",
@@ -189,6 +202,18 @@ def _medir_fechamento(r: dict, area_m2: float) -> dict:
         "junta_m2": (pg["junta_m"] + pg["borda_m"]) / placa if placa else 0.0,
         "aprov_placa": (pg["area_util"] / pg["area_bruta"] * 100
                         if pg["area_bruta"] else 0.0),
+        **_medir_fundacao(c),
+    }
+
+
+def _medir_fundacao(c: dict) -> dict:
+    f = c.get("fundacao")
+    if not f:
+        return {}
+    return {
+        "concreto_m2": f["consumo_m3_m2"],
+        "armadura_radier": (f["aco_kg"] / f["volume_m3"]
+                            if f["volume_m3"] else 0.0),
     }
 
 

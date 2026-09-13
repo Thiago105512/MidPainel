@@ -708,7 +708,20 @@ function vistaMateriais() {
         <span class="val">${num(cob.calha_m + cob.rufo_m, 1)}</span><span class="uni">m</span></div>
       <div class="cartao"><span class="rot">Impermeabilização</span>
         <span class="val">${num(imp.area, 1)}</span><span class="uni">m²</span></div>
+      <div class="cartao"><span class="rot">Concreto</span>
+        <span class="val">${num(M.fundacao.volume_m3, 1)}</span>
+        <span class="uni">m³ de radier</span></div>
     </div>
+    <div class="eng-sec"><h3>Fundação — quantidade de uma espessura que é (H)</h3>
+      <p class="conta" style="display:block;line-height:1.6">
+        Radier de <b>${M.fundacao.espessura} mm</b>, fck ${M.fundacao.fck} MPa,
+        aço ${esc2(M.fundacao.aco)} · ${num(M.fundacao.area, 1)} m² ·
+        <b>${num(M.fundacao.volume_m3, 1)} m³</b> de concreto ·
+        ${num(M.fundacao.aco_kg)} kg de aço · ${num(M.fundacao.tela_m2)} m² de
+        tela ${esc2(M.fundacao.tela)} · ${num(M.fundacao.lastro_m3, 1)} m³ de
+        lastro.<br>
+        ${M.fundacao.hipoteses.map(h => "— " + esc2(h)).join("<br>")}<br>
+        <b>Pendência:</b> ${esc2(M.fundacao.pendencia)}.</p></div>
     <div class="eng-grid"><ul class="lista">${lista}</ul>
       <div>
         <div class="desenho"><p class="cap" style="font-size:13px">

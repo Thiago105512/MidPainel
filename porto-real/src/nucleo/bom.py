@@ -63,6 +63,10 @@ PRECO_JUNTA = {          # (H), como todo preco deste arquivo
     "cantoneira": 4.50,
     "parafuso_placa": 0.12,
 }
+PRECO_FUND = {           # (H)
+    "concreto_m3": 520.00, "aco_kg": 9.80, "tela_m2": 28.00,
+    "lastro_m3": 145.00, "lona_m2": 4.50, "forma_m2": 68.00,
+}
 PRECO_ESQ = {            # (H)
     "caixilho_m": 185.00, "vidro_m2": 310.00,
     "roldana": 18.00, "fecho": 42.00, "trilho_m": 96.00,
@@ -163,6 +167,25 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
         itens.append(ItemBOM("PAR-PLA", "Parafuso de placa 25 mm", "un",
                              n_pl, PRECO_JUNTA["parafuso_placa"], "vedacao",
                              fonte="derivado"))
+
+    # ---- fundacao: 8 a 15 % do custo, e era o ultimo sistema em zero
+    fun = (camadas or {}).get("fundacao")
+    if fun:
+        for sku, desc, q, pr, un in (
+                ("FUN-CONC", f"Concreto fck {fun['fck']} MPa",
+                 fun["volume_m3"], PRECO_FUND["concreto_m3"], "m3"),
+                ("FUN-ACO", f"Aco {fun['aco']} para radier",
+                 fun["aco_kg"], PRECO_FUND["aco_kg"], "kg"),
+                ("FUN-TELA", f"Tela soldada {fun['tela']}",
+                 fun["tela_m2"], PRECO_FUND["tela_m2"], "m2"),
+                ("FUN-LASTRO", "Lastro de brita graduada",
+                 fun["lastro_m3"], PRECO_FUND["lastro_m3"], "m3"),
+                ("FUN-LONA", "Lona plastica sob o radier",
+                 fun["lona_m2"], PRECO_FUND["lona_m2"], "m2"),
+                ("FUN-FORMA", "Forma de borda", fun["forma_m2"],
+                 PRECO_FUND["forma_m2"], "m2")):
+            itens.append(ItemBOM(sku, desc, un, q, pr, "fundacao",
+                                 fonte="derivado de espessura (H)"))
 
     # ---- esquadria: 12 a 18 % do custo de uma residencia, e estava em zero
     esq = (camadas or {}).get("esquadrias")

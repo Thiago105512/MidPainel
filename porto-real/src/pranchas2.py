@@ -12,7 +12,7 @@ from pranchas import base, _tabela, _extremos
 LAJE = 150
 PLATIBANDA_1PAV = 3_150
 PLATIBANDA_2PAV = pj.TOPO_PLATIBANDA
-RADIER = 180
+RADIER = pj.RADIER["espessura"]   # do caso, nao literal
 
 
 def _dentro(ambs, x, y) -> bool:

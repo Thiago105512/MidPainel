@@ -123,6 +123,8 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     camadas["esquadrias"] = _es.levantar(pj, _es.vidros_da_prancha(_ep))
     camadas["cobertura"] = cd.acessorios_cobertura(casa, pj)
     camadas["impermeabilizacao"] = cd.impermeabilizacao(pj)
+    import nucleo.fundacao as _fd
+    camadas["fundacao"] = _fd.levantar(pj)
     for it in camadas["planos"]["itens"]:
         alvo = next((x for x in camadas["itens"]
                      if x["material"] == it["material"]

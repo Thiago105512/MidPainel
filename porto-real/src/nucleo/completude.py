@@ -66,6 +66,10 @@ EXIGENCIAS = (
               "corta o comprimento de flambagem do montante",
               "o montante flamba no comprimento inteiro: a carga resistente "
               "cai para um quarto"),
+    Exigencia("fundacao", "Fundacao",
+              "e o que recebe toda a carga e a entrega ao solo",
+              "a estrutura nao tem onde se apoiar: sem fundacao nao ha "
+              "caminho de carga ate o terreno"),
     Exigencia("ancoragem", "Ancoragem a fundacao",
               "resiste ao arrancamento por vento e transfere o cisalhamento",
               "a casa apoia por peso proprio apenas — e vento de sucçao "
@@ -118,6 +122,8 @@ def conferir(r: dict, tipologia: str = "SOBRADO") -> dict:
         "jamba": fam.get("king stud", 0) + fam.get("jack stud", 0),
         "travamento": fam.get("blocking", 0) + fam.get("travamento", 0),
         # os tres abaixo nao sao pecas: sao resultados da cadeia
+        "fundacao": round((r.get("camadas", {}) or {})
+                          .get("fundacao", {}).get("volume_m3", 0)),
         "ancoragem": len(r.get("ancoragem", {}) or {}),
         "ligacao": r.get("n_parafusos", 0),
         "corte": r.get("plano", {}).get("n_barras", 0),

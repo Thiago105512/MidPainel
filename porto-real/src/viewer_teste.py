@@ -712,6 +712,12 @@ def rodar(fotos: bool = False) -> int:
         ok(pag.evaluate("() => Object.keys(ENG.materiais.por_painel).length")
            == pag.evaluate("() => ENG.paineis.length"),
            "todo painel aponta para uma composicao")
+        ok(pag.evaluate("""() => {
+             const f = ENG.materiais.fundacao;
+             return f.volume_m3 > 0 && f.aco_kg > 0 && f.pendencia.length > 20
+                    && f.hipoteses.length >= 4; }"""),
+           "a fundacao traz quantidade, pendencia e hipoteses declaradas",
+           str(pag.evaluate("() => ENG.materiais.fundacao.volume_m3")) + " m3")
         ultimo = pag.evaluate("() => ENG.materiais.composicoes.slice(-1)[0].cod")
         pag.click(f"#engConteudo [data-comp='{ultimo}']")
         pag.wait_for_timeout(250)
