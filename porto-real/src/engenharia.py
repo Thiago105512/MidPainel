@@ -25,6 +25,7 @@ import nucleo.liberacao as lb
 import nucleo.bom as bo
 import nucleo.documentos as dc
 import nucleo.contratos as ct
+import nucleo.cotacao as co
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(AQUI, "..", "out", "engenharia.json")
@@ -381,6 +382,11 @@ def montar() -> dict:
         bom=[dict(sku=i.sku, descricao=i.descricao, unidade=i.unidade,
                   quantidade=round(i.quantidade, 2),
                   preco=i.preco_unit, total=round(i.total, 2),
+                  # o que se COMPRA e o que se produz nao somam. A linha de
+                  # producao vai junto, marcada, porque a fabrica precisa dela
+                  # — e porque escondê-la seria trocar uma dupla contagem por
+                  # uma omissao.
+                  compra=i.compra, total_compra=round(i.total_compra, 2),
                   familia=i.familia, fonte=i.fonte) for i in r["bom"]],
         abc=bo.curva_abc(r["bom"]),
         custo=round(r["custo"], 2),
@@ -418,6 +424,28 @@ def montar() -> dict:
             orfas=r["combinacoes"]["cobertura"]["orfas"],
             ok=r["combinacoes"]["ok"]),
         pendencias=r["pendencias"],
+        cotacao=dict(
+            cobertura=r["cotacao"]["cobertura"],
+            sensibilidade=sorted(r["cotacao"]["sensibilidade"],
+                                 key=lambda x: -x["exposicao"]),
+            mapa=dict(n=r["cotacao"]["mapa"]["n"],
+                      n_alternativas=r["cotacao"]["mapa"]["n_alternativas"],
+                      cotaveis=r["cotacao"]["mapa"]["cotaveis"],
+                      n_lacunas=r["cotacao"]["mapa"]["n_lacunas"],
+                      instrucao=r["cotacao"]["mapa"]["instrucao"],
+                      min_propostas=r["cotacao"]["mapa"]["min_propostas"],
+                      lacunas=r["cotacao"]["mapa"]["lacunas"],
+                      linhas=[dict(sku=l["sku"], quantidade=l["quantidade"],
+                                   unidade=l["unidade"],
+                                   descricao=l["descricao"],
+                                   especificacao=l["especificacao"],
+                                   normas=l["normas"], lacunas=l["lacunas"])
+                              for l in r["cotacao"]["mapa"]["linhas"]],
+                      alternativas=[dict(sku=l["sku"], unidade=l["unidade"],
+                                         quantidade=l["quantidade"],
+                                         descricao=l["descricao"])
+                                    for l in r["cotacao"]["mapa"]["alternativas"]]),
+            niveis=list(co.NIVEIS)),
         scores=r["scores"], score_geral=r["score_geral"],
         liberacao=r["liberacao"],
         documentos=dict(
@@ -427,6 +455,7 @@ def montar() -> dict:
             manual=dc.manual_de_montagem(r["passos"]),
             inspecao=dc.relatorio_inspecao(r["pecas"]),
             memorial=dc.memorial_descritivo(pj, r),
+            mapa_de_cotacao=dc.mapa_de_cotacao(r["cotacao"]["mapa"], pj),
         ),
         contratos=[dict(cod=c.cod, titulo=c.titulo, secoes=list(c.secoes),
                         bloqueio=c.bloqueio, fonte=c.fonte, aceite=c.aceite,

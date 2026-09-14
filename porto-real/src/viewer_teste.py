@@ -854,6 +854,55 @@ def rodar(fotos: bool = False) -> int:
            "toda acao declarada entra em alguma verificacao",
            pag.evaluate("() => ENG.combinacoes.leitura"))
 
+        # custo e cotacao: a dupla contagem, e o que ainda nao foi perguntado
+        pag.click("#vistasEng button[data-vista='cotacao']")
+        pag.wait_for_timeout(350)
+        ok(pag.evaluate("""() => {
+             const B = ENG.bom;
+             const soma = B.reduce((s, i) => s + i.total_compra, 0);
+             const decl = B.filter(i => i.compra)
+                           .reduce((s, i) => s + i.total, 0);
+             return Math.abs(soma - decl) < 0.5 && Math.abs(soma - ENG.custo) < 0.5; }"""),
+           "o custo e a soma do que se COMPRA, e so",
+           "R$ " + str(pag.evaluate("() => Math.round(ENG.custo)")))
+        ok(pag.evaluate("""() => ENG.bom.some(i => !i.compra)
+             && ENG.bom.filter(i => !i.compra).every(i => i.total_compra === 0)"""),
+           "a linha de producao existe, e nao entra no total",
+           str(pag.evaluate("() => ENG.bom.filter(i => !i.compra).length")) + " linhas")
+        # a identidade que nenhuma faixa pegaria: util / aproveitamento = bruta
+        ok(pag.evaluate("""() => {
+             const aco = ENG.bom.find(i => i.sku === 'ACO-PERF');
+             const pf = ENG.bom.filter(i => i.sku.startsWith('PF-'));
+             const util = pf.reduce((s, i) => s + i.total, 0) / aco.preco;
+             return Math.abs(util / ENG.nesting.aproveitamento - aco.quantidade) < 1.0; }"""),
+           "barra e peca sao o mesmo aco: a identidade fecha")
+        ok(pag.evaluate("""() => {
+             const v = ENG.bom.map(i => i.sku);
+             return new Set(v).size === v.length; }"""),
+           "nenhum SKU se repete: a chave que liga preco a quantidade e unica")
+        ok(pag.evaluate("() => ENG.cotacao.cobertura.cotado_pct") == 0
+           and "(H)" in pag.evaluate(
+               "() => document.getElementById('engConteudo').textContent"),
+           "a tela diz que 0 % do custo foi cotado, em vez de omitir",
+           str(pag.evaluate("() => ENG.cotacao.cobertura.cotado_pct")) + " %")
+        ok(pag.evaluate("""() => ENG.cotacao.mapa.linhas.length > 40
+             && ENG.cotacao.mapa.linhas.every(l => l.sku && l.quantidade >= 0)"""),
+           "o mapa de cotacao esta na interface",
+           str(pag.evaluate("() => ENG.cotacao.mapa.n")) + " linhas")
+        ok(pag.evaluate("""() => ENG.cotacao.mapa.lacunas.length > 0
+             && ENG.cotacao.mapa.lacunas.every(x => x.faltam.length > 0
+                                                    && x.faltam[0].length > 20)"""),
+           "e cada lacuna diz o que falta para poder perguntar",
+           str(pag.evaluate("() => ENG.cotacao.mapa.n_lacunas")) + " lacunas")
+        ok(pag.evaluate("""() => {
+             const s = ENG.cotacao.sensibilidade;
+             const t = s.reduce((a, x) => a + x.exposicao, 0);
+             return Math.abs(t - 1) < 0.01 && s[0].exposicao >= s[1].exposicao; }"""),
+           "a exposicao por familia soma 1 e vem ordenada")
+        ok(pag.evaluate("""() => ENG.documentos.mapa_de_cotacao
+             && ENG.documentos.mapa_de_cotacao.includes('FALTA')"""),
+           "o documento que sai para o fornecedor traz as lacunas nele mesmo")
+
         # o que o sistema NAO faz, com o mesmo rigor do que faz
         pag.click("#vistasEng button[data-vista='bloqueios']")
         pag.wait_for_timeout(350)

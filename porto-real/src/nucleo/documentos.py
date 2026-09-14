@@ -168,3 +168,51 @@ def memorial_descritivo(pj, res: dict) -> str:
         f"## Situacao\n{res['liberacao']['situacao']}. "
         f"Score geral {res['score_geral']}/100.\n\n"
         f"Normas: {', '.join(c.normas[:8])} e outras {len(c.normas)-8}.\n")
+
+
+def mapa_de_cotacao(mapa: dict, pj=None) -> str:
+    """O documento que sai para o fornecedor (secao 136).
+
+    Nao e o BOM. O BOM responde "quanto tem"; a cotacao pergunta "quanto
+    custa", e para perguntar e preciso ESPECIFICAR. Por isso este documento
+    carrega norma e formato em cada linha, e por isso ele termina com as
+    lacunas: o que o modelo nao soube especificar nao pode ser cotado, e um
+    preco recebido para uma linha mal especificada e pior que nenhum.
+    """
+    L = ["MAPA DE COTACAO",
+         "=" * 78,
+         f"Projeto: {getattr(getattr(pj, 'CADASTRO', None), 'nome', '—')}"
+         f"   Revisao: {getattr(pj, 'EMISSAO', {}).get('revisao', '—')}",
+         "",
+         "COMO RESPONDER",
+         f"  {mapa['instrucao']}.",
+         f"  Minimo de {mapa['min_propostas']} propostas por item para que a "
+         f"comparacao seja competitiva.",
+         "",
+         f"ITENS PARA COTACAO ({mapa['n']})",
+         "-" * 78]
+    for l in mapa["linhas"]:
+        L.append(f"{l['sku']:<18} {l['quantidade']:>12,.2f} {l['unidade']:<4} "
+                 f"{l['descricao'][:38]}")
+        if l["especificacao"]:
+            L.append(f"{'':<18} esp.: {l['especificacao']}")
+        if l["normas"]:
+            L.append(f"{'':<18} norma: {', '.join(l['normas'])}")
+        if l["lacunas"]:
+            for x in l["lacunas"]:
+                L.append(f"{'':<18} FALTA: {x}")
+        L.append(f"{'':<18} preco unitario: ____________  "
+                 f"data: ____/____/______  validade: _____ dias  "
+                 f"prazo: _____ dias")
+    L += ["", f"ROTAS ALTERNATIVAS ({mapa['n_alternativas']}) — nao somar com "
+              f"as de cima", "-" * 78]
+    for l in mapa["alternativas"]:
+        L.append(f"{l['sku']:<18} {l['quantidade']:>12,.2f} {l['unidade']:<4} "
+                 f"{l['descricao'][:38]}")
+    L += ["", f"LACUNAS DE ESPECIFICACAO ({mapa['n_lacunas']})", "-" * 78,
+          "O que segue nao esta pronto para virar preco. Cotar assim mesmo "
+          "produz",
+          "numero comparavel com nada:"]
+    for x in mapa["lacunas"]:
+        L.append(f"  {x['sku']:<16} {'; '.join(x['faltam'])}")
+    return "\n".join(L)

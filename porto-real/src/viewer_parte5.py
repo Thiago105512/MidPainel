@@ -139,6 +139,7 @@ const VISTAS = [
   ["materiais",  "Materiais",          "camada a camada, com norma"],
   ["parafusos",  "Parafusos",          "5.266, e de onde vem cada um"],
   ["instalacoes","Instalações",        "percurso medido, e onde ele bate"],
+  ["cotacao",    "Custo e cotação",    "o que se compra, e o que falta perguntar"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -159,6 +160,10 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    cotacao: "Quanto custa, e — o que quase nenhum orçamento diz — quanto " +
+             "do que custa foi perguntado a alguém. Hoje: zero. Todo preço " +
+             "aqui é hipótese declarada, e o mapa de cotação já está pronto " +
+             "para sair.",
     instalacoes: "Metro de tubo, de eletroduto e de linha frigorígena — o " +
                  "que até aqui aparecia só como traçado no desenho e como " +
                  "zero no orçamento. E os conflitos com a estrutura, que " +
@@ -232,6 +237,13 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    cotacao: "Compra-se BARRA (kg, com a perda do plano de corte) e " +
+             "produz-se PEÇA cortada: são o mesmo aço descrito de dois jeitos, " +
+             "e somar os dois é pagar duas vezes. Era o que acontecia — " +
+             "R$ 62.664 em 402.196 — e nenhuma faixa de plausibilidade pegava, " +
+             "porque 1.571 e 1.359 R$/m² cabem ambos em 600 a 1.800. O que " +
+             "pega é identidade: a massa útil dividida pelo aproveitamento dá " +
+             "exatamente a massa bruta comprada.",
     instalacoes: "O comprimento é percurso MANHATTAN de cada ponto até a " +
                  "prumada mais próxima, vezes um fator declarado — limite " +
                  "INFERIOR, nunca o percurso do instalador. O clash confronta " +
@@ -685,7 +697,8 @@ function vistaLogistica() {
 // ------------------------------------------------------------- documentos
 const DOCS = [["memorial", "memorial descritivo"], ["lista_de_pecas", "lista de peças"],
   ["plano_de_corte", "plano de corte"], ["packing_list", "packing list"],
-  ["manual", "manual de montagem"], ["inspecao", "relatório de inspeção"]];
+  ["manual", "manual de montagem"], ["inspecao", "relatório de inspeção"],
+  ["mapa_de_cotacao", "mapa de cotação"]];
 function vistaDocumentos() {
   const botoes = DOCS.map(([k, t]) =>
     `<button class="btn" data-doc="${k}" ${k === docSel ? 'style="border-color:var(--accent);color:var(--accent)"' : ""}>${t}</button>`).join("");
@@ -959,6 +972,104 @@ function vistaInstalacoes() {
         exige furo que o perfil não comporte</span></div>`}</div>`;
 }
 
+// ------------------------------------------------------------ custo/cotacao
+let bomFiltro = "";
+function vistaCotacao() {
+  const C = ENG.cotacao, B = ENG.bom || [];
+  if (!C) return barraModos() + "<p class='conta'>sem levantamento de custo</p>";
+  const cob = C.cobertura, M = C.mapa;
+  const area = ENG.projeto.area_m2 || 1;
+  const compra = B.filter(i => i.compra), prod = B.filter(i => !i.compra);
+  const totalC = compra.reduce((s, i) => s + i.total, 0);
+  const totalP = prod.reduce((s, i) => s + i.total, 0);
+  const porFam = {};
+  compra.forEach(i => { porFam[i.familia] = (porFam[i.familia] || 0) + i.total; });
+  const fams = Object.keys(porFam).sort((a, b) => porFam[b] - porFam[a]);
+  const maiorF = porFam[fams[0]] || 1;
+  const barras = fams.map(f =>
+    `<div style="display:grid;grid-template-columns:96px 1fr 128px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:2px 0">
+      <span>${esc2(f)}</span>
+      <span style="height:9px;background:var(--rule-soft)"><i style="display:block;
+        height:100%;width:${(porFam[f] / maiorF * 100).toFixed(1)}%;
+        background:#3f6fb5"></i></span>
+      <span style="text-align:right">R$ ${num(porFam[f], 0)} ·
+        ${(porFam[f] / totalC * 100).toFixed(1)} %</span></div>`).join("");
+  const sens = C.sensibilidade.slice(0, 6).map(x =>
+    `<tr><td>${esc2(x.familia)}</td>
+      <td>${(x.exposicao * 100).toFixed(1)} %</td>
+      <td>R$ ${num(x.delta, 0)}</td>
+      <td>${x.elasticidade.toFixed(2).replace(".", ",")}</td></tr>`).join("");
+  const f = bomFiltro.toLowerCase();
+  const linhas = B.filter(i => !f || (i.sku + " " + i.descricao).toLowerCase().includes(f))
+    .map(i =>
+    `<tr${i.compra ? "" : ' style="opacity:.55"'}>
+      <td>${esc2(i.sku)}</td>
+      <td style="white-space:normal;max-width:30ch">${esc2(i.descricao)}</td>
+      <td>${num(i.quantidade, 2)}</td><td>${esc2(i.unidade)}</td>
+      <td>${num(i.preco, 2)}</td>
+      <td>${i.compra ? "R$ " + num(i.total, 2) : "—"}</td>
+      <td style="white-space:normal;max-width:26ch">${esc2(i.fonte)}</td></tr>`).join("");
+  const lac = M.lacunas.map(x =>
+    `<tr><td>${esc2(x.sku)}</td>
+      <td style="white-space:normal">${x.faltam.map(esc2).join("<br>")}</td></tr>`).join("");
+  return `${barraModos()}${leitura("cotacao")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Custo</span>
+        <span class="val">${num(totalC / 1000, 1)}</span>
+        <span class="uni">mil reais · o que se compra</span></div>
+      <div class="cartao"><span class="rot">Por área</span>
+        <span class="val">${num(totalC / area, 0)}</span>
+        <span class="uni">R$/m² de projeto</span></div>
+      <div class="cartao"><span class="rot">Cotado</span>
+        <span class="val" style="color:${cob.cotado_pct > 0 ? "var(--ok)" : "var(--alert)"}">${cob.cotado_pct.toFixed(0)} %</span>
+        <span class="uni">do custo perguntado a alguém</span></div>
+      <div class="cartao"><span class="rot">Mapa de cotação</span>
+        <span class="val">${M.n}</span>
+        <span class="uni">linhas, ${M.cotaveis} prontas</span></div>
+      <div class="cartao"><span class="rot">Lacunas</span>
+        <span class="val" style="color:var(--alert)">${M.n_lacunas}</span>
+        <span class="uni">sem especificação bastante</span></div>
+      <div class="cartao"><span class="rot">Não somado</span>
+        <span class="val">${num(totalP / 1000, 1)}</span>
+        <span class="uni">mil de rota alternativa</span></div>
+    </div>
+    <div class="selo nao" style="align-items:flex-start">
+      <b>Todo preço aqui é (H)</b>
+      <span style="line-height:1.55">${esc2(cob.leitura)}. Os números servem
+        para auditar QUANTIDADE — que é derivada do modelo e fecha com a massa
+        — e não para fechar contrato. O mapa de cotação está pronto para sair:
+        ${M.n} linhas, com norma e especificação em cada uma, e
+        ${M.min_propostas} propostas mínimas por item.</span></div>
+    <div class="eng-grid" style="grid-template-columns:1fr 1fr;margin-top:18px">
+      <div class="eng-sec"><h3>Onde está o dinheiro</h3>${barras}</div>
+      <div class="eng-sec"><h3>Exposição — a derivada, não o valor</h3>
+        <div class="rolagem"><table class="tabela"><thead><tr><th>família</th>
+          <th>do total</th><th>+20 % custa</th><th>elasticidade</th>
+          </tr></thead><tbody>${sens}</tbody></table></div>
+        <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+          Com 100 % dos preços hipotéticos, a informação honesta não é quanto
+          custa: é quanto do orçamento depende de um preço que ninguém
+          confirmou.</p></div>
+    </div>
+    <div class="eng-sec"><h3>O que falta para poder perguntar</h3>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>item</th>
+        <th>o que falta</th></tr></thead><tbody>${lac}</tbody></table></div>
+      <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+        Preço recebido para linha mal especificada é pior que preço nenhum:
+        parece comparável e não é.</p></div>
+    <div class="eng-sec"><h3>BOM — ${compra.length} linhas de compra e
+      ${prod.length} de produção</h3>
+      <div class="filtros">
+        <input type="search" id="bomBusca" placeholder="filtrar SKU ou descrição"
+               value="${esc2(bomFiltro)}" aria-label="Filtrar o BOM">
+        <span class="conta">as linhas esmaecidas são rota alternativa: a mesma
+          matéria em outra unidade, e por isso não entram no total</span></div>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>SKU</th>
+        <th>descrição</th><th>qtd</th><th>un</th><th>preço</th><th>total</th>
+        <th>origem</th></tr></thead><tbody>${linhas}</tbody></table></div></div>`;
+}
+
 // --------------------------------------------------------------- bloqueios
 let contratoSel = null;
 function vistaBloqueios() {
@@ -1012,7 +1123,8 @@ function renderEng() {
              corte: vistaCorte, montagem: vistaMontagem,
              logistica: vistaLogistica, documentos: vistaDocumentos,
              materiais: vistaMateriais, parafusos: vistaParafusos,
-             instalacoes: vistaInstalacoes, bloqueios: vistaBloqueios}[engVista];
+             instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
+             bloqueios: vistaBloqueios}[engVista];
   alvo.innerHTML = f();
   const v = VISTAS.find(x => x[0] === engVista);
   document.getElementById("sheetTitle").firstChild.nodeValue =
@@ -1055,6 +1167,15 @@ function ligarEng() {
     passoAtual = Number(e.currentTarget.dataset.passo); pararAnim(); renderEng();
   });
   em("[data-doc]", "click", e => { docSel = e.currentTarget.dataset.doc; renderEng(); });
+  // filtro do BOM: preserva o foco e o cursor, senao digitar fica impossivel
+  const bb = document.getElementById("bomBusca");
+  if (bb) bb.addEventListener("input", e => {
+    bomFiltro = e.target.value;
+    const pos = e.target.selectionStart;
+    renderEng();
+    const novo = document.getElementById("bomBusca");
+    if (novo) { novo.focus(); novo.setSelectionRange(pos, pos); }
+  });
   em("[data-comp]", "click", e => {
     compSel = e.currentTarget.dataset.comp; renderEng();
   });

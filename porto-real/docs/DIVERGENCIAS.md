@@ -3180,3 +3180,119 @@ global e é verificado no contraventamento; o que o modelo não faz é a flexão
 composta do montante de parede externa sob pressão de vento. Isso agora está
 escrito entre as hipóteses da descida, onde a auditoria o lê em voz alta a cada
 execução.
+
+## Defeito 47 — o aço estava no orçamento duas vezes, em duas unidades
+
+A pergunta foi "dá para incluir cotação dos materiais?". Responder exigiu
+montar o **mapa de cotação** — o documento que vai ao fornecedor —, e montá-lo
+exigiu responder, linha por linha, **o que exatamente se compra**. Foi aí que
+apareceu:
+
+| linha | quantidade | valor |
+|---|---|---|
+| `ACO-PERF` | 6.230,8 kg de barra (massa bruta, com a perda de corte) | R$ 71.654 |
+| `PF-*` (11 linhas) | 1.033 peças cortadas | R$ 62.664 |
+
+São **o mesmo aço**. Em LSF compra-se **barra** e produz-se **peça**; a segunda
+não é um item a mais, é a primeira depois da serra. As duas tinham preço, as
+duas entravam no total.
+
+- custo antes: R$ 464.861 → **R$ 1.571/m²**
+- custo depois: R$ 402.196 → **R$ 1.359/m²**
+- inflação: **+15,6 %** sobre o valor correto
+
+### Por que nenhuma verificação existente pegou
+
+A faixa de plausibilidade de custo vai de **600 a 1.800 R$/m²**. Os dois valores
+cabem dentro dela — o certo e o inflado. Uma faixa larga o bastante para ser
+segura contra falso positivo é larga o bastante para esconder uma dupla contagem
+de 15 %.
+
+> Faixa não pega dupla contagem. O que pega é **identidade**.
+
+A identidade agora está escrita e é conferida a cada execução: a massa útil das
+11 linhas de perfil, dividida pelo aproveitamento do plano de corte (87,5 %), dá
+**exatamente** a massa bruta da linha de compra. É a mesma classe de verificação
+do `bruto = usado + perda` do nesting — e a mesma que faltava.
+
+### A ironia registrada
+
+Três linhas abaixo do defeito, o próprio arquivo já avisava:
+
+> "a camada estrutural JÁ está no BOM, em kg, vinda do plano de corte. Listá-la
+> também em m² seria contar o mesmo aço duas vezes — e em duas unidades
+> diferentes, que é como a dupla contagem costuma passar despercebida."
+
+O comentário recusava listar o aço em m² enquanto o código o listava em pc.
+Saber o princípio e aplicá-lo num lugar só não é aplicá-lo.
+
+### A correção não esconde a linha
+
+`ItemBOM.compra` separa o que se **compra** do que se **produz**. A linha de
+produção continua no BOM — a fábrica precisa dela, e o mapa de cotação a oferece
+como **rota alternativa** (comprar peça cortada em vez de barra, comprar placa
+inteira em vez de m²), que é uma pergunta legítima de compra. O que ela não faz
+é somar. Trocar uma dupla contagem por uma omissão seria o outro erro.
+
+E o total deixou de ser `sum(i.total)` espalhado por quem quisesse somar: virou
+`bom.total()`, uma regra, num lugar só. Quando a regra estava espalhada, cada
+consumidor tinha a sua — e um deles somava aço duas vezes.
+
+## O que "cotação" quer dizer — quatro níveis, não um
+
+| nível | o que é | o que exige |
+|---|---|---|
+| 0 · **(H)** | número arbitrado para a estrutura do cálculo existir | nada — é o que há hoje, em 100 % das linhas |
+| 1 · **REFERÊNCIA** | tabela pública com data e origem (SINAPI-AM do mês X, preço de catálogo) | acesso à tabela e mapeamento SKU → código |
+| 2 · **COTADO** | proposta de fornecedor **nomeado**, com data, validade, prazo e condição | mandar o mapa e receber resposta |
+| 3 · **CONTRATADO** | pedido colocado | decisão de compra |
+
+O módulo `nucleo/cotacao.py` faz a mecânica dos quatro e **não inventa nenhum
+número**: monta o mapa, recebe, valida, compara e substitui. O preço entra pela
+porta do contrato ERP da E23, escrita em R27, que já dizia a frase que governa
+tudo isto: **"preço sem data não é preço"**.
+
+### A porta tem tranca
+
+Seis propostas de teste, uma entra e cinco são recusadas — cada uma pelo seu
+motivo: sem data, vencida, unidade divergente do BOM, SKU inexistente, moeda sem
+taxa declarada. O que era uma frase no contrato desde R27 agora é código que
+recusa.
+
+### Três propostas, não uma
+
+Proposta única não é cotação: é um preço. Com três, o **spread** sai medido — e
+o spread é a única medida de mercado que uma compra privada produz sem tabela
+pública. O mínimo de três é praxe em compra privada e exigência no art. 23 da
+Lei 14.133 para a pública.
+
+### O que o mapa expôs: 12 linhas que não dá para perguntar
+
+Cotação não se pede com quantidade; se pede com **especificação**. Montar o mapa
+obrigou o modelo a dizer o que é cada linha — e 12 não souberam:
+
+| item | o que falta |
+|---|---|
+| FITA, MASSA | rendimento da embalagem: o modelo mede **comprimento** de junta, não rolo nem balde |
+| ESQ-CAIX, ESQ-VIDRO | classificação de estanqueidade — exige **relatório de ensaio**, nunca valor |
+| FER-* (6 linhas) | linha e fabricante: a norma de desempenho é do **sistema** esquadria + ferragem |
+| MO-FAB, MO-MON | convenção coletiva vigente e composição de encargos |
+
+Nenhuma delas é preenchível por inferência, e é por isso que aparecem. **Preço
+recebido para linha mal especificada é pior que preço nenhum: parece comparável
+e não é.**
+
+### A informação honesta com 0 % cotado
+
+Não é o valor — é a **derivada**. Quanto do orçamento depende de um preço que
+ninguém confirmou:
+
+| família | do total | +20 % custa |
+|---|---|---|
+| vedação | 27,1 % | R$ 21.810 |
+| esquadria | 23,0 % | R$ 18.526 |
+| estrutura | 17,8 % | R$ 14.331 |
+| fundação | 10,5 % | R$ 8.475 |
+
+E a pendência 12 entra na lista, com o portão que ela tranca: **contrato**. Não
+tranca fabricar; tranca assinar.

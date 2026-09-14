@@ -2492,6 +2492,18 @@ REVISOES = [
             "consistencia interna nao e autorizacao. As pendencias saem de "
             "dentro de duas pranchas, onde ja divergiam entre si, e viram dado "
             "do caso com o portao que cada uma tranca"),
+    ("R40", "Cotacao: o mapa que vai ao fornecedor, a porta por onde o preco "
+            "entra e o defeito que a pergunta achou. Montar o mapa obrigou a "
+            "responder o que exatamente se compra, e o aco estava no orcamento "
+            "DUAS VEZES, em duas unidades: 6.230,8 kg de barra e 1.033 pecas "
+            "cortadas, as duas com preco, as duas somadas. R$ 62.664 de "
+            "inflacao, +15,6 %, e o custo por m2 cai de 1.571 para 1.359. "
+            "Nenhuma faixa pegaria — a de custo vai de 600 a 1.800 e os dois "
+            "cabem dentro: o que pega e identidade, e a massa util sobre o "
+            "aproveitamento da exatamente a bruta comprada. O mapa expos ainda "
+            "12 linhas sem especificacao suficiente para virar pergunta. "
+            "Nenhum preco foi inventado: 100 % continuam (H), e a cobertura "
+            "cotada — 0 % — passa a ser mostrada em vez de omitida"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2554,6 +2566,16 @@ PENDENCIAS = [
                  "verificar se a troca de ramal acompanhou a decisao do "
                  "chuveiro eletrico (peso 0,10 em vez de 0,40)",
          status="ABERTA", bloqueia=""),
+    # R40 — a pendencia que sempre existiu e nunca estava na lista. Os precos
+    # do BOM sao (H) desde a primeira revisao e sempre estiveram marcados como
+    # tal; o que faltava era o item que diz que isso TRANCA alguma coisa. Nao
+    # tranca fabricar — tranca contratar.
+    dict(n="12", titulo="Cotacao dos materiais: 100 % dos precos sao (H)",
+         norma="Lei 14.133 art. 23 (parametro de 3 propostas)",
+         impacto="O mapa de cotacao existe e esta pronto para sair; enquanto "
+                 "nao voltar, o custo e ordem de grandeza para auditar "
+                 "quantidade, nunca base de contrato",
+         status="ABERTA", bloqueia="contrato"),
 ]
 
 
@@ -2587,13 +2609,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R39",
+    revisao="R40",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R39", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R40", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

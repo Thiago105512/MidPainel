@@ -141,8 +141,19 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # a decisao tem MATERIAL: enclausurar a caixa consome placa RU. Se a
     # decisao existisse so como coordenada, o orcamento nao saberia dela.
     if shafts["placa_m2"] > 0:
-        camadas["itens"].append(dict(material="GESSORU", espessura=12.5,
-                                     area=shafts["placa_m2"]))
+        # MERGE, nao append: a placa do shaft e a mesma placa RU de 12,5 mm que
+        # ja esta na lista. Duas linhas do mesmo material com a mesma espessura
+        # viram dois itens de BOM com o MESMO SKU — e o contrato do ERP diz que
+        # a chave de SKU e o que liga preco a quantidade. SKU repetido nao
+        # recebe cotacao: recebe duas cotacoes que ninguem sabe somar.
+        alvo = next((x for x in camadas["itens"]
+                     if x["material"] == "GESSORU" and x["espessura"] == 12.5),
+                    None)
+        if alvo:
+            alvo["area"] = round(alvo["area"] + shafts["placa_m2"], 1)
+        else:
+            camadas["itens"].append(dict(material="GESSORU", espessura=12.5,
+                                         area=shafts["placa_m2"]))
     for it in camadas["planos"]["itens"]:
         alvo = next((x for x in camadas["itens"]
                      if x["material"] == it["material"]
@@ -155,7 +166,9 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         sum(i["area"] for i in camadas["itens"]), 1)
     itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2,
                       n_parafusos=n_parafusos, camadas=camadas)
-    custo = sum(i.total for i in itens)
+    # o custo e o que se COMPRA. A regra mora no BOM: quando morava aqui, na
+    # forma de sum(i.total), esta linha somava o aco duas vezes — em kg e em pc.
+    custo = bo.total(itens)
 
     etapas = mo.etapas_do_projeto(paineis, cat)
     ordem = mo.ordenar(etapas)
@@ -283,7 +296,19 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     check["completude"] = completo["completo"]
     lib = sc.liberar(check)
     geral = round(sum(s["nota"] for s in scores.values()) / len(scores))
-    return dict(paineis=todos, pecas=pecas, plano=plano, bom=itens,
+    # ---- cotacao: o mapa que se manda ao fornecedor, e quanto do custo ja
+    # foi perguntado a alguem. Precisa do resultado quase pronto, por isso vem
+    # aqui: a especificacao de cada linha sai do modelo inteiro — norma do
+    # material, designacao do perfil, DN da instalacao, fck da fundacao.
+    import nucleo.cotacao as co
+    _parcial = dict(bom=itens, plano=plano, juntas=juntas, camadas=camadas)
+    cot = dict(mapa=co.mapa(_parcial),
+               cobertura=co.cobertura(itens),
+               sensibilidade=[co.sensibilidade(itens, f, 0.20)
+                              for f in sorted({i.familia for i in itens})])
+
+    return dict(cotacao=cot,
+                paineis=todos, pecas=pecas, plano=plano, bom=itens,
                 custo=custo, etapas=etapas, ordem=ordem, passos=passos,
                 horas=horas, carga=carga, emissao=emissao,
                 desmontabilidade=desm, scores=scores, score_geral=geral,

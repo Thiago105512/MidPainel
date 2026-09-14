@@ -341,6 +341,152 @@ def checar_vento() -> list[Achado]:
     return out
 
 
+def checar_cotacao() -> list[Achado]:
+    """O preco (H) vira cotacao por uma porta, e a porta tem tranca.
+
+    E, no caminho, a pergunta "da para cotar?" achou o defeito que a faixa de
+    plausibilidade nao achava: o aco estava no BOM DUAS VEZES, em duas
+    unidades — 6.230,8 kg de barra e 1.033 pecas cortadas, as duas com preco,
+    as duas somadas. R$ 62.664 de um total de R$ 464.861: 13,5 %.
+
+    Nenhuma faixa pegaria isso. A faixa de custo por m2 vai de 600 a 1.800, e o
+    valor inflado — 1.571 — cabia dentro dela com folga. Faixa larga o bastante
+    para ser segura e larga o bastante para esconder uma dupla contagem. O que
+    pega e IDENTIDADE: a mesma materia aparece uma vez so.
+    """
+    import projeto as pj
+    import nucleo.bom as bo
+    import nucleo.cotacao as co
+    out = []
+    r = fx.liberacao()
+    itens = r["bom"]
+
+    # ---- 1. a identidade: barra e peca sao o MESMO aco
+    aco = next(i for i in itens if i.sku == "ACO-PERF")
+    pf = [i for i in itens if i.sku.startswith("PF-")]
+    massa_pf = sum(i.quantidade * i.preco_unit / bo.PRECOS["aco_perfil_kg"]
+                   for i in pf)
+    bruta = massa_pf / r["plano"]["aproveitamento"]
+    bate = abs(bruta - aco.quantidade) < 1.0
+    compram = [i.sku for i in [aco] + pf if i.compra]
+    out.append(Achado("NOTA" if bate and compram == ["ACO-PERF"] else "ERRO",
+                      "aco uma vez so",
+                      f"as {len(pf)} linhas de perfil somam {massa_pf:,.1f} kg "
+                      f"uteis, que sobre o aproveitamento de "
+                      f"{r['plano']['aproveitamento'] * 100:.1f} % dao "
+                      f"{bruta:,.1f} kg — exatamente a linha ACO-PERF. E o "
+                      f"MESMO aco descrito de dois jeitos: compra-se barra, "
+                      f"produz-se peca. So uma das duas entra no custo, e o "
+                      f"campo `compra` diz qual"))
+
+    # ---- 2. o contrafactual: quanto custava contar duas vezes
+    inflado = sum(i.total for i in itens)   # ignora o campo `compra`
+    real = bo.total(itens)
+    area = pj.CADASTRO.area_m2
+    out.append(Achado("NOTA" if inflado > real else "ERRO", "o que custava",
+                      f"somando tudo sem distinguir compra de producao o total "
+                      f"vai de R$ {real:,.0f} para R$ {inflado:,.0f} "
+                      f"(+{(inflado / real - 1) * 100:.1f} %), e o custo por m2 "
+                      f"de R$ {real / area:,.0f} para R$ {inflado / area:,.0f}. "
+                      f"Os dois cabem na faixa de plausibilidade de 600 a "
+                      f"1.800: faixa larga o bastante para ser segura e larga "
+                      f"o bastante para esconder dupla contagem. O que pega "
+                      f"nao e faixa, e identidade"))
+
+    # ---- 3. SKU e chave: repetido nao recebe cotacao, recebe duas
+    import collections
+    dup = [k for k, v in collections.Counter(i.sku for i in itens).items()
+           if v > 1]
+    out.append(Achado("NOTA" if not dup else "ERRO", "sku unico",
+                      "nenhum SKU se repete no BOM. O contrato do ERP liga "
+                      "preco a quantidade pela chave de SKU, e chave repetida "
+                      "recebe duas cotacoes que ninguem sabe somar"
+                      if not dup else f"SKU repetido: {dup}"))
+
+    # ---- 4. o mapa: o que se pergunta ao fornecedor
+    m = r["cotacao"]["mapa"]
+    out.append(Achado("NOTA" if m["n"] == sum(1 for i in itens if i.compra)
+                      else "ERRO", "mapa",
+                      f"{m['n']} linhas de compra no mapa de cotacao, "
+                      f"{m['n_alternativas']} rotas alternativas separadas "
+                      f"(peca cortada em vez de barra, placa inteira em vez de "
+                      f"m2) e {m['cotaveis']} prontas para virar preco. Cotacao "
+                      f"nao se pede com quantidade: se pede com especificacao"))
+
+    out.append(Achado("ATENCAO" if m["lacunas"] else "NOTA", "lacuna",
+                      f"{m['n_lacunas']} linhas nao estao prontas para cotar, e "
+                      f"cada uma diz o que falta: "
+                      + "; ".join(sorted({x["faltam"][0][:46]
+                                          for x in m["lacunas"]}))
+                      + ". Preco recebido para linha mal especificada e pior "
+                        "que preco nenhum — parece comparavel e nao e"))
+
+    # ---- 5. a porta: o que entra e validado
+    hoje = "2026-09-14"
+    boa = co.Cotacao("ACO-PERF", "Fornecedor A", 12.40, "kg", "2026-09-01",
+                     validade_dias=30, lead_time_dias=21)
+    ruins = [
+        co.Cotacao("ACO-PERF", "B", 11.90, "kg", ""),                 # sem data
+        co.Cotacao("ACO-PERF", "C", 11.10, "kg", "2026-01-05"),       # vencida
+        co.Cotacao("ACO-PERF", "D", 11.30, "t", "2026-09-01"),        # unidade
+        co.Cotacao("NAO-EXISTE", "E", 10.00, "kg", "2026-09-01"),     # sku
+        co.Cotacao("ACO-PERF", "F", 2.20, "kg", "2026-09-01", moeda="USD"),
+    ]
+    rec = co.receber([boa] + ruins, itens, hoje)
+    motivos = {m_[:18] for x in rec["recusadas"] for m_ in x["motivos"]}
+    out.append(Achado("NOTA" if rec["n_aceitas"] == 1 and
+                      len(rec["recusadas"]) == len(ruins) else "ERRO",
+                      "validacao",
+                      f"das {len(ruins) + 1} propostas de teste, 1 entra e "
+                      f"{len(rec['recusadas'])} sao recusadas, cada uma pelo "
+                      f"seu motivo: {len(motivos)} motivos distintos. 'Preco "
+                      f"sem data nao e preco' esta escrito no contrato do ERP "
+                      f"desde R27 — agora e codigo que recusa"))
+
+    # ---- 6. comparacao exige comparacao
+    tres = [co.Cotacao("ACO-PERF", f"F{i}", 12.0 + i * 0.5, "kg", "2026-09-01")
+            for i in range(3)]
+    c3 = co.comparar(co.receber(tres, itens, hoje)["aceitas"])
+    c1 = co.comparar(co.receber([boa], itens, hoje)["aceitas"])
+    out.append(Achado("NOTA" if c3["competitivos"] == 1 and
+                      c1["competitivos"] == 0 else "ERRO", "tres propostas",
+                      f"com 3 propostas o item e competitivo e o spread sai "
+                      f"medido ({c3['itens'][0]['spread'] * 100:.1f} %); com 1, "
+                      f"nao. Proposta unica nao e cotacao: e um preco, e o "
+                      f"spread e a unica medida de mercado que uma compra "
+                      f"privada produz sem tabela publica"))
+
+    # ---- 7. aplicar nao pode mexer na estrutura
+    ap = co.aplicar(itens, c3)
+    mesma = (len(ap["itens"]) == len(itens)
+             and [i.sku for i in ap["itens"]] == [i.sku for i in itens]
+             and all(a.quantidade == b.quantidade
+                     for a, b in zip(ap["itens"], itens)))
+    out.append(Achado("NOTA" if mesma and ap["n"] == 1 else "ERRO", "aceite",
+                      "trocar o preco (H) pelo cotado nao muda a lista nem as "
+                      "quantidades, so os valores — que e o criterio de aceite "
+                      "escrito no contrato do ERP em R27. Se a lista mudasse, "
+                      "a chave de SKU estaria errada"))
+
+    # ---- 8. quanto do custo foi perguntado a alguem
+    cob = r["cotacao"]["cobertura"]
+    out.append(Achado("ATENCAO" if cob["cotado_pct"] < 100 else "NOTA",
+                      "cobertura", cob["leitura"]
+                      + ". Nao e 'quanto custa', e 'quanto do que custa foi "
+                        "perguntado'. A 0 % isto e ordem de grandeza; a 100 % e "
+                        "orcamento"))
+
+    # ---- 9. e onde doi mais se o preco andar
+    sens = sorted(r["cotacao"]["sensibilidade"], key=lambda x: -x["exposicao"])
+    out.append(Achado("NOTA", "exposicao",
+                      "com 100 % dos precos (H), a informacao honesta nao e o "
+                      "valor: e a derivada. " + "; ".join(
+                          f"{x['familia']} {x['exposicao'] * 100:.0f} % do total "
+                          f"(+20 % = R$ {x['delta']:,.0f})"
+                          for x in sens[:4])))
+    return out
+
+
 def checar_pendencias() -> list[Achado]:
     """O que o caderno declara aberto tranca o que ele diz trancar?
 

@@ -47,10 +47,35 @@ class ItemBOM:
     preco_unit: float
     familia: str = ""
     fonte: str = "(H)"
+    # O QUE SE COMPRA E O QUE SE PRODUZ nao sao a mesma linha, e some-los e
+    # pagar duas vezes pela mesma materia. Em LSF compra-se BARRA (kg, com a
+    # perda do plano de corte) e produz-se PECA cortada. As duas coisas
+    # estavam no BOM, as duas com preco, e as duas entravam no total: R$ 71.654
+    # de aco bruto mais R$ 62.664 das mesmas pecas em outra unidade.
+    #
+    # A dupla contagem em UNIDADES DIFERENTES e a que passa despercebida — o
+    # proprio arquivo ja avisava disso tres linhas abaixo, ao recusar listar a
+    # camada de aco em m2, enquanto a listava em pc. Ver docs/DIVERGENCIAS.md.
+    compra: bool = True
 
     @property
     def total(self) -> float:
         return self.quantidade * self.preco_unit
+
+    @property
+    def total_compra(self) -> float:
+        """O que entra no custo. Linha de producao informa, nao custa."""
+        return self.total if self.compra else 0.0
+
+
+def total(itens: list) -> float:
+    """Custo do projeto: so o que se COMPRA.
+
+    Existe como funcao, e nao como `sum(i.total ...)` espalhado, porque a
+    regra de o que entra no total e uma decisao do BOM — e quando ela estava
+    espalhada, cada consumidor tinha a sua, e um deles somava aco duas vezes.
+    """
+    return sum(i.total_compra for i in itens)
 
 
 # Preco por m2 de cada material de camada. (H), como todos os precos: ordem de
@@ -113,10 +138,15 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
         por_perfil.setdefault(x.perfil, [0, 0.0])
         por_perfil[x.perfil][0] += 1
         por_perfil[x.perfil][1] += x.massa
+    # Quantidade por perfil: e o que a FABRICA precisa saber e o que o mapa de
+    # cotacao oferece como rota alternativa (comprar peca cortada em vez de
+    # barra). Nao entra no custo: o aco ja foi comprado em kg, logo acima, e em
+    # regime de barra inteira, que e como o fornecedor de LSF vende.
     for perfil, (n, m) in sorted(por_perfil.items(), key=lambda kv: -kv[1][1]):
         itens.append(ItemBOM(f"PF-{perfil[:20]}", f"{perfil}", "pc", n,
                              p["aco_perfil_kg"] * m / n, "estrutura",
-                             "derivado"))
+                             "producao: o aco ja esta em ACO-PERF, em kg",
+                             compra=False))
 
     if n_parafusos is None:
         n_parafusos = int(len(pecas) * 8)
@@ -156,8 +186,13 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
     # acessorio de junta, quando a paginacao existir
     pg = (camadas or {}).get("paginacao")
     if pg:
+        # placa INTEIRA: e a rota alternativa de compra — comprar por placa em
+        # vez de por m2 — e nao um item a mais. O custo ja esta nas linhas de
+        # m2 acima, e some-lo aqui seria a mesma dupla contagem do aco.
         itens.append(ItemBOM("PLACA", "Placa (gesso, RU e cimenticia)", "pc",
-                             pg["placas"], 0.0, "vedacao", fonte="derivado"))
+                             pg["placas"], 0.0, "vedacao",
+                             fonte="rota alternativa: o custo esta em m2",
+                             compra=False))
         itens.append(ItemBOM("FITA", "Fita de papel para junta", "m",
                              pg["junta_m"], PRECO_JUNTA["fita"], "vedacao",
                              fonte="derivado"))

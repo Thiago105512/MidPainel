@@ -439,6 +439,15 @@ PROGRAMA = [
      "produziam a frase LIBERADO PARA FABRICACAO com a ART do calculo "
      "estrutural e o nesting codificado abertos no proprio caderno. "
      "Consistencia interna nao e autorizacao."),
+    (111, "Cotacao: do preco (H) ao preco que alguem assina",
+     ["checar_cotacao"], "PARCIAL",
+     "Secoes 91 a 95 e 136. Perguntar se da para cotar obrigou a responder o "
+     "que exatamente se compra — e a resposta achou o aco contado DUAS VEZES, "
+     "em duas unidades: 6.230,8 kg de barra e 1.033 pecas cortadas, as duas "
+     "com preco, as duas somadas. Nenhuma faixa de plausibilidade pegaria "
+     "isso: 1.571 e 1.359 R$/m2 cabem ambos em 600 a 1.800. O que pega e "
+     "identidade. PARCIAL porque 100 % dos precos continuam (H): o modulo "
+     "monta o mapa, valida, compara e substitui, e nao inventa preco."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
