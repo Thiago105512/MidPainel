@@ -328,6 +328,7 @@ function modo(qual) {
   }));
   document.querySelectorAll(".modos button").forEach(b =>
     b.setAttribute("aria-selected", (b.dataset.modo === qual) + ""));
+  if (typeof gravarRota === "function") gravarRota();
   if (qual === "eng") { abrirEng(); return; }
   if (qual === "2d") { if (svg2d) ajustar(semMoldura ? caixaDesenho() : null); return; }
   if (!carregou3d) {

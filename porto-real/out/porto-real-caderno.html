@@ -95,8 +95,14 @@
     text-transform:uppercase; color:var(--ink-faint);
     margin:0 0 10px; font-weight:500;
   }
+  /* min-width:0 nao e detalhe: item de grid tem min-width AUTO por padrao, e
+     por isso a coluna crescia ate o min-content da lista horizontal de 35
+     pranchas. A 390 px a pagina inteira rolava na horizontal — 489 px de
+     conteudo num visor de 390 — e o efeito era o caderno "escorregando" para
+     o lado no telefone. */
   .rail{position:sticky; top:12px; max-height:calc(100vh - 24px); overflow-y:auto;
-        padding-right:4px}
+        padding-right:4px; min-width:0}
+  .work > *{min-width:0}
   @media (max-width:860px){ .rail{position:static; max-height:none} }
   .sheets{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:3px}
   .sheets .group{
@@ -106,8 +112,9 @@
   }
   .sheets li:first-child .group{border-top:none; margin-top:0; padding-top:0}
   @media (max-width:860px){
-    .sheets{flex-direction:row; overflow-x:auto; padding-bottom:8px; gap:8px}
-    .sheets li{flex:0 0 198px}
+    .sheets{flex-direction:row; overflow-x:auto; padding-bottom:8px; gap:8px;
+            min-width:0}
+    .sheets li{flex:0 0 198px; min-width:0}
     .sheets .group{display:none}
   }
   .sheets button{
@@ -252,8 +259,9 @@
   .cenas .sub{display:block; font-family:var(--mono); font-size:10px;
               color:var(--ink-faint); letter-spacing:.04em; text-transform:uppercase}
   @media (max-width:860px){
-    .cenas{flex-direction:row; overflow-x:auto; padding-bottom:8px; gap:8px}
-    .cenas li{flex:0 0 190px}
+    .cenas{flex-direction:row; overflow-x:auto; padding-bottom:8px; gap:8px;
+           min-width:0}
+    .cenas li{flex:0 0 190px; min-width:0}
   }
 
   /* ---------- barras e dicas por modo ---------- */
@@ -261,7 +269,11 @@
      linha qualquer display: de autor (.barra, .cenas) vence o UA e o elemento
      escondido continua na tela */
   [hidden]{display:none!important}
-  .barra{display:flex; gap:10px; align-items:center}
+  /* sem wrap a barra de 8 botoes media 443 px e empurrava a PAGINA INTEIRA num
+     visor de 390: o caderno abria escorregado para o lado no telefone, e o
+     sintoma parecia do indice de pranchas — que ja rolava sozinho e estava
+     certo. Medir disse qual dos dois era */
+  .barra{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
   .rail .dica{margin:12px 0 0; font-family:var(--mono); font-size:10.5px;
               line-height:1.6; color:var(--ink-faint); letter-spacing:.02em}
   .notas3d dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:8px 16px}
@@ -441,7 +453,7 @@
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R40 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R41 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -652,6 +664,7 @@
       <li><span class="r">R38</span><span>Instalacoes passam de tracado a quantidade: 408,8 m de tubo em sete diametros, 745 m de eletroduto para 96 pontos, 56 m de linha frigorigena e 187 conexoes, por percurso Manhattan vezes fator declarado — limite INFERIOR, nunca o percurso do instalador. Com percurso existindo, o item 'clashes' do checklist deixa de ser True literal e confronta 844 volumes: acusou que a posicao declarada de tres prumadas cai dentro de linha de parede, e um shaft de 300 x 300 nao cabe em parede de 150. O modelo nao tem a informacao que resolve isso e nao a arbitra</span></li>
       <li><span class="r">R39</span><span>As tres decisoes que faltavam, e a que o sistema nao podia tomar sozinho. O shaft deixa de ser conflito: regra declarada — caixa na face da parede, do lado molhado, parede continua — e afastamento PROCURADO, o menor que tira a caixa da estrutura sem sair do ambiente; clash de 26 para 0, com contrafactual que exige os 26 de volta na posicao declarada. Os 3 banhos do superior entram na impermeabilizacao com a geometria que a subdivisao ja tinha desde R06: a lacuna era de leitura, nao de dado, e a conta vai de 91,4 para 123,1 m2. E o checklist ganha o 18o item: dezessete verificacoes de coerencia interna anunciavam LIBERADO PARA FABRICACAO com a ART e o nesting abertos no proprio caderno — consistencia interna nao e autorizacao. As pendencias saem de dentro de duas pranchas, onde ja divergiam entre si, e viram dado do caso com o portao que cada uma tranca</span></li>
       <li><span class="r">R40</span><span>Cotacao: o mapa que vai ao fornecedor, a porta por onde o preco entra e o defeito que a pergunta achou. Montar o mapa obrigou a responder o que exatamente se compra, e o aco estava no orcamento DUAS VEZES, em duas unidades: 6.230,8 kg de barra e 1.033 pecas cortadas, as duas com preco, as duas somadas. R$ 62.664 de inflacao, +15,6 %, e o custo por m2 cai de 1.571 para 1.359. Nenhuma faixa pegaria — a de custo vai de 600 a 1.800 e os dois cabem dentro: o que pega e identidade, e a massa util sobre o aproveitamento da exatamente a bruta comprada. O mapa expos ainda 12 linhas sem especificacao suficiente para virar pergunta. Nenhum preco foi inventado: 100 % continuam (H), e a cobertura cotada — 0 % — passa a ser mostrada em vez de omitida</span></li>
+      <li><span class="r">R41</span><span>Navegacao, responsividade e dinamismo, medidos em vez de supostos. A 390 px o caderno tinha 476 de largura e rolava de lado: a culpa nao era do indice de pranchas, que ja rolava sozinho, e sim da barra de 8 botoes sem flex-wrap — medir disse qual dos dois era. O endereco passa a descrever o que se esta vendo (#2d/PR-22, #eng/cotacao): um caderno existe para ser CITADO, e ate aqui o link caia na capa. O botao Voltar desfaz o ultimo passo dentro do caderno. Toda tabela ordena, com numero ordenando como numero — o cursor ja prometia isso em dez tabelas e so uma cumpria. E a lista de pecas sai em lotes: 8.218 nos por render viraram 1.470, preservando a rolagem do leitor</span></li>
       </ol>
     </div>
     <div>
@@ -1440,6 +1453,7 @@ function modo(qual) {
   }));
   document.querySelectorAll(".modos button").forEach(b =>
     b.setAttribute("aria-selected", (b.dataset.modo === qual) + ""));
+  if (typeof gravarRota === "function") gravarRota();
   if (qual === "eng") { abrirEng(); return; }
   if (qual === "2d") { if (svg2d) ajustar(semMoldura ? caixaDesenho() : null); return; }
   if (!carregou3d) {
@@ -1898,7 +1912,7 @@ function vistaPecas() {
                 ["marcacao", "marcação"]];
   const cab = cols.map(([c, t]) =>
     `<th data-ord="${c}">${t}${pecaOrd.campo === c ? (pecaOrd.asc ? " ▲" : " ▼") : ""}</th>`).join("");
-  const corpo = alvo.slice(0, 900).map(q =>
+  const corpo = alvo.slice(0, pecaLimite).map(q =>
     `<tr><td><span class="chip" style="background:${corFam(q.familia)}"></span>${esc2(q.cod)}</td>
       <td>${esc2(q.painel)}</td><td>${esc2(q.familia)}</td><td>${esc2(q.perfil)}</td>
       <td>${q.comp}</td><td>${q.massa === undefined ? "—" : num(q.massa, 2)}</td>
@@ -1921,9 +1935,14 @@ function vistaPecas() {
         <option value="T"${pecaPav === "T" ? " selected" : ""}>térreo</option>
         <option value="S"${pecaPav === "S" ? " selected" : ""}>superior</option></select>
       <span class="conta">${alvo.length} de ${todas.length} peças · ${num(massa, 1)} kg${
-        alvo.length > 900 ? " · mostrando as 900 primeiras" : ""}</span></div>
-    <div class="rolagem"><table class="tabela"><thead><tr>${cab}</tr></thead>
+        alvo.length > pecaLimite ? ` · mostrando ${pecaLimite}` : ""}</span></div>
+    <div class="rolagem"><table class="tabela" data-ordena="propria">
+      <thead><tr>${cab}</tr></thead>
       <tbody>${corpo}</tbody></table></div>
+    ${alvo.length > pecaLimite ? `<div style="margin-top:10px">
+      <button class="btn" id="maisPecas">mostrar mais ${
+        Math.min(300, alvo.length - pecaLimite)} de ${alvo.length - pecaLimite}
+        restantes</button></div>` : ""}
     <div class="eng-sec" style="margin-top:22px"><h3>Distribuição por família</h3>${hist}</div>`;
 }
 
@@ -2333,6 +2352,9 @@ function vistaInstalacoes() {
 
 // ------------------------------------------------------------ custo/cotacao
 let bomFiltro = "";
+// 900 linhas de uma vez sao 8.218 nos no DOM e ~360 ms por render — e o render
+// acontece a cada tecla do filtro. Pagina-se: o custo passa a ser do lote.
+let pecaLimite = 150;
 function vistaCotacao() {
   const C = ENG.cotacao, B = ENG.bom || [];
   if (!C) return barraModos() + "<p class='conta'>sem levantamento de custo</p>";
@@ -2474,6 +2496,44 @@ function vistaBloqueios() {
       </div></div>`;
 }
 
+// ------------------------------------------------------- ordenar tabelas
+// O CSS ja prometia: `.tabela th{cursor:pointer}` em TODA tabela. So a de
+// pecas cumpria — as outras nove mudavam o cursor e nao faziam nada, que e
+// pior que nao prometer. Esta funcao ordena no DOM, sem passar pelo render:
+// serve qualquer tabela, inclusive as que nem sabem o que estao mostrando.
+function ordenaveis() {
+  document.querySelectorAll("#engConteudo table.tabela").forEach(t => {
+    if (t.dataset.ordena === "propria") return;
+    const cab = t.querySelectorAll("thead th");
+    cab.forEach((th, i) => {
+      if (th.dataset.ord !== undefined) { t.dataset.ordena = "propria"; return; }
+      th.addEventListener("click", () => {
+        const asc = th.dataset.dir !== "asc";
+        cab.forEach(x => { delete x.dataset.dir; x.textContent = x.textContent.replace(/ [▲▼]$/, ""); });
+        th.dataset.dir = asc ? "asc" : "desc";
+        th.textContent = th.textContent.replace(/ [▲▼]$/, "") + (asc ? " ▲" : " ▼");
+        const corpo = t.querySelector("tbody");
+        const linhas = [...corpo.querySelectorAll("tr")];
+        // numero com separador de milhar e virgula decimal tem de ordenar como
+        // NUMERO: "1.234,5" antes de "9" e o erro classico da ordenacao por texto
+        const val = tr => {
+          const txt = (tr.children[i] ? tr.children[i].textContent : "").trim();
+          const n = parseFloat(txt.replace(/[^\d,.-]/g, "")
+                                  .replace(/\.(?=\d{3}\b)/g, "").replace(",", "."));
+          return Number.isFinite(n) && /\d/.test(txt) ? n : txt.toLowerCase();
+        };
+        linhas.sort((x, y) => {
+          const a1 = val(x), b1 = val(y);
+          const c = (typeof a1 === "number" && typeof b1 === "number")
+            ? a1 - b1 : String(a1).localeCompare(String(b1), "pt");
+          return asc ? c : -c;
+        });
+        linhas.forEach(r => corpo.appendChild(r));
+      });
+    });
+  });
+}
+
 // ---------------------------------------------------------------- roteador
 function renderEng() {
   const alvo = document.getElementById("engConteudo");
@@ -2484,7 +2544,13 @@ function renderEng() {
              materiais: vistaMateriais, parafusos: vistaParafusos,
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
              bloqueios: vistaBloqueios}[engVista];
+  // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
+  // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
+  // isso e perder o lugar a cada tecla.
+  const caixa = document.getElementById("stageEng");
+  const rolagem = caixa ? caixa.scrollTop : 0;
   alvo.innerHTML = f();
+  if (caixa && rolagem) caixa.scrollTop = rolagem;
   const v = VISTAS.find(x => x[0] === engVista);
   document.getElementById("sheetTitle").firstChild.nodeValue =
     "Engenharia · " + v[1];
@@ -2492,6 +2558,8 @@ function renderEng() {
   document.querySelectorAll("#vistasEng button").forEach(b =>
     b.setAttribute("aria-current", (b.dataset.vista === engVista) + ""));
   ligarEng();
+  ordenaveis();
+  if (typeof gravarRota === "function") gravarRota();
 }
 
 function ligarEng() {
@@ -2511,14 +2579,16 @@ function ligarEng() {
   const busca = document.getElementById("buscaPeca");
   if (busca) {
     busca.addEventListener("input", e => {
-      pecaBusca = e.target.value; renderEng();
+      // filtrar e comecar outra leitura: o lote volta ao inicio, senao o
+      // "mostrar mais" de uma busca anterior contamina a proxima
+      pecaBusca = e.target.value; pecaLimite = 150; renderEng();
       const n = document.getElementById("buscaPeca");
       n.focus(); n.setSelectionRange(n.value.length, n.value.length);
     });
     document.getElementById("filFam").addEventListener("change",
-      e => { pecaFam = e.target.value; renderEng(); });
+      e => { pecaFam = e.target.value; pecaLimite = 150; renderEng(); });
     document.getElementById("filPav").addEventListener("change",
-      e => { pecaPav = e.target.value; renderEng(); });
+      e => { pecaPav = e.target.value; pecaLimite = 150; renderEng(); });
   }
   const mais = document.getElementById("maisBarras");
   if (mais) mais.addEventListener("click", () => { corteLim += 60; renderEng(); });
@@ -2527,6 +2597,8 @@ function ligarEng() {
   });
   em("[data-doc]", "click", e => { docSel = e.currentTarget.dataset.doc; renderEng(); });
   // filtro do BOM: preserva o foco e o cursor, senao digitar fica impossivel
+  const mp = document.getElementById("maisPecas");
+  if (mp) mp.addEventListener("click", () => { pecaLimite += 300; renderEng(); });
   const bb = document.getElementById("bomBusca");
   if (bb) bb.addEventListener("input", e => {
     bomFiltro = e.target.value;
@@ -2575,6 +2647,73 @@ function tocarAnim() {
 }
 
 let carregouEng = false;
+// =====================================================================
+// ROTA — o endereco descreve o que se esta vendo
+//
+// Ate R40 o caderno inteiro vivia numa URL so. Nao havia como mandar "olha a
+// PR-22" nem "olha a vista de cotacao": o destinatario abria na capa e
+// procurava. Recarregar a pagina no meio de uma analise voltava ao inicio, e o
+// botao Voltar do navegador saia do caderno em vez de desfazer o ultimo passo.
+//
+// Isso nao e detalhe de conforto. Um caderno de projeto existe para ser
+// CITADO — em e-mail, em ata de reuniao, em RFI de obra. Endereco que nao
+// aponta para um lugar especifico transforma citacao em instrucao de busca.
+// =====================================================================
+let _rotaAplicando = false, _rotaPrimeira = true;
+
+function rotaDaTela() {
+  const m = document.querySelector(".modos button[aria-selected='true']");
+  const qual = m ? m.dataset.modo : "2d";
+  if (qual === "eng") return "eng/" + engVista;
+  if (qual === "3d") return "3d";
+  const s = (typeof SHEETS !== "undefined" && SHEETS[idxPrancha]) || null;
+  return s ? "2d/PR-" + s.n : "2d";
+}
+
+function gravarRota() {
+  if (_rotaAplicando) return;
+  const nova = "#" + rotaDaTela();
+  if (location.hash === nova) return;
+  // pushState, nao replaceState: o botao Voltar passa a desfazer o ultimo
+  // passo dentro do caderno, que e o que qualquer um espera dele.
+  // A PRIMEIRA gravacao e a excecao: ela apenas carimba o endereco do estado
+  // inicial, e empilha-la faria o primeiro Voltar cair num endereco vazio —
+  // um beco, que e exatamente o que esta mudanca existe para eliminar.
+  if (_rotaPrimeira) { _rotaPrimeira = false; history.replaceState(null, "", nova); return; }
+  history.pushState(null, "", nova);
+}
+
+function aplicarRota(h) {
+  const partes = (h || "").replace(/^#/, "").split("/").filter(Boolean);
+  if (!partes.length) return false;
+  _rotaAplicando = true;
+  try {
+    const qual = partes[0];
+    if (qual === "eng") {
+      if (partes[1] && VISTAS.some(v => v[0] === partes[1])) engVista = partes[1];
+      modo("eng");
+    } else if (qual === "3d") {
+      modo("3d");
+    } else if (qual === "2d") {
+      modo("2d");
+      if (partes[1] && typeof SHEETS !== "undefined") {
+        const n = partes[1].replace(/^PR-/i, "");
+        const i = SHEETS.findIndex(x => x.n === n);
+        if (i >= 0) mostrar(i);
+      }
+    } else {
+      return false;
+    }
+    return true;
+  } finally {
+    _rotaAplicando = false;
+  }
+}
+
+addEventListener("popstate", () => aplicarRota(location.hash));
+addEventListener("DOMContentLoaded", () => aplicarRota(location.hash));
+if (document.readyState !== "loading") aplicarRota(location.hash);
+
 function abrirEng() {
   if (carregouEng) { renderEng(); return; }
   carregouEng = true;
@@ -2642,6 +2781,7 @@ function mostrar(i) {
   noteKeys.innerHTML = s.k.map(([k, v]) =>
     `<li><span class="k">${k}</span><span class="v">${v}</span></li>`).join("");
   botoes[idxPrancha].scrollIntoView({block: "nearest"});
+  if (typeof gravarRota === "function") gravarRota();
 }
 document.getElementById("prev").onclick = () => mostrar(idxPrancha - 1);
 document.getElementById("next").onclick = () => mostrar(idxPrancha + 1);

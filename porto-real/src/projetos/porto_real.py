@@ -2504,6 +2504,17 @@ REVISOES = [
             "12 linhas sem especificacao suficiente para virar pergunta. "
             "Nenhum preco foi inventado: 100 % continuam (H), e a cobertura "
             "cotada — 0 % — passa a ser mostrada em vez de omitida"),
+    ("R41", "Navegacao, responsividade e dinamismo, medidos em vez de "
+            "supostos. A 390 px o caderno tinha 476 de largura e rolava de "
+            "lado: a culpa nao era do indice de pranchas, que ja rolava "
+            "sozinho, e sim da barra de 8 botoes sem flex-wrap — medir disse "
+            "qual dos dois era. O endereco passa a descrever o que se esta "
+            "vendo (#2d/PR-22, #eng/cotacao): um caderno existe para ser "
+            "CITADO, e ate aqui o link caia na capa. O botao Voltar desfaz o "
+            "ultimo passo dentro do caderno. Toda tabela ordena, com numero "
+            "ordenando como numero — o cursor ja prometia isso em dez tabelas "
+            "e so uma cumpria. E a lista de pecas sai em lotes: 8.218 nos por "
+            "render viraram 1.470, preservando a rolagem do leitor"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2609,13 +2620,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R40",
+    revisao="R41",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R40", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R41", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

@@ -66,8 +66,9 @@ CSS_EXTRA = r'''
   .cenas .sub{display:block; font-family:var(--mono); font-size:10px;
               color:var(--ink-faint); letter-spacing:.04em; text-transform:uppercase}
   @media (max-width:860px){
-    .cenas{flex-direction:row; overflow-x:auto; padding-bottom:8px; gap:8px}
-    .cenas li{flex:0 0 190px}
+    .cenas{flex-direction:row; overflow-x:auto; padding-bottom:8px; gap:8px;
+           min-width:0}
+    .cenas li{flex:0 0 190px; min-width:0}
   }
 
   /* ---------- barras e dicas por modo ---------- */
@@ -75,7 +76,11 @@ CSS_EXTRA = r'''
      linha qualquer display: de autor (.barra, .cenas) vence o UA e o elemento
      escondido continua na tela */
   [hidden]{display:none!important}
-  .barra{display:flex; gap:10px; align-items:center}
+  /* sem wrap a barra de 8 botoes media 443 px e empurrava a PAGINA INTEIRA num
+     visor de 390: o caderno abria escorregado para o lado no telefone, e o
+     sintoma parecia do indice de pranchas — que ja rolava sozinho e estava
+     certo. Medir disse qual dos dois era */
+  .barra{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
   .rail .dica{margin:12px 0 0; font-family:var(--mono); font-size:10.5px;
               line-height:1.6; color:var(--ink-faint); letter-spacing:.02em}
   .notas3d dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:8px 16px}

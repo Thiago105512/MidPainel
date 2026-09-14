@@ -196,8 +196,14 @@ HEAD = r'''<title>Caderno Porto Real</title>
     text-transform:uppercase; color:var(--ink-faint);
     margin:0 0 10px; font-weight:500;
   }
+  /* min-width:0 nao e detalhe: item de grid tem min-width AUTO por padrao, e
+     por isso a coluna crescia ate o min-content da lista horizontal de 35
+     pranchas. A 390 px a pagina inteira rolava na horizontal — 489 px de
+     conteudo num visor de 390 — e o efeito era o caderno "escorregando" para
+     o lado no telefone. */
   .rail{position:sticky; top:12px; max-height:calc(100vh - 24px); overflow-y:auto;
-        padding-right:4px}
+        padding-right:4px; min-width:0}
+  .work > *{min-width:0}
   @media (max-width:860px){ .rail{position:static; max-height:none} }
   .sheets{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:3px}
   .sheets .group{
@@ -207,8 +213,9 @@ HEAD = r'''<title>Caderno Porto Real</title>
   }
   .sheets li:first-child .group{border-top:none; margin-top:0; padding-top:0}
   @media (max-width:860px){
-    .sheets{flex-direction:row; overflow-x:auto; padding-bottom:8px; gap:8px}
-    .sheets li{flex:0 0 198px}
+    .sheets{flex-direction:row; overflow-x:auto; padding-bottom:8px; gap:8px;
+            min-width:0}
+    .sheets li{flex:0 0 198px; min-width:0}
     .sheets .group{display:none}
   }
   .sheets button{
@@ -499,6 +506,7 @@ function mostrar(i) {
   noteKeys.innerHTML = s.k.map(([k, v]) =>
     `<li><span class="k">${k}</span><span class="v">${v}</span></li>`).join("");
   botoes[idxPrancha].scrollIntoView({block: "nearest"});
+  if (typeof gravarRota === "function") gravarRota();
 }
 document.getElementById("prev").onclick = () => mostrar(idxPrancha - 1);
 document.getElementById("next").onclick = () => mostrar(idxPrancha + 1);

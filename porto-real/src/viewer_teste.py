@@ -933,6 +933,86 @@ def rodar(fotos: bool = False) -> int:
            "e reajusta a prancha, que ficou sem tamanho enquanto escondida",
            pag.evaluate("() => zval.textContent"))
 
+        # ---- NAVEGACAO: o endereco descreve o que se esta vendo
+        pag.click("button[data-modo='eng']")
+        pag.click("#vistasEng button[data-vista='cotacao']")
+        pag.wait_for_timeout(300)
+        ok(pag.evaluate("() => location.hash") == "#eng/cotacao",
+           "a vista aberta aparece no endereco",
+           pag.evaluate("() => location.hash"))
+        pag.click("button[data-modo='2d']")
+        pag.wait_for_timeout(300)
+        ok(pag.evaluate("() => location.hash").startswith("#2d/PR-"),
+           "e a prancha aberta tambem",
+           pag.evaluate("() => location.hash"))
+        # voltar desfaz o ultimo passo DENTRO do caderno, em vez de sair dele
+        pag.go_back()
+        pag.wait_for_timeout(400)
+        ok(pag.evaluate("() => location.hash") == "#eng/cotacao"
+           and pag.evaluate("() => !document.getElementById('stageEng').hidden"),
+           "o botao Voltar do navegador desfaz o ultimo passo",
+           pag.evaluate("() => location.hash"))
+        # e o endereco colado abre direto no lugar: e o que permite CITAR
+        pag.goto(f"http://127.0.0.1:{porta}/porto-real-caderno.html#2d/PR-22")
+        pag.wait_for_selector("#rail li", state="attached")
+        pag.wait_for_timeout(1200)
+        ok(pag.evaluate("() => SHEETS[idxPrancha].n") == "22",
+           "abrir o endereco de uma prancha cai nela, e nao na capa",
+           "PR-" + str(pag.evaluate("() => SHEETS[idxPrancha].n")))
+
+        # ---- RESPONSIVIDADE: nenhuma largura estoura o visor do telefone
+        pag.set_viewport_size({"width": 390, "height": 844})
+        pag.wait_for_timeout(500)
+        ok(pag.evaluate("() => document.documentElement.scrollWidth <= innerWidth + 1"),
+           "a 390 px o caderno nao rola na horizontal",
+           str(pag.evaluate("() => document.documentElement.scrollWidth")) + " px")
+        pag.click("button[data-modo='eng']")
+        pag.wait_for_timeout(400)
+        estouros = []
+        for v in ("painel", "pecas", "cotacao", "instalacoes", "materiais",
+                  "parafusos", "paineis", "corte", "montagem", "logistica",
+                  "documentos", "bloqueios"):
+            pag.click(f"#vistasEng button[data-vista='{v}']")
+            pag.wait_for_timeout(150)
+            if pag.evaluate("() => document.documentElement.scrollWidth > innerWidth + 1"):
+                estouros.append(v)
+        ok(not estouros, "e nenhuma das 12 vistas de engenharia estoura",
+           "estouram: " + ", ".join(estouros) if estouros else "12 vistas medidas")
+        pag.set_viewport_size({"width": 1440, "height": 960})
+        pag.wait_for_timeout(400)
+
+        # ---- DINAMISMO: a tabela grande sai em lotes, e ordena
+        pag.click("#vistasEng button[data-vista='pecas']")
+        pag.wait_for_timeout(400)
+        n1 = pag.evaluate("() => document.querySelectorAll('#engConteudo tbody tr').length")
+        ok(n1 <= 200, "a lista de 1.033 pecas sai em lote, nao inteira",
+           f"{n1} linhas no primeiro lote")
+        pag.click("#maisPecas")
+        pag.wait_for_timeout(300)
+        n2 = pag.evaluate("() => document.querySelectorAll('#engConteudo tbody tr').length")
+        ok(n2 > n1, "e o lote seguinte entra sem recarregar", f"{n1} -> {n2}")
+
+        pag.click("#vistasEng button[data-vista='cotacao']")
+        pag.wait_for_timeout(400)
+        antes = pag.evaluate("""() => [...document.querySelectorAll('#engConteudo table tbody tr')]
+             .slice(0, 1).map(r => r.children[0].textContent)[0]""")
+        pag.click("#engConteudo table.tabela thead th:nth-child(3)")
+        pag.wait_for_timeout(250)
+        depois = pag.evaluate("""() => [...document.querySelectorAll('#engConteudo table tbody tr')]
+             .slice(0, 1).map(r => r.children[0].textContent)[0]""")
+        ok(antes != depois,
+           "toda tabela ordena ao clicar no cabecalho, e nao so a de pecas",
+           f"{antes} -> {depois}")
+        # a ordenacao numerica nao pode ordenar como texto
+        ok(pag.evaluate("""() => {
+             const t = document.querySelector('#engConteudo table.tabela');
+             const v = [...t.querySelectorAll('tbody tr')]
+               .map(r => parseFloat((r.children[2].textContent || '')
+                 .replace(/[^\d,.-]/g, '').replace(/\.(?=\d{3}\b)/g, '').replace(',', '.')))
+               .filter(Number.isFinite);
+             return v.length > 2 && v.every((x, i) => i === 0 || v[i - 1] <= x); }"""),
+           "e ordena numero como numero, nao como texto")
+
         ok(not erros, "nenhum erro de console ou de script",
            " | ".join(erros[:3]))
         if externos:

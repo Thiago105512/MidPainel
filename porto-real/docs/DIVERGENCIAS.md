@@ -3296,3 +3296,85 @@ ninguém confirmou:
 
 E a pendência 12 entra na lista, com o portão que ela tranca: **contrato**. Não
 tranca fabricar; tranca assinar.
+
+## Defeito 48 — o caderno abria escorregado para o lado no telefone
+
+Medido, não suposto: a 390 px de visor o documento tinha **476 px de largura** e
+rolava na horizontal. `scrollX` chegava a 86 px — o caderno abria fora de
+esquadro, e cada toque para rolar verticalmente arrastava a página de lado.
+
+A primeira suspeita era o índice de pranchas — a lista horizontal de 35 cartões
+de 198 px. Estava errada: a lista já tinha o seu próprio rolamento e se
+comportava. O culpado era a **barra de ferramentas**: oito botões em `flex` sem
+`flex-wrap`, 443 px num visor de 390.
+
+> Medir disse qual dos dois era. A suspeita plausível apontava para o elemento
+> visivelmente mais largo; o defeito estava no que parecia pequeno.
+
+Corrigido em três frentes, porque duas eram latentes:
+
+| | correção | por quê |
+|---|---|---|
+| `.barra` | `flex-wrap:wrap` | a causa medida |
+| `.rail`, `.work > *` | `min-width:0` | item de grid tem `min-width:auto`: a coluna crescia até o min-content da lista |
+| `.sheets`, `.cenas` | `min-width:0` | o mesmo, um nível abaixo |
+
+Agora **nenhuma das 12 vistas** de engenharia estoura a 390 px, e o teste mede
+as doze a cada execução — não a que eu lembrar de conferir.
+
+## Defeito 49 — um caderno de projeto que não podia ser citado
+
+Todo o caderno vivia numa URL só. Não havia como mandar *"olha a PR-22"* nem
+*"olha a vista de cotação"*: quem recebesse o link abria na capa e procurava.
+Recarregar no meio de uma análise voltava ao início. E o botão **Voltar** do
+navegador saía do caderno em vez de desfazer o último passo.
+
+Isso não é conforto. Um caderno de projeto existe para ser **citado** — em
+e-mail, em ata, em RFI de obra. Endereço que não aponta para um lugar
+específico transforma citação em instrução de busca.
+
+```
+#2d/PR-22      a prancha
+#eng/cotacao   a vista do motor
+#3d            o modelo
+```
+
+`pushState` em cada mudança — Voltar desfaz o último passo *dentro* do caderno.
+A primeira gravação é a exceção e usa `replaceState`: empilhá-la faria o
+primeiro Voltar cair num endereço vazio, um beco, que é justamente o que a
+mudança existe para eliminar.
+
+## Defeito 50 — o cursor prometia o que só uma tabela cumpria
+
+O CSS trazia `.tabela th{cursor:pointer}` em **toda** tabela. Só a de peças
+ordenava. As outras nove mudavam o cursor e não faziam nada — pior que não
+prometer, porque o usuário tenta, não acontece nada, e conclui que travou.
+
+A ordenação agora é genérica e opera no DOM, servindo qualquer tabela, inclusive
+as que nem sabem o que estão mostrando. Com um cuidado que um ordenador ingênuo
+erra: **número ordena como número**. `"1.234,5"` antes de `"9"` é o erro clássico
+da ordenação por texto, e o teste verifica a ordem numérica, não o clique.
+
+Uma armadilha registrada: marcar a tabela de peças com `data-ord="propria"` para
+que o ordenador genérico a ignorasse **quebrou a ordenação dela**. O handler da
+própria vista escuta `[data-ord]`, e o clique no cabeçalho passou a borbulhar
+até a tabela, que agora também casava com o seletor. Dois testes que existiam
+desde R26 acusaram na mesma execução. O atributo virou `data-ordena`.
+
+## Defeito 51 — 900 linhas a cada tecla
+
+A lista de peças renderizava 900 linhas de uma vez: **8.218 nós** no DOM e
+~360 ms por render — e o render acontece a cada tecla do filtro.
+
+| | antes | depois |
+|---|---|---|
+| nós no DOM | 8.218 | 1.470 |
+| render | 361 ms | 238 ms |
+
+Lotes de 150, com "mostrar mais". E o filtro volta ao primeiro lote: filtrar é
+começar outra leitura, e o "mostrar mais" de uma busca anterior contaminaria a
+seguinte.
+
+Junto, uma correção que não aparece em número nenhum: **a rolagem é do leitor**,
+não do render. Trocar de filtro jogava a página de volta ao topo da vista, e
+numa tabela longa isso é perder o lugar a cada tecla.
