@@ -292,7 +292,7 @@ def furacao() -> Canvas:
 # inteira a 1:25 daria 336 mm de papel para mostrar um dormitorio que a planta
 # baixa ja mostra.
 _AMPLIACOES = {
-    "T": [("T-BWC", None, "BANHO SOCIAL"), ("T-LAV", None, "LAVANDERIA"),
+    "T": [("T-COR", "LAVABO", "LAVABO SOB A ESCADA"), ("T-LAV", None, "LAVANDERIA"),
           ("T-COZ", None, "COZINHA"), ("T-DEP", None, "DEPOSITO / DML")],
     "S": [("S-S02", "BANHO", "SUITE 02 — BANHO"),
           ("S-S03", "BANHO", "SUITE 03 — BANHO"),

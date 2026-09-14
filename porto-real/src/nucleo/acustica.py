@@ -50,9 +50,8 @@ FONTES = {
 
 # ambiente -> fonte que ele contem
 FONTE_DO_AMBIENTE = {
-    "T-BWC": "bacia sanitaria",          # R53: lavabo, sem box
+    "T-COR/LAVABO": "bacia sanitaria",    # R54: lavabo sob a escada
     "T-REV/BANHO": "box de chuveiro",
-    "S-MAS/CABINE": "bacia sanitaria",
     "T-LAV": "maquina de lavar e secar",
     "T-COZ": "cozinha e gourmet",
     "T-GOU": "cozinha e gourmet",
@@ -75,7 +74,8 @@ LIMITE = {
 }
 
 USO_DO_AMBIENTE = {
-    "T-GAR": "garagem", "T-HAL": "entrada", "T-BWC": "banho",
+    "T-GAR": "garagem", "T-HAL": "entrada", "T-ALC": "dormitorio",
+    "T-COR/LAVABO": "banho",
     "T-CIR": "circulacao", "T-REV": "dormitorio", "T-OFI": "oficina",
     "T-SOC": "estar", "T-COR": "circulacao", "T-COZ": "cozinha",
     "T-GOU": "estar", "T-LAV": "servico", "T-DEP": "deposito",
@@ -115,7 +115,8 @@ ZONA_ACUSTICA = {
     "T-SOC": "social", "T-GOU": "social", "T-COZ": "social",
     "T-HAL": "social", "T-CIR": "social", "T-COR": "social",
     "T-VAR": "social", "S-EST": "social", "S-HAL": "social", "S-COR": "social",
-    "T-REV": "intimo", "T-BWC": "intimo",
+    "T-REV": "intimo", "T-ALC": "intimo",
+    "T-COR/LAVABO": "intimo",
     "S-MAS": "intimo", "S-S02": "intimo", "S-S03": "intimo",
     "T-LAV": "servico", "T-DEP": "servico", "T-GAR": "servico",
     "T-OFI": "servico",
@@ -138,6 +139,10 @@ def composto(pares: list[tuple[float, float]]) -> float:
         return 0.0
     tau = sum(s * 10 ** (-r / 10) for s, r in pares) / st
     return round(-10 * math.log10(tau), 1)
+
+
+def _zona(cod: str) -> str:
+    return ZONA_ACUSTICA.get(cod) or ZONA_ACUSTICA.get(cod.split("/")[0], "")
 
 
 def _uso(cod: str) -> str:
@@ -172,8 +177,10 @@ def pares(pj) -> list[dict]:
         for d in pj.SUBDIVISOES:
             if not d["pai"].startswith(pav + "-"):
                 continue
+            # a porta da subdivisao tem familia declarada quando ela importa:
+            # o lavabo sob a escada leva P06 (folha solida vedada) e nao a oca
             for ab in ([dict(face=d["face"], pos=d["pos"], vao=d["vao"],
-                             tipo="P02")]
+                             tipo=d.get("tipo", "P02"))]
                        + ([d["liga"]] if d.get("liga") else [])):
                 f = ab["face"]
                 if f in ("S", "N"):
@@ -222,14 +229,22 @@ def pares(pj) -> list[dict]:
                 r = composto(comps)
                 nivel = FONTES[f]
                 lim = LIMITE[uso]
-                zf = ZONA_ACUSTICA.get(fonte.split("/")[0], "")
-                zr = ZONA_ACUSTICA.get(receptor.split("/")[0], "")
+                # a zona do codigo COMPLETO vence a do pai: o lavabo sob a
+                # escada e intimo dentro de um core social, e era a queda para
+                # o pai que o fazia desaparecer do relatorio
+                zf = _zona(fonte)
+                zr = _zona(receptor)
                 mesma = bool(zf) and zf == zr
-                # o banho da suite contra a propria suite e ruido do PROPRIO
-                # morador: nao ha exigencia entre um comodo e a subdivisao
-                # dele (NBR 15575-3 fala entre unidades e entre dormitorio e
-                # ambiente de outro uso). Fica no relatorio como mesma zona.
-                if fonte.split("/")[0] == receptor.split("/")[0]:
+                # R54 — a isencao de "subdivisao contra o proprio pai" vale
+                # quando o pai e o quarto de quem usa a subdivisao: o banho da
+                # suite contra a suite e ruido do PROPRIO morador. NAO vale
+                # quando o pai e CIRCULACAO — o lavabo sob a escada abre para
+                # o hall da escada, que e de todo mundo, e a exigencia
+                # permanece. A primeira versao desta regra isentava os dois
+                # casos por olhar so o prefixo do codigo.
+                pai = fonte.split("/")[0]
+                if pai == receptor.split("/")[0] and \
+                        USO_DO_AMBIENTE.get(pai) in ("dormitorio", "office"):
                     mesma = True
                 out.append(dict(
                     pav=pav, fonte=fonte, receptor=receptor, ruido=f,

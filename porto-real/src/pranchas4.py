@@ -137,7 +137,7 @@ def elevacoes_internas() -> Canvas:
               ["coifa com vazao minima de 10 trocas por hora do volume",
                "bancada integrada a cozinha pelo vao livre"])
 
-    _elevacao(cv, View(25, 600, 190, 0, 0), 1_800, "LAVABO SOCIAL — PAREDE DA BANCADA",
+    _elevacao(cv, View(25, 600, 190, 0, 0), 1_800, "LAVABO SOB A ESCADA — PAREDE DA BANCADA",
               [(0, 0, 700, 900, "gabinete", GAB),
                (700, 0, 1_100, 900, "bancada", GAB),
                (0, 1_000, 1_800, 900, "espelho 1.800 x 900", "#eef4f7")],

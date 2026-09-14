@@ -131,30 +131,43 @@ def carro(cv, vw, x, y, w=1900, h=4700):
 
 
 def escada_u(cv, vw, e=pj.ESCADA):
-    """Escada em U: dois lances de 1.000 mm e patamar, com seta de subida."""
-    _esc = cv.escopo("escada", "ESC-01", espelhos=18,
+    """Escada em U desenhada a partir de pj.escada_lances().
+
+    R54 — ate aqui esta funcao fazia a propria aritmetica e desenhava o
+    ESPELHO do modelo: patamar ao sul, chegada ao norte, quando o dado sempre
+    disse patamar ao norte e chegada ao sul (y_chegada = 16.800, que e onde o
+    hall do superior comeca). Ninguem tinha percebido porque nada dependia da
+    orientacao — ate o lavabo ir para debaixo do segundo lance, e a altura
+    livre passar a depender de qual lance sobe para onde.
+    """
+    _esc = cv.escopo("escada", "ESC-01", espelhos=e["espelhos"],
                      piso=e["piso"], patamar=e["patamar"])
     _esc.__enter__()
-    x, y, w, h = e["x"], e["y"], e["w"], e["h"]
-    lar, piso, pat = e["larg_lance"], e["piso"], e["patamar"]
-    n_lance = 8
-    # lance ascendente (esquerda, subindo em +Y)
-    for i in range(n_lance + 1):
-        yy = y + 300 + i * piso
-        cv.linha_p(vw.pt(P(x + 150, yy)), vw.pt(P(x + 150 + lar, yy)), "fino")
-    # patamar
-    _ret(cv, vw, x + 150, y + 300 + n_lance * piso, lar * 2 + 100, pat, "fino")
-    # lance descendente (direita, subindo em -Y)
-    for i in range(n_lance + 1):
-        yy = y + 300 + n_lance * piso + pat - i * piso
-        cv.linha_p(vw.pt(P(x + 250 + lar, yy)), vw.pt(P(x + 250 + 2 * lar, yy)), "fino")
-    # seta de subida
-    a = vw.pt(P(x + 150 + lar / 2, y + 450))
-    b = vw.pt(P(x + 150 + lar / 2, y + 300 + n_lance * piso - 150))
-    cv.linha_p(a, b, "fino")
-    cv.poli_p([b, (b[0] - 1.4, b[1] + 3.2), (b[0] + 1.4, b[1] + 3.2)], "fino",
-              fechado=True, preenche="#000")
-    cv.texto_p((a[0] + 2.2, a[1] + 2.0), "SOBE", TXT["micro"], "start", cor=CINZA)
+    piso = e["piso"]
+    for l in pj.escada_lances():
+        x0, y0, w, h = l["x"], l["y"], l["w"], l["h"]
+        if l["sentido"] == "patamar":
+            _ret(cv, vw, x0, y0, w, h, "fino")
+            continue
+        n = int(round(h / piso))
+        for i in range(n + 1):
+            yy = y0 + i * piso
+            cv.linha_p(vw.pt(P(x0, yy)), vw.pt(P(x0 + w, yy)), "fino")
+        # seta no sentido de subida declarado
+        cx = x0 + w / 2
+        ya, yb = ((y0 + 200, y0 + h - 200) if l["sentido"] == "+Y"
+                  else (y0 + h - 200, y0 + 200))
+        a, b = vw.pt(P(cx, ya)), vw.pt(P(cx, yb))
+        cv.linha_p(a, b, "fino")
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        n_ = (dx ** 2 + dy ** 2) ** 0.5 or 1
+        ux, uy = dx / n_, dy / n_
+        cv.poli_p([b, (b[0] - ux * 3.2 - uy * 1.4, b[1] - uy * 3.2 + ux * 1.4),
+                   (b[0] - ux * 3.2 + uy * 1.4, b[1] - uy * 3.2 - ux * 1.4)],
+                  "fino", fechado=True, preenche="#000")
+        if l["cod"] == "L1":
+            cv.texto_p((a[0] + 2.2, a[1]), "SOBE", TXT["micro"], "start",
+                       cor=CINZA)
     _esc.__exit__(None, None, None)
 
 

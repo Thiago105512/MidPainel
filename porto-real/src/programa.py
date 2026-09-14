@@ -590,6 +590,18 @@ PROGRAMA = [
      "norte do estar a 3,2 m do sofa (1,6 a 2,5 diagonais para 75\") e a "
      "circulacao hall -> gourmet corre pelo lado leste sem cruzar a linha da "
      "TV. Cada item e conferido contra o comodo e contra as subdivisoes."),
+    (126, "Lavabo sob a escada: pe-direito ponto a ponto",
+     ["checar_lavabo_sob_escada"], "AUTOMATIZADA",
+     "Secao 151. O proprietario tirou o lavabo da entrada e perguntou se nao "
+     "cabia sob a escada. Cabe — mas 'cabe' e conta, nao opiniao: sob um "
+     "lance que sobe nao existe UMA altura livre, existe uma por ponto, e "
+     "cada peca tem a sua exigencia. Vaso e usado sentado (1.500 mm sobre o "
+     "assento); levantar e dar descarga e de pe (2.000); a bancada e de pe "
+     "(2.000); a porta e circulacao (2.100, NBR 9077). Por isso o vaso vai no "
+     "fundo e a porta na boca — inverter os dois e o erro classico, que fica "
+     "bonito em planta e impossivel em corte. A verificacao achou de quebra "
+     "que o desenho da escada era o ESPELHO do dado desde sempre, e que o "
+     "armario declarado ali dizia ter 1.500 mm de altura livre onde ha 2.712."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

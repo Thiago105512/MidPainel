@@ -443,7 +443,7 @@ def drenagem() -> Canvas:
         amb = next((a for a in pj.TERREO + pj.TERREO_ABERTO + pj.SUPERIOR
                     if a.cod == r["amb"]), None)
         cai = (pj.CAIMENTO_AREA_MOLHADA if r["amb"] in
-               ("T-BWC", "S-S02", "S-S03", "S-MAS", "T-LAV", "T-COZ")
+               ("T-COR", "T-REV", "S-S02", "S-S03", "S-MAS", "T-LAV", "T-COZ")
                else pj.CAIMENTO_AREA_EXTERNA)
         linhas.append([r["cod"], r["amb"], amb.nome[:20] if amb else "—", r["tipo"],
                        f"DN{r['dn']}", f"{cai:.1%}".replace(".", ","),

@@ -271,7 +271,7 @@ def axonometria() -> Canvas:
     cores = {
         "T-SOC": "#f6c453", "T-GOU": "#f6c453", "T-HAL": "#dfe6e9", "T-COR": "#b2bec3",
         "T-COZ": "#74b9ff", "T-LAV": "#74b9ff", "T-DML": "#74b9ff", "T-OFI": "#74b9ff",
-        "T-GAR": "#b2bec3", "T-REV": "#a29bfe", "T-BWC": "#dfe6e9",
+        "T-GAR": "#b2bec3", "T-REV": "#a29bfe", "T-ALC": "#a29bfe",
         "S-S02": "#a29bfe", "S-S03": "#a29bfe", "S-MAS": "#a29bfe", "S-HAL": "#dfe6e9",
     }
     blocos = [(a, 0, pj.PE_DIREITO) for a in pj.TERREO] + \

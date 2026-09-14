@@ -118,6 +118,7 @@ INTEGRADOS = {
     frozenset(("T-SOC", "T-GOU")),   # estar/jantar + gourmet = fita social continua
     frozenset(("T-SOC", "T-COR")),   # core/escada aberto para o social (poco de luz)
     frozenset(("T-HAL", "T-CIR")),   # a circulacao e o proprio hall, em L
+    frozenset(("T-REV", "T-ALC")),   # a alcova e parte do quarto, sem porta
 }
 
 TERREO: list[Amb] = [
@@ -129,7 +130,14 @@ TERREO: list[Amb] = [
     # Separou-se: aqui fica o LAVABO, sem box — vaso e lavatorio junto a janela
     # que ja existia — com porta para a circulacao, invisivel da entrada. O
     # banho do quarto reversivel virou en-suite dentro do proprio quarto.
-    Amb("T-BWC", "LAVABO SOCIAL",       10_200,  9_600, 1_800, 1_800, molhado=True),
+    # R54 — o lavabo SAIU da entrada. Ficava no caminho de quem chega e nao
+    # ha razao para um sanitario ser a primeira porta da casa. Foi para debaixo
+    # da escada, que e o unico lugar da planta que ja existia e nao servia para
+    # mais nada — ver SUBDIVISOES, T-COR/LAVABO. O que sobrou aqui virou a
+    # ALCOVA do quarto reversivel: 1,80 x 1,80 com janela propria, integrada ao
+    # quarto, que e o que faz dele reversivel de verdade — a mesa cabe na
+    # alcova e a cama no retangulo, sem disputar o mesmo chao.
+    Amb("T-ALC", "ALCOVA DO REVERSIVEL", 10_200,  9_600, 1_800, 1_800),
     Amb("T-CIR", "CIRCULACAO",          10_200, 11_400, 1_800, 1_800),
     Amb("T-REV", "QUARTO REVERSIVEL",   12_000,  7_200, 3_000, 6_000),
     # ---- oficina: permanece na face sul, acessada pela garagem
@@ -253,7 +261,7 @@ SUPERIOR_ABERTO: list[Amb] = [
 # em iluminacao natural (1/15 contra 1/8) porque a conferencia enxergava dois
 # retangulos onde o projeto ve um. O defeito nao era do projeto nem da regra: a
 # decisao existia e nao era dado.
-CONJUGADOS = [("T-COZ", "T-GOU")]
+CONJUGADOS = [("T-COZ", "T-GOU"), ("T-REV", "T-ALC")]
 
 
 def conjugado_de(cod: str) -> tuple:
@@ -292,23 +300,30 @@ SUBDIVISOES = [
     # permanencia), porta pelo quarto. Nao esta sob nada — prumada propria.
     dict(pai="T-REV", nome="BANHO", x=13_200, y=10_800, w=1_800, h=2_400,
          face="L", pos=14_100, vao=800, molhado=True),
+    # R54 — LAVABO SOB A ESCADA. O vao util e o que sobra debaixo do segundo
+    # lance: 1.200 x 2.400 com pe-direito que cresce de 1,50 m (no fundo) a
+    # 3,00 m (na porta). O vaso vai no FUNDO, onde o teto e mais baixo, porque
+    # ali se esta sentado; a bancada e a porta ficam na parte alta. E a unica
+    # peca da casa cujo pe-direito varia, e por isso ganhou verificacao
+    # propria — altura sobre o vaso e altura na frente dele.
+    dict(pai="T-COR", nome="LAVABO", x=10_800, y=15_000, w=1_200, h=1_800,
+         face="O", pos=11_400, vao=700, tipo="P06", molhado=True),
     # ---- master R06. O corredor de entrada de 1.200 mm (x 7.800 a 9.000) e a
     # unica circulacao exclusiva da suite: 3,60 m2 em 46,80, ou 7,7 %.
     # R09 — banho e closet TROCARAM de lugar. O banho estava sobre o varal
     # coberto, ou seja, sobre area aberta: a prumada de esgoto descia onde nao ha
     # parede para embuti-la. Agora o banho cai sobre a LAVANDERIA — molhado sobre
     # molhado, prumada de 3 m em vez de desvio horizontal em forro.
-    # R53 — o banho master ganha CABINE para o vaso, no lado oeste (o mais
-    # distante da passagem para o closet), com porta propria e exaustao
-    # dedicada. O banho nao tem parede externa: cheiro aqui e exaustao
-    # mecanica, e cabine com exaustor proprio e o que funciona de verdade.
-    dict(pai="S-MAS", nome="CABINE", x=9_000,  y=19_200, w=900, h=3_000,
-         face="N", pos=21_600, vao=700, molhado=True),
+    # R54 — a CABINE do vaso saiu por decisao do proprietario. O banho volta
+    # a ser um so compartimento de 3,00 x 3,00. O cheiro continua sendo
+    # questao de exaustao e nao de parede: EX-05 permanece, dimensionado para
+    # o ambiente inteiro, e o vaso fica no canto noroeste — o mais distante da
+    # porta do quarto e da passagem para o closet, que sao as duas aberturas.
     # `liga` e a SEGUNDA porta da subdivisao: a passagem para o closet, de
     # correr embutida (P05), na parede leste do banho. Quem sai do banho segue
     # para se arrumar sem voltar ao quarto — e o closet continua com a porta
     # propria para o quarto.
-    dict(pai="S-MAS", nome="BANHO",  x=9_900,  y=19_200, w=2_100, h=3_000,
+    dict(pai="S-MAS", nome="BANHO",  x=9_000,  y=19_200, w=3_000, h=3_000,
          face="O", pos=10_350, vao=800, molhado=True,
          liga=dict(face="N", pos=21_600, vao=800, tipo="P05", para="CLOSET")),
     dict(pai="S-MAS", nome="CLOSET", x=12_000, y=19_200, w=3_600, h=3_000,
@@ -346,6 +361,8 @@ LAYOUT = [
     dict(cod="LY-08", amb="T-GOU", tipo="mesa",  x=6_300, y=22_900, w=2_400, h=1_000,
          lugares=8),
     dict(cod="LY-09", amb="T-REV", tipo="cama",  x=12_300, y=7_700, w=1_600, h=2_000),
+    dict(cod="LY-13", amb="T-ALC", tipo="rack",  x=10_350, y=9_750, w=1_500, h=600,
+         obs="mesa de trabalho na alcova, sob a janela"),
     dict(cod="LY-10", amb="S-S02", tipo="cama",  x=5_000, y=14_600, w=1_600, h=2_000),
     dict(cod="LY-11", amb="S-S03", tipo="cama",  x=5_000, y=19_400, w=1_600, h=2_000),
     dict(cod="LY-12", amb="S-MAS", tipo="cama",  x=10_500, y=22_800, w=1_800, h=2_100),
@@ -354,7 +371,7 @@ LAYOUT = [
 # R53 — lavabo e ambiente molhado SEM box: tem vaso e lavatorio, nao tem
 # chuveiro nem ralo. Declarado aqui para que as regras de louca obrigatoria e
 # de ralo saibam a diferenca em vez de exigir box onde nao ha banho.
-LAVABOS = {"T-BWC"}
+LAVABOS = {"T-COR/LAVABO"}
 
 # =========================================================================
 # ESQUADRIAS — familia unificada da Lista Consolidada
@@ -379,8 +396,10 @@ ESQUADRIAS = {
     # J02 ficou SEM USO em R47, quando o banho da suite 02 passou a J04 para
     # espelhar a 03. Mantida no catalogo e marcada: familia sem vao e a que
     # aparece no orcamento do fornecedor e nao aparece na obra.
-    "J02":  (  600,   600, 1_500, "janela de banheiro, alta translucida "
-                                  "(SEM USO desde R47)"),
+    # R54 — J02 volta a ter vao: e a janela alta do lavabo sob a escada, e e
+    # a unica familia que CABE ali (600 de altura com peitoril 1.500 fecha em
+    # 2.100, abaixo do 2.437 de pe-direito naquele ponto do lance).
+    "J02":  (  600,   600, 1_500, "janela de banheiro, alta translucida"),
     # J03 nunca teve vao: o office da master recebeu J01 (1.200 x 1.200 =
     # 1,44 m2), que e exatamente o vidro_m2 que a carga termica do office
     # declara. A familia ficou no catalogo sem nunca chegar ao desenho.
@@ -388,7 +407,12 @@ ESQUADRIAS = {
                                   "(SEM USO: o office leva J01)"),
     "J04":  (  800,   900, 1_500, "janela alta de banheiro, basculante"),
     "J05":  (1_800, 1_200, 1_100, "janela ampla de dormitorio, aluminio"),
-    "PV01": (3_600, 2_400,     0, "vao social posterior"),
+    # R54 — PV01 ficou SEM USO: os 3.600 mm do vao social posterior davam para
+    # o vao da escada em dois tercos do comprimento. Substituido por PV02 no
+    # trecho livre. Familia mantida no catalogo e marcada, como manda a regra
+    # que J02 inaugurou em R47: familia sem vao aparece no orcamento do
+    # fornecedor e nao aparece na obra.
+    "PV01": (3_600, 2_400,     0, "vao social posterior (SEM USO desde R54)"),
     "PV02": (2_400, 2_400,     0, "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)"),
     # R07 — familia nova, e a unica que o projeto ganha desde o inicio. Nao e
     # porta de correr: e cortina de vidro, folhas soltas que correm no trilho e
@@ -427,11 +451,11 @@ VAOS = [
     # Custo: uma porta A MENOS. A folha solida da circulacao custa mais que a
     # oca, e sai uma de correr com trilho e uma oca.
     ("P02",  12_000, 12_600, "V", "T"),   # circulacao -> quarto reversivel (acesso proprio)
-    ("P06",  11_100, 11_400, "H", "T"),   # circulacao -> lavabo social (R53)
     ("J04",  15_000, 12_000, "V", "T"),   # janela alta do en-suite do reversivel (leste) — R53
+    ("J02",  12_000, 16_000, "V", "T"),   # janela alta do lavabo sob a escada (R54)
     ("J05",  13_500,  7_200, "H", "T"),   # janela ampla do reversivel (leste)
     ("J01",  15_000, 10_200, "V", "T"),   # janela do reversivel (norte)
-    ("J04",  11_100,  9_600, "H", "T"),   # janela alta do banho (jardim leste)
+    ("J01",  11_100,  9_600, "H", "T"),   # janela da alcova do reversivel (jardim leste) — R54
     # ---- oficina: garagem de um lado, loggia sul do outro
     ("P04",   3_900, 13_200, "H", "T"),   # garagem -> oficina
     ("P04",   3_900, 16_200, "H", "T"),   # oficina -> loggia sul (saida de material)
@@ -463,7 +487,11 @@ VAOS = [
     # o par acustico mais apertado da casa (folga 0,1 dB), fica cega.
     # ---- faixa social
     ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
-    ("PV01", 12_000, 16_200, "V", "T"),   # core envidracado -> deck norte
+    # R54 — o "vao social posterior" estava em y 14.400 a 18.000, e DOIS TERCOS
+    # dele davam para o vao da escada: o lance L2 sobe justamente ali. Abertura
+    # que nao se atravessa nao e abertura. Passa a PV02 de 2.400 mm no trecho
+    # efetivamente livre, ao sul da escada — menos vidro e mais passagem.
+    ("PV02", 12_000, 18_000, "V", "T"),   # core envidracado -> deck norte
     ("PV02",  9_600, 24_600, "V", "T"),   # gourmet -> patio norte (trecho de 3.000 mm)
     # R07 — a abertura deixa de ser uma porta de 3.600 no meio de uma parede de
     # 4.200 e passa a ser a PAREDE INTEIRA: 7.200 mm de cortina de vidro
@@ -1349,8 +1377,8 @@ ZONAS_PAGINACAO = [
     # quarenta revisoes eliminando. Eles sao subdivisao das suites, e por isso
     # nunca apareceram em lista nenhuma de ambiente.
     dict(cod="ZP-4", peca="parede", altura=2_400,
-         ambientes=["T-BWC", "T-REV/BANHO", "S-S02/BANHO", "S-S03/BANHO",
-                    "S-MAS/BANHO", "S-MAS/CABINE"],
+         ambientes=["T-COR/LAVABO", "T-REV/BANHO", "S-S02/BANHO",
+                    "S-S03/BANHO", "S-MAS/BANHO"],
          obs="ate o forro rebaixado de 2.400 (que ja existe para a exaustao): "
              "3 fiadas inteiras e a do topo com 594 de 600 — imperceptivel"),
     dict(cod="ZP-5", peca="parede", altura=1_800,
@@ -1514,8 +1542,10 @@ CIRC_BANCADA_DESEJADA = 1_100
 # =========================================================================
 LOUCAS = [
     # banho compartilhado (10.200, 10.800, 1.800 x 2.400)
-    dict(cod="LC-01", amb="T-BWC", tipo="vaso",      x=10_350, y=9_700, w=400, h=650),
-    dict(cod="LC-02", amb="T-BWC", tipo="lavatorio", x=11_000, y=9_700, w=700, h=450),
+    # R54 — lavabo sob a escada: vaso no fundo (teto baixo, uso sentado),
+    # bancada na parte alta, junto a janela.
+    dict(cod="LC-01", amb="T-COR", tipo="vaso",      x=11_000, y=15_150, w=400, h=650),
+    dict(cod="LC-02", amb="T-COR", tipo="lavatorio", x=11_475, y=16_000, w=450, h=600),
     # R52 — O BANHO INTEIRO FOI REDESENHADO, e nao por gosto: a porta nova na
     # parede sul precisa de 900 mm de passagem livre, e a primeira tentativa
     # (encolher o box para 800) foi REPROVADA pela propria auditoria, que
@@ -1543,8 +1573,8 @@ LOUCAS = [
     # suite master — banho (11.400, 19.200, 2.400 x 3.000)
     # R09 — seguem o banho, que passou a cair sobre a lavanderia
     dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=9_200,  y=19_400, w=400, h=650),
-    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=9_975,  y=19_300, w=500, h=1_800),
-    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=10_800, y=19_275, w=1_200, h=1_400),
+    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=9_900,  y=19_300, w=1_800, h=500),
+    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=10_300, y=20_500, w=1_400, h=1_400),
     # lavanderia
     dict(cod="LC-13", amb="T-LAV", tipo="tanque",    x=9_750, y=19_350, w=600, h=550),
 ]
@@ -1572,10 +1602,20 @@ EQUIPAMENTOS = [
 ]
 
 ARMARIOS = [
-    # o triangulo sob o segundo lance tem altura livre entre 0 e 1.500 mm: nao e
-    # circulacao nem espaco morto, e armario. Declarado para a auditoria saber.
+    # R54 — ESTE ARMARIO ESTAVA ERRADO, e o erro so apareceu quando alguem
+    # quis usar o espaco. O comentario dizia "altura livre entre 0 e 1.500 mm"
+    # e tomava os 2.100 mm de profundidade inteiros como inaproveitaveis. Nao
+    # sao: sob o lance L2, que SOBE no sentido +Y, a altura livre vai de 1,34 m
+    # (no fundo) a 2,71 m (na boca). A frase vinha do desenho da escada, que
+    # ate R54 era o ESPELHO do dado — desenhava o patamar ao sul e a chegada ao
+    # norte, quando escada_lances() sempre disse o contrario. Duas fontes para
+    # a mesma escada, e a prosa seguiu a errada.
+    #
+    # Corrigido: o armario fica com os 600 mm que de fato nao servem para mais
+    # nada (1,34 a 1,71 m de altura livre) e o resto do vao virou o LAVABO,
+    # conferido ponto a ponto em nucleo/subescada.py.
     dict(cod="AR-05", amb="T-COR", tipo="prateleiras", x=10_800, y=14_400,
-         w=1_200, h=2_100, sob_escada=True),
+         w=1_200, h=600, sob_escada=True),
     # a despensa de 3,60 m2 virou parede de armarios de 600 mm de profundidade:
     # 1,80 m de frente com prateleira funda rende mais que 3,00 m de prateleira
     # rasa, e devolve a cozinha a parede do fundo, que e o que interessa aqui
@@ -1595,6 +1635,10 @@ ARMARIOS = [
     # parede de armarios da oficina: 600 mm de profundidade resolve o deposito
     # proprio sem transferir area de nenhum ambiente
     dict(cod="AR-04", amb="T-OFI", tipo="armario alto",  x=4_800, y=13_400, w=600, h=2_400),
+    # R54 — os 600 mm mais baixos do vao sob a escada (1,34 a 1,71 m de altura
+    # livre) nao servem para ficar de pe nem sentado. Servem para guardar: o
+    # armario de limpeza fica exatamente onde o pe-direito reprova qualquer
+    # outro uso, e o lavabo fica com 1,80 m de profundidade util.
 ]
 
 # folgas minimas (NBR 9050 e pratica corrente)
@@ -1902,8 +1946,8 @@ EXAUSTAO = [
     dict(cod="EX-02", amb="T-COZ", fonte="cooktop", vazao_m3h=450, dn=125,
          saida="fachada sul", saida_pos=(2_400, 22_200),
          obs="coifa de parede sobre BC-02, duto subindo pela fachada sul"),
-    dict(cod="EX-03", amb="T-BWC", fonte="lavabo social", vazao_m3h=60, dn=100,
-         saida="cobertura"),
+    dict(cod="EX-03", amb="T-COR", fonte="lavabo sob a escada", vazao_m3h=60,
+         dn=100, saida="cobertura"),
     dict(cod="EX-07", amb="T-REV", fonte="banho do reversivel", vazao_m3h=90, dn=100,
          saida="fachada leste", saida_pos=(15_000, 12_900)),
     dict(cod="EX-04", amb="T-LAV", fonte="lavanderia", vazao_m3h=120, dn=100,
@@ -1911,8 +1955,6 @@ EXAUSTAO = [
          obs="retira umidade da secadora e do tanque"),
     dict(cod="EX-05", amb="S-MAS", fonte="banho master", vazao_m3h=120, dn=100,
          saida="cobertura"),
-    dict(cod="EX-08", amb="S-MAS", fonte="cabine do vaso da master", vazao_m3h=60,
-         dn=100, saida="cobertura"),
     # closet fechado em cidade com 80 % de umidade relativa e incubadora de
     # mofo: 40 m3/h continuos custam 8 W e salvam a roupa
     dict(cod="EX-06", amb="S-MAS", fonte="closet master", vazao_m3h=40, dn=75,
@@ -2079,7 +2121,7 @@ TUG_VA_SECA = 100
 TUG_VA_MOLHADA = 600        # primeiras 3 tomadas de area molhada
 TUG_PERIM_SECA = 5_000      # 1 tomada a cada 5 m de perimetro
 TUG_PERIM_MOLHADA = 3_500
-MOLHADAS_ELETRICA = {"T-COZ", "T-LAV", "T-BWC", "T-DEP", "T-GOU", "T-REV/BANHO"}
+MOLHADAS_ELETRICA = {"T-COZ", "T-LAV", "T-COR", "T-DEP", "T-GOU", "T-REV/BANHO"}
 
 CARGAS_ESPECIAIS = [
     dict(cod="TUE-1", desc="Chuveiro eletrico suite master", va=4_500, v=220,
@@ -2478,7 +2520,7 @@ def acabamentos() -> list[dict]:
                   PINTURA["umida"] if a.cod in ep.MOLHADOS else PINTURA["interna"])
         forro = forros.get(a.cod, "gesso acartonado liso, branco")
         rod = RODAPE["molhado"] if (h or a.cod in ep.MOLHADOS) else RODAPE["tipo"]
-        fh = FORRO_H["banho"] if a.cod in ("T-BWC",) else FORRO_H["padrao"]
+        fh = FORRO_H["padrao"]
         out.append(dict(amb=a.cod, nome=a.nome, cat=cat, area=a.area_mod,
                         piso=piso, parede=parede, forro=forro, forro_h=fh,
                         rodape=rod, revest_h=h, zona=z["cod"] if z else "padrao",
@@ -3005,6 +3047,31 @@ REVISOES = [
             "acustica passou a enxergar as SUBDIVISOES: 36 pares, todos "
             "passam; e a exaustao carrega a propria saida em vez de uma "
             "tabela escondida na verificacao"),
+    ("R54", "O LAVABO SAI DA ENTRADA E VAI PARA DEBAIXO DA ESCADA, e a cabine "
+            "do vaso da master sai. A pergunta do proprietario — nao cabe sob "
+            "a escada? — obrigou a responder com CONTA, porque sob um lance "
+            "que sobe nao existe uma altura livre, existe uma por ponto: vaso "
+            "e usado sentado e pede 1.500 mm sobre o assento; levantar e dar "
+            "descarga e de pe e pede 2.000; a porta e circulacao e pede 2.100. "
+            "Por isso o vaso vai no FUNDO e a porta na BOCA — inverter os dois "
+            "e o erro classico do lavabo sob escada, bonito em planta e "
+            "impossivel em corte. Resultado: 1,20 x 1,80 m com pe-direito de "
+            "1,71 a 2,71 m, todos os pontos aprovados, e os 600 mm realmente "
+            "baixos ficaram com o armario. Tres defeitos vieram junto. (1) O "
+            "desenho da escada era o ESPELHO do dado desde sempre — desenhava "
+            "patamar ao sul e chegada ao norte, quando escada_lances() sempre "
+            "disse o contrario; ninguem percebeu porque nada dependia da "
+            "orientacao ate um comodo depender. (2) O armario AR-05, declarado "
+            "sob o lance, dizia ter 1.500 mm de altura livre onde ha 2.712 — a "
+            "prosa tinha seguido o desenho errado. (3) O vao social posterior "
+            "de 3.600 mm dava para o VAO DA ESCADA em dois tercos do "
+            "comprimento: abertura que nao se atravessa nao e abertura, e "
+            "virou PV02 de 2.400 no trecho livre. O espaco que o lavabo "
+            "deixou na entrada virou a ALCOVA do quarto reversivel — 1,80 x "
+            "1,80 com janela propria, integrada ao quarto, que e o que faz "
+            "dele reversivel de verdade: a mesa cabe na alcova e a cama no "
+            "retangulo. E J02, familia orfa desde R47, voltou a ter vao: e a "
+            "unica que cabe sob o lance naquele ponto"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3156,13 +3223,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R53",
+    revisao="R54",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R53", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R54", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

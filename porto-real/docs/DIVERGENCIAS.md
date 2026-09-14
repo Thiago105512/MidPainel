@@ -4396,3 +4396,98 @@ tabela e tudo muda junto.
 **Estado em R53:** 108 funções, 577 condições, **0 erros**; 208 verificações do
 visualizador, **0 falhas**; 40 pranchas; 1.023 peças em 60 painéis; R$ 554.401
 nos sistemas modelados; 5 pendências abertas.
+
+---
+
+## R54 — o lavabo sai da entrada e vai para debaixo da escada
+
+Dois pedidos. Um deles obrigou a responder com conta, e a conta achou três
+defeitos antigos.
+
+### A pergunta: "não pode ficar embaixo da escada?"
+
+Pode. Mas **"cabe" é conta, não opinião** — e sob um lance que sobe não existe
+*uma* altura livre: existe **uma por ponto**. Cada peça tem a sua exigência, e
+elas são diferentes porque o corpo faz coisas diferentes em cada uma:
+
+| Peça | Altura exigida | Por quê |
+|---|---|---|
+| vaso | **1.500 mm** sobre o assento | usado **sentado**: a cabeça fica a ~1,30 m |
+| frente do vaso | **2.000 mm** | de pé, para levantar e dar descarga |
+| bancada | **2.000 mm** | de pé, lavando as mãos |
+| porta | **2.100 mm** | passagem — o valor da NBR 9077 |
+
+Daí a regra de projeto: **o vaso vai no fundo e a porta na boca**. Inverter os
+dois é o erro clássico do lavabo sob escada — fica bonito em planta e impossível
+em corte.
+
+**Resultado medido** (`nucleo/subescada.py`, bateria 126):
+
+| Ponto | Altura livre | Exigido |
+|---|---|---|
+| assento do vaso | 1.947 mm | 1.500 |
+| frente do vaso | 2.525 mm | 2.000 |
+| bancada | 2.462 mm | 2.000 |
+| porta | 2.712 mm | 2.100 |
+
+Lavabo de **1,20 × 1,80 m** (2,16 m²), pé-direito de 1,71 m no fundo a 2,71 m na
+porta. Os 600 mm realmente baixos (1,34–1,71 m) ficaram com o armário, que é o
+único uso que altura assim comporta. Janela **J02** — família órfã desde R47 —
+volta a ter vão: é a única que cabe ali (topo em 2.100 contra 2.275 disponíveis).
+
+### Defeito 66 — o desenho da escada era o espelho do dado
+
+`escada_u()` desenhava patamar ao sul e chegada ao norte. `escada_lances()`
+sempre disse o contrário — e é o dado que está certo, porque `y_chegada = 16.800`
+é exatamente onde o hall do superior começa.
+
+> Ninguém tinha percebido em 54 revisões porque **nada dependia da orientação**.
+> Passou a depender no instante em que um cômodo foi morar debaixo do lance.
+
+Corrigido: `escada_u()` agora desenha a partir de `escada_lances()`.
+
+### Defeito 67 — o armário sob a escada media o que não existe
+
+`AR-05` estava declarado sob o segundo lance com o comentário *"altura livre
+entre 0 e 1.500 mm"*, ocupando os 2.100 mm de profundidade inteiros como
+inaproveitáveis. **Não são**: sob L2 a altura vai de 1,34 m a 2,71 m. A prosa
+tinha seguido o desenho errado do defeito 66 — prose não roda, e envelheceu em
+silêncio junto com ele.
+
+### Defeito 68 — abertura que não se atravessa não é abertura
+
+`PV01`, o "vão social posterior" de 3.600 mm, ficava em y 14.400–18.000 da parede
+leste do core. **Dois terços dele davam para o vão da escada**: o lance L2 sobe
+justamente ali. Substituído por `PV02` de 2.400 mm no trecho efetivamente livre,
+ao sul da escada. Menos vidro, mais passagem — e PV01 passa a ser a família órfã,
+marcada, no lugar de J02.
+
+### O que sobrou na entrada virou a alcova
+
+Os 1,80 × 1,80 m que o lavabo deixou viraram a **alcova do quarto reversível**,
+integrada a ele (sem porta) e com janela própria — J01, não mais a basculante
+alta de banheiro. É o que faz dele reversível de verdade: **a mesa cabe na alcova
+e a cama no retângulo**, sem disputarem o mesmo chão. A entrada da casa deixou de
+ter qualquer porta de sanitário.
+
+### A cabine do vaso da master sai
+
+Por decisão do proprietário. O banho volta a 3,00 × 3,00 em um compartimento só.
+O cheiro continua sendo questão de exaustão e não de parede: EX-05 permanece,
+dimensionado para o ambiente inteiro, e o vaso fica no canto noroeste — o mais
+distante das duas aberturas (porta do quarto e passagem para o closet).
+
+### Dois ajustes na própria conferência acústica
+
+1. **A isenção de "subdivisão contra o próprio pai" era larga demais.** Ela vale
+   quando o pai é o quarto de quem usa a subdivisão (o banho da suíte contra a
+   suíte é ruído do próprio morador). **Não vale** quando o pai é circulação: o
+   lavabo abre para o hall da escada, que é de todo mundo. Corrigida, o par
+   apareceu — e reprovou por 6,8 dB.
+2. **A causa da reprovação era minha:** a porta da subdivisão entrava na conta
+   sempre como P02 (folha oca, Rw 20), ignorando o `tipo` declarado. Com a P06
+   que o modelo sempre disse, o par entrega 33,1 dB contra 30 exigidos.
+
+**Estado em R54:** 109 funções, 579 condições, **0 erros**; 208 verificações do
+visualizador, **0 falhas**; 40 pranchas; 13 pares acústicos entre zonas, todos
+aprovados; R$ 552.317 nos sistemas modelados.

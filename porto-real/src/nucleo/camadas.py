@@ -589,8 +589,13 @@ def impermeabilizacao(pj) -> dict:
                        and str(d["pai"]).startswith("S-"))
     # comparar com TODOS os molhados diluia o achado: cozinha e lavanderia sao
     # molhadas e nao sao banho. A janela de banheiro conta banheiro.
+    # R54 — LAVABO entra na conta. A frase sempre quis dizer "compartimento
+    # sanitario", e o lavabo sob a escada e um: tem vaso, tem janela alta e e
+    # impermeabilizado. Contar so o que se chama BANHO faria a janela dele
+    # aparecer como sobra.
     banhos = [x for x in itens
-              if "BANHO" in x["nome"].upper() or "BWC" in x["ambiente"]]
+              if any(k in x["nome"].upper() for k in ("BANHO", "LAVABO"))
+              or "BWC" in x["ambiente"]]
     lacuna = max(0, jan_banho - len(banhos))
     return dict(itens=itens, area=round(total, 1),
                 altura_box=ALTURA_BOX, altura_geral=ALTURA_GERAL,

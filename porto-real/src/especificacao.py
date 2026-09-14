@@ -37,9 +37,9 @@ CATEGORIA = {
     "T-OFI": "oficina",
     "T-HAL": "circulacao", "T-CIR": "circulacao", "T-COR": "circulacao",
     "S-HAL": "circulacao",
-    "T-GAR": "apoio", "T-BWC": "molhado",
+    "T-GAR": "apoio", "T-ALC": "intimo",
 }
-MOLHADOS = {"T-BWC", "T-COZ", "T-LAV", "T-GOU", "T-REV/BANHO"}
+MOLHADOS = {"T-COZ", "T-LAV", "T-GOU", "T-REV/BANHO", "T-COR/LAVABO"}
 # a oficina e fonte E receptor: quer silencio para dentro e para fora
 SILENCIO = {"T-OFI"}
 
@@ -166,7 +166,7 @@ def classificar(a: str | None, b: str | None, externa: bool) -> str:
         outro = CATEGORIA.get(b if a in SILENCIO else a, "outro")
         return "PA-2" if outro == "social" else "PA-1"
     if a in MOLHADOS or b in MOLHADOS:
-        if a in ("T-BWC", "T-COZ", "T-LAV") or b in ("T-BWC", "T-COZ", "T-LAV"):
+        if a in ("T-COR", "T-COZ", "T-LAV") or b in ("T-COR", "T-COZ", "T-LAV"):
             return "PH-1"
     if "intimo" in (ca, cb) and (ca in FONTES or cb in FONTES or ca == cb == "intimo"):
         return "PA-1"

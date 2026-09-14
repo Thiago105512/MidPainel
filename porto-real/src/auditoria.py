@@ -247,12 +247,16 @@ def checar_acessibilidade() -> list[Achado]:
             if livre < VAO_LIVRE_MIN:
                 out.append(Achado("ERRO", "Vao livre de porta",
                                   f"{tipo}: {livre} mm livres, minimo {VAO_LIVRE_MIN}", "NBR 9050"))
-    bwc = next((a for a in pj.TERREO if a.cod == "T-BWC"), None)
+    # R54 — o lavabo virou subdivisao do core, e a regra segue a mesma: o giro
+    # de 1.500 mm nao cabe num lavabo sob escada e nunca coube num de 1,80 m.
+    # O que muda e que agora esta escrito de onde a dimensao vem.
+    bwc = next((d for d in pj.SUBDIVISOES
+                if f"{d['pai']}/{d['nome']}" in pj.LAVABOS), None)
     if bwc:
-        menor = min(bwc.w, bwc.h)
+        menor = min(bwc["w"], bwc["h"])
         if menor < GIRO_PNE:
             out.append(Achado("ATENCAO", "Circulo de giro",
-                              f"Banho compartilhado tem {menor} mm na menor dimensao; o giro de "
+                              f"Lavabo tem {menor} mm na menor dimensao; o giro de "
                               f"{GIRO_PNE} mm exige porta de correr e area livre sob a bancada",
                               "NBR 9050"))
     return out
@@ -562,8 +566,13 @@ def checar_loucas() -> list[Achado]:
             exigidas[a.cod] = ({"vaso", "lavatorio"} if a.cod in pj.LAVABOS
                                else {"vaso", "lavatorio", "box"})
     for sd in pj.SUBDIVISOES:
-        if sd.get("molhado") and sd["nome"] == "BANHO":
-            exigidas[sd["pai"]] = {"vaso", "lavatorio", "box"}
+        if not sd.get("molhado"):
+            continue
+        cod = f"{sd['pai']}/{sd['nome']}"
+        # as loucas sao declaradas com o codigo do PAI: a subdivisao nao e um
+        # ambiente do modelo, e sim um recorte dele
+        exigidas[sd["pai"]] = ({"vaso", "lavatorio"} if cod in pj.LAVABOS
+                               else {"vaso", "lavatorio", "box"})
     exigidas["T-LAV"] = {"tanque"}
     for cod, req in exigidas.items():
         tem = {p["tipo"] for p in pj.LOUCAS if p["amb"] == cod}

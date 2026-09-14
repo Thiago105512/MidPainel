@@ -484,7 +484,9 @@ DESENHADO = {
     "fornecedores": ("DE QUEM SE COMPRA", "fornecedor"),
     # R53
     "lavabo e en-suite": ("LAVABO SOCIAL", "LAVABO"),
-    "cabine do vaso": ("CABINE",),
+    # R54 — a cabine do vaso saiu por decisao do proprietario; entrou o
+    # lavabo sob a escada, que e o que agora tem de chegar ao papel.
+    "lavabo sob a escada": ("LAVABO", "SOB A ESCADA"),
     "layout do estar": ("LY-05", "layout"),
 }
 
@@ -4137,4 +4139,21 @@ def checar_layout() -> list[Achado]:
                           f"caminho hall -> gourmet sem cruzar a linha da TV"
                           if folga >= 900 else
                           f"{folga} mm de passagem ao lado do sofa"))
+    return out
+
+
+def checar_lavabo_sob_escada() -> list[Achado]:
+    """Pe-direito ponto a ponto do lavabo sob a escada (R54)."""
+    import projeto as pj
+    import nucleo.subescada as se
+    out = []
+    for titulo, detalhe, ok in se.conferir(pj):
+        out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
+    r = se.resumo(pj)
+    if r.get("existe"):
+        out.append(Achado("NOTA", "o desenho e o dado falam da mesma escada",
+                          "mobiliario.escada_u desenha a partir de "
+                          "escada_lances(); ate R54 desenhava o espelho dela, "
+                          "e foi por isso que o armario sob o lance dizia ter "
+                          "1.500 mm de altura livre onde ha 2.712"))
     return out
