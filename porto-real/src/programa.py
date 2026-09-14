@@ -500,6 +500,24 @@ PROGRAMA = [
      "chegar — nao a probabilidade de ele chegar errado, que aqui seria "
      "palpite com aparencia de numero. PARCIAL porque nove pendencias seguem "
      "abertas e seis dependem de terceiros."),
+    (117, "Completude do DESENHO: o caderno mostra o que o modelo sabe?",
+     ["checar_completude_do_desenho"], "AUTOMATIZADA",
+     "Secoes 1 a 35. A completude de R32 pergunta se o sistema esta no MODELO; "
+     "esta pergunta o inverso — se o que esta no modelo chegou ao PAPEL. Sao "
+     "falhas de sentido oposto e nenhuma das duas pega a outra: um sistema "
+     "pode estar modelado, orcado e verificado, e nao aparecer em prancha "
+     "nenhuma. Foi o caso do catalogo de pecas entre R47 e R50, que existia "
+     "como vista de tela — e a fabrica recebe o PDF, nao a tela."),
+    (118, "Indice do caderno: as tres listas de pranchas dizem o mesmo?",
+     ["checar_indice_do_caderno"], "AUTOMATIZADA",
+     "Secao 143. Quem emite o caderno e build.CADERNO; quem o carimbo conta e "
+     "TOTAL_PRANCHAS; quem o leitor navega e viewer_texto.json. Tres fontes "
+     "para o mesmo fato — QUAIS pranchas existem — e em R51 a prancha 36 "
+     "entrou nas duas primeiras e nao na terceira: o caderno saiu completo e o "
+     "visualizador ficou com 35, sem que nada reclamasse. O titulo nao e "
+     "comparado de proposito: o carimbo traz o titulo descritivo da folha e o "
+     "indice o rotulo curto de navegacao, textos com funcoes diferentes. O que "
+     "tem de ser identico e a identidade da folha, que e o numero."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

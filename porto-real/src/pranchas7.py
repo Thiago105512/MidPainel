@@ -316,6 +316,7 @@ INDICE = [
     ("33", "Emissao: indice, revisoes e pendencias"),
     ("34", "Piscina, deck e fachada (R06)"),
     ("35", "Eixo social e cortina de vidro (R07)"),
+    ("36", "Catalogo tecnico de pecas (R51)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},
@@ -717,4 +718,106 @@ def eixo_social() -> Canvas:
              ["Fim da piscina", f"{ev['fim_piscina_y']} mm",
               f"{ev['profundidade_total']/1000:.2f} m".replace(".", ",")]],
             larguras=[74, 40, 146])
+    return cv
+
+
+# =========================================================================
+# PR-36 — CATALOGO TECNICO: PERFIL, PARAFUSO, CHAPA E TUBO
+#
+# R51 — o catalogo nasceu em R47 como VISTA DE TELA, e a fabrica recebe o PDF,
+# nao a tela. Era o unico sistema levantado no modelo sem prancha que o
+# mostrasse — a conferencia de completude do desenho achou exatamente isso.
+#
+# A secao e desenhada em escala 1:2 a partir da MESMA poligonal de linha media
+# que o solver da NBR 14762 integra para achar A, Ix e Wx. Nao existe estado em
+# que a prancha e o calculo discordem, porque sao a mesma fonte.
+# =========================================================================
+def catalogo_tecnico() -> Canvas:
+    import fixture as fx
+    import nucleo.catalogo as cg
+    import nucleo.perfis as pf
+    r = fx.liberacao()
+    cat = cg.montar(pj, r)
+
+    cv = base("CATALOGO TECNICO — PERFIL, PARAFUSO, CHAPA E TUBO", "1:2", "36",
+              notas=[
+        f"{cat['n']} pecas desenhadas a partir das PROPRIAS dimensoes: a mesma "
+        f"poligonal de linha media que o solver da NBR 14762 integra.",
+        "Nenhuma imagem de catalogo de fabricante foi usada. A designacao ja e "
+        "a dimensao: Ue 90x40x12x0,95 diz alma 90, aba 40, labio 12, esp 0,95.",
+        "Desenho de PROJETO, nao de fabricacao: sem tolerancia de dobra, sem "
+        "raio de ferramenta real, sem detalhe de cabeca de fabricante.",
+        "A quantidade de cada peca vem do modelo, e e a mesma que alimenta o "
+        "plano de corte e o orcamento.",
+    ])
+
+    # 1:4, e nao 1:2. A escala tem de servir a MAIOR secao: o Ue 250 a 1:2
+    # ocupa 125 mm de papel e transborda a celula, colidindo com a linha de
+    # baixo. Escala mista num catalogo seria pior — o leitor compara secoes
+    # lado a lado, e comparacao exige a mesma escala.
+    ESC = 0.25
+    an.titulo_desenho(cv, (30, 58), "1", "SECOES DOS PERFIS EM USO", "1:4")
+    col_w, lin_h = 150.0, 104.0
+    x0, y0 = 40.0, 72.0
+    for i, p in enumerate(cat["perfis"]):
+        cx = x0 + (i % 5) * col_w
+        cy = y0 + (i // 5) * lin_h
+        perf = next((q for q in pf.catalogo() if q.cod == p["cod"]), None)
+        if perf is None:
+            continue
+        pts, fech = pf.linha_media(perf.forma, perf.bw, perf.bf, perf.D,
+                                   perf.t, perf.r)
+        xs = [q[0] for q in pts]
+        ys = [q[1] for q in pts]
+        # a secao e centrada na celula, com a alma na vertical
+        larg = (max(xs) - min(xs)) * ESC
+        alt = (max(ys) - min(ys)) * ESC
+        ox = cx + (col_w - 30 - larg) / 2
+        oy = cy + 10 + alt
+        pl = [(ox + (q[0] - min(xs)) * ESC, oy - (q[1] - min(ys)) * ESC)
+              for q in pts]
+        cv.poli_p(pl, "corte", fechado=fech)
+        # cotas: alma na vertical, aba na horizontal
+        cv.texto_p((ox - 5, oy - alt / 2), f"{perf.bw:g}", TXT["micro"],
+                   "middle", rot=-90, cor="#b3261e")
+        cv.texto_p((ox + larg / 2, oy + 5), f"{perf.bf:g}", TXT["micro"],
+                   "middle", cor="#b3261e")
+        mx = cx + (col_w - 30) / 2
+        cv.texto_p((mx, cy + 4), p["cod"], TXT["peq"], "middle", peso="bold")
+        cv.texto_p((mx, oy + 11),
+                   f"A {p['area']:.0f} mm²   Ix {p['ix']:.1f} cm⁴   "
+                   f"{p['massa_m']:.3f} kg/m", TXT["micro"], "middle")
+        cv.texto_p((mx, oy + 16), f"{p['n']} pecas · "
+                   + ", ".join(p["familias"])[:38], TXT["micro"], "middle",
+                   cor="#5c666f")
+
+    y = y0 + ((len(cat["perfis"]) - 1) // 5 + 1) * lin_h + 4
+    _tabela(cv, (34, y), "PARAFUSOS — TIPO, DIAMETRO E QUANTIDADE",
+            ["CODIGO", "⌀ ROSCA", "⌀ CABECA", "COMP", "PONTA", "Rv (H)",
+             "QUANTIDADE"],
+            [[p["cod"], f"{p['d']:g} mm", f"{p['dw']:g} mm",
+              f"{p['comp']:g} mm",
+              "broca" if "broc" in p["tipo"] else "agulha",
+              f"{p['rv']:g} kN", f"{p['n']:,}".replace(",", ".")]
+             for p in cat["parafusos"]],
+            larguras=[52, 24, 26, 22, 22, 22, 34])
+
+    _tabela(cv, (216, y), "CHAPAS — FORMATO COMERCIAL E NORMA",
+            ["MATERIAL", "ESP", "FORMATO", "NORMA", "AREA"],
+            [[c["nome"][:26], f"{c['espessura']:g} mm",
+              f"{c['formato'][0]}x{c['formato'][1]}", c["norma"],
+              f"{c['area']:.1f} m²"] for c in cat["chapas"]],
+            larguras=[62, 20, 34, 32, 26])
+
+    _tabela(cv, (420, y), "TUBOS — DIAMETRO EXTERNO E NORMA",
+            ["DN", "⌀ EXTERNO", "SISTEMA", "NORMA", "COMP", "CONEXOES"],
+            [[t["cod"], f"{t['de']:g} mm", t["sistema"][:18], t["norma"],
+              f"{t['comp']:.1f} m", str(t["conexoes"])]
+             for t in cat["tubos"]],
+            larguras=[20, 26, 42, 30, 24, 26])
+
+    cv.texto_p((34, cv.alt - cv.marg - 10),
+               "O diametro EXTERNO e o que precisa caber no furo do montante: "
+               "DN100 tem 110 mm, e a alma de 90 admite furo de 45.",
+               TXT["micro"], "start", cor="#5c666f")
     return cv

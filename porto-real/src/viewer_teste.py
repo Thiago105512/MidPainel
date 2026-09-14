@@ -153,8 +153,8 @@ def rodar(fotos: bool = False) -> int:
         pag.evaluate("() => mostrar(34)")
         pag.wait_for_function("() => miniImg.src.includes('PR-35') && svg2d")
         ok("PR-35" in pag.evaluate("() => miniImg.src"), "chega na ultima prancha")
-        ok(pag.evaluate("() => document.querySelectorAll('#rail button').length") == 35,
-           "as 35 pranchas estao no indice")
+        ok(pag.evaluate("() => document.querySelectorAll('#rail button').length") == 36,
+           "as 36 pranchas estao no indice")
         ok(pag.evaluate("() => noteKeys.children.length") == 4,
            "cada prancha traz 4 chaves de leitura")
 
@@ -1013,7 +1013,7 @@ def rodar(fotos: bool = False) -> int:
              return v.length > 2 && v.every((x, i) => i === 0 || v[i - 1] <= x); }"""),
            "e ordena numero como numero, nao como texto")
 
-        # ---- BUSCA GLOBAL: uma pergunta, doze vistas e 35 pranchas
+        # ---- BUSCA GLOBAL: uma pergunta, dezesseis vistas e 36 pranchas
         pag.goto(f"http://127.0.0.1:{porta}/porto-real-caderno.html")
         pag.wait_for_selector("#rail li", state="attached")
         pag.wait_for_timeout(1200)

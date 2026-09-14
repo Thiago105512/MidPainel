@@ -2475,6 +2475,12 @@ def demanda_irrigacao_ldia() -> float:
 
 
 # -------------------------------------------------------------- EMISSAO
+# Antes de R00 o caderno nao tinha revisao numerada: tinha fases. O indice do
+# visualizador ainda cita essas fases em pranchas que nao mudaram desde entao,
+# e a conferencia do indice precisa de um universo fechado de etapas validas —
+# senao ou aceita qualquer texto, ou reprova historia legitima.
+FASES = ("Estudo", "Etapa 2", "Etapa 3", "Etapa 4")
+
 REVISOES = [
     ("R00", "Modelo parametrico inicial: 19 pranchas de estudo"),
     ("R01", "Etapa 1 — areas tecnicas locadas; projecao coberta corrigida"),
@@ -2771,6 +2777,18 @@ REVISOES = [
             "de 87,5. E a pendencia 11 fecha por conferencia — o DN50 da PR-09 "
             "e a succao da piscina, nao ramal de agua fria; a pendencia nasceu "
             "de eu ter lido a tabela antiga errado em R39"),
+    ("R51", "PR-36, catalogo tecnico em prancha, e a conferencia que o achou. "
+            "A completude de R32 pergunta se o sistema esta no MODELO; a nova "
+            "pergunta o inverso — se o que esta no modelo chegou ao PAPEL. Sao "
+            "falhas de sentido oposto e nenhuma pega a outra: o catalogo de "
+            "pecas existia desde R47 como vista de tela, orcado e verificado, "
+            "e nao aparecia em prancha nenhuma. A fabrica recebe o PDF, nao a "
+            "tela. A secao de cada perfil vai a 1:4 — escala escolhida pela "
+            "MAIOR secao, porque o Ue 250 a 1:2 transborda a celula, e escala "
+            "mista num catalogo impede a comparacao lado a lado que e a razao "
+            "de ele existir. 18 de 18 sistemas levantados chegam ao papel, as "
+            "36 pranchas trazem a revisao no carimbo e a contagem do carimbo "
+            "bate com o emitido"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2889,13 +2907,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R50",
+    revisao="R51",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R50", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R51", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

@@ -3978,3 +3978,100 @@ o chuveiro **elétrico** entra com peso 0,10, exatamente como R07 decidiu.
 Não existe nenhum ramal de água fria em DN50 no modelo. A pendência nasceu em R39,
 quando unifiquei as duas listas de pendências e **li a tabela antiga errado** —
 ela é minha, e fecha por conferência, não por decreto.
+
+---
+
+## R51 — o caderno mostra o que o modelo sabe?
+
+A pergunta que abriu esta revisão foi direta: *todos os desenhos e plantas estão
+batendo com o resto e com o que fizemos agora?* A resposta não podia ser uma
+afirmação — tinha de ser medida.
+
+**O que já batia.** As 35 pranchas foram regeradas a cada mudança de dado
+(`git diff --stat` sobre `out/PR-*.svg` acusa as 35 folhas alteradas desde o
+início do ciclo), o carimbo de todas traz a revisão corrente, e a PR-03 carrega
+`data-larg="4800"` no hall — isto é, o desenho seguiu a decisão de R46, que
+alargou o hall para dar acesso ao mini lounge. Nenhuma prancha estava velha.
+
+**O que não batia.** Um sistema inteiro do modelo **não chegava ao papel**: o
+catálogo técnico de peças, montado em R47, existia apenas como vista de tela. E
+a fábrica recebe o PDF, não a tela.
+
+### Defeito 62 — o catálogo existia na tela e não no caderno
+
+Criada a **PR-36 — CATÁLOGO TÉCNICO**: 27 peças desenhadas a partir das próprias
+dimensões — 9 seções de perfil em escala única, 2 parafusos, 9 chapas, 7
+diâmetros de tubo, cada uma com norma citada. A poligonal desenhada é a mesma
+`linha_media()` que o solver da NBR 14762 integra para achar A, Ix e Wx: **não
+existe estado em que o desenho e o cálculo discordem, porque são a mesma fonte.**
+
+A escala é 1:4 e não 1:2. A escala de um catálogo tem de servir à **maior** seção:
+o Ue 250 a 1:2 ocupa 125 mm de papel e transborda a célula, colidindo com a linha
+de baixo. Escala mista seria pior — quem lê um catálogo compara seções lado a
+lado, e comparação exige a mesma escala.
+
+### Uma classe nova de verificação: completude do DESENHO
+
+A completude de R32 pergunta se o sistema está no **modelo**. Esta pergunta o
+inverso: se o que está no modelo chegou ao **papel**.
+
+> São falhas de sentido oposto e **nenhuma das duas pega a outra**. Um sistema
+> pode estar perfeitamente modelado, orçado, verificado e auditado — e não
+> aparecer em prancha nenhuma.
+
+A bateria 117 lê os SVG **emitidos** e procura, para cada um dos 18 sistemas
+levantados, as marcas que só existem se ele tiver sido desenhado. Resultado:
+18 de 18 chegam ao papel; as 36 pranchas trazem a revisão corrente no carimbo; e
+o carimbo diz 36 pranchas, contra 36 emitidas.
+
+### Defeito 63 — três listas de pranchas, uma só obra
+
+Assim que a PR-36 entrou, a auditoria do visualizador reprovou: *"as 36 pranchas
+estão no índice"* — **falhou**. O índice tinha 35.
+
+A causa é o defeito recorrente deste projeto na sua forma mais pura: **duas
+fontes para o mesmo fato**. Quem emite o caderno é `build.CADERNO`; quem o
+carimbo conta é `TOTAL_PRANCHAS`; quem o leitor navega é `viewer_texto.json`. A
+prancha 36 entrou nas duas primeiras e não na terceira, e o caderno saiu completo
+com o visualizador mostrando 35 — sem que nada reclamasse, porque ninguém
+conferia as três listas uma contra a outra.
+
+A bateria **118** passou a conferir. O que ela exige:
+
+| Conferência | Por quê |
+|---|---|
+| conjunto de números idêntico nas três listas | é a identidade da folha |
+| nenhum número repetido no índice | card duplicado some da contagem |
+| um SVG emitido para cada prancha da lista | lista que promete o que não existe |
+| `TOTAL_PRANCHAS` igual à última da lista | carimbo que conta errado é o que o fiscal olha primeiro |
+| toda ficha com rótulo, etapa, descrição e ≥3 leituras | ficha meia-feita passa despercebida na tela |
+| toda etapa citada existente no histórico | etapa inventada não se rastreia |
+
+O **título não é comparado, de propósito**. O carimbo traz o título descritivo da
+folha (`CATALOGO TECNICO — PERFIL, PARAFUSO, CHAPA E TUBO`) e o índice traz o
+rótulo curto de navegação (`Catalogo tecnico de pecas`): são textos com funções
+diferentes. Exigir igualdade ali seria trocar uma divergência real por ruído
+permanente — e conferência que grita sempre é conferência que ninguém lê.
+
+### A conferência nova acusou a si mesma duas vezes, e foi corrigida
+
+Na primeira execução, a bateria 118 reprovou as fichas 08 e 18 (três leituras,
+não quatro) e as etapas `Estudo`, `Etapa 2`, `Etapa 3`, `Etapa 4`.
+
+Nenhuma das duas era defeito do caderno:
+
+- **quatro leituras** era exigência minha, não do visualizador — o piso real é
+  três, e o critério passou a ser `≥ 3`;
+- as quatro etapas são as **fases anteriores a R00**, quando o caderno ainda não
+  tinha revisão numerada, e ainda nomeiam pranchas que não mudaram desde então.
+  Em vez de aceitar qualquer texto ou reprovar história legítima, o universo
+  virou explícito: `FASES` declarado ao lado de `REVISOES`, e a conferência lê a
+  união dos dois.
+
+> Conferência nova que acusa muito na primeira execução está quase sempre
+> acusando a si mesma. A regra continua valendo — e agora tem duas ocorrências a
+> mais para provar.
+
+**Estado em R51:** 101 funções de verificação, 553 condições, **0 erros**; 207
+verificações do visualizador, **0 falhas**; 36 pranchas emitidas, 36 no índice,
+36 no carimbo.

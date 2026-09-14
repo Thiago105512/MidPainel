@@ -450,6 +450,94 @@ def checar_ambientes() -> list[Achado]:
     return out
 
 
+# Cada sistema levantado no MODELO e as marcas que provam que ele chegou ao
+# DESENHO. Escrito antes de olhar as pranchas, como a completude de R32: a lista
+# diz o que precisa estar la, e a conferencia diz se esta.
+DESENHADO = {
+    "estrutura LSF": ("stud", "TP01"),
+    "vigamento de entrepiso": ("viga", "VIG"),
+    "contraventamento": ("diagonal", "fita X", "contravent"),
+    "fundacao / radier": ("radier", "RADIER"),
+    "hidraulica": ("prumada", "DN100"),
+    "eletrica": ("TUG", "quadro"),
+    "climatizacao": ("BTU", "condensadora"),
+    "drenagem": ("ralo", "RL-"),
+    "esquadrias": ("esquadria", "caixilho", "J04"),
+    "cobertura e calha": ("calha", "rufo"),
+    "platibanda": ("platibanda", "PLATIB"),
+    "brise": ("brise", "ripado"),
+    "muro": ("muro", "Muro", "MURO"),
+    "piscina": ("piscina", "PISCINA"),
+    "piso externo e deck": ("deck", "WPC", "drenante"),
+    "paisagismo": ("paisag", "Ipe", "almeira"),
+    "catalogo de peca": ("SECOES DOS PERFIS", "Ue 90x40x12"),
+    "parafuso": ("parafuso", "AB 4,8"),
+}
+
+
+def checar_completude_do_desenho() -> list[Achado]:
+    """O caderno mostra tudo o que o modelo sabe?
+
+    A completude de R32 pergunta se o SISTEMA esta no modelo. Esta pergunta o
+    inverso: se o que ESTA no modelo chegou ao papel. Sao falhas de sentido
+    oposto e nenhuma das duas pega a outra — um sistema pode estar
+    perfeitamente modelado, orcado e verificado, e nao aparecer em prancha
+    nenhuma. Foi o que aconteceu com o catalogo de pecas entre R47 e R50: ele
+    existia como vista de tela, e a fabrica recebe o PDF, nao a tela.
+    """
+    import glob
+    import os
+    out = []
+    svgs = sorted(glob.glob(os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "out", "PR-*.svg")))
+    if not svgs:
+        out.append(Achado("ATENCAO", "desenho nao gerado",
+                          "nenhum SVG em out/: esta verificacao le o desenho "
+                          "EMITIDO, e sem build ela nao tem o que ler"))
+        return out
+    cache = {os.path.basename(f)[:5]: open(f, encoding="utf-8").read()
+             for f in svgs}
+    out.append(Achado("NOTA", "caderno", f"{len(cache)} pranchas emitidas"))
+
+    faltando = []
+    for sistema, chaves in sorted(DESENHADO.items()):
+        onde = sorted({p for p, txt in cache.items()
+                       if any(k in txt for k in chaves)})
+        if not onde:
+            faltando.append(sistema)
+        out.append(Achado("NOTA" if onde else "ERRO", f"desenho: {sistema}",
+                          f"aparece em {', '.join(onde[:7])}"
+                          + (f" e mais {len(onde) - 7}" if len(onde) > 7 else "")
+                          if onde else
+                          "NAO aparece em prancha nenhuma: o modelo sabe e o "
+                          "caderno nao mostra"))
+
+    out.append(Achado("NOTA" if not faltando else "ERRO", "cobertura",
+                      f"{len(DESENHADO) - len(faltando)} de {len(DESENHADO)} "
+                      f"sistemas levantados chegam ao papel"
+                      + ("" if not faltando else f" — FALTAM: {faltando}")
+                      + ". A completude de R32 pergunta se o sistema esta no "
+                        "modelo; esta pergunta o inverso, e nenhuma das duas "
+                        "pega a outra"))
+
+    # a revisao do carimbo tem de ser a do caso, em TODA prancha
+    import projeto as pj
+    rev = pj.EMISSAO["revisao"]
+    sem = [p for p, txt in cache.items() if rev not in txt]
+    out.append(Achado("NOTA" if not sem else "ERRO", "revisao no carimbo",
+                      f"as {len(cache)} pranchas trazem {rev} no carimbo"
+                      if not sem else f"sem {rev}: {sem}"))
+
+    # e a contagem de pranchas do carimbo tem de bater com o que foi emitido
+    import pranchas as pr
+    out.append(Achado("NOTA" if pr.TOTAL_PRANCHAS == str(len(cache)) else "ERRO",
+                      "contagem",
+                      f"o carimbo diz {pr.TOTAL_PRANCHAS} pranchas e foram "
+                      f"emitidas {len(cache)}. Carimbo que conta errado e a "
+                      f"primeira coisa que um fiscal olha"))
+    return out
+
+
 def checar_viabilidade() -> list[Achado]:
     """O que falta, quem fecha, e QUANTO DO PROJETO depende disso.
 
@@ -3663,4 +3751,92 @@ def checar_instalacoes() -> list[Achado]:
                       "'conflitos criticos' que eram erro de tracado meu, nao "
                       "do projeto: a PR-21 ja dizia que esgoto nao cabe em "
                       "montante por definicao"))
+    return out
+
+
+def checar_indice_do_caderno() -> list[Achado]:
+    """Tres listas de pranchas, uma so obra.
+
+    Quem emite o caderno e a lista de build.CADERNO. Quem o carimbo conta e
+    pranchas.TOTAL_PRANCHAS. Quem o leitor navega e viewer_texto.json. Sao tres
+    fontes para o mesmo fato, e o fato e o mesmo: QUAIS pranchas existem. Em
+    R51 a prancha 36 entrou nas duas primeiras e nao na terceira — o caderno
+    saiu completo e o visualizador ficou com 35, sem que nada reclamasse.
+
+    O titulo NAO e comparado: o carimbo traz o titulo descritivo da folha
+    ("CATALOGO TECNICO — PERFIL, PARAFUSO, CHAPA E TUBO") e o indice traz o
+    rotulo curto de navegacao ("Catalogo tecnico de pecas"). Sao textos com
+    funcoes diferentes; o que tem de ser identico e a IDENTIDADE da folha, que
+    e o numero. Exigir igualdade de titulo seria trocar uma divergencia real
+    por ruido permanente.
+    """
+    import json
+    import os
+    import glob
+    out = []
+    aqui = os.path.dirname(os.path.abspath(__file__))
+    try:
+        idx = json.load(open(os.path.join(aqui, "viewer_texto.json"),
+                             encoding="utf-8"))
+    except OSError:
+        return [Achado("ERRO", "indice do visualizador",
+                       "viewer_texto.json nao pode ser lido: o visualizador "
+                       "nao tem de onde montar o indice")]
+
+    import build as bd
+    import pranchas as pr
+    n_build = [n for n, _t, _f in bd.CADERNO]
+    n_idx = [e["n"] for e in idx]
+    n_svg = sorted(os.path.basename(f)[3:5] for f in glob.glob(
+        os.path.join(aqui, "..", "out", "PR-*.svg")))
+
+    out.append(Achado("NOTA" if n_build == sorted(n_build) else "ERRO",
+                      "ordem", f"build.CADERNO em ordem: {n_build[0]} a "
+                      f"{n_build[-1]}"))
+    out.append(Achado("NOTA" if len(set(n_idx)) == len(n_idx) else "ERRO",
+                      "duplicidade no indice",
+                      f"{len(n_idx)} entradas, {len(set(n_idx))} numeros "
+                      f"distintos"))
+
+    so_build = sorted(set(n_build) - set(n_idx))
+    so_idx = sorted(set(n_idx) - set(n_build))
+    out.append(Achado("NOTA" if not (so_build or so_idx) else "ERRO",
+                      "indice x caderno",
+                      f"as {len(n_build)} pranchas emitidas estao no indice do "
+                      f"visualizador" if not (so_build or so_idx) else
+                      f"emitidas e fora do indice: {so_build or '-'}; no "
+                      f"indice e nao emitidas: {so_idx or '-'}. O leitor "
+                      f"navega o que o indice lista, nao o que o build gera"))
+
+    if n_svg:
+        falta = sorted(set(n_build) - set(n_svg))
+        out.append(Achado("NOTA" if not falta else "ERRO", "emissao",
+                          f"{len(n_svg)} SVG em out/ para {len(n_build)} "
+                          f"pranchas da lista"
+                          + ("" if not falta else f" — sem arquivo: {falta}")))
+
+    out.append(Achado("NOTA" if pr.TOTAL_PRANCHAS == n_build[-1] else "ERRO",
+                      "carimbo x lista",
+                      f"TOTAL_PRANCHAS={pr.TOTAL_PRANCHAS} e a ultima da lista "
+                      f"e {n_build[-1]}"))
+
+    # cada entrada do indice tem de estar completa: rotulo, etapa, descricao e
+    # as quatro leituras. Entrada meia-feita passa despercebida na tela — some
+    # um card e ninguem conta cards.
+    magros = [e["n"] for e in idx
+              if not e.get("t") or not e.get("d") or not e.get("etapa")
+              or len(e.get("k", [])) < 3
+              or any(len(p) != 2 or not p[0] or not p[1] for p in e.get("k", []))]
+    out.append(Achado("NOTA" if not magros else "ERRO", "fichas do indice",
+                      f"as {len(idx)} entradas trazem rotulo, etapa, descricao "
+                      f"e ao menos tres leituras" if not magros else
+                      f"entradas incompletas: {magros}"))
+
+    import projeto as pjm
+    etapas = {r[0] for r in pjm.REVISOES} | set(pjm.FASES)
+    fora = sorted({e["etapa"] for e in idx} - etapas)
+    out.append(Achado("NOTA" if not fora else "ERRO", "etapa das fichas",
+                      f"todas as etapas citadas existem no historico de "
+                      f"revisoes" if not fora else
+                      f"etapa inexistente em REVISOES: {fora}"))
     return out

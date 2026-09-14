@@ -865,5 +865,30 @@
     "limite de flecha da verga — quem manda é o trilho, não o gesso"
    ]
   ]
+ },
+ {
+  "n": "36",
+  "t": "Catalogo tecnico de pecas",
+  "esc": "1:4 / 1:2",
+  "etapa": "R51",
+  "d": "Toda peca que entra na obra desenhada a partir das proprias dimensoes: 9 secoes de perfil na mesma escala, 2 parafusos, 9 chapas e 7 diametros de tubo. Nenhuma imagem de catalogo de fabricante — a poligonal desenhada e a mesma que o solver da NBR 14762 integra para achar A, Ix e Wx, de modo que desenho e calculo nao tem como discordar.",
+  "k": [
+   [
+    "27 pecas",
+    "distintas desenhadas — perfil, parafuso, chapa e tubo, cada uma com norma citada"
+   ],
+   [
+    "1.004",
+    "pecas de perfil e 5.256 parafusos saem dessas 9 secoes e 2 bitolas"
+   ],
+   [
+    "1:4",
+    "unica para todas as secoes: comparacao lado a lado exige mesma escala"
+   ],
+   [
+    "0 fontes",
+    "externas: a designacao ja e a dimensao (Ue 90x40x12x0,95 = alma 90, aba 40, labio 12, esp 0,95)"
+   ]
+  ]
  }
 ]

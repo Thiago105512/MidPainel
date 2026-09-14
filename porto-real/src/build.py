@@ -57,6 +57,7 @@ CADERNO = [
     # ---- R06: revisao do programa pelo YAML do proprietario
     ("34", "PISCINA, DECK E FACHADA",           lambda: p7.piscina_deck_fachada()),
     ("35", "EIXO SOCIAL E CORTINA DE VIDRO",    lambda: p7.eixo_social()),
+    ("36", "CATALOGO TECNICO DE PECAS",         lambda: p7.catalogo_tecnico()),
 ]
 
 
