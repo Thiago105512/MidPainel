@@ -450,6 +450,67 @@ def checar_ambientes() -> list[Achado]:
     return out
 
 
+def checar_fachada() -> list[Achado]:
+    """A fachada foi COMBINADA, foi desenhada — e tem estrutura?
+
+    Sao tres perguntas diferentes, e o projeto so respondia a segunda. As
+    regras estao declaradas desde R06, vindas do YAML do proprietario, e regra
+    declarada que ninguem confere e preferencia, nao regra.
+    """
+    import projeto as pj
+    import nucleo.fachada as fa
+    out = []
+    r = fx.liberacao()
+    c = fa.conferir(pj, r)
+
+    for f in c["faces"]:
+        out.append(Achado("NOTA", f"face {f['face']}",
+                          f"{f['nome']}: {f['area_bruta']} m2 brutos, "
+                          f"{f['n_vaos']} vao(s) somando {f['area_vao']} m2, "
+                          f"{f['frac_vidro'] * 100:.1f} % de vidro. A face e "
+                          f"derivada do envelope construido: quando o hall "
+                          f"cresceu em R46, a fachada cresceu junto sem que "
+                          f"ninguem a redesenhasse"))
+
+    for a in c["achados"]:
+        out.append(Achado(a["nivel"], a["item"], a["texto"]))
+
+    b = c["brises"]
+    out.append(Achado("NOTA" if b["ripa_m"] > 0 else "ERRO", "brise como material",
+                      f"{b['n']} brises: {b['comp_total']} m de fachada, "
+                      f"{b['n_ripas'] if 'n_ripas' in b else sum(i['n_ripas'] for i in b['itens'])} "
+                      f"ripas somando {b['ripa_m']} m, {b['travessa_m']} m de "
+                      f"travessa, {b['fixacoes']} fixacoes e {b['massa']} kg "
+                      f"pendurados na fachada. Ate R47 nada disso existia no "
+                      f"orcamento nem na carga: o ripado era retangulo no "
+                      f"desenho e no 3D"))
+
+    # a fixacao cai em montante? o passo de 600 tem de bater com a modulacao
+    mod = pj.MONTANTE_ESPACAMENTO
+    out.append(Achado("NOTA" if fa.PASSO_FIXACAO % mod == 0 else "ERRO",
+                      "fixacao no montante",
+                      f"passo de fixacao de {fa.PASSO_FIXACAO} mm contra "
+                      f"modulacao de montante de {mod} mm: cada travessa cai "
+                      f"em montante. Parafusar brise na placa cimenticia e "
+                      f"arrancar a fachada no primeiro vento de 30 m/s — a "
+                      f"placa nao e elemento estrutural"))
+
+    # o 3D nao pode mais ter a medida do brise como literal
+    import inspect
+    import modelo3d as m3
+    src = inspect.getsource(m3)
+    i = src.find("for br in pj.BRISES")
+    trecho = src[i:i + 500]
+    out.append(Achado("NOTA" if 'br.get("altura"' in trecho else "ERRO",
+                      "medida no dado",
+                      "a altura e a profundidade do brise saem do DADO. O 3D "
+                      "desenhava 1.500 de altura e 120 de profundidade como "
+                      "literais, enquanto o dado declarava 150 de "
+                      "profundidade: o desenho convencia com uma medida que o "
+                      "projeto nao tinha"))
+    return out
+
+
 def checar_nichos_e_familias() -> list[Achado]:
     """Duas conferencias que nasceram da caminhada por comodo.
 

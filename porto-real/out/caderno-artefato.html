@@ -578,7 +578,7 @@
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R47 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R48 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -595,7 +595,7 @@
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>36,4 <span>kVA · 100 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>524 <span>condições · 0 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>529 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>35 <span>· A1</span></dd></div>
   </dl>
@@ -796,6 +796,7 @@
       <li><span class="r">R45</span><span>Os tres achados por comodo, resolvidos. O DML ganha basculante alta na face norte, que estava livre: 0,72 m2 contra os 0,45 exigidos, ilumina E ventila sem tomar a parede da prateleira — veneziana na porta nao ilumina e exaustor cobra energia para sempre. O gourmet ganha ralo sifonado junto da cuba: area molhada, contigua a piscina, e sem ralo a lavagem escoa para o estar. Os tres banhos do superior entram na MESMA zona de revestimento do banho do terreo, e nao numa zona nova — a altura de um banho e uma decisao so. Duas verificacoes existentes acusaram a mudanca e acusaram certo: o universo de codigos validos nao conhecia o codigo qualificado da subdivisao, e o cruzamento da impermeabilizacao contava janela de banheiro pelo CODIGO da esquadria — premissa que aguentou ate a primeira janela alta que nao e de banheiro</span></li>
       <li><span class="r">R46</span><span>O mini lounge nao tinha como ser alcancado. 517 verificacoes conferem PROPRIEDADES de comodo e nenhuma perguntava se da para chegar nele: o lounge tinha porta, janela, clima, piso e tomadas, e nenhum vizinho. Entre ele e o hall havia uma faixa de 600 x 2.400 mm sem ambiente, e o painelizador, vendo exterior dos dois lados, ergueu DUAS paredes externas paralelas com a porta abrindo para o vazio entre elas. Estender o hall ate 12.600 REMOVE uma parede em vez de acrescentar, nao mexe em fachada e devolve ao hall a distribuicao para quatro destinos que R06 lhe deu. A casa ganhou 1,44 m2 e ficou mais barata: 1.028 pecas contra 1.033, 60 paineis contra 62. Entra conectividade(), que caminha a pe a partir da entrada — relacao entre comodos e grafo, nao tabela. E o lounge deixa de ser categoria APOIO, que lhe dava piso de garagem e o excluia da conta de ruido a dois metros da cabeceira de duas suites</span></li>
       <li><span class="r">R47</span><span>Catalogo tecnico com o desenho de cada peca — perfil, parafuso, chapa e tubo — gerado da PROPRIA peca: a mesma poligonal de linha media que o solver da NBR 14762 integra para achar A, Ix e Wx. Imagem de catalogo seria de um perfil generico, com marca de terceiro, e continuaria igual depois de a auditoria mudar uma espessura: passaria a mentir em silencio. A designacao ja E a dimensao. Zero imagens buscadas fora, e o teste confere que a cota desenhada e a dimensao que alimenta o calculo. Mais as duas decisoes do superior: o banho da suite 02 passa de J02 para J04 e espelha a 03 — a assimetria deixava o lado menor abaixo do minimo de area molhada — e a ocupacao do nicho de condensadora passa a ser derivada da lista, porque o texto dizia 2 ativas enquanto a lista mandava 5</span></li>
+      <li><span class="r">R48</span><span>Fachada auditada contra o que foi COMBINADO. A regra declarada em R06 diz 'nenhuma superficie que exija pintura em altura', e o acabamento externo especificado era pintura acrilica num volume de 6,15 m: duas decisoes do mesmo projeto, uma negando a outra. Quem tinha razao era a fachada — FACHADA_MATERIAIS ja especifica revestimento mineral de fabrica, que nao se repinta — e a pintura externa passa a declarar ONDE se aplica: so o que se alcanca do chao. Repintar 150 m2 a 6 m custa tinta MAIS andaime, a cada cinco anos, para sempre. E os cinco brises, 16,8 m de ripado e 145,9 kg, existiam no desenho e no 3D sem material, sem massa e sem carga: 205,5 m de ripa, 33,6 de travessa e 66 fixacoes entram no orcamento. A altura e a profundidade do brise viviam como literal em modelo3d.py — 1.500 e 120 — contra os 150 declarados no dado: duas fontes, as duas em modulo de desenho</span></li>
       </ol>
     </div>
     <div>
@@ -1650,6 +1651,7 @@ const VISTAS = [
   ["cotacao",    "Custo e cotação",    "o que se compra, e o que falta perguntar"],
   ["ambientes",  "Por ambiente",       "cômodo a cômodo, tudo num lugar só"],
   ["catalogo",   "Catálogo técnico",   "cada peça desenhada do modelo"],
+  ["fachada",    "Fachada",            "o combinado, o desenhado e o estrutural"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -1670,6 +1672,8 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    fachada: "As quatro faces, o que foi combinado para elas e se o que " +
+             "está pendurado ali tem como ficar pendurado.",
     catalogo: "O desenho de cada peça que vai ser comprada: perfil, " +
               "parafuso, chapa e tubo, com dimensão, norma e quanto entra na " +
               "obra. Nenhuma imagem foi buscada fora.",
@@ -1753,6 +1757,12 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    fachada: "Regra de fachada declarada que ninguém confere é preferência, " +
+             "não regra. A conferência achou duas: o acabamento externo " +
+             "especificado era PINTURA num volume de 6,15 m, contra a própria " +
+             "regra de não haver superfície que exija pintura em altura; e os " +
+             "cinco brises existiam no desenho e no 3D sem material, sem massa " +
+             "e sem carga.",
     catalogo: "Cada desenho sai da MESMA poligonal de linha média que o " +
               "solver da NBR 14762 integra para achar A, Ix e Wx. A imagem de " +
               "catálogo do fabricante é de um perfil genérico, carrega marca " +
@@ -2710,6 +2720,7 @@ function renderEng() {
              materiais: vistaMateriais, parafusos: vistaParafusos,
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
              ambientes: vistaAmbientes, catalogo: vistaCatalogo,
+             fachada: vistaFachada,
              bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
@@ -3442,6 +3453,76 @@ function vistaCatalogo() {
         <b>Limite declarado:</b> ${esc2(C.limite)}.</span></div>
     <div class="filtros">${abas}</div>
     <div class="pecas-grade">${itens}</div>`;
+}
+
+// ------------------------------------------------------------- fachada
+// Tres perguntas diferentes, e o projeto so respondia a segunda: o que foi
+// COMBINADO, o que foi DESENHADO e o que tem ESTRUTURA. Regra de fachada
+// declarada que ninguem confere e preferencia, nao regra.
+function vistaFachada() {
+  const F = ENG.fachada;
+  if (!F) return barraModos() + "<p class='conta'>sem levantamento de fachada</p>";
+  const maior = Math.max(...F.faces.map(f => f.area_bruta)) || 1;
+  const barras = F.faces.map(f =>
+    `<div style="display:grid;grid-template-columns:118px 1fr 160px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:3px 0">
+      <span>${esc2(f.nome)}</span>
+      <span style="height:12px;background:var(--rule-soft);position:relative">
+        <i style="display:block;height:100%;width:${(f.area_bruta / maior * 100).toFixed(1)}%;
+          background:#3f6fb5"></i>
+        <i style="position:absolute;left:0;top:0;height:100%;
+          width:${(f.area_vidro / maior * 100).toFixed(1)}%;background:#86b6ef"></i></span>
+      <span style="text-align:right">${num(f.area_bruta, 1)} m² ·
+        <b>${(f.frac_vidro * 100).toFixed(1)} %</b> vidro</span></div>`).join("");
+  const mat = F.materiais.map(m =>
+    `<tr><td><b>${esc2(m.familia)}</b></td>
+      <td style="white-space:normal">${esc2(m.onde)}</td></tr>`).join("");
+  const br = F.brises.itens.map(b =>
+    `<tr><td>${esc2(b.cod)}</td><td>${esc2(b.face)}</td>
+      <td>${num(b.comp)} × ${num(b.altura)}</td><td>${b.passo}</td>
+      <td>${b.n_ripas}</td><td>${num(b.ripa_m, 1)}</td>
+      <td>${num(b.massa, 1)}</td>
+      <td>${b.movel ? "móvel" : "fixo"}</td>
+      <td style="white-space:normal;max-width:30ch">${esc2(b.desc)}</td></tr>`).join("");
+  const ach = F.achados.map(a =>
+    `<div class="selo ${a.nivel === "ERRO" ? "nao" : ""}"
+       style="align-items:flex-start;margin-bottom:8px">
+      <b>${esc2(a.item)}</b>
+      <span style="line-height:1.55">${esc2(a.texto)}</span></div>`).join("");
+  const B = F.brises;
+  return `${barraModos()}${leitura("fachada")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Fachada</span>
+        <span class="val">${num(F.faces.reduce((s, f) => s + f.area_bruta, 0), 1)}</span>
+        <span class="uni">m² nas quatro faces</span></div>
+      <div class="cartao"><span class="rot">Famílias</span>
+        <span class="val">${F.materiais.length}</span>
+        <span class="uni">de ${F.regras.familias_max} permitidas</span></div>
+      <div class="cartao"><span class="rot">Brises</span>
+        <span class="val">${B.n}</span>
+        <span class="uni">${num(B.comp_total, 1)} m · ${B.moveis} móveis</span></div>
+      <div class="cartao"><span class="rot">Ripa</span>
+        <span class="val">${num(B.ripa_m, 1)}</span>
+        <span class="uni">m · ${num(B.massa, 1)} kg na parede</span></div>
+    </div>
+    <div class="eng-sec"><h3>As quatro faces — área e vidro</h3>${barras}
+      <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+        A face é derivada do envelope construído: quando o hall cresceu em R46,
+        a fachada cresceu junto, sem que ninguém a redesenhasse.</p></div>
+    <div class="eng-sec"><h3>O que foi combinado</h3>
+      <div class="rolagem"><table class="tabela"><tbody>${mat}</tbody></table></div>
+      <p class="conta" style="display:block;margin-top:8px;line-height:1.5">
+        <b>Regras declaradas:</b> vidro ${esc2(F.regras.vidro)} ·
+        ornamento: ${esc2(F.regras.ornamento)} ·
+        manutenção: ${esc2(F.regras.manutencao)}.</p></div>
+    <div class="eng-sec"><h3>Conferência das regras</h3>${ach}</div>
+    <div class="eng-sec"><h3>Brises — ${B.n} elementos, ${num(B.massa, 1)} kg</h3>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>cód</th>
+        <th>face</th><th>comp × alt</th><th>passo</th><th>ripas</th>
+        <th>m de ripa</th><th>kg</th><th>tipo</th><th>onde</th></tr></thead>
+        <tbody>${br}</tbody></table></div>
+      <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+        ${esc2(B.nota)}. Ripa: ${esc2(B.ripa.desc)}, ${num(B.ripa.massa_m, 2)} kg/m.</p></div>`;
 }
 
 

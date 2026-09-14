@@ -142,6 +142,7 @@ const VISTAS = [
   ["cotacao",    "Custo e cotação",    "o que se compra, e o que falta perguntar"],
   ["ambientes",  "Por ambiente",       "cômodo a cômodo, tudo num lugar só"],
   ["catalogo",   "Catálogo técnico",   "cada peça desenhada do modelo"],
+  ["fachada",    "Fachada",            "o combinado, o desenhado e o estrutural"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -162,6 +163,8 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    fachada: "As quatro faces, o que foi combinado para elas e se o que " +
+             "está pendurado ali tem como ficar pendurado.",
     catalogo: "O desenho de cada peça que vai ser comprada: perfil, " +
               "parafuso, chapa e tubo, com dimensão, norma e quanto entra na " +
               "obra. Nenhuma imagem foi buscada fora.",
@@ -245,6 +248,12 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    fachada: "Regra de fachada declarada que ninguém confere é preferência, " +
+             "não regra. A conferência achou duas: o acabamento externo " +
+             "especificado era PINTURA num volume de 6,15 m, contra a própria " +
+             "regra de não haver superfície que exija pintura em altura; e os " +
+             "cinco brises existiam no desenho e no 3D sem material, sem massa " +
+             "e sem carga.",
     catalogo: "Cada desenho sai da MESMA poligonal de linha média que o " +
               "solver da NBR 14762 integra para achar A, Ix e Wx. A imagem de " +
               "catálogo do fabricante é de um perfil genérico, carrega marca " +
@@ -1206,6 +1215,7 @@ function renderEng() {
              materiais: vistaMateriais, parafusos: vistaParafusos,
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
              ambientes: vistaAmbientes, catalogo: vistaCatalogo,
+             fachada: vistaFachada,
              bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
@@ -2088,5 +2098,77 @@ function vistaCatalogo() {
         <b>Limite declarado:</b> ${esc2(C.limite)}.</span></div>
     <div class="filtros">${abas}</div>
     <div class="pecas-grade">${itens}</div>`;
+}
+'''
+
+JS_ENG += r'''
+// ------------------------------------------------------------- fachada
+// Tres perguntas diferentes, e o projeto so respondia a segunda: o que foi
+// COMBINADO, o que foi DESENHADO e o que tem ESTRUTURA. Regra de fachada
+// declarada que ninguem confere e preferencia, nao regra.
+function vistaFachada() {
+  const F = ENG.fachada;
+  if (!F) return barraModos() + "<p class='conta'>sem levantamento de fachada</p>";
+  const maior = Math.max(...F.faces.map(f => f.area_bruta)) || 1;
+  const barras = F.faces.map(f =>
+    `<div style="display:grid;grid-template-columns:118px 1fr 160px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:3px 0">
+      <span>${esc2(f.nome)}</span>
+      <span style="height:12px;background:var(--rule-soft);position:relative">
+        <i style="display:block;height:100%;width:${(f.area_bruta / maior * 100).toFixed(1)}%;
+          background:#3f6fb5"></i>
+        <i style="position:absolute;left:0;top:0;height:100%;
+          width:${(f.area_vidro / maior * 100).toFixed(1)}%;background:#86b6ef"></i></span>
+      <span style="text-align:right">${num(f.area_bruta, 1)} m² ·
+        <b>${(f.frac_vidro * 100).toFixed(1)} %</b> vidro</span></div>`).join("");
+  const mat = F.materiais.map(m =>
+    `<tr><td><b>${esc2(m.familia)}</b></td>
+      <td style="white-space:normal">${esc2(m.onde)}</td></tr>`).join("");
+  const br = F.brises.itens.map(b =>
+    `<tr><td>${esc2(b.cod)}</td><td>${esc2(b.face)}</td>
+      <td>${num(b.comp)} × ${num(b.altura)}</td><td>${b.passo}</td>
+      <td>${b.n_ripas}</td><td>${num(b.ripa_m, 1)}</td>
+      <td>${num(b.massa, 1)}</td>
+      <td>${b.movel ? "móvel" : "fixo"}</td>
+      <td style="white-space:normal;max-width:30ch">${esc2(b.desc)}</td></tr>`).join("");
+  const ach = F.achados.map(a =>
+    `<div class="selo ${a.nivel === "ERRO" ? "nao" : ""}"
+       style="align-items:flex-start;margin-bottom:8px">
+      <b>${esc2(a.item)}</b>
+      <span style="line-height:1.55">${esc2(a.texto)}</span></div>`).join("");
+  const B = F.brises;
+  return `${barraModos()}${leitura("fachada")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Fachada</span>
+        <span class="val">${num(F.faces.reduce((s, f) => s + f.area_bruta, 0), 1)}</span>
+        <span class="uni">m² nas quatro faces</span></div>
+      <div class="cartao"><span class="rot">Famílias</span>
+        <span class="val">${F.materiais.length}</span>
+        <span class="uni">de ${F.regras.familias_max} permitidas</span></div>
+      <div class="cartao"><span class="rot">Brises</span>
+        <span class="val">${B.n}</span>
+        <span class="uni">${num(B.comp_total, 1)} m · ${B.moveis} móveis</span></div>
+      <div class="cartao"><span class="rot">Ripa</span>
+        <span class="val">${num(B.ripa_m, 1)}</span>
+        <span class="uni">m · ${num(B.massa, 1)} kg na parede</span></div>
+    </div>
+    <div class="eng-sec"><h3>As quatro faces — área e vidro</h3>${barras}
+      <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+        A face é derivada do envelope construído: quando o hall cresceu em R46,
+        a fachada cresceu junto, sem que ninguém a redesenhasse.</p></div>
+    <div class="eng-sec"><h3>O que foi combinado</h3>
+      <div class="rolagem"><table class="tabela"><tbody>${mat}</tbody></table></div>
+      <p class="conta" style="display:block;margin-top:8px;line-height:1.5">
+        <b>Regras declaradas:</b> vidro ${esc2(F.regras.vidro)} ·
+        ornamento: ${esc2(F.regras.ornamento)} ·
+        manutenção: ${esc2(F.regras.manutencao)}.</p></div>
+    <div class="eng-sec"><h3>Conferência das regras</h3>${ach}</div>
+    <div class="eng-sec"><h3>Brises — ${B.n} elementos, ${num(B.massa, 1)} kg</h3>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>cód</th>
+        <th>face</th><th>comp × alt</th><th>passo</th><th>ripas</th>
+        <th>m de ripa</th><th>kg</th><th>tipo</th><th>onde</th></tr></thead>
+        <tbody>${br}</tbody></table></div>
+      <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
+        ${esc2(B.nota)}. Ripa: ${esc2(B.ripa.desc)}, ${num(B.ripa.massa_m, 2)} kg/m.</p></div>`;
 }
 '''

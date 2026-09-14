@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="33" data-rev="R47">
+<g data-tipo="carimbo" data-cod="33" data-rev="R48">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,16 +26,16 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R47</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R48</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">33</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R47</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R48</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Revisao R47 — finalidade: COORDENACAO E APROVACAO PRELIMINAR.</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Revisao R48 — finalidade: COORDENACAO E APROVACAO PRELIMINAR.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Auditoria: 32 verificacoes e 187 condicoes; 0 erro(s), 1 atencao(oes), 19 nota(s).</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- NAO serve para: execucao de fundacao sem sondagem; fabricacao de painel sem nesting codificado; aprovacao legal sem ART/RRT.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Reproduzivel integralmente por 'python3 build.py' a partir do modelo.</text>
@@ -343,7 +343,10 @@
 <polygon points="35.000,449.600 295.000,449.600 295.000,454.800 35.000,454.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="36.500" y="452.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">R47</text>
 <text x="54.500" y="452.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Catalogo tecnico com o desenho de cada peca — perfil, parafuso, chapa e tubo — gerado da PROPRIA peca: a mesma poligonal de linha media que o solver da NBR 14762 integra para achar A, Ix e Wx. Imagem de catalogo seria de um perfil generico, com marca de terceiro, e continuaria igual depois de a auditoria mudar uma espessura: passaria a mentir em silencio. A designacao ja E a dimensao. Zero imagens buscadas fora, e o teste confere que a cota desenhada e a dimensao que alimenta o calculo. Mais as duas decisoes do superior: o banho da suite 02 passa de J02 para J04 e espelha a 03 — a assimetria deixava o lado menor abaixo do minimo de area molhada — e a ocupacao do nicho de condensadora passa a ser derivada da lista, porque o texto dizia 2 ativas enquanto a lista mandava 5</text>
-<line x1="53.000" y1="200.000" x2="53.000" y2="454.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="35.000,454.800 295.000,454.800 295.000,460.000 35.000,460.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="457.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">R48</text>
+<text x="54.500" y="457.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Fachada auditada contra o que foi COMBINADO. A regra declarada em R06 diz 'nenhuma superficie que exija pintura em altura', e o acabamento externo especificado era pintura acrilica num volume de 6,15 m: duas decisoes do mesmo projeto, uma negando a outra. Quem tinha razao era a fachada — FACHADA_MATERIAIS ja especifica revestimento mineral de fabrica, que nao se repinta — e a pintura externa passa a declarar ONDE se aplica: so o que se alcanca do chao. Repintar 150 m2 a 6 m custa tinta MAIS andaime, a cada cinco anos, para sempre. E os cinco brises, 16,8 m de ripado e 145,9 kg, existiam no desenho e no 3D sem material, sem massa e sem carga: 205,5 m de ripa, 33,6 de travessa e 66 fixacoes entram no orcamento. A altura e a profundidade do brise viviam como literal em modelo3d.py — 1.500 e 120 — contra os 150 declarados no dado: duas fontes, as duas em modulo de desenho</text>
+<line x1="53.000" y1="200.000" x2="53.000" y2="460.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="35.000" y="257.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PENDENCIAS</text>
 <polygon points="35.000,260.000 339.000,260.000 339.000,265.200 35.000,265.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="262.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>

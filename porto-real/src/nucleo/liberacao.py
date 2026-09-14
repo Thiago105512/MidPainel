@@ -126,6 +126,9 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     camadas["impermeabilizacao"] = cd.impermeabilizacao(pj)
     import nucleo.fundacao as _fd
     camadas["fundacao"] = _fd.levantar(pj)
+    import nucleo.fachada as _fa
+    camadas["brises"] = _fa.brises(pj)
+    camadas["faces"] = _fa.faces(pj)
     import nucleo.instalacoes as _ins
     _base = dict(T=pj.NIVEL_TERREO, S=pj.NIVEL_SUPERIOR)
     # A decisao do shaft vem ANTES de medir ramal e de conferir clash, porque
@@ -309,6 +312,9 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # ---- catalogo tecnico: o desenho de cada peca, gerado da propria peca.
     # Vem depois de tudo porque le peca, junta, camada e instalacao — e porque
     # o desenho e VISTA do modelo, nunca uma fonte paralela.
+    import nucleo.fachada as _fa2
+    fachada = _fa2.conferir(pj, dict(pecas=pecas))
+
     import nucleo.catalogo as cg
     catalogo = cg.montar(pj, dict(pecas=pecas, juntas=juntas, camadas=camadas))
 
@@ -320,6 +326,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                               for f in sorted({i.familia for i in itens})])
 
     return dict(cotacao=cot, ambientes=ambientes, catalogo=catalogo,
+                fachada=fachada,
                 paineis=todos, pecas=pecas, plano=plano, bom=itens,
                 custo=custo, etapas=etapas, ordem=ordem, passos=passos,
                 horas=horas, carga=carga, emissao=emissao,

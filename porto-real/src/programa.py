@@ -468,6 +468,17 @@ PROGRAMA = [
      "e conferida contra a geometria. E familia de esquadria que existe no "
      "catalogo e em vao nenhum nao chega ao BOM, que le VAOS — chega ao "
      "QUADRO, que e o que o fornecedor cota."),
+    (114, "Fachada: o que foi combinado, o que foi desenhado e o que tem "
+          "estrutura", ["checar_fachada"], "PARCIAL",
+     "Secoes 7, 19 e 45. Tres perguntas diferentes, e o projeto so respondia a "
+     "segunda. As regras de fachada estao declaradas desde R06 — tres familias "
+     "no maximo, vidro concentrado atras, nenhuma superficie que exija pintura "
+     "em altura — e regra declarada que ninguem confere e preferencia, nao "
+     "regra. A conferencia achou duas: o acabamento externo especificado era "
+     "PINTURA num volume de 6,15 m, contra a propria regra, e os cinco brises "
+     "existiam no desenho e no 3D sem material, sem massa e sem carga. PARCIAL "
+     "porque o coeficiente de forma de ripado e o mecanismo do brise movel sao "
+     "(H) ate o fornecedor."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

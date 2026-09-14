@@ -1202,6 +1202,39 @@ def rodar(fotos: bool = False) -> int:
              return t.includes('ponta broca') && t.includes('(H)'); }"""),
            "o parafuso diz o tipo de ponta, e a resistencia continua (H)")
 
+        # ---- FACHADA: o combinado, o desenhado e o que tem estrutura
+        pag.click("#vistasEng button[data-vista='fachada']")
+        pag.wait_for_timeout(500)
+        ok(pag.evaluate("() => ENG.fachada.faces.length") == 4,
+           "as quatro faces sao levantadas do envelope construido")
+        ok(pag.evaluate("""() => ENG.fachada.materiais.length
+             <= ENG.fachada.regras.familias_max"""),
+           "e o numero de familias de material respeita a regra declarada",
+           str(pag.evaluate("() => ENG.fachada.materiais.length")) + " de "
+           + str(pag.evaluate("() => ENG.fachada.regras.familias_max")))
+        # a regra do vidro: a face posterior tem de ser a mais envidracada
+        ok(pag.evaluate("""() => {
+             const f = ENG.fachada.faces.slice().sort((a, b) => b.area_vidro - a.area_vidro);
+             return f[0].face === 'O'; }"""),
+           "o vidro esta concentrado na face posterior, como combinado",
+           pag.evaluate("""() => ENG.fachada.faces.slice()
+             .sort((a, b) => b.area_vidro - a.area_vidro)[0].nome"""))
+        ok(pag.evaluate("""() => {
+             const b = ENG.fachada.brises;
+             return b.n === 5 && b.ripa_m > 100 && b.massa > 0
+                    && b.itens.every(x => x.altura > 0 && x.n_ripas > 0); }"""),
+           "os cinco brises tem ripa, altura e massa — nao so retangulo",
+           str(pag.evaluate("() => ENG.fachada.brises.ripa_m")) + " m de ripa, "
+           + str(pag.evaluate("() => ENG.fachada.brises.massa")) + " kg")
+        ok(pag.evaluate("""() => ENG.bom.some(i => i.sku === 'BRI-RIPA'
+             && i.quantidade > 100)"""),
+           "e chegam ao orcamento, onde nunca tinham estado")
+        ok(pag.evaluate("""() => ENG.fachada.achados
+             .every(a => a.nivel !== 'ERRO')"""),
+           "nenhuma regra de fachada esta sendo quebrada",
+           str(pag.evaluate("""() => ENG.fachada.achados
+             .filter(a => a.nivel === 'ERRO').length""")) + " erro(s)")
+
         # ---- IMPRESSAO: o que sai no papel e o documento, nao a interface
         ok(pag.evaluate("""() => {
              const css = [...document.styleSheets].flatMap(s => {

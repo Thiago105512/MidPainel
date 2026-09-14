@@ -427,6 +427,7 @@ def montar() -> dict:
             ok=r["combinacoes"]["ok"]),
         pendencias=r["pendencias"],
         catalogo=r["catalogo"],
+        fachada=r["fachada"],
         # o dossie vai INTEIRO: e a unica vista em que alguem procura "o que
         # tem na lavanderia", e responder isso pela metade e pior que nao
         # responder — manda conferir na prancha o que ja esta no modelo

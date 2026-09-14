@@ -233,8 +233,14 @@ def _externos() -> list[dict]:
         out.append(_box("tecnico", t["x"], t["y"], 0, t["x"] + t["w"],
                         t["y"] + t["h"], h, CORES["tecnico"], t["cod"]))
     for br in pj.BRISES:
-        out.append(_box("brise", br["x"] - 60, br["y"], 900,
-                        br["x"] + 60, br["y"] + br["w"], 2_400, CORES["brise"]))
+        # R48 — do DADO: a altura e a profundidade eram literais aqui (1.500 de
+        # altura desenhada como 900 a 2.400, e 120 de profundidade contra os
+        # 150 declarados). O 3D convencia com uma medida que o dado nao tinha.
+        pr = br["h"] / 2
+        z0 = br.get("z0", 900)
+        out.append(_box("brise", br["x"] - pr, br["y"], z0,
+                        br["x"] + pr, br["y"] + br["w"],
+                        z0 + br.get("altura", 1_500), CORES["brise"]))
     return out
 
 

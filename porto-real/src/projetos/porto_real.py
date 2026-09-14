@@ -636,26 +636,31 @@ if __name__ == "__main__":
 # altitude: sombreamento HORIZONTAL nao funciona nessas faces, so VERTICAL.
 # Nas faces norte e sul o sol e alto (63 a 87 graus) e o beiral resolve.
 # =========================================================================
+# R48 — ALTURA e cota de base entram como DADO. Ate aqui o 3D desenhava o
+# brise de z=900 a z=2.400 (altura 1.500) e com 120 mm de profundidade, tudo
+# literal dentro de modelo3d.py, enquanto o dado declarava profundidade 150.
+# Duas fontes para a mesma peca, e as duas dentro de modulos de DESENHO — o
+# ripado nao existia como material, como massa nem como carga em lugar nenhum.
 BRISES = [
     dict(cod="BR-O", face="O", x=5_400, y=27_600, w=4_200, h=150,
          tipo="ripado vertical MOVEL, recolhivel", passo=150,
-         desc="alpendre do gourmet - recolhe totalmente para liberar a vista da piscina"),
+         desc="alpendre do gourmet - recolhe totalmente para liberar a vista da piscina", z0=900, altura=1_500),
     dict(cod="BR-L", face="L", x=12_000, y=7_200, w=3_000, h=150,
          tipo="ripado vertical fixo", passo=150,
-         desc="quarto reversivel - testada leste"),
+         desc="quarto reversivel - testada leste", z0=900, altura=1_500),
     # R09 — as duas janelas amplas das suites ficam a 2.400 mm da divisa sul com
     # peitoril de 1.100: altura de olho de quem passa no recuo do vizinho. Brise
     # ripado vertical fixo resolve privacidade e sol rasante de uma vez, na mesma
     # familia de aluminio grafite do portao e da fachada.
     dict(cod="BR-S2", face="S", x=2_400, y=15_900, w=1_800, h=150,
          tipo="ripado vertical fixo", passo=80,
-         desc="janela ampla da suite 02 — privacidade contra a divisa sul"),
+         desc="janela ampla da suite 02 — privacidade contra a divisa sul", z0=900, altura=1_500),
     dict(cod="BR-S3", face="S", x=2_400, y=20_700, w=1_800, h=150,
          tipo="ripado vertical fixo", passo=80,
-         desc="janela ampla da suite 03 — privacidade contra a divisa sul"),
+         desc="janela ampla da suite 03 — privacidade contra a divisa sul", z0=900, altura=1_500),
     dict(cod="BR-OS", face="O", x=10_200, y=22_800, w=6_000, h=150,
          tipo="ripado vertical movel", passo=150,
-         desc="varanda master - pavimento superior"),
+         desc="varanda master - pavimento superior", z0=900, altura=1_500),
 ]
 
 # Sol das 16h a 30 graus de altitude: um anteparo vertical a 5.400 mm do vao
@@ -2248,9 +2253,26 @@ RODAPE = dict(h=100, tipo="poliestireno 100 x 15 mm, pintado",
 SOLEIRAS = dict(interna="sem soleira — piso continuo na mesma cota",
                 molhada=f"granito cinza 150 mm, desnivel de {15} mm",
                 externa="granito cinza 150 mm com pingadeira")
+# R48 — a regra de fachada declarada em R06 diz "nenhuma superficie que exija
+# pintura em altura", e o acabamento externo declarado era pintura acrilica
+# sobre base cimenticia, num volume de 6,15 m. Contradicao entre duas decisoes
+# do proprio projeto.
+#
+# Quem tinha razao era a fachada: FACHADA_MATERIAIS ja especifica "placa
+# cimenticia com revestimento MINERAL de grande formato, junta seca" — que e
+# acabamento de fabrica e nao se repinta. A pintura externa passa a valer so
+# onde se alcanca do chao, e isso agora esta escrito e e conferido.
+#
+# Custo de ciclo: repintar 150 m2 de fachada a 6 m de altura custa a pintura
+# MAIS o andaime, a cada cinco anos, para sempre. O revestimento mineral custa
+# mais uma vez.
 PINTURA = dict(interna="latex acrilico acetinado, 2 demaos sobre selador",
                umida="latex acrilico premium com biocida, 2 demaos",
                externa="acrilico elastomerico sobre base cimenticia",
+               externa_onde="muro, face interna de platibanda e rodape de "
+                            "fachada ate 2.600 mm — tudo alcancavel do chao. A "
+                            "fachada do volume superior NAO e pintada: leva o "
+                            "revestimento mineral de fabrica da FACHADA_MATERIAIS",
                forro="latex PVA fosco branco")
 
 
@@ -2701,6 +2723,20 @@ REVISOES = [
             "de area molhada — e a ocupacao do nicho de condensadora passa a "
             "ser derivada da lista, porque o texto dizia 2 ativas enquanto a "
             "lista mandava 5"),
+    ("R48", "Fachada auditada contra o que foi COMBINADO. A regra declarada em "
+            "R06 diz 'nenhuma superficie que exija pintura em altura', e o "
+            "acabamento externo especificado era pintura acrilica num volume "
+            "de 6,15 m: duas decisoes do mesmo projeto, uma negando a outra. "
+            "Quem tinha razao era a fachada — FACHADA_MATERIAIS ja especifica "
+            "revestimento mineral de fabrica, que nao se repinta — e a pintura "
+            "externa passa a declarar ONDE se aplica: so o que se alcanca do "
+            "chao. Repintar 150 m2 a 6 m custa tinta MAIS andaime, a cada cinco "
+            "anos, para sempre. E os cinco brises, 16,8 m de ripado e 145,9 kg, "
+            "existiam no desenho e no 3D sem material, sem massa e sem carga: "
+            "205,5 m de ripa, 33,6 de travessa e 66 fixacoes entram no "
+            "orcamento. A altura e a profundidade do brise viviam como literal "
+            "em modelo3d.py — 1.500 e 120 — contra os 150 declarados no dado: "
+            "duas fontes, as duas em modulo de desenho"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2810,13 +2846,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R47",
+    revisao="R48",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R47", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R48", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

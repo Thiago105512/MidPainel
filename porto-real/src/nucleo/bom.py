@@ -102,6 +102,9 @@ PRECO_ESQ = {            # (H)
     "roldana": 18.00, "fecho": 42.00, "trilho_m": 96.00,
     "dobradica": 26.00, "fechadura": 145.00, "batente": 210.00,
 }
+PRECO_BRISE = {          # (H)
+    "ripa_m": 42.00, "travessa_m": 38.00, "fixacao": 6.50, "mecanismo": 2_400.00,
+}
 PRECO_COB = {            # (H)
     "calha_m": 118.00, "rufo_m": 62.00, "cumeeira_m": 74.00,
     "parafuso_un": 1.80, "impermeab_m2": 78.00,
@@ -293,6 +296,25 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                  cob["parafuso_un"], PRECO_COB["parafuso_un"], "un")):
             itens.append(ItemBOM(sku, desc, un, q, pr, "cobertura",
                                  fonte="derivado"))
+    # ---- brise: 205 m de ripa de aluminio que existiam no desenho e no 3D e
+    # nao existiam no orcamento nem na carga
+    br = (camadas or {}).get("brises")
+    if br:
+        itens.append(ItemBOM("BRI-RIPA", f"Ripa de fachada: {br['ripa']['desc']}",
+                             "m", br["ripa_m"], PRECO_BRISE["ripa_m"],
+                             "fachada", fonte="derivado do comprimento e do passo"))
+        itens.append(ItemBOM("BRI-TRAV", f"Travessa de brise: {br['travessa']['perfil']}",
+                             "m", br["travessa_m"], PRECO_BRISE["travessa_m"],
+                             "fachada", fonte="derivado"))
+        itens.append(ItemBOM("BRI-FIX", "Fixacao de travessa no montante", "un",
+                             br["fixacoes"], PRECO_BRISE["fixacao"], "fachada",
+                             fonte="derivado do passo de 600 mm"))
+        if br["moveis"]:
+            itens.append(ItemBOM("BRI-MEC", "Mecanismo de brise movel: guia, "
+                                            "roldana e trava", "cj",
+                                 br["moveis"], PRECO_BRISE["mecanismo"],
+                                 "fachada", fonte="(H) item de fornecedor"))
+
     # ---- impermeabilizacao
     imp = (camadas or {}).get("impermeabilizacao")
     if imp:

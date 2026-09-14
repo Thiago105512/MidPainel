@@ -3770,3 +3770,73 @@ A ocupação passa a ser **derivada** e conferida contra a geometria: 5 condensa
 somando 84.000 BTU/h ocupam 5.550 mm dos 6.600 mm — cabem, com 1.050 mm de sobra.
 O texto do nicho descreve; quem conta é a lista. E uma verificação nova recusa
 qualquer texto de área técnica que volte a contar unidades.
+
+## Defeito 58 — o acabamento externo contradizia a regra da própria fachada
+
+A regra está declarada desde R06, vinda do YAML do proprietário:
+
+> **"nenhuma superfície que exija pintura em altura"**
+
+E o acabamento externo especificado era `"acrílico elastomérico sobre base
+cimentícia"` — **pintura**, sobre um volume de 6,15 m. Duas decisões do mesmo
+projeto, e uma negava a outra.
+
+Quem tinha razão era a fachada: `FACHADA_MATERIAIS` **já** especifica *"placa
+cimentícia com revestimento mineral de grande formato 1.200 × 2.400, junta seca
+de 6 mm"* — acabamento de fábrica, que não se repinta. A contradição estava na
+especificação genérica de pintura, que valia para tudo.
+
+`PINTURA["externa"]` passa a declarar **onde** se aplica: muro, face interna de
+platibanda e rodapé de fachada até 2.600 mm — tudo alcançável do chão.
+
+**Custo de ciclo, que é o argumento real:** repintar ~150 m² de fachada a 6 m de
+altura custa a tinta **mais o andaime**, a cada cinco anos, para sempre. O
+revestimento mineral custa mais uma vez só.
+
+> Regra declarada que ninguém confere é preferência, não regra.
+
+## Defeito 59 — 145,9 kg pendurados na fachada, ausentes do modelo
+
+Cinco brises — 16,8 m de ripado, dois deles móveis — existiam como retângulo no
+desenho e no 3D. **Não existiam** como material, como massa nem como carga.
+Mesmo padrão do vigamento até R31: o desenho convence, e a obra descobre.
+
+| | derivado |
+|---|---|
+| ripa de alumínio 50 × 20 × 1,2 | **205,5 m** em 137 ripas |
+| travessa | 33,6 m |
+| fixações | 66, a cada 600 mm |
+| massa na parede | **145,9 kg** |
+| mecanismo dos móveis | 2 conjuntos, (H) de fornecedor |
+| custo antes ausente | **R$ 15.137** |
+
+### E a medida vivia em dois lugares, os dois de desenho
+
+O 3D desenhava o brise de z = 900 a 2.400 — **altura 1.500** — e com **120 mm**
+de profundidade. O dado declarava **150 mm**. Duas fontes para a mesma peça, e
+as duas dentro de módulos de desenho; nenhuma delas era o projeto. Altura e cota
+de base viraram dado, e o 3D passou a lê-las.
+
+### O que o brise NÃO precisa, e por quê
+
+Ele não leva peça de aço própria, e não deveria: fixa-se nos montantes que já
+existem. O passo de fixação de 600 mm coincide com a modulação do montante — e
+isso agora é verificado, porque **parafusar brise na placa cimentícia é arrancar
+a fachada no primeiro vento de 30 m/s.** Placa não é elemento estrutural.
+
+O que falta é outra coisa, e está declarado: **arrancamento do parafuso sob
+vento em ripado**, que depende do coeficiente de forma de uma tela permeável —
+ensaio, e portanto (H).
+
+### As quatro faces, derivadas do envelope
+
+| face | bruta | vãos | vidro |
+|---|---|---|---|
+| leste (testada) | 81,1 m² | 2 | 18,6 % |
+| **oeste (fundo)** | 81,1 m² | 1 | **23,1 %** |
+| sul | 68,6 m² | 5 | 12,6 % |
+| norte | 68,6 m² | 3 | 5,2 % |
+
+A regra *"vidro controlado, concentrado na fachada posterior"* está cumprida: a
+oeste é a mais envidraçada. E a face é **derivada** — quando o hall cresceu em
+R46, a fachada cresceu junto, sem que ninguém a redesenhasse.
