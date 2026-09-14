@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="22" data-rev="R44">
+<g data-tipo="carimbo" data-cod="22" data-rev="R45">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R44</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R45</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">22</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R44</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R45</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -146,7 +146,8 @@
 <polygon points="93.000,-345.000 147.000,-345.000 147.000,-349.000 93.000,-349.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-026" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="27.000,-392.000 147.000,-392.000 147.000,-398.000 27.000,-398.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="27.000,-392.000 71.000,-392.000 71.000,-398.000 27.000,-398.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="103.000,-392.000 147.000,-392.000 147.000,-398.000 103.000,-398.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-027" data-esp="150" data-face="externa" data-familia="PA-1">
 </g>
@@ -272,6 +273,14 @@
 <line x1="93.000" y1="-345.000" x2="93.000" y2="-349.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="57.000" y1="-347.000" x2="57.000" y2="-311.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <path d="M 93.000 -347.000 A 36.000 36.000 0 0 1 57.000 -311.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+</g>
+<g data-tipo="vao" data-cod="J04" data-larg="800" data-alt="900" data-peitoril="1500" data-desc="janela alta de banheiro, basculante">
+<line x1="71.000" y1="-392.000" x2="103.000" y2="-392.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="71.000" y1="-394.000" x2="103.000" y2="-394.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="71.000" y1="-396.000" x2="103.000" y2="-396.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="71.000" y1="-398.000" x2="103.000" y2="-398.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="71.000" y1="-392.000" x2="71.000" y2="-398.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="103.000" y1="-392.000" x2="103.000" y2="-398.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="vao" data-cod="P04" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta de servico, resistente a umidade">
 <line x1="57.000" y1="-225.000" x2="57.000" y2="-229.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
@@ -464,7 +473,8 @@
 <polygon points="243.000,63.000 297.000,63.000 297.000,59.000 243.000,59.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-026" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="177.000,16.000 297.000,16.000 297.000,10.000 177.000,10.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="177.000,16.000 221.000,16.000 221.000,10.000 177.000,10.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="253.000,16.000 297.000,16.000 297.000,10.000 253.000,10.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-027" data-esp="150" data-face="externa" data-familia="PA-1">
 </g>
@@ -590,6 +600,14 @@
 <line x1="243.000" y1="63.000" x2="243.000" y2="59.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="207.000" y1="61.000" x2="207.000" y2="97.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <path d="M 243.000 61.000 A 36.000 36.000 0 0 1 207.000 97.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+</g>
+<g data-tipo="vao" data-cod="J04" data-larg="800" data-alt="900" data-peitoril="1500" data-desc="janela alta de banheiro, basculante">
+<line x1="221.000" y1="16.000" x2="253.000" y2="16.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="221.000" y1="14.000" x2="253.000" y2="14.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="221.000" y1="12.000" x2="253.000" y2="12.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="221.000" y1="10.000" x2="253.000" y2="10.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="221.000" y1="16.000" x2="221.000" y2="10.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="253.000" y1="16.000" x2="253.000" y2="10.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="vao" data-cod="P04" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta de servico, resistente a umidade">
 <line x1="207.000" y1="183.000" x2="207.000" y2="179.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
@@ -784,7 +802,8 @@
 <polygon points="705.000,231.000 759.000,231.000 759.000,227.000 705.000,227.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-026" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="639.000,184.000 759.000,184.000 759.000,178.000 639.000,178.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="639.000,184.000 683.000,184.000 683.000,178.000 639.000,178.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="715.000,184.000 759.000,184.000 759.000,178.000 715.000,178.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-027" data-esp="150" data-face="externa" data-familia="PA-1">
 </g>
@@ -910,6 +929,14 @@
 <line x1="705.000" y1="231.000" x2="705.000" y2="227.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="669.000" y1="229.000" x2="669.000" y2="265.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <path d="M 705.000 229.000 A 36.000 36.000 0 0 1 669.000 265.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+</g>
+<g data-tipo="vao" data-cod="J04" data-larg="800" data-alt="900" data-peitoril="1500" data-desc="janela alta de banheiro, basculante">
+<line x1="683.000" y1="184.000" x2="715.000" y2="184.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="683.000" y1="182.000" x2="715.000" y2="182.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="683.000" y1="180.000" x2="715.000" y2="180.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="683.000" y1="178.000" x2="715.000" y2="178.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="683.000" y1="184.000" x2="683.000" y2="178.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="715.000" y1="184.000" x2="715.000" y2="178.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="vao" data-cod="P04" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta de servico, resistente a umidade">
 <line x1="669.000" y1="351.000" x2="669.000" y2="347.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
@@ -1136,7 +1163,8 @@
 <polygon points="591.000,111.000 645.000,111.000 645.000,107.000 591.000,107.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-026" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="525.000,64.000 645.000,64.000 645.000,58.000 525.000,58.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="525.000,64.000 569.000,64.000 569.000,58.000 525.000,58.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="601.000,64.000 645.000,64.000 645.000,58.000 601.000,58.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-027" data-esp="150" data-face="externa" data-familia="PA-1">
 </g>
@@ -1262,6 +1290,14 @@
 <line x1="591.000" y1="111.000" x2="591.000" y2="107.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="555.000" y1="109.000" x2="555.000" y2="145.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <path d="M 591.000 109.000 A 36.000 36.000 0 0 1 555.000 145.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+</g>
+<g data-tipo="vao" data-cod="J04" data-larg="800" data-alt="900" data-peitoril="1500" data-desc="janela alta de banheiro, basculante">
+<line x1="569.000" y1="64.000" x2="601.000" y2="64.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="569.000" y1="62.000" x2="601.000" y2="62.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="569.000" y1="60.000" x2="601.000" y2="60.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="569.000" y1="58.000" x2="601.000" y2="58.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="569.000" y1="64.000" x2="569.000" y2="58.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="601.000" y1="64.000" x2="601.000" y2="58.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="vao" data-cod="P04" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta de servico, resistente a umidade">
 <line x1="555.000" y1="231.000" x2="555.000" y2="227.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>

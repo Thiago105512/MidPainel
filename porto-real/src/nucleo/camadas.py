@@ -563,7 +563,27 @@ def impermeabilizacao(pj) -> dict:
     # conta as janelas de banheiro (J02 e J04) e compara com quantos banhos o
     # modelo sabe impermeabilizar. O cruzamento e que achou a lacuna; o que
     # mudou e que a lacuna nao era de DADO, era de LEITURA.
-    jan_banho = sum(1 for t, *_ in pj.VAOS if t in ("J02", "J04"))
+    # A janela de banheiro era contada pelo CODIGO da esquadria — J02 e J04 sao
+    # "janela alta translucida" —, e a premissa aguentou ate a primeira janela
+    # alta que nao e de banheiro: o DML ganhou uma em R45 e o cruzamento acusou
+    # 5 contra 4. A premissa e que estava errada, nao o projeto. Agora conta-se
+    # a janela que PERTENCE a um comodo molhado, que e o que a frase sempre
+    # quis dizer — e o modelo passou a saber responder em R44.
+    import nucleo.ambiente as _am
+    import especificacao as ep
+    molhados_cod = set(ep.MOLHADOS) | {
+        d["pai"] for d in pj.SUBDIVISOES if d.get("molhado")}
+    jan_banho = 0
+    for t, x, y, ori, pav in pj.VAOS:
+        if t not in ("J02", "J04"):
+            continue
+        for a_ in pj.TERREO + pj.SUPERIOR:
+            if a_.pav != pav or a_.cod not in molhados_cod:
+                continue
+            if (a_.x - _am.TOL_VAO <= x <= a_.x + a_.w + _am.TOL_VAO
+                    and a_.y - _am.TOL_VAO <= y <= a_.y + a_.h + _am.TOL_VAO):
+                jan_banho += 1
+                break
     molhados_sup = sum(1 for d in pj.SUBDIVISOES
                        if d.get("molhado")
                        and str(d["pai"]).startswith("S-"))

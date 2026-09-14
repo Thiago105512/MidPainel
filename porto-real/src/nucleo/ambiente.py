@@ -273,8 +273,13 @@ def conferir(pj, r: dict) -> dict:
                 f"nao abre")
 
     # ---- 3. molhado: piso, ralo e impermeabilizacao andam juntos ou nao andam
+    acab_cod = {x["amb"] for x in pj.acabamentos()}
     for d in ds:
         if d.get("molhado_por_subdivisao") and not d["molhado"]:
+            faltando = [n for n in d["molhado_por_subdivisao"]
+                        if f"{d['cod']}/{n}" not in acab_cod]
+            if not faltando:
+                continue
             ach(d["cod"], "ATENCAO", "acabamento da subdivisao",
                 f"a area molhada deste comodo e a subdivisao "
                 f"{', '.join(d['molhado_por_subdivisao'])}, e acabamentos() "

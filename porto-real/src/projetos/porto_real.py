@@ -336,6 +336,14 @@ VAOS = [
     ("J01",  12_600, 21_600, "V", "T"),   # janela da lavanderia (norte)
     ("P04",  12_600, 22_800, "V", "T"),   # deposito -> varal coberto
     ("P04",  10_800, 22_200, "H", "T"),   # lavanderia -> deposito (acesso interno)
+    # R45 — o DML tinha 3,6 m2 e NENHUM vao externo, e a conferencia por comodo
+    # achou. A solucao mais barata era tambem a melhor: a face norte (y=23.400)
+    # e externa e estava livre. Basculante alta de 800 x 900 com peitoril 1.500
+    # da 0,72 m2 contra os 0,45 que 1/8 de 3,6 exige, e ventila SEM tomar a
+    # parede da prateleira — que e para o que um DML serve. Descartadas:
+    # veneziana na porta (ventila e nao ilumina) e exaustor mecanico (custa
+    # energia e manutencao para sempre, num comodo que tem fachada livre).
+    ("J04",  11_100, 23_400, "H", "T"),   # DML: ventilacao e luz altas (norte)
     ("P04",  10_800, 19_200, "H", "T"),   # core -> lavanderia (acesso interno)
     # ---- faixa social
     ("P02",   9_000, 13_200, "H", "T"),   # hall -> estar/jantar
@@ -1188,7 +1196,13 @@ ZONAS_PAGINACAO = [
     dict(cod="ZP-7", peca="piso", origem=(12_600, 16_800), ambientes=["S-LOU"],
          obs="o lounge tem porta e nao e integrado a nada: pagina do proprio "
              "canto, com o recorte atras do sofa"),
-    dict(cod="ZP-4", peca="parede", altura=2_400, ambientes=["T-BWC"],
+    # R45 — os tres banhos do superior entram AQUI, e nao numa zona nova: a
+    # altura de revestimento de um banho e uma decisao so, ja tomada para o
+    # T-BWC, e duplica-la seria criar a segunda fonte que este projeto passou
+    # quarenta revisoes eliminando. Eles sao subdivisao das suites, e por isso
+    # nunca apareceram em lista nenhuma de ambiente.
+    dict(cod="ZP-4", peca="parede", altura=2_400,
+         ambientes=["T-BWC", "S-S02/BANHO", "S-S03/BANHO", "S-MAS/BANHO"],
          obs="ate o forro rebaixado de 2.400 (que ja existe para a exaustao): "
              "3 fiadas inteiras e a do topo com 594 de 600 — imperceptivel"),
     dict(cod="ZP-5", peca="parede", altura=1_800,
@@ -1213,6 +1227,17 @@ def paginar(amb_cod: str) -> dict:
     lado de ca tambem existe.
     """
     amb = next((a for a in TERREO + SUPERIOR if a.cod == amb_cod), None)
+    if amb is None and "/" in amb_cod:
+        # R45 — a subdivisao e ambiente para efeito de paginacao: ela tem
+        # retangulo proprio, e e nela que a peca assenta. Enquanto so o comodo
+        # inteiro era paginavel, os tres banhos do superior nao tinham
+        # revestimento paginado em lugar nenhum.
+        pai_cod, nome = amb_cod.split("/", 1)
+        d = next((x for x in SUBDIVISOES
+                  if x["pai"] == pai_cod and x["nome"] == nome), None)
+        if d is not None:
+            amb = Amb(amb_cod, nome, d["x"], d["y"], d["w"], d["h"],
+                      pav=pai_cod[0], molhado=bool(d.get("molhado")))
     z = zona_de(amb_cod)
     if amb is None or z is None or z["peca"] == "monolitico":
         return {}
@@ -2016,6 +2041,13 @@ RALOS = [
     # canal e nao para o piso interno.
     dict(cod="RL-11", amb="T-ALP", tipo="ralo linear 7.200 sob a cortina",
          x=2_400, y=26_450, dn=75),
+    # R45 — o gourmet e area molhada declarada, tem cuba (BC-04) e nao tinha
+    # ralo. Nao e detalhe: ele e contiguo a varanda e a piscina, o piso ja tem
+    # caimento de 1,5 % e a lavagem semanal de churrasqueira escoa para algum
+    # lugar. Sem ralo, esse lugar e o estar. Sifonado de 150 junto da cuba, que
+    # e o ponto baixo e onde a agua de fato cai.
+    dict(cod="RL-12", amb="T-GOU", tipo="ralo sifonado 150", x=9_000, y=19_950,
+         dn=50),
     dict(cod="RL-09", amb="T-VRL", tipo="ralo sifonado 150", x=12_700, y=19_300, dn=50),
     dict(cod="RL-10", amb="T-LOG", tipo="ralo sifonado 150", x=2_500, y=16_300, dn=50),
 ]
@@ -2192,8 +2224,27 @@ def acabamentos() -> list[dict]:
     """Acabamento por ambiente, derivado das decisoes ja tomadas."""
     import especificacao as ep
     forros = {f[0]: f[1] for f in FORROS_SRC()}
-    alt_rev = alturas_revestimento()
     out = []
+    # R45 — as subdivisoes MOLHADAS entram na lista. Ate aqui acabamentos()
+    # enumerava AMBIENTES, e o banho da suite e subdivisao: os tres banhos do
+    # superior nao tinham piso, revestimento nem rodape declarado em lugar
+    # nenhum. Nada e arbitrado aqui — aplica-se a MESMA regra que ja vale para
+    # area molhada, que e o que esses comodos sempre foram.
+    alt_rev = alturas_revestimento()
+    subs_molhadas = [d for d in SUBDIVISOES if d.get("molhado")]
+    for d in subs_molhadas:
+        pai = next((x for x in TERREO + SUPERIOR if x.cod == d["pai"]), None)
+        chave = f"{d['pai']}/{d['nome']}"
+        h_sub = alt_rev.get(chave, 2_400)
+        out.append(dict(
+            amb=chave, nome=f"{d['nome']} da {pai.nome if pai else d['pai']}",
+            cat="molhado", area=round(d["w"] * d["h"] / 1e6, 2),
+            piso=PISOS_PADRAO["molhado"],
+            parede=f"{PECA_PAREDE['tipo']} ate {h_sub} mm + "
+                   f"{PINTURA['umida']} acima",
+            forro="gesso acartonado liso, branco, resistente a umidade",
+            forro_h=FORRO_H["banho"], rodape=RODAPE["molhado"],
+            revest_h=h_sub, zona="ZP-4", subdivisao=True))
     for a in TERREO + SUPERIOR:
         cat = ep.CATEGORIA.get(a.cod, "apoio")
         z = zona_de(a.cod)
@@ -2212,7 +2263,8 @@ def acabamentos() -> list[dict]:
         fh = FORRO_H["banho"] if a.cod in ("T-BWC",) else FORRO_H["padrao"]
         out.append(dict(amb=a.cod, nome=a.nome, cat=cat, area=a.area_mod,
                         piso=piso, parede=parede, forro=forro, forro_h=fh,
-                        rodape=rod, revest_h=h, zona=z["cod"] if z else "padrao"))
+                        rodape=rod, revest_h=h, zona=z["cod"] if z else "padrao",
+                        subdivisao=False))
     return out
 
 
@@ -2573,6 +2625,20 @@ REVISOES = [
             "COMENTARIO, virou dado. Sobraram tres achados reais: o DML sem "
             "vao, o gourmet molhado sem ralo e os tres banhos do superior sem "
             "acabamento declarado"),
+    ("R45", "Os tres achados por comodo, resolvidos. O DML ganha basculante "
+            "alta na face norte, que estava livre: 0,72 m2 contra os 0,45 "
+            "exigidos, ilumina E ventila sem tomar a parede da prateleira — "
+            "veneziana na porta nao ilumina e exaustor cobra energia para "
+            "sempre. O gourmet ganha ralo sifonado junto da cuba: area "
+            "molhada, contigua a piscina, e sem ralo a lavagem escoa para o "
+            "estar. Os tres banhos do superior entram na MESMA zona de "
+            "revestimento do banho do terreo, e nao numa zona nova — a altura "
+            "de um banho e uma decisao so. Duas verificacoes existentes "
+            "acusaram a mudanca e acusaram certo: o universo de codigos "
+            "validos nao conhecia o codigo qualificado da subdivisao, e o "
+            "cruzamento da impermeabilizacao contava janela de banheiro pelo "
+            "CODIGO da esquadria — premissa que aguentou ate a primeira janela "
+            "alta que nao e de banheiro"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2678,13 +2744,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R44",
+    revisao="R45",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R44", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R45", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

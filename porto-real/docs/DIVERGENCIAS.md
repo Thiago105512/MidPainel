@@ -3558,3 +3558,61 @@ Comentário não é consultável. Virou `CONJUGADOS`, dado do caso.
 Nenhum deles é arbitrável por mim: o primeiro é decisão de ventilação, o segundo
 é decisão de projeto hidráulico, o terceiro é dado que falta. Os três entram
 como achado nomeado, no cômodo em que moram.
+
+## R45 — os três achados por cômodo, resolvidos pelo critério mais barato que também é o melhor
+
+### DML sem vão — a fachada estava livre
+
+O depósito tinha 3,6 m² e **nenhum** vão externo. Três saídas possíveis:
+
+| solução | custo | o que dá | o que cobra para sempre |
+|---|---|---|---|
+| veneziana na porta | ~R$ 250 | ventila | não ilumina |
+| exaustor mecânico | ~R$ 400 | ventila | energia e manutenção |
+| **basculante alta na face norte** | ~R$ 900 | ilumina **e** ventila | nada |
+
+A face norte (y = 23.400) é externa e estava livre. Uma J04 de 800 × 900 com
+peitoril 1.500 dá **0,72 m²** contra os 0,45 m² que 1/8 de 3,6 exige — e ventila
+**sem tomar a parede da prateleira**, que é para o que um DML serve. O
+diferencial de R$ 650 sobre a veneziana compra luz natural num cômodo onde se
+procura produto de limpeza; é o melhor custo-benefício dos três porque os outros
+dois cobram para sempre.
+
+### Gourmet molhado sem ralo
+
+Área molhada declarada, com cuba, contígua à varanda e à piscina, piso já com
+caimento de 1,5 %. A lavagem semanal da churrasqueira escoa para algum lugar —
+**sem ralo, esse lugar é o estar.** Sifonado de 150 junto da cuba, que é o ponto
+baixo e onde a água de fato cai. R$ 250.
+
+### Os três banhos do superior
+
+Não se declarou nada novo: eles entraram na **mesma zona de revestimento** do
+banho do térreo (ZP-4, 2.400 mm) e na mesma regra de área molhada. Criar uma
+zona nova seria fabricar a segunda fonte que este projeto passou quarenta
+revisões eliminando — a altura de revestimento de um banho é **uma decisão só**,
+já tomada.
+
+Consequência: `paginar()` passou a entender o código qualificado da subdivisão,
+porque a subdivisão **é** ambiente para efeito de paginação — tem retângulo
+próprio, e é nela que a peça assenta. Os três banhos passam a ter revestimento
+paginado: 3 fiadas inteiras e a do topo com 594 de 600.
+
+### Duas verificações existentes acusaram a mudança — e acusaram certo
+
+1. **`checar_integridade_referencial`**: "ZONAS_PAGINACAO cita S-MAS/BANHO, que
+   não existe no modelo". Correto: o universo de códigos válidos conhecia
+   `"BANHO"` solto — que é ambíguo, há três — e não o qualificado. O universo é
+   que estava incompleto.
+2. **O cruzamento da impermeabilização**: "5 janelas de banheiro contra 4
+   banhos". A janela do DML é J04, e o cruzamento contava **pelo código da
+   esquadria**. A premissa — "janela alta translúcida é de banheiro" — aguentou
+   até a primeira janela alta que não é de banheiro.
+
+> A premissa é que estava errada, não o projeto. Agora conta-se a janela que
+> **pertence a um cômodo molhado** — que é o que a frase sempre quis dizer, e
+> que o modelo só passou a saber responder em R44.
+
+Este é o padrão da revisão inteira: **mexer numa decisão faz três verificações
+falarem**, e cada uma apontou para um lugar em que o modelo sabia menos do que
+parecia.

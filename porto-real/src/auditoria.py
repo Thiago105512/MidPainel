@@ -1355,7 +1355,10 @@ def checar_paginacao() -> list[Achado]:
     for z in pj.ZONAS_PAGINACAO:
         peca = pj.PECA_PISO if z["peca"] == "piso" else pj.PECA_PAREDE
         for cod in z["ambientes"]:
-            if not any(a.cod == cod for a in pj.TERREO + pj.SUPERIOR):
+            sub = "/" in cod and any(
+                f"{d['pai']}/{d['nome']}" == cod for d in pj.SUBDIVISOES)
+            if not sub and not any(a.cod == cod
+                                   for a in pj.TERREO + pj.SUPERIOR):
                 out.append(Achado("ERRO", "Paginacao sem ambiente",
                                   f"{z['cod']} -> {cod}"))
                 continue
@@ -1657,6 +1660,11 @@ def _todos_os_codigos() -> set[str]:
     cods = {a.cod for a in pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO
             + pj.SUPERIOR_ABERTO}
     cods |= {sd["nome"] for sd in pj.SUBDIVISOES}
+    # R45 — o codigo QUALIFICADO tambem vale. "BANHO" sozinho e ambiguo: ha
+    # tres, e a zona de revestimento precisa dizer de qual fala. Foi ao
+    # referenciar S-MAS/BANHO na ZP-4 que esta verificacao acusou — e acusou
+    # certo: o codigo nao existia no universo que ela conhecia.
+    cods |= {f"{sd['pai']}/{sd['nome']}" for sd in pj.SUBDIVISOES}
     return cods
 
 
