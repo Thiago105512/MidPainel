@@ -3020,3 +3020,163 @@ que exigem desvio ou shaft.
 
 > Zero conflitos por traçado correto e zero conflitos por critério desligado têm
 > a mesma aparência no relatório. Só a exercitação distingue os dois.
+
+## Defeito 43 — a decisão do shaft, e a diferença entre arbitrar e derivar
+
+R38 parou no achado: a posição declarada de três prumadas cai dentro da linha
+de parede, e um shaft de 300 × 300 não cabe numa parede de 150 mm. Eu disse que
+o modelo não tinha como decidir — e isso estava certo enquanto a decisão fosse
+entendida como **escolher uma coordenada**.
+
+Não é. A decisão é escolher uma **regra**, e a coordenada é consequência dela:
+
+> O shaft é uma **caixa na face** da parede, do lado do ambiente molhado que
+> ele serve, e a parede permanece **contínua**.
+
+### Por que esta regra e não a outra
+
+Interromper a parede era a alternativa, e custa caro em três frentes que o
+próprio modelo já conhece:
+
+| | consequência de interromper |
+|---|---|
+| descida de cargas | a hipótese declarada é que **toda parede é portante**; interromper exige verga e transferência para os montantes vizinhos — verificação que este modelo não faz |
+| contraventamento | o trecho interrompido deixa de ser painel de cisalhamento, e o contraventamento já é verificado contra a força global da NBR 6123 |
+| NBR 8160 | exige **acesso de inspeção** à prumada; caixa com portinhola na face molhada dá acesso, shaft dentro da parede não |
+
+O custo da regra é conhecido e pequeno: **0,112 m²** de piso tomados do
+ambiente molhado e **12,6 m²** de placa RU de enclausuramento — que agora
+existem no orçamento, porque uma decisão sem material é uma decisão que a obra
+descobre sozinha.
+
+### O afastamento é procurado, não escrito
+
+Nenhuma coordenada foi digitada. Para cada prumada o módulo **busca** o menor
+afastamento que (a) tira a caixa de dentro de qualquer peça de estrutura e (b)
+deixa a caixa inteira dentro de um ambiente, de preferência molhado. Se nenhum
+lado servisse em até 400 mm, a função não inventaria: devolveria a prumada como
+não resolvida e o conflito continuaria de pé.
+
+| prumada | lado | afastou | ambiente |
+|---|---|---|---|
+| PN-01 | +Y | 100 mm | T-LAVANDERIA 💧 |
+| PN-02 | +X+Y | 150 mm | S-S03/BANHO 💧 |
+| AF-01 | +Y | 100 mm | T-LAVANDERIA 💧 |
+
+A diagonal de PN-02 não é refinamento: uma prumada no **encontro** de duas
+paredes não se livra das duas afastando-se numa direção só. A primeira versão
+só tinha os quatro lados e deixou PN-02 sem solução — o modelo disse "não
+resolvi", que é o comportamento correto, e o defeito era meu.
+
+### O contrafactual, que é o que separa zero de cego
+
+Clash: **26 → 0**. Um zero que não sabe voltar a ser diferente de zero não é
+resultado. A auditoria roda o clash **com a posição declarada** e exige que os
+26 conflitos reapareçam:
+
+> A verificação não ficou cega; o projeto é que mudou.
+
+E o desenho lê a posição resolvida, pela mesma função e sobre os mesmos painéis:
+a prancha mostrando o eixo declarado enquanto o modelo mede o resolvido seria a
+sexta ocorrência de duas fontes para um fato — e a mais difícil de ver, porque a
+prancha continuaria bonita.
+
+## Defeito 44 — a lacuna era de leitura, não de dado
+
+Desde R36 a verificação de impermeabilização acusava 3 banheiros no superior
+"que existem no desenho e não no dado", e a explicação escrita era que a suíte é
+retângulo único e a área teria de ser **arbitrada** por quem subdividisse.
+
+A explicação estava errada quanto à causa. A subdivisão existe desde **R06**,
+com `x`, `y`, `w` e `h` exatos:
+
+```
+dict(pai="S-S02", nome="BANHO", x=2_400, y=13_200, w=1_800, h=2_400, ...)
+```
+
+O dado estava numa lista e a verificação olhava outra — **sexta ocorrência** do
+mesmo defeito de duas fontes para um fato, e a primeira em que ele se disfarçou
+de limitação do projeto. Faltava um campo (`molhado` na subdivisão) e faltava
+quem o lesse.
+
+| | antes | depois |
+|---|---|---|
+| impermeabilização | 91,4 m² | **123,1 m²** |
+| banhos contados | 1 | 4 |
+
+A diferença não é correção de cálculo: são três banheiros que existiam na casa e
+não existiam no orçamento. O cruzamento com o quadro de esquadrias — 4 janelas
+de banheiro contra 4 banhos impermeabilizados — continua armado. Ele não foi
+silenciado; foi satisfeito.
+
+## Defeito 45 — dezessete verificações verdes dizendo o que não podiam dizer
+
+Com os itens do modelo resolvidos, o checklist anunciou:
+
+> **LIBERADO PARA FABRICAÇÃO**
+
+Com oito pendências abertas no próprio caderno, duas delas trancando exatamente
+a fabricação: a **ART do cálculo estrutural** (pendência 3) e o **nesting
+codificado** (pendência 8, "a paginação atual é de estudo, não de corte").
+
+O checklist media a coerência interna do modelo e apresentava o resultado como
+autorização. **Consistência interna não é autorização** — e a causa estrutural é
+a de sempre: a lista de pendências vivia dentro de `pranchas7.py`, módulo de
+desenho, com **cópia divergente** dentro de `pranchas3.py`. Duas listas que já
+discordavam entre si, e nenhuma consultável pelo checklist.
+
+### O 18º item, e a terceira natureza de pergunta
+
+| itens | pergunta |
+|---|---|
+| 1–16 | o que está no modelo está certo? |
+| 17 (R32) | o que precisa estar no modelo está lá? |
+| **18** | **o que o projeto declara que falta permite fabricar?** |
+
+`bloqueia` diz qual portão cada pendência tranca. Nem todo item aberto impede
+fabricar — a certidão do SU16 condiciona a implantação, não o corte do perfil —
+e tratar todos como iguais tornaria o campo inútil.
+
+Situação agora: **NÃO LIBERADO**, por 2 pendências nomeadas, e não por um item
+de modelo. O contrafactual está na auditoria: resolvidas as duas, o checklist
+libera; aberta uma, não libera. O item decide, em vez de decorar.
+
+### Unificar sem perder
+
+A cópia da PR-09 trazia um assunto que a lista da PR-33 nunca teve — o diâmetro
+do ramal do chuveiro, DN50 na tabela, contra a decisão do chuveiro elétrico
+(peso 0,10 em vez de 0,40). Ele entrou como pendência 11.
+
+> Unificação que perde informação é só a outra metade do mesmo defeito.
+
+## Defeito 46 — o último literal do checklist
+
+`"combinacoes": True` estava lá desde a primeira versão, e **não era mentira**:
+as combinações existem, são geradas pela NBR 8681 e são usadas. Era inútil por
+outro motivo — um item que não pode reprovar não verifica nada.
+
+Verificar exigiu duas perguntas distintas:
+
+1. **Os fatores são os das tabelas?** Cada fator é recalculado da Tabela 1 e da
+   Tabela 2 sem passar por `gerar()`. Conferir o gerador contra ele mesmo
+   aprovaria qualquer erro sistemático. Regressão: um fator alterado em 0,01
+   reprova, com combinação e ação nomeadas.
+2. **Toda ação declarada entra em alguma verificação?** Esta é a que morde. Uma
+   ação pode estar perfeitamente declarada, com γ e ψ certos, e não entrar em
+   cálculo nenhum — *existir no papel e não existir no cálculo* é a forma mais
+   silenciosa de erro que este projeto já encontrou, e foi assim que uma casa
+   sem vigamento passou 31 revisões com a auditoria verde.
+
+Cada verificação **declara o que consumiu**, a partir da chamada que fez — nunca
+de uma lista escrita à mão, que viraria carimbo na primeira vez que alguém
+mudasse a chamada e esquecesse do arquivo:
+
+> permanente: descida de cargas · acidental: descida de cargas · vento:
+> contraventamento
+
+E a pergunta expôs uma hipótese que estava implícita: **o vento não entra no
+esforço axial do montante**. Ele age nesta estrutura como força horizontal
+global e é verificado no contraventamento; o que o modelo não faz é a flexão
+composta do montante de parede externa sob pressão de vento. Isso agora está
+escrito entre as hipóteses da descida, onde a auditoria o lê em voz alta a cada
+execução.

@@ -94,6 +94,28 @@ def liberacao(fresco: bool = False) -> dict:
     return r
 
 
+def shafts(fresco: bool = False) -> dict:
+    """A posicao RESOLVIDA das prumadas, para quem desenha e para quem mede.
+
+    A resolucao e derivada — o menor afastamento que tira a caixa da estrutura
+    sem sair do ambiente — e por isso nao pode virar coordenada escrita no
+    caso. Mas tambem nao pode existir em dois lugares: o desenho mostrando o
+    eixo declarado e o modelo medindo o resolvido seria a sexta ocorrencia do
+    mesmo defeito, e a mais dificil de ver, porque a prancha continuaria
+    bonita. Desenho e motor chamam a MESMA funcao sobre os MESMOS paineis.
+    """
+    import nucleo.instalacoes as ins
+    m = modelo(fresco=fresco)
+    chave = (m["pj"].CADASTRO.project_id, m["pj"].EMISSAO["revisao"])
+    if not fresco and _CACHE.get("sh_chave") == chave:
+        return _CACHE["sh_valor"]
+    v = ins.resolver_shafts(m["pj"], m["todos"],
+                            dict(T=m["pj"].NIVEL_TERREO,
+                                 S=m["pj"].NIVEL_SUPERIOR))
+    _CACHE["sh_chave"], _CACHE["sh_valor"] = chave, v
+    return v
+
+
 def limpar() -> None:
     """Descarta o cache. So faz sentido em teste que altera o caso."""
     _CACHE.clear()

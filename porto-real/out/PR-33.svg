@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="33" data-rev="R38">
+<g data-tipo="carimbo" data-cod="33" data-rev="R39">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,16 +26,16 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R38</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R39</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">33</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R38</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R39</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Revisao R38 — finalidade: COORDENACAO E APROVACAO PRELIMINAR.</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Revisao R39 — finalidade: COORDENACAO E APROVACAO PRELIMINAR.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Auditoria: 32 verificacoes e 187 condicoes; 0 erro(s), 0 atencao(oes), 18 nota(s).</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- NAO serve para: execucao de fundacao sem sondagem; fabricacao de painel sem nesting codificado; aprovacao legal sem ART/RRT.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Reproduzivel integralmente por 'python3 build.py' a partir do modelo.</text>
@@ -316,7 +316,10 @@
 <polygon points="35.000,402.800 295.000,402.800 295.000,408.000 35.000,408.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="36.500" y="405.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">R38</text>
 <text x="54.500" y="405.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Instalacoes passam de tracado a quantidade: 408,8 m de tubo em sete diametros, 745 m de eletroduto para 96 pontos, 56 m de linha frigorigena e 187 conexoes, por percurso Manhattan vezes fator declarado — limite INFERIOR, nunca o percurso do instalador. Com percurso existindo, o item 'clashes' do checklist deixa de ser True literal e confronta 844 volumes: acusou que a posicao declarada de tres prumadas cai dentro de linha de parede, e um shaft de 300 x 300 nao cabe em parede de 150. O modelo nao tem a informacao que resolve isso e nao a arbitra</text>
-<line x1="53.000" y1="200.000" x2="53.000" y2="408.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="35.000,408.000 295.000,408.000 295.000,413.200 35.000,413.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="410.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">R39</text>
+<text x="54.500" y="410.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">As tres decisoes que faltavam, e a que o sistema nao podia tomar sozinho. O shaft deixa de ser conflito: regra declarada — caixa na face da parede, do lado molhado, parede continua — e afastamento PROCURADO, o menor que tira a caixa da estrutura sem sair do ambiente; clash de 26 para 0, com contrafactual que exige os 26 de volta na posicao declarada. Os 3 banhos do superior entram na impermeabilizacao com a geometria que a subdivisao ja tinha desde R06: a lacuna era de leitura, nao de dado, e a conta vai de 91,4 para 123,1 m2. E o checklist ganha o 18o item: dezessete verificacoes de coerencia interna anunciavam LIBERADO PARA FABRICACAO com a ART e o nesting abertos no proprio caderno — consistencia interna nao e autorizacao. As pendencias saem de dentro de duas pranchas, onde ja divergiam entre si, e viram dado do caso com o portao que cada uma tranca</text>
+<line x1="53.000" y1="200.000" x2="53.000" y2="413.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="35.000" y="257.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PENDENCIAS</text>
 <polygon points="35.000,260.000 339.000,260.000 339.000,265.200 35.000,265.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="262.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>
@@ -340,7 +343,7 @@
 <text x="36.500" y="278.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
 <text x="46.500" y="278.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Calculo estrutural do hibrido LSF + laminado, com ART</text>
 <text x="150.500" y="278.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">NBR 8800 / 14762</text>
-<text x="196.500" y="278.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Estrutura; o pre-dimensionamento por flecha nao substitui verificacao de flambagem lateral</text>
+<text x="196.500" y="278.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Estrutura e balanco; inclui o apoio da caixa d'agua. O pre-dimensionamento por flecha nao substitui verificacao de flambagem lateral</text>
 <text x="314.500" y="278.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ABERTA</text>
 <polygon points="35.000,280.800 339.000,280.800 339.000,286.000 35.000,286.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="36.500" y="283.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
@@ -384,10 +387,16 @@
 <text x="150.500" y="314.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">decisao do proprietario</text>
 <text x="196.500" y="314.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Resolvida por zona com fronteira aerodinamica (R02)</text>
 <text x="314.500" y="314.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESOLVIDA</text>
-<line x1="45.000" y1="260.000" x2="45.000" y2="317.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="149.000" y1="260.000" x2="149.000" y2="317.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="195.000" y1="260.000" x2="195.000" y2="317.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="313.000" y1="260.000" x2="313.000" y2="317.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="35.000,317.200 339.000,317.200 339.000,322.400 35.000,322.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="319.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11</text>
+<text x="46.500" y="319.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Diametro de agua fria do ramal do chuveiro</text>
+<text x="150.500" y="319.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">NBR 5626</text>
+<text x="196.500" y="319.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Hidraulica: a tabela da PR-09 trazia DN50 no ramal; verificar se a troca de ramal acompanhou a decisao do chuveiro eletrico (peso 0,10 em vez de 0,40)</text>
+<text x="314.500" y="319.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ABERTA</text>
+<line x1="45.000" y1="260.000" x2="45.000" y2="322.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="149.000" y1="260.000" x2="149.000" y2="322.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="195.000" y1="260.000" x2="195.000" y2="322.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="313.000" y1="260.000" x2="313.000" y2="322.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="35.000" y="347.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AUDITORIA FINAL — 32 VERIFICACOES, 187 CONDICOES</text>
 <polygon points="35.000,350.000 175.000,350.000 175.000,355.200 35.000,355.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="352.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">VERIFICACAO</text>

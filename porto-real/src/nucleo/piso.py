@@ -274,6 +274,11 @@ def contraventar(paineis, pj, aco, cfg: pn.Config = None) -> dict:
                 for d in ("X", "Y")}
     return dict(paineis=escolhidos, pecas=pecas, sistema=SISTEMA,
                 n=len(pecas), veredito=veredito,
+                # esta e a verificacao que CONSOME o vento: a forca global da
+                # NBR 6123 contra a capacidade das fitas. Declarar o consumo
+                # aqui e o que permite, do lado de fora, perguntar se alguma
+                # acao declarada no caso nao entra em verificacao nenhuma.
+                acoes=("vento",),
                 ok=all(v["ok"] for v in veredito.values()))
 
 

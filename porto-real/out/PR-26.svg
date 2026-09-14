@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="26" data-rev="R38">
+<g data-tipo="carimbo" data-cod="26" data-rev="R39">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R38</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R39</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">26</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R38</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R39</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -145,10 +145,12 @@
 <text x="149.000" y="215.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">R</text>
 <polygon points="45.200,243.200 48.800,243.200 48.800,246.800 45.200,246.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
 <text x="47.000" y="245.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">R</text>
-<circle cx="137.500" cy="214.500" r="3.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6"/>
-<text x="137.500" y="215.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">S</text>
-<circle cx="47.500" cy="226.500" r="3.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6"/>
-<text x="47.500" y="227.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">S</text>
+<circle cx="137.500" cy="213.500" r="3.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6"/>
+<text x="137.500" y="214.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">S</text>
+<text x="137.500" y="218.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">PN-01 caixa +Y 100</text>
+<circle cx="49.000" cy="225.000" r="3.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6"/>
+<text x="49.000" y="225.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">S</text>
+<text x="49.000" y="229.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">PN-02 caixa +X+Y 150</text>
 <circle cx="250.000" cy="120.000" r="7.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
 <polygon points="257.000,120.000 248.245,121.608 250.000,120.000 248.245,118.392" stroke="#000000" stroke-width="0.3" fill="#000" stroke-linejoin="miter"/>
 <text x="261.000" y="120.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">N</text>
@@ -218,10 +220,12 @@
 <text x="337.500" y="215.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">R</text>
 <polygon points="425.700,197.200 429.300,197.200 429.300,200.800 425.700,200.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
 <text x="427.500" y="199.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">R</text>
-<circle cx="427.500" cy="214.500" r="3.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6"/>
-<text x="427.500" y="215.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">S</text>
-<circle cx="337.500" cy="226.500" r="3.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6"/>
-<text x="337.500" y="227.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">S</text>
+<circle cx="427.500" cy="213.500" r="3.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6"/>
+<text x="427.500" y="214.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">S</text>
+<text x="427.500" y="218.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">PN-01 caixa +Y 100</text>
+<circle cx="339.000" cy="225.000" r="3.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6"/>
+<text x="339.000" y="225.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">S</text>
+<text x="339.000" y="229.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">PN-02 caixa +X+Y 150</text>
 <circle cx="540.000" cy="120.000" r="7.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
 <polygon points="547.000,120.000 538.245,121.608 540.000,120.000 538.245,118.392" stroke="#000000" stroke-width="0.3" fill="#000" stroke-linejoin="miter"/>
 <text x="551.000" y="120.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">N</text>

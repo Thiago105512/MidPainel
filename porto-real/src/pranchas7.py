@@ -324,29 +324,12 @@ ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "R06" for n, _ in INDICE[33:34]},
             **{n: "R07" for n, _ in INDICE[34:]}}
 
-PENDENCIAS = [
-    ("1", "Certidao oficial do SU16 (CAMT, taxa de ocupacao, gabarito)",
-     "Lei 1.838/2014", "Condiciona toda a implantacao", "ABERTA"),
-    ("2", "Sondagem do solo e calculo definitivo do radier", "NBR 6122",
-     "Fundacao", "ABERTA"),
-    ("3", "Calculo estrutural do hibrido LSF + laminado, com ART",
-     "NBR 8800 / 14762", "Estrutura; o pre-dimensionamento por flecha nao "
-     "substitui verificacao de flambagem lateral", "ABERTA"),
-    ("4", "Verificacao ambiental do reuso pluvial",
-     "Codigo Ambiental de Manaus", "Licenciamento", "ABERTA"),
-    ("5", "Exigencia municipal de retencao pluvial no lote",
-     "a confirmar", "Se houver, volume separado do reuso", "ABERTA"),
-    ("6", "Regulamento especifico do condominio", "—",
-     "Fachada, muros, recuos e especie vegetal", "ABERTA"),
-    ("7", "Padrao de entrada de energia trifasico", "NT Amazonas Energia",
-     "Confirmar disponibilidade de trifasico no ramal", "ABERTA"),
-    ("8", "Nesting codificado dos paineis LSF", "fabricante",
-     "A paginacao atual e de estudo, nao de corte", "ABERTA"),
-    ("9", "Divergencia geometrica R32 x Lista Consolidada", "briefing",
-     "Documentada em docs/DIVERGENCIAS.md", "RESOLVIDA"),
-    ("10", "Climatizacao da fita social", "decisao do proprietario",
-     "Resolvida por zona com fronteira aerodinamica (R02)", "RESOLVIDA"),
-]
+# A lista mora no CASO desde R39. Aqui so se le: enquanto ela vivia neste
+# modulo de desenho, o checklist de liberacao nao tinha como consulta-la — e
+# por isso podia anunciar fabricacao liberada com duas pendencias trancando
+# exatamente a fabricacao.
+PENDENCIAS = [(d["n"], d["titulo"], d["norma"], d["impacto"], d["status"])
+              for d in pj.PENDENCIAS]
 
 
 def emissao() -> Canvas:

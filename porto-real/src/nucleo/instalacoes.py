@@ -34,12 +34,26 @@ def _manhattan(x1, y1, x2, y2) -> float:
     return abs(x2 - x1) + abs(y2 - y1)
 
 
+def prumadas_efetivas(pj, shafts: dict = None) -> list:
+    """A posicao que vale e a RESOLVIDA, quando existe uma.
+
+    Uma so fonte: quem mede ramal, quem monta volume e quem confere clash leem
+    daqui. Enquanto a resolucao nao existir, vale a declarada — e o conflito
+    que ela produz continua aparecendo, que e o comportamento correto.
+    """
+    if not shafts:
+        return pj.PRUMADAS
+    res = shafts.get("prumadas", shafts)
+    return [dict(pr, x=res[pr["cod"]]["x"], y=res[pr["cod"]]["y"])
+            if pr["cod"] in res else pr for pr in pj.PRUMADAS]
+
+
 def _prumada_mais_proxima(x, y, prumadas, tipo) -> dict:
     cands = [p for p in prumadas if p["tipo"] == tipo] or prumadas
     return min(cands, key=lambda p: _manhattan(x, y, p["x"], p["y"]))
 
 
-def hidraulica(pj) -> dict:
+def hidraulica(pj, shafts: dict = None) -> dict:
     """Agua fria, agua quente e esgoto: comprimento por diametro.
 
     O percurso de cada peca vai ate a prumada do seu sistema. Agua quente so
@@ -47,7 +61,7 @@ def hidraulica(pj) -> dict:
     da peca desde a prancha 26.
     """
     pecas = pj.pecas_hidraulicas()
-    pru = pj.PRUMADAS
+    pru = prumadas_efetivas(pj, shafts)
     ramais = []
     for p in pecas:
         # agua fria: sempre; quente: so onde declarado
@@ -164,7 +178,7 @@ def climatizacao(pj) -> dict:
 # vigamento em R31 e o MEP so ganhou tracado agora. Uma verificacao de
 # interferencia entre uma disciplina e o vazio acha zero conflitos, e o zero e
 # verdadeiro — e inutil.
-def volumes_mep(pj) -> list:
+def volumes_mep(pj, shafts: dict = None) -> list:
     """Cada ramal como um volume de passagem, em coordenada do mundo.
 
     O volume nao e o tubo: e o tubo MAIS o espaco que ele precisa para ser
@@ -176,8 +190,9 @@ def volumes_mep(pj) -> list:
     FOLGA = 40.0          # mm de cada lado, para instalar e isolar
     vols = []
     pecas = pj.pecas_hidraulicas()
+    efetivas = prumadas_efetivas(pj, shafts)
     for p in pecas:
-        pru = _prumada_mais_proxima(p["x"], p["y"], pj.PRUMADAS, "esgoto")
+        pru = _prumada_mais_proxima(p["x"], p["y"], efetivas, "esgoto")
         dn = 100 if p["uhc"] >= 6 else (50 if p["uhc"] >= 3 else 40)
         r = dn / 2 + FOLGA
         # ESGOTO HORIZONTAL NAO CORRE NA PAREDE. Ele corre sob o piso — no
@@ -200,13 +215,161 @@ def volumes_mep(pj) -> list:
                               x0, p["y"] - r, z - r, x1, p["y"] + r, z + r))
         vols.append(pe.Volume(f"{p['cod']}-Y-DN{dn}", "hidraulica",
                               pru["x"] - r, y0, z - r, pru["x"] + r, y1, z + r))
-    for pr in pj.PRUMADAS:
+    for pr in efetivas:
         a, b = pr["secao"]
         vols.append(pe.Volume(f"{pr['cod']}-V-DN{pr['dn']}", "hidraulica",
                               pr["x"], pr["y"], 0.0,
                               pr["x"] + a, pr["y"] + b,
                               pj.NIVEL_SUPERIOR + pj.PE_DIREITO))
     return vols
+
+
+# ---------------------------------------------------------------------------
+# SHAFT — a decisao que o modelo nao tinha como tomar, e agora toma por regra
+#
+# R38 achou o conflito e parou nele: a posicao declarada de tres prumadas cai
+# dentro da linha de parede, e um shaft de 300 x 300 nao cabe numa parede de
+# 150 mm. Havia duas saidas, e o modelo nao tinha dado para escolher.
+#
+# A REGRA ADOTADA, e por que ela e a menos arriscada das duas:
+#
+#   O shaft e uma CAIXA NA FACE da parede, do lado do ambiente molhado que ele
+#   serve, e a parede permanece CONTINUA.
+#
+# Interromper a parede seria a outra saida, e custa caro em tres frentes:
+#   1. a descida de cargas supoe TODA parede portante (hipotese declarada, a
+#      favor da seguranca). Interromper uma parede portante exige verga e
+#      transferencia de carga para os montantes vizinhos — uma verificacao que
+#      este modelo nao faz;
+#   2. a parede interrompida perde o painel de contraventamento naquele trecho,
+#      e o contraventamento ja e verificado contra a forca global da NBR 6123;
+#   3. a NBR 8160 exige ACESSO de inspecao a prumada. Caixa com portinhola na
+#      face molhada da acesso; shaft dentro da parede nao da.
+#
+# O custo da regra e conhecido e pequeno: 0,09 m2 de piso por prumada de
+# esgoto, tomados do ambiente molhado, mais o enclausuramento em placa RU.
+#
+# E o resultado NAO e uma coordenada escrita a mao. O deslocamento e PROCURADO:
+# o menor afastamento que (a) tira a caixa de dentro de qualquer peca de
+# estrutura e (b) deixa a caixa inteira dentro de um ambiente — de preferencia
+# molhado. Se nenhum lado servir, a funcao nao inventa: devolve a prumada como
+# NAO RESOLVIDA, e o conflito continua de pe.
+# ---------------------------------------------------------------------------
+PASSO_BUSCA = 25.0        # mm por tentativa
+AFASTAMENTO_MAX = 400.0   # mm: alem disso a caixa deixa de ser caixa de parede
+
+
+def _ambientes(pj) -> list:
+    """Todo retangulo habitavel do caso, ambiente ou subdivisao.
+
+    A subdivisao entra porque e ONDE o banho de fato esta: as suites sao
+    retangulos unicos e o banho vive em SUBDIVISOES, com geometria exata. Ler
+    so a lista de ambientes e o que fazia o modelo achar que nao ha banheiro
+    no pavimento superior.
+    """
+    out = []
+    for a in pj.TERREO + pj.SUPERIOR:
+        out.append(dict(cod=a.cod, nome=a.nome, x=a.x, y=a.y, w=a.w, h=a.h,
+                        pav=a.pav, molhado=a.molhado))
+    for sd in pj.SUBDIVISOES:
+        pai = next((a for a in pj.TERREO + pj.SUPERIOR if a.cod == sd["pai"]),
+                   None)
+        out.append(dict(cod=f"{sd['pai']}/{sd['nome']}", nome=sd["nome"],
+                        x=sd["x"], y=sd["y"], w=sd["w"], h=sd["h"],
+                        pav=pai.pav if pai else "T",
+                        molhado=sd.get("molhado", False)))
+    return out
+
+
+def _dentro(x0, y0, x1, y1, a) -> bool:
+    return (x0 >= a["x"] and y0 >= a["y"]
+            and x1 <= a["x"] + a["w"] and y1 <= a["y"] + a["h"])
+
+
+def _bate(x0, y0, x1, y1, vols) -> int:
+    """Quantas pecas de estrutura a caixa atravessa nesta posicao."""
+    n = 0
+    for v in vols:
+        if x0 < v.x1 and x1 > v.x0 and y0 < v.y1 and y1 > v.y0:
+            n += 1
+    return n
+
+
+def resolver_shafts(pj, paineis, base_por_pav: dict) -> dict:
+    """Acha, para cada prumada, o menor afastamento que a tira da parede.
+
+    Devolve tambem o enclausuramento, porque a decisao TEM material: a caixa e
+    montante de 48 mm e placa RU nas faces expostas, e se a decisao existisse
+    so como coordenada o orcamento nao saberia dela.
+    """
+    est = volumes_estrutura(paineis, base_por_pav)
+    ambs = _ambientes(pj)
+    out, placa, piso_tomado = {}, 0.0, 0.0
+    for pr in pj.PRUMADAS:
+        a, b = pr["secao"]
+        x, y = float(pr["x"]), float(pr["y"])
+        base = _bate(x, y, x + a, y + b, est)
+        if base == 0:
+            out[pr["cod"]] = dict(pr, x=x, y=y, deslocado=0.0, lado="—",
+                                  ambiente="", resolvido=True,
+                                  motivo="a posicao declarada ja esta livre de "
+                                         "estrutura: nada a decidir")
+            continue
+        melhor = None
+        d = PASSO_BUSCA
+        while d <= AFASTAMENTO_MAX and melhor is None:
+            # quatro lados e quatro diagonais. A diagonal nao e refinamento:
+            # uma prumada no ENCONTRO de duas paredes — e PN-02 esta no canto
+            # de duas — nao se livra das duas afastando-se numa direcao so.
+            for lado, (dx, dy) in (("+Y", (0, 1)), ("-Y", (0, -1)),
+                                   ("+X", (1, 0)), ("-X", (-1, 0)),
+                                   ("+X+Y", (1, 1)), ("+X-Y", (1, -1)),
+                                   ("-X+Y", (-1, 1)), ("-X-Y", (-1, -1))):
+                nx, ny = x + dx * d, y + dy * d
+                if _bate(nx, ny, nx + a, ny + b, est):
+                    continue
+                # a caixa tem de cair DENTRO de um ambiente: uma caixa que
+                # sobra para fora da casa nao e caixa, e apendice de fachada
+                cand = [amb for amb in ambs
+                        if _dentro(nx, ny, nx + a, ny + b, amb)]
+                if not cand:
+                    continue
+                alvo = next((c for c in cand if c["molhado"]), cand[0])
+                melhor = dict(pr, x=nx, y=ny, deslocado=d, lado=lado,
+                              ambiente=alvo["cod"], resolvido=True,
+                              molhado=alvo["molhado"],
+                              motivo=(f"caixa na face {lado} da parede, dentro "
+                                      f"de {alvo['cod']}, afastada {d:.0f} mm "
+                                      f"do eixo declarado. A parede segue "
+                                      f"CONTINUA: interrompe-la exigiria verga "
+                                      f"e transferencia de carga que este "
+                                      f"modelo nao verifica, e tiraria o "
+                                      f"painel de contraventamento do trecho"))
+                break
+            d += PASSO_BUSCA
+        if melhor is None:
+            out[pr["cod"]] = dict(pr, x=x, y=y, deslocado=0.0, lado="—",
+                                  ambiente="", resolvido=False,
+                                  motivo=f"nenhum dos quatro lados libera a "
+                                         f"caixa em ate {AFASTAMENTO_MAX:.0f} "
+                                         f"mm sem sair de ambiente: a decisao "
+                                         f"nao cabe ao modelo e o conflito "
+                                         f"continua declarado")
+            continue
+        out[pr["cod"]] = melhor
+        # enclausuramento: tres faces expostas (a quarta encosta na parede),
+        # do piso ao teto, em placa RU. A quarta face e a propria parede.
+        alt = (pj.NIVEL_SUPERIOR + pj.PE_DIREITO) / 1000.0
+        placa += (2 * b + a) / 1000.0 * alt
+        piso_tomado += (a * b) / 1e6
+    return dict(prumadas=out, placa_m2=round(placa, 2),
+                piso_tomado_m2=round(piso_tomado, 3),
+                n_resolvidos=sum(1 for v in out.values() if v["resolvido"]),
+                n=len(out),
+                regra="shaft e caixa na face da parede, do lado do ambiente "
+                      "molhado, com a parede continua e portinhola de inspecao "
+                      "(NBR 8160). O afastamento e PROCURADO, nao escrito: o "
+                      "menor que tira a caixa da estrutura sem sair do ambiente")
 
 
 def volumes_estrutura(paineis, base_por_pav: dict) -> list:
@@ -237,7 +400,8 @@ def volumes_estrutura(paineis, base_por_pav: dict) -> list:
     return vols
 
 
-def conferir_clash(pj, paineis, base_por_pav: dict) -> dict:
+def conferir_clash(pj, paineis, base_por_pav: dict,
+                   shafts: dict = None) -> dict:
     """Interferencia entre MEP e estrutura, com o criterio de severidade.
 
     Nem toda interseccao e defeito: um ramal que cruza um montante e NORMAL em
@@ -246,7 +410,8 @@ def conferir_clash(pj, paineis, base_por_pav: dict) -> dict:
     perde carga critica, e ai a solucao deixa de ser furo e passa a ser desvio.
     """
     import nucleo.peca as pe
-    vols = volumes_mep(pj) + volumes_estrutura(paineis, base_por_pav)
+    vols = (volumes_mep(pj, shafts)
+            + volumes_estrutura(paineis, base_por_pav))
     brutos = pe.detectar_clash(vols)
     resolviveis, criticos, shafts = [], [], []
     for c in brutos:

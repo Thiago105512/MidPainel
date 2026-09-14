@@ -283,9 +283,14 @@ def verificar(paineis, superiores_por_pav: dict, perfis: dict, aco,
     enquanto um montante estava 47 % sobrecarregado.
     """
     cfg = cfg or pn.Config()
-    combs = cb.gerar([("g", "permanente"), ("q", "acidental")],
-                     {"q": "acidental"})
+    acoes = [("g", "permanente"), ("q", "acidental")]
+    subclasses = {"q": "acidental"}
+    combs = cb.gerar(acoes, subclasses)
     itens, hipoteses = [], [
+        "o esforco axial do montante combina permanente e acidental. O VENTO "
+        "nao entra aqui: ele age nesta estrutura como forca horizontal global, "
+        "e e verificado no contraventamento — o que este modulo nao faz e a "
+        "flexao composta do montante de parede externa sob pressao de vento",
         "laje armada em uma direcao, apoiada nas paredes paralelas mais proximas",
         f"vao de vigamento limitado a {VAO_MAX_LAJE:.0f} mm onde nao ha parede "
         f"paralela — acima disso falta viga no modelo",
@@ -325,4 +330,9 @@ def verificar(paineis, superiores_por_pav: dict, perfis: dict, aco,
                 utilizacoes=[d["u"] for d in itens],
                 governa=itens[0] if itens else None,
                 hipoteses=hipoteses,
+                # a verificacao DECLARA o que consumiu, a partir da chamada que
+                # fez. E isso que permite perguntar, do lado de fora, se alguma
+                # acao declarada no caso nao entra em verificacao nenhuma.
+                acoes=tuple(n for _, n in acoes), combs=combs,
+                subclasses=subclasses, acoes_cod=acoes,
                 aprovado=not reprovadas)

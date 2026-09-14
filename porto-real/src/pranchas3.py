@@ -236,22 +236,13 @@ def quadros() -> Canvas:
              "CONDICAO", "OBSERVACAO"], lin_tc,
             larguras=[16, 76, 18, 38, 28, 22, 62])
 
+    # a MESMA lista da PR-33 e do checklist de liberacao. Ate R38 esta prancha
+    # mantinha copia propria, com numeracao propria e um item que a outra nao
+    # tinha: duas listas de pendencias que ja divergiam entre si.
     _tabela(cv, (35, 300), "PENDENCIAS — O QUE NAO ESTA LIBERADO",
             ["#", "PENDENCIA", "IMPACTO"],
-            [["1", "Certidao oficial do SU16 (CAMT, taxa de ocupacao, gabarito) — Lei 1.838/2014",
-              "Condiciona toda a implantacao"],
-             ["2", "Sondagem real do solo e calculo definitivo do radier", "Fundacao"],
-             ["3", "Calculo estrutural do sistema hibrido LSF + perfis + apoio da caixa d'agua",
-              "Estrutura e balanco"],
-             ["4", "Verificacao ambiental do reuso pluvial (Codigo Ambiental de Manaus)",
-              "Licenciamento"],
-             ["5", "Diametro de agua fria do chuveiro (DN50 na tabela — verificar troca de ramal)",
-              "Hidraulica"],
-             ["6", "Regulamento especifico do condominio", "Fachada, muros e recuos"],
-             ["7", "Divergencia geometrica R32 x Lista Consolidada (ver prancha de divergencias)",
-              "Coordenacao geral"],
-             ["8", "Exigencia municipal de retencao pluvial no lote — se houver, volume separado",
-              "Drenagem"]],
+            [[d["n"], f"{d['titulo']} — {d['norma']}", d["impacto"][:70]]
+             for d in pj.PENDENCIAS if d["status"] == "ABERTA"],
             larguras=[10, 156, 76])
 
     cv.texto_p((35, 380), "PRECEDENCIA DE DADOS", TXT["peq"], "start", peso="bold")

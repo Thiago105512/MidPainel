@@ -229,12 +229,16 @@ SUPERIOR_ABERTO: list[Amb] = [
 # (cod_pai, nome, x, y, w, h) — particoes dentro do modulo
 SUBDIVISOES = [
     # face: onde fica a porta ("S"=-X, "N"=+X, "L"=-Y, "O"=+Y); pos: centro do vao
+    # R39 — `molhado` na subdivisao. O flag existia so no ambiente inteiro, e
+    # a suite e um retangulo unico: por isso o modelo "nao tinha" banheiro no
+    # superior. A geometria do banho SEMPRE esteve aqui, exata; faltava o
+    # flag, e quem o le. Nenhuma area foi arbitrada.
     dict(pai="S-S02", nome="BANHO",  x=2_400, y=13_200, w=1_800, h=2_400,
-         face="N", pos=14_400, vao=800),
+         face="N", pos=14_400, vao=800, molhado=True),
     dict(pai="S-S02", nome="CLOSET", x=2_400, y=15_600, w=600,   h=2_400,
          face="N", pos=16_800, vao=800),
     dict(pai="S-S03", nome="BANHO",  x=2_400, y=18_000, w=1_800, h=2_400,
-         face="N", pos=19_200, vao=800),
+         face="N", pos=19_200, vao=800, molhado=True),
     dict(pai="S-S03", nome="CLOSET", x=2_400, y=20_400, w=600,   h=2_400,
          face="N", pos=21_600, vao=800),
     # ---- R08: a despensa volta, mas na PONTA DE SERVICO da cozinha, nao
@@ -251,7 +255,7 @@ SUBDIVISOES = [
     # parede para embuti-la. Agora o banho cai sobre a LAVANDERIA — molhado sobre
     # molhado, prumada de 3 m em vez de desvio horizontal em forro.
     dict(pai="S-MAS", nome="BANHO",  x=9_000,  y=19_200, w=3_000, h=3_000,
-         face="O", pos=9_600, vao=800),
+         face="O", pos=9_600, vao=800, molhado=True),
     dict(pai="S-MAS", nome="CLOSET", x=12_000, y=19_200, w=3_600, h=3_000,
          face="O", pos=12_900, vao=800),
     dict(pai="S-MAS", nome="OFFICE", x=13_800, y=22_200, w=1_800, h=3_000,
@@ -2474,7 +2478,91 @@ REVISOES = [
             "declarada de tres prumadas cai dentro de linha de parede, e um "
             "shaft de 300 x 300 nao cabe em parede de 150. O modelo nao tem a "
             "informacao que resolve isso e nao a arbitra"),
+    ("R39", "As tres decisoes que faltavam, e a que o sistema nao podia tomar "
+            "sozinho. O shaft deixa de ser conflito: regra declarada — caixa na "
+            "face da parede, do lado molhado, parede continua — e afastamento "
+            "PROCURADO, o menor que tira a caixa da estrutura sem sair do "
+            "ambiente; clash de 26 para 0, com contrafactual que exige os 26 de "
+            "volta na posicao declarada. Os 3 banhos do superior entram na "
+            "impermeabilizacao com a geometria que a subdivisao ja tinha desde "
+            "R06: a lacuna era de leitura, nao de dado, e a conta vai de 91,4 "
+            "para 123,1 m2. E o checklist ganha o 18o item: dezessete "
+            "verificacoes de coerencia interna anunciavam LIBERADO PARA "
+            "FABRICACAO com a ART e o nesting abertos no proprio caderno — "
+            "consistencia interna nao e autorizacao. As pendencias saem de "
+            "dentro de duas pranchas, onde ja divergiam entre si, e viram dado "
+            "do caso com o portao que cada uma tranca"),
 ]
+# --------------------------------------------------------- pendencias (R39)
+# Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
+# copia parcial dentro de pranchas3.py. Mesmo padrao da espessura do radier
+# (R37) e da posicao das prumadas (R38): dado do caso morando no desenho.
+#
+# E a consequencia era pior que a duplicacao. O checklist de liberacao nao
+# tinha como consultar a lista, e por isso podia anunciar "LIBERADO PARA
+# FABRICACAO" com oito pendencias abertas, duas delas bloqueando exatamente a
+# fabricacao. Um checklist que ignora o que o proprio caderno declara em voz
+# alta nao esta verificando: esta carimbando.
+#
+# `bloqueia` diz QUAL portao a pendencia tranca. Nao e todo item aberto que
+# impede fabricar — a certidao do SU16 condiciona a implantacao, nao o corte do
+# perfil — e tratar todos como iguais tornaria o campo inutil.
+PENDENCIAS = [
+    dict(n="1", titulo="Certidao oficial do SU16 (CAMT, taxa de ocupacao, "
+                       "gabarito)", norma="Lei 1.838/2014",
+         impacto="Condiciona toda a implantacao",
+         status="ABERTA", bloqueia="obra"),
+    dict(n="2", titulo="Sondagem do solo e calculo definitivo do radier",
+         norma="NBR 6122", impacto="Fundacao",
+         status="ABERTA", bloqueia="obra"),
+    dict(n="3", titulo="Calculo estrutural do hibrido LSF + laminado, com ART",
+         norma="NBR 8800 / 14762",
+         impacto="Estrutura e balanco; inclui o apoio da caixa d'agua. O "
+                 "pre-dimensionamento por flecha nao substitui verificacao de "
+                 "flambagem lateral",
+         status="ABERTA", bloqueia="fabricacao"),
+    dict(n="4", titulo="Verificacao ambiental do reuso pluvial",
+         norma="Codigo Ambiental de Manaus", impacto="Licenciamento",
+         status="ABERTA", bloqueia="obra"),
+    dict(n="5", titulo="Exigencia municipal de retencao pluvial no lote",
+         norma="a confirmar", impacto="Se houver, volume separado do reuso",
+         status="ABERTA", bloqueia="obra"),
+    dict(n="6", titulo="Regulamento especifico do condominio", norma="—",
+         impacto="Fachada, muros, recuos e especie vegetal",
+         status="ABERTA", bloqueia="obra"),
+    dict(n="7", titulo="Padrao de entrada de energia trifasico",
+         norma="NT Amazonas Energia",
+         impacto="Confirmar disponibilidade de trifasico no ramal",
+         status="ABERTA", bloqueia="obra"),
+    dict(n="8", titulo="Nesting codificado dos paineis LSF", norma="fabricante",
+         impacto="A paginacao atual e de estudo, nao de corte",
+         status="ABERTA", bloqueia="fabricacao"),
+    dict(n="9", titulo="Divergencia geometrica R32 x Lista Consolidada",
+         norma="briefing", impacto="Documentada em docs/DIVERGENCIAS.md",
+         status="RESOLVIDA", bloqueia=""),
+    dict(n="10", titulo="Climatizacao da fita social",
+         norma="decisao do proprietario",
+         impacto="Resolvida por zona com fronteira aerodinamica (R02)",
+         status="RESOLVIDA", bloqueia=""),
+    # A PR-09 mantinha uma SEGUNDA lista de pendencias, com conteudo
+    # divergente: oito itens, numeracao propria e um assunto que a lista da
+    # PR-33 nunca teve. Unificar as duas nao pode significar perder o que so
+    # uma delas sabia — e este item so existia na copia da PR-09.
+    dict(n="11", titulo="Diametro de agua fria do ramal do chuveiro",
+         norma="NBR 5626",
+         impacto="Hidraulica: a tabela da PR-09 trazia DN50 no ramal; "
+                 "verificar se a troca de ramal acompanhou a decisao do "
+                 "chuveiro eletrico (peso 0,10 em vez de 0,40)",
+         status="ABERTA", bloqueia=""),
+]
+
+
+def pendencias_abertas(portao: str = "") -> list:
+    """Pendencias abertas, opcionalmente so as que trancam um portao."""
+    return [p for p in PENDENCIAS if p["status"] == "ABERTA"
+            and (not portao or p["bloqueia"] == portao)]
+
+
 # ------------------------------------------------------------- cadastro (R13)
 # Ate R12 a identidade do projeto so existia por escrito no carimbo. Agora e
 # dado: a tipologia carrega a sobrecarga normativa e o pe-direito minimo, e a
@@ -2499,13 +2587,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R38",
+    revisao="R39",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R38", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R39", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

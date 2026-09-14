@@ -441,7 +441,7 @@
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R38 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R39 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -458,7 +458,7 @@
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>36,4 <span>kVA · 100 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>491 <span>condições · 1 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>500 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>35 <span>· A1</span></dd></div>
   </dl>
@@ -650,6 +650,7 @@
       <li><span class="r">R36</span><span>Esquadria, cobertura e impermeabilizacao passam de zero a material: 311 m de caixilho, 62 m2 de vidro com especificacao por vao, calha, rufo e cumeeira do perimetro, e manta das areas molhadas. O cruzamento entre quadro de esquadrias e quadro de ambientes achou 3 banheiros no superior que existem no desenho e nao no dado — a area deles nao foi arbitrada</span></li>
       <li><span class="r">R37</span><span>Fundacao entra no BOM: 33,5 m3 de concreto, 1.509 kg de aco, tela, lastro, lona e forma, derivados da projecao. A espessura de 180 mm era literal no desenho e copia dentro da ancoragem, e agora e dado do caso — o embutimento do chumbador so cabe se os dois falarem do mesmo radier. Espessura, fck e taxa sao (H) ate a sondagem: o modulo deriva quantidade, nao dimensiona radier</span></li>
       <li><span class="r">R38</span><span>Instalacoes passam de tracado a quantidade: 408,8 m de tubo em sete diametros, 745 m de eletroduto para 96 pontos, 56 m de linha frigorigena e 187 conexoes, por percurso Manhattan vezes fator declarado — limite INFERIOR, nunca o percurso do instalador. Com percurso existindo, o item 'clashes' do checklist deixa de ser True literal e confronta 844 volumes: acusou que a posicao declarada de tres prumadas cai dentro de linha de parede, e um shaft de 300 x 300 nao cabe em parede de 150. O modelo nao tem a informacao que resolve isso e nao a arbitra</span></li>
+      <li><span class="r">R39</span><span>As tres decisoes que faltavam, e a que o sistema nao podia tomar sozinho. O shaft deixa de ser conflito: regra declarada — caixa na face da parede, do lado molhado, parede continua — e afastamento PROCURADO, o menor que tira a caixa da estrutura sem sair do ambiente; clash de 26 para 0, com contrafactual que exige os 26 de volta na posicao declarada. Os 3 banhos do superior entram na impermeabilizacao com a geometria que a subdivisao ja tinha desde R06: a lacuna era de leitura, nao de dado, e a conta vai de 91,4 para 123,1 m2. E o checklist ganha o 18o item: dezessete verificacoes de coerencia interna anunciavam LIBERADO PARA FABRICACAO com a ART e o nesting abertos no proprio caderno — consistencia interna nao e autorizacao. As pendencias saem de dentro de duas pranchas, onde ja divergiam entre si, e viram dado do caso com o portao que cada uma tranca</span></li>
       </ol>
     </div>
     <div>
@@ -657,7 +658,7 @@
       <ol class="pend">
       <li><span class="n">1</span><span>Certidao oficial do SU16 (CAMT, taxa de ocupacao, gabarito) — Condiciona toda a implantacao</span><span class="s aberta">ABERTA</span></li>
       <li><span class="n">2</span><span>Sondagem do solo e calculo definitivo do radier — Fundacao</span><span class="s aberta">ABERTA</span></li>
-      <li><span class="n">3</span><span>Calculo estrutural do hibrido LSF + laminado, com ART — Estrutura; o pre-dimensionamento por flecha nao substitui verificacao de flambagem lateral</span><span class="s aberta">ABERTA</span></li>
+      <li><span class="n">3</span><span>Calculo estrutural do hibrido LSF + laminado, com ART — Estrutura e balanco; inclui o apoio da caixa d'agua. O pre-dimensionamento por flecha nao substitui verificacao de flambagem lateral</span><span class="s aberta">ABERTA</span></li>
       <li><span class="n">4</span><span>Verificacao ambiental do reuso pluvial — Licenciamento</span><span class="s aberta">ABERTA</span></li>
       <li><span class="n">5</span><span>Exigencia municipal de retencao pluvial no lote — Se houver, volume separado do reuso</span><span class="s aberta">ABERTA</span></li>
       <li><span class="n">6</span><span>Regulamento especifico do condominio — Fachada, muros, recuos e especie vegetal</span><span class="s aberta">ABERTA</span></li>
@@ -665,6 +666,7 @@
       <li><span class="n">8</span><span>Nesting codificado dos paineis LSF — A paginacao atual e de estudo, nao de corte</span><span class="s aberta">ABERTA</span></li>
       <li><span class="n">9</span><span>Divergencia geometrica R32 x Lista Consolidada — Documentada em docs/DIVERGENCIAS.md</span><span class="s resolvida">RESOLVIDA</span></li>
       <li><span class="n">10</span><span>Climatizacao da fita social — Resolvida por zona com fronteira aerodinamica (R02)</span><span class="s resolvida">RESOLVIDA</span></li>
+      <li><span class="n">11</span><span>Diametro de agua fria do ramal do chuveiro — Hidraulica: a tabela da PR-09 trazia DN50 no ramal; verificar se a troca de ramal acompanhou a decisao do chuveiro eletrico (peso 0,10 em vez de 0,40)</span><span class="s aberta">ABERTA</span></li>
       </ol>
     </div>
     <div>
@@ -1657,9 +1659,30 @@ function vistaPainel() {
       <div class="selo${L.liberado ? "" : " nao"}" id="seloLiberacao">
         <b>${esc2(L.situacao)}</b>
         <span>score geral ${ENG.score_geral}/100 · revisão ${esc2(ENG.revisao)}</span></div>
-      <ul class="check" id="checklist">${itens}</ul></div>
+      <ul class="check" id="checklist">${itens}</ul>${blocoPendencias()}</div>
     <div class="eng-sec"><h3>Seis notas, seis fórmulas</h3>
       <div class="notas">${notas}</div></div>`;
+}
+
+function blocoPendencias() {
+  // O 18o item do checklist. Os 16 primeiros perguntam se o que esta no modelo
+  // esta certo; o 17o, se o que precisa estar la esta; este, se o que o projeto
+  // DECLARA que falta permite fabricar. Sem ele a tela dizia "LIBERADO PARA
+  // FABRICACAO" com a ART e o nesting abertos no proprio caderno.
+  const P = ENG.pendencias;
+  if (!P || !P.abertas.length) return "";
+  const linha = d =>
+    `<li><span class="m" style="color:${d.bloqueia ? "var(--alert)" : "var(--ink-faint)"}">${d.bloqueia ? "✕" : "○"}</span>
+       <span>#${esc2(d.n)} ${esc2(d.titulo)}<br>
+         <span style="color:var(--ink-faint);font-size:12px">${esc2(d.impacto)}</span></span>
+       <span class="st">${d.bloqueia ? esc2(d.bloqueia) : "não bloqueia"}</span></li>`;
+  return `<p class="conta" style="display:block;margin:14px 0 4px;line-height:1.55">
+      <b>${P.abertas.length} pendências declaradas em aberto</b>, das quais
+      <b style="color:var(--alert)">${P.bloqueantes.length}</b> trancam a
+      ${esc2(P.portao)}. Consistência interna não é autorização: até aqui o
+      checklist media só o modelo, e anunciava fabricação liberada com a ART do
+      cálculo estrutural e o nesting codificado abertos.</p>
+    <ul class="check">${P.abertas.map(linha).join("")}</ul>`;
 }
 
 function blocoVerificacao() {
@@ -2184,6 +2207,7 @@ function vistaInstalacoes() {
   const I = ENG.instalacoes;
   if (!I) return barraModos() + "<p class='conta'>sem levantamento de instalações</p>";
   const H = I.hidraulica, E = I.eletrica, C = I.climatizacao, K = I.clash;
+  const S = I.shafts;
   const maiorH = Math.max(...H.itens.map(i => i.comp_m)) || 1;
   const hid = H.itens.map(i =>
     `<div style="display:grid;grid-template-columns:150px 1fr 92px;gap:8px;
@@ -2262,6 +2286,25 @@ function vistaInstalacoes() {
           ${esc2(C.obs)} — ${num(C.isolamento_m, 1)} m de isolamento e
           ${num(C.dreno_m, 1)} m de dreno.</p></div>
     </div>
+    ${S ? `<div class="eng-sec" style="margin-top:22px">
+      <h3>Shaft — a decisão, e por que ela é derivada e não escrita</h3>
+      <p class="conta" style="display:block;line-height:1.6">${esc2(S.regra)}.
+        Custo da regra: <b>${num(S.piso_tomado_m2, 3)} m²</b> de piso tomados do
+        ambiente molhado e <b>${num(S.placa_m2, 2)} m²</b> de placa RU de
+        enclausuramento — que agora existem no orçamento, porque uma decisão
+        sem material é uma decisão que a obra descobre sozinha.</p>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>prumada</th>
+        <th>DN</th><th>declarada</th><th>resolvida</th><th>lado</th>
+        <th>afastou</th><th>ambiente</th><th>por quê</th></tr></thead>
+        <tbody>${S.prumadas.map(v => `<tr>
+          <td>${esc2(v.cod)}</td><td>DN${v.dn}</td>
+          <td>${v.declarada ? v.declarada.join(", ") : "—"}</td>
+          <td>${num(v.x)}, ${num(v.y)}</td>
+          <td>${esc2(v.lado)}</td>
+          <td>${v.deslocado ? num(v.deslocado) + " mm" : "—"}</td>
+          <td>${esc2(v.ambiente || "—")}${v.molhado ? " 💧" : ""}</td>
+          <td style="white-space:normal;max-width:44ch">${esc2(v.motivo)}</td>
+          </tr>`).join("")}</tbody></table></div></div>` : ""}
     <div class="eng-sec" style="margin-top:22px">
       <h3>Interferência com a estrutura — o critério antes do número</h3>
       <p class="conta" style="display:block;line-height:1.6">

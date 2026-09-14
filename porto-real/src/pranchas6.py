@@ -93,12 +93,23 @@ def hidrossanitaria() -> Canvas:
             cv.texto_p((c[0], c[1] + 0.8), "R", TXT["micro"], "middle", cor="#0a6")
         # shaft e prumadas
         # do caso, nao literal: sem a posicao como dado nao ha comprimento de
-        # ramal, e era por isso que o MEP nao tinha material nenhum no BOM
+        # ramal, e era por isso que o MEP nao tinha material nenhum no BOM.
+        # E a posicao que o desenho mostra e a RESOLVIDA, a mesma que mede o
+        # ramal e a mesma que confere o clash: o eixo declarado cai dentro da
+        # linha de parede, e desenhar o declarado enquanto o modelo usa o
+        # resolvido seria voltar a ter duas fontes para o mesmo fato.
+        import fixture as _fx
+        _res = _fx.shafts()["prumadas"]
         for pr in (q for q in pj.PRUMADAS if q["tipo"] == "esgoto"):
-            sc, sx, sy = pr["cod"], pr["x"], pr["y"]
+            r = _res.get(pr["cod"], pr)
+            sc, sx, sy = pr["cod"], r["x"], r["y"]
             c = vw.pt(P(sx + 150, sy + 150))
             cv.circ_p(c, 3.0, "corte", preenche="#fff3d6", cor="#b5651d")
             cv.texto_p((c[0], c[1] + 0.8), "S", TXT["micro"], "middle", cor="#b5651d")
+            if r.get("deslocado"):
+                cv.texto_p((c[0], c[1] + 4.6),
+                           f"{sc} caixa {r['lado']} {r['deslocado']:.0f}",
+                           TXT["micro"], "middle", cor="#b5651d")
         an.norte(cv, (ox + 210, 120), 7, pj.NORTE_EM_PLANTA)
 
     linhas = []

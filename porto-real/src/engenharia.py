@@ -246,6 +246,9 @@ def _instalacoes(r: dict) -> dict:
     """
     ins = r["camadas"]["instalacoes"]
     cl = r["camadas"]["clash"]
+    # a posicao DECLARADA acompanha a resolvida. Mostrar so a resolvida
+    # esconderia o deslocamento, que e a decisao inteira.
+    _decl = {d["cod"]: (d["x"], d["y"]) for d in pj.PRUMADAS}
     h, e, cli = ins["hidraulica"], ins["eletrica"], ins["climatizacao"]
     return dict(
         hidraulica=dict(itens=h["itens"], comp_total=h["comp_total"],
@@ -260,6 +263,23 @@ def _instalacoes(r: dict) -> dict:
                           dreno_m=cli["dreno_m"],
                           isolamento_m=cli["isolamento_m"],
                           linhas=cli["linhas"], obs=cli["obs"]),
+        # a decisao do shaft vai inteira: lado, afastamento, ambiente e motivo.
+        # Exportar so a coordenada resolvida esconderia que ela e DERIVADA, e
+        # uma coordenada sem o porque e indistinguivel de uma arbitrada.
+        shafts=dict(
+            regra=r["camadas"]["shafts"]["regra"],
+            placa_m2=r["camadas"]["shafts"]["placa_m2"],
+            piso_tomado_m2=r["camadas"]["shafts"]["piso_tomado_m2"],
+            n=r["camadas"]["shafts"]["n"],
+            n_resolvidos=r["camadas"]["shafts"]["n_resolvidos"],
+            prumadas=[dict(cod=k, x=round(v["x"]), y=round(v["y"]),
+                           dn=v["dn"], tipo=v["tipo"], secao=list(v["secao"]),
+                           declarada=_decl.get(k, (None, None)),
+                           deslocado=v["deslocado"], lado=v["lado"],
+                           ambiente=v["ambiente"], onde=v["onde"],
+                           molhado=bool(v.get("molhado")),
+                           resolvido=v["resolvido"], motivo=v["motivo"])
+                      for k, v in r["camadas"]["shafts"]["prumadas"].items()]),
         clash=dict(
             volumes=cl["volumes"], total=cl["total"],
             resolviveis=cl["resolviveis"], criterio=cl["criterio"], ok=cl["ok"],
@@ -386,6 +406,18 @@ def montar() -> dict:
         juntas=_juntas(r),
         materiais=_materiais(r),
         instalacoes=_instalacoes(r),
+        combinacoes=dict(
+            n=r["combinacoes"]["conferencia"]["n"],
+            tipos=r["combinacoes"]["conferencia"]["tipos"],
+            criterio=r["combinacoes"]["conferencia"]["criterio"],
+            n_favoravel=r["combinacoes"]["conferencia"]["n_favoravel"],
+            erros=r["combinacoes"]["conferencia"]["erros"],
+            faltas=r["combinacoes"]["conferencia"]["faltas"],
+            cobertura=r["combinacoes"]["cobertura"]["por_natureza"],
+            leitura=r["combinacoes"]["cobertura"]["leitura"],
+            orfas=r["combinacoes"]["cobertura"]["orfas"],
+            ok=r["combinacoes"]["ok"]),
+        pendencias=r["pendencias"],
         scores=r["scores"], score_geral=r["score_geral"],
         liberacao=r["liberacao"],
         documentos=dict(

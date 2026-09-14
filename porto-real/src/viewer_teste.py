@@ -802,6 +802,58 @@ def rodar(fotos: bool = False) -> int:
              .some(i => i.item === 'clashes')"""),
            "e o checklist de liberacao le esse resultado, nao um literal")
 
+        # shaft: a decisao tem de chegar na tela com o PORQUE, nao so com a
+        # coordenada — coordenada sem motivo e indistinguivel de arbitrada
+        ok(pag.evaluate("""() => {
+             const S = ENG.instalacoes.shafts;
+             return S && S.prumadas.length === 3
+                    && S.prumadas.every(v => v.motivo && v.motivo.length > 40); }"""),
+           "cada prumada traz lado, afastamento e motivo por extenso")
+        ok(pag.evaluate("""() => ENG.instalacoes.shafts.prumadas
+             .filter(v => v.deslocado > 0)
+             .every(v => v.declarada && (v.x !== v.declarada[0] ||
+                                         v.y !== v.declarada[1]))"""),
+           "a posicao declarada acompanha a resolvida, e elas diferem",
+           str(pag.evaluate("""() => ENG.instalacoes.shafts.prumadas
+             .filter(v => v.deslocado > 0).length""")) + " deslocadas")
+        ok(pag.evaluate("""() => {
+             const S = ENG.instalacoes.shafts;
+             return S.placa_m2 > 0 && S.piso_tomado_m2 > 0; }"""),
+           "a decisao tem material e custo de piso, nao so geometria",
+           str(pag.evaluate("() => ENG.instalacoes.shafts.placa_m2")) + " m2 de RU")
+        ok("caixa na face" in pag.evaluate(
+               "() => document.getElementById('engConteudo').textContent"),
+           "e a regra adotada aparece na tela, nao so no codigo")
+
+        # pendencias: o 18o item, e o que ele impede a tela de dizer
+        pag.click("#vistasEng button[data-vista='painel']")
+        pag.wait_for_timeout(350)
+        ok(pag.evaluate("() => ENG.liberacao.itens.length") == 18,
+           "o checklist tem 18 itens",
+           str(pag.evaluate("() => ENG.liberacao.itens.length")))
+        ok(pag.evaluate("""() => ENG.pendencias.bloqueantes.length > 0
+             && ENG.pendencias.bloqueantes.every(d => d.bloqueia === 'fabricacao')"""),
+           "as pendencias que trancam a fabricacao estao nomeadas",
+           str(pag.evaluate("() => ENG.pendencias.bloqueantes.map(d => d.n).join()")))
+        ok(pag.evaluate("""() => {
+             const b = ENG.pendencias.bloqueantes.length > 0;
+             const rep = ENG.liberacao.itens
+               .some(i => i.item === 'pendencias' && i.status !== 'OK');
+             return b === rep; }"""),
+           "e o item 'pendencias' do checklist responde a elas")
+        ok(pag.evaluate("""() => {
+             const t = document.getElementById('engConteudo').textContent;
+             return ENG.pendencias.bloqueantes.length === 0
+                    || !t.includes('LIBERADO PARA FABRICACAO'); }"""),
+           "com pendencia bloqueante a tela NAO anuncia fabricacao liberada",
+           pag.evaluate("() => ENG.liberacao.situacao"))
+        ok(pag.evaluate("""() => ENG.combinacoes.ok
+             && ENG.combinacoes.orfas.length === 0
+             && Object.values(ENG.combinacoes.cobertura)
+                  .every(v => v.length > 0)"""),
+           "toda acao declarada entra em alguma verificacao",
+           pag.evaluate("() => ENG.combinacoes.leitura"))
+
         # o que o sistema NAO faz, com o mesmo rigor do que faz
         pag.click("#vistasEng button[data-vista='bloqueios']")
         pag.wait_for_timeout(350)

@@ -163,11 +163,19 @@ CHECKLIST = (
     # modelo esta la. A casa passou 31 revisoes sem vigamento com os dezesseis
     # verdes, porque nenhum deles sentia falta do que nunca foi escrito.
     ("completude", "todo sistema construtivo obrigatorio presente no modelo"),
+    # O decimo oitavo e de uma terceira natureza. Os dezesseis primeiros
+    # perguntam se o que esta no modelo esta certo; o decimo setimo, se o que
+    # precisa estar la esta. Este pergunta se o que o projeto DECLARA que
+    # falta, fora do modelo, permite fabricar. Sem ele o checklist anunciava
+    # "LIBERADO PARA FABRICACAO" com a ART do calculo estrutural e o nesting
+    # codificado abertos no proprio caderno: coerencia interna apresentada
+    # como autorizacao.
+    ("pendencias", "nenhuma pendencia declarada bloqueando a fabricacao"),
 )
 
 
 def liberar(resultados: dict) -> dict:
-    """Checklist de 17 itens. Nenhum se marca a mao (secao 140)."""
+    """Checklist de 18 itens. Nenhum se marca a mao (secao 140)."""
     itens, pendentes = [], []
     for cod, desc in CHECKLIST:
         v = resultados.get(cod)

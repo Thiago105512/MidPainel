@@ -145,3 +145,95 @@ def envelope(combs: list[Combinacao], esforcos: dict) -> dict:
         lo, hi = min(vals), max(vals)
         out[e] = dict(min=lo[0], max=hi[0], comb_min=lo[1], comb_max=hi[1])
     return out
+
+
+# ---------------------------------------------------------------------------
+# CONFERENCIA — o que faltava para o checklist parar de dizer True literal
+#
+# O item "combinacoes" trazia `True` desde a primeira versao. Nao era mentira:
+# as combinacoes existem, sao geradas e sao usadas. Mas um item que nao pode
+# reprovar nao verifica nada — e havia duas perguntas sem resposta:
+#
+#   1. os fatores que gerar() produziu sao os das tabelas, ou os de um bug?
+#   2. toda acao DECLARADA no caso e consumida por alguma verificacao?
+#
+# A segunda e a que importa: uma acao pode estar perfeitamente declarada, com
+# gama e psi corretos, e nao entrar em verificacao nenhuma. Ela existe no papel
+# e nao existe no calculo, que e a forma mais silenciosa de erro que este
+# projeto ja encontrou — foi assim que uma casa sem vigamento passou 31
+# revisoes com a auditoria verde.
+# ---------------------------------------------------------------------------
+
+def conferir(combs: list[Combinacao], acoes: list[tuple],
+             subclasses: dict = None) -> dict:
+    """Recalcula cada fator pela tabela, sem passar por gerar().
+
+    Nao e teste de regressao — e conferencia independente: o fator de uma acao
+    secundaria no ELU tem de ser exatamente gama_desf x psi0, e o de uma
+    principal exatamente gama_desf. Se gerar() errar o produto, isto acusa.
+    """
+    subclasses = subclasses or {}
+    nat = {c: n for c, n in acoes}
+    erros = []
+    for k in combs:
+        for p in k.parcelas:
+            n = nat.get(p.acao, p.natureza)
+            if k.tipo != "ELU":
+                continue
+            if p.papel == "principal":
+                esperado = GAMA[n]["desf"]
+            elif p.papel == "secundaria":
+                esperado = GAMA[n]["desf"] * _psi(n, subclasses.get(p.acao), "psi0")
+            elif p.papel.startswith("permanente-"):
+                esperado = GAMA[n][p.papel.split("-")[1]]
+            else:
+                continue
+            if abs(p.fator - esperado) > 1e-9:
+                erros.append(f"{k.cod}/{p.acao}: {p.fator:.4f} onde a tabela "
+                             f"da {esperado:.4f}")
+
+    tipos = {k.tipo for k in combs}
+    # o permanente favoravel e o que revela levantamento e arrancamento: sem
+    # ele o peso proprio sempre ajuda, e nenhuma peca tracionaria nunca
+    fav = [k for k in combs if any(p.papel == "permanente-fav" for p in k.parcelas)]
+    variaveis = [c for c, n in acoes if n not in PERMANENTES]
+    # cada variavel tem de tomar a vez como principal em algum ELU
+    principais = {k.principal for k in combs if k.tipo == "ELU"}
+    sem_vez = [c for c in variaveis if c not in principais]
+
+    faltas = []
+    if "ELU" not in tipos:
+        faltas.append("nenhuma combinacao ultima")
+    if not any(t.startswith("ELS") for t in tipos):
+        faltas.append("nenhuma combinacao de servico")
+    if not fav:
+        faltas.append("nenhuma combinacao com permanente favoravel")
+    if sem_vez:
+        faltas.append(f"acao variavel sem vez como principal: {', '.join(sem_vez)}")
+
+    return dict(ok=not erros and not faltas, n=len(combs), tipos=sorted(tipos),
+                erros=erros, faltas=faltas, n_favoravel=len(fav),
+                criterio="fator recalculado da Tabela 1 e 2 da NBR 8681, "
+                         "independente de gerar(); ELU e ELS presentes; "
+                         "permanente favoravel existindo; cada variavel "
+                         "tomando a vez como principal")
+
+
+def cobertura_de_acoes(declaradas: dict, consumidas: dict) -> dict:
+    """Toda acao declarada no caso entra em alguma verificacao?
+
+    `declaradas`: natureza -> lista de cargas declaradas no projeto.
+    `consumidas`: verificacao -> naturezas que ELA de fato combinou. Cada
+    verificacao declara o que consumiu a partir da chamada que fez, nunca de
+    uma lista escrita a mao aqui: uma lista escrita aqui viraria carimbo na
+    primeira vez que alguem mudasse a chamada e esquecesse deste arquivo.
+    """
+    por_natureza = {}
+    for nat in declaradas:
+        por_natureza[nat] = sorted(v for v, ns in consumidas.items() if nat in ns)
+    orfas = [n for n, v in por_natureza.items() if not v and declaradas[n]]
+    return dict(ok=not orfas, por_natureza=por_natureza, orfas=orfas,
+                declaradas={k: len(v) for k, v in declaradas.items()},
+                leitura="; ".join(
+                    f"{n}: {', '.join(v) if v else 'NENHUMA VERIFICACAO'}"
+                    for n, v in sorted(por_natureza.items())))

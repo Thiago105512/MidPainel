@@ -415,6 +415,30 @@ PROGRAMA = [
      "deixa de ser True literal e passa a confrontar volume a volume. PARCIAL "
      "porque o percurso e Manhattan vezes fator declarado — limite INFERIOR, "
      "nao projeto executivo de instalacoes."),
+    (108, "Combinacoes: fator recalculado e acao sem consumidor",
+     ["checar_combinacoes"], "AUTOMATIZADA",
+     "Secao 4. O ultimo literal do checklist. \"combinacoes\": True nao era "
+     "mentira — as combinacoes existem, sao geradas e sao usadas — mas um item "
+     "que nao pode reprovar nao verifica nada. Sao duas perguntas: os fatores "
+     "sao os das Tabelas 1 e 2 da NBR 8681, recalculados sem passar pelo "
+     "gerador? E toda acao declarada no caso entra em alguma verificacao? Cada "
+     "verificacao declara o que consumiu a partir da chamada que fez."),
+    (109, "Impermeabilizacao do superior: a lacuna era de leitura",
+     ["checar_impermeabilizacao_do_superior"], "AUTOMATIZADA",
+     "Secoes 40 e 59. O cruzamento com o quadro de esquadrias acusava 3 banhos "
+     "no superior sem area impermeabilizada, e a explicacao escrita era que a "
+     "suite e retangulo unico e a area teria de ser arbitrada. Estava errada: "
+     "a subdivisao existe desde R06, com x, y, w e h exatos. O dado estava "
+     "numa lista e a verificacao olhava outra — sexta ocorrencia do mesmo "
+     "defeito de duas fontes para um fato."),
+    (110, "Pendencias: o que o caderno declara aberto tranca a fabricacao",
+     ["checar_pendencias"], "AUTOMATIZADA",
+     "Secoes 140 e 141. A lista de pendencias vivia dentro de pranchas7.py, "
+     "com copia DIVERGENTE dentro de pranchas3.py, e o checklist nao tinha "
+     "como consulta-la: dezessete verificacoes de coerencia interna "
+     "produziam a frase LIBERADO PARA FABRICACAO com a ART do calculo "
+     "estrutural e o nesting codificado abertos no proprio caderno. "
+     "Consistencia interna nao e autorizacao."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

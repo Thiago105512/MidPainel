@@ -537,29 +537,36 @@ def impermeabilizacao(pj) -> dict:
     ALTURA_BOX = 1_800      # mm, onde a agua bate todo dia
     ALTURA_GERAL = 300      # mm de rodape impermeavel no restante
     itens, total = [], 0.0
-    for a in pj.TERREO + pj.SUPERIOR:
-        if not a.molhado:
-            continue
-        piso = a.area_mod
-        perim = 2 * (a.w + a.h) / 1000.0
+    # O molhado do caso vive em DOIS lugares, e ate R38 esta funcao lia um so.
+    # O ambiente e retangulo unico — a suite inteira — e o banho e SUBDIVISAO,
+    # com x, y, w e h exatos desde R06. Ler so a lista de ambientes produziu o
+    # aviso "3 banheiros que existem no desenho e nao no dado", e o aviso
+    # estava errado quanto a causa: o dado existia, noutra lista. E a sexta vez
+    # que uma verificacao olhou para uma das duas fontes do mesmo fato.
+    molhados = [dict(cod=a.cod, nome=a.nome, w=a.w, h=a.h, area=a.area_mod)
+                for a in pj.TERREO + pj.SUPERIOR if a.molhado]
+    molhados += [dict(cod=f"{d['pai']}/{d['nome']}", nome=d["nome"],
+                      w=d["w"], h=d["h"], area=d["w"] * d["h"] / 1e6)
+                 for d in pj.SUBDIVISOES if d.get("molhado")]
+    for a in molhados:
+        piso = a["area"]
+        perim = 2 * (a["w"] + a["h"]) / 1000.0
         # box: uma faixa de 1,2 m de parede sobe 1.800; o resto sobe 300
         sobe = (1.2 * ALTURA_BOX / 1000.0
                 + (perim - 1.2) * ALTURA_GERAL / 1000.0)
         area = piso + sobe
         total += area
-        itens.append(dict(ambiente=a.cod, nome=a.nome, piso=round(piso, 2),
+        itens.append(dict(ambiente=a["cod"], nome=a["nome"],
+                          piso=round(piso, 2),
                           parede=round(sobe, 2), area=round(area, 2)))
-    # CRUZAMENTO INDEPENDENTE. O quadro de esquadrias sabe de banheiros que o
-    # quadro de ambientes nao sabe: as janelas de banheiro (J02 e J04) contam
-    # 4, e o modelo declara molhados so no terreo. As tres suites do superior
-    # tem banho no desenho (PR-23) e nao tem ambiente molhado no dado, porque a
-    # suite e um retangulo unico e o flag `molhado` e por ambiente inteiro.
-    #
-    # A area faltante NAO e inventada aqui. Declarar um numero para ela seria
-    # exatamente o erro que este projeto recusa — a lacuna e do modelo do caso,
-    # e quem a fecha e quem subdivide a suite.
+    # CRUZAMENTO INDEPENDENTE, e ele continua valendo: o quadro de esquadrias
+    # conta as janelas de banheiro (J02 e J04) e compara com quantos banhos o
+    # modelo sabe impermeabilizar. O cruzamento e que achou a lacuna; o que
+    # mudou e que a lacuna nao era de DADO, era de LEITURA.
     jan_banho = sum(1 for t, *_ in pj.VAOS if t in ("J02", "J04"))
-    molhados_sup = sum(1 for a in pj.SUPERIOR if a.molhado)
+    molhados_sup = sum(1 for d in pj.SUBDIVISOES
+                       if d.get("molhado")
+                       and str(d["pai"]).startswith("S-"))
     # comparar com TODOS os molhados diluia o achado: cozinha e lavanderia sao
     # molhadas e nao sao banho. A janela de banheiro conta banheiro.
     banhos = [x for x in itens
@@ -572,10 +579,8 @@ def impermeabilizacao(pj) -> dict:
                 lacuna=lacuna,
                 aviso=("" if not lacuna else
                        f"{jan_banho} janelas de banheiro no quadro de "
-                       f"esquadrias contra {len(banhos)} banheiro(s) "
-                       f"declarados, nenhum deles no superior: as suites sao "
-                       f"retangulo unico e o flag e por ambiente inteiro. A "
-                       f"area de impermeabilizacao de {lacuna} banho(s) esta "
+                       f"esquadrias contra {len(banhos)} banheiro(s) com area "
+                       f"impermeabilizada. A area de {lacuna} banho(s) esta "
                        f"FORA desta conta, e nao foi arbitrada"),
                 obs="1.800 mm no box e 300 de rodape impermeavel; o teste de "
                     "estanqueidade de 72 h e o que valida — em LSF o "

@@ -299,9 +299,30 @@ function vistaPainel() {
       <div class="selo${L.liberado ? "" : " nao"}" id="seloLiberacao">
         <b>${esc2(L.situacao)}</b>
         <span>score geral ${ENG.score_geral}/100 · revisão ${esc2(ENG.revisao)}</span></div>
-      <ul class="check" id="checklist">${itens}</ul></div>
+      <ul class="check" id="checklist">${itens}</ul>${blocoPendencias()}</div>
     <div class="eng-sec"><h3>Seis notas, seis fórmulas</h3>
       <div class="notas">${notas}</div></div>`;
+}
+
+function blocoPendencias() {
+  // O 18o item do checklist. Os 16 primeiros perguntam se o que esta no modelo
+  // esta certo; o 17o, se o que precisa estar la esta; este, se o que o projeto
+  // DECLARA que falta permite fabricar. Sem ele a tela dizia "LIBERADO PARA
+  // FABRICACAO" com a ART e o nesting abertos no proprio caderno.
+  const P = ENG.pendencias;
+  if (!P || !P.abertas.length) return "";
+  const linha = d =>
+    `<li><span class="m" style="color:${d.bloqueia ? "var(--alert)" : "var(--ink-faint)"}">${d.bloqueia ? "✕" : "○"}</span>
+       <span>#${esc2(d.n)} ${esc2(d.titulo)}<br>
+         <span style="color:var(--ink-faint);font-size:12px">${esc2(d.impacto)}</span></span>
+       <span class="st">${d.bloqueia ? esc2(d.bloqueia) : "não bloqueia"}</span></li>`;
+  return `<p class="conta" style="display:block;margin:14px 0 4px;line-height:1.55">
+      <b>${P.abertas.length} pendências declaradas em aberto</b>, das quais
+      <b style="color:var(--alert)">${P.bloqueantes.length}</b> trancam a
+      ${esc2(P.portao)}. Consistência interna não é autorização: até aqui o
+      checklist media só o modelo, e anunciava fabricação liberada com a ART do
+      cálculo estrutural e o nesting codificado abertos.</p>
+    <ul class="check">${P.abertas.map(linha).join("")}</ul>`;
 }
 
 function blocoVerificacao() {
@@ -829,6 +850,7 @@ function vistaInstalacoes() {
   const I = ENG.instalacoes;
   if (!I) return barraModos() + "<p class='conta'>sem levantamento de instalações</p>";
   const H = I.hidraulica, E = I.eletrica, C = I.climatizacao, K = I.clash;
+  const S = I.shafts;
   const maiorH = Math.max(...H.itens.map(i => i.comp_m)) || 1;
   const hid = H.itens.map(i =>
     `<div style="display:grid;grid-template-columns:150px 1fr 92px;gap:8px;
@@ -907,6 +929,25 @@ function vistaInstalacoes() {
           ${esc2(C.obs)} — ${num(C.isolamento_m, 1)} m de isolamento e
           ${num(C.dreno_m, 1)} m de dreno.</p></div>
     </div>
+    ${S ? `<div class="eng-sec" style="margin-top:22px">
+      <h3>Shaft — a decisão, e por que ela é derivada e não escrita</h3>
+      <p class="conta" style="display:block;line-height:1.6">${esc2(S.regra)}.
+        Custo da regra: <b>${num(S.piso_tomado_m2, 3)} m²</b> de piso tomados do
+        ambiente molhado e <b>${num(S.placa_m2, 2)} m²</b> de placa RU de
+        enclausuramento — que agora existem no orçamento, porque uma decisão
+        sem material é uma decisão que a obra descobre sozinha.</p>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>prumada</th>
+        <th>DN</th><th>declarada</th><th>resolvida</th><th>lado</th>
+        <th>afastou</th><th>ambiente</th><th>por quê</th></tr></thead>
+        <tbody>${S.prumadas.map(v => `<tr>
+          <td>${esc2(v.cod)}</td><td>DN${v.dn}</td>
+          <td>${v.declarada ? v.declarada.join(", ") : "—"}</td>
+          <td>${num(v.x)}, ${num(v.y)}</td>
+          <td>${esc2(v.lado)}</td>
+          <td>${v.deslocado ? num(v.deslocado) + " mm" : "—"}</td>
+          <td>${esc2(v.ambiente || "—")}${v.molhado ? " 💧" : ""}</td>
+          <td style="white-space:normal;max-width:44ch">${esc2(v.motivo)}</td>
+          </tr>`).join("")}</tbody></table></div></div>` : ""}
     <div class="eng-sec" style="margin-top:22px">
       <h3>Interferência com a estrutura — o critério antes do número</h3>
       <p class="conta" style="display:block;line-height:1.6">

@@ -341,6 +341,78 @@ def checar_vento() -> list[Achado]:
     return out
 
 
+def checar_pendencias() -> list[Achado]:
+    """O que o caderno declara aberto tranca o que ele diz trancar?
+
+    Este e o item que faltava no checklist, e a sua ausencia era a mais grave
+    de todas: dezessete verificacoes de coerencia interna do modelo produziam
+    a frase "LIBERADO PARA FABRICACAO" enquanto o proprio caderno listava oito
+    pendencias abertas, duas delas trancando exatamente a fabricacao.
+    Consistencia interna nao e autorizacao.
+    """
+    import projeto as pj
+    import inspect
+    out = []
+    r = fx.liberacao()
+    pen = r["pendencias"]
+
+    out.append(Achado("NOTA" if hasattr(pj, "PENDENCIAS") else "ERRO", "fonte",
+                      f"as {len(pj.PENDENCIAS)} pendencias sao dado do CASO. "
+                      f"Viviam dentro de pranchas7.py, com copia divergente "
+                      f"dentro de pranchas3.py — duas listas de pendencias que "
+                      f"ja discordavam entre si, e nenhuma consultavel pelo "
+                      f"checklist"))
+
+    # as duas pranchas tem de LER a mesma lista, nao manter copia
+    import pranchas3 as p3, pranchas7 as p7
+    lidas = ("pj.PENDENCIAS" in inspect.getsource(p3.quadros_gerais)
+             if hasattr(p3, "quadros_gerais") else
+             "pj.PENDENCIAS" in inspect.getsource(p3))
+    out.append(Achado("NOTA" if lidas and len(p7.PENDENCIAS) == len(pj.PENDENCIAS)
+                      else "ERRO", "uma lista so",
+                      f"PR-09 e PR-33 leem a mesma lista de "
+                      f"{len(pj.PENDENCIAS)} itens. A copia da PR-09 trazia um "
+                      f"assunto que a outra nao tinha — o diametro do ramal do "
+                      f"chuveiro — e unificar sem perde-lo foi parte do "
+                      f"trabalho: unificacao que perde informacao e so a outra "
+                      f"metade do mesmo defeito"))
+
+    blo = pen["bloqueantes"]
+    out.append(Achado("NOTA" if blo else "ATENCAO", "portao",
+                      f"{len(pen['abertas'])} pendencias abertas, "
+                      f"{len(blo)} trancando a fabricacao: "
+                      + ", ".join(f"#{d['n']} {d['titulo']}" for d in blo)
+                      + ". Nem todo item aberto impede fabricar — a certidao "
+                        "do SU16 condiciona a implantacao, nao o corte do "
+                        "perfil — e tratar todos como iguais tornaria o campo "
+                        "inutil"))
+
+    lib = r["liberacao"]
+    coerente = (("pendencias" in lib["pendentes"]) == bool(blo))
+    out.append(Achado("NOTA" if coerente else "ERRO", "efeito",
+                      f"a situacao e '{lib['situacao']}' e o item 'pendencias' "
+                      f"{'reprova' if blo else 'passa'}: o checklist agora "
+                      f"responde ao que o caderno declara, em vez de ignora-lo"))
+
+    # CONTRAFACTUAL: sem pendencia bloqueante o item passa. Um item que reprova
+    # sempre e tao inutil quanto um que passa sempre.
+    import nucleo.scores as sc
+    sem = sc.liberar({c: True for c, _ in sc.CHECKLIST})
+    com = sc.liberar({**{c: True for c, _ in sc.CHECKLIST}, "pendencias": False})
+    out.append(Achado("NOTA" if sem["liberado"] and not com["liberado"]
+                      else "ERRO", "contrafactual",
+                      "com as pendencias bloqueantes resolvidas o checklist "
+                      "libera, e com uma delas aberta nao libera: o item "
+                      "decide, em vez de decorar"))
+
+    out.append(Achado("NOTA" if len(sc.CHECKLIST) == 18 else "ERRO", "18 itens",
+                      f"{len(sc.CHECKLIST)} itens em tres naturezas distintas: "
+                      f"16 perguntam se o que esta no modelo esta certo, o 17o "
+                      f"se o que precisa estar la esta, e o 18o se o que o "
+                      f"projeto declara que falta permite fabricar"))
+    return out
+
+
 def checar_combinacoes() -> list[Achado]:
     """A combinacao e uma hipotese sobre simultaneidade, nao uma soma.
 
@@ -2833,6 +2905,111 @@ def checar_radier() -> list[Achado]:
     return out
 
 
+def checar_combinacoes() -> list[Achado]:
+    """O ultimo literal do checklist, e por que ele nao era mentira.
+
+    "combinacoes": True estava certo quanto ao fato — as combinacoes existem,
+    sao geradas e sao usadas — e errado quanto a funcao: um item que nao pode
+    reprovar nao verifica nada. Verificar exige duas perguntas diferentes, e a
+    segunda e a que morde.
+    """
+    import projeto as pj
+    import nucleo.combinacoes as cb
+    out = []
+    r = fx.liberacao()
+    c = r["combinacoes"]
+
+    out.append(Achado("NOTA" if c["conferencia"]["ok"] else "ERRO", "fatores",
+                      f"{c['conferencia']['n']} combinacoes em "
+                      f"{', '.join(c['conferencia']['tipos'])}, cada fator "
+                      f"RECALCULADO das Tabelas 1 e 2 da NBR 8681 sem passar "
+                      f"por gerar(). Conferir o gerador contra ele mesmo "
+                      f"aprovaria qualquer erro sistematico"
+                      + ("" if c["conferencia"]["ok"]
+                         else ": " + "; ".join(c["conferencia"]["erros"]
+                                               + c["conferencia"]["faltas"]))))
+
+    # REGRESSAO: estragar um fator tem de ser visto
+    acoes = [("g", "permanente"), ("q", "acidental")]
+    combs = cb.gerar(acoes, {"q": "acidental"})
+    alvo = next(k for k in combs if k.tipo == "ELU")
+    alvo.parcelas[0].fator += 0.01
+    sujo = cb.conferir(combs, acoes, {"q": "acidental"})
+    out.append(Achado("NOTA" if not sujo["ok"] else "ERRO", "regressao",
+                      f"um fator alterado em 0,01 reprova a conferencia "
+                      f"({len(sujo['erros'])} erro(s) apontado(s) com "
+                      f"combinacao e acao nomeadas). Sem este contrafactual a "
+                      f"conferencia seria indistinguivel de um return True"))
+
+    cob = c["cobertura"]
+    out.append(Achado("NOTA" if cob["ok"] else "ERRO", "cobertura de acoes",
+                      f"toda acao declarada no caso entra em alguma "
+                      f"verificacao — {cob['leitura']}. Uma acao pode estar "
+                      f"perfeitamente declarada, com gama e psi certos, e nao "
+                      f"entrar em calculo nenhum: existir no papel e nao "
+                      f"existir no calculo e a forma mais silenciosa de erro "
+                      f"que este projeto ja encontrou"
+                      + ("" if cob["ok"] else f". ORFAS: {cob['orfas']}")))
+
+    orfa = cb.cobertura_de_acoes(dict(permanente=["g"], vento=["V0"]),
+                                 {"descida": ("permanente",)})
+    out.append(Achado("NOTA" if not orfa["ok"] else "ERRO", "regressao orfa",
+                      "uma acao sem consumidor reprova a cobertura: "
+                      f"{orfa['orfas']}"))
+
+    # e a hipotese que o vento IMPOE a esta casa, dita em voz alta
+    hip = [h for h in r["verificacao"]["hipoteses"] if "VENTO" in h]
+    out.append(Achado("NOTA" if hip else "ERRO", "vento no montante",
+                      hip[0] if hip else
+                      "a descida de cargas nao declara o que faz com o vento"))
+    return out
+
+
+def checar_impermeabilizacao_do_superior() -> list[Achado]:
+    """Os 3 banhos do superior: a lacuna era de leitura, nao de dado.
+
+    Ate R38 esta verificacao dizia que as suites sao "retangulo unico" e que a
+    area faltante teria de ser arbitrada por quem subdividisse a suite. Estava
+    errada quanto a causa: a subdivisao EXISTE desde R06, com x, y, w e h
+    exatos. O dado estava numa lista e a verificacao olhava outra.
+    """
+    import projeto as pj
+    out = []
+    r = fx.liberacao()
+    imp = r["camadas"]["impermeabilizacao"]
+    sup = [i for i in imp["itens"] if i["ambiente"].startswith("S-")]
+    out.append(Achado("NOTA" if len(sup) == 3 else "ERRO", "banho do superior",
+                      f"{len(sup)} banhos do pavimento superior entram na "
+                      f"impermeabilizacao: {', '.join(i['ambiente'] for i in sup)}. "
+                      f"Nenhuma area foi arbitrada — cada uma e w x h da "
+                      f"subdivisao, que e dado do caso desde R06"))
+    # a area TEM de bater com a geometria da subdivisao, nao com um numero novo
+    erros = []
+    for d in pj.SUBDIVISOES:
+        if not d.get("molhado"):
+            continue
+        cod = f"{d['pai']}/{d['nome']}"
+        it = next((i for i in imp["itens"] if i["ambiente"] == cod), None)
+        esperado = round(d["w"] * d["h"] / 1e6, 2)
+        if it is None or abs(it["piso"] - esperado) > 0.01:
+            erros.append(f"{cod}: {it['piso'] if it else '—'} contra {esperado}")
+    out.append(Achado("NOTA" if not erros else "ERRO", "area derivada",
+                      "o piso de cada banho e exatamente w x h da subdivisao"
+                      if not erros else "; ".join(erros)))
+    out.append(Achado("NOTA" if not imp["lacuna"] else "ERRO", "cruzamento",
+                      f"{imp['janelas_de_banho']} janelas de banheiro no quadro "
+                      f"de esquadrias contra {imp['janelas_de_banho'] - imp['lacuna']} "
+                      f"banhos com area impermeabilizada. O cruzamento que "
+                      f"achou a lacuna continua armado: ele nao foi silenciado, "
+                      f"foi satisfeito"))
+    out.append(Achado("NOTA", "consequencia",
+                      f"{imp['area']} m2 de impermeabilizacao, contra os 91,4 "
+                      f"que a conta via antes. A diferenca nao e correcao de "
+                      f"calculo: sao tres banheiros que existiam na casa e nao "
+                      f"existiam no orcamento"))
+    return out
+
+
 def checar_instalacoes() -> list[Achado]:
     """MEP como material, e o clash que finalmente tem com o que conflitar.
 
@@ -2902,15 +3079,59 @@ def checar_instalacoes() -> list[Achado]:
                       f"hoje e consequencia do tracado correto, nao criterio "
                       f"desligado"))
 
-    # ---- 5. o achado real, e o que ele NAO resolve
+    # ---- 5. a decisao do shaft: derivada, e conferida contra o que ela promete
+    sh = r["camadas"]["shafts"]
+    res = sh["prumadas"]
     if cl["shafts"]:
         alvo = cl["shafts"][0]
         out.append(Achado("ERRO", "shaft x parede",
                           f"{len(cl['shafts'])} conflitos entre prumada e "
                           f"montante, todos da mesma causa. {alvo['motivo']}"))
     else:
+        movidas = [v for v in res.values() if v["deslocado"]]
         out.append(Achado("NOTA", "shaft x parede",
-                          "nenhuma prumada conflita com linha de parede"))
+                          f"{sh['n_resolvidos']} de {sh['n']} prumadas "
+                          f"resolvidas por CAIXA NA FACE, parede continua: "
+                          + "; ".join(f"{k} {v['lado']} {v['deslocado']:.0f} mm "
+                                      f"em {v['ambiente']}"
+                                      for k, v in res.items()
+                                      if v["deslocado"])
+                          + f". O afastamento e procurado, nao escrito — o "
+                            f"menor que tira a caixa da estrutura sem sair do "
+                            f"ambiente — e custa {sh['piso_tomado_m2']:.3f} m2 "
+                            f"de piso e {sh['placa_m2']:.2f} m2 de placa RU"))
+        # a decisao promete tres coisas. Cada uma e conferida.
+        import nucleo.instalacoes as _in
+        ambs = _in._ambientes(pj)
+        fora = [k for k, v in res.items()
+                if v["deslocado"] and not any(
+                    _in._dentro(v["x"], v["y"], v["x"] + v["secao"][0],
+                                v["y"] + v["secao"][1], a) for a in ambs)]
+        out.append(Achado("NOTA" if not fora else "ERRO", "caixa no ambiente",
+                          "toda caixa deslocada cai INTEIRA dentro de um "
+                          "ambiente: caixa que sobra para fora da casa nao e "
+                          "caixa de parede, e apendice de fachada"
+                          if not fora else f"caixa fora de ambiente: {fora}"))
+        molhadas = [k for k, v in res.items()
+                    if v["deslocado"] and v.get("molhado")]
+        out.append(Achado("NOTA", "lado molhado",
+                          f"{len(molhadas)} de {len(movidas)} caixas abrem "
+                          f"para ambiente molhado, que e onde a portinhola de "
+                          f"inspecao da NBR 8160 tem de estar. O lado nao e "
+                          f"escolhido por estetica: e o unico onde a inspecao "
+                          f"nao atravessa dormitorio"))
+
+    # ---- 5b. REGRESSAO: sem a resolucao, o conflito TEM de voltar.
+    # Zero conflitos por tracado resolvido e zero conflitos por verificacao
+    # cega tem a mesma aparencia no relatorio. So o contrafactual distingue.
+    import nucleo.instalacoes as _ins
+    cru = _ins.conferir_clash(pj, r["paineis"],
+                              dict(T=pj.NIVEL_TERREO, S=pj.NIVEL_SUPERIOR))
+    out.append(Achado("NOTA" if cru["shafts"] else "ERRO", "contrafactual",
+                      f"com a posicao DECLARADA das prumadas o clash volta a "
+                      f"acusar {len(cru['shafts'])} conflitos: a verificacao "
+                      f"nao ficou cega, o projeto e que mudou. Um zero que nao "
+                      f"sabe voltar a ser diferente de zero nao e resultado"))
 
     # ---- 6. o esgoto horizontal corre sob o piso, nao na parede
     vols = ins.volumes_mep(pj)

@@ -27,6 +27,7 @@ import nucleo.plausibilidade as pb
 import nucleo.completude as cm
 import nucleo.camadas as cd
 import nucleo.perfis as pf
+import nucleo.combinacoes as cb
 
 
 def _documentos_ok(pj, pecas, plano, paineis, cat) -> bool:
@@ -126,11 +127,22 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     import nucleo.fundacao as _fd
     camadas["fundacao"] = _fd.levantar(pj)
     import nucleo.instalacoes as _ins
-    camadas["instalacoes"] = dict(hidraulica=_ins.hidraulica(pj),
+    _base = dict(T=pj.NIVEL_TERREO, S=pj.NIVEL_SUPERIOR)
+    # A decisao do shaft vem ANTES de medir ramal e de conferir clash, porque
+    # as duas leem a posicao. Uma fonte so: quem mede, quem monta volume e quem
+    # confere leem de prumadas_efetivas().
+    shafts = _ins.resolver_shafts(pj, todos, _base)
+    camadas["shafts"] = shafts
+    camadas["instalacoes"] = dict(hidraulica=_ins.hidraulica(pj, shafts),
                                   eletrica=_ins.eletrica(pj),
-                                  climatizacao=_ins.climatizacao(pj))
-    camadas["clash"] = _ins.conferir_clash(
-        pj, todos, dict(T=pj.NIVEL_TERREO, S=pj.NIVEL_SUPERIOR))
+                                  climatizacao=_ins.climatizacao(pj),
+                                  shafts=shafts)
+    camadas["clash"] = _ins.conferir_clash(pj, todos, _base, shafts)
+    # a decisao tem MATERIAL: enclausurar a caixa consome placa RU. Se a
+    # decisao existisse so como coordenada, o orcamento nao saberia dela.
+    if shafts["placa_m2"] > 0:
+        camadas["itens"].append(dict(material="GESSORU", espessura=12.5,
+                                     area=shafts["placa_m2"]))
     for it in camadas["planos"]["itens"]:
         alvo = next((x for x in camadas["itens"]
                      if x["material"] == it["material"]
@@ -181,11 +193,38 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
             emissao["total"], pj.CADASTRO.area_m2, desm["indice"],
             1 - plano["aproveitamento"]))
 
+    # ---- o ultimo literal do checklist. "combinacoes": True nao era mentira:
+    # as combinacoes existem, sao geradas e sao usadas. Mas um item que nao
+    # pode reprovar nao verifica nada. Sao duas perguntas distintas, e a
+    # segunda e a que morde: (1) os fatores sao os das tabelas da NBR 8681,
+    # recalculados sem passar por gerar()? (2) toda acao DECLARADA no caso e
+    # consumida por alguma verificacao? Uma acao pode estar perfeitamente
+    # declarada, com gama e psi certos, e nao entrar em calculo nenhum —
+    # existir no papel e nao existir no calculo e a forma mais silenciosa de
+    # erro que este projeto ja encontrou.
+    comb_conf = cb.conferir(verif["combs"], verif["acoes_cod"],
+                            verif["subclasses"])
+    declaradas = {
+        "permanente": [k for k in pj.CARGAS if k.endswith(("_perm", "_m"))],
+        "acidental": [k for k in pj.CARGAS if k.endswith("_acid")],
+        "vento": ["V0_VENTO"] if getattr(pj, "V0_VENTO", None) else [],
+    }
+    # cada verificacao declara o que consumiu a partir da chamada que fez
+    consumidas = {"descida de cargas": verif["acoes"],
+                  "contraventamento": contra["acoes"]}
+    comb_cob = cb.cobertura_de_acoes(declaradas, consumidas)
+    combinacoes = dict(conferencia=comb_conf, cobertura=comb_cob,
+                       ok=comb_conf["ok"] and comb_cob["ok"])
+
+    # o que o caderno declara aberto tranca o que ele mesmo diz trancar
+    pendencias_bloqueantes = (pj.pendencias_abertas("fabricacao")
+                              if hasattr(pj, "pendencias_abertas") else [])
+
     # checklist, item a item, cada um consultando um resultado de verdade
     check = {
         "modelo conectado": all(p.pecas for p in todos),
         "cargas": bool(pj.CARGAS),
-        "combinacoes": True,
+        "combinacoes": combinacoes["ok"],
         "estabilidade": not instab,
         # o item agora PODE falhar: e a verificacao de 415 montantes contra a
         # carga que desce ate cada um, sem teto na utilizacao
@@ -217,6 +256,12 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         "nesting": abs(plano["bruto"] - plano["usado"] - plano["perda"]) < 1e-6,
         "BOM": abs(next(i for i in itens if i.sku == "ACO-PERF").quantidade
                    - massa_comprada) < 1.0,
+        # O item que faltava, e a sua ausencia era a mais grave de todas: o
+        # checklist media a coerencia do MODELO e anunciava "LIBERADO PARA
+        # FABRICACAO" com oito pendencias abertas no proprio caderno, duas
+        # delas — ART do calculo estrutural e nesting codificado — trancando
+        # exatamente a fabricacao. Consistencia interna nao e autorizacao.
+        "pendencias": not pendencias_bloqueantes,
         "revisao": pj.CADASTRO.revisao == pj.EMISSAO["revisao"],
         "documentacao": _documentos_ok(pj, pecas, plano, paineis, cat),
     }
@@ -247,5 +292,12 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                 verificacao=verif, jambas=jambas, jambas_apertadas=apertadas,
                 u_alvo=cfg.u_alvo, juntas=juntas, n_parafusos=n_parafusos,
                 casa=casa, contraventamento=contra, escada=escada,
+                combinacoes=combinacoes,
+                pendencias=dict(
+                    abertas=[dict(d) for d in
+                             (pj.pendencias_abertas()
+                              if hasattr(pj, "pendencias_abertas") else [])],
+                    bloqueantes=[dict(d) for d in pendencias_bloqueantes],
+                    portao="fabricacao"),
                 camadas=camadas, ancoragem=ancoragem["paineis"],
                 ancoragem_completa=ancoragem)
