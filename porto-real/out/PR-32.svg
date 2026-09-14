@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="32" data-rev="R51">
+<g data-tipo="carimbo" data-cod="32" data-rev="R52">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,19 +26,19 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R51</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R52</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">32</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 36   REV R51</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R52</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Paisagismo aqui e a ultima camada do projeto termico: a arvore sombreia ANTES de o sol chegar na parede, e transpira em vez de reirradiar.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Em faixa de 1.800 mm nao cabe arvore: a copa invade o vizinho e a raiz encontra o radier. Ali a sombra vem de trelica e sebe.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Irrigacao: gotejamento em linha autocompensante, 2 L/h por gotejador, 3 setores, 68.6 L/dia em media.</text>
-<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Fonte: reservatorio pluvial TC-03, por gravidade com filtro de 130 mesh</text>
+<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Fonte: rede publica, com registro e filtro de 130 mesh no cabecal</text>
 </g>
 <g clip-path="url(#rec1)" data-tipo="recorte">
 <circle cx="54.000" cy="508.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
@@ -137,8 +137,8 @@
 <text x="88.000" y="182.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">S2</text>
 <polygon points="175.000,203.600 181.000,203.600 181.000,208.400 175.000,208.400" stroke="#06c" stroke-width="0.3" fill="#e8f4fb" stroke-linejoin="miter"/>
 <text x="178.000" y="206.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">S3</text>
-<circle cx="199.000" cy="202.500" r="3.400" stroke="#06c" stroke-width="0.6" fill="#e8f4fb"/>
-<text x="199.000" y="203.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">TC-03</text>
+<circle cx="109.500" cy="436.500" r="3.400" stroke="#06c" stroke-width="0.6" fill="#e8f4fb"/>
+<text x="109.500" y="437.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">TC-03</text>
 <circle cx="280.000" cy="120.000" r="8.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
 <polygon points="288.000,120.000 277.994,121.837 280.000,120.000 277.994,118.163" stroke="#000000" stroke-width="0.3" fill="#000" stroke-linejoin="miter"/>
 <text x="292.000" y="120.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">N</text>
@@ -264,7 +264,7 @@
 <text x="447.500" y="268.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">antes era estimativa de 100 L/dia; agora e consequencia dos setores</text>
 <polygon points="320.000,271.000 580.000,271.000 580.000,276.200 320.000,276.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="321.500" y="273.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Fonte</text>
-<text x="359.500" y="273.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">reservatorio pluvial TC-03, por gravidade com filtro de 130 mesh</text>
+<text x="359.500" y="273.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rede publica, com registro e filtro de 130 mesh no cabecal</text>
 <text x="447.500" y="273.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gravidade dispensa bomba; filtro evita entupir gotejador</text>
 <polygon points="320.000,276.200 580.000,276.200 580.000,281.400 320.000,281.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="321.500" y="278.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Por que gotejamento</text>
@@ -276,34 +276,34 @@
 <text x="447.500" y="284.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.50 L/m2 por dia</text>
 <line x1="358.000" y1="245.000" x2="358.000" y2="286.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="446.000" y1="245.000" x2="446.000" y2="286.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="320.000" y="322.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">BALANCO DO REUSO — ATUALIZADO</text>
+<text x="320.000" y="322.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">RETENCAO PLUVIAL — R52 (o reuso foi encerrado)</text>
 <polygon points="320.000,325.000 580.000,325.000 580.000,330.200 320.000,330.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="321.500" y="327.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ITEM</text>
 <text x="395.500" y="327.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">VALOR</text>
 <polygon points="320.000,330.200 580.000,330.200 580.000,335.400 320.000,335.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="321.500" y="332.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Area de captacao (projecao coberta)</text>
-<text x="395.500" y="332.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">265.68 m2</text>
+<text x="321.500" y="332.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Superficies declaradas do lote</text>
+<text x="395.500" y="332.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 classes somando 800.00 m2 de 800 m2</text>
 <polygon points="320.000,335.400 580.000,335.400 580.000,340.600 320.000,340.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="321.500" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Captacao anual liquida</text>
-<text x="395.500" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">522.46 m3</text>
+<text x="321.500" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Area impermeabilizada</text>
+<text x="395.500" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">329.40 m2 (41.17 % do lote)</text>
 <polygon points="320.000,340.600 580.000,340.600 580.000,345.800 320.000,345.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="321.500" y="343.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Demanda diaria total</text>
-<text x="395.500" y="343.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">237.6 L/dia</text>
+<text x="321.500" y="343.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Lei 1.192/2007 (Pro-Aguas)</text>
+<text x="395.500" y="343.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">obriga acima de 500 m2 — nao obriga (folga de 170.60 m2)</text>
 <polygon points="320.000,345.800 580.000,345.800 580.000,351.000 320.000,351.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="321.500" y="348.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Demanda anual</text>
-<text x="395.500" y="348.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">86.72 m3</text>
+<text x="321.500" y="348.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C do terreno natural / construido</text>
+<text x="395.500" y="348.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.20 | 0.5489</text>
 <polygon points="320.000,351.000 580.000,351.000 580.000,356.200 320.000,356.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="321.500" y="353.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Aproveitamento da chuva captada</text>
-<text x="395.500" y="353.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17%</text>
+<text x="321.500" y="353.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Vazao para a rua antes / depois</text>
+<text x="395.500" y="353.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8.00 | 21.96 L/s (2.74x)</text>
 <polygon points="320.000,356.200 580.000,356.200 580.000,361.400 320.000,361.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="321.500" y="358.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Autonomia do reservatorio</text>
-<text x="395.500" y="358.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10.5 dias</text>
+<text x="321.500" y="358.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Volume de retencao</text>
+<text x="395.500" y="358.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8.38 m3 = excedente de 13.96 L/s durante 10 min</text>
 <polygon points="320.000,361.400 580.000,361.400 580.000,366.600 320.000,366.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="321.500" y="364.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Volume adotado</text>
-<text x="395.500" y="364.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2500 L</text>
+<text x="321.500" y="364.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Orificio de descarga</text>
+<text x="395.500" y="364.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN 59 mm, calibrado na vazao de pre-ocupacao; esvazia em 35 min</text>
 <polygon points="320.000,366.600 580.000,366.600 580.000,371.800 320.000,371.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="321.500" y="369.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Restricao de uso</text>
-<text x="395.500" y="369.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vasos sanitarios</text>
+<text x="321.500" y="369.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Por que nao ha mais reuso</text>
+<text x="395.500" y="369.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">REJEITADO por decisao do proprietario em R52</text>
 <line x1="394.000" y1="325.000" x2="394.000" y2="371.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 </g>
 </svg>

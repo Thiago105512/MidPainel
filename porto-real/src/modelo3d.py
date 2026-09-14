@@ -39,6 +39,13 @@ CORES = {
     "pilar": "#4a4f55", "viga": "#5b6169", "mob": "#b9b2a6",
     "bancada": "#8d8579", "louca": "#eceff1", "escada": "#c6c0b6",
     "brise": "#4a4f55", "tecnico": "#9a8f80", "terreno": "#cfd8cf",
+    # R52 — o muro existia no modelo, no orcamento e no desenho desde R49, e
+    # nunca na cena. 113 m de bloco aparente de 2,20 m de altura: o elemento
+    # que mais define o que se ve da rua, ausente justamente da vista que
+    # existe para mostrar o que se ve.
+    "muro": "#b4ada3", "drenante": "#c9c4bb", "brita": "#bcb8b0",
+    "radier": "#a9a49b",
+    "grama": "#b7c9a8", "reservatorio": "#7f8c99",
 }
 
 
@@ -244,6 +251,84 @@ def _externos() -> list[dict]:
     return out
 
 
+def _lote() -> list[dict]:
+    """Muro, superficies do terreno e reservatorio de retencao.
+
+    Tudo aqui ja existia no modelo e no orcamento; nada existia na cena. Era o
+    mesmo padrao que R31, R37, R38, R48 e R49 ja tinham acusado em outros
+    sistemas — "existe no desenho, nao existe no 3D" — sobrevivendo no unico
+    lugar onde ninguem tinha ido procurar: o terreno.
+    """
+    import nucleo.pluvial as pl
+    out = []
+    L, P = pj.LOTE_L, pj.LOTE_P
+    import nucleo.externo as ex
+    e = ex.MURO["espessura"]
+    h = ex.MURO["altura"]
+    pt = pj.PORTAO_TESTADA
+    # tres divisas fechadas
+    for x0, y0, x1, y1 in ((0, 0, e, P), (L - e, 0, L, P), (0, P - e, L, P)):
+        out.append(_box("muro", x0, y0, 0, x1, y1, h, CORES["muro"]))
+    # testada: os vaos dos dois portoes saem da MESMA declaracao que o
+    # comprimento do muro desconta
+    vaos = sorted([(pt["veiculo_x"] - pt["veiculo_larg"] / 2,
+                    pt["veiculo_x"] + pt["veiculo_larg"] / 2),
+                   (pt["pedestre_x"] - pt["pedestre_larg"] / 2,
+                    pt["pedestre_x"] + pt["pedestre_larg"] / 2)])
+    cur = 0
+    for a, b in vaos + [(L, L)]:
+        if a > cur:
+            out.append(_box("muro", cur, 0, 0, a, e, h, CORES["muro"]))
+        cur = b
+    # superficies do terreno que nao sao ambiente: acesso, passeio, faixa
+    # tecnica e recuos. A cor diz a classe, e a classe e a mesma que entra no
+    # calculo da retencao.
+    xs = [a.x for a in pj.TERREO + pj.TERREO_ABERTO]
+    xe = [a.x + a.w for a in pj.TERREO + pj.TERREO_ABERTO]
+    ys = [a.y for a in pj.TERREO + pj.TERREO_ABERTO]
+    ye = [a.y + a.h for a in pj.TERREO + pj.TERREO_ABERTO]
+    x0, x1, y0, y1 = min(xs), max(xe), min(ys), max(ye)
+    faixas = [
+        ("drenante", pt["veiculo_x"] - pt["veiculo_larg"] / 2, 0,
+         pt["veiculo_x"] + pt["veiculo_larg"] / 2, y0),
+        ("drenante", pt["pedestre_x"] - pt["pedestre_larg"] / 2, 0,
+         pt["pedestre_x"] + pt["pedestre_larg"] / 2, y0),
+        ("brita", x1, 0, L, P),
+        ("grama", 0, 0, x0, P),
+        ("grama", x0, y1, x1, P),
+    ]
+    # o recuo frontal ajardinado e o que sobra da faixa da frente
+    for cor, fx0, fy0, fx1, fy1 in faixas:
+        if fx1 > fx0 and fy1 > fy0:
+            out.append(_box("lote", fx0, fy0, -40, fx1, fy1, 0, CORES[cor]))
+    out.append(_box("lote", x0, 0, -40, x1, y0, 0, CORES["grama"]))
+    # radier: o sistema mais caro depois da estrutura, e a cena nunca o teve.
+    # Vai com a espessura e a projecao reais, e com o engrossamento de borda
+    # que R52 acrescentou — quem olha a cena de baixo tem de ver a mesma peca
+    # que o orcamento paga.
+    import nucleo.fundacao as fu
+    import nucleo.geotecnia as gt
+    c = fu.contorno(pj)
+    rx = [a.x for a in pj.TERREO]
+    rxe = [a.x + a.w for a in pj.TERREO]
+    ry = [a.y for a in pj.TERREO]
+    rye = [a.y + a.h for a in pj.TERREO]
+    bal = pj.RADIER["balanco_borda"]
+    out.append(_box("radier", min(rx) - bal, min(ry) - bal,
+                    -pj.RADIER["espessura"], max(rxe) + bal, max(rye) + bal, 0,
+                    CORES["radier"], f"radier {pj.RADIER['espessura']} mm"))
+    # reservatorio de retencao: enterrado, aparece a tampa e o volume em
+    # transparencia — e o unico jeito de um enterrado existir numa cena
+    tc = next((t for t in pj.TECNICOS if t["cod"] == "TC-03"), None)
+    if tc:
+        r = pl.retencao(pj)
+        out.append(_box("reservatorio", tc["x"], tc["y"],
+                        -tc.get("prof", 1_400), tc["x"] + tc["w"],
+                        tc["y"] + tc["h"], -100, CORES["reservatorio"],
+                        f"TC-03 {r['volume_m3']:.1f} m3"))
+    return out
+
+
 def _mobiliario() -> list[dict]:
     out = []
     alturas = {"bancada": 900, "armario alto": 2_200, "prateleiras": 1_800,
@@ -376,7 +461,7 @@ def exportar(caminho: str | None = None) -> dict:
         terreo=_paredes("T") + _subdivisoes(),
         superior=_paredes("S"),
         lajes=_lajes(), platibandas=_platibandas(),
-        externo=_externos(), mob=_mobiliario(), escada=_escada(),
+        externo=_externos() + _lote(), mob=_mobiliario(), escada=_escada(),
         ambientes=_ambientes(), cenas=CENAS, cores=CORES,
         lsf=_estrutura_lsf(), cores_lsf=CORES_LSF)
     # separa o que e do superior para permitir ligar/desligar

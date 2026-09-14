@@ -96,6 +96,11 @@ PRECO_MEP = {            # (H)
 PRECO_FUND = {           # (H)
     "concreto_m3": 520.00, "aco_kg": 9.80, "tela_m2": 28.00,
     "lastro_m3": 145.00, "lona_m2": 4.50, "forma_m2": 68.00,
+    # terraplenagem de R52: a troca controlada dos 600 mm de aterro que o SPT
+    # reprovou por uniformidade. Escavacao e bota-fora sao servico, nao
+    # material, e por isso o preco e de hora de maquina rateada por m3.
+    "escavacao_m3": 38.00, "bota_fora_m3": 46.00,
+    "substituicao_m3": 128.00, "compactacao_m3": 22.00, "ensaio_un": 380.00,
 }
 PRECO_ESQ = {            # (H)
     "caixilho_m": 185.00, "vidro_m2": 310.00,
@@ -262,10 +267,25 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                  fun["lastro_m3"], PRECO_FUND["lastro_m3"], "m3"),
                 ("FUN-LONA", "Lona plastica sob o radier",
                  fun["lona_m2"], PRECO_FUND["lona_m2"], "m2"),
-                ("FUN-FORMA", "Forma de borda", fun["forma_m2"],
-                 PRECO_FUND["forma_m2"], "m2")):
+                ("FUN-FORMA", "Forma de borda e engrossamento do perimetro",
+                 fun["forma_m2"], PRECO_FUND["forma_m2"], "m2")):
             itens.append(ItemBOM(sku, desc, un, q, pr, "fundacao",
-                                 fonte="derivado de espessura (H)"))
+                                 fonte="derivado da secao conferida"))
+        # terraplenagem: consequencia direta do SPT, e nao existia em zero
+        t = fun["terraplenagem"]
+        for sku, desc, q, pr, un in (
+                ("FUN-ESCAV", "Escavacao do aterro superficial reprovado",
+                 t["corte_m3"], PRECO_FUND["escavacao_m3"], "m3"),
+                ("FUN-BOTA", "Bota-fora do material escavado (empolado 25 %)",
+                 t["bota_fora_m3"], PRECO_FUND["bota_fora_m3"], "m3"),
+                ("FUN-SUBST", "Substituicao: areia grossa com brita graduada",
+                 t["substituicao_m3"], PRECO_FUND["substituicao_m3"], "m3"),
+                ("FUN-COMP", "Compactacao controlada, camadas de 250 mm",
+                 t["substituicao_m3"], PRECO_FUND["compactacao_m3"], "m3"),
+                ("FUN-ENSAIO", "Ensaio de densidade in situ por camada",
+                 t["ensaios"], PRECO_FUND["ensaio_un"], "un")):
+            itens.append(ItemBOM(sku, desc, un, q, pr, "fundacao",
+                                 fonte="derivado do SPT"))
 
     # ---- esquadria: 12 a 18 % do custo de uma residencia, e estava em zero
     esq = (camadas or {}).get("esquadrias")

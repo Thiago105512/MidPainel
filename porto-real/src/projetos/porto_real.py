@@ -306,6 +306,15 @@ ESQUADRIAS = {
     "P02":  (  900, 2_100,     0, "porta interna (familia unificada)"),
     "P04":  (  900, 2_100,     0, "porta de servico, resistente a umidade"),
     "P05":  (  900, 2_100,     0, "porta DE CORRER — sem area de varredura"),
+    # R52 — familia nova, e a segunda em 52 revisoes. Entra porque a
+    # conferencia acustica reprovou TRES passagens, e as tres pela mesma
+    # causa: folha oca de 20 dB (ou de correr, de 15) num fechamento cuja
+    # parede tem 41 a 44 dB. Em acustica o elo fraco domina — 4,35 m2 de
+    # parede de 44 dB com 1,89 m2 de porta de 15 entregam 20 dB, nao 36. A
+    # familia unificada continua sendo a regra; a excecao esta MEDIDA, e so
+    # vai onde a medida reprovou.
+    "P06":  (  900, 2_100,     0, "porta interna de folha SOLIDA com vedacao "
+                                  "perimetral e soleira automatica (acustica)"),
     "J01":  (1_200, 1_200, 1_100, "janela de dormitorio, aluminio"),
     # J02 ficou SEM USO em R47, quando o banho da suite 02 passou a J04 para
     # espelhar a 03. Mantida no catalogo e marcada: familia sem vao e a que
@@ -335,10 +344,30 @@ VAOS = [
     # ---- faixa frontal
     ("PG01",  5_400,  7_200, "H", "T"),   # portao da garagem (ventila a garagem)
     ("P01",   9_300,  9_600, "H", "T"),   # entrada principal
-    ("P02",   8_400, 12_000, "V", "T"),   # hall -> garagem
-    ("P05",  10_200, 10_800, "V", "T"),   # hall -> banho: de correr (NBR 9050)
+    # R52 — a porta do hall para a garagem passa a SOLIDA. Nao e capricho
+    # acustico: a conferencia deu 26,8 dB contra 30 exigidos, e porta entre
+    # garagem e interior de casa tem outra razao independente para ser macica.
+    ("P06",   8_400, 12_000, "V", "T"),   # hall -> garagem (solida, acustica)
+    # R52 — O BANHO COMPARTILHADO NAO ABRE MAIS PARA A ENTRADA.
+    #
+    # Saiu ("P05", 10.200, 10.800, "V"): porta DE CORRER na parede do hall, a
+    # um metro do box. A parede era boa — PH-1 de 44 dB — e a porta entregava
+    # 15: o conjunto dava 20 dB, e quem entrasse na casa ouviria o chuveiro
+    # com clareza. Saiu tambem ("P02", 12.000, 10.800, "V"), do banho para o
+    # quarto reversivel: folha oca de 20 dB contra um DORMITORIO, que e o
+    # receptor mais exigente da NBR 10152. Era a pior passagem da casa, e nao
+    # era a que se via da porta de entrada.
+    #
+    # Com as duas fora, a parede do hall e a do quarto ficam CEGAS, com os 44
+    # dB inteiros. O acesso passa a ser unico, pela circulacao — que e area de
+    # passagem e nao de permanencia. O banho perde o carater de suite e ganha
+    # o de banho social com acesso de hospede, que e o que um "compartilhado"
+    # deveria ser desde o inicio.
+    #
+    # Custo: uma porta A MENOS. A folha solida da circulacao custa mais que a
+    # oca, e sai uma de correr com trilho e uma oca.
     ("P02",  12_000, 12_600, "V", "T"),   # circulacao -> quarto reversivel (acesso proprio)
-    ("P02",  12_000, 10_800, "V", "T"),   # banho -> quarto reversivel
+    ("P06",  11_100, 12_000, "H", "T"),   # circulacao -> banho (unico acesso, abre para fora)
     ("J05",  13_500,  7_200, "H", "T"),   # janela ampla do reversivel (leste)
     ("J01",  15_000, 10_200, "V", "T"),   # janela do reversivel (norte)
     ("J04",  11_100,  9_600, "H", "T"),   # janela alta do banho (jardim leste)
@@ -472,6 +501,20 @@ PISO_EXTERNO = [
          razao="mesma exigencia de piso molhado e descalco da faixa da "
                "piscina, sem acrescentar familia"),
 ]
+# R52 — A TESTADA GANHA COORDENADA.
+# O muro descontava "o portao de 5.400 e 1.200 de acesso de pedestre" desde
+# R49, e o 3D precisou saber ONDE eles ficam para abrir o muro. Nao ficavam em
+# lugar nenhum: o comprimento sabia que existiam e a geometria nao. Agora a
+# posicao e dado, e tres modulos leem o mesmo: o muro (comprimento), a
+# superficie do lote (acesso e passeio em piso drenante) e a cena 3D.
+# O portao de veiculos alinha com a garagem e o de pedestres com a porta
+# principal — quem entra a pe caminha reto ate a varanda, sem contornar carro.
+PORTAO_TESTADA = dict(
+    veiculo_x=5_400, veiculo_larg=5_400,      # centrado na garagem
+    pedestre_x=9_300, pedestre_larg=1_200,    # alinhado com P01
+    razao="o carro entra na linha da garagem e a pessoa na linha da porta",
+)
+
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 # A caixa estava sobre o VAZIO do core: 25 kN apoiados em uma plataforma de
 # 2,4 m vencendo o poco de luz. Deslocada para o atico sobre o banho da master,
@@ -754,53 +797,41 @@ AQUECIMENTO = dict(
         "comercial corrente) em 220 V, que ainda entrega dT de 21 K."),
 )
 
+# R52 — O PROPRIETARIO DECIDIU: SEM REUSO, COM RETENCAO.
+#
+# Ate R51 o projeto tinha reuso (2.500 L para irrigacao, lavagem, ducha e
+# reposicao da piscina) e a retencao era uma pergunta em aberto. A decisao
+# inverteu os dois, e inverter e a palavra certa: reuso e retencao sao
+# sistemas de dimensionamento OPOSTO. O reuso quer o reservatorio CHEIO na
+# vespera da seca; a retencao quer o reservatorio VAZIO na vespera da chuva.
+# O reservatorio que promete as duas coisas nao faz nenhuma — no dia da chuva
+# ele esta cheio de agua guardada e nao retem nada.
+#
+# O que se perde: cerca de 98 m3/ano de agua tratada, que em Manaus e o
+# insumo mais barato da obra. O que se ganha: uma rede a menos, uma bomba a
+# menos, um risco permanente de conexao cruzada a menos, e nenhuma placa de
+# "agua nao potavel" para alguem ignorar daqui a vinte anos.
+#
+# O dimensionamento da retencao esta em nucleo/pluvial.py, que primeiro
+# precisou declarar as superficies do lote INTEIRO — 333,44 m2 do terreno,
+# 42 % dele, nao tinham superficie nenhuma no modelo.
 PLUVIAL = dict(
-    decisao="REUSO — reservatorio dimensionado pela DEMANDA, nao pela oferta",
-    volume_l=2_500,
-    precipitacao_mm_ano=2_300,
-    coef_escoamento=0.95,
-    descarte_inicial=0.10,
-    usos=[("Lavagem de deck, calcada e veiculos", 21),
-          ("Ducha externa do deck", 90),
-          ("Reposicao da piscina por evaporacao", 58),
-          ("Irrigacao com paisagismo adaptado", None)],   # calculado: ver usos_pluviais()
-    nao_estender_a="vasos sanitarios",
-    porque_nao=(
-        "Descarga com agua de chuva renderia ~55 m3/ano, mas exige tubulacao "
-        "dupla permanentemente identificada, tratamento e bomba. Payback de 15 "
-        "a 30 anos e risco permanente de conexao cruzada. A agua em Manaus e "
-        "abundante e barata: o item nao se paga nem em dinheiro nem em risco."),
-    retencao=(
-        "Funcao DIFERENTE e de dimensionamento OPOSTO: reuso quer o reservatorio "
-        "cheio, retencao quer vazio antes da chuva. So sera dimensionada se o "
-        "Codigo Ambiental de Manaus a exigir — e entao como volume separado, ou "
-        "como zona superior do mesmo reservatorio com descarga lenta por orificio."),
+    decisao="RETENCAO — reservatorio dimensionado pelo EXCEDENTE de vazao",
+    reuso="REJEITADO por decisao do proprietario em R52",
+    lei="Lei municipal 1.192/2007 (Pro-Aguas), Manaus",
+    gatilho_m2=500.0,
+    porque_nao_o_reuso=(
+        "Renderia cerca de 98 m3/ano de agua nao potavel, contra uma rede "
+        "dupla permanentemente identificada, filtro, bomba e manutencao. "
+        "Payback longo e risco permanente de conexao cruzada. Em Manaus a "
+        "agua e abundante e barata: o item nao se paga nem em dinheiro nem "
+        "em risco. A irrigacao e a ducha externa passam a vir da rede."),
+    porque_a_retencao=(
+        "O lote passou de C 0,20 natural para C 0,55 construido: manda para "
+        "a rua quase tres vezes o que mandava. O reservatorio de retardo "
+        "devolve essa diferenca ao ritmo antigo — e o orificio calibrado, "
+        "nao o volume, e quem faz isso."),
 )
-
-
-def usos_pluviais() -> list[tuple[str, float]]:
-    """Usos do reuso, com a irrigacao CALCULADA dos setores declarados.
-
-    Os 100 L/dia de irrigacao eram estimativa. Com o paisagismo e os setores de
-    gotejamento definidos na Etapa 4, o numero passa a ser consequencia:
-    3 setores x 240 L/h x 20 min, 2 vezes por semana.
-    """
-    out = []
-    for nome, v in PLUVIAL["usos"]:
-        out.append((nome, demanda_irrigacao_ldia() if v is None else float(v)))
-    return out
-
-
-def balanco_pluvial() -> dict:
-    area = projecao_coberta_m2()
-    captacao = area * (PLUVIAL["precipitacao_mm_ano"] / 1000) * \
-        PLUVIAL["coef_escoamento"] * (1 - PLUVIAL["descarte_inicial"])
-    demanda_dia = sum(v for _, v in usos_pluviais())
-    return dict(area=area, captacao_m3=captacao,
-                demanda_dia=demanda_dia,
-                demanda_ano=demanda_dia * 365 / 1000,
-                autonomia_dias=PLUVIAL["volume_l"] / demanda_dia,
-                aproveitamento=(demanda_dia * 365 / 1000) / captacao)
 
 
 # =========================================================================
@@ -902,22 +933,31 @@ GAMA_M = 1.1                # coeficiente de minoracao da resistencia
 # lugares para o mesmo numero, e nenhum deles era dado do projeto — o desenho
 # dizia 180 e a ancoragem acreditava.
 #
-# TUDO AQUI E (H) ATE A SONDAGEM. Radier e a peca que mais depende do solo, e
-# a pendencia 2 do caderno e exatamente esta. O que este bloco permite e
-# derivar QUANTIDADE para uma espessura declarada; ele nao dimensiona radier,
-# e nao substitui o calculo com ART.
+# R52: O SOLO DEIXOU DE SER (H). O proprietario entregou tres sondagens a
+# percussao — SP-01, SP-02 e SP-03, NSPT metro a metro ate 8 m — e elas estao
+# declaradas em nucleo/geotecnia.py, que confere esta secao contra pressao de
+# contato, recalque, distorcao angular e profundidade investigada.
+#
+# O que mudou de fato nao foi a espessura, que continua 180 mm: foi existir
+# agora um numero contra o qual conferi-la. E o que o solo mandou mudar nao foi
+# o radier — foi o que esta DEBAIXO dele. Com N de 3 a 4 no primeiro metro,
+# descrito no boletim como aterro pouco compacto, o risco nao e ruptura: e
+# apoio desigual. Por isso entra a troca controlada de 600 mm e o
+# engrossamento do perimetro.
+#
+# Continua nao sendo projeto de fundacao com ART — isso e a pendencia 3.
 RADIER = dict(
-    espessura=180,            # mm (H): sem sondagem, e pre-dimensionamento
-    fck=30,                   # MPa (H)
+    espessura=180,            # mm, conferida em geotecnia.py
+    fck=30,                   # MPa, classe de agressividade II (NBR 6118)
     aco="CA-50",
-    tela="Q196",              # malha soldada, 3,4 kg/m2 (H)
-    taxa_armadura=45.0,       # kg de aco por m3 de concreto (H), radier leve
+    tela="Q196",              # malha soldada dupla, 3,11 kg/m2 (NBR 7481)
     cobrimento=30,            # mm, classe de agressividade II da NBR 6118
     lastro=100,               # mm de brita graduada sob o radier
     lona=1,                   # camada de lona plastica 150 micra
     balanco_borda=100,        # mm de radier alem da face externa da parede
-    norma="NBR 6118 e NBR 6122",
-    pendencia="sondagem SPT e calculo definitivo — pendencia 2 do caderno",
+    norma="NBR 6118, NBR 6122 e NBR 6484 (sondagem)",
+    pendencia="projeto de fundacao com ART — pendencia 3 do caderno",
+    sondagem="SP-01, SP-02 e SP-03 (proprietario), NSPT ate 8 m",
 )
 
 V0_VENTO = 30.0
@@ -1407,9 +1447,20 @@ CIRC_BANCADA_DESEJADA = 1_100
 # =========================================================================
 LOUCAS = [
     # banho compartilhado (10.200, 10.800, 1.800 x 2.400)
-    dict(cod="LC-01", amb="T-BWC", tipo="vaso",      x=10_400, y=9_750, w=400, h=650),
-    dict(cod="LC-02", amb="T-BWC", tipo="lavatorio", x=11_050, y=9_750, w=700, h=450),
-    dict(cod="LC-03", amb="T-BWC", tipo="box",       x=10_350, y=10_850, w=900, h=1_000),
+    dict(cod="LC-01", amb="T-BWC", tipo="vaso",      x=10_275, y=10_900, w=650, h=400),
+    dict(cod="LC-02", amb="T-BWC", tipo="lavatorio", x=10_275, y=9_900, w=450, h=700),
+    # R52 — O BANHO INTEIRO FOI REDESENHADO, e nao por gosto: a porta nova na
+    # parede sul precisa de 900 mm de passagem livre, e a primeira tentativa
+    # (encolher o box para 800) foi REPROVADA pela propria auditoria, que
+    # exige 900 mm de box desde R11. A regra ganhou da conveniencia, que e
+    # para isso que ela existe.
+    #
+    # A solucao que respeita as duas: o box sobe para o canto NORDESTE, sob a
+    # janela alta — banho ventilado pelo vao que ja existia, e a metade sul do
+    # comodo inteira livre para a porta e para a circulacao. Vaso e lavatorio
+    # passam para a parede OESTE, que R52 deixou cega ao remover a porta do
+    # hall: a parede que era o problema acustico vira a parede das loucas.
+    dict(cod="LC-03", amb="T-BWC", tipo="box",       x=11_025, y=9_675, w=900, h=1_000),
     # suite 02 — banho (2.400, 13.200, 1.800 x 2.400)
     dict(cod="LC-04", amb="S-S02", tipo="vaso",      x=2_600, y=13_350, w=400, h=650),
     dict(cod="LC-05", amb="S-S02", tipo="lavatorio", x=3_250, y=13_350, w=700, h=450),
@@ -1494,9 +1545,17 @@ TECNICOS = [
     dict(cod="TC-02", nome="Motobomba de recalque 0,5 cv", zona="FT-N",
          x=17_000, y=9_800, w=1_000, h=800,
          obs="base antivibratoria; succao DN32, recalque DN25; bypass manual"),
-    dict(cod="TC-03", rasante=True, nome="Reservatorio pluvial 2.500 L", zona="ENT",
-         x=13_000, y=27_000, w=1_800, h=1_500, prof=1_200,
-         obs="enterrado no jardim norte, junto as descidas 3 e 4; so irrigacao e lavagem"),
+    # R52 — deixou de ser reservatorio de REUSO e passou a ser de RETENCAO, e
+    # com isso mudou de lugar. O de reuso ficava junto as descidas, porque era
+    # do telhado que ele enchia. O de retardo tem de ficar no ponto BAIXO do
+    # lote e a montante da saida para a rua, porque o que ele controla nao e o
+    # que entra: e o que sai. Vai sob o acesso de veiculos, faixa que ja sera
+    # escavada e que nao tem uso vertical nenhum. Volume e orificio saem de
+    # nucleo/pluvial.py, nao deste nome.
+    dict(cod="TC-03", rasante=True, nome="Reservatorio de retencao", zona="ENT",
+         x=3_600, y=3_000, w=2_700, h=2_700, prof=1_400,
+         obs="enterrado sob o acesso de veiculos, a montante da saida para a "
+             "sarjeta; orificio calibrado na vazao de pre-ocupacao"),
     # ---- gas
     dict(cod="TC-04", nome="Central GLP (2 x P-45)", zona="FT-N",
          x=17_200, y=24_000, w=1_200, h=800,
@@ -1918,7 +1977,22 @@ def prumadas_hidraulicas() -> list[dict]:
 # aquece, o disjuntor geral desliga na hora de maior calor, e o proprietario
 # troca o disjuntor por um maior em vez do cabo. Adotado fd = 1,00 para
 # climatizacao, com justificativa escrita.
-TENSAO = dict(fn=127, ff=220, fases=3, esquema="trifasico 127/220 V (H)")
+# R52 — A PENDENCIA 7 FECHOU. O proprietario confirmou: trifasico, 127 V para
+# a maioria dos eletrodomesticos, 220 V para ar-condicionado e chuveiros. E o
+# que a concessionaria local fornece em baixa tensao trifasica — estrela
+# 220/127 V com neutro (NDEE-02).
+#
+# Nao e so tirar um (H). Num 220/127 a carga de 127 V fica entre FASE e NEUTRO
+# e a de 220 V entre DUAS FASES: aparece o desequilibrio, que nao existe em
+# instalacao monofasica e que nenhuma verificacao do projeto enxergava. Quem
+# equilibra e nucleo/eletrica.py, circuito a circuito — e a atribuicao fica
+# ESCRITA no projeto, em vez de virar decisao do eletricista no dia do quadro.
+TENSAO = dict(fn=127, ff=220, fases=3,
+              esquema="trifasico 220/127 V, estrela com neutro",
+              fonte="confirmado pelo proprietario em R52; padrao da "
+                    "concessionaria local em BT trifasica",
+              cargas_127="iluminacao, TUG e eletrodomesticos correntes",
+              cargas_220="ar-condicionado, chuveiros, forno, secadora e bombas")
 ILUM_VA_BASE = 100          # primeiros 6 m2
 ILUM_VA_EXTRA = 100         # a cada 4 m2 adicionais
 TUG_VA_SECA = 100
@@ -2074,7 +2148,7 @@ def linhas_frigorigenas() -> list[dict]:
 
 # ------------------------------------------------------ DRENAGEM E RALOS
 RALOS = [
-    dict(cod="RL-01", amb="T-BWC", tipo="ralo linear 600", x=10_350, y=10_850, dn=50),
+    dict(cod="RL-01", amb="T-BWC", tipo="ralo linear 600", x=11_025, y=10_575, dn=50),
     dict(cod="RL-02", amb="S-S02", tipo="ralo linear 600", x=2_550, y=14_500, dn=50),
     dict(cod="RL-03", amb="S-S03", tipo="ralo linear 600", x=2_550, y=19_300, dn=50),
     dict(cod="RL-04", amb="S-MAS", tipo="ralo linear 900", x=11_550, y=20_900, dn=50),
@@ -2455,7 +2529,12 @@ PAISAGISMO = [
 IRRIGACAO = dict(
     sistema="gotejamento em linha autocompensante, 2 L/h por gotejador",
     setores=3, vazao_setor_lh=240, tempo_min=20, frequencia="2 x por semana",
-    fonte="reservatorio pluvial TC-03, por gravidade com filtro de 130 mesh",
+    fonte="rede publica, com registro e filtro de 130 mesh no cabecal",
+    porque_da_rede=("R52 encerrou o reuso por decisao do proprietario. A "
+                    "irrigacao era o maior consumidor da agua de chuva e "
+                    "passa a ser o unico item que a rede absorve: sao menos "
+                    "de 100 L/dia em media, contra os mais de 1.000 L/dia da "
+                    "casa"),
     obs="gotejamento e nao aspersao: evapora menos, nao molha fachada e nao "
         "lava o solo. Em cidade com 2.300 mm de chuva, irrigacao e para a "
         "estiagem curta, nao para o ano inteiro",
@@ -2789,6 +2868,37 @@ REVISOES = [
             "de ele existir. 18 de 18 sistemas levantados chegam ao papel, as "
             "36 pranchas trazem a revisao no carimbo e a contagem do carimbo "
             "bate com o emitido"),
+    ("R52", "AS DECISOES DO PROPRIETARIO VIRAM PROJETO — e quatro delas "
+            "abriram trabalho que nao existia. (1) ELETRICA: trifasico "
+            "220/127 confirmado, 127 V para eletrodomesticos correntes e 220 "
+            "V para ar e chuveiro. Tirar o (H) foi o menor efeito: num "
+            "220/127 aparece o desequilibrio entre fases, que instalacao "
+            "monofasica nao tem; 58 circuitos distribuidos com 0,43 % de "
+            "diferenca, e a atribuicao escrita no projeto. (2) AGUA: sai o "
+            "reuso, entra a retencao — dimensionamento OPOSTO, um quer cheio "
+            "antes da seca e o outro vazio antes da chuva. Para dimensionar "
+            "faltava a superficie do LOTE inteiro: 333,44 m2, 42 % do "
+            "terreno, sem classe nenhuma. A Lei 1.192/2007 obriga acima de "
+            "500 m2 impermeabilizados e o lote tem 329,40; a retencao foi "
+            "adotada assim mesmo, com 8,38 m3 e orificio de 58,7 mm — e e o "
+            "orificio, nao o volume, que faz o trabalho. (3) SOLO: tres "
+            "sondagens do proprietario. Tres correlacoes de tensao "
+            "admissivel, adotada a MENOR; recalque de 2,12 mm e fator 9,04. "
+            "O solo nao reprovou por capacidade e sim por UNIFORMIDADE, e a "
+            "resposta foi trocar 600 mm de aterro com controle — R$ 30,4 mil "
+            "que nao existiam: saber o solo encareceu a obra. A taxa de "
+            "armadura deixou de ser dado e virou RESULTADO da armadura real. "
+            "(4) ACUSTICA, o eixo que o morador achou antes do programa: "
+            "quatro passagens reprovadas na primeira execucao, e a pior nao "
+            "era a visivel — o banho contra o DORMITORIO. A parede de 44 dB "
+            "com porta de correr de 15 entregava 20. Duas portas removidas, "
+            "uma solida acrescentada, o banho deixou de abrir para a entrada "
+            "e o conserto saiu com uma porta A MENOS. Mais: o muro de 113 m "
+            "entrou no 3D onde nunca esteve; a piscina parou de pagar "
+            "porcelanato sobre a lamina (R$ 2.637); e a pesquisa de mercado "
+            "devolveu 51 fornecedores e indices publicos — nao preco "
+            "unitario —, e foi a conferencia de cima para baixo que obrigou a "
+            "escrever os 9 escopos que NAO estao no orcamento"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2809,28 +2919,61 @@ PENDENCIAS = [
                        "gabarito)", norma="Lei 1.838/2014",
          impacto="Condiciona toda a implantacao",
          status="ABERTA", bloqueia="obra"),
+    # R52 — RESOLVIDA NA METADE QUE ERA DADO. O proprietario entregou tres
+    # sondagens a percussao (SP-01, SP-02, SP-03) com NSPT ate 8 m. Elas estao
+    # declaradas em nucleo/geotecnia.py e o radier passou a ser CONFERIDO
+    # contra elas: pressao de contato, recalque, distorcao e profundidade
+    # investigada. O calculo definitivo com ART continua faltando, mas ele e a
+    # pendencia 3 — nao esta.
     dict(n="2", titulo="Sondagem do solo e calculo definitivo do radier",
-         norma="NBR 6122", impacto="Fundacao",
-         status="ABERTA", bloqueia="obra"),
+         norma="NBR 6122 e NBR 6484",
+         impacto="RESOLVIDA em R52: SP-01, SP-02 e SP-03 entregues pelo "
+                 "proprietario. O solo reprovou por UNIFORMIDADE e nao por "
+                 "capacidade — N de 3 a 4 no primeiro metro, aterro pouco "
+                 "compacto — e a resposta foi trocar 600 mm com controle de "
+                 "compactacao, nao engrossar o radier. Custo novo de "
+                 "terraplenagem: R$ 30,4 mil. O projeto com ART e a "
+                 "pendencia 3",
+         status="RESOLVIDA", bloqueia=""),
     dict(n="3", titulo="Calculo estrutural do hibrido LSF + laminado, com ART",
          norma="NBR 8800 / 14762",
          impacto="Estrutura e balanco; inclui o apoio da caixa d'agua. O "
                  "pre-dimensionamento por flecha nao substitui verificacao de "
                  "flambagem lateral",
          status="ABERTA", bloqueia="fabricacao"),
+    # R52 — EXTINTA, e extinta e diferente de resolvida: nao ha mais o que
+    # verificar porque nao ha mais reuso. O proprietario encerrou o sistema.
     dict(n="4", titulo="Verificacao ambiental do reuso pluvial",
-         norma="Codigo Ambiental de Manaus", impacto="Licenciamento",
-         status="ABERTA", bloqueia="obra"),
+         norma="Codigo Ambiental de Manaus",
+         impacto="EXTINTA em R52: o reuso foi encerrado por decisao do "
+                 "proprietario. Sem rede nao potavel nao ha o que licenciar, "
+                 "e some junto o risco permanente de conexao cruzada",
+         status="RESOLVIDA", bloqueia=""),
+    # R52 — RESOLVIDA com a lei na mao. A Lei municipal 1.192/2007
+    # (Pro-Aguas) obriga reservatorio de retardo acima de 500 m2 de area
+    # IMPERMEABILIZADA. O lote tem 329,40 m2: nao obriga. A retencao foi
+    # adotada assim mesmo, por decisao do proprietario, e dimensionada pelo
+    # criterio que a lei usaria.
     dict(n="5", titulo="Exigencia municipal de retencao pluvial no lote",
-         norma="a confirmar", impacto="Se houver, volume separado do reuso",
-         status="ABERTA", bloqueia="obra"),
+         norma="Lei municipal 1.192/2007 (Pro-Aguas), Manaus",
+         impacto="RESOLVIDA em R52: o gatilho e 500 m2 de area "
+                 "impermeabilizada e o lote tem 329,40 m2 — nao obriga, com "
+                 "170,60 m2 de folga. Retencao adotada mesmo assim: 8,38 m3 "
+                 "sob o acesso de veiculos, com orificio calibrado na vazao "
+                 "de pre-ocupacao",
+         status="RESOLVIDA", bloqueia=""),
     dict(n="6", titulo="Regulamento especifico do condominio", norma="—",
          impacto="Fachada, muros, recuos e especie vegetal",
          status="ABERTA", bloqueia="obra"),
+    # R52 — RESOLVIDA pelo proprietario: trifasico, 127 V para a maioria dos
+    # eletrodomesticos, 220 V para ar-condicionado e chuveiros.
     dict(n="7", titulo="Padrao de entrada de energia trifasico",
-         norma="NT Amazonas Energia",
-         impacto="Confirmar disponibilidade de trifasico no ramal",
-         status="ABERTA", bloqueia="obra"),
+         norma="NDEE-02 (BT, edificacoes individuais)",
+         impacto="RESOLVIDA em R52: trifasico 220/127 V, estrela com neutro. "
+                 "A confirmacao abriu trabalho novo em vez de fechar — o "
+                 "desequilibrio entre fases, que instalacao monofasica nao "
+                 "tem. 58 circuitos distribuidos com 0,43 % de diferenca",
+         status="RESOLVIDA", bloqueia=""),
     dict(n="8", titulo="Nesting codificado dos paineis LSF", norma="fabricante",
          impacto="A paginacao atual e de estudo, nao de corte",
          status="ABERTA", bloqueia="fabricacao"),
@@ -2907,13 +3050,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R51",
+    revisao="R52",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R51", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R52", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

@@ -1647,8 +1647,21 @@ def checar_drenagem() -> list[Achado]:
         out.append(Achado("ATENCAO", "Impermeabilizacao baixa no box",
                           f"{pj.IMPERMEABILIZACAO['subida_box']} mm para chuveiro a "
                           f"{pj.ALTURA_CHUVEIRO} mm"))
-    # reuso nao pode alcancar vaso sanitario
-    if "vaso" not in pj.PLUVIAL["nao_estender_a"]:
+    # R52 — a verificacao do reuso virou a verificacao DA SUA AUSENCIA. Ate
+    # R51 era preciso garantir que a rede de reuso nao alcancasse vaso
+    # sanitario; com o reuso encerrado por decisao do proprietario, o que
+    # precisa ser garantido e que nao restou rede nao potavel nenhuma —
+    # meia-decisao em instalacao e o que produz conexao cruzada.
+    if pj.PLUVIAL.get("reuso", "").startswith("REJEITADO"):
+        if "nao_estender_a" in pj.PLUVIAL:
+            out.append(Achado("ERRO", "Sobra de reuso na decisao",
+                              "PLUVIAL ainda carrega campo de rede nao "
+                              "potavel depois de o reuso ser encerrado"))
+        if pj.IRRIGACAO["fonte"].lower().startswith("reservatorio"):
+            out.append(Achado("ERRO", "Irrigacao orfa",
+                              f"a irrigacao ainda diz vir de "
+                              f"'{pj.IRRIGACAO['fonte']}', que nao existe mais"))
+    elif "vaso" not in pj.PLUVIAL.get("nao_estender_a", ""):
         out.append(Achado("ERRO", "Reuso sem restricao declarada",
                           "a rede de reuso precisa de restricao escrita de uso"))
     return out
@@ -1801,14 +1814,13 @@ def checar_fechamento() -> list[Achado]:
         if p.get("poda") and "rotineira" in str(p.get("poda", "")):
             out.append(Achado("ERRO", "Especie com poda rotineira",
                               f"{p['cod']}: o programa proibe poda rotineira"))
-    # irrigacao: demanda calculada tem de constar do balanco pluvial
-    b = pj.balanco_pluvial()
-    if b["autonomia_dias"] < 7:
-        out.append(Achado("ATENCAO", "Autonomia pluvial curta",
-                          f"{b['autonomia_dias']:.1f} dias de reuso"))
-    if b["aproveitamento"] > 1.0:
-        out.append(Achado("ERRO", "Demanda de reuso acima da captacao",
-                          f"{b['aproveitamento']:.0%} da chuva captada"))
+    # R52 — o balanco de reuso saiu com o reuso. A irrigacao continua existindo
+    # e continua tendo de ser PEQUENA: a verificacao passa a ser contra a
+    # demanda total da casa, nao contra a chuva captada.
+    dia = pj.demanda_irrigacao_ldia()
+    if dia > 300:
+        out.append(Achado("ATENCAO", "Irrigacao pesada para a rede",
+                          f"{dia:.0f} L/dia vindos da rede publica"))
     # emissao coerente com o historico de revisoes
     if pj.EMISSAO["revisao"] != pj.REVISOES[-1][0]:
         out.append(Achado("ERRO", "Revisao de emissao divergente",

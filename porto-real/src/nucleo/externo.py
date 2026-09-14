@@ -69,9 +69,9 @@ JARDINS = ("T-JLE", "T-JNO", "T-JS2", "T-JN2", "T-JN3", "T-JFU")
 def muro(pj) -> dict:
     """Comprimento a partir do lote, descontando a testada com portao."""
     L, P = pj.LOTE_L, pj.LOTE_P
-    portao = pj.ESQUADRIAS["PG01"][0]
+    pt = pj.PORTAO_TESTADA
+    portao, acesso = pt["veiculo_larg"], pt["pedestre_larg"]
     # tres divisas fechadas mais a testada menos o portao e menos o acesso
-    acesso = 1_200
     comp = (2 * P + L) + (L - portao - acesso)
     area = comp * MURO["altura"] / 1e6
     blocos = int(area * MURO["blocos_m2"])
@@ -86,8 +86,18 @@ def muro(pj) -> dict:
 
 
 def pisos(pj) -> dict:
-    """Cada area aberta na sua zona, com o material que o projeto escolheu."""
+    """Cada area aberta na sua zona, com o material que o projeto escolheu.
+
+    R52 — A PISCINA NAO PAGA PISO. O deck da piscina e um retangulo de 42,12
+    m2 e a piscina esta DENTRO dele: 17,82 m2 de lamina d'agua. Ate R51 o
+    orcamento comprava porcelanato para os 42,12, ou seja, 17,82 m2 de piso
+    sobre a agua — R$ 2.637 de material que nao existe. O erro sobreviveu
+    porque area de ambiente e area de piso pareciam a mesma coisa, e sao a
+    mesma coisa em todo lugar MENOS onde ha um vazio dentro do ambiente.
+    Vazio dentro de area e o caso que toda conferencia por soma deixa passar.
+    """
     mat = {z["zona"]: z for z in pj.PISO_EXTERNO}
+    vazios = {"T-DKP": pj.PISCINA["lamina_m2"]}
     por_zona: dict = {}
     jardim = 0.0
     fora = []
@@ -99,14 +109,16 @@ def pisos(pj) -> dict:
         if z is None:
             fora.append(a.cod)
             continue
-        d = por_zona.setdefault(z, dict(area=0.0, areas=[]))
-        d["area"] += a.area_mod
+        d = por_zona.setdefault(z, dict(area=0.0, areas=[], descontado=0.0))
+        d["area"] += a.area_mod - vazios.get(a.cod, 0.0)
+        d["descontado"] += vazios.get(a.cod, 0.0)
         d["areas"].append(a.cod)
     itens = []
     for z, d in sorted(por_zona.items()):
         m = mat.get(z, {})
         itens.append(dict(zona=z, material=m.get("material", ""),
                           razao=m.get("razao", ""), area=round(d["area"], 2),
+                          descontado=round(d["descontado"], 2),
                           areas=sorted(d["areas"])))
     return dict(itens=itens, jardim=round(jardim, 2), sem_zona=fora,
                 total=round(sum(i["area"] for i in itens), 2))

@@ -144,6 +144,10 @@ const VISTAS = [
   ["catalogo",   "Catálogo técnico",   "cada peça desenhada do modelo"],
   ["fachada",    "Fachada",            "o combinado, o desenhado e o estrutural"],
   ["viabilidade","Viabilidade",        "o que falta, e quanto depende disso"],
+  ["geotecnia", "Sondagem e solo",     "três furos, e o que eles mandaram mudar"],
+  ["pluvial",   "Água de chuva",       "o lote inteiro, e o que fica retido"],
+  ["acustica",  "Acústica",            "quem ouve quem, e através de quê"],
+  ["eletrica",  "Cargas e mercado",    "220/127, fases equilibradas e fornecedores"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -183,6 +187,19 @@ const LEITURA = {
                  "que até aqui aparecia só como traçado no desenho e como " +
                  "zero no orçamento. E os conflitos com a estrutura, que " +
                  "alguém resolve no projeto ou o pedreiro resolve na marreta.",
+    geotecnia: "Três sondagens, e o veredito que elas deram: o solo não " +
+               "reprova por resistência — sobra fator 9 — e sim por " +
+               "uniformidade. Quem muda não é o radier, é o que está " +
+               "debaixo dele.",
+    pluvial: "Quanto do lote é impermeável, quanto a obra passou a mandar " +
+             "para a rua e quanto disso fica retido. O que faz o trabalho é " +
+             "o orifício, não o volume.",
+    acustica: "Quem ouve quem, e através de quê. Uma parede de 44 dB com " +
+              "uma porta de correr no meio entrega 20: em acústica o elo " +
+              "fraco domina.",
+    eletrica: "As três fases, o que cada uma carrega, e de quem se compra " +
+              "cada família de material. O preço segue hipótese; o " +
+              "fornecedor, não.",
     bloqueios: "O que este sistema não entrega, e o que seria preciso para " +
                "entregar. Nenhum destes itens está pela metade: estão fora, " +
                "com o preço declarado.",
@@ -297,6 +314,31 @@ const LEITURA = {
                "chapas e basculamento do parafuso, com o modo governante " +
                "nomeado. A razão t2/t1 decide quais modos competem — chapas " +
                "parecidas basculam o parafuso, chapas muito diferentes não.",
+    geotecnia: "σadm por N/50, Teixeira-96 e Mello-75, adotada a menor: " +
+               "nenhuma nasceu deste solo, e Mello nem é válida fora de " +
+               "4 ≤ N ≤ 16. Recalque por somatório de camadas com E = α·K·N " +
+               "(Teixeira & Godoy) e Δσ por espraiamento 2:1. A " +
+               "profundidade investigada é conferida pelo critério dos 10 % " +
+               "da tensão vertical efetiva — pergunta que a NBR 6122 exige e " +
+               "quase ninguém faz.",
+    pluvial: "Método racional com C ponderado pelas superfícies declaradas, e " +
+             "a mesma intensidade que dimensiona calha e descida — fonte " +
+             "única. O volume é o excedente (C_pós − C_pré) acumulado no " +
+             "tempo de concentração; o orifício sai de Q = Cd·A·√(2gh) " +
+             "calibrado na vazão de pré-ocupação, e o esvaziamento é " +
+             "integrado com carga variável.",
+    acustica: "R composto = −10·log₁₀(Σ Sᵢ·10^(−Rᵢ/10) / ΣS). Adota-se D ≈ R " +
+              "(simplificação declarada: a rigor D = R − 10·log(S/A), e em " +
+              "ambiente pequeno e mobiliado os termos ficam da mesma ordem). " +
+              "Exigência = nível da fonte − limite do receptor pela NBR " +
+              "10152. Isto é pré-verificação de projeto, não ensaio de campo " +
+              "da NBR 15575-3.",
+    eletrica: "Distribuição das fases pela heurística do maior primeiro: " +
+              "carga F-N ocupa uma fase, F-F ocupa duas com metade em cada. " +
+              "O condutor de proteção sai da Tabela 58 da NBR 5410 em " +
+              "degraus — para 35 mm² o PE é 16, e não 17,5, que não existe. " +
+              "O cabo é escolhido pelo disjuntor, não pela demanda: quem " +
+              "protege o cabo é o disjuntor.",
     bloqueios: "Adaptador vazio levanta SemFonteDeDados com código, motivo e " +
                "remédio; receber() já valida tipo, unidade, domínio e campo " +
                "desconhecido hoje, antes de o dado existir. A auditoria chama " +
@@ -1226,6 +1268,8 @@ function renderEng() {
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
              ambientes: vistaAmbientes, catalogo: vistaCatalogo,
              fachada: vistaFachada, viabilidade: vistaViabilidade,
+             geotecnia: vistaGeotecnia, pluvial: vistaPluvial,
+             acustica: vistaAcustica, eletrica: vistaEletrica,
              bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
@@ -2264,5 +2308,276 @@ function vistaViabilidade() {
     ${linhas}
     ${feitas ? `<div class="eng-sec"><h3>Resolvidas</h3>
       <ul class="check">${feitas}</ul></div>` : ""}`;
+}
+'''
+
+
+# ---------------------------------------------------------------------------
+# R52 — quatro vistas novas. Cada uma corresponde a um sistema que saiu da
+# hipotese nesta revisao, e existe pela mesma razao que as pranchas 37 a 40:
+# o que esta no modelo tem de chegar ao papel E a tela.
+# ---------------------------------------------------------------------------
+JS_ENG += r'''
+function _conf(lista) {
+  return (lista || []).map(c =>
+    `<div class="selo ${c.ok ? "" : "nao"}" style="align-items:flex-start;margin-bottom:6px">
+      <b>${esc2(c.titulo)}</b>
+      <span style="line-height:1.55">${esc2(c.detalhe)}</span></div>`).join("");
+}
+
+function vistaGeotecnia() {
+  const G = ENG.geotecnia;
+  if (!G) return barraModos() + "<p class='conta'>sem dados de sondagem</p>";
+  const D = G.dimensionamento, R = D.recalque, I = D.investigacao;
+  const nmax = 34;
+  const perfil = G.perfil.map(f =>
+    `<div style="display:grid;grid-template-columns:70px 1fr 210px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:2px 0">
+      <span>${f.z0}–${f.z1} m</span>
+      <span style="height:13px;background:var(--rule-soft);position:relative">
+        <i style="display:block;height:100%;width:${(f.medio / nmax * 100).toFixed(1)}%;
+          background:#3f6fb5"></i>
+        <i style="position:absolute;top:5px;height:3px;background:#1d3f6d;
+          left:${(f.minimo / nmax * 100).toFixed(1)}%;
+          width:${((f.maximo - f.minimo) / nmax * 100).toFixed(1)}%"></i></span>
+      <span><b>N ${f.medio.toFixed(1)}</b> (${f.n.join("/")}) · ${esc2(f.solo)}</span>
+    </div>`).join("");
+  const cam = R.camadas.map(c =>
+    `<tr><td>${c.z0}–${c.z1} m</td><td>${num(c.dsigma, 2)}</td>
+      <td>${num(c.e_mpa, 1)}</td><td>${num(c.recalque_mm, 2)}</td>
+      <td style="white-space:normal">${esc2(c.fonte)}</td></tr>`).join("");
+  const cor = Object.entries(D.admissivel.candidatas).map(([k, v]) =>
+    `<tr><td>${esc2(k)}</td><td>${num(v, 1)} kPa</td>
+      <td>${k === D.admissivel.governa ? "<b>adotada</b>" : "—"}</td></tr>`).join("");
+  const T = G.terraplenagem;
+  return `${barraModos()}${leitura("geotecnia")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Pressão de contato</span>
+        <span class="val">${num(D.pressao_kpa, 2)}</span>
+        <span class="uni">kPa contra ${num(D.admissivel.adotada_kpa, 1)} admissíveis</span></div>
+      <div class="cartao"><span class="rot">Fator</span>
+        <span class="val">${num(D.fator, 2)}</span>
+        <span class="uni">mínimo ${num(D.fator_minimo, 0)}</span></div>
+      <div class="cartao"><span class="rot">Recalque</span>
+        <span class="val">${num(R.total_mm, 2)}</span>
+        <span class="uni">mm de ${num(R.limite_total_mm, 0)} admitidos</span></div>
+      <div class="cartao"><span class="rot">Sondagem</span>
+        <span class="val">${num(I.investigada, 0)}</span>
+        <span class="uni">m; crítica em ${num(I.z_critico, 1)} m</span></div>
+    </div>
+    <h4 class="sub">Perfil das três sondagens</h4>
+    <p class="desenho cap">A barra é o N médio; o traço escuro é a faixa entre
+      o furo mais fraco e o mais forte. É a DISPERSÃO, e não a média, que
+      estima recalque diferencial — e recalque diferencial é o que trinca
+      radier.</p>
+    ${perfil}
+    <h4 class="sub">Tensão admissível: três correlações, adota-se a menor</h4>
+    <p class="desenho cap">Nenhuma das três nasceu deste solo. N/50 veio de
+      sapata quadrada em areia pura; Teixeira-96 de solo arenoso, com a largura
+      explícita; Mello-75 sem distinção, válida só entre N 4 e 16. Usar
+      correlação fora do universo que a gerou só é honesto pelo lado
+      conservador.</p>
+    <table class="tab"><thead><tr><th>Correlação</th><th>Valor</th>
+      <th>Situação</th></tr></thead><tbody>${cor}</tbody></table>
+    <h4 class="sub">Recalque por camadas</h4>
+    <table class="tab"><thead><tr><th>Camada</th><th>Δσ (kPa)</th>
+      <th>E (MPa)</th><th>Recalque (mm)</th><th>De onde vem o E</th>
+      </tr></thead><tbody>${cam}</tbody></table>
+    <h4 class="sub">O que o solo mandou mudar</h4>
+    <p class="desenho cap">${esc2(G.tratamento.razao)}</p>
+    <div class="cartoes" style="margin:12px 0">
+      <div class="cartao"><span class="rot">Troca</span>
+        <span class="val">${num(T.profundidade * 1000, 0)}</span>
+        <span class="uni">mm em ${num(T.area_tratada, 1)} m²</span></div>
+      <div class="cartao"><span class="rot">Bota-fora</span>
+        <span class="val">${num(T.bota_fora_m3, 1)}</span>
+        <span class="uni">m³ (empolamento de 25 %)</span></div>
+      <div class="cartao"><span class="rot">Substituição</span>
+        <span class="val">${num(T.substituicao_m3, 1)}</span>
+        <span class="uni">m³ em ${T.camadas} camadas, ${T.ensaios} ensaios</span></div>
+      <div class="cartao"><span class="rot">Armadura</span>
+        <span class="val">${num(G.armadura.total_kg, 0)}</span>
+        <span class="uni">kg = ${num(G.armadura.taxa_kg_m3, 1)} kg/m³, e a taxa é resultado</span></div>
+    </div>
+    ${_conf(G.conferencia)}`;
+}
+
+function vistaPluvial() {
+  const P = ENG.pluvial;
+  if (!P) return barraModos() + "<p class='conta'>sem levantamento pluvial</p>";
+  const B = P.balanco, G = P.gatilho, V = P.vazoes, R = P.retencao;
+  const maior = Math.max(...B.superficies.map(s => s.area)) || 1;
+  const sup = B.superficies.map(s =>
+    `<div style="display:grid;grid-template-columns:200px 1fr 150px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:2px 0">
+      <span>${esc2(s.nome)}</span>
+      <span style="height:12px;background:var(--rule-soft)">
+        <i style="display:block;height:100%;width:${(s.area / maior * 100).toFixed(1)}%;
+          background:${s.c >= 0.8 ? "#3f6fb5" : "#9dbfe4"}"></i></span>
+      <span style="text-align:right">${num(s.area, 2)} m² · C ${s.c.toFixed(2)}</span>
+    </div>`).join("");
+  return `${barraModos()}${leitura("pluvial")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Superfícies</span>
+        <span class="val">${num(B.total, 2)}</span>
+        <span class="uni">m² declarados de ${num(B.lote, 0)} m² de lote</span></div>
+      <div class="cartao"><span class="rot">Impermeável</span>
+        <span class="val">${num(B.impermeavel, 2)}</span>
+        <span class="uni">m² — gatilho da lei: ${num(G.limite_m2, 0)} m²</span></div>
+      <div class="cartao"><span class="rot">Vazão</span>
+        <span class="val">${num(V.q_pos_ls, 2)}</span>
+        <span class="uni">L/s contra ${num(V.q_pre_ls, 2)} do terreno natural</span></div>
+      <div class="cartao"><span class="rot">Retenção</span>
+        <span class="val">${num(R.volume_m3, 2)}</span>
+        <span class="uni">m³, orifício de ${num(R.orificio_mm, 0)} mm</span></div>
+    </div>
+    <h4 class="sub">A decisão</h4>
+    <p class="desenho cap">${esc2(P.decisao.porque_a_retencao)}</p>
+    <p class="desenho cap">${esc2(P.decisao.porque_nao_o_reuso)}</p>
+    <h4 class="sub">Superfícies do lote — a soma tem de dar o lote</h4>
+    <p class="desenho cap">Azul cheio é superfície impermeável (C ≥ 0,80).
+      Não há classe "outros": sobra seria superfície não declarada, e
+      superfície não declarada não escoa no cálculo e escoa na chuva.</p>
+    ${sup}
+    <h4 class="sub">A lei</h4>
+    <p class="desenho cap"><b>${esc2(G.lei)}</b> — ${G.obriga ? "OBRIGA" :
+      `não obriga: ${num(G.impermeavel, 2)} m² contra ${num(G.limite_m2, 0)} m²,
+       folga de ${num(G.folga, 2)} m²`}. ${esc2(G.decisao)}</p>
+    <ul class="lista">${G.exigencias.map(e => `<li>${esc2(e)}</li>`).join("")}</ul>
+    <h4 class="sub">Do excedente ao orifício</h4>
+    <p class="desenho cap">${esc2(R.obs)} Esvaziamento em
+      ${num(R.esvaziamento_min, 1)} min: o reservatório volta a estar vazio
+      antes da próxima chuva, que é a condição de ele servir para alguma
+      coisa.</p>
+    ${_conf(P.conferencia)}`;
+}
+
+function vistaAcustica() {
+  const A = ENG.acustica;
+  if (!A) return barraModos() + "<p class='conta'>sem levantamento acústico</p>";
+  const ps = A.entre_zonas.slice().sort((a, b) => a.folga - b.folga);
+  const esc_ = 1.6;
+  const barras = ps.map(p =>
+    `<div style="display:grid;grid-template-columns:190px 1fr 210px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:3px 0">
+      <span>${esc2(p.fonte)} → ${esc2(p.receptor)}</span>
+      <span style="height:13px;background:var(--rule-soft);position:relative">
+        <i style="display:block;height:100%;width:${Math.min(p.obtido * esc_, 100)}%;
+          background:${p.passa ? "#3f6fb5" : "#d03b3b"}"></i>
+        <i style="position:absolute;top:-2px;height:17px;width:2px;background:#20242a;
+          left:${Math.min(p.exigido * esc_, 100)}%"></i></span>
+      <span style="text-align:right">${num(p.obtido, 1)} dB · exige
+        ${num(p.exigido, 0)} · <b>${p.folga >= 0 ? "+" : ""}${num(p.folga, 1)}</b></span>
+    </div>`).join("");
+  const det = ps.map(p =>
+    `<tr><td>${esc2(p.fonte)} → ${esc2(p.receptor)}</td>
+      <td style="white-space:normal">${esc2(p.ruido)}</td>
+      <td>${p.nivel} dB(A)</td><td>${esc2(p.uso_receptor)} · ${p.limite}</td>
+      <td>${esc2(p.parede)} Rw ${p.rw_parede}</td>
+      <td>${p.vaos.length ? p.vaos.join(", ") : "—"}</td>
+      <td>${num(p.area_parede, 2)} / ${num(p.area_vao, 2)}</td>
+      <td><b>${num(p.obtido, 1)}</b></td>
+      <td>${num(p.estimado, 1)} dB(A)</td></tr>`).join("");
+  const pior = ps[0];
+  return `${barraModos()}${leitura("acustica")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Pares entre zonas</span>
+        <span class="val">${ps.length}</span>
+        <span class="uni">de ${A.pares.length} vizinhanças com fonte</span></div>
+      <div class="cartao"><span class="rot">Reprovados</span>
+        <span class="val">${ps.filter(p => !p.passa).length}</span>
+        <span class="uni">depois das correções de R52</span></div>
+      <div class="cartao"><span class="rot">Pior folga</span>
+        <span class="val">${pior ? num(pior.folga, 1) : "—"}</span>
+        <span class="uni">dB em ${pior ? esc2(pior.fonte + " → " + pior.receptor) : ""}</span></div>
+    </div>
+    <h4 class="sub">Isolamento obtido contra exigido</h4>
+    <p class="desenho cap">A barra é o isolamento do fechamento inteiro —
+      parede e porta somadas por ENERGIA, não por média. O traço vertical é o
+      exigido: nível da fonte menos o limite do receptor (NBR 10152). Pares
+      dentro da mesma zona acústica não aparecem: ali o ruído não é defeito,
+      é o programa.</p>
+    ${barras}
+    <h4 class="sub">Como cada número foi obtido</h4>
+    <table class="tab"><thead><tr><th>Par</th><th>Fonte</th><th>Nível</th>
+      <th>Receptor · limite</th><th>Parede</th><th>Vãos</th>
+      <th>m² parede/vão</th><th>Rw composto</th><th>Chega</th>
+      </tr></thead><tbody>${det}</tbody></table>
+    ${_conf(A.conferencia)}`;
+}
+
+function vistaEletrica() {
+  const E = ENG.eletrica, M = ENG.mercado;
+  if (!E) return barraModos() + "<p class='conta'>sem quadro de cargas</p>";
+  const Q = E.equilibrio, N = E.entrada;
+  const maxf = Math.max(...Object.values(Q.por_fase)) || 1;
+  const fases = Object.entries(Q.por_fase).map(([f, va]) =>
+    `<div style="display:grid;grid-template-columns:70px 1fr 190px;gap:8px;
+      align-items:center;font-family:var(--mono);font-size:11px;padding:3px 0">
+      <span>Fase ${f}</span>
+      <span style="height:14px;background:var(--rule-soft)">
+        <i style="display:block;height:100%;width:${(va / maxf * 100).toFixed(1)}%;
+          background:#3f6fb5"></i></span>
+      <span style="text-align:right">${num(va, 0)} VA ·
+        ${num(Q.corrente_por_fase[f], 1)} A</span></div>`).join("");
+  const circ = Q.circuitos.slice().sort((a, b) => b.va - a.va).map(c =>
+    `<tr><td>${esc2(c.cod)}</td><td>${esc2(c.tipo)}</td><td>${c.v} V</td>
+      <td>${num(c.va, 0)}</td><td>${c.fases.join("-")}</td>
+      <td style="white-space:normal">${esc2(c.desc || c.amb || "")}</td></tr>`).join("");
+  const forn = M ? M.cobertura.linhas.map(l =>
+    `<tr><td>${esc2(l.familia)}</td><td>${(l.fracao * 100).toFixed(1)} %</td>
+      <td>${l.fornecedores}</td><td>${l.manaus}</td>
+      <td style="white-space:normal">${esc2(l.lista.map(f => f[0]).join(", "))}</td>
+      </tr>`).join("") : "";
+  const fora = M ? M.fora_do_orcamento.map(([k, v]) =>
+    `<tr><td><b>${esc2(k)}</b></td>
+      <td style="white-space:normal">${esc2(v)}</td></tr>`).join("") : "";
+  const idx = M ? M.indices.map(i =>
+    `<tr><td>${esc2(i.nome)}</td><td>${num(i.valor, 2)} ${esc2(i.unidade)}</td>
+      <td>${esc2(i.data)}</td><td>${esc2(i.praca)}</td>
+      <td style="white-space:normal">${esc2(i.escopo)}</td></tr>`).join("") : "";
+  return `${barraModos()}${leitura("eletrica")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Esquema</span>
+        <span class="val">220/127</span>
+        <span class="uni">trifásico, estrela com neutro</span></div>
+      <div class="cartao"><span class="rot">Desequilíbrio</span>
+        <span class="val">${(Q.desequilibrio * 100).toFixed(2)} %</span>
+        <span class="uni">contra ${(Q.limite * 100).toFixed(0)} % admitidos</span></div>
+      <div class="cartao"><span class="rot">Entrada</span>
+        <span class="val">${N.disjuntor_a} A</span>
+        <span class="uni">${N.secao_mm2} mm² para ${num(N.corrente_a, 1)} A</span></div>
+      <div class="cartao"><span class="rot">Circuitos</span>
+        <span class="val">${Q.circuitos.length}</span>
+        <span class="uni">com fase atribuída no projeto</span></div>
+    </div>
+    <h4 class="sub">Carga por fase</h4>
+    <p class="desenho cap">Num 220/127 a carga de 127 V fica entre fase e
+      neutro e a de 220 V entre duas fases. Se as de 127 se acumulam numa
+      fase, ela aquece e a tensão cai nela — e ninguém percebe até a lâmpada
+      piscar quando a secadora liga.</p>
+    ${fases}
+    <h4 class="sub">Circuitos e a fase de cada um</h4>
+    <table class="tab"><thead><tr><th>Circuito</th><th>Tipo</th><th>Tensão</th>
+      <th>VA</th><th>Fase</th><th>Onde</th></tr></thead>
+      <tbody>${circ}</tbody></table>
+    ${M ? `<h4 class="sub">De quem se compra</h4>
+    <p class="desenho cap">A pesquisa devolveu a identidade dos fornecedores e
+      os índices públicos; não devolveu preço unitário. Todo preço do
+      orçamento segue (H).</p>
+    <table class="tab"><thead><tr><th>Família</th><th>% custo</th>
+      <th>Fornec.</th><th>Manaus</th><th>Nomes</th></tr></thead>
+      <tbody>${forn}</tbody></table>
+    <h4 class="sub">Índices públicos, com data e escopo</h4>
+    <table class="tab"><thead><tr><th>Índice</th><th>Valor</th><th>Data</th>
+      <th>Praça</th><th>Escopo</th></tr></thead><tbody>${idx}</tbody></table>
+    <h4 class="sub">O que NÃO está neste orçamento</h4>
+    <p class="desenho cap">Foi a conferência de cima para baixo que obrigou a
+      escrever esta lista: comparar o total com um índice de obra entregue só
+      faz sentido sabendo o que falta entre um e outro.</p>
+    <table class="tab"><thead><tr><th>Escopo</th>
+      <th>Situação no modelo</th></tr></thead><tbody>${fora}</tbody></table>` : ""}
+    ${_conf(E.conferencia)}
+    ${M ? _conf(M.conferencia) : ""}`;
 }
 '''

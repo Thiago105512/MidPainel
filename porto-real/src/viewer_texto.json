@@ -890,5 +890,105 @@
     "externas: a designacao ja e a dimensao (Ue 90x40x12x0,95 = alma 90, aba 40, labio 12, esp 0,95)"
    ]
   ]
+ },
+ {
+  "n": "37",
+  "t": "Sondagem SPT e fundação",
+  "esc": "1:50 / 1:20",
+  "etapa": "R52",
+  "d": "O proprietário entregou três sondagens a percussão e o solo deixou de ser hipótese. A tensão admissível sai de três correlações e adota-se a menor — nenhuma delas nasceu deste solo. O veredito não foi sobre o radier: com N de 3 a 4 no primeiro metro, o que reprova não é capacidade (sobra fator 9) e sim uniformidade, e a resposta é trocar 600 mm de aterro com controle de compactação.",
+  "k": [
+   [
+    "fator 9,04",
+    "de segurança na pressão de contato: 11,79 kPa contra 106,6 admissíveis"
+   ],
+   [
+    "2,12 mm",
+    "de recalque total contra 25 mm de limite; distorção 60 vezes menor que 1/300"
+   ],
+   [
+    "8 m",
+    "investigados, e o acréscimo de tensão some aos 4 m — a sondagem foi funda o bastante"
+   ],
+   [
+    "R$ 30,4 mil",
+    "de terraplenagem que não existia: saber o solo encareceu a obra, e é assim mesmo"
+   ]
+  ]
+ },
+ {
+  "n": "38",
+  "t": "Retenção pluvial e superfícies do lote",
+  "esc": "1:200 / 1:25",
+  "etapa": "R52",
+  "d": "Sai o reuso, entra a retenção — sistemas de dimensionamento oposto: um quer o reservatório cheio antes da seca, o outro vazio antes da chuva. Para dimensionar qualquer um faltava o que nunca existiu no modelo: a superfície do lote inteiro. E quem faz o trabalho é o orifício, não o volume.",
+  "k": [
+   [
+    "800,00 m²",
+    "de superfícies declaradas contra 800,00 m² de lote: a soma fecha, e 42 % dela não existia"
+   ],
+   [
+    "329,40 m²",
+    "impermeabilizados contra os 500 m² do gatilho da Lei 1.192/2007 — não obriga"
+   ],
+   [
+    "8,38 m³",
+    "de retenção: só o excedente sobre o que o terreno natural já mandava para a rua"
+   ],
+   [
+    "58,7 mm",
+    "de orifício, calibrado na vazão de pré-ocupação; esvazia em 35 minutos"
+   ]
+  ]
+ },
+ {
+  "n": "39",
+  "t": "Desempenho acústico entre ambientes",
+  "esc": "s/ escala",
+  "etapa": "R52",
+  "d": "A prancha existe porque o proprietário perguntou o que 101 verificações não sabiam responder: quem entra na casa ouve o chuveiro? Ouvia — e a pior passagem não era essa. Em acústica o elo fraco domina: 44 dB de parede com 15 dB de porta de correr entregam 20.",
+  "k": [
+   [
+    "4 reprovações",
+    "na primeira execução do eixo novo, e a pior era o banho contra o dormitório"
+   ],
+   [
+    "20,2 dB",
+    "era o que a parede de 44 dB entregava com a porta de correr no meio dela"
+   ],
+   [
+    "44 dB",
+    "depois: duas portas removidas, a parede do hall e a do quarto ficaram cegas"
+   ],
+   [
+    "uma porta a menos",
+    "o conserto saiu mais barato que o defeito: sai uma de correr e uma oca, entra uma sólida"
+   ]
+  ]
+ },
+ {
+  "n": "40",
+  "t": "Cargas, fases e mercado",
+  "esc": "s/ escala",
+  "etapa": "R52",
+  "d": "Trifásico 220/127 confirmado pelo proprietário: 127 V para os eletrodomésticos correntes, 220 V para ar-condicionado e chuveiros. Confirmar abriu trabalho em vez de fechar — num 220/127 aparece o desequilíbrio entre fases, que instalação monofásica não tem. E a pesquisa de mercado devolveu fornecedor e índice público, não preço unitário.",
+  "k": [
+   [
+    "0,43 %",
+    "de desequilíbrio entre a fase mais e a menos carregada, contra 10 % admitidos"
+   ],
+   [
+    "100 A",
+    "de disjuntor e 35 mm² de ramal para 95,5 A de demanda — cabo escolhido pelo disjuntor"
+   ],
+   [
+    "51 fornecedores",
+    "em 10 famílias, cobrindo 100 % do custo, com praça local em nove delas"
+   ],
+   [
+    "9 escopos",
+    "declarados FORA do orçamento: louças, climatização, pintura, revestimento, marcenaria e mais"
+   ]
+  ]
  }
 ]

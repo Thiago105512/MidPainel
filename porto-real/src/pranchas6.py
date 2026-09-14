@@ -12,6 +12,7 @@ from __future__ import annotations
 import math
 
 import projeto as pj
+import nucleo.pluvial as _pluv
 import elementos as el
 import mobiliario as mob
 import anotacao as an
@@ -148,9 +149,9 @@ def hidrossanitaria() -> Canvas:
               f"{pj.carga_hidraulica_mca('S')} mca por gravidade nao aciona chuveiro "
               f"eletrico; {pj.PRESSURIZADOR['cod']} entrega "
               f"{pj.PRESSURIZADOR['pressao_mca']:.0f} mca"],
-             ["Reuso pluvial sem ligacao a vasos",
-              "rede de reuso e fisicamente separada, com cor e identificacao "
-              "propria: nao ha ponto de conexao cruzada possivel"],
+             ["Uma unica rede de agua",
+              "R52 encerrou o reuso: nao ha rede nao potavel no lote, e com "
+              "ela desapareceu a unica possibilidade de conexao cruzada"],
              ["Caixa de gordura antes da inspecao",
               f"cozinha -> TC-11 (30 L) -> TC-12 -> rede; DN{geral['dn_esgoto']} "
               f"com caimento de 2 %"]],
@@ -398,8 +399,10 @@ def drenagem() -> Canvas:
         f"Impermeabilizacao: {pj.IMPERMEABILIZACAO['sistema']}, subindo "
         f"{pj.IMPERMEABILIZACAO['subida_parede']} mm na parede e "
         f"{pj.IMPERMEABILIZACAO['subida_box']} mm no box.",
-        f"Reuso de {pl['volume_l']} L sem nenhuma ligacao a vasos sanitarios: "
-        f"rede fisicamente separada e identificada.",
+        f"Retencao de {_pluv.retencao(pj)['volume_m3']:.2f} m3 sob o acesso "
+        f"de veiculos, com orificio de "
+        f"{_pluv.retencao(pj)['orificio_mm']:.0f} mm calibrado na vazao de "
+        f"pre-ocupacao. Nao ha rede de reuso: agua potavel unica.",
     ])
     vw = View(100, 40, 440, 800, 0)
     an.titulo_desenho(cv, (30, 472), "1", "DRENAGEM — IMPLANTACAO", "1:100")
@@ -457,14 +460,24 @@ def drenagem() -> Canvas:
               f"{pj.vazao_pluvial_ls():.4f} L/s | {pj.vazao_pluvial_ls()/cb['descidas']:.4f} L/s"],
              ["Calha externa", f"{cb['calha_l']} x {cb['calha_h']} mm"],
              ["Descidas", f"{cb['descidas']} x DN{cb['dn_descida']}"],
-             ["Precipitacao anual", f"{pl['precipitacao_mm_ano']} mm"],
-             ["Volume de reuso", f"{pl['volume_l']} L"],
-             ["Usos previstos",
-              ", ".join(f"{u[0].split()[0].lower()} {u[1]:.0f} L" for u in pj.usos_pluviais())],
-             ["Demanda diaria de reuso",
-              f"{sum(u[1] for u in pj.usos_pluviais()):.1f} L/dia"],
-             ["Area externa drenada", f"{pj.area_drenada_externa_m2():.2f} m2"],
-             ["Nao estender a", pl["nao_estender_a"]]],
+             ["Decisao pluvial", pl["decisao"]],
+             ["Reuso", pl["reuso"]],
+             ["Area impermeabilizada do lote",
+              f"{_pluv.balanco(pj)['impermeavel']:.2f} m2 de "
+              f"{pj.LOTE_AREA_M2:.0f} m2 "
+              f"({_pluv.balanco(pj)['taxa_impermeabilizacao']*100:.1f} %)"],
+             ["Gatilho da Lei 1.192/2007",
+              f"obriga acima de {pl['gatilho_m2']:.0f} m2 — "
+              + ("OBRIGA" if _pluv.gatilho_legal(pj)["obriga"] else
+                 "nao obriga; adotada por decisao do proprietario")],
+             ["Vazao antes / depois",
+              f"{_pluv.vazoes(pj)['q_pre_ls']:.2f} | "
+              f"{_pluv.vazoes(pj)['q_pos_ls']:.2f} L/s"],
+             ["Reservatorio de retencao",
+              f"{_pluv.retencao(pj)['volume_m3']:.2f} m3, orificio de "
+              f"{_pluv.retencao(pj)['orificio_mm']:.0f} mm, esvazia em "
+              f"{_pluv.retencao(pj)['esvaziamento_min']:.0f} min"],
+             ["Area externa drenada", f"{pj.area_drenada_externa_m2():.2f} m2"]],
             larguras=[74, 120])
 
     _tabela(cv, (300, 330), "IMPERMEABILIZACAO E DETALHES DE AGUA",

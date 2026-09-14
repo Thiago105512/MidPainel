@@ -195,7 +195,6 @@ def locacao() -> Canvas:
 # =========================================================================
 def paisagismo() -> Canvas:
     ir = pj.IRRIGACAO
-    bal = pj.balanco_pluvial()
     cv = base("PAISAGISMO E IRRIGACAO", "1:100", "32", notas=[
         "Paisagismo aqui e a ultima camada do projeto termico: a arvore sombreia "
         "ANTES de o sol chegar na parede, e transpira em vez de reirradiar.",
@@ -242,8 +241,8 @@ def paisagismo() -> Canvas:
                    (c[0] + 3, c[1] + 2.4), (c[0] - 3, c[1] + 2.4)], "vista",
                   fechado=True, preenche="#e8f4fb", cor="#06c")
         cv.texto_p((c[0], c[1] + 0.8), nome, TXT["micro"], "middle", cor="#06c")
-    # reservatorio de reuso
-    tc = next(t for t in pj.TECNICOS if "pluvial" in t["nome"].lower())
+    # reservatorio de retencao (era de reuso ate R51)
+    tc = next(t for t in pj.TECNICOS if t["cod"] == "TC-03")
     c = vw.pt(P(tc["x"] + tc["w"] / 2, tc["y"] + tc["h"] / 2))
     cv.circ_p(c, 3.4, "corte", preenche="#e8f4fb", cor="#06c")
     cv.texto_p((c[0], c[1] + 0.9), "TC-03", TXT["micro"], "middle", cor="#06c")
@@ -279,16 +278,34 @@ def paisagismo() -> Canvas:
               f"{pj.demanda_irrigacao_ldia()/pj.area_jardim_m2():.2f} L/m2 por dia"]],
             larguras=[38, 88, 134])
 
-    _tabela(cv, (320, 325), "BALANCO DO REUSO — ATUALIZADO",
+    import nucleo.pluvial as plv
+    bl, gt_, vz, rt = (plv.balanco(pj), plv.gatilho_legal(pj),
+                       plv.vazoes(pj), plv.retencao(pj))
+    _tabela(cv, (320, 325), "RETENCAO PLUVIAL — R52 (o reuso foi encerrado)",
             ["ITEM", "VALOR"],
-            [["Area de captacao (projecao coberta)", f"{bal['area']:.2f} m2"],
-             ["Captacao anual liquida", f"{bal['captacao_m3']:.2f} m3"],
-             ["Demanda diaria total", f"{bal['demanda_dia']:.1f} L/dia"],
-             ["Demanda anual", f"{bal['demanda_ano']:.2f} m3"],
-             ["Aproveitamento da chuva captada", f"{bal['aproveitamento']:.0%}"],
-             ["Autonomia do reservatorio", f"{bal['autonomia_dias']:.1f} dias"],
-             ["Volume adotado", f"{pj.PLUVIAL['volume_l']} L"],
-             ["Restricao de uso", pj.PLUVIAL["nao_estender_a"]]],
+            [["Superficies declaradas do lote",
+              f"{len(bl['superficies'])} classes somando {bl['total']:.2f} m2 "
+              f"de {bl['lote']:.0f} m2"],
+             ["Area impermeabilizada",
+              f"{bl['impermeavel']:.2f} m2 "
+              f"({bl['taxa_impermeabilizacao']*100:.2f} % do lote)"],
+             ["Lei 1.192/2007 (Pro-Aguas)",
+              f"obriga acima de {gt_['limite_m2']:.0f} m2 — "
+              + ("OBRIGA" if gt_["obriga"] else
+                 f"nao obriga (folga de {gt_['folga']:.2f} m2)")],
+             ["C do terreno natural / construido",
+              f"{bl['c_pre']:.2f} | {bl['c_ponderado']:.4f}"],
+             ["Vazao para a rua antes / depois",
+              f"{vz['q_pre_ls']:.2f} | {vz['q_pos_ls']:.2f} L/s "
+              f"({vz['razao']:.2f}x)"],
+             ["Volume de retencao",
+              f"{rt['volume_m3']:.2f} m3 = excedente de "
+              f"{vz['excedente_ls']:.2f} L/s durante "
+              f"{rt['tempo_concentracao_min']:.0f} min"],
+             ["Orificio de descarga",
+              f"DN {rt['orificio_mm']:.0f} mm, calibrado na vazao de "
+              f"pre-ocupacao; esvazia em {rt['esvaziamento_min']:.0f} min"],
+             ["Por que nao ha mais reuso", pj.PLUVIAL["reuso"]]],
             larguras=[74, 186])
     return cv
 
@@ -317,6 +334,10 @@ INDICE = [
     ("34", "Piscina, deck e fachada (R06)"),
     ("35", "Eixo social e cortina de vidro (R07)"),
     ("36", "Catalogo tecnico de pecas (R51)"),
+    ("37", "Sondagem SPT e fundacao (R52)"),
+    ("38", "Retencao pluvial e superficies do lote (R52)"),
+    ("39", "Desempenho acustico entre ambientes (R52)"),
+    ("40", "Cargas, equilibrio de fases e mercado (R52)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},
@@ -355,7 +376,12 @@ def emissao() -> Canvas:
 
     _tabela(cv, (35, 200), "HISTORICO DE REVISOES",
             ["REV", "CONTEUDO"],
-            [[r, c] for r, c in pj.REVISOES], larguras=[18, 242])
+            # R52 — o texto de revisao cresceu ate quebrar a folha: a tabela
+            # partiu em duas colunas e a segunda caiu 804 mm fora da moldura.
+            # O caderno mostra a LINHA da revisao; o texto inteiro vive em
+            # REVISOES e chega ao leitor pelo visualizador, que rola.
+            [[r, (c if len(c) <= 300 else c[:297].rsplit(" ", 1)[0] + " …")]
+             for r, c in pj.REVISOES], larguras=[18, 242])
 
     _tabela(cv, (35, 260), "PENDENCIAS",
             ["#", "PENDENCIA", "REFERENCIA", "IMPACTO", "SITUACAO"],

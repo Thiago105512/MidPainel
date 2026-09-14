@@ -4075,3 +4075,226 @@ Nenhuma das duas era defeito do caderno:
 **Estado em R51:** 101 funções de verificação, 553 condições, **0 erros**; 207
 verificações do visualizador, **0 falhas**; 36 pranchas emitidas, 36 no índice,
 36 no carimbo.
+
+---
+
+## R52 — quatro decisões do proprietário, e o trabalho que cada uma abriu
+
+Esta revisão não começou com uma auditoria: começou com quatro frases de quem
+vai morar na casa. Trifásico, 127 V para os eletrodomésticos e 220 V para ar e
+chuveiro. Sem reuso de água, com retenção. Os números da sondagem. E, depois,
+uma observação que nenhuma das 101 verificações sabia responder.
+
+**Em todos os quatro casos, receber a decisão abriu mais trabalho do que
+fechou.** É o padrão desta revisão e vale registrá-lo: dado que chega não
+encerra a pergunta — ele habilita a pergunta seguinte, que estava esperando por
+ele.
+
+### Elétrica — tirar o (H) foi o menor dos efeitos
+
+`TENSAO` estava marcado `trifasico 127/220 V (H)` desde R38. O proprietário
+confirmou, e isso confere com o que a concessionária local fornece em BT
+trifásica: estrela **220/127 V** com neutro.
+
+O que a confirmação trouxe: num 220/127 a carga de 127 V fica entre **fase e
+neutro** e a de 220 V entre **duas fases**. Aparece o **desequilíbrio** — que
+instalação monofásica não tem e que nenhuma verificação do projeto enxergava.
+
+`nucleo/eletrica.py` distribui os 58 circuitos do maior para o menor: **0,43 %**
+de diferença entre a fase mais e a menos carregada, contra 10 % admitidos. E a
+atribuição fica **escrita no projeto**, em vez de virar decisão do eletricista no
+dia do quadro — que é uma decisão que muda a corrente de cada fase.
+
+Dois erros meus, corrigidos no caminho: o condutor de proteção saía como
+`max(16, seção // 2)` = **17 mm²**, seção que não existe; a Tabela 58 da NBR
+5410 é em degraus e para 35 mm² o PE é **16**. E o cabo passa a ser escolhido
+pelo **disjuntor**, não pela demanda: quem protege o cabo é o disjuntor, e cabo
+que só aguenta a demanda queima antes de ele abrir.
+
+### Água — reuso e retenção são opostos, não parentes
+
+> O reuso quer o reservatório **cheio** na véspera da seca; a retenção quer o
+> reservatório **vazio** na véspera da chuva. O reservatório que promete as duas
+> coisas não faz nenhuma: no dia da chuva ele está cheio de água guardada.
+
+Para dimensionar qualquer um dos dois faltava o que **nunca existiu no
+modelo**: a superfície do **lote inteiro**. Havia a projeção coberta, os pisos
+externos e o jardim — e **333,44 m², 42 % do terreno**, sem classe nenhuma.
+Recuo, faixa técnica e acesso de veículos são chão, chovem e escoam.
+
+`nucleo/pluvial.py` declara as dez superfícies com coeficiente de deflúvio, e a
+regra é uma só: **a soma tem de dar o lote**. Dá: 800,00 m² contra 800,00 m².
+
+**A lei, pesquisada:** Lei municipal **1.192/2007** (Pró-Águas, Manaus) obriga
+reservatório de retardo em empreendimento com área **impermeabilizada** superior
+a **500 m²**, manda indicar localização e cálculo do volume no projeto, e prefere
+que a água **infiltre** no solo.
+
+| | |
+|---|---|
+| Área impermeabilizada do lote | **329,40 m²** (41,17 %) |
+| Gatilho da lei | 500 m² |
+| Conclusão | **não obriga**, com 170,60 m² de folga |
+| Decisão | adotada assim mesmo, a pedido do proprietário |
+
+O dimensionamento retém só o **excedente**: o terreno natural também escoava.
+C passou de 0,20 para 0,5489; a vazão para a rua, de 8,00 para 21,96 L/s. O
+volume é a diferença acumulada no tempo de concentração — **8,38 m³** — e quem
+faz o trabalho é o **orifício de 58,7 mm**, calibrado na vazão de pré-ocupação,
+com esvaziamento em 35 minutos.
+
+### Solo — o SPT encareceu a obra, e é assim mesmo
+
+Três sondagens, NSPT metro a metro até 8 m. `nucleo/geotecnia.py` estima a
+tensão admissível por **três correlações** e adota a **menor**:
+
+| Correlação | Valor | Universo de origem |
+|---|---|---|
+| N/50 | 106,6 kPa | sapata quadrada a 1,5 m em areia pura |
+| Mello-75 | 130,9 kPa | sem distinção de solo, só vale entre N 4 e 16 |
+| Teixeira-96 | 167,3 kPa | solos arenosos, com a largura explícita |
+
+Nenhuma nasceu deste solo. Adotar a menor não é conservadorismo decorativo: é a
+única forma honesta de usar correlação fora do universo que a gerou.
+
+Pressão de contato **11,79 kPa** → **fator 9,04**. Recalque total **2,12 mm**
+contra 25 mm; distorção 60 vezes menor que 1/300. E uma pergunta que a NBR 6122
+exige e quase ninguém faz: **a sondagem foi funda o bastante?** O acréscimo de
+tensão cai a 10 % da tensão vertical efetiva aos **4,0 m**, e a sondagem foi a
+8,0 — foi.
+
+**O veredito não foi sobre o radier.** Com N de 3 a 4 no primeiro metro, descrito
+no boletim como aterro pouco compacto, o que reprova não é capacidade: é
+**uniformidade**. Aterro pouco compacto não é fraco por igual — é fraco em
+manchas, e mancha de rigidez diferente sob radier vira **fissura de flexão**, não
+recalque uniforme. A resposta é trocar 600 mm com controle de compactação:
+**R$ 30,4 mil** que não existiam no orçamento. Saber o solo encareceu a obra, e é
+exatamente para isso que se sonda.
+
+Dois ganhos laterais: a **taxa de armadura** deixou de ser dado de entrada
+(45 kg/m³ de livro) e virou **resultado** da armadura real — duas telas Q196 e o
+reforço de borda dão 40,5 kg/m³; e o **engrossamento do perímetro** (300 × 400
+mm), que existia no desenho e não no concreto, entrou no volume.
+
+> A verificação de sensibilidade quebrou com isso, e com razão: ela exigia que
+> dobrar a espessura dobrasse o volume. Com a borda de altura fixa o volume
+> deixou de ser proporcional. O teste passou a conferir a **identidade
+> geométrica**, que vale em qualquer espessura, em vez de uma proporcionalidade
+> que só valia enquanto o radier era uma placa lisa.
+
+### Acústica — o eixo que o morador achou antes do programa
+
+> *"O banheiro do quarto/escritório fica na entrada; se alguém estiver tomando
+> banho, quem entra vai ouvir que tem alguém no banho."*
+
+Nenhuma das 101 verificações podia responder. Havia `rw` declarado em cada
+família de parede desde R12 e uma parede de alto desempenho escolhida a dedo
+para um par de ambientes — e **nada que percorresse os pares fonte/receptor**.
+
+`nucleo/acustica.py` percorre. Na primeira execução reprovou **quatro**
+passagens, e a pior **não era a que se via**:
+
+| Par | Exigido | Entregava | Falta |
+|---|---|---|---|
+| Banho → **dormitório** reversível | 35 dB | 25,1 | −9,9 |
+| Banho → hall de entrada | 25 dB | 20,2 | −4,8 |
+| Garagem → hall | 30 dB | 26,8 | −3,2 |
+| Estar → hall | 25 dB | 22,2 | −2,8 |
+
+A causa é uma só e é contraintuitiva: **em acústica o elo fraco domina**. Somar
+4,35 m² de parede de 44 dB com 1,89 m² de porta de correr de 15 dB não dá 36 dB
+— dá **20**. O que se soma é energia que passa, e a porta deixa passar mil vezes
+mais por metro quadrado.
+
+**O conserto saiu com uma porta A MENOS.** Saíram a porta de correr para o hall e
+a porta oca para o dormitório; entrou uma única folha sólida com vedação
+perimetral e soleira automática, dando para a **circulação**. As paredes do hall
+e do quarto ficaram **cegas**, com os 44 dB inteiros. O banho deixou de ser suíte
+e virou banho social com acesso de hóspede — que é o que um "compartilhado"
+deveria ser desde o início.
+
+A primeira tentativa foi **reprovada pela própria auditoria**: para abrir a porta
+na parede sul eu encolhi o box para 800 mm, e a regra dos 900 mm existe desde
+R11. A regra ganhou da conveniência, que é para isso que ela existe. A solução
+que respeita as duas leva o box para o canto nordeste, sob a janela alta.
+
+E o par (estar → hall) revelou um defeito **da conferência**, não da casa: a fita
+social é integrada por projeto, e exigir isolamento dentro dela reprovaria a
+ideia central. A regra passou a ser declarada — **isolamento só se exige entre
+zonas** — e não uma exceção aberta no par que incomodou.
+
+### Defeito 64 — a piscina pagava porcelanato
+
+O deck da piscina é um retângulo de 42,12 m² e a piscina está **dentro** dele:
+17,82 m² de lâmina. O orçamento comprava porcelanato para os 42,12 — **R$ 2.637
+de piso sobre a água**. Sobreviveu porque área de ambiente e área de piso são a
+mesma coisa em todo lugar **menos** onde há um vazio dentro do ambiente. Vazio
+dentro de área é o caso que toda conferência por soma deixa passar.
+
+### Defeito 65 — o muro existia em tudo, menos no 3D
+
+*"Não vi nada ser alterado na vista 3D, tá certo??"* — em parte. R52 mexeu no que
+está enterrado, e isso não aparece. Mas a pergunta levou a olhar a cena com a
+mesma régua de R51, e o resultado foi o de sempre: **113,4 m de muro de bloco
+aparente de 2,20 m**, no modelo, no orçamento e nas pranchas desde R49, **nunca
+na cena** — o elemento que mais define o que se vê da rua, ausente da vista que
+existe para mostrar o que se vê. Junto com ele entraram o **radier**, as
+**superfícies do terreno** e o **reservatório de retenção**.
+
+A bateria **122** passou a conferir: 15 sistemas geométricos têm de chegar ao 3D,
+e há **lista de exclusão declarada** (instalações, terraplenagem, orçamento) —
+sem ela, bastaria não listar o sistema para ele nunca reprovar.
+
+### Mercado — o que a pesquisa devolveu, e o que não devolveu
+
+O pedido foi preço em cinco fornecedores de cada material, com um de Manaus.
+
+**Voltou:** a identidade dos fornecedores — **51 nomes em 10 famílias, cobrindo
+100 % do custo**, com praça local em nove delas (Tecnoframe em Manaus para os
+perfis; Aluminova, Alufynestra e Lopes para esquadria; Du Norte, Loja do Rei e
+Bacuri para insumos) — e os **índices públicos regionais**, datados e com escopo.
+
+**Não voltou:** preço unitário por fornecedor. Loja de material de construção não
+publica valor em página indexável — ele aparece depois do CEP e do carrinho — e o
+acesso direto a essas páginas está bloqueado neste ambiente. Transcrever faixa de
+blog como se fosse cotação seria exatamente o que `cotacao.py` proíbe desde R40:
+*"ele não inventa preço, não busca preço na internet e não converte (H) em
+referência por decreto"*. **Os preços seguem (H), e a pendência 12 segue aberta.**
+
+O que travava o nível COTADO nunca foi saber o preço: era saber **a quem
+perguntar** e **com que especificação**. A especificação o mapa já produzia desde
+R40; o destinatário faltava, e é ele que está aqui.
+
+**E os índices permitiram a conferência que cinco propostas nunca dariam: a de
+cima para baixo.**
+
+| | R$/m² |
+|---|---|
+| Orçamento dos sistemas modelados | 1.859,61 |
+| Extrapolado para obra entregue (material = 60 %) | 2.931,20 |
+| Índice steel frame popular (Sudeste, abr/26) | 3.042,24 |
+| CUB Amazonas R8-N (2026) | 2.460,00 |
+
+O valor fica **3,6 % abaixo do padrão popular** — e **tem** de ficar abaixo,
+porque o escopo daqui é menor. Foi essa comparação que obrigou a escrever a lista
+que não existia: **os nove escopos que NÃO estão no orçamento** — louças,
+climatização, pintura, revestimento interno, marcenaria, mão de obra de
+acabamento, equipamento de piscina, projetos e BDI. Proposta boa em cada linha
+não impede orçamento errado por **faltar linha**, e falta de linha é o modo de
+erro que este projeto já encontrou seis vezes.
+
+### Pendências: de nove para cinco
+
+| | Antes | Depois |
+|---|---|---|
+| #2 Sondagem e radier | aberta | **resolvida** na metade que era dado; o projeto com ART é a #3 |
+| #4 Verificação ambiental do reuso | aberta | **extinta** — não há mais reuso a licenciar |
+| #5 Retenção pluvial | aberta | **resolvida** com a lei na mão |
+| #7 Padrão trifásico | aberta | **resolvida** pelo proprietário |
+
+Restam cinco: certidão do SU16, ART do cálculo, regulamento do condomínio,
+nesting codificado e a cotação.
+
+**Estado em R52:** 107 funções de verificação, 571 condições, **0 erros**; 208
+verificações do visualizador, **0 falhas**; **40 pranchas** emitidas, 40 no
+índice, 40 no carimbo; 20 vistas de engenharia, todas renderizando.

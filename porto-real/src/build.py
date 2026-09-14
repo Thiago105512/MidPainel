@@ -14,6 +14,7 @@ import pranchas4 as p4
 import pranchas5 as p5
 import pranchas6 as p6
 import pranchas7 as p7
+import pranchas8 as p8
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -58,6 +59,10 @@ CADERNO = [
     ("34", "PISCINA, DECK E FACHADA",           lambda: p7.piscina_deck_fachada()),
     ("35", "EIXO SOCIAL E CORTINA DE VIDRO",    lambda: p7.eixo_social()),
     ("36", "CATALOGO TECNICO DE PECAS",         lambda: p7.catalogo_tecnico()),
+    ("37", "SONDAGEM SPT E FUNDACAO",           lambda: p8.sondagem()),
+    ("38", "RETENCAO PLUVIAL E SUPERFICIES",    lambda: p8.retencao_pluvial()),
+    ("39", "DESEMPENHO ACUSTICO",               lambda: p8.acustica()),
+    ("40", "CARGAS, FASES E MERCADO",           lambda: p8.cargas_e_mercado()),
 ]
 
 

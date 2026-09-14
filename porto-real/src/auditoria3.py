@@ -472,6 +472,16 @@ DESENHADO = {
     "paisagismo": ("paisag", "Ipe", "almeira"),
     "catalogo de peca": ("SECOES DOS PERFIS", "Ue 90x40x12"),
     "parafuso": ("parafuso", "AB 4,8"),
+    # R52 — cinco sistemas que sairam da hipotese nesta revisao. Cada um teve
+    # de ganhar prancha: a regra que R51 escreveu vale para quem a escreveu.
+    "sondagem SPT": ("SP-01", "NSPT"),
+    "tratamento do solo": ("substituicao compactada", "Terraplenagem",
+                           "TERRAPLENAGEM"),
+    "retencao pluvial": ("RETENCAO", "retencao", "orificio"),
+    "superficies do lote": ("SUPERFICIES DO LOTE", "impermeabiliza"),
+    "acustica": ("ACUSTICO", "acustic", "Rw"),
+    "equilibrio de fases": ("CARGA POR FASE", "desequilibrio"),
+    "fornecedores": ("DE QUEM SE COMPRA", "fornecedor"),
 }
 
 
@@ -3468,8 +3478,17 @@ def checar_radier() -> list[Achado]:
                       "espessura que o concreto do BOM: o embutimento so cabe "
                       "no radier se os dois falarem do mesmo radier"))
 
-    # ---- 3. a quantidade reage a espessura, em vez de ser constante
+    # ---- 3. a quantidade reage a espessura, em vez de ser constante.
+    # R52 quebrou a versao anterior deste teste, e com razao. Ele exigia
+    # proporcionalidade: dobrar a espessura tinha de dobrar o volume. Com o
+    # engrossamento de borda que o SPT motivou, o volume deixou de ser
+    # proporcional — a laje cresce e o SUPLEMENTO da borda diminui, porque
+    # borda e laje se encontram numa altura fixa de 400 mm. O teste passa a
+    # conferir a IDENTIDADE geometrica, que continua valendo em qualquer
+    # espessura, em vez de uma proporcionalidade que so valia enquanto o
+    # radier era uma placa lisa.
     import copy as _cp
+    import nucleo.geotecnia as gt
     grosso = _cp.copy(pj.RADIER)
     grosso["espessura"] = pj.RADIER["espessura"] * 2
 
@@ -3478,20 +3497,26 @@ def checar_radier() -> list[Achado]:
         TERREO = pj.TERREO
         CADASTRO = pj.CADASTRO
     f2 = fd.levantar(_Pj)
+    c = fd.contorno(pj)
+    b = gt.BORDA
+    esperado = (c["area"] * grosso["espessura"] / 1000.0
+                + c["perimetro"] * (b["largura"] / 1000.0)
+                * ((b["altura"] - grosso["espessura"]) / 1000.0))
     razao = f2["volume_m3"] / f["volume_m3"] if f["volume_m3"] else 0
-    out.append(Achado("NOTA" if abs(razao - 2.0) < 0.01 else "ERRO",
-                      "sensibilidade",
-                      f"dobrar a espessura dobra o volume ({razao:.2f}x): a "
-                      f"quantidade e funcao da espessura, nao numero fixo ao "
-                      f"lado dela"))
+    out.append(Achado("NOTA" if abs(f2["volume_m3"] - esperado) < 0.02
+                      else "ERRO", "sensibilidade",
+                      f"dobrar a espessura leva o volume a {razao:.2f}x, e nao "
+                      f"a 2x, porque a borda de {b['altura']} mm absorve parte "
+                      f"do acrescimo: {f2['volume_m3']:.2f} m3 contra "
+                      f"{esperado:.2f} m3 de identidade geometrica"))
 
-    # ---- 4. toda hipotese declarada, e a pendencia nomeada
-    out.append(Achado("ATENCAO", "hipotese de fundacao",
+    # ---- 4. o que era hipotese e o que deixou de ser
+    out.append(Achado("NOTA", "fundacao com sondagem",
                       f"espessura {f['espessura']} mm, fck {f['fck']} MPa e "
-                      f"taxa de {f['aco_kg']/f['volume_m3']:.0f} kg/m3 sao (H): "
-                      f"{f['pendencia']}. Este modulo deriva QUANTIDADE de uma "
-                      f"espessura declarada e NAO dimensiona radier — "
-                      f"apresentar a espessura como resultado seria fraude"))
+                      f"taxa de {f['taxa_kg_m3']:.1f} kg/m3 — a espessura e "
+                      f"CONFERIDA contra SP-01/02/03 em geotecnia.py e a taxa "
+                      f"e RESULTADO da armadura. Falta o projeto de fundacao "
+                      f"com ART: {f['pendencia']}"))
 
     # ---- 5. a area concretada e maior que a area util, e por um motivo
     out.append(Achado("NOTA" if f["area"] > pj.CADASTRO.area_m2 * 0.5 else "ERRO",
@@ -3839,4 +3864,186 @@ def checar_indice_do_caderno() -> list[Achado]:
                       f"todas as etapas citadas existem no historico de "
                       f"revisoes" if not fora else
                       f"etapa inexistente em REVISOES: {fora}"))
+    return out
+
+
+# ---------------------------------------------------------------------------
+# R52 — COMPLETUDE DA CENA. R51 perguntou se o que esta no modelo chega ao
+# PAPEL. Esta pergunta se chega a CENA. Sao a mesma familia de falha em suportes
+# diferentes, e um sistema pode passar numa e falhar na outra: o muro passava na
+# prancha desde R49 e nunca existiu em 3D.
+# ---------------------------------------------------------------------------
+NA_CENA = {
+    "estrutura LSF": ("lsf",),
+    "paredes do terreo": ("terreo",),
+    "paredes do superior": ("superior",),
+    "lajes": ("lajes",),
+    "platibanda": ("platibandas",),
+    "escada": ("escada",),
+    "mobiliario e loucas": ("mob",),
+    "deck e piscina": ("deck", "piscina"),
+    "brise da fachada": ("brise",),
+    "nichos e tecnicos": ("tecnico",),
+    "pilares": ("pilar",),
+    "muro do lote": ("muro",),
+    "superficies do terreno": ("lote",),
+    "radier": ("radier",),
+    "reservatorio de retencao": ("reservatorio",),
+}
+
+# sistemas que existem no modelo e deliberadamente NAO vao a cena, com a razao.
+# Lista de exclusao declarada e o que impede a conferencia de virar teatro: sem
+# ela, bastaria nao listar o sistema para ele nunca reprovar.
+FORA_DA_CENA = {
+    "instalacoes hidraulicas e eletricas": "tubo e cabo embutidos: a cena "
+        "mostraria espaguete sobre a casa e esconderia a arquitetura; estao "
+        "nas pranchas 09 a 13 e no modelo de interferencia",
+    "terraplenagem": "o corte e a substituicao de 600 mm desaparecem depois "
+        "de executados; estao no orcamento e na prancha de fundacao",
+    "cotacao e orcamento": "nao e geometria",
+}
+
+
+def checar_completude_da_cena() -> list[Achado]:
+    """O que o modelo sabe chega ao 3D?"""
+    import modelo3d as m3
+    out = []
+    d = m3.exportar()
+    tipos = set()
+    for chave in ("terreo", "superior", "lajes", "platibandas", "externo",
+                  "mob", "escada", "lsf"):
+        v = d.get(chave) or []
+        if v:
+            tipos.add(chave)
+        for b in v:
+            if isinstance(b, dict) and b.get("t"):
+                tipos.add(b["t"])
+
+    faltando = []
+    for sistema, chaves in sorted(NA_CENA.items()):
+        achou = [k for k in chaves if k in tipos]
+        if not achou:
+            faltando.append(sistema)
+        out.append(Achado("NOTA" if achou else "ERRO", f"cena: {sistema}",
+                          f"presente como {', '.join(achou)}" if achou else
+                          "NAO aparece na cena: o modelo sabe, o orcamento "
+                          "paga e quem olha o 3D nao ve"))
+    out.append(Achado("NOTA" if not faltando else "ERRO", "cobertura da cena",
+                      f"{len(NA_CENA) - len(faltando)} de {len(NA_CENA)} "
+                      f"sistemas geometricos chegam ao 3D"
+                      + ("" if not faltando else f" — FALTAM: {faltando}")))
+    out.append(Achado("NOTA", "exclusoes declaradas",
+                      f"{len(FORA_DA_CENA)} sistemas ficam fora da cena por "
+                      f"razao escrita, e nao por esquecimento"))
+
+    # a cena tem de falar da mesma revisao que o caderno
+    import projeto as pj
+    out.append(Achado("NOTA" if d["meta"]["revisao"] == pj.EMISSAO["revisao"]
+                      else "ERRO", "revisao da cena",
+                      f"a cena diz {d['meta']['revisao']} e a emissao "
+                      f"{pj.EMISSAO['revisao']}"))
+    # e o lote da cena tem de ser o lote do projeto
+    out.append(Achado("NOTA" if d["meta"]["lote"] == [pj.LOTE_L, pj.LOTE_P]
+                      else "ERRO", "lote da cena",
+                      f"{d['meta']['lote']} contra "
+                      f"{[pj.LOTE_L, pj.LOTE_P]} do projeto"))
+    return out
+
+
+def checar_acustica() -> list[Achado]:
+    """Isolamento entre fonte de ruido e ambiente sensivel (R52)."""
+    import projeto as pj
+    import nucleo.acustica as ac
+    out = []
+    for titulo, detalhe, ok in ac.conferir(pj):
+        out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
+    for p in sorted(ac.entre_zonas(pj), key=lambda q: q["folga"]):
+        out.append(Achado("NOTA" if p["passa"] else "ERRO",
+                          f"{p['fonte']} -> {p['receptor']}",
+                          f"{p['ruido']}: exige {p['exigido']:.0f} dB "
+                          f"({p['nivel']:.0f} na fonte, limite {p['limite']:.0f} "
+                          f"em {p['uso_receptor']}), parede {p['parede']} "
+                          f"Rw {p['rw_parede']} com {p['vaos'] or 'nenhum vao'} "
+                          f"entrega {p['obtido']:.1f} dB — folga "
+                          f"{p['folga']:+.1f} dB"))
+    return out
+
+
+def checar_geotecnia() -> list[Achado]:
+    """O solo virou dado: o radier confere contra ele? (R52)"""
+    import projeto as pj
+    import fixture as fx
+    import nucleo.geotecnia as gt
+    r = fx.liberacao()
+    out = []
+    for titulo, detalhe, ok in gt.conferir(pj, r):
+        out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
+    for f in gt.perfil():
+        out.append(Achado("NOTA", f"perfil {f['z0']}-{f['z1']} m",
+                          f"N {f['n']} (medio {f['medio']:.2f}, dispersao "
+                          f"{f['dispersao']*100:.0f} %) — {f['solo']}"))
+    return out
+
+
+def checar_pluvial() -> list[Achado]:
+    """Superficies do lote, gatilho legal e retencao (R52)."""
+    import projeto as pj
+    import nucleo.pluvial as pl
+    out = []
+    for titulo, detalhe, ok in pl.conferir(pj):
+        out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
+    b = pl.balanco(pj)
+    out.append(Achado("NOTA", "taxa de impermeabilizacao",
+                      f"{b['taxa_impermeabilizacao']*100:.2f} % do lote, com "
+                      f"C ponderado de {b['c_ponderado']:.4f} contra "
+                      f"{b['c_pre']:.2f} do terreno natural"))
+    return out
+
+
+def checar_eletrica_trifasica() -> list[Achado]:
+    """Esquema 220/127, equilibrio de fases e padrao de entrada (R52)."""
+    import projeto as pj
+    import nucleo.eletrica as el
+    out = []
+    for titulo, detalhe, ok in el.conferir(pj):
+        out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
+    eq = el.equilibrar(pj)
+    en = el.entrada(pj)
+    out.append(Achado("NOTA", "padrao de entrada",
+                      f"{en['demanda_va']} VA de demanda, {en['corrente_a']} A, "
+                      f"disjuntor {en['disjuntor_a']} A, ramal "
+                      f"{en['secao_mm2']} mm2 com neutro "
+                      f"{en['neutro_mm2']} mm2 e PE "
+                      f"{en['aterramento_mm2']} mm2"))
+    out.append(Achado("NOTA", "divisao por fase",
+                      f"{len(eq['circuitos'])} circuitos distribuidos; "
+                      f"correntes por fase {eq['corrente_por_fase']} A"))
+    return out
+
+
+def checar_mercado() -> list[Achado]:
+    """Fornecedores, indices publicos e aderencia do total a praca (R52)."""
+    import projeto as pj
+    import fixture as fx
+    import nucleo.mercado as mk
+    r = fx.liberacao()
+    out = []
+    for titulo, detalhe, ok in mk.conferir(pj, r):
+        out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
+    cb = mk.cobertura_de_fornecedores(r)
+    for l in cb["linhas"]:
+        out.append(Achado("NOTA", f"fornecedores: {l['familia']}",
+                          f"R$ {l['valor']:,.2f} ({l['fracao']*100:.1f} % do "
+                          f"custo) — {l['fornecedores']} fornecedores, "
+                          f"{l['manaus']} em Manaus: "
+                          f"{', '.join(f[0] for f in l['lista'][:5])}"
+                          .replace(",", ",")))
+    ad = mk.aderencia(pj, r)
+    out.append(Achado("ATENCAO", "escopo do orcamento",
+                      f"R$ {ad['total']:,.2f} cobrem os sistemas modelados, "
+                      f"nao a casa pronta. Ficam de fora "
+                      f"{len(ad['fora_do_orcamento'])} escopos declarados, e "
+                      f"por isso o valor extrapolado "
+                      f"(R$ {ad['obra_entregue_m2']:.2f}/m2) fica abaixo do "
+                      f"indice de obra entregue"))
     return out

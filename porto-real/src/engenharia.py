@@ -26,6 +26,11 @@ import nucleo.bom as bo
 import nucleo.documentos as dc
 import nucleo.contratos as ct
 import nucleo.cotacao as co
+import nucleo.geotecnia as gt
+import nucleo.pluvial as pl
+import nucleo.acustica as ac
+import nucleo.eletrica as elt
+import nucleo.mercado as mk
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(AQUI, "..", "out", "engenharia.json")
@@ -496,6 +501,49 @@ def montar() -> dict:
                    for c in ct.CONTRATOS],
         memoriais={m: dc.memorial_compressao(_stud(cfg), _aco(), cfg.altura, m)
                    for m in dc.MODOS},
+        # R52 — quatro sistemas novos. A regra de R51 e de R52 e a mesma em
+        # suportes diferentes: o que esta no modelo tem de chegar ao papel E a
+        # tela. Deixar de exportar aqui repetiria, na tela, exatamente o que o
+        # catalogo tecnico fez na prancha.
+        geotecnia=dict(
+            sondagens=gt.SONDAGENS, perfil=gt.perfil(),
+            interpretacao={f"{a}-{b}": v
+                           for (a, b), v in gt.INTERPRETACAO.items()},
+            investigada=gt.PROF_INVESTIGADA,
+            tratamento=gt.TRATAMENTO,
+            carga=gt.carga_na_fundacao(pj, r),
+            dimensionamento=gt.dimensionar(pj, r),
+            armadura=gt.armadura(pj),
+            terraplenagem=gt.terraplenagem(pj),
+            conferencia=[dict(titulo=t, detalhe=d, ok=o)
+                         for t, d, o in gt.conferir(pj, r)]),
+        pluvial=dict(
+            balanco=pl.balanco(pj), gatilho=pl.gatilho_legal(pj),
+            vazoes=pl.vazoes(pj), retencao=pl.retencao(pj),
+            coeficientes=pl.C_SUPERFICIE,
+            decisao=pj.PLUVIAL,
+            conferencia=[dict(titulo=t, detalhe=d, ok=o)
+                         for t, d, o in pl.conferir(pj)]),
+        acustica=dict(
+            pares=ac.pares(pj), entre_zonas=ac.entre_zonas(pj),
+            fontes=ac.FONTES, limites=ac.LIMITE, portas=ac.RW_PORTA,
+            zonas=ac.ZONA_ACUSTICA,
+            conferencia=[dict(titulo=t, detalhe=d, ok=o)
+                         for t, d, o in ac.conferir(pj)]),
+        eletrica=dict(
+            tensao=pj.TENSAO, equilibrio=elt.equilibrar(pj),
+            entrada=elt.entrada(pj), demanda=pj.demanda_eletrica(),
+            conferencia=[dict(titulo=t, detalhe=d, ok=o)
+                         for t, d, o in elt.conferir(pj)]),
+        mercado=dict(
+            indices=mk.INDICES, fornecedores=mk.FORNECEDORES,
+            cobertura=mk.cobertura_de_fornecedores(r),
+            aderencia=mk.aderencia(pj, r),
+            fora_do_orcamento=mk.FORA_DO_ORCAMENTO,
+            sem_praca_local=mk.SEM_PRACA_LOCAL,
+            pesquisa=mk.PESQUISA,
+            conferencia=[dict(titulo=t, detalhe=d, ok=o)
+                         for t, d, o in mk.conferir(pj, r)]),
     )
 
 

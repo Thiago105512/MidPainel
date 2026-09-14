@@ -153,8 +153,14 @@ def rodar(fotos: bool = False) -> int:
         pag.evaluate("() => mostrar(34)")
         pag.wait_for_function("() => miniImg.src.includes('PR-35') && svg2d")
         ok("PR-35" in pag.evaluate("() => miniImg.src"), "chega na ultima prancha")
-        ok(pag.evaluate("() => document.querySelectorAll('#rail button').length") == 36,
-           "as 36 pranchas estao no indice")
+        # R52 — o numero sai de pranchas.TOTAL_PRANCHAS e nao de um literal
+        # aqui. Em R51 o literal 36 teve de ser trocado a mao e ninguem trocou
+        # o indice junto; conferir contra a fonte impede que a proxima prancha
+        # nova reprove por um numero desatualizado no proprio teste.
+        import pranchas as _pr
+        _n = int(_pr.TOTAL_PRANCHAS)
+        ok(pag.evaluate("() => document.querySelectorAll('#rail button').length") == _n,
+           f"as {_n} pranchas estao no indice")
         ok(pag.evaluate("() => noteKeys.children.length") == 4,
            "cada prancha traz 4 chaves de leitura")
 
@@ -1013,7 +1019,7 @@ def rodar(fotos: bool = False) -> int:
              return v.length > 2 && v.every((x, i) => i === 0 || v[i - 1] <= x); }"""),
            "e ordena numero como numero, nao como texto")
 
-        # ---- BUSCA GLOBAL: uma pergunta, dezesseis vistas e 36 pranchas
+        # ---- BUSCA GLOBAL: uma pergunta, dezesseis vistas e o caderno inteiro
         pag.goto(f"http://127.0.0.1:{porta}/porto-real-caderno.html")
         pag.wait_for_selector("#rail li", state="attached")
         pag.wait_for_timeout(1200)
@@ -1318,6 +1324,24 @@ def rodar(fotos: bool = False) -> int:
                try { return [...s.cssRules]; } catch (e) { return []; } });
              return css.some(r => r.conditionText && r.conditionText.includes('print')); }"""),
            "existe folha de estilo de impressao")
+
+        # R52 — toda vista de engenharia tem de RENDERIZAR. As vistas eram
+        # exercitadas uma a uma, escolhidas a mao, e a vista nova entrava sem
+        # ninguem abrir: e o mesmo defeito que R51 achou no caderno, aqui na
+        # tela. Agora a lista vem do proprio visualizador.
+        vistas = pag.evaluate(
+            "() => [...document.querySelectorAll('#vistasEng button')]"
+            ".map(b => b.dataset.vista)")
+        vazias = []
+        for v in vistas:
+            pag.click(f"#vistasEng button[data-vista='{v}']")
+            pag.wait_for_timeout(120)
+            n = pag.evaluate(
+                "() => document.getElementById('engConteudo').innerText.length")
+            if n < 200:
+                vazias.append(f"{v} ({n} car.)")
+        ok(not vazias, f"as {len(vistas)} vistas de engenharia renderizam",
+           " | ".join(vazias))
 
         ok(not erros, "nenhum erro de console ou de script",
            " | ".join(erros[:3]))

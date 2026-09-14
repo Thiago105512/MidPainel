@@ -518,6 +518,68 @@ PROGRAMA = [
      "comparado de proposito: o carimbo traz o titulo descritivo da folha e o "
      "indice o rotulo curto de navegacao, textos com funcoes diferentes. O que "
      "tem de ser identico e a identidade da folha, que e o numero."),
+    (119, "Geotecnia: o solo deixou de ser hipotese",
+     ["checar_geotecnia"], "AUTOMATIZADA",
+     "Secao 144. Tres sondagens do proprietario, NSPT ate 8 m. O radier era o "
+     "sistema mais caro apoiado no dado mais fraco — espessura, fck e taxa "
+     "eram (H) e a pendencia 2 dizia isso. Agora ha pressao de contato contra "
+     "tensao admissivel por tres correlacoes (adota-se a MENOR, porque "
+     "nenhuma das tres nasceu deste solo), recalque por camadas com E do SPT, "
+     "distorcao angular e — pergunta que quase ninguem faz — se a sondagem "
+     "foi FUNDO o bastante. O que o solo mandou mudar nao foi o radier: foi o "
+     "que esta debaixo dele."),
+    (120, "Pluvial: as superficies do lote e a retencao",
+     ["checar_pluvial"], "AUTOMATIZADA",
+     "Secao 145. O proprietario trocou reuso por retencao — sistemas de "
+     "dimensionamento OPOSTO: um quer o reservatorio cheio antes da seca, o "
+     "outro vazio antes da chuva. Para dimensionar qualquer um dos dois "
+     "faltava o que nunca existiu no modelo: a superficie do lote INTEIRO. "
+     "333,44 m2 do terreno, 42 % dele, nao tinham classe nenhuma. Agora a "
+     "soma das superficies tem de dar o lote, e o gatilho de 500 m2 da Lei "
+     "1.192/2007 de Manaus e conferido contra a area que o modelo calcula."),
+    (121, "Acustica: o eixo que o morador achou antes do programa",
+     ["checar_acustica"], "AUTOMATIZADA",
+     "Secao 146. A pergunta veio de quem mora: quem entra na casa ouve o "
+     "chuveiro do banho da entrada. Nenhuma das 101 verificacoes podia "
+     "responder. Havia Rw por familia de parede desde R12 e nada que "
+     "percorresse os pares fonte-receptor. A conferencia nova reprovou "
+     "QUATRO passagens na primeira execucao, e a pior nao era a que se via: "
+     "era o banho contra o DORMITORIO, com folha oca de 20 dB. Em acustica o "
+     "elo fraco domina — 44 dB de parede com 15 dB de porta entregam 20."),
+    (122, "Completude da CENA: o 3D mostra o que o modelo sabe?",
+     ["checar_completude_da_cena"], "AUTOMATIZADA",
+     "Secao 147. R51 perguntou se o que esta no modelo chega ao PAPEL; esta "
+     "pergunta se chega a CENA, e um sistema pode passar numa e falhar na "
+     "outra. Foi o caso do muro: 113 m de bloco aparente de 2,20 m, no "
+     "orcamento e na prancha desde R49, e ausente do 3D — o elemento que mais "
+     "define o que se ve da rua, fora da vista que existe para mostrar o que "
+     "se ve. Ha lista de EXCLUSAO declarada: sem ela, bastaria nao listar o "
+     "sistema para ele nunca reprovar."),
+    (123, "Eletrica: 220/127 confirmado, e o desequilibrio que ele traz",
+     ["checar_eletrica_trifasica"], "AUTOMATIZADA",
+     "Secao 148. A pendencia 7 fechou com a decisao do proprietario — "
+     "trifasico, 127 V para os eletrodomesticos correntes e 220 V para ar e "
+     "chuveiro — e isso confere com o que a concessionaria fornece em BT "
+     "trifasica. Tirar o (H) foi o menor efeito: num 220/127 a carga de 127 "
+     "fica entre fase e neutro e a de 220 entre duas fases, e aparece um "
+     "problema que instalacao monofasica nao tem e que nenhuma verificacao "
+     "enxergava — o desequilibrio. 58 circuitos distribuidos com 0,43 % de "
+     "diferenca entre a fase mais e a menos carregada, e a atribuicao escrita "
+     "no projeto em vez de delegada ao eletricista."),
+    (124, "Mercado: de quem se compra, e contra que numero publico",
+     ["checar_mercado"], "PARCIAL",
+     "Secao 149. O proprietario pediu preco em cinco fornecedores de cada "
+     "material, com um de Manaus. A pesquisa devolveu a IDENTIDADE dos "
+     "fornecedores — 51 nomes em 10 familias, cobrindo 100 % do custo, com "
+     "praca local em nove delas — e os INDICES PUBLICOS regionais. Nao "
+     "devolveu preco unitario: loja de material nao publica valor em pagina "
+     "indexavel, e transcrever faixa de blog como cotacao seria inventar "
+     "numero. PARCIAL por isso, e nao por falta de pesquisa. Em troca, os "
+     "indices permitiram a conferencia de CIMA PARA BAIXO — que cinco "
+     "propostas por item nunca dao — e foi ela que obrigou a escrever a lista "
+     "do que NAO esta no orcamento: loucas, climatizacao, pintura, "
+     "revestimento interno, marcenaria, mao de obra de acabamento, "
+     "equipamento de piscina, projetos e BDI."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
