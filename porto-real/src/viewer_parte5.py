@@ -396,6 +396,13 @@ function blocoEstrutura() {
         height:100%;width:${(h.n / maior * 100).toFixed(1)}%;background:${cor}"></i></span>
       <span style="text-align:right">${h.n}</span></div>`;
   }).join("");
+  const tabelaHist = `<details style="margin-top:8px"><summary class="conta"
+      style="cursor:pointer">ver como tabela</summary>
+      <table class="tabela" style="margin-top:6px"><thead><tr><th>faixa</th>
+        <th>montantes</th></tr></thead><tbody>${E.histograma.map(h =>
+        `<tr><td>${h.ate > 1 ? "acima de 1,00" :
+          h.de.toFixed(2).replace(".", ",") + " – " + h.ate.toFixed(2).replace(".", ",")}</td>
+          <td>${h.n}</td></tr>`).join("")}</tbody></table></details>`;
   const g = E.governa;
   const jb = E.jambas.map(j =>
     `<li><b>${esc2(j.painel)}</b> — ${esc2(j.solucao)} ·
@@ -411,7 +418,8 @@ function blocoEstrutura() {
         alvo de projeto ${E.u_alvo.toFixed(2).replace(".", ",")} ·
         aprovação pela norma 1,00</span></div>
     <div class="eng-grid" style="grid-template-columns:1fr 1fr">
-      <div><h3 style="margin-bottom:8px">Distribuição de utilização</h3>${barras}
+      <div><h3 style="margin-bottom:8px">Distribuição de utilização</h3>
+        ${vizUtilizacao(E)}${tabelaHist}
         <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
           Governa <b>${esc2(g.peca)}</b> (${esc2(g.familia)}, ${esc2(g.perfil)}):
           N<sub>sd</sub> ${num(g.nsd, 1)} kN de ${num(g.nrd, 1)} kN resistentes,
@@ -651,6 +659,9 @@ function vistaMontagem() {
       <span class="conta">passo ${passoAtual} de ${M.n_passos} ·
         ${p ? p.acumulado_h.toFixed(1) : "0,0"} h de ${M.horas} h ·
         ${p ? (p.progresso * 100).toFixed(0) : 0} %</span></div>
+    <div class="eng-sec"><h3>Curva de montagem — ${M.n_passos} passos,
+      ${num(M.horas, 1)} h acumuladas</h3>
+      ${vizMontagem(M.passos, M.horas)}</div>
     <div class="eng-grid">
       <ul class="lista" id="listaPassos">${linhas}</ul>
       <div class="desenho">${svgPlanta(passoAtual)}
@@ -1060,6 +1071,8 @@ function vistaCotacao() {
           custa: é quanto do orçamento depende de um preço que ninguém
           confirmou.</p></div>
     </div>
+    <div class="eng-sec"><h3>Concentração do custo — onde vale cotar primeiro</h3>
+      ${vizConcentracao(ENG.abc || [])}</div>
     <div class="eng-sec"><h3>O que falta para poder perguntar</h3>
       <div class="rolagem"><table class="tabela"><thead><tr><th>item</th>
         <th>o que falta</th></tr></thead><tbody>${lac}</tbody></table></div>
@@ -1186,6 +1199,7 @@ function renderEng() {
     b.setAttribute("aria-current", (b.dataset.vista === engVista) + ""));
   ligarEng();
   ordenaveis();
+  ligarViz();
   if (typeof gravarRota === "function") gravarRota();
 }
 
@@ -1669,4 +1683,207 @@ addEventListener("beforeprint", () => {
   const cx = document.querySelector(".stage-box");
   if (cx) cx.dataset.rota = "#" + (typeof rotaDaTela === "function" ? rotaDaTela() : "");
 });
+'''
+
+CSS_ENG += r'''
+  /* ------------------------------------------------------- graficos
+     Ate R42 todo "grafico" aqui era uma <div> com largura percentual: serve
+     para comparar magnitude e nao serve para mais nada — nao tem eixo, nao
+     tem escala, nao tem limiar e nao responde "onde isto passa de aceitavel".
+
+     UMA cor de serie, sequencial. Nada aqui e categorico: sao series unicas,
+     e serie unica dispensa legenda — o titulo ja diz o que esta plotado. */
+  .viz{--viz-serie:#3f6fb5; --viz-critico:#d03b3b; --viz-ref:var(--ink-faint);
+       position:relative}
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]) .viz{--viz-serie:#3987e5; --viz-critico:#e66767}
+  }
+  :root[data-theme="dark"] .viz{--viz-serie:#3987e5; --viz-critico:#e66767}
+  /* O SVG escala tudo, inclusive o texto: um viewBox de 460 renderizado em
+     930 px dobra cada rotulo. Limitar a largura mantem a tipografia proxima do
+     tamanho desenhado, em vez de virar cartaz no monitor e sumir no telefone. */
+  .viz svg{display:block; width:100%; max-width:640px; height:auto; overflow:visible}
+  .viz .grade{stroke:var(--rule-soft); stroke-width:1; fill:none}
+  .viz .eixo{fill:var(--ink-faint); font-family:var(--mono); font-size:9px}
+  .viz .rot{fill:var(--ink-soft); font-family:var(--mono); font-size:9.5px}
+  .viz .val{fill:var(--ink); font-family:var(--mono); font-size:10px; font-weight:500}
+  .viz .marca{fill:var(--viz-serie)}
+  .viz .marca.critica{fill:var(--viz-critico)}
+  .viz .linha{stroke:var(--viz-serie); stroke-width:2; fill:none;
+              stroke-linejoin:round; stroke-linecap:round}
+  .viz .area{fill:var(--viz-serie); opacity:.10}
+  .viz .ref{stroke:var(--ink-faint); stroke-width:1; fill:none; opacity:.55}
+  .viz .ponto{fill:var(--viz-serie); stroke:var(--surface); stroke-width:2}
+  .viz .alvo{stroke:var(--viz-critico); stroke-width:1; fill:none}
+  .viz .sombra{fill:transparent; cursor:crosshair}
+  .viz .sombra:hover{fill:var(--rule-soft); opacity:.5}
+  .dica-viz{position:absolute; pointer-events:none; z-index:6;
+    background:var(--surface); border:1px solid var(--rule); box-shadow:var(--shadow);
+    padding:6px 9px; border-radius:2px; font-family:var(--mono); font-size:10.5px;
+    color:var(--ink); white-space:nowrap; transform:translate(-50%,-115%)}
+  .viz-legenda{font-family:var(--mono); font-size:10px; color:var(--ink-faint);
+               margin:6px 0 0; line-height:1.5}
+'''
+
+JS_ENG += r'''
+// =====================================================================
+// GRAFICOS — o que a barra de <div> nao conseguia dizer
+//
+// Tres perguntas que as tabelas respondem mal:
+//   1. os 415 montantes estao FOLGADOS ou raspando o limite?
+//   2. o custo esta concentrado em poucos itens ou espalhado?
+//   3. a obra comeca devagar e acelera, ou o contrario?
+//
+// Todas sao de SERIE UNICA — e por isso nenhuma tem legenda: o titulo ja diz
+// o que esta plotado, e uma caixa com um quadradinho so repete o titulo. Cor
+// sequencial de uma hue; vermelho aparece uma vez so, para limite normativo, e
+// sempre acompanhado de texto: vermelho contra verde tem separacao 4,1 sob
+// deuteranopia, ou seja, cor sozinha ali nao informa ninguem.
+// =====================================================================
+function _dicaViz(cx, txt, x, y) {
+  let d = cx.querySelector(".dica-viz");
+  if (!d) { d = document.createElement("div"); d.className = "dica-viz"; cx.appendChild(d); }
+  d.textContent = txt; d.style.left = x + "px"; d.style.top = y + "px"; d.hidden = false;
+}
+function _semDica(cx) { const d = cx.querySelector(".dica-viz"); if (d) d.hidden = true; }
+
+function ligarViz() {
+  document.querySelectorAll("#engConteudo .viz").forEach(cx => {
+    cx.querySelectorAll("[data-dica]").forEach(el => {
+      el.addEventListener("mousemove", e => {
+        const r = cx.getBoundingClientRect();
+        _dicaViz(cx, el.dataset.dica, e.clientX - r.left, e.clientY - r.top);
+      });
+      el.addEventListener("mouseleave", () => _semDica(cx));
+    });
+    cx.addEventListener("mouseleave", () => _semDica(cx));
+  });
+}
+
+// ---- 1. distribuicao de utilizacao: colunas, com o limite desenhado
+function vizUtilizacao(E) {
+  const W = 460, H = 190, ML = 8, MR = 8, MT = 22, MB = 30;
+  const dados = E.histograma;
+  const maior = Math.max(...dados.map(h => h.n)) || 1;
+  const faixa = (W - ML - MR) / dados.length;
+  const alt = H - MT - MB;
+  const colunas = dados.map((h, i) => {
+    const larg = Math.min(24, faixa - 10);          // <= 24 px, nunca a faixa toda
+    const x = ML + i * faixa + (faixa - larg) / 2;
+    const a = Math.max(h.n ? 3 : 0, h.n / maior * alt);
+    const y = MT + alt - a;
+    const crit = h.ate > 1;
+    const rot = crit ? "acima de 1,00"
+      : `${h.de.toFixed(2).replace(".", ",")}–${h.ate.toFixed(2).replace(".", ",")}`;
+    const dica = `${h.n} montante(s) · utilização ${rot}`;
+    // topo arredondado em 4 px, pe quadrado na linha de base
+    const r = Math.min(4, a / 2);
+    const caminho = a <= 0 ? "" :
+      `M${x} ${MT + alt} V${y + r} a${r} ${r} 0 0 1 ${r} -${r} h${larg - 2 * r}` +
+      ` a${r} ${r} 0 0 1 ${r} ${r} V${MT + alt} Z`;
+    return `${a > 0 ? `<path class="marca${crit ? " critica" : ""}" d="${caminho}"
+        data-dica="${esc2(dica)}"></path>` : ""}
+      <rect class="sombra" x="${ML + i * faixa}" y="${MT}" width="${faixa}"
+            height="${alt}" data-dica="${esc2(dica)}"></rect>
+      <text class="val" x="${x + larg / 2}" y="${(h.n ? y : MT + alt) - 5}"
+            text-anchor="middle">${h.n}</text>
+      <text class="rot" x="${ML + i * faixa + faixa / 2}" y="${H - 14}"
+            text-anchor="middle">${rot.replace("acima de ", "> ")}</text>`;
+  }).join("");
+  // O limite so pode ser desenhado ONDE ELE E FRONTEIRA DE CATEGORIA: entre a
+  // faixa 0,90–1,00 e a faixa "acima de 1,00". Posicionar 0,95 dentro de uma
+  // coluna seria fingir que o eixo e continuo — ele e categorico, e a primeira
+  // versao deste grafico fazia exatamente isso. O alvo de projeto vive no
+  // texto, que e onde um numero sem lugar no eixo pertence.
+  const xLim = ML + (dados.length - 1) * faixa;
+  return `<div class="viz"><svg viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Distribuição de utilização dos ${E.n} montantes">
+      <line class="grade" x1="${ML}" y1="${MT + H - MT - MB}" x2="${W - MR}"
+            y2="${MT + H - MT - MB}"></line>
+      ${colunas}
+      <line class="alvo" x1="${xLim}" y1="${MT - 2}" x2="${xLim}" y2="${H - MB}"></line>
+      <text class="rot" x="${xLim - 4}" y="${MT + 4}" text-anchor="end"
+            style="fill:var(--viz-critico)">limite 1,00</text>
+      </svg>
+    <p class="viz-legenda">Cada coluna é um número de montantes; a última faixa é
+      a que <b>reprova</b> pela norma, e traz ${dados[dados.length - 1].n}.
+      O alvo de projeto é ${E.u_alvo.toFixed(2).replace(".", ",")} e não aparece
+      no eixo de propósito: o eixo é categórico, e valor contínuo marcado dentro
+      de uma faixa finge uma escala que não existe.
+      A utilização não tem teto: até R28 ela era relatada com min(0,99), e um
+      montante 47&nbsp;% sobrecarregado saía como aprovado.</p></div>`;
+}
+
+// ---- 2. concentracao de custo: os dois eixos em %, uma escala so
+function vizConcentracao(abc) {
+  const W = 460, H = 210, ML = 34, MR = 12, MT = 14, MB = 30;
+  const n = abc.length;
+  if (!n) return "";
+  const px = (W - ML - MR), py = (H - MT - MB);
+  const pts = abc.map((a, i) => [(i + 1) / n, a.acumulado]);
+  const X = f => ML + f * px, Y = f => MT + py - f * py;
+  const d = "M" + X(0) + " " + Y(0) + pts.map(([a, b]) => ` L${X(a).toFixed(1)} ${Y(b).toFixed(1)}`).join("");
+  const area = d + ` L${X(1)} ${Y(0)} Z`;
+  // onde o acumulado cruza 80 %: e a fronteira da classe A, e o unico rotulo
+  // direto que este grafico precisa
+  const iA = pts.findIndex(([, b]) => b >= 0.8);
+  const fA = iA >= 0 ? pts[iA][0] : 1;
+  const sombras = abc.map((a, i) => {
+    const x0 = X(i / n), larg = px / n;
+    return `<rect class="sombra" x="${x0.toFixed(1)}" y="${MT}" width="${Math.max(larg, 2).toFixed(1)}"
+      height="${py}" data-dica="${esc2(`${a.sku} · ${(a.participacao * 100).toFixed(1)} % do custo · acumulado ${(a.acumulado * 100).toFixed(1)} %`)}"></rect>`;
+  }).join("");
+  const marcas = [0, 0.25, 0.5, 0.75, 1].map(f =>
+    `<line class="grade" x1="${ML}" y1="${Y(f)}" x2="${W - MR}" y2="${Y(f)}"></line>
+     <text class="eixo" x="${ML - 6}" y="${Y(f) + 3}" text-anchor="end">${(f * 100).toFixed(0)} %</text>`).join("");
+  return `<div class="viz"><svg viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Concentração do custo: participação acumulada por item">
+      ${marcas}
+      <line class="ref" x1="${X(0)}" y1="${Y(0)}" x2="${X(1)}" y2="${Y(1)}"></line>
+      <text class="rot" x="${X(0.52)}" y="${Y(0.48)}"
+            transform="rotate(${(-Math.atan2(py, px) * 180 / Math.PI).toFixed(1)} ${X(0.52)} ${Y(0.48)})">custo espalhado por igual</text>
+      <path class="area" d="${area}"></path>
+      <path class="linha" d="${d}"></path>
+      ${sombras}
+      <line class="alvo" x1="${X(fA)}" y1="${Y(0)}" x2="${X(fA)}" y2="${Y(0.8)}"></line>
+      <circle class="ponto" cx="${X(fA)}" cy="${Y(0.8)}" r="4"></circle>
+      <text class="val" x="${X(fA) + 7}" y="${Y(0.8) - 6}">${iA + 1} itens = 80 % do custo</text>
+      <text class="eixo" x="${ML}" y="${H - 10}">itens, do maior para o menor</text>
+      <text class="eixo" x="${W - MR}" y="${H - 10}" text-anchor="end">${n} itens</text>
+      </svg>
+    <p class="viz-legenda">Os dois eixos são percentuais — uma escala só, sem
+      segundo eixo. Quanto mais a curva se afasta da reta, mais o orçamento
+      depende de poucos itens: são esses que valem cotar primeiro.</p></div>`;
+}
+
+// ---- 3. curva S da montagem
+function vizMontagem(passos, horas) {
+  const W = 460, H = 190, ML = 36, MR = 14, MT = 14, MB = 28;
+  const n = passos.length;
+  if (!n || !horas) return "";
+  const px = (W - ML - MR), py = (H - MT - MB);
+  const X = f => ML + f * px, Y = f => MT + py - f * py;
+  const pts = passos.map((p, i) => [i / (n - 1 || 1), p.acumulado_h / horas]);
+  const d = "M" + pts.map(([a, b], i) => `${i ? "L" : ""}${X(a).toFixed(1)} ${Y(b).toFixed(1)}`).join(" ");
+  const marcas = [0, 0.5, 1].map(f =>
+    `<line class="grade" x1="${ML}" y1="${Y(f)}" x2="${W - MR}" y2="${Y(f)}"></line>
+     <text class="eixo" x="${ML - 6}" y="${Y(f) + 3}" text-anchor="end">${num(horas * f, 0)} h</text>`).join("");
+  const sombras = passos.map((p, i) =>
+    `<rect class="sombra" x="${(X(i / (n - 1 || 1)) - px / n / 2).toFixed(1)}" y="${MT}"
+      width="${Math.max(px / n, 2).toFixed(1)}" height="${py}"
+      data-dica="${esc2(`${p.cod} · ${num(p.acumulado_h, 1)} h acumuladas · ${num(p.duracao_h, 2)} h neste passo`)}"></rect>`).join("");
+  return `<div class="viz"><svg viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Horas acumuladas de montagem ao longo dos ${n} passos">
+      ${marcas}
+      <path class="linha" d="${d}"></path>
+      ${sombras}
+      <circle class="ponto" cx="${X(1)}" cy="${Y(1)}" r="4"></circle>
+      <text class="val" x="${X(1) - 8}" y="${Y(1) + 12}" text-anchor="end">${num(horas, 1)} h no total</text>
+      <text class="eixo" x="${ML}" y="${H - 8}">passo 1</text>
+      <text class="eixo" x="${W - MR}" y="${H - 8}" text-anchor="end">passo ${n}</text>
+      </svg>
+    <p class="viz-legenda">A inclinação é a velocidade: trecho plano é passo
+      rápido, trecho íngreme é onde a equipe fica. O prazo da obra é esta curva
+      dividida pelo tamanho da equipe.</p></div>`;
+}
 '''

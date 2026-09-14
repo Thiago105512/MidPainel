@@ -3427,3 +3427,54 @@ folha solta em cima da mesa da obra não diz de onde veio, e a rota diz.
 
 (O PDF das 35 pranchas continua sendo gerado pelo outro caminho, direto do
 modelo. Esta folha é para imprimir **a tela**, que é coisa diferente.)
+
+## Defeito 54 — todo "gráfico" era uma `<div>` com largura percentual
+
+Serviam para comparar magnitude e para mais nada: sem eixo, sem escala, sem
+limiar, e portanto incapazes de responder *"onde isto passa de aceitável?"*.
+Três perguntas que as tabelas respondiam mal ganharam forma:
+
+| pergunta | forma |
+|---|---|
+| os 415 montantes estão folgados ou raspando o limite? | colunas + a fronteira do limite normativo |
+| o custo está concentrado ou espalhado? | curva de concentração, dois eixos em % |
+| a obra começa devagar e acelera? | curva de horas acumuladas |
+
+As três são de **série única** — por isso nenhuma tem legenda: o título já diz o
+que está plotado, e uma caixa com um quadradinho só repete o título.
+
+### O erro que o desenho expôs: valor contínuo em eixo categórico
+
+A primeira versão marcava o alvo de projeto **0,95 dentro da faixa 0,90–1,00**.
+O eixo x do histograma não é contínuo: são seis *categorias*. Posicionar 0,95 a
+meio caminho de uma coluna finge uma escala que não existe — e ainda atropelava
+o rótulo da própria coluna.
+
+> O limite só pode ser desenhado **onde ele é fronteira de categoria**: entre a
+> faixa 0,90–1,00 e "acima de 1,00". O alvo de projeto foi para o texto, que é
+> onde um número sem lugar no eixo pertence.
+
+### Duas armadilhas de tipografia em SVG
+
+1. **O viewBox escala o texto junto.** Um desenho de 460 unidades renderizado a
+   930 px dobra cada rótulo: 10 px viram 20. Limitar a largura mantém a
+   tipografia no tamanho desenhado, em vez de virar cartaz no monitor e sumir no
+   telefone.
+2. **Rótulo fora da área desenhada é rótulo cortado.** O total da curva S ficava
+   acima do topo do gráfico e era decepado. Rótulo direto mora *dentro*.
+
+### O que foi verificado, e não só olhado
+
+- a soma das faixas do histograma é **exatamente** o número de montantes
+  verificados — o desenho mostra o que o motor calculou, não uma conta refeita
+  no navegador, que poderia divergir do memorial;
+- o acumulado da curva ABC cresce monotonicamente até exatamente 100 %;
+- o fim da curva S bate com o total de horas do modelo;
+- cada marca responde ao ponteiro — gráfico sem leitura é decoração;
+- cada gráfico se descreve por `aria-label`, e o histograma tem a mesma
+  informação em tabela.
+
+Cor: uma *hue* sequencial (azul), validada contra as duas superfícies. Vermelho
+aparece uma vez só, para o limite normativo, e **sempre com texto** — vermelho
+contra verde tem separação ΔE 4,1 sob deuteranopia, ou seja, cor sozinha ali não
+informa ninguém.

@@ -1068,6 +1068,56 @@ def rodar(fotos: bool = False) -> int:
         ok(pag.evaluate("() => document.getElementById('paleta').hidden"),
            "Esc fecha")
 
+        # ---- GRAFICOS: o que a barra de <div> nao conseguia dizer
+        pag.click("button[data-modo='eng']")
+        pag.click("#vistasEng button[data-vista='painel']")
+        pag.wait_for_timeout(500)
+        ok(pag.evaluate("() => !!document.querySelector('#engConteudo .viz svg')"),
+           "a distribuicao de utilizacao e um grafico, com eixo e limiar")
+        # IDENTIDADE: o que a tela desenha e o que o motor calculou, nao uma
+        # conta refeita no navegador — que poderia divergir do memorial
+        ok(pag.evaluate("""() => {
+             const somaHist = ENG.estrutura.histograma.reduce((s, h) => s + h.n, 0);
+             return somaHist === ENG.estrutura.n; }"""),
+           "as faixas do histograma somam exatamente os montantes verificados",
+           str(pag.evaluate("() => ENG.estrutura.n")) + " montantes")
+        ok(pag.evaluate("""() => document.querySelectorAll(
+             '#engConteudo .viz [data-dica]').length""") >= 6,
+           "cada coluna responde ao ponteiro: grafico sem leitura e decoracao")
+        ok(pag.evaluate("""() => {
+             const t = document.querySelector('#engConteudo .viz svg')
+                              .getAttribute('aria-label');
+             return t && t.length > 20; }"""),
+           "e o grafico se descreve para quem nao o ve")
+        ok(pag.evaluate("""() => !!document.querySelector('#engConteudo details table.tabela')"""),
+           "com a mesma informacao disponivel em tabela")
+
+        pag.click("#vistasEng button[data-vista='cotacao']")
+        pag.wait_for_timeout(500)
+        ok(pag.evaluate("() => !!document.querySelector('#engConteudo .viz path.linha')"),
+           "a concentracao de custo e uma curva, nao uma lista ordenada")
+        # os dois eixos em % — uma escala so. Segundo eixo e o erro numero um
+        ok(pag.evaluate("""() => {
+             const t = [...document.querySelectorAll('#engConteudo .viz text.eixo')]
+               .map(x => x.textContent.trim());
+             return t.filter(x => x.endsWith('%')).length >= 3; }"""),
+           "com os dois eixos em percentual: uma escala, nunca duas")
+        ok(pag.evaluate("""() => {
+             const a = ENG.abc;
+             return a.every((x, i) => i === 0 || a[i-1].acumulado <= x.acumulado)
+                    && Math.abs(a[a.length-1].acumulado - 1) < 0.001; }"""),
+           "e o acumulado da curva ABC cresce ate exatamente 100 %")
+
+        pag.click("#vistasEng button[data-vista='montagem']")
+        pag.wait_for_timeout(600)
+        ok(pag.evaluate("() => !!document.querySelector('#engConteudo .viz path.linha')"),
+           "a montagem tem curva de horas acumuladas")
+        ok(pag.evaluate("""() => {
+             const p = ENG.montagem.passos;
+             return Math.abs(p[p.length-1].acumulado_h - ENG.montagem.horas) < 0.05; }"""),
+           "cujo fim bate com o total de horas do modelo",
+           str(pag.evaluate("() => ENG.montagem.horas")) + " h")
+
         # ---- IMPRESSAO: o que sai no papel e o documento, nao a interface
         ok(pag.evaluate("""() => {
              const css = [...document.styleSheets].flatMap(s => {

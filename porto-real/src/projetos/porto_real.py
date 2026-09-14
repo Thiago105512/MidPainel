@@ -2527,6 +2527,17 @@ REVISOES = [
             "minimapa para o papel e cortava o desenho porque o palco tem "
             "altura em vh, passa a imprimir o DOCUMENTO, com o endereco da "
             "vista carimbado no rodape"),
+    ("R43", "Graficos: distribuicao de utilizacao dos 415 montantes com a "
+            "fronteira do limite normativo, concentracao de custo com os dois "
+            "eixos em percentual — uma escala, nunca duas — e curva de horas "
+            "acumuladas de montagem. Ate aqui todo grafico era uma div com "
+            "largura percentual: compara magnitude e nao responde onde a coisa "
+            "passa de aceitavel. Desenhar expos um erro proprio: o alvo de "
+            "projeto 0,95 estava marcado DENTRO de uma faixa, e o eixo do "
+            "histograma e categorico — valor continuo em eixo categorico finge "
+            "uma escala que nao existe. A soma das faixas e conferida contra o "
+            "numero de montantes verificados: o desenho mostra o que o motor "
+            "calculou, nao uma conta refeita no navegador"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2632,13 +2643,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R42",
+    revisao="R43",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R42", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R43", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
