@@ -4298,3 +4298,101 @@ nesting codificado e a cotação.
 **Estado em R52:** 107 funções de verificação, 571 condições, **0 erros**; 208
 verificações do visualizador, **0 falhas**; **40 pranchas** emitidas, 40 no
 índice, 40 no carimbo; 20 vistas de engenharia, todas renderizando.
+
+---
+
+## R53 — o proprietário revisou a planta
+
+Sete pedidos, um por um. A regra desta revisão: cada decisão de quem mora vira
+**regra conferida** — não coordenada no desenho.
+
+### 1. Despensa só pela cozinha
+
+Tinha duas portas: cozinha e loggia (R08: *"a compra desce do carro para a
+prateleira sem atravessar a cozinha"*). A da loggia saiu; a parede norte virou
+1.800 mm de prateleira. Mas a loggia era a **única** entrada de serviço da
+cozinha — então a porta da loggia passou a abrir **direto na cozinha** (x =
+4.800). A compra continua sem atravessar a casa.
+
+### 2. Lavanderia só por fora
+
+Saiu a porta para o core. Ganho imediato: aquela parede era o **par acústico
+mais apertado da casa (folga 0,1 dB)** e ficou cega, com 44 dB. Custo declarado:
+a roupa do superior desce por core → gourmet → pátio → varal (≈ 14 m em vez
+de 3).
+
+### 3. O banho da entrada vira dois
+
+Acumulava duas funções incompatíveis — lavabo social (deve ficar perto da
+entrada) e banho de quarto (não deve). Separou-se:
+
+| | Onde | m² | Detalhe |
+|---|---|---|---|
+| **Lavabo social** | faixa atual, y 9.600–11.400 | 3,24 | vaso e lavatório junto à janela J04; porta **para a circulação**, invisível da entrada; sem box, sem ralo |
+| **Circulação** | y 11.400–13.200 | 3,24 | hall → quarto |
+| **En-suite do reversível** | canto sudeste do quarto, x 13.200–15.000, y 10.800–13.200 | 4,32 | janela leste (J04), parede sul contra o core; **não está sob nada** — prumada própria |
+
+A primeira tentativa dividiu em 11.100 e a auditoria reprovou: *"vão sem
+parede"* — **11.100 está fora da malha de 600**. A malha ganhou, como deve.
+
+### 4. Master: passagem para o closet e cabine do vaso
+
+Porta de correr embutida banho → closet em x = 12.000. O vaso foi para uma
+**cabine de 900 × 3.000** no lado oeste — o mais distante da passagem — com
+porta própria e **exaustão dedicada** (EX-08). O banho master não tem parede
+externa: cheiro ali é exaustão mecânica, e cabine com exaustor próprio é o que
+funciona.
+
+Isso exigiu que uma subdivisão pudesse ter **duas portas** (`liga`), e que a
+saída de cada exaustor fosse **campo do próprio exaustor** — estava numa tabela
+dentro da verificação, que não sabia dos dois exaustores novos. Duas fontes,
+mais uma vez.
+
+### 5. Banhos nas mesmas paredes — a intuição é certa e a casa já faz o que dá
+
+| Opção | Sob o banho | Prumada desce em |
+|---|---|---|
+| Suíte 02 onde está (y 13.200–15.600) | oficina | parede garagem/oficina ✓ |
+| Suíte 03 onde está (y 18.000–20.400) | cozinha + loggia | parede da cozinha ✓ |
+| **Colar as duas em y = 18.000** | **3,24 m² sobre a loggia aberta** | **nenhuma parede** |
+
+Economizaria ~2 m de tubo e poria a prumada sobre o vazio — o defeito que R09
+tirou da master. **Mantido.**
+
+### 6. Estar: a mesa de 6 sai, a TV entra — e o layout entra no modelo
+
+O mobiliário solto vivia como coordenada dentro do módulo de desenho. Ao movê-lo
+para o modelo (`LAYOUT`), a conferência nova achou o que ninguém tinha visto:
+**a cama do reversível era desenhada fora do quarto** (x 10.500–12.100, o quarto
+começa em 12.000) e **a da master invadia o banho**. Havia duas mesas de jantar
+e nenhuma TV.
+
+Decisão: o jantar é o gourmet (mesa de 8, junto à cortina de vidro). A TV vai
+para a **parede norte** do estar — sem janela, sem reflexo — a **3,19 m** do sofá
+(faixa 3,05–4,76 m para 75″). A circulação hall → gourmet corre pelo lado leste
+com 1.200 mm e **não cruza a linha da TV**.
+
+### 7. Cores das peças — não há norma, havia três paletas
+
+NBR 15253 e 14762 não definem cor; cada software de fabricação tem a sua. E o
+projeto tinha **três** tabelas para o mesmo fato (3D, tela de engenharia, e
+divergências entre elas — o diagonal era amarelo num lugar e roxo no outro).
+Ficou **uma**, em `nucleo/cores.py`: **guia laranja, montante azul**, king e
+jack na família do montante, verga e ombreira na da guia, diagonal magenta,
+vigas de piso verdes. Quando o fabricante do nesting for escolhido, troca-se a
+tabela e tudo muda junto.
+
+### O que a revisão trouxe além dos pedidos
+
+- **A acústica passou a enxergar as subdivisões.** Até aqui o banho de cada
+  suíte era invisível: a suíte era um retângulo. Agora as subdivisões entram no
+  raster e suas paredes aparecem — **36 pares**, todos passam. Regra nova
+  declarada: subdivisão contra o próprio pai é ruído do próprio morador e não
+  constitui par.
+- **Louça obrigatória deixou de ser dicionário escrito à mão** e passou a
+  derivar de `molhado` + `LAVABOS`: o lavabo novo reprovou por "falta de box"
+  antes disso — a regra estava certa, a lista estava velha.
+
+**Estado em R53:** 108 funções, 577 condições, **0 erros**; 208 verificações do
+visualizador, **0 falhas**; 40 pranchas; 1.023 peças em 60 painéis; R$ 554.401
+nos sistemas modelados; 5 pendências abertas.

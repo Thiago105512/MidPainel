@@ -137,7 +137,7 @@ def elevacoes_internas() -> Canvas:
               ["coifa com vazao minima de 10 trocas por hora do volume",
                "bancada integrada a cozinha pelo vao livre"])
 
-    _elevacao(cv, View(25, 600, 190, 0, 0), 1_800, "BANHO COMPARTILHADO — PAREDE DA BANCADA",
+    _elevacao(cv, View(25, 600, 190, 0, 0), 1_800, "LAVABO SOCIAL — PAREDE DA BANCADA",
               [(0, 0, 700, 900, "gabinete", GAB),
                (700, 0, 1_100, 900, "bancada", GAB),
                (0, 1_000, 1_800, 900, "espelho 1.800 x 900", "#eef4f7")],
@@ -228,7 +228,7 @@ def forro() -> Canvas:
 # =========================================================================
 def acessibilidade() -> Canvas:
     cv = base("ACESSIBILIDADE E FLUXOS", "1:75", "17", notas=[
-        "Rota acessivel do passeio ao quarto reversivel e ao banho compartilhado.",
+        "Rota acessivel do passeio ao quarto reversivel e ao lavabo social.",
         "Circulo de giro de 1.500 mm verificado nos pontos de manobra.",
         "Porta de correr de 900 mm no banho libera a area de varredura.",
         "Reforcos para barra de apoio embutidos antes do fechamento das placas.",
@@ -291,7 +291,7 @@ def acessibilidade() -> Canvas:
             ["CIRCUITO", "PERCURSO", "CRUZA O SOCIAL?"],
             [["Servico", "garagem -> oficina -> lavanderia -> cozinha -> despensa", "NAO"],
              ["Social", "entrada -> hall -> estar -> gourmet -> alpendre -> piscina", "—"],
-             ["Intimo terreo", "hall -> banho compartilhado -> quarto reversivel", "NAO"],
+             ["Intimo terreo", "hall -> circulacao -> lavabo social | quarto reversivel (en-suite proprio)", "NAO"],
              ["Intimo superior", "hall -> core -> hall superior -> suites", "NAO"],
              ["Lixo e carga", "cozinha -> despensa -> recuo sul", "NAO"]],
             larguras=[34, 118, 34])

@@ -36,12 +36,8 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(AQUI, "..", "out", "engenharia.json")
 
 # Cores por familia estrutural: a familia e um dado do modelo, nao um estilo.
-CORES_FAMILIA = {
-    "track": "#8a94a6", "stud": "#3f6fb5", "king stud": "#1f4e96",
-    "jack stud": "#4d8fd6", "cripple superior": "#9fc0e8",
-    "cripple inferior": "#7ba7dc", "header": "#c4491f",
-    "sill": "#d98324", "blocking": "#6fae7c", "diagonal": "#7a5fb0",
-}
+# R53 — uma tabela so, em nucleo/cores.py
+from nucleo.cores import CORES_PECA as CORES_FAMILIA
 
 
 def _stud(cfg):

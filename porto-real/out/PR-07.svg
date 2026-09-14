@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="07" data-rev="R52">
+<g data-tipo="carimbo" data-cod="07" data-rev="R53">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R52</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R53</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">07</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R52</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R53</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -95,8 +95,8 @@
 <polygon points="163.750,141.250 173.750,141.250 173.750,130.000 163.750,130.000" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="163.750" y1="135.625" x2="173.750" y2="135.625" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="168.750" y="135.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J04</text>
-<polygon points="65.625,160.000 76.875,160.000 76.875,133.750 65.625,133.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
-<text x="71.250" y="146.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P04</text>
+<polygon points="84.375,160.000 95.625,160.000 95.625,133.750 84.375,133.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="90.000" y="146.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P04</text>
 <polygon points="97.500,108.750 112.500,108.750 112.500,93.750 97.500,93.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="97.500" y1="101.250" x2="112.500" y2="101.250" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="105.000" y="101.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J01</text>
@@ -381,6 +381,9 @@
 <polygon points="636.250,500.000 640.000,500.000 640.000,460.625 636.250,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polyline points="400.000,500.000 400.000,460.625 403.750,460.625 407.500,460.625 411.250,460.625 415.000,460.625 418.750,460.625 422.500,460.625 426.250,460.625 430.000,460.625 433.750,460.625 437.500,460.625 441.250,460.625 445.000,460.625 448.750,460.625 452.500,460.625 456.250,460.625 460.000,460.625 463.750,460.625 467.500,460.625 471.250,460.625 475.000,460.625 475.000,460.625 475.000,423.125 478.750,423.125 482.500,423.125 486.250,423.125 490.000,423.125 493.750,423.125 497.500,423.125 501.250,423.125 505.000,423.125 508.750,423.125 512.500,423.125 516.250,423.125 520.000,423.125 523.750,423.125 527.500,423.125 531.250,423.125 535.000,423.125 538.750,423.125 542.500,423.125 546.250,423.125 550.000,423.125 553.750,423.125 557.500,423.125 561.250,423.125 565.000,423.125 568.750,423.125 572.500,423.125 576.250,423.125 580.000,423.125 583.750,423.125 587.500,423.125 591.250,423.125 595.000,423.125 598.750,423.125 602.500,423.125 606.250,423.125 610.000,423.125 613.750,423.125 617.500,423.125 621.250,423.125 625.000,423.125 625.000,423.125 625.000,460.625 628.750,460.625 632.500,460.625 636.250,460.625 640.000,460.625" stroke="#000000" stroke-width="0.3" fill="none" stroke-linejoin="miter"/>
 <line x1="385.000" y1="500.000" x2="655.000" y2="500.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<polygon points="455.000,481.250 465.000,481.250 465.000,470.000 455.000,470.000" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<line x1="455.000" y1="475.625" x2="465.000" y2="475.625" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="460.000" y="475.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J04</text>
 <polygon points="430.000,486.250 445.000,486.250 445.000,471.250 430.000,471.250" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="430.000" y1="478.750" x2="445.000" y2="478.750" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="437.500" y="478.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J01</text>

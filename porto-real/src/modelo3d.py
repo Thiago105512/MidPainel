@@ -480,16 +480,9 @@ def exportar(caminho: str | None = None) -> dict:
 # a parede de LSF nao e um bloco, sao 13 pecas de chapa de 0,95 mm. Quem quer
 # conferir montante, verga e travamento precisa ver a peca, nao o volume que ela
 # preenche.
-CORES_LSF = {
-    "track": "#8a94a6", "stud": "#3f6fb5", "king stud": "#1f4e96",
-    "jack stud": "#4d8fd6", "cripple superior": "#9fc0e8",
-    "cripple inferior": "#7ba7dc", "header": "#c4491f",
-    "sill": "#d98324", "blocking": "#6fae7c",
-    # vigamento e contraventamento, que ate R30 nao existiam no modelo
-    "viga": "#2f7d4f", "viga de borda": "#1d5c38", "travamento": "#7fb08f",
-    "diagonal": "#e0a32e",
-    "viga de escada": "#b0562f", "degrau": "#d98a5a",
-}
+# R53 — a paleta saiu daqui: vive em nucleo/cores.py, a mesma que a tela e a
+# prancha leem. Havia tres tabelas para o mesmo fato.
+from nucleo.cores import CORES_PECA as CORES_LSF
 
 
 def _estrutura_lsf() -> list[dict]:

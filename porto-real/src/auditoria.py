@@ -551,11 +551,20 @@ def checar_loucas() -> list[Achado]:
                               f"nao cabe em {p['amb']} [{ax}, {ay}, {aw} x {ah}]"))
 
     # loucas obrigatorias por ambiente molhado
-    exigidas = {"T-BWC": {"vaso", "lavatorio", "box"},
-                "S-S02": {"vaso", "lavatorio", "box"},
-                "S-S03": {"vaso", "lavatorio", "box"},
-                "S-MAS": {"vaso", "lavatorio", "box"},
-                "T-LAV": {"tanque"}}
+    # R53 — derivado: todo ambiente ou subdivisao molhada exige vaso e
+    # lavatorio; box so onde ha banho (lavabo declarado em pj.LAVABOS nao
+    # tem). Antes era dicionario escrito a mao, e o lavabo novo reprovou por
+    # "falta de box" — a regra estava certa e a lista estava velha.
+    exigidas = {}
+    for a in pj.TERREO + pj.SUPERIOR:
+        if getattr(a, "molhado", False) and a.cod not in ("T-COZ", "T-GOU",
+                                                           "T-LAV", "T-DEP"):
+            exigidas[a.cod] = ({"vaso", "lavatorio"} if a.cod in pj.LAVABOS
+                               else {"vaso", "lavatorio", "box"})
+    for sd in pj.SUBDIVISOES:
+        if sd.get("molhado") and sd["nome"] == "BANHO":
+            exigidas[sd["pai"]] = {"vaso", "lavatorio", "box"}
+    exigidas["T-LAV"] = {"tanque"}
     for cod, req in exigidas.items():
         tem = {p["tipo"] for p in pj.LOUCAS if p["amb"] == cod}
         faltando = req - tem
@@ -1507,7 +1516,8 @@ def checar_chamine() -> list[Achado]:
 
 
 # ------------------------- 24. instalacoes hidrossanitarias
-MOLHADOS_COM_RALO = {"T-BWC", "S-S02", "S-S03", "S-MAS", "T-LAV", "T-COZ"}
+# R53 — o lavabo e molhado e NAO tem ralo: sem chuveiro nao ha lamina no piso.
+MOLHADOS_COM_RALO = {"T-REV", "S-S02", "S-S03", "S-MAS", "T-LAV", "T-COZ"}
 
 
 def checar_hidraulica() -> list[Achado]:

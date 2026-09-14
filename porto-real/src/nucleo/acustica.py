@@ -50,7 +50,9 @@ FONTES = {
 
 # ambiente -> fonte que ele contem
 FONTE_DO_AMBIENTE = {
-    "T-BWC": "box de chuveiro",
+    "T-BWC": "bacia sanitaria",          # R53: lavabo, sem box
+    "T-REV/BANHO": "box de chuveiro",
+    "S-MAS/CABINE": "bacia sanitaria",
     "T-LAV": "maquina de lavar e secar",
     "T-COZ": "cozinha e gourmet",
     "T-GOU": "cozinha e gourmet",
@@ -152,10 +154,36 @@ def pares(pj) -> list[dict]:
     """
     import especificacao as ep
     import nucleo.camadas as cm
+    from types import SimpleNamespace as _NS
     out = []
     for pav, ambs in (("T", pj.TERREO), ("S", pj.SUPERIOR)):
-        segs = ep.paredes_classificadas(ambs)
+        # R53 — as SUBDIVISOES entram como ambientes proprios. Ate aqui o
+        # banho da suite era invisivel para a acustica: a suite era um
+        # retangulo unico, e o chuveiro dela nao fazia par com ninguem. A
+        # subdivisao sobrescreve as celulas do pai no raster, e com isso
+        # aparecem as paredes dela — contra o proprio pai e contra os vizinhos.
+        subs = [_NS(cod=f"{d['pai']}/{d['nome']}", x=d["x"], y=d["y"],
+                    w=d["w"], h=d["h"]) for d in pj.SUBDIVISOES
+                if d["pai"].startswith(pav + "-")]
+        segs = ep.paredes_classificadas(list(ambs) + subs)
         vaos = [v for v in pj.VAOS if v[4] == pav]
+        # a porta da subdivisao e furo tanto quanto um vao de VAOS
+        portas_sub = []
+        for d in pj.SUBDIVISOES:
+            if not d["pai"].startswith(pav + "-"):
+                continue
+            for ab in ([dict(face=d["face"], pos=d["pos"], vao=d["vao"],
+                             tipo="P02")]
+                       + ([d["liga"]] if d.get("liga") else [])):
+                f = ab["face"]
+                if f in ("S", "N"):
+                    fixo = d["x"] if f == "S" else d["x"] + d["w"]
+                    portas_sub.append(("V", fixo, ab["pos"], ab["vao"],
+                                       ab.get("tipo", "P02")))
+                else:
+                    fixo = d["y"] if f == "L" else d["y"] + d["h"]
+                    portas_sub.append(("H", fixo, ab["pos"], ab["vao"],
+                                       ab.get("tipo", "P02")))
         for s in segs:
             a, b = s.get("a"), s.get("b")
             if not a or not b:
@@ -181,6 +209,12 @@ def pares(pj) -> list[dict]:
                         continue
                     lg, al, _pe, _fam = pj.ESQUADRIAS[tipo]
                     furos.append((tipo, lg * al / 1e6))
+                for ori_s, fixo_s, pos_s, vao_s, tipo_s in portas_sub:
+                    if ori_s != s["ori"] or abs(fixo_s - s["fixo"]) > 200:
+                        continue
+                    if not (s["ini"] <= pos_s <= s["fim"]):
+                        continue
+                    furos.append((tipo_s, vao_s * 2_100 / 1e6))
                 s_furo = sum(a2 for _t, a2 in furos)
                 comps = [(max(s_total - s_furo, 0.0), cm.COMPOSICOES[s["familia"]].rw)]
                 for tipo, area in furos:
@@ -191,6 +225,12 @@ def pares(pj) -> list[dict]:
                 zf = ZONA_ACUSTICA.get(fonte.split("/")[0], "")
                 zr = ZONA_ACUSTICA.get(receptor.split("/")[0], "")
                 mesma = bool(zf) and zf == zr
+                # o banho da suite contra a propria suite e ruido do PROPRIO
+                # morador: nao ha exigencia entre um comodo e a subdivisao
+                # dele (NBR 15575-3 fala entre unidades e entre dormitorio e
+                # ambiente de outro uso). Fica no relatorio como mesma zona.
+                if fonte.split("/")[0] == receptor.split("/")[0]:
+                    mesma = True
                 out.append(dict(
                     pav=pav, fonte=fonte, receptor=receptor, ruido=f,
                     uso_receptor=uso, nivel=nivel, limite=lim,
@@ -219,7 +259,9 @@ def conferir(pj) -> list[tuple[str, str, bool]]:
     ruins = [p for p in ps if not p["passa"]]
     ez = [p for p in ps if not p["mesma_zona"]]
     pior = min(ez, key=lambda p: p["folga"]) if ez else None
-    com_correr = [p for p in ps if "P05" in p["vaos"]]
+    # porta de correr entre a suite e o proprio banho/closet e ruido do
+    # proprio morador: a regra vale ENTRE zonas, como as demais
+    com_correr = [p for p in ps if "P05" in p["vaos"] and not p["mesma_zona"]]
     out = [
         ("todo par fonte-receptor foi percorrido",
          f"{len(ps)} pares vizinhos com fonte de ruido de um lado, "

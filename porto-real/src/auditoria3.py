@@ -482,6 +482,10 @@ DESENHADO = {
     "acustica": ("ACUSTICO", "acustic", "Rw"),
     "equilibrio de fases": ("CARGA POR FASE", "desequilibrio"),
     "fornecedores": ("DE QUEM SE COMPRA", "fornecedor"),
+    # R53
+    "lavabo e en-suite": ("LAVABO SOCIAL", "LAVABO"),
+    "cabine do vaso": ("CABINE",),
+    "layout do estar": ("LY-05", "layout"),
 }
 
 
@@ -3610,7 +3614,9 @@ def checar_impermeabilizacao_do_superior() -> list[Achado]:
     r = fx.liberacao()
     imp = r["camadas"]["impermeabilizacao"]
     sup = [i for i in imp["itens"] if i["ambiente"].startswith("S-")]
-    out.append(Achado("NOTA" if len(sup) == 3 else "ERRO", "banho do superior",
+    n_sup = sum(1 for d in pj.SUBDIVISOES
+                if d.get("molhado") and d["pai"].startswith("S-"))
+    out.append(Achado("NOTA" if len(sup) == n_sup else "ERRO", "banho do superior",
                       f"{len(sup)} banhos do pavimento superior entram na "
                       f"impermeabilizacao: {', '.join(i['ambiente'] for i in sup)}. "
                       f"Nenhuma area foi arbitrada — cada uma e w x h da "
@@ -4046,4 +4052,89 @@ def checar_mercado() -> list[Achado]:
                       f"por isso o valor extrapolado "
                       f"(R$ {ad['obra_entregue_m2']:.2f}/m2) fica abaixo do "
                       f"indice de obra entregue"))
+    return out
+
+
+def checar_layout() -> list[Achado]:
+    """Mobiliario solto: cabe no comodo, nao invade subdivisao, e a sala
+    funciona (R53).
+
+    Ate R52 o layout era coordenada dentro do modulo de desenho e estava
+    errado sem que nada acusasse — cama do reversivel fora do quarto, cama da
+    master dentro do banho, duas mesas de jantar e nenhuma TV. Desenho nao
+    confere desenho; lista no modelo, sim.
+    """
+    import projeto as pj
+    import math
+    out = []
+    ambs = {a.cod: a for a in pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO
+            + pj.SUPERIOR_ABERTO}
+    subs = [(d["pai"], d["nome"], d["x"], d["y"], d["w"], d["h"])
+            for d in pj.SUBDIVISOES]
+
+    def dentro(it, a):
+        return (a.x <= it["x"] and it["x"] + it["w"] <= a.x + a.w
+                and a.y <= it["y"] and it["y"] + it["h"] <= a.y + a.h)
+
+    def cruza(it, x, y, w, h):
+        return not (it["x"] + it["w"] <= x or x + w <= it["x"]
+                    or it["y"] + it["h"] <= y or y + h <= it["y"])
+
+    fora, invade = [], []
+    for it in pj.LAYOUT:
+        a = ambs.get(it["amb"])
+        if a is None or not dentro(it, a):
+            fora.append(it["cod"])
+        for pai, nome, x, y, w, h in subs:
+            if pai == it["amb"] and cruza(it, x, y, w, h):
+                invade.append(f"{it['cod']} em {pai}/{nome}")
+    out.append(Achado("NOTA" if not fora else "ERRO", "mobiliario no comodo",
+                      f"{len(pj.LAYOUT)} itens, todos dentro do ambiente "
+                      f"declarado" if not fora else f"fora do comodo: {fora}"))
+    out.append(Achado("NOTA" if not invade else "ERRO", "mobiliario x subdivisao",
+                      "nenhum item sobre banho, closet ou cabine"
+                      if not invade else f"invade: {invade}"))
+
+    # o estar: uma TV, um sofa de frente para ela, a distancia certa
+    tvs = [i for i in pj.LAYOUT if i["tipo"] == "tv"]
+    sofas = [i for i in pj.LAYOUT if i["tipo"] == "sofa"]
+    mesas = [i for i in pj.LAYOUT if i["tipo"] == "mesa"]
+    out.append(Achado("NOTA" if len(tvs) == 1 else "ERRO", "TV",
+                      f"{len(tvs)} TV no layout — o estar precisa de "
+                      f"exatamente uma"))
+    out.append(Achado("NOTA" if len(mesas) == 1 else "ERRO", "mesa de jantar",
+                      f"{len(mesas)} mesa(s): o jantar e um so, no gourmet"
+                      if len(mesas) == 1 else
+                      f"{len(mesas)} mesas de jantar — duas mesas e um estar "
+                      f"que nao decidiu o que e"))
+    if tvs and sofas:
+        tv, sf = tvs[0], sofas[0]
+        tcx, tcy = tv["x"] + tv["w"] / 2, tv["y"] + tv["h"] / 2
+        fr = sf.get("frente", "-Y")
+        # a frente do sofa e a face voltada para a TV
+        if fr == "-Y":
+            fx, fy = sf["x"] + sf["w"] / 2, sf["y"]
+        elif fr == "+Y":
+            fx, fy = sf["x"] + sf["w"] / 2, sf["y"] + sf["h"]
+        elif fr == "-X":
+            fx, fy = sf["x"], sf["y"] + sf["h"] / 2
+        else:
+            fx, fy = sf["x"] + sf["w"], sf["y"] + sf["h"] / 2
+        d = math.hypot(tcx - fx, tcy - fy) / 1000.0
+        dmin = pj.TV["dist_min"] * pj.TV["diagonal_mm"] / 1000.0
+        dmax = pj.TV["dist_max"] * pj.TV["diagonal_mm"] / 1000.0
+        out.append(Achado("NOTA" if dmin <= d <= dmax else "ERRO",
+                          "distancia sofa-TV",
+                          f"{d:.2f} m para TV de {pj.TV['polegadas']}\\\" — "
+                          f"faixa {dmin:.2f} a {dmax:.2f} m "
+                          f"({pj.TV['razao']})"))
+        # circulacao entre o sofa e a parede leste do estar
+        a = ambs[sf["amb"]]
+        folga = (a.x + a.w) - (sf["x"] + sf["w"])
+        out.append(Achado("NOTA" if folga >= 900 else "ERRO",
+                          "circulacao do estar",
+                          f"{folga} mm entre o sofa e a parede leste — "
+                          f"caminho hall -> gourmet sem cruzar a linha da TV"
+                          if folga >= 900 else
+                          f"{folga} mm de passagem ao lado do sofa"))
     return out

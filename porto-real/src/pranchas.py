@@ -530,10 +530,21 @@ def _desenhar_subdivisoes(cv: Canvas, vw: View, pav: str) -> None:
             vertical = x1 == x2
             a0, a1 = (y1, y2) if vertical else (x1, x2)
             trechos = [(a0, a1)]
-            if face == sd["face"]:
-                v0 = sd["pos"] - sd["vao"] / 2
-                v1 = sd["pos"] + sd["vao"] / 2
-                trechos = [t for t in ((a0, v0), (v1, a1)) if t[1] - t[0] > 1]
+            # R53 — uma subdivisao pode ter DUAS portas: a do pai e a `liga`
+            # (banho -> closet da master). Cada uma abre o seu vao na face.
+            aberturas = [(sd["face"], sd["pos"], sd["vao"])]
+            if sd.get("liga"):
+                lg = sd["liga"]
+                aberturas.append((lg["face"], lg["pos"], lg["vao"]))
+            for f_ab, pos_ab, vao_ab in aberturas:
+                if face != f_ab:
+                    continue
+                v0, v1 = pos_ab - vao_ab / 2, pos_ab + vao_ab / 2
+                novos = []
+                for t0, t1 in trechos:
+                    novos += [t for t in ((t0, min(v0, t1)), (max(v1, t0), t1))
+                              if t[1] - t[0] > 1]
+                trechos = novos
             for t0, t1 in trechos:
                 if vertical:
                     bx, by, bw, bh = x1 - esp / 2, t0, esp, t1 - t0

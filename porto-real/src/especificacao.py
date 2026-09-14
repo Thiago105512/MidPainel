@@ -39,7 +39,7 @@ CATEGORIA = {
     "S-HAL": "circulacao",
     "T-GAR": "apoio", "T-BWC": "molhado",
 }
-MOLHADOS = {"T-BWC", "T-COZ", "T-LAV", "T-GOU"}
+MOLHADOS = {"T-BWC", "T-COZ", "T-LAV", "T-GOU", "T-REV/BANHO"}
 # a oficina e fonte E receptor: quer silencio para dentro e para fora
 SILENCIO = {"T-OFI"}
 

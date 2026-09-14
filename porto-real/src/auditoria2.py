@@ -261,11 +261,11 @@ def checar_profundidade_luz() -> list[Achado]:
 def checar_exaustao_odor() -> list[Achado]:
     """Saida de exaustao perto de vao devolve o odor para dentro."""
     out = []
-    saidas = {"EX-01": ("cobertura", None), "EX-02": ("fachada sul", (2_400, 22_200)),
-              "EX-03": ("cobertura", None), "EX-04": ("cobertura", None),
-              "EX-05": ("cobertura", None), "EX-06": ("cobertura", None)}
+    # R53 — a saida deixou de ser tabela dentro da verificacao e passou a ser
+    # campo do proprio exaustor (pj.EXAUSTAO[i]["saida"]). A tabela aqui era a
+    # segunda fonte: dois exaustores novos entraram no projeto e ela nao sabia.
     for e in pj.EXAUSTAO:
-        onde, pos = saidas.get(e["cod"], ("nao declarada", None))
+        onde, pos = e.get("saida", "nao declarada"), e.get("saida_pos")
         if onde == "nao declarada":
             out.append(Achado("ERRO", "Exaustao sem saida declarada",
                               f"{e['cod']} ({e['fonte']}): sem ponto de descarga o "

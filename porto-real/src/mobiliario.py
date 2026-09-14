@@ -86,9 +86,30 @@ def cama(cv, vw, x, y, w=1600, h=2000):
     cv.linha_p(vw.pt(P(x, y + h - 700)), vw.pt(P(x + w, y + h - 700)), "fino", cor=CINZA)
 
 
-def sofa(cv, vw, x, y, w=2400, h=900):
+def sofa(cv, vw, x, y, w=2400, h=900, frente="-Y"):
+    """Sofa: o encosto fica no lado OPOSTO a frente declarada."""
     _ret(cv, vw, x, y, w, h, "fino", "#fafafa")
-    _ret(cv, vw, x, y + h - 250, w, 250, "fino")
+    if frente == "-Y":
+        _ret(cv, vw, x, y + h - 250, w, 250, "fino")
+    elif frente == "+Y":
+        _ret(cv, vw, x, y, w, 250, "fino")
+    elif frente == "-X":
+        _ret(cv, vw, x + w - 250, y, 250, h, "fino")
+    else:
+        _ret(cv, vw, x, y, 250, h, "fino")
+
+
+def poltrona(cv, vw, x, y, w=800, h=800):
+    _ret(cv, vw, x, y, w, h, "fino", "#fafafa")
+    _ret(cv, vw, x, y + h - 200, w, 200, "fino")
+
+
+def tv(cv, vw, x, y, w=1650, h=80):
+    _ret(cv, vw, x, y, w, h, "corte", "#333")
+
+
+def rack(cv, vw, x, y, w=1800, h=450):
+    _ret(cv, vw, x, y, w, h, "fino", "#f4f1ea")
 
 
 def mesa(cv, vw, cx, cy, w=1800, h=900, lugares=6):
@@ -182,18 +203,35 @@ def desenhar(cv: Canvas, vw: View, pav: str, layout: bool = False) -> None:
         # oficina: bancada 2400x600
         
         escada_u(cv, vw)
-        if layout:
-            carro(cv, vw, 3_000, 8_000)
-            carro(cv, vw, 5_600, 8_000)
-            sofa(cv, vw, 5_700, 13_600, 2_400, 900)
-            mesa(cv, vw, 7_500, 17_400, 1_800, 900, 6)
-            mesa(cv, vw, 7_500, 23_400, 2_400, 1_000, 8)
-            cama(cv, vw, 10_500, 7_700, 1_600, 2_000)
-    else:
-        if layout:
-            cama(cv, vw, 5_000, 14_600, 1_600, 2_000)
-            cama(cv, vw, 5_000, 19_400, 1_600, 2_000)
-            cama(cv, vw, 8_700, 20_400, 1_800, 2_100)
+    # R53 — o mobiliario solto vem de pj.LAYOUT, nao mais de coordenadas
+    # escritas aqui. A cama do reversivel estava desenhada FORA do quarto e a
+    # da master dentro do banho, e nenhum desenho reclamou: desenho nao
+    # confere desenho. Agora a auditoria le a mesma lista.
+    if layout:
+        for it in pj.LAYOUT:
+            if it["amb"][0] != pav:
+                continue
+            desenhar_item(cv, vw, it)
+
+
+def desenhar_item(cv, vw, it: dict) -> None:
+    t = it["tipo"]
+    x, y, w, h = it["x"], it["y"], it["w"], it["h"]
+    with cv.escopo("layout", it["cod"], amb=it["amb"], peca=t, larg=w, prof=h):
+        if t == "carro":
+            carro(cv, vw, x, y, w, h)
+        elif t == "sofa":
+            sofa(cv, vw, x, y, w, h, it.get("frente", "-Y"))
+        elif t == "poltrona":
+            poltrona(cv, vw, x, y, w, h)
+        elif t == "tv":
+            tv(cv, vw, x, y, w, h)
+        elif t == "rack":
+            rack(cv, vw, x, y, w, h)
+        elif t == "mesa":
+            mesa(cv, vw, x + w / 2, y + h / 2, w, h, it.get("lugares", 6))
+        elif t == "cama":
+            cama(cv, vw, x, y, w, h)
 
 
 def _desenhar_do_modelo(cv: Canvas, vw: View, pav: str) -> None:

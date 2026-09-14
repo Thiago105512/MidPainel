@@ -580,6 +580,16 @@ PROGRAMA = [
      "do que NAO esta no orcamento: loucas, climatizacao, pintura, "
      "revestimento interno, marcenaria, mao de obra de acabamento, "
      "equipamento de piscina, projetos e BDI."),
+    (125, "Layout: o mobiliario solto entra no modelo e e conferido",
+     ["checar_layout"], "AUTOMATIZADA",
+     "Secao 150. O mobiliario solto vivia como coordenada dentro do modulo de "
+     "desenho e estava ERRADO sem que nada acusasse: a cama do reversivel era "
+     "desenhada fora do quarto, a da master dentro do banho, havia duas mesas "
+     "de jantar e nenhuma TV. Desenho nao confere desenho. Em R53 o layout "
+     "vira lista no projeto (LAYOUT), a mesa de 6 sai, a TV entra na parede "
+     "norte do estar a 3,2 m do sofa (1,6 a 2,5 diagonais para 75\") e a "
+     "circulacao hall -> gourmet corre pelo lado leste sem cruzar a linha da "
+     "TV. Cada item e conferido contra o comodo e contra as subdivisoes."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
