@@ -1155,6 +1155,18 @@ def rodar(fotos: bool = False) -> int:
         ok(pag.evaluate("() => ambSel") == ultimo,
            "trocar de comodo troca o dossie", ultimo)
 
+        # a pergunta que 517 verificacoes nao faziam: da para CHEGAR la?
+        ok(pag.evaluate("""() => {
+             const c = ENG.ambientes.conectividade;
+             return c && c.ok && c.ilhados.length === 0
+                    && c.alcancaveis === c.total; }"""),
+           "todo comodo se alcanca a pe a partir da porta de entrada",
+           str(pag.evaluate("() => ENG.ambientes.conectividade.alcancaveis"))
+           + " de " + str(pag.evaluate("() => ENG.ambientes.conectividade.total")))
+        ok(pag.evaluate("""() => Object.values(ENG.ambientes.conectividade.ligacoes)
+             .every(v => Object.keys(v).length > 0)"""),
+           "e nenhum comodo tem porta que nao da para lugar nenhum")
+
         # ---- IMPRESSAO: o que sai no papel e o documento, nao a interface
         ok(pag.evaluate("""() => {
              const css = [...document.styleSheets].flatMap(s => {

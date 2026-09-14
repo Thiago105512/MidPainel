@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="03" data-rev="R45">
+<g data-tipo="carimbo" data-cod="03" data-rev="R46">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R45</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R46</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">03</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R45</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R46</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -62,47 +62,35 @@
 <polygon points="184.500,210.000 187.500,210.000 187.500,204.000 184.500,204.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="184.500,168.000 187.500,168.000 187.500,162.000 184.500,162.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-005" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="268.500,330.000 271.500,330.000 271.500,282.000 268.500,282.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<g data-tipo="parede" data-cod="PAR-005" data-esp="100" data-face="interna" data-familia="PD-1">
+<polygon points="281.000,312.000 283.000,312.000 283.000,282.000 281.000,282.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-006" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="280.500,312.000 283.500,312.000 283.500,282.000 280.500,282.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="parede" data-cod="PAR-007" data-esp="150" data-face="externa" data-familia="PA-1">
 <polygon points="340.500,330.000 343.500,330.000 343.500,318.000 340.500,318.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="340.500,294.000 343.500,294.000 343.500,260.000 340.500,260.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="340.500,244.000 343.500,244.000 343.500,204.000 340.500,204.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="340.500,180.000 343.500,180.000 343.500,162.000 340.500,162.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-008" data-esp="150" data-face="externa" data-familia="PA-1">
+<g data-tipo="parede" data-cod="PAR-007" data-esp="150" data-face="externa" data-familia="PA-1">
 <polygon points="78.000,403.500 96.000,403.500 96.000,400.500 78.000,400.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="108.000,403.500 138.000,403.500 138.000,400.500 108.000,400.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="162.000,403.500 186.000,403.500 186.000,400.500 162.000,400.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-009" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="186.000,331.500 270.000,331.500 270.000,328.500 186.000,328.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<g data-tipo="parede" data-cod="PAR-008" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="186.000,331.500 342.000,331.500 342.000,328.500 186.000,328.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-010" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="282.000,331.500 342.000,331.500 342.000,328.500 282.000,328.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="parede" data-cod="PAR-011" data-esp="100" data-face="interna" data-familia="PD-1">
+<g data-tipo="parede" data-cod="PAR-009" data-esp="100" data-face="interna" data-familia="PD-1">
 <polygon points="78.000,307.000 186.000,307.000 186.000,305.000 78.000,305.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-012" data-esp="100" data-face="interna" data-familia="PD-1">
+<g data-tipo="parede" data-cod="PAR-010" data-esp="100" data-face="interna" data-familia="PD-1">
 <polygon points="186.000,283.000 189.000,283.000 189.000,281.000 186.000,281.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="207.000,283.000 270.000,283.000 270.000,281.000 207.000,281.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="207.000,283.000 342.000,283.000 342.000,281.000 207.000,281.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-013" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="270.000,283.500 282.000,283.500 282.000,280.500 270.000,280.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="parede" data-cod="PAR-014" data-esp="100" data-face="interna" data-familia="PD-1">
-<polygon points="282.000,283.000 342.000,283.000 342.000,281.000 282.000,281.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="parede" data-cod="PAR-015" data-esp="150" data-face="externa" data-familia="PA-1">
+<g data-tipo="parede" data-cod="PAR-011" data-esp="150" data-face="externa" data-familia="PA-1">
 <polygon points="78.000,211.500 138.000,211.500 138.000,208.500 78.000,208.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="162.000,211.500 186.000,211.500 186.000,208.500 162.000,208.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-016" data-esp="150" data-face="externa" data-familia="PA-1">
+<g data-tipo="parede" data-cod="PAR-012" data-esp="150" data-face="externa" data-familia="PA-1">
 <polygon points="186.000,163.500 198.000,163.500 198.000,160.500 186.000,160.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="246.000,163.500 252.000,163.500 252.000,160.500 246.000,160.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="288.000,163.500 342.000,163.500 342.000,160.500 288.000,160.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
@@ -126,8 +114,8 @@
 <path d="M 189.000 264.000 A 18.000 18.000 0 0 1 207.000 282.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
-<line x1="280.500" y1="330.000" x2="283.500" y2="330.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="280.500" y1="312.000" x2="283.500" y2="312.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="281.000" y1="330.000" x2="283.000" y2="330.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<line x1="281.000" y1="312.000" x2="283.000" y2="312.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="282.000" y1="330.000" x2="300.000" y2="330.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <path d="M 300.000 330.000 A 18.000 18.000 0 0 1 282.000 348.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
@@ -303,10 +291,10 @@
 <text x="132.000" y="258.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">25,92 m2</text>
 <text x="132.000" y="261.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">S-S03</text>
 </g>
-<g data-tipo="ambiente" data-cod="S-HAL" data-rot="HALL E ROUPARIA" data-area="10.08" data-pav="S" data-molhado="nao" data-larg="4200" data-prof="2400" data-box="186.00 282.00 84.00 48.00">
-<text x="228.000" y="303.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">HALL E ROUPARIA</text>
-<text x="228.000" y="306.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10,08 m2</text>
-<text x="228.000" y="309.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">S-HAL</text>
+<g data-tipo="ambiente" data-cod="S-HAL" data-rot="HALL E ROUPARIA" data-area="11.52" data-pav="S" data-molhado="nao" data-larg="4800" data-prof="2400" data-box="186.00 282.00 96.00 48.00">
+<text x="234.000" y="303.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">HALL E ROUPARIA</text>
+<text x="234.000" y="306.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">11,52 m2</text>
+<text x="234.000" y="309.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">S-HAL</text>
 </g>
 <g data-tipo="ambiente" data-cod="S-LOU" data-rot="MINI LOUNGE / TV" data-area="7.20" data-pav="S" data-molhado="nao" data-larg="3000" data-prof="2400" data-box="282.00 282.00 60.00 48.00">
 <text x="312.000" y="303.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">MINI LOUNGE / TV</text>
@@ -369,10 +357,9 @@
 <text x="134.600" y="352.380" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">+3,00 (NA)</text>
 <polygon points="294.000,294.000 292.200,291.480 295.800,291.480" stroke="#000000" stroke-width="0.18" fill="#000" stroke-linejoin="miter"/>
 <text x="296.600" y="292.380" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">+3,00 (NA)</text>
-<g data-tipo="cota" data-eixo="H" data-parciais="4">
+<g data-tipo="cota" data-eixo="H" data-parciais="3">
 <line x1="78.000" y1="402.000" x2="78.000" y2="417.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="186.000" y1="402.000" x2="186.000" y2="417.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="270.000" y1="402.000" x2="270.000" y2="417.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="282.000" y1="402.000" x2="282.000" y2="417.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="342.000" y1="402.000" x2="342.000" y2="417.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="78.000" y1="416.000" x2="342.000" y2="416.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -380,11 +367,8 @@
 <line x1="185.300" y1="416.700" x2="186.700" y2="415.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="132.000" y="414.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">5,40</text>
 <line x1="185.300" y1="416.700" x2="186.700" y2="415.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="269.300" y1="416.700" x2="270.700" y2="415.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="228.000" y="414.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">4,20</text>
-<line x1="269.300" y1="416.700" x2="270.700" y2="415.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="281.300" y1="416.700" x2="282.700" y2="415.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="276.000" y="414.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+<text x="234.000" y="414.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">4,80</text>
 <line x1="281.300" y1="416.700" x2="282.700" y2="415.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="341.300" y1="416.700" x2="342.700" y2="415.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="312.000" y="414.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">3,00</text>
@@ -453,10 +437,9 @@
 <line x1="355.300" y1="162.700" x2="356.700" y2="161.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="354.884" y="186.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 354.884 186.000)">2,40</text>
 </g>
-<g data-tipo="cota" data-eixo="H" data-parciais="4">
+<g data-tipo="cota" data-eixo="H" data-parciais="3">
 <line x1="78.000" y1="162.000" x2="78.000" y2="146.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="186.000" y1="162.000" x2="186.000" y2="146.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="270.000" y1="162.000" x2="270.000" y2="146.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="282.000" y1="162.000" x2="282.000" y2="146.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="342.000" y1="162.000" x2="342.000" y2="146.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="78.000" y1="148.000" x2="342.000" y2="148.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -464,11 +447,8 @@
 <line x1="185.300" y1="148.700" x2="186.700" y2="147.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="132.000" y="146.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">5,40</text>
 <line x1="185.300" y1="148.700" x2="186.700" y2="147.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="269.300" y1="148.700" x2="270.700" y2="147.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="228.000" y="146.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">4,20</text>
-<line x1="269.300" y1="148.700" x2="270.700" y2="147.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="281.300" y1="148.700" x2="282.700" y2="147.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="276.000" y="146.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+<text x="234.000" y="146.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">4,80</text>
 <line x1="281.300" y1="148.700" x2="282.700" y2="147.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="341.300" y1="148.700" x2="342.700" y2="147.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="312.000" y="146.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">3,00</text>
@@ -525,8 +505,8 @@
 <polygon points="470.000,55.600 600.000,55.600 600.000,60.800 470.000,60.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="471.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-HAL</text>
 <text x="487.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">HALL E ROUPARIA</text>
-<text x="545.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4200x2400</text>
-<text x="577.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10,08</text>
+<text x="545.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4800x2400</text>
+<text x="577.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11,52</text>
 <polygon points="470.000,60.800 600.000,60.800 600.000,66.000 470.000,66.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="471.500" y="63.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-LOU</text>
 <text x="487.500" y="63.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MINI LOUNGE / TV</text>
@@ -541,7 +521,7 @@
 <text x="471.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <text x="487.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TOTAL FECHADO</text>
 <text x="545.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
-<text x="577.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">115,92</text>
+<text x="577.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">117,36</text>
 <polygon points="470.000,76.400 600.000,76.400 600.000,81.600 470.000,81.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="471.500" y="79.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-BAL</text>
 <text x="487.500" y="79.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">VARANDA MASTER (aberta)</text>

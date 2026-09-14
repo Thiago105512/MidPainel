@@ -318,9 +318,16 @@ def conferir(pj, r: dict) -> dict:
                 f"{d['area']:.1f} m2 de {d['classe']} sem equipamento "
                 f"declarado — verificar se a estrategia ali e passiva")
 
-    # ---- 5. a soma dos comodos e a area do projeto
+    # ---- 5. conectividade: da para chegar em todo comodo?
+    con = conectividade(pj)
+    for c in con["ilhados"]:
+        ach(c, "ERRO", "ilhado",
+            "nao se alcanca este comodo a pe a partir da porta de entrada: "
+            "ele tem porta, mas a porta nao da para ambiente nenhum")
+
+    # ---- 6. a soma dos comodos e a area do projeto
     soma = sum(d["area"] for d in ds)
-    return dict(
+    return dict(conectividade=con,
         dossies=ds, achados=achados,
         n=len(ds), n_achados=len(achados),
         erros=sum(1 for a in achados if a["nivel"] == "ERRO"),
@@ -331,3 +338,62 @@ def conferir(pj, r: dict) -> dict:
                  "e a pendencia 1: as fracoes usadas sao (H) da pratica "
                  "corrente, declaradas para que a conferencia exista e possa "
                  "ser refeita com o numero certo quando a certidao chegar")
+
+
+# ---------------------------------------------------------------------------
+# CONECTIVIDADE — a pergunta que 517 verificacoes nao faziam
+#
+# Todas elas conferem PROPRIEDADES de um comodo: area, acabamento, carga,
+# iluminacao. Nenhuma perguntava se da para CHEGAR nele. E dava para nao dar:
+# o mini lounge tinha porta, tinha janela, tinha climatizacao, tinha piso
+# especificado — e nao tinha vizinho. A porta abria para uma faixa de 600 mm
+# que nao pertencia a ambiente nenhum, cercada por duas paredes externas
+# paralelas que o painelizador ergueu porque via exterior dos dois lados.
+#
+# Nenhuma verificacao de propriedade pega isso, por mais fina que seja: o comodo
+# estava correto em tudo o que se media DENTRO dele. O que faltava era medir a
+# relacao entre comodos — e relacao e grafo, nao tabela.
+# ---------------------------------------------------------------------------
+def conectividade(pj, entrada: str = "T-VAR") -> dict:
+    """Todo comodo fechado se alcanca a pe, a partir da porta de entrada?"""
+    todos = (pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO + pj.SUPERIOR_ABERTO)
+    g: dict = {}
+
+    def liga(a, b, por):
+        g.setdefault(a, {}).setdefault(b, []).append(por)
+        g.setdefault(b, {}).setdefault(a, []).append(por)
+
+    for tipo, x, y, ori, pav in pj.VAOS:
+        ambs = [a.cod for a in todos if a.pav == pav
+                and a.x - TOL_VAO <= x <= a.x + a.w + TOL_VAO
+                and a.y - TOL_VAO <= y <= a.y + a.h + TOL_VAO]
+        for i in range(len(ambs)):
+            for j in range(i + 1, len(ambs)):
+                liga(ambs[i], ambs[j], tipo)
+    # fronteira aberta liga tanto quanto porta — e em alguns casos liga mais
+    for grupo in getattr(pj, "INTEGRADOS", ()):
+        gl = list(grupo)
+        for i in range(len(gl)):
+            for j in range(i + 1, len(gl)):
+                liga(gl[i], gl[j], "fronteira aberta")
+    # a escada e o unico vinculo entre pavimentos, e nao e um vao
+    liga("T-COR", "S-HAL", "escada")
+
+    vistos, fila = {entrada}, [entrada]
+    while fila:
+        c = fila.pop()
+        for n in g.get(c, {}):
+            if n not in vistos:
+                vistos.add(n)
+                fila.append(n)
+    fechados = [a.cod for a in pj.TERREO + pj.SUPERIOR]
+    ilhados = [c for c in fechados if c not in vistos]
+    return dict(
+        entrada=entrada, alcancaveis=len([c for c in fechados if c in vistos]),
+        total=len(fechados), ilhados=ilhados, ok=not ilhados,
+        vizinhos={c: sorted(g.get(c, {})) for c in fechados},
+        ligacoes={c: {k: sorted(set(v)) for k, v in g.get(c, {}).items()}
+                  for c in fechados},
+        criterio="caminhada a pe a partir da varanda de entrada, por vao ou "
+                 "fronteira aberta declarada; a escada e a unica ligacao entre "
+                 "pavimentos e entra explicitamente porque nao e um vao")

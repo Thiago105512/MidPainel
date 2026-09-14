@@ -3616,3 +3616,84 @@ paginado: 3 fiadas inteiras e a do topo com 594 de 600.
 Este é o padrão da revisão inteira: **mexer numa decisão faz três verificações
 falarem**, e cada uma apontou para um lugar em que o modelo sabia menos do que
 parecia.
+
+## Defeito 56 — o mini lounge não tinha como ser alcançado
+
+**517 verificações e nenhuma perguntava se dá para chegar no cômodo.**
+
+Todas conferem *propriedades*: área, acabamento, carga elétrica, iluminação,
+composição de parede. O mini lounge estava **correto em tudo o que se mede
+dentro dele** — tinha porta, janela, climatização de 9.000 BTU/h, piso
+especificado, três tomadas pela NBR 5410. E não tinha vizinho nenhum.
+
+### O poço de 600 mm
+
+O hall terminava em x = 12.000 e o lounge começava em x = 12.600. A faixa entre
+os dois — **600 × 2.400 mm, 1,44 m²** — não pertencia a ambiente nenhum. O
+painelizador, que deduz parede da ocupação da malha, viu *exterior* dos dois
+lados e ergueu **duas paredes externas PE-1 de 150 mm paralelas**, mais uma
+terceira fechando o sul. A porta P02 do lounge abria para dentro desse poço.
+
+| | |
+|---|---|
+| paredes erguidas ali | SP05, SP06, SP13 — três, todas externas |
+| acesso ao lounge | nenhum |
+| verificações que acusaram | zero |
+
+Nenhuma verificação de propriedade pega isso, por mais fina que seja. O que
+faltava era medir a **relação** entre cômodos — e relação é **grafo**, não
+tabela.
+
+### A correção que remove em vez de acrescentar
+
+Três saídas possíveis:
+
+| solução | custo | efeito colateral |
+|---|---|---|
+| mover o lounge 600 mm para oeste | neutro | desloca a janela leste e mexe na fachada |
+| declarar o poço como rasgo de luz e mudar a porta para o sul | +1 parede | lounge só acessível pela suíte master |
+| **estender o hall até 12.600** | **−1 parede externa** | nenhum |
+
+O hall passa de 10,08 para 11,52 m² e volta a ser o que R06 lhe atribuiu —
+*"distribuição para quatro destinos"*, que até aqui eram três.
+
+E a conta fechou a favor:
+
+| | antes | depois |
+|---|---|---|
+| área fechada | 295,92 m² | **297,36 m²** |
+| peças de aço | 1.033 | **1.028** |
+| painéis | 62 | **60** |
+| custo | R$ 406.422 | R$ 406.400 |
+
+**A casa ganhou 1,44 m² e ficou mais barata**, porque a correção apagou duas
+paredes externas e os painéis dentro delas.
+
+### A verificação que passou a existir
+
+`conectividade()` caminha a pé a partir da varanda de entrada, por vão ou por
+fronteira aberta declarada. A escada entra explicitamente, porque **não é um
+vão** e sem ela o pavimento superior inteiro apareceria ilhado — o que seria um
+falso positivo, não um achado.
+
+> Um cômodo ilhado não é um erro de desenho: é um erro que só existe *entre* os
+> desenhos. A planta mostra a porta; o corte mostra a parede; nenhum dos dois
+> mostra que a porta não leva a lugar nenhum.
+
+## Defeito 57 — o mini lounge com piso de garagem
+
+`CATEGORIA["S-LOU"]` era `"apoio"` — a mesma da garagem e da oficina — e dela
+herdava, silenciosamente, o **piso cimentício polido com endurecedor de
+superfície**. Numa sala de TV, no pavimento íntimo, entre duas suítes.
+
+A categoria não decide só o piso. Decide três coisas:
+
+| | como "apoio" | como "social" |
+|---|---|---|
+| piso | cimentício polido | porcelanato, como o resto do andar |
+| iluminação mínima | 1/8 | 1/6 (passa: tem 1/5,0) |
+| ruído | não é fonte | **é fonte** — parede acústica contra as suítes |
+
+A terceira é a que mais importa: um lounge de TV **é** fonte de ruído a dois
+metros da cabeceira de duas suítes, e classificá-lo como área de apoio o
+excluía dessa conta.

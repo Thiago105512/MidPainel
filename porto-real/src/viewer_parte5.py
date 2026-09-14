@@ -1957,6 +1957,12 @@ function vistaAmbientes() {
             d.area_subdividida ? ` (${num(d.area_util, 2)} m² de permanência, descontando ${esc2(d.subdivisoes.join(", "))})` : ""}<br>
           <i>${esc2(d.categoria)} · ${esc2(d.classe)}${d.molhado ? " · área molhada" : ""}</i></p></div>
         ${sel}
+        ${(A.conectividade && A.conectividade.ligacoes[d.cod]) ? `
+        <p class="conta" style="display:block;margin:10px 0;line-height:1.55">
+          <b>Liga a:</b> ${Object.keys(A.conectividade.ligacoes[d.cod]).map(k =>
+            esc2(k) + " (" + A.conectividade.ligacoes[d.cod][k].map(esc2).join(", ") + ")"
+          ).join(" · ") || "<span style='color:var(--alert)'>nenhum ambiente — este cômodo está ilhado</span>"}
+        </p>` : ""}
         <div class="rolagem" style="margin-top:12px">
           <table class="tabela"><tbody>
             ${linha("piso", esc2(d.piso))}

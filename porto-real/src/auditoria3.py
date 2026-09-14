@@ -419,6 +419,28 @@ def checar_ambientes() -> list[Achado]:
                       f"para {next((d['area_util'] for d in ds if d['cod'] == 'S-MAS'), 0)} "
                       f"m2 de permanencia, e passa"))
 
+    # ---- a pergunta que 517 verificacoes nao faziam: da para CHEGAR la?
+    con = c["conectividade"]
+    out.append(Achado("NOTA" if con["ok"] else "ERRO", "conectividade",
+                      f"{con['alcancaveis']} de {con['total']} comodos se "
+                      f"alcancam a pe a partir da porta de entrada"
+                      + ("" if con["ok"] else f" — ILHADOS: {con['ilhados']}")
+                      + ". Todas as outras verificacoes conferem PROPRIEDADES "
+                        "de um comodo, e nenhuma pegaria isto: o mini lounge "
+                        "tinha porta, janela, climatizacao e piso "
+                        "especificado, e estava correto em tudo o que se mede "
+                        "dentro dele. O que faltava era a RELACAO entre "
+                        "comodos, e relacao e grafo, nao tabela"))
+    exemplo = con["ligacoes"].get("S-LOU", {})
+    out.append(Achado("NOTA" if exemplo else "ERRO", "o poco de 600 mm",
+                      f"o mini lounge liga a {', '.join(exemplo) or 'NADA'}. "
+                      f"Antes de R46 havia entre ele e o hall uma faixa de "
+                      f"600 x 2.400 mm que nao pertencia a ambiente nenhum: o "
+                      f"painelizador via exterior dos dois lados e erguia DUAS "
+                      f"paredes externas de 150 mm paralelas, e a porta do "
+                      f"lounge abria para dentro desse poco. Estender o hall "
+                      f"REMOVEU uma parede em vez de acrescentar"))
+
     # ---- o que sobrou, e sobrou de verdade
     reais = [a for a in c["achados"] if a["nivel"] in ("ERRO", "ATENCAO")]
     for a in reais:

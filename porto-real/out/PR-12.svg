@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="12" data-rev="R45">
+<g data-tipo="carimbo" data-cod="12" data-rev="R46">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R45</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R46</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">12</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R45</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 35   REV R46</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -120,12 +120,12 @@
 <polygon points="230.000,222.000 284.000,222.000 284.000,174.000 230.000,174.000" stroke="#e8e8e8" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <text x="257.000" y="196.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">SUITE 03</text>
 <text x="257.000" y="200.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">intimo</text>
-<polygon points="284.000,234.000 326.000,234.000 326.000,210.000 284.000,210.000" stroke="#e8e8e8" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
-<text x="305.000" y="220.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">HALL E ROUPARIA</text>
-<text x="305.000" y="224.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">circulacao</text>
+<polygon points="284.000,234.000 332.000,234.000 332.000,210.000 284.000,210.000" stroke="#e8e8e8" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
+<text x="308.000" y="220.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">HALL E ROUPARIA</text>
+<text x="308.000" y="224.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">circulacao</text>
 <polygon points="332.000,234.000 362.000,234.000 362.000,210.000 332.000,210.000" stroke="#e8e8e8" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <text x="347.000" y="220.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">MINI LOUNGE / TV</text>
-<text x="347.000" y="224.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">-</text>
+<text x="347.000" y="224.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">social</text>
 <polygon points="284.000,210.000 362.000,210.000 362.000,150.000 284.000,150.000" stroke="#e8e8e8" stroke-width="0.13" fill="#fbfbfb" stroke-linejoin="miter"/>
 <text x="323.000" y="178.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">SUITE MASTER</text>
 <text x="323.000" y="182.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">intimo</text>
@@ -139,14 +139,12 @@
 <polygon points="283.500,222.000 284.500,222.000 284.500,210.000 283.500,210.000" stroke="#c1121f" stroke-width="0.4" fill="#c1121f" stroke-linejoin="miter"/>
 <polygon points="283.500,210.000 284.500,210.000 284.500,174.000 283.500,174.000" stroke="#c1121f" stroke-width="0.4" fill="#c1121f" stroke-linejoin="miter"/>
 <polygon points="283.250,174.000 284.750,174.000 284.750,150.000 283.250,150.000" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
-<polygon points="284.000,234.750 326.000,234.750 326.000,233.250 284.000,233.250" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
-<polygon points="284.000,210.500 326.000,210.500 326.000,209.500 284.000,209.500" stroke="#c1121f" stroke-width="0.4" fill="#c1121f" stroke-linejoin="miter"/>
+<polygon points="284.000,234.750 332.000,234.750 332.000,233.250 284.000,233.250" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
+<polygon points="284.000,210.500 332.000,210.500 332.000,209.500 284.000,209.500" stroke="#c1121f" stroke-width="0.4" fill="#c1121f" stroke-linejoin="miter"/>
 <polygon points="284.000,150.750 362.000,150.750 362.000,149.250 284.000,149.250" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
-<polygon points="325.250,234.000 326.750,234.000 326.750,210.000 325.250,210.000" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
-<polygon points="331.250,234.000 332.750,234.000 332.750,210.000 331.250,210.000" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
-<polygon points="326.000,210.750 332.000,210.750 332.000,209.250 326.000,209.250" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
+<polygon points="331.500,234.000 332.500,234.000 332.500,210.000 331.500,210.000" stroke="#c1121f" stroke-width="0.4" fill="#c1121f" stroke-linejoin="miter"/>
 <polygon points="332.000,234.750 362.000,234.750 362.000,233.250 332.000,233.250" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
-<polygon points="332.000,210.500 362.000,210.500 362.000,209.500 332.000,209.500" stroke="#adb5bd" stroke-width="0.4" fill="#adb5bd" stroke-linejoin="miter"/>
+<polygon points="332.000,210.500 362.000,210.500 362.000,209.500 332.000,209.500" stroke="#c1121f" stroke-width="0.4" fill="#c1121f" stroke-linejoin="miter"/>
 <polygon points="361.250,234.000 362.750,234.000 362.750,210.000 361.250,210.000" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
 <polygon points="361.250,210.000 362.750,210.000 362.750,150.000 361.250,150.000" stroke="#2d6a4f" stroke-width="0.4" fill="#2d6a4f" stroke-linejoin="miter"/>
 <text x="230.000" y="344.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">SUPERIOR</text>
@@ -164,7 +162,7 @@
 <text x="417.500" y="47.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Parede externa unica</text>
 <text x="469.500" y="47.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150</text>
 <text x="483.500" y="47.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">45</text>
-<text x="495.500" y="47.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">340.08</text>
+<text x="495.500" y="47.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">327.60</text>
 <text x="519.500" y="47.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.12</text>
 <text x="537.500" y="47.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">todas as faces externas, sem excecao</text>
 <polygon points="400.000,50.400 660.000,50.400 660.000,55.600 400.000,55.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
@@ -180,7 +178,7 @@
 <text x="417.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Parede acustica</text>
 <text x="469.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">100</text>
 <text x="483.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">49</text>
-<text x="495.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">60.84</text>
+<text x="495.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">76.44</text>
 <text x="519.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.35</text>
 <text x="537.500" y="58.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo x fonte de ruido, social x servico, entorno do </text>
 <polygon points="400.000,60.800 660.000,60.800 660.000,66.000 400.000,66.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
@@ -196,7 +194,7 @@
 <text x="417.500" y="68.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Divisoria interna simples</text>
 <text x="469.500" y="68.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">100</text>
 <text x="483.500" y="68.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">41</text>
-<text x="495.500" y="68.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">28.08</text>
+<text x="495.500" y="68.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20.28</text>
 <text x="519.500" y="68.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.00</text>
 <text x="537.500" y="68.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dentro de zonas homogeneas (servico com servico, socia</text>
 <polygon points="400.000,71.200 660.000,71.200 660.000,76.400 400.000,76.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
@@ -204,7 +202,7 @@
 <text x="417.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TOTAL</text>
 <text x="469.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <text x="483.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
-<text x="495.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">475.80</text>
+<text x="495.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">471.12</text>
 <text x="519.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <text x="537.500" y="73.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <line x1="416.000" y1="40.000" x2="416.000" y2="76.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -229,7 +227,7 @@
 <text x="414.000" y="148.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PI-1 — gesso 12,5 + montante 70 c/ la 50 + gesso 12,5</text>
 <text x="414.000" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">Rw 41 dB ja supera o minimo da NBR 15575-3 entre ambientes da mesma unidade. Reforcar aqui nao produz diferenca perceptivel.</text>
 <text x="400.000" y="166.400" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">POR QUE O ISO STRIP, SE O PAYBACK E LONGO</text>
-<text x="400.000" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Ganho energetico: dU = 0.356 W/m2K sobre 340 m2 -&gt; 682 kWh/ano, payback de 18 anos (H).</text>
+<text x="400.000" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Ganho energetico: dU = 0.356 W/m2K sobre 328 m2 -&gt; 657 kWh/ano, payback de 18 anos (H).</text>
 <text x="400.000" y="178.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Isolado, o argumento energetico NAO sustenta o investimento.</text>
 <text x="400.000" y="182.600" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O argumento e outro: em clima quente-umido com ar-condicionado o vapor migra</text>
 <text x="400.000" y="187.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de FORA para DENTRO. O montante de aco fica mais frio que o ponto de orvalho</text>

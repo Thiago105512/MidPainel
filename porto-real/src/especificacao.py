@@ -27,6 +27,12 @@ G = pj.GRID
 CATEGORIA = {
     "T-REV": "intimo", "S-S02": "intimo", "S-S03": "intimo", "S-MAS": "intimo",
     "T-SOC": "social", "T-GOU": "social", "T-COZ": "social",
+    # R46 — o mini lounge estava como "apoio", a mesma categoria da garagem, e
+    # herdava dela o piso CIMENTICIO POLIDO. E sala de TV no pavimento intimo:
+    # leva porcelanato como o resto do andar, exige 1/6 de iluminacao em vez de
+    # 1/8, e — o que mais importa — passa a contar como FONTE de ruido, que e
+    # o que ele de fato e a dois metros da cabeceira de duas suites.
+    "S-LOU": "social",
     "T-LAV": "servico", "T-DEP": "servico",
     "T-OFI": "oficina",
     "T-HAL": "circulacao", "T-CIR": "circulacao", "T-COR": "circulacao",

@@ -563,7 +563,7 @@
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R45 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R46 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -575,12 +575,12 @@
     </div>
   </div>
   <dl class="wrap figures" style="padding-inline:0">
-    <div class="fig"><dt>Fechado total</dt><dd>295,92 <span>m²</span></dd></div>
+    <div class="fig"><dt>Fechado total</dt><dd>297,36 <span>m²</span></dd></div>
     <div class="fig"><dt>Projeção coberta</dt><dd>265,68 <span>m²</span></dd></div>
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>36,4 <span>kVA · 100 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>517 <span>condições · 0 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>519 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>35 <span>· A1</span></dd></div>
   </dl>
@@ -779,6 +779,7 @@
       <li><span class="r">R43</span><span>Graficos: distribuicao de utilizacao dos 415 montantes com a fronteira do limite normativo, concentracao de custo com os dois eixos em percentual — uma escala, nunca duas — e curva de horas acumuladas de montagem. Ate aqui todo grafico era uma div com largura percentual: compara magnitude e nao responde onde a coisa passa de aceitavel. Desenhar expos um erro proprio: o alvo de projeto 0,95 estava marcado DENTRO de uma faixa, e o eixo do histograma e categorico — valor continuo em eixo categorico finge uma escala que nao existe. A soma das faixas e conferida contra o numero de montantes verificados: o desenho mostra o que o motor calculou, nao uma conta refeita no navegador</span></li>
       <li><span class="r">R44</span><span>Verificacao por COMODO, o eixo que nao existia: as 510 condicoes anteriores olham por sistema, e defeito se concentra onde dois sistemas se encontram — dentro de um comodo. O dossie reune acabamento, vao, tomada, peca hidraulica, ralo, clima e as paredes que cercam cada um dos 17 comodos. Achou 24 divergencias na primeira execucao: 14 de um defeito real — o levantamento de instalacoes contava tomada por AREA e a NBR 5410 conta PERIMETRO, 71 contra 55, faltando 3 na lavanderia e sobrando 3 na master — e 10 de grossura da propria conferencia, que classificava vao por prefixo de codigo e somava a area do banho na conta da janela do quarto. A conjugacao cozinha-gourmet, decidida em R07 e escrita em COMENTARIO, virou dado. Sobraram tres achados reais: o DML sem vao, o gourmet molhado sem ralo e os tres banhos do superior sem acabamento declarado</span></li>
       <li><span class="r">R45</span><span>Os tres achados por comodo, resolvidos. O DML ganha basculante alta na face norte, que estava livre: 0,72 m2 contra os 0,45 exigidos, ilumina E ventila sem tomar a parede da prateleira — veneziana na porta nao ilumina e exaustor cobra energia para sempre. O gourmet ganha ralo sifonado junto da cuba: area molhada, contigua a piscina, e sem ralo a lavagem escoa para o estar. Os tres banhos do superior entram na MESMA zona de revestimento do banho do terreo, e nao numa zona nova — a altura de um banho e uma decisao so. Duas verificacoes existentes acusaram a mudanca e acusaram certo: o universo de codigos validos nao conhecia o codigo qualificado da subdivisao, e o cruzamento da impermeabilizacao contava janela de banheiro pelo CODIGO da esquadria — premissa que aguentou ate a primeira janela alta que nao e de banheiro</span></li>
+      <li><span class="r">R46</span><span>O mini lounge nao tinha como ser alcancado. 517 verificacoes conferem PROPRIEDADES de comodo e nenhuma perguntava se da para chegar nele: o lounge tinha porta, janela, clima, piso e tomadas, e nenhum vizinho. Entre ele e o hall havia uma faixa de 600 x 2.400 mm sem ambiente, e o painelizador, vendo exterior dos dois lados, ergueu DUAS paredes externas paralelas com a porta abrindo para o vazio entre elas. Estender o hall ate 12.600 REMOVE uma parede em vez de acrescentar, nao mexe em fachada e devolve ao hall a distribuicao para quatro destinos que R06 lhe deu. A casa ganhou 1,44 m2 e ficou mais barata: 1.028 pecas contra 1.033, 60 paineis contra 62. Entra conectividade(), que caminha a pe a partir da entrada — relacao entre comodos e grafo, nao tabela. E o lounge deixa de ser categoria APOIO, que lhe dava piso de garagem e o excluia da conta de ruido a dois metros da cabeceira de duas suites</span></li>
       </ol>
     </div>
     <div>
@@ -3320,6 +3321,12 @@ function vistaAmbientes() {
             d.area_subdividida ? ` (${num(d.area_util, 2)} m² de permanência, descontando ${esc2(d.subdivisoes.join(", "))})` : ""}<br>
           <i>${esc2(d.categoria)} · ${esc2(d.classe)}${d.molhado ? " · área molhada" : ""}</i></p></div>
         ${sel}
+        ${(A.conectividade && A.conectividade.ligacoes[d.cod]) ? `
+        <p class="conta" style="display:block;margin:10px 0;line-height:1.55">
+          <b>Liga a:</b> ${Object.keys(A.conectividade.ligacoes[d.cod]).map(k =>
+            esc2(k) + " (" + A.conectividade.ligacoes[d.cod][k].map(esc2).join(", ") + ")"
+          ).join(" · ") || "<span style='color:var(--alert)'>nenhum ambiente — este cômodo está ilhado</span>"}
+        </p>` : ""}
         <div class="rolagem" style="margin-top:12px">
           <table class="tabela"><tbody>
             ${linha("piso", esc2(d.piso))}

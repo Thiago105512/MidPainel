@@ -315,7 +315,9 @@ def _juntas(r: dict) -> dict:
                 exemplo[x["tipo"]] = dict(x, pecas=list(x["pecas"]))
     return dict(
         total=r["n_parafusos"],
-        por_m2=round(r["n_parafusos"] / 295.92, 1),
+        # do CADASTRO, nao literal: o literal sobreviveu a R46 e teria passado
+        # a dividir por uma area que a casa nao tem mais
+        por_m2=round(r["n_parafusos"] / pj.CADASTRO.area_m2, 1),
         n_juntas=sum(j["n_juntas"] for j in js.values()),
         por_tipo=[dict(tipo=k, n=v) for k, v in
                   sorted(por_tipo.items(), key=lambda kv: -kv[1])],
@@ -431,6 +433,9 @@ def montar() -> dict:
             n=r["ambientes"]["n"], area_total=r["ambientes"]["area_total"],
             criterio=r["ambientes"]["criterio"],
             achados=r["ambientes"]["achados"],
+            # o grafo vai junto: e o unico dado desta vista que nao e uma
+            # propriedade de comodo, e sim a relacao entre eles
+            conectividade=r["ambientes"]["conectividade"],
             por_ambiente=r["ambientes"]["por_ambiente"],
             dossies=[{k: v for k, v in d.items() if k != "vaos"}
                      | dict(vaos=[dict(tipo=v["tipo"], larg=v["larg"],

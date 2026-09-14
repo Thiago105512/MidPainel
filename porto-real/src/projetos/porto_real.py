@@ -213,7 +213,20 @@ SUPERIOR: list[Amb] = [
     Amb("S-S03", "SUITE 03",          2_400, 18_000, 5_400, 4_800, pav="S"),
     # o hall deixa de ser corredor: e chegada da escada, distribuicao para
     # quatro destinos e rouparia embutida
-    Amb("S-HAL", "HALL E ROUPARIA",   7_800, 16_800, 4_200, 2_400, pav="S"),
+    # R46 — o hall vai ate 12.600, e nao ate 12.000. Entre ele e o mini lounge
+    # havia uma faixa de 600 x 2.400 mm que nao pertencia a ambiente nenhum: o
+    # painelizador via duas faces contra o exterior e erguia DUAS paredes
+    # externas de 150 mm paralelas, com 600 mm de vazio entre elas, e a porta
+    # do lounge abria para dentro desse poco. O lounge era o unico dos 17
+    # comodos INACESSIVEL a partir da porta de entrada, e 517 verificacoes nao
+    # perguntavam isso porque nenhuma delas caminhava pela casa.
+    #
+    # Estender o hall e a correcao mais barata das tres: REMOVE uma parede
+    # externa em vez de acrescentar, nao mexe em fachada (mover o lounge 600 mm
+    # deslocaria a janela leste) e devolve ao hall a funcao que o proprio
+    # projeto lhe deu em R06 — "distribuicao para quatro destinos", que ate
+    # aqui eram tres.
+    Amb("S-HAL", "HALL E ROUPARIA",   7_800, 16_800, 4_800, 2_400, pav="S"),
     # mini lounge com 3.000 mm de profundidade porque e o que o televisor
     # exige. Com os 2.600 mm do YAML a distancia de visao cairia para 1,20 m.
     Amb("S-LOU", "MINI LOUNGE / TV", 12_600, 16_800, 3_000, 2_400, pav="S"),
@@ -2639,6 +2652,21 @@ REVISOES = [
             "cruzamento da impermeabilizacao contava janela de banheiro pelo "
             "CODIGO da esquadria — premissa que aguentou ate a primeira janela "
             "alta que nao e de banheiro"),
+    ("R46", "O mini lounge nao tinha como ser alcancado. 517 verificacoes "
+            "conferem PROPRIEDADES de comodo e nenhuma perguntava se da para "
+            "chegar nele: o lounge tinha porta, janela, clima, piso e tomadas, "
+            "e nenhum vizinho. Entre ele e o hall havia uma faixa de 600 x "
+            "2.400 mm sem ambiente, e o painelizador, vendo exterior dos dois "
+            "lados, ergueu DUAS paredes externas paralelas com a porta abrindo "
+            "para o vazio entre elas. Estender o hall ate 12.600 REMOVE uma "
+            "parede em vez de acrescentar, nao mexe em fachada e devolve ao "
+            "hall a distribuicao para quatro destinos que R06 lhe deu. A casa "
+            "ganhou 1,44 m2 e ficou mais barata: 1.028 pecas contra 1.033, 60 "
+            "paineis contra 62. Entra conectividade(), que caminha a pe a "
+            "partir da entrada — relacao entre comodos e grafo, nao tabela. E "
+            "o lounge deixa de ser categoria APOIO, que lhe dava piso de "
+            "garagem e o excluia da conta de ruido a dois metros da cabeceira "
+            "de duas suites"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2732,7 +2760,11 @@ CADASTRO = cd.Cadastro(
     coordenadas=(-3.10, -60.05),
     tipologia="SOBRADO",
     pavimentos=2,
-    area_m2=295.92,
+    # R46 — 297,36 m2: os 295,92 anteriores mais os 1,44 m2 da faixa que o hall
+    # absorveu. O numero e literal aqui e derivado na auditoria, que o confere
+    # contra a soma dos ambientes a cada execucao — foi assim que a diferenca
+    # apareceu no mesmo instante em que o hall cresceu.
+    area_m2=297.36,
     pe_direito=2_600,
     sistema="Light Steel Frame sobre radier",
     normas=("NBR 15575", "NBR 15253", "NBR 14762", "NBR 6355", "NBR 6120",
@@ -2744,13 +2776,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R45",
+    revisao="R46",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R45", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R46", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
