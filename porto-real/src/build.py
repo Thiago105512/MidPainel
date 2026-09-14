@@ -91,6 +91,13 @@ def main(png: bool = True, pdf: bool = True) -> None:
     engenharia.main()
     viewer.main()
 
+    # a planilha de cotacao sai do mesmo modelo que o caderno: quantidade que
+    # muda na planta muda na planilha na proxima geracao, sem ninguem digitar
+    try:
+        import planilha_cotacao          # noqa: F401
+    except ImportError as e:
+        print(f"  planilha de cotacao NAO gerada: {e} (pip install openpyxl)")
+
     if pdf:
         import pymupdf
         doc = pymupdf.open()
