@@ -362,13 +362,16 @@ SUBDIVISOES = [
 # zona). O sofa fica a 3,2 m — regra de 1,6 a 2,5 diagonais para 75". A
 # circulacao hall -> gourmet corre pelo lado LESTE (x 8.400-9.600, 1.200 mm)
 # e nao cruza a linha da TV.
-TV = dict(polegadas=75, diagonal_mm=1_905, dist_min=1.6, dist_max=2.5,
+# a REGRA e do projeto; o TAMANHO e de cada TV, porque depende da distancia
+# que o comodo permite — e foi medindo essa distancia que a master ganhou 55"
+# e nao os 75" do estar.
+TV = dict(dist_min=1.6, dist_max=2.5,
           razao="1,6 a 2,5 diagonais e a faixa THX/SMPTE para 4K")
 LAYOUT = [
     dict(cod="LY-01", amb="T-GAR", tipo="carro", x=3_000, y=8_000, w=1_900, h=4_700),
     dict(cod="LY-02", amb="T-GAR", tipo="carro", x=5_600, y=8_000, w=1_900, h=4_700),
     dict(cod="LY-03", amb="T-SOC", tipo="tv",    x=6_375, y=13_275, w=1_650, h=80,
-         obs="parede norte, centrada no rack"),
+         polegadas=75, diagonal_mm=1_905, obs="parede norte, centrada no rack"),
     dict(cod="LY-04", amb="T-SOC", tipo="rack",  x=6_300, y=13_275, w=1_800, h=450),
     dict(cod="LY-05", amb="T-SOC", tipo="sofa",  x=6_000, y=16_500, w=2_400, h=900,
          frente="-Y"),
@@ -376,12 +379,32 @@ LAYOUT = [
     dict(cod="LY-07", amb="T-SOC", tipo="poltrona", x=5_500, y=15_400, w=800, h=800),
     dict(cod="LY-08", amb="T-GOU", tipo="mesa",  x=6_300, y=22_900, w=2_400, h=1_000,
          lugares=8),
-    dict(cod="LY-09", amb="T-REV", tipo="cama",  x=12_300, y=7_700, w=1_600, h=2_000),
+    # R56 — as tres camas restantes tambem flutuavam, e so apareceram quando a
+    # conferencia passou a exigir cabeceira encostada. A do reversivel estava a
+    # 300 mm da parede oeste, com 300 mm de passagem; as das suites 02 e 03, a
+    # 1.200 mm de TODAS as quatro paredes — no meio do quarto.
+    dict(cod="LY-09", amb="T-REV", tipo="cama",  x=12_075, y=8_000, w=2_000,
+         h=1_600, cabeceira="-X"),
     dict(cod="LY-13", amb="T-ALC", tipo="rack",  x=10_350, y=9_750, w=1_500, h=600,
          obs="mesa de trabalho na alcova, sob a janela"),
-    dict(cod="LY-10", amb="S-S02", tipo="cama",  x=5_000, y=14_600, w=1_600, h=2_000),
-    dict(cod="LY-11", amb="S-S03", tipo="cama",  x=5_000, y=19_400, w=1_600, h=2_000),
-    dict(cod="LY-12", amb="S-MAS", tipo="cama",  x=10_500, y=22_800, w=1_800, h=2_100),
+    dict(cod="LY-10", amb="S-S02", tipo="cama",  x=5_725, y=14_000, w=2_000,
+         h=1_600, cabeceira="+X"),
+    dict(cod="LY-11", amb="S-S03", tipo="cama",  x=5_725, y=20_400, w=2_000,
+         h=1_600, cabeceira="+X"),
+    # R56 — a cama estava FLUTUANDO: 600 mm da parede norte e 300 da sul, sem
+    # cabeceira encostada em nada. Passa a king (1,93 x 2,03) com a cabeceira
+    # no trecho cego da face sul, ao lado da porta-balcao — sai-se da cama
+    # direto para a varanda — e de costas para a parede externa, nao para a
+    # parede do banho.
+    dict(cod="LY-12", amb="S-MAS", tipo="cama",  x=11_035, y=23_070,
+         w=1_930, h=2_030, cabeceira="+Y"),
+    # TV na face norte, alinhada com a cama. E a parede do banho: o painel
+    # ripado acrescenta massa exatamente onde ha agua do outro lado.
+    dict(cod="LY-14", amb="S-MAS", tipo="tv",    x=11_100, y=22_315, w=1_400,
+         h=60, polegadas=55, diagonal_mm=1_397,
+         obs="55\" pela distancia que o comodo permite, nao pelo catalogo"),
+    dict(cod="LY-15", amb="S-MAS", tipo="rack",  x=11_035, y=22_275, w=1_930,
+         h=40, obs="painel ripado de 40 mm — o minimo que esconde cabo"),
 ]
 
 # R53 — lavabo e ambiente molhado SEM box: tem vaso e lavatorio, nao tem
@@ -537,7 +560,14 @@ VAOS = [
     ("J04",   2_400, 18_600, "V", "S"),   # janela alta banho suite 03
     ("J05",   7_800, 24_000, "V", "S"),   # dormitorio master (sul)
     ("PV02",  9_600, 25_200, "H", "S"),   # dormitorio master -> varanda
-    ("J05",  12_000, 25_200, "H", "S"),   # dormitorio master -> varanda
+    # R56 — ESTA JANELA SAIU. A master tinha TRES vaos na face sul (porta-balcao
+    # e esta janela) e a face norte inteira ocupada por banho e closet: nao
+    # sobrava UMA PAREDE CEGA para encostar cabeceira nem para pendurar TV. O
+    # quarto tinha 21,60 m2 e nenhum lugar para a cama. Com a janela fora, a
+    # face sul ganha 3.000 mm cegos entre a porta-balcao e o canto — cabeceira
+    # ali, TV na face norte, que e a parede do banho e ganha massa acustica de
+    # brinde. A fracao de iluminacao natural cai de 56,7 % para 46,7 % da area
+    # util do quarto, contra 16,7 % exigidos: sobra folga de sobra.   # dormitorio master -> varanda
     ("J04",  15_600, 20_700, "V", "S"),   # janela alta do closet master (norte)
     ("J01",  15_600, 23_700, "V", "S"),   # janela do office master (norte)
 
@@ -3112,6 +3142,27 @@ REVISOES = [
             "comodo INALCANCAVEL, e isso nao se ve em planta. O grafo das "
             "subdivisoes confirma banho -> closet -> quarto, e `unico_acesso` "
             "declarado e conferido contra a geometria"),
+    ("R56", "A PERGUNTA 'a suite esta confortavel?' NAO TINHA RESPOSTA NO "
+            "MODELO, e a conferencia que faltava achou quatro camas erradas. "
+            "A master nao tinha TV nenhuma e a cama FLUTUAVA: 600 mm de uma "
+            "parede e 300 da outra, sem cabeceira encostada em nada. A do "
+            "reversivel estava a 300 mm da parede, com 300 mm de passagem; as "
+            "das suites 02 e 03, a 1.200 mm das QUATRO paredes — no meio do "
+            "quarto. Nada acusava porque a regra de layout so olhava se o "
+            "movel cabia no comodo, e cama no meio do quarto cabe. Agora se "
+            "confere CABECEIRA ENCOSTADA e circulacao em volta (700 mm de "
+            "minimo, 900 de conforto), e o desenho aprendeu de que lado fica o "
+            "travesseiro. Na master, o diagnostico foi de geometria e nao de "
+            "mobilia: com porta-balcao e janela na face sul e banho e closet "
+            "ocupando a norte, NAO SOBRAVA UMA PAREDE CEGA para a cabeceira. A "
+            "janela sul saiu — a fracao de iluminacao natural cai de 56,7 % "
+            "para 46,7 % da area util, contra 16,7 % de minimo — e abriram-se "
+            "3.000 mm "
+            "cegos: cabeceira ali, ao lado da porta-balcao, e TV de 55\" na "
+            "face norte, que e a parede do banho e ganha massa acustica de "
+            "brinde. A TV deixou de ser uma so na casa: cada uma declara a "
+            "propria diagonal, porque o tamanho sai da distancia que o comodo "
+            "permite — 75\" no estar a 3,19 m, 55\" na master a 2,36 m"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3263,13 +3314,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R55",
+    revisao="R56",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R55", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R56", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

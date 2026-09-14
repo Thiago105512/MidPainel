@@ -4097,48 +4097,86 @@ def checar_layout() -> list[Achado]:
                       "nenhum item sobre banho, closet ou cabine"
                       if not invade else f"invade: {invade}"))
 
-    # o estar: uma TV, um sofa de frente para ela, a distancia certa
+    # R56 — a regra deixou de ser "uma TV na casa". Cada ambiente de estar ou
+    # de dormir pode ter a sua, e o que se confere e o PAR: TV mais o assento
+    # (sofa) ou a cama do MESMO ambiente, com o tamanho declarado em cada TV.
+    # A versao anterior exigia exatamente uma e teria reprovado a master no
+    # instante em que ela ganhou a dela.
     tvs = [i for i in pj.LAYOUT if i["tipo"] == "tv"]
-    sofas = [i for i in pj.LAYOUT if i["tipo"] == "sofa"]
     mesas = [i for i in pj.LAYOUT if i["tipo"] == "mesa"]
-    out.append(Achado("NOTA" if len(tvs) == 1 else "ERRO", "TV",
-                      f"{len(tvs)} TV no layout — o estar precisa de "
-                      f"exatamente uma"))
     out.append(Achado("NOTA" if len(mesas) == 1 else "ERRO", "mesa de jantar",
                       f"{len(mesas)} mesa(s): o jantar e um so, no gourmet"
                       if len(mesas) == 1 else
                       f"{len(mesas)} mesas de jantar — duas mesas e um estar "
                       f"que nao decidiu o que e"))
-    if tvs and sofas:
-        tv, sf = tvs[0], sofas[0]
+    out.append(Achado("NOTA" if tvs else "ERRO", "TV",
+                      f"{len(tvs)} TV: " + ", ".join(
+                          f"{t['amb']} {t.get('polegadas', '?')} pol"
+                          for t in tvs)))
+    sem_tam = [t["cod"] for t in tvs if not t.get("diagonal_mm")]
+    out.append(Achado("NOTA" if not sem_tam else "ERRO", "tamanho da TV",
+                      "toda TV declara a diagonal, que e o que a regra de "
+                      "distancia consome" if not sem_tam
+                      else f"sem diagonal: {sem_tam}"))
+    for tv in tvs:
+        assentos = [i for i in pj.LAYOUT if i["amb"] == tv["amb"]
+                    and i["tipo"] in ("sofa", "cama")]
+        if not assentos:
+            out.append(Achado("ERRO", f"TV sem assento — {tv['cod']}",
+                              f"ha TV em {tv['amb']} e nenhum sofa ou cama"))
+            continue
+        a = assentos[0]
         tcx, tcy = tv["x"] + tv["w"] / 2, tv["y"] + tv["h"] / 2
-        fr = sf.get("frente", "-Y")
-        # a frente do sofa e a face voltada para a TV
-        if fr == "-Y":
-            fx, fy = sf["x"] + sf["w"] / 2, sf["y"]
-        elif fr == "+Y":
-            fx, fy = sf["x"] + sf["w"] / 2, sf["y"] + sf["h"]
-        elif fr == "-X":
-            fx, fy = sf["x"], sf["y"] + sf["h"] / 2
+        if a["tipo"] == "cama":
+            # de onde se assiste numa cama e o travesseiro, nao o centro
+            fx = a["x"] + a["w"] / 2
+            fy = a["y"] + a["h"] - 400 if a["y"] > tcy else a["y"] + 400
         else:
-            fx, fy = sf["x"] + sf["w"], sf["y"] + sf["h"] / 2
+            fr = a.get("frente", "-Y")
+            fx, fy = a["x"] + a["w"] / 2, a["y"]
+            if fr == "+Y":
+                fy = a["y"] + a["h"]
+            elif fr in ("-X", "+X"):
+                fx = a["x"] if fr == "-X" else a["x"] + a["w"]
+                fy = a["y"] + a["h"] / 2
         d = math.hypot(tcx - fx, tcy - fy) / 1000.0
-        dmin = pj.TV["dist_min"] * pj.TV["diagonal_mm"] / 1000.0
-        dmax = pj.TV["dist_max"] * pj.TV["diagonal_mm"] / 1000.0
+        dmin = pj.TV["dist_min"] * tv["diagonal_mm"] / 1000.0
+        dmax = pj.TV["dist_max"] * tv["diagonal_mm"] / 1000.0
         out.append(Achado("NOTA" if dmin <= d <= dmax else "ERRO",
-                          "distancia sofa-TV",
-                          f"{d:.2f} m para TV de {pj.TV['polegadas']}\\\" — "
-                          f"faixa {dmin:.2f} a {dmax:.2f} m "
-                          f"({pj.TV['razao']})"))
-        # circulacao entre o sofa e a parede leste do estar
-        a = ambs[sf["amb"]]
-        folga = (a.x + a.w) - (sf["x"] + sf["w"])
-        out.append(Achado("NOTA" if folga >= 900 else "ERRO",
-                          "circulacao do estar",
-                          f"{folga} mm entre o sofa e a parede leste — "
-                          f"caminho hall -> gourmet sem cruzar a linha da TV"
-                          if folga >= 900 else
-                          f"{folga} mm de passagem ao lado do sofa"))
+                          f"distancia {a['tipo']}-TV em {tv['amb']}",
+                          f"{d:.2f} m para {tv.get('polegadas')} pol — faixa "
+                          f"{dmin:.2f} a {dmax:.2f} m ({pj.TV['razao']})"))
+
+    # R56 — cama: cabeceira encostada e circulacao em volta. A da master estava
+    # FLUTUANDO (600 mm de uma parede, 300 da outra) e nada olhava para isso,
+    # porque layout so entrou no modelo em R53.
+    for c in [i for i in pj.LAYOUT if i["tipo"] == "cama"]:
+        a = ambs.get(c["amb"])
+        if a is None:
+            continue
+        folgas = dict(oeste=c["x"] - a.x, leste=a.x + a.w - (c["x"] + c["w"]),
+                      norte=c["y"] - a.y, sul=a.y + a.h - (c["y"] + c["h"]))
+        for pai, nome, x, y, w, h in subs:
+            if pai != c["amb"]:
+                continue
+            if not (x + w <= c["x"] or c["x"] + c["w"] <= x):
+                if y + h <= c["y"]:
+                    folgas["norte"] = min(folgas["norte"], c["y"] - (y + h))
+                elif y >= c["y"] + c["h"]:
+                    folgas["sul"] = min(folgas["sul"], y - (c["y"] + c["h"]))
+        menor = min(folgas.values())
+        encostada = menor <= 120
+        livres = sorted(v for v in folgas.values() if v > 120)
+        out.append(Achado("NOTA" if encostada else "ERRO",
+                          f"cabeceira — {c['cod']}",
+                          f"folgas em mm {folgas}; a menor e {menor}"
+                          + (" — cabeceira encostada" if encostada else
+                             " — a cama nao encosta em parede nenhuma")))
+        passagem = min(livres) if livres else 0
+        out.append(Achado("NOTA" if passagem >= 700 else "ERRO",
+                          f"circulacao em volta — {c['cod']}",
+                          f"{passagem} mm na face mais apertada; 700 mm e o "
+                          f"minimo de passagem, 900 o confortavel"))
     return out
 
 

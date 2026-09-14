@@ -80,10 +80,30 @@ def maquina(cv, vw, x, y, s=600, rotulo="ML"):
     cv.texto_p(vw.pt(P(x + s / 2, y + s * 0.12)), rotulo, TXT["micro"], "middle", cor=CINZA)
 
 
-def cama(cv, vw, x, y, w=1600, h=2000):
+def cama(cv, vw, x, y, w=1600, h=2000, cabeceira="+Y"):
+    """A cabeceira e um DADO: o travesseiro vai do lado declarado.
+
+    R56 — desenhar sempre com a cabeceira em +Y estava certo enquanto todas as
+    camas apontavam para o mesmo lado. Quando tres delas encostaram em paredes
+    diferentes, o desenho passou a mostrar travesseiro no meio do quarto.
+    """
     _ret(cv, vw, x, y, w, h, "fino", "#fafafa")
-    _ret(cv, vw, x, y + h - 450, w, 450, "fino")           # travesseiros
-    cv.linha_p(vw.pt(P(x, y + h - 700)), vw.pt(P(x + w, y + h - 700)), "fino", cor=CINZA)
+    if cabeceira == "+Y":
+        _ret(cv, vw, x, y + h - 450, w, 450, "fino")
+        cv.linha_p(vw.pt(P(x, y + h - 700)), vw.pt(P(x + w, y + h - 700)),
+                   "fino", cor=CINZA)
+    elif cabeceira == "-Y":
+        _ret(cv, vw, x, y, w, 450, "fino")
+        cv.linha_p(vw.pt(P(x, y + 700)), vw.pt(P(x + w, y + 700)),
+                   "fino", cor=CINZA)
+    elif cabeceira == "+X":
+        _ret(cv, vw, x + w - 450, y, 450, h, "fino")
+        cv.linha_p(vw.pt(P(x + w - 700, y)), vw.pt(P(x + w - 700, y + h)),
+                   "fino", cor=CINZA)
+    else:
+        _ret(cv, vw, x, y, 450, h, "fino")
+        cv.linha_p(vw.pt(P(x + 700, y)), vw.pt(P(x + 700, y + h)),
+                   "fino", cor=CINZA)
 
 
 def sofa(cv, vw, x, y, w=2400, h=900, frente="-Y"):
@@ -244,7 +264,7 @@ def desenhar_item(cv, vw, it: dict) -> None:
         elif t == "mesa":
             mesa(cv, vw, x + w / 2, y + h / 2, w, h, it.get("lugares", 6))
         elif t == "cama":
-            cama(cv, vw, x, y, w, h)
+            cama(cv, vw, x, y, w, h, it.get("cabeceira", "+Y"))
 
 
 def _desenhar_do_modelo(cv: Canvas, vw: View, pav: str) -> None:

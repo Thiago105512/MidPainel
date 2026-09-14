@@ -4565,3 +4565,64 @@ closet, acionado por presença, em vez da luz geral.
 
 **Estado em R55:** 110 funções, 582 condições, **0 erros**; 208 verificações do
 visualizador, **0 falhas**; 40 pranchas; R$ 552.414.
+
+---
+
+## R56 — "a suíte está confortável?" não tinha resposta no modelo
+
+A pergunta é de quem vai morar, e o modelo não sabia respondê-la. A conferência
+que faltava achou **quatro camas erradas** e uma TV que não existia.
+
+### O diagnóstico
+
+| Cama | Estado em R55 |
+|---|---|
+| **Master** (LY-12) | **flutuando**: 600 mm de uma parede, 300 da outra, sem cabeceira encostada em nada — e **nenhuma TV** no quarto |
+| **Reversível** (LY-09) | 300 mm da parede oeste, com **300 mm de passagem** |
+| **Suíte 02** (LY-10) | 1.200 mm das **quatro** paredes — no meio do quarto |
+| **Suíte 03** (LY-11) | idem |
+
+Nada acusava porque a regra de layout, criada em R53, só perguntava se o móvel
+**cabia no cômodo** — e cama no meio do quarto cabe.
+
+> A verificação que faltava não é de área: é de **relação**. Cabeceira quer
+> parede; passagem quer 700 mm; TV quer distância.
+
+### O caso da master era de geometria, não de mobília
+
+Com porta-balcão **e** janela na face sul, e banho e closet ocupando a face
+norte inteira, **não sobrava uma parede cega** para encostar cabeceira nem para
+pendurar TV. Os 21,60 m² do quarto não tinham lugar para a cama.
+
+A janela sul saiu. A fração de iluminação natural cai de **56,7 % para 46,7 %**
+da área útil — contra **16,7 %** exigidos, folga de quase três vezes — e abrem-se
+**3.000 mm cegos** entre a porta-balcão e o canto:
+
+- **cabeceira** ali, ao lado da porta-balcão: sai-se da cama direto para a
+  varanda, e de costas para a parede **externa**, não para a parede do banho;
+- **TV de 55″** na face norte — que é a parede do banho, e o painel ripado
+  acrescenta massa acústica exatamente onde há água do outro lado.
+
+Medidas resultantes: cama king 1,93 × 2,03 encostada; **870 mm** de circulação no
+pé; 3,24 m de um lado e 2,64 m do outro; travesseiro a **2,36 m** da TV.
+
+### A TV deixou de ser "uma na casa"
+
+A regra de R53 exigia **exatamente uma** TV e teria reprovado a master no
+instante em que ela ganhou a dela. Agora cada TV declara a **própria diagonal**,
+porque o tamanho sai da distância que o cômodo permite:
+
+| | Distância | Diagonal | Faixa 1,6–2,5× |
+|---|---|---|---|
+| Estar | 3,19 m | 75″ | 3,05–4,76 m ✓ |
+| Master | 2,36 m | 55″ | 2,24–3,49 m ✓ |
+
+### E o desenho aprendeu de que lado fica o travesseiro
+
+`cama()` desenhava sempre com a cabeceira em +Y. Estava certo enquanto todas as
+camas apontavam para o mesmo lado; quando três encostaram em paredes diferentes,
+o desenho passaria a mostrar travesseiro no meio do quarto. `cabeceira` virou
+dado do item.
+
+**Estado em R56:** 110 funções, 585 condições, **0 erros**; 208 verificações do
+visualizador, **0 falhas**; 40 pranchas.
