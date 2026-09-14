@@ -602,6 +602,16 @@ PROGRAMA = [
      "bonito em planta e impossivel em corte. A verificacao achou de quebra "
      "que o desenho da escada era o ESPELHO do dado desde sempre, e que o "
      "armario declarado ali dizia ter 1.500 mm de altura livre onde ha 2.712."),
+    (127, "Acesso das subdivisoes: a suite virou sequencia",
+     ["checar_acesso_das_subdivisoes"], "AUTOMATIZADA",
+     "Secao 152. A conectividade de R46 pergunta se todo comodo se alcanca a "
+     "pe e trabalha com AMBIENTES; subdivisao era recorte e nao entrava no "
+     "grafo. Passou a importar quando a master virou uma SEQUENCIA — quarto, "
+     "closet, banho — em vez de dois destinos paralelos. Numa sequencia, "
+     "tirar uma porta nao deixa um comodo pior: deixa um comodo INALCANCAVEL, "
+     "e a diferenca entre as duas coisas nao se ve em planta. O grafo confirma "
+     "S-MAS/BANHO -> S-MAS/CLOSET -> S-MAS, e `unico_acesso` e conferido: a "
+     "subdivisao que declara acesso unico nao pode ter outra vizinha."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

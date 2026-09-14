@@ -4491,3 +4491,77 @@ distante das duas aberturas (porta do quarto e passagem para o closet).
 **Estado em R54:** 109 funções, 579 condições, **0 erros**; 208 verificações do
 visualizador, **0 falhas**; 40 pranchas; 13 pares acústicos entre zonas, todos
 aprovados; R$ 552.317 nos sistemas modelados.
+
+---
+
+## R55 — a suíte master vira sequência
+
+> *"Para chegar ao banheiro primeiro passa pelo closet; não chegar ao closet
+> passando pelo banheiro."*
+
+Até R54 o banho e o closet abriam **cada um** para o quarto, com uma passagem
+entre eles: **dois destinos paralelos**. Agora o closet é **antessala** e o banho
+é fim de linha. Quem vai tomar banho se despe onde a roupa mora; quem sai do
+banho se veste sem atravessar o quarto.
+
+| | R54 | R55 |
+|---|---|---|
+| Banho | 3,00 × 3,00 = **9,00 m²**, porta para o quarto + passagem | 3,60 × 3,00 = **10,80 m²**, **uma só** abertura: o closet |
+| Closet | 3,60 × 3,00 = 10,80 m², porta para o quarto | 3,00 × 3,00 = **9,00 m²**, porta para o quarto |
+| Parede banho–quarto | porta oca | **cega** |
+| Quarto útil | 21,60 m² | 21,60 m² (inalterado) |
+
+### Por que o closet encolher não é perda
+
+O que limita closet não é área: é **metro linear de cabide**. Um quadrado de
+3,00 × 3,00 com penduráveis em duas paredes rende mais cabide do que o L de
+10,80 m² rendia, porque no L uma das pernas era circulação. E ele agora tem
+duas portas — do quarto e para o banho — cujo trajeto corre pelo canto sudoeste,
+sem cortar as paredes de pendurar.
+
+### Por que o banho cresceu para oeste e não para leste
+
+Ele está **sobre a lavanderia**, e foi R09 que o pôs ali de propósito: molhado
+sobre molhado, prumada de 3 m em vez de desvio horizontal no forro. Empurrá-lo
+para leste o poria sobre o **varal coberto** — área aberta, sem parede para
+embutir a prumada. Era exatamente o defeito que R09 tirou da master; repeti-lo
+por 600 mm de conveniência seria desfazer a decisão sem revogá-la.
+
+Consequência no layout: a faixa de 600 mm a oeste de x = 9.600 está sobre o
+**gourmet**, não sobre a lavanderia. Por isso ela só recebe a **bancada** (esgoto
+DN40, corre no contrapiso); vaso e box ficam sobre a lavanderia, onde a prumada
+DN100 desce.
+
+### O eixo que a mudança abriu
+
+A conectividade de R46 pergunta se todo cômodo se alcança a pé — e trabalha com
+**ambientes**. Subdivisão era recorte e não entrava no grafo. Isso passou a
+importar no instante em que a suíte virou sequência:
+
+> Numa sequência, tirar uma porta não deixa um cômodo **pior**: deixa um cômodo
+> **inalcançável** — e a diferença entre as duas coisas não se vê em planta.
+
+`acesso_das_subdivisoes()` monta o grafo {pai + subdivisões}, liga cada abertura
+ao que estiver do outro lado da face, e exige duas coisas: **toda subdivisão
+alcançável a partir do próprio ambiente**, e **`unico_acesso` declarado confere
+com a geometria** — quem declara acesso único não pode ter outra vizinha.
+
+Resultado (bateria 127):
+
+```
+S-MAS/BANHO     vizinhos ['S-MAS/CLOSET']            acesso único: CLOSET  ✓
+S-MAS/CLOSET    vizinhos ['S-MAS', 'S-MAS/BANHO']                          ✓
+```
+
+As dez subdivisões da casa são alcançáveis; nenhuma sequência declarada está
+quebrada.
+
+### A contrapartida, dita antes de a obra dizer
+
+Com o banho só pelo closet, **ir ao sanitário de madrugada obriga a atravessar o
+closet**. Não é defeito da solução — é o preço dela, e existe em toda suíte
+sequencial. Mitigação já no projeto elétrico: circuito próprio de balizamento no
+closet, acionado por presença, em vez da luz geral.
+
+**Estado em R55:** 110 funções, 582 condições, **0 erros**; 208 verificações do
+visualizador, **0 falhas**; 40 pranchas; R$ 552.414.

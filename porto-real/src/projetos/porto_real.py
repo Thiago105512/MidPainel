@@ -319,15 +319,31 @@ SUBDIVISOES = [
     # questao de exaustao e nao de parede: EX-05 permanece, dimensionado para
     # o ambiente inteiro, e o vaso fica no canto noroeste — o mais distante da
     # porta do quarto e da passagem para o closet, que sao as duas aberturas.
-    # `liga` e a SEGUNDA porta da subdivisao: a passagem para o closet, de
-    # correr embutida (P05), na parede leste do banho. Quem sai do banho segue
-    # para se arrumar sem voltar ao quarto — e o closet continua com a porta
-    # propria para o quarto.
-    dict(pai="S-MAS", nome="BANHO",  x=9_000,  y=19_200, w=3_000, h=3_000,
-         face="O", pos=10_350, vao=800, molhado=True,
-         liga=dict(face="N", pos=21_600, vao=800, tipo="P05", para="CLOSET")),
-    dict(pai="S-MAS", nome="CLOSET", x=12_000, y=19_200, w=3_600, h=3_000,
-         face="O", pos=12_900, vao=800),
+    # R55 — A SEQUENCIA VIROU QUARTO -> CLOSET -> BANHO, por decisao do
+    # proprietario, e isso muda o que cada peca e.
+    #
+    # Ate R54 o banho e o closet abriam CADA UM para o quarto, com uma
+    # passagem entre eles: dois destinos paralelos. Agora o closet e ANTESSALA
+    # do banho, e o banho e o fim da linha. Quem vai tomar banho se despe onde
+    # a roupa mora; quem sai do banho se veste sem atravessar o quarto. E o
+    # banho deixa de ter porta para o dormitorio — a parede fica cega, o que
+    # de quebra resolve o par acustico entre os dois.
+    #
+    # O banho tambem CRESCEU: 3.600 x 3.000 = 10,80 m2, contra 9,00. Os 600 mm
+    # vieram do closet, que cai para 3.000 x 3.000 = 9,00 m2 — e um closet
+    # quadrado de 9 m2 com penduraveis em duas paredes rende mais roupa
+    # pendurada do que os 10,80 m2 anteriores em L, porque o que limita closet
+    # e METRO LINEAR de cabide, nao area.
+    #
+    # O banho NAO PODIA crescer para o outro lado: ele esta sobre a
+    # lavanderia, e foi R09 que o colocou ali de proposito, molhado sobre
+    # molhado. Empurra-lo para leste o poria sobre o varal COBERTO — area
+    # aberta, sem parede para embutir a prumada. Era o defeito que R09 tirou.
+    dict(pai="S-MAS", nome="BANHO",  x=9_000,  y=19_200, w=3_600, h=3_000,
+         face="N", pos=21_600, vao=800, tipo="P05", molhado=True,
+         unico_acesso="CLOSET"),
+    dict(pai="S-MAS", nome="CLOSET", x=12_600, y=19_200, w=3_000, h=3_000,
+         face="O", pos=13_200, vao=800),
     dict(pai="S-MAS", nome="OFFICE", x=13_800, y=22_200, w=1_800, h=3_000,
          face="S", pos=23_700, vao=800),
 ]
@@ -1572,9 +1588,14 @@ LOUCAS = [
     dict(cod="LC-09", amb="S-S03", tipo="box",       x=2_550, y=19_300, w=900, h=1_000),
     # suite master — banho (11.400, 19.200, 2.400 x 3.000)
     # R09 — seguem o banho, que passou a cair sobre a lavanderia
-    dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=9_200,  y=19_400, w=400, h=650),
-    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=9_900,  y=19_300, w=1_800, h=500),
-    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=10_300, y=20_500, w=1_400, h=1_400),
+    # R55 — com 3.600 mm de frente, as tres pecas deixam de disputar parede.
+    # O vaso vai para o canto mais distante da porta (noroeste) e fica SOBRE A
+    # LAVANDERIA, que e onde a prumada desce; a faixa de 600 mm a oeste de
+    # x = 9.600 esta sobre o gourmet e por isso so recebe a bancada, cujo
+    # esgoto e DN40 e corre no contrapiso.
+    dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=9_900,  y=19_300, w=400, h=650),
+    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=9_400,  y=21_600, w=1_800, h=500),
+    dict(cod="LC-12", amb="S-MAS", tipo="box",       x=11_100, y=19_300, w=1_400, h=1_400),
     # lavanderia
     dict(cod="LC-13", amb="T-LAV", tipo="tanque",    x=9_750, y=19_350, w=600, h=550),
 ]
@@ -3072,6 +3093,25 @@ REVISOES = [
             "dele reversivel de verdade: a mesa cabe na alcova e a cama no "
             "retangulo. E J02, familia orfa desde R47, voltou a ter vao: e a "
             "unica que cabe sob o lance naquele ponto"),
+    ("R55", "A SUITE MASTER VIRA SEQUENCIA: quarto -> closet -> banho. Ate "
+            "R54 banho e closet abriam CADA UM para o quarto, com uma "
+            "passagem entre eles — dois destinos paralelos. Agora o closet e "
+            "ANTESSALA: quem vai tomar banho se despe onde a roupa mora e "
+            "quem sai se veste sem atravessar o quarto. O banho perde a porta "
+            "para o dormitorio e a parede fica cega. O banho tambem cresceu — "
+            "3.600 x 3.000 = 10,80 m2 contra 9,00 — e os 600 mm vieram do "
+            "closet, que cai para 9,00 m2: closet quadrado com penduravel em "
+            "duas paredes rende mais METRO LINEAR de cabide, que e o que "
+            "limita closet, do que o L de 10,80. O banho nao podia crescer "
+            "para o outro lado porque esta SOBRE A LAVANDERIA por decisao de "
+            "R09, e empurra-lo para leste o poria sobre o varal coberto — "
+            "area aberta, sem parede para a prumada. A mudanca abriu um eixo "
+            "de verificacao que faltava: a conectividade de R46 so enxergava "
+            "AMBIENTES, e subdivisao era recorte fora do grafo. Numa "
+            "sequencia, tirar uma porta nao deixa um comodo pior: deixa um "
+            "comodo INALCANCAVEL, e isso nao se ve em planta. O grafo das "
+            "subdivisoes confirma banho -> closet -> quarto, e `unico_acesso` "
+            "declarado e conferido contra a geometria"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3223,13 +3263,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R54",
+    revisao="R55",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R54", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R55", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

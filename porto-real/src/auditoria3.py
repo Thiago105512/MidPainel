@@ -4157,3 +4157,26 @@ def checar_lavabo_sob_escada() -> list[Achado]:
                           "e foi por isso que o armario sob o lance dizia ter "
                           "1.500 mm de altura livre onde ha 2.712"))
     return out
+
+
+def checar_acesso_das_subdivisoes() -> list[Achado]:
+    """Toda subdivisao se alcanca, e a sequencia declarada e a real (R55)."""
+    import projeto as pj
+    import nucleo.ambiente as am
+    r = am.acesso_das_subdivisoes(pj)
+    out = [Achado("NOTA" if not r["ilhadas"] else "ERRO", "subdivisao ilhada",
+                  f"{len(r['subdivisoes'])} subdivisoes, todas alcancaveis a "
+                  f"partir do proprio ambiente" if not r["ilhadas"]
+                  else f"sem acesso: {r['ilhadas']}"),
+           Achado("NOTA" if not r["sequencias_quebradas"] else "ERRO",
+                  "sequencia declarada",
+                  "toda subdivisao com acesso unico declarado tem exatamente "
+                  "essa vizinha" if not r["sequencias_quebradas"]
+                  else f"quebradas: {r['sequencias_quebradas']}")]
+    for o in r["subdivisoes"]:
+        out.append(Achado("NOTA", f"acesso: {o['cod']}",
+                          f"{o['aberturas']} abertura(s), vizinhos "
+                          f"{o['vizinhos']}"
+                          + (f" — acesso unico declarado por {o['unico_acesso']}"
+                             if o["unico_acesso"] else "")))
+    return out

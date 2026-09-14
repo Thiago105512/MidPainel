@@ -397,3 +397,74 @@ def conectividade(pj, entrada: str = "T-VAR") -> dict:
         criterio="caminhada a pe a partir da varanda de entrada, por vao ou "
                  "fronteira aberta declarada; a escada e a unica ligacao entre "
                  "pavimentos e entra explicitamente porque nao e um vao")
+
+
+# ---------------------------------------------------------------------------
+# R55 — ACESSO DAS SUBDIVISOES. A conectividade de R46 pergunta se todo comodo
+# se alcanca a pe a partir da porta de entrada, e trabalha com AMBIENTES. As
+# subdivisoes ficavam de fora: banho, closet, cabine e lavabo eram recortes, e
+# recorte nao entrava no grafo.
+#
+# Passou a importar quando a suite master virou uma SEQUENCIA — quarto, closet,
+# banho — em vez de dois destinos paralelos. Numa sequencia, tirar uma porta
+# nao deixa um comodo pior: deixa um comodo INALCANCAVEL, e a diferenca entre
+# as duas coisas nao se ve em planta.
+# ---------------------------------------------------------------------------
+def _face_ponto(d: dict, face: str, pos: float, fora: bool = True) -> tuple:
+    """Um ponto logo do lado de fora (ou de dentro) da face, no eixo do vao."""
+    e = 60.0 if fora else -60.0
+    if face == "S":
+        return (d["x"] - e, pos)
+    if face == "N":
+        return (d["x"] + d["w"] + e, pos)
+    if face == "L":
+        return (pos, d["y"] - e)
+    return (pos, d["y"] + d["h"] + e)
+
+
+def acesso_das_subdivisoes(pj) -> dict:
+    """Toda subdivisao se alcanca a partir do proprio ambiente que a contem?"""
+    por_pai: dict = {}
+    for d in pj.SUBDIVISOES:
+        por_pai.setdefault(d["pai"], []).append(d)
+
+    out = []
+    for pai, subs in sorted(por_pai.items()):
+        nos = {f"{pai}/{d['nome']}": d for d in subs}
+        g: dict = {pai: set()}
+        for cod in nos:
+            g[cod] = set()
+        for cod, d in nos.items():
+            aberturas = [(d["face"], d["pos"])]
+            if d.get("liga"):
+                aberturas.append((d["liga"]["face"], d["liga"]["pos"]))
+            for face, pos in aberturas:
+                px, py = _face_ponto(d, face, pos)
+                viz = next((c for c, o in nos.items()
+                            if o is not d
+                            and o["x"] <= px <= o["x"] + o["w"]
+                            and o["y"] <= py <= o["y"] + o["h"]), pai)
+                g[cod].add(viz)
+                g[viz].add(cod)
+        vistos, fila = {pai}, [pai]
+        while fila:
+            c = fila.pop()
+            for n in g.get(c, ()):
+                if n not in vistos:
+                    vistos.add(n)
+                    fila.append(n)
+        for cod, d in sorted(nos.items()):
+            caminho = sorted(x for x in g[cod] if x != cod)
+            out.append(dict(
+                cod=cod, pai=pai, alcancavel=cod in vistos,
+                vizinhos=caminho, aberturas=1 + (1 if d.get("liga") else 0),
+                unico_acesso=d.get("unico_acesso"),
+                respeita=(d.get("unico_acesso") is None
+                          or caminho == [f"{pai}/{d['unico_acesso']}"])))
+    ilhadas = [o["cod"] for o in out if not o["alcancavel"]]
+    quebradas = [o["cod"] for o in out if not o["respeita"]]
+    return dict(subdivisoes=out, ilhadas=ilhadas, sequencias_quebradas=quebradas,
+                ok=not ilhadas and not quebradas,
+                criterio="cada subdivisao abre para o pai ou para uma irma que "
+                         "alcance o pai; quando `unico_acesso` e declarado, a "
+                         "subdivisao NAO pode ter outra vizinha")

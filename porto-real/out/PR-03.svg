@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="03" data-rev="R54">
+<g data-tipo="carimbo" data-cod="03" data-rev="R55">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R54</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R55</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">03</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R54</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R55</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -230,15 +230,14 @@
 <polygon points="78.000,259.000 90.000,259.000 90.000,257.000 78.000,257.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <text x="84.000" y="234.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 84.000 234.000)">CLOSET</text>
 <polygon points="209.000,282.000 211.000,282.000 211.000,222.000 209.000,222.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="269.000,282.000 271.000,282.000 271.000,242.000 269.000,242.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="269.000,226.000 271.000,226.000 271.000,222.000 269.000,222.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="210.000,223.000 229.000,223.000 229.000,221.000 210.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="245.000,223.000 270.000,223.000 270.000,221.000 245.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<text x="240.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
-<polygon points="269.000,282.000 271.000,282.000 271.000,222.000 269.000,222.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="270.000,223.000 280.000,223.000 280.000,221.000 270.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="296.000,223.000 342.000,223.000 342.000,221.000 296.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<text x="306.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">CLOSET</text>
+<polygon points="281.000,282.000 283.000,282.000 283.000,242.000 281.000,242.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="281.000,226.000 283.000,226.000 283.000,222.000 281.000,222.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="210.000,223.000 282.000,223.000 282.000,221.000 210.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="246.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="281.000,282.000 283.000,282.000 283.000,222.000 281.000,222.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="282.000,223.000 286.000,223.000 286.000,221.000 282.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="302.000,223.000 342.000,223.000 342.000,221.000 302.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="312.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">CLOSET</text>
 <polygon points="305.000,222.000 307.000,222.000 307.000,200.000 305.000,200.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="305.000,184.000 307.000,184.000 307.000,162.000 305.000,162.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="306.000,223.000 342.000,223.000 342.000,221.000 306.000,221.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
@@ -270,17 +269,17 @@
 <line x1="81.000" y1="280.000" x2="99.000" y2="260.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="louca" data-cod="LC-10" data-familia="vaso" data-amb="S-MAS" data-larg="400" data-prof="650">
-<polygon points="214.000,278.000 222.000,278.000 222.000,275.000 214.000,275.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="218.000" cy="270.400" r="4.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="228.000,280.000 236.000,280.000 236.000,277.000 228.000,277.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="232.000" cy="272.400" r="4.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="louca" data-cod="LC-11" data-familia="lavatorio" data-amb="S-MAS" data-larg="1800" data-prof="500">
-<polygon points="228.000,280.000 264.000,280.000 264.000,270.000 228.000,270.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="246.000" cy="275.000" r="3.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="218.000,234.000 254.000,234.000 254.000,224.000 218.000,224.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="236.000" cy="229.000" r="3.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="louca" data-cod="LC-12" data-familia="box" data-amb="S-MAS" data-larg="1400" data-prof="1400">
-<polygon points="236.000,256.000 264.000,256.000 264.000,228.000 236.000,228.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="250.000" cy="242.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="236.000" y1="256.000" x2="264.000" y2="228.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polygon points="252.000,280.000 280.000,280.000 280.000,252.000 252.000,252.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="266.000" cy="266.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="252.000" y1="280.000" x2="280.000" y2="252.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="ambiente" data-cod="S-S02" data-rot="SUITE 02" data-area="25.92" data-pav="S" data-molhado="nao" data-larg="5400" data-prof="4800" data-box="78.00 306.00 108.00 96.00">
 <text x="132.000" y="351.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>
