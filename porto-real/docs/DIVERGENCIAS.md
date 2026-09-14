@@ -3697,3 +3697,76 @@ A categoria não decide só o piso. Decide três coisas:
 A terceira é a que mais importa: um lounge de TV **é** fonte de ruído a dois
 metros da cabeceira de duas suítes, e classificá-lo como área de apoio o
 excluía dessa conta.
+
+## R47 — o catálogo técnico, e por que ele é desenhado e não buscado
+
+O pedido foi "busque na internet o desenho de cada perfil, de cada peça, de cada
+parafuso". Busquei — e a busca respondeu o que já se devia supor: as **tabelas
+dimensionais da NBR 15253 e da NBR 6355 são da ABNT e não são públicas**. O que
+circula são catálogos de fabricante, de perfis genéricos, com marca de terceiro.
+
+E há uma razão melhor para não usá-los, que vale mais que o obstáculo:
+
+> A imagem de catálogo continuaria **a mesma** depois de a auditoria mudar uma
+> espessura. Ela passaria a mentir em silêncio — que é a única coisa que este
+> projeto não tolera.
+
+**A designação já é a dimensão.** `Ue 90x40x12x0,95` diz alma 90, aba 40, lábio
+12, espessura 0,95 mm. Não há nada a buscar: o desenho sai da **mesma poligonal
+de linha média** que o solver da NBR 14762 integra para achar A, Ix e Wx. Não
+existe estado em que o desenho e o cálculo discordem, porque são a mesma fonte —
+e o teste verifica exatamente isso: a cota que aparece no SVG é a dimensão que
+alimenta o solver.
+
+| | no catálogo | desenhado |
+|---|---|---|
+| perfis | 81 | **9 em uso**, com A, Ix, Wx e kg/m |
+| parafusos | 5 | **2 em uso**, 5.256 unidades |
+| chapas | — | **9**, com formato comercial e norma |
+| tubos | — | **7 DN**, com diâmetro externo |
+| imagens buscadas fora | — | **0** |
+
+O parafuso é desenhado em elevação com cabeça, haste, rosca e **tipo de ponta** —
+broca ou agulha —, que é o que decide se ele atravessa aço ou só gesso. A rosca
+é serrilha e não hélice: numa elevação técnica a hélice é ruído.
+
+### O limite, declarado
+
+É desenho de **projeto**, não de fabricação: sem tolerância de dobra, sem raio de
+ferramenta real, sem a geometria da cabeça de um fabricante específico. O que não
+se deduz da designação — a curva de resistência ensaiada, o detalhe do fabricante
+— continua **(H)** e continua pendência, como todo dado externo aqui.
+
+## R47 — as duas decisões do pavimento superior
+
+### As suítes espelhadas que não eram
+
+O banho da suíte 02 tinha **J02 (600 × 600 = 0,36 m²)** e o da 03, **J04
+(800 × 900 = 0,72 m²)** — o dobro. As duas são declaradas *"espelhadas e
+intocadas"* desde R06, e a assimetria não tinha justificativa escrita. Pior: era
+justamente o lado menor que ficava **abaixo do mínimo** — 0,36 m² para 4,32 m² de
+piso é 1/12, contra 1/8 para área molhada.
+
+Uniformizado em J04: resolve norma e simetria de uma vez, por ~R$ 300, e a
+família J02 fica sem uso.
+
+**E isso expôs outra coisa:** a `J03` — *"janela de office/master"* — **nunca teve
+vão**. O office recebeu uma J01 de 1.200 × 1.200 = 1,44 m², que é exatamente o
+`vidro_m2` que a carga térmica do office declara. A família ficou no catálogo sem
+nunca chegar ao desenho.
+
+> Família órfã não chega ao BOM, que lê `VAOS`. Chega ao **quadro**, que é o que
+> o fornecedor cota.
+
+### O nicho que contava errado em prosa
+
+`TC-09` trazia escrito **"2 condensadoras ativas + 1 posição reservada"**, e a
+lista de climatização lhe mandava **cinco**: S-MAS 18k, S-MAS 9k, T-REV 18k,
+T-SOC 30k, S-LOU 9k.
+
+> Prosa não roda e não reprova. Ela envelhece em silêncio enquanto a lista muda.
+
+A ocupação passa a ser **derivada** e conferida contra a geometria: 5 condensadoras
+somando 84.000 BTU/h ocupam 5.550 mm dos 6.600 mm — cabem, com 1.050 mm de sobra.
+O texto do nicho descreve; quem conta é a lista. E uma verificação nova recusa
+qualquer texto de área técnica que volte a contar unidades.

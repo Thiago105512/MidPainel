@@ -307,8 +307,16 @@ ESQUADRIAS = {
     "P04":  (  900, 2_100,     0, "porta de servico, resistente a umidade"),
     "P05":  (  900, 2_100,     0, "porta DE CORRER — sem area de varredura"),
     "J01":  (1_200, 1_200, 1_100, "janela de dormitorio, aluminio"),
-    "J02":  (  600,   600, 1_500, "janela de banheiro, alta translucida"),
-    "J03":  (  900, 1_500,   900, "janela de office/master, aluminio"),
+    # J02 ficou SEM USO em R47, quando o banho da suite 02 passou a J04 para
+    # espelhar a 03. Mantida no catalogo e marcada: familia sem vao e a que
+    # aparece no orcamento do fornecedor e nao aparece na obra.
+    "J02":  (  600,   600, 1_500, "janela de banheiro, alta translucida "
+                                  "(SEM USO desde R47)"),
+    # J03 nunca teve vao: o office da master recebeu J01 (1.200 x 1.200 =
+    # 1,44 m2), que e exatamente o vidro_m2 que a carga termica do office
+    # declara. A familia ficou no catalogo sem nunca chegar ao desenho.
+    "J03":  (  900, 1_500,   900, "janela de office/master, aluminio "
+                                  "(SEM USO: o office leva J01)"),
     "J04":  (  800,   900, 1_500, "janela alta de banheiro, basculante"),
     "J05":  (1_800, 1_200, 1_100, "janela ampla de dormitorio, aluminio"),
     "PV01": (3_600, 2_400,     0, "vao social posterior"),
@@ -377,7 +385,14 @@ VAOS = [
     ("J01",  15_600, 18_000, "V", "S"),   # janela do lounge (norte), atras do sofa
     ("J05",   2_400, 16_800, "V", "S"),   # janela ampla suite 02 (sul)
     ("J01",   6_000, 13_200, "H", "S"),   # janela suite 02 (leste)
-    ("J02",   3_600, 13_200, "H", "S"),   # janela banho suite 02
+    # R47 — era J02 (600 x 600 = 0,36 m2) e passa a J04 (800 x 900 = 0,72 m2).
+    # As suites 02 e 03 sao declaradas ESPELHADAS e intocadas desde R06, e os
+    # banhos delas tinham esquadrias diferentes: 0,36 m2 num, 0,72 no outro. A
+    # assimetria nao tinha justificativa escrita, e era justamente o banho da
+    # 02 que ficava abaixo — 0,36 para 4,32 m2 de piso e 1/12, contra o minimo
+    # (H) de 1/8 para area molhada. Uniformizar em J04 resolve norma e simetria
+    # de uma vez, por ~R$ 300, e reduz o quadro de esquadrias em uma familia.
+    ("J04",   3_600, 13_200, "H", "S"),   # janela banho suite 02 (espelha a 03)
     ("J05",   2_400, 21_600, "V", "S"),   # janela ampla suite 03 (sul)
     ("J01",   6_000, 22_800, "H", "S"),   # janela suite 03 (oeste)
     ("J04",   2_400, 18_600, "V", "S"),   # janela alta banho suite 03
@@ -1486,12 +1501,18 @@ TECNICOS = [
          x=17_000, y=600, w=800, h=600,
          obs="na testada, leitura pela via sem entrar no lote"),
     # ---- climatizacao: DOIS nichos, por comprimento de linha
-    dict(cod="TC-09", nome="Nicho de condensadoras NORTE (3 posicoes)", zona="FT-N",
+    # R47 — o nome e a obs NAO contam mais unidades. Diziam "3 posicoes" e
+    # "2 ativas + 1 reservada" enquanto a lista de CLIMATIZACAO mandava CINCO
+    # equipamentos para ca. Prosa nao roda e nao reprova: envelhece em silencio
+    # enquanto a lista muda. A ocupacao agora e derivada por
+    # instalacoes.ocupacao_de_nicho() e conferida contra estes 6.600 mm — cabem
+    # as cinco com 1.050 mm de sobra.
+    dict(cod="TC-09", nome="Nicho de condensadoras NORTE", zona="FT-N",
          x=17_200, y=13_200, w=800, h=6_600,
-         obs="2 condensadoras ativas + 1 posicao reservada (ver CLIMATIZACAO); "
-             "base de 200 mm, painel ripado ventilado h=1.800, descarga para a "
-             "divisa norte com 2.200 mm livres"),
-    dict(cod="TC-10", nome="Nicho de condensadoras SUL (3 posicoes)", zona="REC-S",
+         obs="comprimento util de 6.600 mm; base de 200 mm, painel ripado "
+             "ventilado h=1.800, descarga para a divisa norte com 2.200 mm "
+             "livres. A ocupacao vem da lista de CLIMATIZACAO, nao deste texto"),
+    dict(cod="TC-10", nome="Nicho de condensadoras SUL", zona="REC-S",
          x=2_000, y=8_400, w=400, h=3_600,
          obs="encostado na parede da garagem, NAO no meio do recuo: libera uma "
              "faixa continua de 2.000 mm de passagem e descarrega com 2,0 m de "
@@ -2667,6 +2688,19 @@ REVISOES = [
             "o lounge deixa de ser categoria APOIO, que lhe dava piso de "
             "garagem e o excluia da conta de ruido a dois metros da cabeceira "
             "de duas suites"),
+    ("R47", "Catalogo tecnico com o desenho de cada peca — perfil, parafuso, "
+            "chapa e tubo — gerado da PROPRIA peca: a mesma poligonal de linha "
+            "media que o solver da NBR 14762 integra para achar A, Ix e Wx. "
+            "Imagem de catalogo seria de um perfil generico, com marca de "
+            "terceiro, e continuaria igual depois de a auditoria mudar uma "
+            "espessura: passaria a mentir em silencio. A designacao ja E a "
+            "dimensao. Zero imagens buscadas fora, e o teste confere que a "
+            "cota desenhada e a dimensao que alimenta o calculo. Mais as duas "
+            "decisoes do superior: o banho da suite 02 passa de J02 para J04 e "
+            "espelha a 03 — a assimetria deixava o lado menor abaixo do minimo "
+            "de area molhada — e a ocupacao do nicho de condensadora passa a "
+            "ser derivada da lista, porque o texto dizia 2 ativas enquanto a "
+            "lista mandava 5"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2776,13 +2810,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R46",
+    revisao="R47",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R46", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R47", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

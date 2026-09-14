@@ -1167,6 +1167,41 @@ def rodar(fotos: bool = False) -> int:
              .every(v => Object.keys(v).length > 0)"""),
            "e nenhum comodo tem porta que nao da para lugar nenhum")
 
+        # ---- CATALOGO: o desenho de cada peca, gerado da propria peca
+        pag.click("#vistasEng button[data-vista='catalogo']")
+        pag.wait_for_timeout(600)
+        ok(pag.evaluate("() => ENG.catalogo.n") > 20,
+           "o catalogo tecnico desenha perfil, parafuso, chapa e tubo",
+           str(pag.evaluate("() => ENG.catalogo.n")) + " pecas")
+        ok(pag.evaluate("""() => ['perfis','parafusos','chapas','tubos']
+             .every(k => ENG.catalogo[k].length > 0
+                      && ENG.catalogo[k].every(x => x.svg
+                         && x.svg.indexOf('<svg') === 0))"""),
+           "cada peca traz o seu proprio SVG, e nao um link para fora")
+        # IDENTIDADE: a cota do desenho e a dimensao que o calculo usa
+        ok(pag.evaluate("""() => ENG.catalogo.perfis.every(p =>
+             p.svg.includes(String(p.bw)) && p.svg.includes(String(p.bf)))"""),
+           "a cota desenhada e a MESMA dimensao que alimenta o solver")
+        ok(pag.evaluate("""() => ENG.catalogo.perfis.every(p =>
+             p.area > 0 && p.massa_m > 0 && p.n > 0 && p.familias.length > 0)"""),
+           "e cada peca diz quanto pesa por metro e onde entra na obra")
+        # nada vem de fora: nem imagem, nem host
+        ok(pag.evaluate("""() => ['perfis','parafusos','chapas','tubos']
+             .every(k => ENG.catalogo[k].every(x =>
+               !/https?:|<image|xlink/i.test(x.svg)))"""),
+           "nenhum desenho referencia imagem ou host externo")
+        ok(pag.evaluate("""() => document.querySelectorAll(
+             '#engConteudo svg.pecadesenho').length"""),
+           "os desenhos chegam ao DOM",
+           str(pag.evaluate("""() => document.querySelectorAll(
+             '#engConteudo svg.pecadesenho').length""")) + " na aba aberta")
+        pag.click("#engConteudo [data-cat='parafusos']")
+        pag.wait_for_timeout(400)
+        ok(pag.evaluate("""() => {
+             const t = document.getElementById('engConteudo').textContent;
+             return t.includes('ponta broca') && t.includes('(H)'); }"""),
+           "o parafuso diz o tipo de ponta, e a resistencia continua (H)")
+
         # ---- IMPRESSAO: o que sai no papel e o documento, nao a interface
         ok(pag.evaluate("""() => {
              const css = [...document.styleSheets].flatMap(s => {

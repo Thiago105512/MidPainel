@@ -306,6 +306,12 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     import nucleo.ambiente as amb
     ambientes = amb.conferir(pj, dict(paineis=todos, camadas=camadas))
 
+    # ---- catalogo tecnico: o desenho de cada peca, gerado da propria peca.
+    # Vem depois de tudo porque le peca, junta, camada e instalacao — e porque
+    # o desenho e VISTA do modelo, nunca uma fonte paralela.
+    import nucleo.catalogo as cg
+    catalogo = cg.montar(pj, dict(pecas=pecas, juntas=juntas, camadas=camadas))
+
     import nucleo.cotacao as co
     _parcial = dict(bom=itens, plano=plano, juntas=juntas, camadas=camadas)
     cot = dict(mapa=co.mapa(_parcial),
@@ -313,7 +319,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                sensibilidade=[co.sensibilidade(itens, f, 0.20)
                               for f in sorted({i.familia for i in itens})])
 
-    return dict(cotacao=cot, ambientes=ambientes,
+    return dict(cotacao=cot, ambientes=ambientes, catalogo=catalogo,
                 paineis=todos, pecas=pecas, plano=plano, bom=itens,
                 custo=custo, etapas=etapas, ordem=ordem, passos=passos,
                 horas=horas, carga=carga, emissao=emissao,

@@ -551,12 +551,34 @@
   .viz-legenda{font-family:var(--mono); font-size:10px; color:var(--ink-faint);
                margin:6px 0 0; line-height:1.5}
 
+  /* ------------------------------------------------ catalogo tecnico */
+  .pecadesenho{display:block; width:100%; max-width:320px; height:auto;
+               margin:0 auto; overflow:visible}
+  .pecadesenho .secao{fill:none; stroke:var(--ink); stroke-width:1.4;
+                      stroke-linejoin:round; stroke-linecap:round}
+  .pecadesenho .secao-cheia{fill:var(--ink); stroke:none}
+  .pecadesenho .rosca{fill:none; stroke:var(--ink); stroke-width:.7}
+  .pecadesenho .cota-l{fill:none; stroke:var(--alert); stroke-width:.6}
+  .pecadesenho text{font-family:var(--mono); font-size:9px; fill:var(--ink-soft)}
+  .pecadesenho .titulo{font-size:11px; font-weight:600; fill:var(--ink)}
+  .pecadesenho .cota{fill:var(--alert); font-size:8.5px}
+  .pecas-grade{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+               gap:14px}
+  .peca-cartao{border:1px solid var(--rule-soft); background:var(--surface);
+               padding:12px; display:flex; flex-direction:column; gap:8px}
+  .peca-cartao .ficha{font-family:var(--mono); font-size:10.5px;
+                      color:var(--ink-soft); line-height:1.55}
+  .peca-cartao .ficha b{color:var(--ink)}
+  .peca-cartao .uso{font-family:var(--mono); font-size:10px;
+                    color:var(--accent); letter-spacing:.04em;
+                    border-top:1px solid var(--rule-soft); padding-top:7px}
+
 </style>
 
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R46 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R47 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -573,7 +595,7 @@
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>36,4 <span>kVA · 100 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>519 <span>condições · 0 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>524 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>35 <span>· A1</span></dd></div>
   </dl>
@@ -773,6 +795,7 @@
       <li><span class="r">R44</span><span>Verificacao por COMODO, o eixo que nao existia: as 510 condicoes anteriores olham por sistema, e defeito se concentra onde dois sistemas se encontram — dentro de um comodo. O dossie reune acabamento, vao, tomada, peca hidraulica, ralo, clima e as paredes que cercam cada um dos 17 comodos. Achou 24 divergencias na primeira execucao: 14 de um defeito real — o levantamento de instalacoes contava tomada por AREA e a NBR 5410 conta PERIMETRO, 71 contra 55, faltando 3 na lavanderia e sobrando 3 na master — e 10 de grossura da propria conferencia, que classificava vao por prefixo de codigo e somava a area do banho na conta da janela do quarto. A conjugacao cozinha-gourmet, decidida em R07 e escrita em COMENTARIO, virou dado. Sobraram tres achados reais: o DML sem vao, o gourmet molhado sem ralo e os tres banhos do superior sem acabamento declarado</span></li>
       <li><span class="r">R45</span><span>Os tres achados por comodo, resolvidos. O DML ganha basculante alta na face norte, que estava livre: 0,72 m2 contra os 0,45 exigidos, ilumina E ventila sem tomar a parede da prateleira — veneziana na porta nao ilumina e exaustor cobra energia para sempre. O gourmet ganha ralo sifonado junto da cuba: area molhada, contigua a piscina, e sem ralo a lavagem escoa para o estar. Os tres banhos do superior entram na MESMA zona de revestimento do banho do terreo, e nao numa zona nova — a altura de um banho e uma decisao so. Duas verificacoes existentes acusaram a mudanca e acusaram certo: o universo de codigos validos nao conhecia o codigo qualificado da subdivisao, e o cruzamento da impermeabilizacao contava janela de banheiro pelo CODIGO da esquadria — premissa que aguentou ate a primeira janela alta que nao e de banheiro</span></li>
       <li><span class="r">R46</span><span>O mini lounge nao tinha como ser alcancado. 517 verificacoes conferem PROPRIEDADES de comodo e nenhuma perguntava se da para chegar nele: o lounge tinha porta, janela, clima, piso e tomadas, e nenhum vizinho. Entre ele e o hall havia uma faixa de 600 x 2.400 mm sem ambiente, e o painelizador, vendo exterior dos dois lados, ergueu DUAS paredes externas paralelas com a porta abrindo para o vazio entre elas. Estender o hall ate 12.600 REMOVE uma parede em vez de acrescentar, nao mexe em fachada e devolve ao hall a distribuicao para quatro destinos que R06 lhe deu. A casa ganhou 1,44 m2 e ficou mais barata: 1.028 pecas contra 1.033, 60 paineis contra 62. Entra conectividade(), que caminha a pe a partir da entrada — relacao entre comodos e grafo, nao tabela. E o lounge deixa de ser categoria APOIO, que lhe dava piso de garagem e o excluia da conta de ruido a dois metros da cabeceira de duas suites</span></li>
+      <li><span class="r">R47</span><span>Catalogo tecnico com o desenho de cada peca — perfil, parafuso, chapa e tubo — gerado da PROPRIA peca: a mesma poligonal de linha media que o solver da NBR 14762 integra para achar A, Ix e Wx. Imagem de catalogo seria de um perfil generico, com marca de terceiro, e continuaria igual depois de a auditoria mudar uma espessura: passaria a mentir em silencio. A designacao ja E a dimensao. Zero imagens buscadas fora, e o teste confere que a cota desenhada e a dimensao que alimenta o calculo. Mais as duas decisoes do superior: o banho da suite 02 passa de J02 para J04 e espelha a 03 — a assimetria deixava o lado menor abaixo do minimo de area molhada — e a ocupacao do nicho de condensadora passa a ser derivada da lista, porque o texto dizia 2 ativas enquanto a lista mandava 5</span></li>
       </ol>
     </div>
     <div>
@@ -1626,6 +1649,7 @@ const VISTAS = [
   ["instalacoes","Instalações",        "percurso medido, e onde ele bate"],
   ["cotacao",    "Custo e cotação",    "o que se compra, e o que falta perguntar"],
   ["ambientes",  "Por ambiente",       "cômodo a cômodo, tudo num lugar só"],
+  ["catalogo",   "Catálogo técnico",   "cada peça desenhada do modelo"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -1646,6 +1670,9 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    catalogo: "O desenho de cada peça que vai ser comprada: perfil, " +
+              "parafuso, chapa e tubo, com dimensão, norma e quanto entra na " +
+              "obra. Nenhuma imagem foi buscada fora.",
     ambientes: "O que tem em cada cômodo: acabamento, vão, tomada, peça " +
                "hidráulica, ralo, clima e as paredes que o cercam — e onde " +
                "essas decisões, tomadas em lugares diferentes, discordam.",
@@ -1726,6 +1753,13 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    catalogo: "Cada desenho sai da MESMA poligonal de linha média que o " +
+              "solver da NBR 14762 integra para achar A, Ix e Wx. A imagem de " +
+              "catálogo do fabricante é de um perfil genérico, carrega marca " +
+              "de terceiro e continuaria igual depois de a auditoria mudar " +
+              "uma espessura — passaria a mentir em silêncio. A designação já " +
+              "É a dimensão: Ue 90x40x12x0,95 diz alma 90, aba 40, lábio 12, " +
+              "espessura 0,95.",
     ambientes: "Defeito não se distribui por sistema: concentra-se onde dois " +
                "sistemas se encontram, e os dois se encontram DENTRO de um " +
                "cômodo. Na primeira execução este eixo achou 24 divergências " +
@@ -2675,7 +2709,7 @@ function renderEng() {
              logistica: vistaLogistica, documentos: vistaDocumentos,
              materiais: vistaMateriais, parafusos: vistaParafusos,
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
-             ambientes: vistaAmbientes,
+             ambientes: vistaAmbientes, catalogo: vistaCatalogo,
              bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
@@ -2741,6 +2775,7 @@ function ligarEng() {
     const novo = document.getElementById("bomBusca");
     if (novo) { novo.focus(); novo.setSelectionRange(pos, pos); }
   });
+  em("[data-cat]", "click", e => { catAba = e.currentTarget.dataset.cat; renderEng(); });
   em("[data-amb]", "click", e => { ambSel = e.currentTarget.dataset.amb; renderEng(); });
   em("[data-comp]", "click", e => {
     compSel = e.currentTarget.dataset.comp; renderEng();
@@ -3344,6 +3379,69 @@ function vistaAmbientes() {
       </div></div>
     <p class="conta" style="display:block;margin-top:14px;line-height:1.6">
       ${esc2(A.criterio)}</p>`;
+}
+
+// ------------------------------------------------------ catalogo tecnico
+// Cada peca desenhada A PARTIR DAS SUAS PROPRIAS DIMENSOES — a mesma poligonal
+// de linha media que o solver da NBR 14762 integra para achar A, Ix e Wx.
+// Buscar a imagem do fabricante daria um desenho generico, com marca de
+// terceiro, que continuaria igual depois de a auditoria mudar uma espessura:
+// passaria a mentir em silencio, que e a unica coisa que este projeto nao
+// tolera. A designacao ja E a dimensao.
+let catAba = "perfis";
+const CAT_ABAS = [["perfis", "Perfis"], ["parafusos", "Parafusos"],
+                  ["chapas", "Chapas"], ["tubos", "Tubos"]];
+function vistaCatalogo() {
+  const C = ENG.catalogo;
+  if (!C) return barraModos() + "<p class='conta'>sem catálogo técnico</p>";
+  const abas = CAT_ABAS.map(([k, t]) =>
+    `<button class="btn" data-cat="${k}" ${k === catAba
+      ? 'style="border-color:var(--accent);color:var(--accent)"' : ""}>${t}
+      (${(C[k] || []).length})</button>`).join("");
+  const itens = (C[catAba] || []).map(x => {
+    let ficha = "", uso = "";
+    if (catAba === "perfis") {
+      ficha = `<b>${x.forma}</b> · alma ${x.bw} · aba ${x.bf}${x.D ? " · lábio " + x.D : ""}
+        · esp ${num(x.t, 2)} mm<br>A ${num(x.area, 1)} mm² · Ix ${num(x.ix, 2)} cm⁴
+        · Wx ${num(x.wx, 2)} cm³ · <b>${num(x.massa_m, 3)} kg/m</b><br>${esc2(x.norma)}`;
+      uso = `${num(x.n)} peças · ${num(x.massa, 1)} kg · ${x.familias.map(esc2).join(", ")}`;
+    } else if (catAba === "parafusos") {
+      ficha = `⌀ rosca <b>${num(x.d, 1)} mm</b> · cabeça ${num(x.dw, 1)} mm ·
+        comprimento ${num(x.comp)} mm<br>${esc2(x.tipo)} ·
+        Rv ${num(x.rv, 1)} kN · Rt ${num(x.rt, 1)} kN <span class="conta">(H)</span><br>${esc2(x.norma)}`;
+      uso = `${num(x.n)} unidades no projeto`;
+    } else if (catAba === "chapas") {
+      ficha = `<b>${esc2(x.nome)}</b> · espessura ${num(x.espessura, 1)} mm<br>
+        formato ${x.formato[0]} × ${x.formato[1]} mm<br>${esc2(x.norma)}`;
+      uso = `${num(x.area, 1)} m² no projeto`;
+    } else {
+      ficha = `DN ${x.dn} · diâmetro externo <b>${num(x.de, 1)} mm</b><br>
+        ${esc2(x.sistema)}<br>${esc2(x.norma)}`;
+      uso = `${num(x.comp, 1)} m · ${num(x.conexoes)} conexões`;
+    }
+    return `<div class="peca-cartao">${x.svg}
+      <div class="ficha">${ficha}</div>
+      <div class="uso">${uso}</div></div>`;
+  }).join("");
+  return `${barraModos()}${leitura("catalogo")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Peças no catálogo</span>
+        <span class="val">${C.n}</span><span class="uni">desenhadas do modelo</span></div>
+      <div class="cartao"><span class="rot">Perfis</span>
+        <span class="val">${C.perfis.length}</span>
+        <span class="uni">de 81 do catálogo, em uso</span></div>
+      <div class="cartao"><span class="rot">Parafusos</span>
+        <span class="val">${C.parafusos.length}</span>
+        <span class="uni">tipos, ${num(C.parafusos.reduce((s, x) => s + x.n, 0))} unidades</span></div>
+      <div class="cartao"><span class="rot">Imagens de catálogo</span>
+        <span class="val">0</span><span class="uni">nenhuma buscada fora</span></div>
+    </div>
+    <div class="selo" style="align-items:flex-start;margin-bottom:14px">
+      <b>Desenho é vista do modelo</b>
+      <span style="line-height:1.55">${esc2(C.metodo)}. <br><br>
+        <b>Limite declarado:</b> ${esc2(C.limite)}.</span></div>
+    <div class="filtros">${abas}</div>
+    <div class="pecas-grade">${itens}</div>`;
 }
 
 

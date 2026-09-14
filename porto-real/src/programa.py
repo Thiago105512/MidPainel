@@ -459,6 +459,15 @@ PROGRAMA = [
      "(duas regras para contar tomada) e 10 de grossura da propria "
      "conferencia. PARCIAL porque iluminacao e ventilacao dependem do Codigo "
      "de Obras municipal, que e a pendencia 1: as fracoes sao (H) declaradas."),
+    (113, "Nicho de condensadora e familia de esquadria orfa",
+     ["checar_nichos_e_familias"], "AUTOMATIZADA",
+     "Secoes 28, 30 e 103. Duas conferencias nascidas da caminhada por comodo. "
+     "O nicho TC-09 trazia ESCRITO '2 condensadoras ativas + 1 reservada' e a "
+     "lista lhe mandava cinco: prosa nao roda e nao reprova, envelhece em "
+     "silencio enquanto a lista muda. A ocupacao passa a ser derivada da lista "
+     "e conferida contra a geometria. E familia de esquadria que existe no "
+     "catalogo e em vao nenhum nao chega ao BOM, que le VAOS — chega ao "
+     "QUADRO, que e o que o fornecedor cota."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

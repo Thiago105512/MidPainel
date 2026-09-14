@@ -141,6 +141,7 @@ const VISTAS = [
   ["instalacoes","Instalações",        "percurso medido, e onde ele bate"],
   ["cotacao",    "Custo e cotação",    "o que se compra, e o que falta perguntar"],
   ["ambientes",  "Por ambiente",       "cômodo a cômodo, tudo num lugar só"],
+  ["catalogo",   "Catálogo técnico",   "cada peça desenhada do modelo"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -161,6 +162,9 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    catalogo: "O desenho de cada peça que vai ser comprada: perfil, " +
+              "parafuso, chapa e tubo, com dimensão, norma e quanto entra na " +
+              "obra. Nenhuma imagem foi buscada fora.",
     ambientes: "O que tem em cada cômodo: acabamento, vão, tomada, peça " +
                "hidráulica, ralo, clima e as paredes que o cercam — e onde " +
                "essas decisões, tomadas em lugares diferentes, discordam.",
@@ -241,6 +245,13 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    catalogo: "Cada desenho sai da MESMA poligonal de linha média que o " +
+              "solver da NBR 14762 integra para achar A, Ix e Wx. A imagem de " +
+              "catálogo do fabricante é de um perfil genérico, carrega marca " +
+              "de terceiro e continuaria igual depois de a auditoria mudar " +
+              "uma espessura — passaria a mentir em silêncio. A designação já " +
+              "É a dimensão: Ue 90x40x12x0,95 diz alma 90, aba 40, lábio 12, " +
+              "espessura 0,95.",
     ambientes: "Defeito não se distribui por sistema: concentra-se onde dois " +
                "sistemas se encontram, e os dois se encontram DENTRO de um " +
                "cômodo. Na primeira execução este eixo achou 24 divergências " +
@@ -1194,7 +1205,7 @@ function renderEng() {
              logistica: vistaLogistica, documentos: vistaDocumentos,
              materiais: vistaMateriais, parafusos: vistaParafusos,
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
-             ambientes: vistaAmbientes,
+             ambientes: vistaAmbientes, catalogo: vistaCatalogo,
              bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
@@ -1260,6 +1271,7 @@ function ligarEng() {
     const novo = document.getElementById("bomBusca");
     if (novo) { novo.focus(); novo.setSelectionRange(pos, pos); }
   });
+  em("[data-cat]", "click", e => { catAba = e.currentTarget.dataset.cat; renderEng(); });
   em("[data-amb]", "click", e => { ambSel = e.currentTarget.dataset.amb; renderEng(); });
   em("[data-comp]", "click", e => {
     compSel = e.currentTarget.dataset.comp; renderEng();
@@ -1987,5 +1999,94 @@ function vistaAmbientes() {
       </div></div>
     <p class="conta" style="display:block;margin-top:14px;line-height:1.6">
       ${esc2(A.criterio)}</p>`;
+}
+'''
+
+CSS_ENG += r'''
+  /* ------------------------------------------------ catalogo tecnico */
+  .pecadesenho{display:block; width:100%; max-width:320px; height:auto;
+               margin:0 auto; overflow:visible}
+  .pecadesenho .secao{fill:none; stroke:var(--ink); stroke-width:1.4;
+                      stroke-linejoin:round; stroke-linecap:round}
+  .pecadesenho .secao-cheia{fill:var(--ink); stroke:none}
+  .pecadesenho .rosca{fill:none; stroke:var(--ink); stroke-width:.7}
+  .pecadesenho .cota-l{fill:none; stroke:var(--alert); stroke-width:.6}
+  .pecadesenho text{font-family:var(--mono); font-size:9px; fill:var(--ink-soft)}
+  .pecadesenho .titulo{font-size:11px; font-weight:600; fill:var(--ink)}
+  .pecadesenho .cota{fill:var(--alert); font-size:8.5px}
+  .pecas-grade{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+               gap:14px}
+  .peca-cartao{border:1px solid var(--rule-soft); background:var(--surface);
+               padding:12px; display:flex; flex-direction:column; gap:8px}
+  .peca-cartao .ficha{font-family:var(--mono); font-size:10.5px;
+                      color:var(--ink-soft); line-height:1.55}
+  .peca-cartao .ficha b{color:var(--ink)}
+  .peca-cartao .uso{font-family:var(--mono); font-size:10px;
+                    color:var(--accent); letter-spacing:.04em;
+                    border-top:1px solid var(--rule-soft); padding-top:7px}
+'''
+
+JS_ENG += r'''
+// ------------------------------------------------------ catalogo tecnico
+// Cada peca desenhada A PARTIR DAS SUAS PROPRIAS DIMENSOES — a mesma poligonal
+// de linha media que o solver da NBR 14762 integra para achar A, Ix e Wx.
+// Buscar a imagem do fabricante daria um desenho generico, com marca de
+// terceiro, que continuaria igual depois de a auditoria mudar uma espessura:
+// passaria a mentir em silencio, que e a unica coisa que este projeto nao
+// tolera. A designacao ja E a dimensao.
+let catAba = "perfis";
+const CAT_ABAS = [["perfis", "Perfis"], ["parafusos", "Parafusos"],
+                  ["chapas", "Chapas"], ["tubos", "Tubos"]];
+function vistaCatalogo() {
+  const C = ENG.catalogo;
+  if (!C) return barraModos() + "<p class='conta'>sem catálogo técnico</p>";
+  const abas = CAT_ABAS.map(([k, t]) =>
+    `<button class="btn" data-cat="${k}" ${k === catAba
+      ? 'style="border-color:var(--accent);color:var(--accent)"' : ""}>${t}
+      (${(C[k] || []).length})</button>`).join("");
+  const itens = (C[catAba] || []).map(x => {
+    let ficha = "", uso = "";
+    if (catAba === "perfis") {
+      ficha = `<b>${x.forma}</b> · alma ${x.bw} · aba ${x.bf}${x.D ? " · lábio " + x.D : ""}
+        · esp ${num(x.t, 2)} mm<br>A ${num(x.area, 1)} mm² · Ix ${num(x.ix, 2)} cm⁴
+        · Wx ${num(x.wx, 2)} cm³ · <b>${num(x.massa_m, 3)} kg/m</b><br>${esc2(x.norma)}`;
+      uso = `${num(x.n)} peças · ${num(x.massa, 1)} kg · ${x.familias.map(esc2).join(", ")}`;
+    } else if (catAba === "parafusos") {
+      ficha = `⌀ rosca <b>${num(x.d, 1)} mm</b> · cabeça ${num(x.dw, 1)} mm ·
+        comprimento ${num(x.comp)} mm<br>${esc2(x.tipo)} ·
+        Rv ${num(x.rv, 1)} kN · Rt ${num(x.rt, 1)} kN <span class="conta">(H)</span><br>${esc2(x.norma)}`;
+      uso = `${num(x.n)} unidades no projeto`;
+    } else if (catAba === "chapas") {
+      ficha = `<b>${esc2(x.nome)}</b> · espessura ${num(x.espessura, 1)} mm<br>
+        formato ${x.formato[0]} × ${x.formato[1]} mm<br>${esc2(x.norma)}`;
+      uso = `${num(x.area, 1)} m² no projeto`;
+    } else {
+      ficha = `DN ${x.dn} · diâmetro externo <b>${num(x.de, 1)} mm</b><br>
+        ${esc2(x.sistema)}<br>${esc2(x.norma)}`;
+      uso = `${num(x.comp, 1)} m · ${num(x.conexoes)} conexões`;
+    }
+    return `<div class="peca-cartao">${x.svg}
+      <div class="ficha">${ficha}</div>
+      <div class="uso">${uso}</div></div>`;
+  }).join("");
+  return `${barraModos()}${leitura("catalogo")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Peças no catálogo</span>
+        <span class="val">${C.n}</span><span class="uni">desenhadas do modelo</span></div>
+      <div class="cartao"><span class="rot">Perfis</span>
+        <span class="val">${C.perfis.length}</span>
+        <span class="uni">de 81 do catálogo, em uso</span></div>
+      <div class="cartao"><span class="rot">Parafusos</span>
+        <span class="val">${C.parafusos.length}</span>
+        <span class="uni">tipos, ${num(C.parafusos.reduce((s, x) => s + x.n, 0))} unidades</span></div>
+      <div class="cartao"><span class="rot">Imagens de catálogo</span>
+        <span class="val">0</span><span class="uni">nenhuma buscada fora</span></div>
+    </div>
+    <div class="selo" style="align-items:flex-start;margin-bottom:14px">
+      <b>Desenho é vista do modelo</b>
+      <span style="line-height:1.55">${esc2(C.metodo)}. <br><br>
+        <b>Limite declarado:</b> ${esc2(C.limite)}.</span></div>
+    <div class="filtros">${abas}</div>
+    <div class="pecas-grade">${itens}</div>`;
 }
 '''

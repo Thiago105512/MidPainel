@@ -464,3 +464,61 @@ def conferir_clash(pj, paineis, base_por_pav: dict,
                 criterio="interseccao e cruzamento, nao defeito; defeito e o "
                          "furo que o perfil nao comporta — acima de metade da "
                          "alma a peca perde carga critica")
+
+
+# ---------------------------------------------------------------------------
+# NICHO DE CONDENSADORA — a prosa dizia dois, a lista mandava cinco
+#
+# O nicho TC-09 trazia escrito "2 condensadoras ativas + 1 posicao reservada",
+# e a lista de CLIMATIZACAO lhe atribuia CINCO equipamentos. Duas fontes para o
+# mesmo fato, e uma delas em prosa — a forma mais teimosa do defeito, porque
+# prosa nao roda e nao reprova: ela envelhece em silencio enquanto a lista muda.
+#
+# A ocupacao passa a ser DERIVADA da lista e conferida contra a geometria do
+# nicho. O texto do nicho deixa de contar unidades.
+# ---------------------------------------------------------------------------
+# (H) largura de condensadora por capacidade, em mm. Faixa de mercado para
+# split inverter mural; o numero exato e do modelo escolhido e entra pela porta
+# do contrato do fornecedor, como todo dado externo.
+LARGURA_CONDENSADORA = {9_000: 800, 12_000: 800, 18_000: 900,
+                        24_000: 950, 30_000: 950, 36_000: 1_000}
+# (H) folga lateral entre carcacas: e o que permite trocar uma sem desmontar a
+# vizinha, e o que a insuflacao de uma nao jogue no retorno da outra.
+FOLGA_CONDENSADORA = 300
+
+
+def ocupacao_de_nicho(pj) -> dict:
+    """Cada nicho comporta o que a lista de climatizacao mandou para ele?"""
+    tec = {t["cod"]: t for t in pj.TECNICOS}
+    por_nicho: dict = {}
+    for c in pj.CLIMATIZACAO:
+        por_nicho.setdefault(c.get("nicho", "—"), []).append(c)
+    out = []
+    for cod, eqs in sorted(por_nicho.items()):
+        t = tec.get(cod)
+        # o nicho e uma faixa: a maior dimensao e o comprimento util, a menor e
+        # a profundidade. Ler ao contrario reprovaria todo nicho estreito.
+        comp = max(t["w"], t["h"]) if t else 0
+        prof = min(t["w"], t["h"]) if t else 0
+        ativos = [e for e in eqs if not e.get("reserva")]
+        larg = sum(LARGURA_CONDENSADORA.get(e["capacidade"], 900)
+                   for e in ativos)
+        folga = FOLGA_CONDENSADORA * max(0, len(ativos) - 1)
+        preciso = larg + folga
+        out.append(dict(
+            nicho=cod, comprimento=comp, profundidade=prof,
+            n=len(eqs), ativos=len(ativos),
+            reservas=len(eqs) - len(ativos),
+            capacidade_total=sum(e["capacidade"] for e in ativos),
+            ocupado=preciso, sobra=comp - preciso,
+            cabe=comp >= preciso,
+            equipamentos=[dict(amb=e["amb"], capacidade=e["capacidade"],
+                               reserva=bool(e.get("reserva")))
+                          for e in eqs],
+            leitura=(f"{len(ativos)} condensadora(s) ativa(s) somando "
+                     f"{sum(e['capacidade'] for e in ativos):,} BTU/h ocupam "
+                     f"{preciso} mm dos {comp} mm do nicho")))
+    return dict(nichos=out, ok=all(x["cabe"] for x in out),
+                criterio="largura por capacidade (H) mais folga lateral de "
+                         f"{FOLGA_CONDENSADORA} mm entre carcacas, que e o que "
+                         f"permite trocar uma sem desmontar a vizinha")

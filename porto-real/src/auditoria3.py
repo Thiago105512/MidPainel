@@ -450,6 +450,79 @@ def checar_ambientes() -> list[Achado]:
     return out
 
 
+def checar_nichos_e_familias() -> list[Achado]:
+    """Duas conferencias que nasceram da caminhada por comodo.
+
+    A primeira: o nicho de condensadora trazia ESCRITO "2 ativas + 1
+    reservada" e a lista lhe mandava cinco. Prosa nao roda e nao reprova —
+    envelhece em silencio enquanto a lista muda.
+
+    A segunda: familia de esquadria que existe no catalogo e nao existe em vao
+    nenhum. Ela nao chega ao BOM, porque o levantamento le VAOS; chega ao
+    QUADRO, que e o que vai para o fornecedor cotar.
+    """
+    import projeto as pj
+    import nucleo.instalacoes as ins
+    out = []
+
+    o = ins.ocupacao_de_nicho(pj)
+    for n in o["nichos"]:
+        out.append(Achado("NOTA" if n["cabe"] else "ERRO", f"nicho {n['nicho']}",
+                          f"{n['leitura']}, sobrando {n['sobra']} mm. A "
+                          f"ocupacao e DERIVADA da lista de climatizacao: o "
+                          f"texto do nicho dizia 2 ativas e a lista mandava "
+                          f"{n['ativos']}"))
+    out.append(Achado("NOTA", "criterio de nicho", o["criterio"]))
+
+    # o texto do nicho nao pode voltar a contar unidades
+    import re
+    tec = {t["cod"]: t for t in pj.TECNICOS}
+    conta = [c for c, t in tec.items()
+             if re.search(r"\b\d+ (condensadora|posicoes|posicao)", t.get("obs", "")
+                          + " " + t.get("nome", ""))]
+    out.append(Achado("NOTA" if not conta else "ATENCAO", "prosa que conta",
+                      "nenhum texto de area tecnica conta unidades: quem conta "
+                      "e a lista, e o texto descreve"
+                      if not conta else
+                      f"texto de {', '.join(conta)} voltou a contar unidades"))
+
+    usadas = {v[0] for v in pj.VAOS}
+    orfas = sorted(set(pj.ESQUADRIAS) - usadas)
+    marcadas = [f for f in orfas if "SEM USO" in pj.ESQUADRIAS[f][3].upper()]
+    out.append(Achado("NOTA" if len(marcadas) == len(orfas) else "ATENCAO",
+                      "familia sem vao",
+                      f"{len(orfas)} familia(s) de esquadria sem nenhum vao: "
+                      f"{', '.join(orfas) or 'nenhuma'}"
+                      + (" — todas marcadas no catalogo" if len(marcadas) == len(orfas)
+                         else f" — SEM MARCACAO: {set(orfas) - set(marcadas)}")
+                      + ". Familia orfa nao chega ao BOM, que le VAOS; chega ao "
+                        "QUADRO, que e o que o fornecedor cota"))
+
+    # a simetria declarada entre as suites espelhadas
+    def janela_do_banho(pai):
+        d = next(x for x in pj.SUBDIVISOES
+                 if x["pai"] == pai and x["nome"] == "BANHO")
+        for t, x, y, o_, pav in pj.VAOS:
+            # o pavimento FILTRA: sem isto, a janela do terreo que cai sob o
+            # banho do superior casa por coordenada e responde pela de cima
+            if (pav == pai[0]
+                    and d["x"] - 90 <= x <= d["x"] + d["w"] + 90
+                    and d["y"] - 90 <= y <= d["y"] + d["h"] + 90
+                    and t.startswith("J")):
+                return t, pj.ESQUADRIAS[t][0] * pj.ESQUADRIAS[t][1] / 1e6
+        return None, 0.0
+    a2, ar2 = janela_do_banho("S-S02")
+    a3, ar3 = janela_do_banho("S-S03")
+    out.append(Achado("NOTA" if a2 == a3 else "ERRO", "suites espelhadas",
+                      f"o banho da suite 02 leva {a2} e o da 03 leva {a3}. As "
+                      f"duas sao declaradas ESPELHADAS e intocadas desde R06, e "
+                      f"ate R46 tinham esquadrias diferentes — 0,36 m2 contra "
+                      f"0,72 — com o lado menor justamente abaixo do minimo de "
+                      f"area molhada. Simetria declarada que o desenho nao "
+                      f"cumpre e simetria que ninguem confere"))
+    return out
+
+
 def checar_cotacao() -> list[Achado]:
     """O preco (H) vira cotacao por uma porta, e a porta tem tranca.
 
