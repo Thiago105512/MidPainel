@@ -129,7 +129,8 @@ NOME_CAMADA = {
 
 def montar(pecas: list, plano_corte: dict, area_m2: float,
            n_parafusos: int = None, area_placa_m2: float = None,
-           precos: dict = None, camadas: dict = None) -> list[ItemBOM]:
+           precos: dict = None, camadas: dict = None,
+           acabamento: dict = None) -> list[ItemBOM]:
     """BOM completo a partir das pecas e do plano de corte."""
     p = dict(PRECOS)
     p.update(precos or {})
@@ -425,6 +426,16 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                          round(h_fab, 1), p["mao_obra_fabrica_h"], "servico"))
     itens.append(ItemBOM("MO-MON", "Mao de obra de montagem", "h",
                          round(h_mont, 1), p["mao_obra_montagem_h"], "servico"))
+
+    # ---- R57: as seis frentes que ate R56 eram ESCOPO DECLARADO FORA.
+    # Revestimento interno, pintura, loucas e metais, eletrica de acabamento,
+    # equipamentos e marcenaria. Declarar a falta era honesto; continuar
+    # declarando depois de o modelo saber quantificar seria preguica.
+    for frente, linhas in ((acabamento or {}).get("frentes") or {}).items():
+        for it in linhas:
+            itens.append(ItemBOM(it["sku"], it["descricao"], it["unidade"],
+                                 it["quantidade"], it["preco"], frente,
+                                 fonte="derivado do uso: " + it["origem"]))
     return itens
 
 

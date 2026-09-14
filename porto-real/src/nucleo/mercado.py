@@ -60,10 +60,25 @@ INDICES = [
          escopo="obra entregue (chave na mao), padrao alto"),
 ]
 
-# fracao do custo de obra entregue que e MATERIAL. (H) de pratica corrente, e
-# declarada porque e ela que faz a ponte entre um orcamento de insumos e um
-# indice de obra pronta. Errar esta fracao move a comparacao inteira.
-PARCELA_MATERIAL = 0.60
+# R57 — A PONTE MUDOU PORQUE O ESCOPO MUDOU. Ate R56 o orcamento cobria so os
+# sistemas construtivos, e a ponte para um indice de obra entregue era a
+# parcela de MATERIAL (0,60). Com revestimento, pintura, loucas, eletrica de
+# acabamento, equipamentos e marcenaria dentro, o que falta ja nao e "o resto
+# do material": e o que segue declarado fora — mao de obra de instalacoes e
+# acabamento, projetos e taxas, e BDI.
+#
+# Manter 0,60 depois de o escopo dobrar teria feito a conferencia REPROVAR por
+# motivo errado — e a tentacao, nesse momento, e mexer no numero ate passar. O
+# criterio tambem mudou junto: antes o valor tinha de ficar ABAIXO do indice
+# popular, porque o escopo era menor; agora tem de cair DENTRO da faixa, do
+# popular ao alto, porque o escopo e quase o da obra entregue.
+PARCELA_COBERTA = 0.65
+PARCELA_MATERIAL = PARCELA_COBERTA      # compatibilidade dos consumidores
+FALTA_NA_PONTE = [
+    ("mao de obra de instalacoes e acabamento", 0.18),
+    ("projetos complementares, ART e taxas", 0.05),
+    ("BDI, administracao e canteiro", 0.12),
+]
 
 # O frete e o item que separa o preco de tabela do preco em Manaus. A pesquisa
 # indica que ele pode chegar a 30 % do preco final em praca do Norte distante
@@ -159,6 +174,51 @@ FORNECEDORES = {
         ("Serralherias de Manaus", "Manaus/AM", "montagem e fixacao"),
         ("Esquadrias Alufynestra", "Manaus/AM", "perfis e acabamento"),
     ],
+    # R57 — as seis frentes que entraram no orcamento precisam de quem as
+    # forneca. Marcenaria, pintura e revestimento sao SERVICO com material: a
+    # praca local pesa mais que a marca, e por isso a lista e mais local.
+    "revestimento": [
+        ("Du Norte Comercio", "Manaus/AM", "porcelanato, argamassa e rejunte"),
+        ("Loja do Rei", "Manaus/AM", "revestimento e assentamento"),
+        ("Bacuri Materiais", "Manaus/AM", "revestimento"),
+        ("Portobello / Eliane / Portinari", "Nacional", "porcelanato, fabricante"),
+        ("Quartzolit / Votomassa", "Nacional", "argamassa colante e rejunte"),
+    ],
+    "pintura": [
+        ("Empreiteiras de pintura de Manaus", "Manaus/AM", "material e mao de obra"),
+        ("Suvinil / BASF", "Nacional", "tinta, fabricante"),
+        ("Coral / AkzoNobel", "Nacional", "tinta, fabricante"),
+        ("Sherwin-Williams", "Nacional", "tinta, fabricante"),
+        ("Du Norte Comercio", "Manaus/AM", "tinta e material de pintura"),
+    ],
+    "loucas": [
+        ("Deca / Duratex", "Nacional", "louca e metal, fabricante"),
+        ("Docol", "Nacional", "metal sanitario"),
+        ("Roca / Celite", "Nacional", "louca sanitaria"),
+        ("Lojas de acabamento de Manaus", "Manaus/AM", "louca e metal"),
+        ("Du Norte Comercio", "Manaus/AM", "louca, metal e acessorio"),
+    ],
+    "eletrica": [
+        ("Schneider / Pial Legrand", "Nacional", "tomada, interruptor e placa"),
+        ("Steck", "Nacional", "dispositivos e quadros"),
+        ("WEG", "Nacional", "disjuntor, DR e DPS"),
+        ("Philips / Osram / Stella", "Nacional", "luminaria LED"),
+        ("Distribuidores eletricos de Manaus", "Manaus/AM", "material eletrico"),
+    ],
+    "equipamentos": [
+        ("Lojas de climatizacao de Manaus", "Manaus/AM", "split com instalacao"),
+        ("LG / Samsung / Daikin", "Nacional", "split inverter, fabricante"),
+        ("Midea / Elgin", "Nacional", "split inverter"),
+        ("Jacuzzi / Sodramar", "Nacional", "bomba e filtro de piscina"),
+        ("PPA / Garen / Rossi", "Nacional", "automatizador de portao"),
+    ],
+    "marcenaria": [
+        ("Marcenarias de Manaus", "Manaus/AM", "movel sob medida"),
+        ("Todeschini / Dell Anno", "Nacional", "movel planejado, rede"),
+        ("Italinea / Favorita", "Nacional", "movel planejado"),
+        ("Marmorarias de Manaus", "Manaus/AM", "tampo em quartzo e granito"),
+        ("Duratex / Guararapes", "Nacional", "MDF, fabricante de chapa"),
+    ],
 }
 
 MIN_FORNECEDORES = 5
@@ -182,23 +242,25 @@ SEM_PRACA_LOCAL = {
 # Foi a conferencia de cima para baixo que obrigou a escrever isto: comparar o
 # total com um indice de obra entregue so faz sentido sabendo o que falta entre
 # um e outro.
+# R57 — a lista encolheu de nove para tres. Seis frentes sairam daqui e
+# entraram no BOM, porque o modelo passou a saber quantifica-las a partir da
+# geometria de USO que ele ja tinha: loucas locadas em planta, bancadas e
+# armarios declarados, area de parede e de forro por ambiente, previsao de
+# tomadas pelo perimetro da NBR 5410 e capacidade de cada split.
+#
+# As tres que ficam nao ficam por preguica: nenhuma delas se deduz da
+# geometria. Mao de obra depende de composicao e de convencao coletiva;
+# projeto e taxa dependem de quem assina e de qual prefeitura; BDI e decisao
+# de quem constroi, nao do que se constroi.
 FORA_DO_ORCAMENTO = [
-    ("loucas e metais", "vaso, lavatorio, cuba, torneira, registro e chuveiro "
-     "estao no modelo como GEOMETRIA e nao como compra"),
-    ("equipamento de climatizacao", "as sete maquinas estao dimensionadas e "
-     "locadas; o orcamento traz a linha frigorigena, nao o split"),
-    ("pintura", "PINTURA esta especificada por ambiente desde a Etapa 4; o "
-     "material e a mao de obra nao entraram em linha"),
-    ("revestimento interno de piso e parede", "ACABAMENTOS define por "
-     "ambiente; a compra nao foi quantificada"),
-    ("marcenaria e armarios", "o mobiliario existe no modelo para conferir "
-     "circulacao e tomada, nao para comprar"),
     ("mao de obra de instalacoes e acabamento", "so a montagem da estrutura "
-     "esta orcada"),
-    ("equipamento de piscina", "bomba, filtro e tratamento"),
+     "esta orcada (MO-FAB e MO-MON). Hidraulica, eletrica, assentamento, "
+     "pintura de campo e marcenaria pedem composicao com encargos"),
     ("projetos complementares, ART e taxas", "inclui o projeto de fundacao "
-     "que a pendencia 3 espera"),
-    ("BDI, administracao e canteiro", "nao ha composicao de BDI neste modelo"),
+     "com ART que a pendencia 3 espera, o luminotecnico que a pendencia 13 "
+     "abriu, e as taxas de prefeitura e concessionaria"),
+    ("BDI, administracao e canteiro", "nao ha composicao de BDI neste modelo: "
+     "e decisao de quem constroi, nao do que se constroi"),
 ]
 
 
@@ -246,20 +308,26 @@ def aderencia(pj, r) -> dict:
     material = total - servico
     por_m2 = total / area
     # ponte de escopo: o orcamento e insumo + montagem; o indice e obra pronta
-    obra_estimada = material / PARCELA_MATERIAL
+    obra_estimada = material / PARCELA_COBERTA
     faixa = {i["cod"]: i["valor"] for i in INDICES}
     return dict(
         area=area, total=round(total, 2), material=round(material, 2),
         servico=round(servico, 2), por_m2=round(por_m2, 2),
         obra_entregue_estimada=round(obra_estimada, 2),
         obra_entregue_m2=round(obra_estimada / area, 2),
-        parcela_material=PARCELA_MATERIAL,
+        parcela_coberta=PARCELA_COBERTA,
+        parcela_material=PARCELA_COBERTA,
         indices=INDICES,
-        # o escopo daqui e MENOR que o do indice de obra entregue: o numero
-        # tem de ficar ABAIXO dele. Ficar acima seria o sinal de alarme.
+        # R57 — com seis frentes dentro, o escopo e quase o da obra entregue:
+        # o valor tem de cair DENTRO da faixa do indice, do popular ao alto.
+        na_faixa=(faixa["SF-BR-POPULAR"] <= obra_estimada / area
+                  <= faixa["SF-BR-ALTO"]),
         abaixo_do_indice=(obra_estimada / area) < faixa["SF-BR-POPULAR"],
         distancia_do_popular=round(
             (obra_estimada / area) / faixa["SF-BR-POPULAR"] - 1, 4),
+        distancia_do_medio=round(
+            (obra_estimada / area) / faixa["SF-BR-MEDIO"] - 1, 4),
+        falta_na_ponte=FALTA_NA_PONTE,
         com_fator_praca=round(obra_estimada / area * FATOR_PRACA, 2),
         fora_do_orcamento=FORA_DO_ORCAMENTO,
         contra_cub=round((obra_estimada / area) / faixa["CUB-AM-R8N"], 3),
@@ -315,19 +383,21 @@ def conferir(pj, r) -> list[tuple[str, str, bool]]:
         ("indices publicos com data e escopo",
          f"{len(INDICES)} indices, todos com data, praca e escopo declarados",
          all(i.get("data") and i.get("escopo") for i in INDICES)),
-        ("o total fica ABAIXO do indice de obra entregue",
-         f"R$ {ad['por_m2']:.2f}/m2 de insumo mais montagem; extrapolado da "
-         f"parcela de material da R$ {ad['obra_entregue_m2']:.2f}/m2, "
-         f"{abs(ad['distancia_do_popular'])*100:.1f} % "
-         + ("abaixo" if ad["distancia_do_popular"] < 0 else "ACIMA")
-         + f" do padrao popular (R$ {INDICES[2]['valor']:.2f}) — e tem de "
-           f"ficar abaixo, porque o escopo daqui e menor",
-         ad["abaixo_do_indice"]),
+        ("o total cai DENTRO da faixa do indice",
+         f"R$ {ad['por_m2']:.2f}/m2 orcados; extrapolado pela parcela coberta "
+         f"({ad['parcela_coberta']:.0%}) da R$ {ad['obra_entregue_m2']:.2f}/m2 "
+         f"— {abs(ad['distancia_do_popular'])*100:.1f} % "
+         + ("acima" if ad["distancia_do_popular"] > 0 else "abaixo")
+         + f" do popular e {abs(ad['distancia_do_medio'])*100:.1f} % "
+         + ("acima" if ad["distancia_do_medio"] > 0 else "abaixo")
+         + f" do medio. Com seis frentes dentro, o escopo e quase o da obra "
+           f"entregue: o valor tem de cair NA FAIXA, nao abaixo dela",
+         ad["na_faixa"]),
         ("o que NAO esta no orcamento esta escrito",
-         f"{len(FORA_DO_ORCAMENTO)} escopos declarados fora — loucas, "
-         f"climatizacao, pintura, revestimento interno, marcenaria, mao de "
-         f"obra de acabamento, equipamento de piscina, projetos e BDI",
-         len(FORA_DO_ORCAMENTO) >= 8),
+         f"{len(FORA_DO_ORCAMENTO)} escopos seguem fora, e nenhum deles se "
+         f"deduz da geometria: mao de obra de acabamento, projetos e taxas, "
+         f"e BDI. Em R56 eram nove",
+         len(FORA_DO_ORCAMENTO) == 3),
         ("risco de praca declarado",
          f"fator {FATOR_PRACA:.2f} (ate {FATOR_PRACA_MAX:.2f}): se os precos "
          f"(H) forem de tabela do Sudeste, o total vai a "

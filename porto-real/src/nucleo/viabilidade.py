@@ -117,6 +117,17 @@ def _exposicao(pj, r: dict, n: str) -> dict:
                               "outro arranjo de circuitos e de padrao de "
                               "entrada: muda quadro e alimentador, nao muda a "
                               "casa")
+    if n == "13":      # luminotecnica
+        lum = sum(i.total_compra for i in bom if i.sku == "ELE-LUM")
+        ele = familia("eletrica")
+        return dict(valor=ele, fracao=ele / custo,
+                    grandeza="luminaria, interruptor e ponto de luz",
+                    simulacao=f"R$ {lum:,.2f} de luminaria estao comprados por "
+                              f"REGRA de area, nao por calculo. O "
+                              f"luminotecnico nao muda a casa: muda quantas "
+                              f"luminarias, de que fluxo, e onde — e pode "
+                              f"dobrar ou reduzir pela metade a linha"
+                              .replace(",", "."))
     return dict(valor=0.0, fracao=0.0, grandeza="", simulacao="")
 
 

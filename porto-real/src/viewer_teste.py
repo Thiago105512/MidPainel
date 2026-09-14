@@ -1288,8 +1288,12 @@ def rodar(fotos: bool = False) -> int:
         # ---- VIABILIDADE: o que falta, e quanto do projeto depende disso
         pag.click("#vistasEng button[data-vista='viabilidade']")
         pag.wait_for_timeout(500)
-        ok(pag.evaluate("() => ENG.viabilidade.itens.length") == 12,
-           "as 12 pendencias estao avaliadas uma a uma")
+        # o numero sai do modelo, nao de um literal aqui: pendencia nova
+        # reprovaria o teste em vez de reprovar o projeto
+        import projeto as _pj
+        _np = len(_pj.PENDENCIAS)
+        ok(pag.evaluate("() => ENG.viabilidade.itens.length") == _np,
+           f"as {_np} pendencias estao avaliadas uma a uma")
         # o portao e o que decide: o projeto nao esta viavel em BLOCO
         ok(pag.evaluate("""() => ENG.viabilidade.portoes.length === 3
              && ENG.viabilidade.portoes.every(p =>

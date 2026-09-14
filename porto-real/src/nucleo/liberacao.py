@@ -170,8 +170,11 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
             camadas["itens"].append(dict(it))
     camadas["area_total"] = round(
         sum(i["area"] for i in camadas["itens"]), 1)
+    import nucleo.acabamento as ab
+    acab = ab.levantar(pj)
     itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2,
-                      n_parafusos=n_parafusos, camadas=camadas)
+                      n_parafusos=n_parafusos, camadas=camadas,
+                      acabamento=acab)
     # o custo e o que se COMPRA. A regra mora no BOM: quando morava aqui, na
     # forma de sum(i.total), esta linha somava o aco duas vezes — em kg e em pc.
     custo = bo.total(itens)

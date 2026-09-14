@@ -479,5 +479,66 @@ for p in D["pendencias"]:
 ws.column_dimensions["D"].width = 14
 ws.column_dimensions["E"].width = 60
 
+
+# =====================================================================
+# 8. PECAS E CORTE — o que o proprietario chamou de "cortes e tamanhos
+#    padronizados". Nao e cotacao: e fabricacao. Mas e a mesma lista, e
+#    quem cota perfil precisa saber que barra vai ser cortada em quantos
+#    pedacos, e de que tamanhos.
+# =====================================================================
+import fixture as _fx
+_r = _fx.liberacao()
+ws = wb.create_sheet("PEÇAS E CORTE")
+ws.sheet_view.showGridLines = False
+ws.freeze_panes = "A5"
+ws.cell(1, 1, "LISTA DE PEÇAS — agrupada por perfil e comprimento").font = TIT
+ws.cell(2, 1, "O aço é comprado em barra de 6.000 mm e cortado. Esta é a lista de corte: cada linha é um tamanho padronizado e quantas vezes ele se repete.").font = SUB
+pl = _r["plano"]
+ws.cell(3, 1, f"{len(_r['pecas'])} peças · {pl['n_barras']} barras de 6.000 mm · aproveitamento {pl['aproveitamento']*100:.1f} % · perda {pl['perda']/1000:.1f} m").font = TXT_B
+for j, c in enumerate(["PERFIL", "COMPRIMENTO (mm)", "QUANT. DE PEÇAS",
+                       "FAMÍLIA ESTRUTURAL", "MASSA UNIT. (kg)",
+                       "MASSA TOTAL (kg)"], 1):
+    cel = ws.cell(4, j, c); cel.font = CAB; cel.fill = FILL_CAB
+    cel.alignment = CTR; cel.border = BORDA
+import collections as _co
+grupo = _co.defaultdict(lambda: [0, 0.0, set()])
+for pc in _r["pecas"]:
+    g = grupo[(pc.perfil, int(round(pc.comp)))]
+    g[0] += 1; g[1] += pc.massa; g[2].add(pc.familia)
+r = 5
+for (perf, comp), (n, massa, fams_) in sorted(
+        grupo.items(), key=lambda kv: (kv[0][0], -kv[0][1])):
+    ws.cell(r, 1, perf).font = TXT
+    c = ws.cell(r, 2, comp); c.font = TXT; c.number_format = "#,##0"
+    c = ws.cell(r, 3, n); c.font = TXT_B; c.alignment = CTR
+    ws.cell(r, 4, ", ".join(sorted(fams_))).font = TXT
+    c = ws.cell(r, 5, round(massa / n, 3)); c.font = TXT; c.number_format = "0.000"
+    c = ws.cell(r, 6, f"=C{r}*E{r}"); c.font = TXT; c.number_format = NUM
+    for j in range(1, 7):
+        ws.cell(r, j).border = BORDA
+    r += 1
+ws.cell(r, 4, "TOTAL").font = TXT_B
+c = ws.cell(r, 3, f"=SUM(C5:C{r-1})"); c.font = TXT_B; c.alignment = CTR
+c = ws.cell(r, 6, f"=SUM(F5:F{r-1})"); c.font = TXT_B; c.number_format = NUM
+for j in range(1, 7):
+    ws.cell(r, j).fill = FILL_TOT; ws.cell(r, j).border = BORDA
+ws.cell(r + 2, 1, "BARRAS POR PERFIL").font = Font(name=FONTE, size=11, bold=True, color=AZUL)
+rr = r + 3
+for j, c in enumerate(["PERFIL", "BARRAS DE 6.000 mm", "PEÇAS CORTADAS"], 1):
+    cel = ws.cell(rr, j, c); cel.font = CAB; cel.fill = FILL_CAB; cel.alignment = CTR; cel.border = BORDA
+por_perfil = _co.Counter(b.perfil for b in pl["barras"])
+pecas_perfil = _co.Counter(pc.perfil for pc in _r["pecas"])
+for perf, nb in sorted(por_perfil.items()):
+    rr += 1
+    ws.cell(rr, 1, perf).font = TXT
+    c = ws.cell(rr, 2, nb); c.font = TXT_B; c.alignment = CTR
+    c = ws.cell(rr, 3, pecas_perfil[perf]); c.font = TXT; c.alignment = CTR
+    for j in range(1, 4):
+        ws.cell(rr, j).border = BORDA
+for j, w in enumerate([26, 18, 16, 30, 16, 16], 1):
+    ws.column_dimensions[get_column_letter(j)].width = w
+ws.auto_filter.ref = f"A4:F{r-1}"
+ws.cell(rr + 2, 1, "Esta lista NÃO substitui o nesting codificado do fabricante (pendência 8): ela é de estudo, e o fabricante corta pela dele.").font = SUB
+
 wb.save(ALVO)
 print(f"  {os.path.abspath(ALVO)}  {os.path.getsize(ALVO)//1024} KB  (planilha de cotacao)")

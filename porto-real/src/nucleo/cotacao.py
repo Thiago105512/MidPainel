@@ -81,6 +81,7 @@ def _dias(a: str, b: str) -> int:
 # ---------------------------------------------------------------------------
 # ESPECIFICACAO — o que o fornecedor precisa saber para responder um numero
 # ---------------------------------------------------------------------------
+DEMAOS_PINTURA = 2
 def especificar(item, r: dict) -> dict:
     """Traduz uma linha de BOM no que se pede numa cotacao.
 
@@ -195,6 +196,58 @@ def especificar(item, r: dict) -> dict:
     elif sku.startswith("MO-"):
         esp.append("hora de equipe, com encargos e EPI")
         faltas.append("convencao coletiva vigente e composicao de encargos")
+
+    elif sku.startswith(("LOU-", "MET-")):
+        esp.append("louca / metal sanitario de linha comercial, cor branca "
+                   "para louca e acabamento cromado para metal")
+        esp.append("quantidade contada das pecas LOCADAS em planta, nao "
+                   "estimada por comodo")
+        faltas.append("linha e fabricante: louca e metal sao decisao de "
+                      "acabamento do proprietario, e a mesma peca varia 3x de "
+                      "preco entre linhas")
+        normas += ["NBR 15097", "NBR 15705"]
+
+    elif sku.startswith("ELE-"):
+        esp.append("dispositivo de embutir em caixa 4x2 / 4x4, linha unica "
+                   "em toda a casa")
+        tens = ((r.get("eletrica") or {}).get("tensao") or {}).get(
+            "esquema", "esquema declarado no projeto")
+        esp.append(f"tensao 127 V para TUG e 220 V para TUE, conforme {tens}")
+        if sku == "ELE-LUM":
+            faltas.append("fluxo luminoso e temperatura de cor por ambiente: "
+                          "depende de projeto luminotecnico, que e pendencia "
+                          "aberta — a quantidade aqui e regra declarada")
+        normas += ["NBR 5410", "NBR 14136"]
+
+    elif sku.startswith("EQP-"):
+        esp.append("equipamento novo, com garantia de fabrica e instalacao "
+                   "por credenciado")
+        if "SPLIT" in sku:
+            esp.append("inverter, ciclo frio, R-32 ou R-410A, classe A")
+            normas += ["NBR 16401", "Portaria INMETRO de eficiencia"]
+        faltas.append("marca e modelo: a capacidade esta dimensionada, a "
+                      "escolha do equipamento e do proprietario")
+
+    elif sku.startswith("MAR-"):
+        esp.append("marcenaria sob medida conforme planta de layout")
+        esp.append("MDF 18 mm com acabamento em laminado ou pintura PU; "
+                   "ferragem com amortecedor")
+        faltas.append("desenho executivo de marcenaria: a planta da a "
+                      "extensao e a profundidade, nao o interior do movel")
+
+    elif sku.startswith("PIN-"):
+        esp.append("tinta e mao de obra conforme especificacao de acabamento")
+        esp.append(f"{DEMAOS_PINTURA} demaos sobre selador; rendimento "
+                   f"declarado na quantidade")
+        normas += ["NBR 11702", "NBR 13245"]
+
+    elif sku.startswith("REV-"):
+        esp.append("revestimento ceramico conforme quadro de acabamentos por "
+                   "ambiente")
+        esp.append("area ja com 10 % de perda de corte e quebra")
+        faltas.append("linha, formato e PEI: o modelo define o TIPO por "
+                      "ambiente, a linha e escolha de acabamento")
+        normas += ["NBR 13818", "NBR 15463"]
 
     else:
         faltas.append("o modelo nao sabe descrever este item para um "

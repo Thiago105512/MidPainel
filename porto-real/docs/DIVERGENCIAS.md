@@ -4626,3 +4626,98 @@ dado do item.
 
 **Estado em R56:** 110 funções, 585 condições, **0 erros**; 208 verificações do
 visualizador, **0 falhas**; 40 pranchas.
+
+---
+
+## R57 — o orçamento deixa de ter escopo fora
+
+> *"Todos os materiais, inclusive os cortes, tamanhos padronizados, fios,
+> tomadas, chuveiros, parafusos, torneira, ferragens, marcenaria, etc, tudo na
+> planilha?"*
+
+A resposta honesta era **não**: nove frentes estavam declaradas fora. Declarar a
+falta era melhor que fingir cobertura — mas **continuar declarando depois de o
+modelo saber quantificar seria preguiça**.
+
+### Seis frentes entraram
+
+| Frente | Linhas | Valor | De onde a quantidade sai |
+|---|---|---|---|
+| Revestimento interno | 5 | R$ 77.133 | área de cada ambiente; parede = perímetro × altura de revestimento **menos os vãos** |
+| Pintura | 5 | R$ 38.886 | parede acima do revestimento + forro + muro; tinta em **litros**, pelo rendimento |
+| Louças e metais | 15 | R$ 39.079 | **contagem** das peças locadas em planta desde R06 |
+| Elétrica de acabamento | 6 | R$ 10.290 | TUG pelo **perímetro** da NBR 5410; TUE dos circuitos declarados |
+| Equipamentos | 6 | R$ 31.520 | capacidade de cada split, exaustores, piscina, portão |
+| Marcenaria | 5 | R$ 34.628 | bancadas, armários e closets declarados |
+
+**Total: 42 linhas, R$ 231.535.** O orçamento vai de R$ 551 mil para **R$ 782.632**
+— de R$ 1.853 para **R$ 2.632 por m²**.
+
+Nada foi estimado. Tudo sai da **geometria de uso** que o modelo já tinha e que
+ninguém havia percorrido nesse sentido.
+
+> Cada louça arrasta um conjunto que ninguém lembra de orçar e todo mundo compra
+> na correria: válvula, sifão, engate, registro, assento, acessório. São baratos
+> um a um e somam **R$ 4.433** — mais que os cinco vasos.
+
+### Três ficaram, e nenhuma se deduz de geometria
+
+| Fora | Por quê |
+|---|---|
+| mão de obra de instalações e acabamento | depende de composição e de convenção coletiva |
+| projetos, ART e taxas | dependem de quem assina e de qual prefeitura |
+| BDI, administração e canteiro | é decisão de **quem constrói**, não do que se constrói |
+
+### A ponte para o índice mudou junto com o escopo
+
+Até R56 a comparação com o índice de obra entregue usava a **parcela de
+material** (0,60) e o critério era *ficar abaixo do popular*, porque o escopo era
+menor. Com seis frentes dentro, manter 0,60 faria a conferência **reprovar por
+motivo errado** — e a tentação, nesse momento, é mexer no número até passar.
+
+Mudou o que tinha de mudar: a parcela passa a ser a **coberta** (0,65 — falta
+18 % de MO de acabamento, 5 % de projetos e taxas, 12 % de BDI) e o critério
+passa a ser **cair na faixa**, do popular ao alto:
+
+| | R$/m² |
+|---|---|
+| Orçado | 2.632 |
+| Extrapolado (÷ 0,65) | **3.892** |
+| Índice steel frame popular | 3.042 |
+| Índice steel frame médio | 4.544 |
+
+27,9 % acima do popular, 14,3 % abaixo do médio. Para casa de alto padrão em
+Manaus, é onde tem de estar.
+
+### Duas correções de arquitetura que a mudança forçou
+
+1. **`nucleo/bom.py` e `nucleo/cotacao.py` passaram a importar `projeto`** — e a
+   auditoria reprovou na hora: *"o motor importa 'projeto': a separação se
+   desfez"*. O núcleo recebe o projeto como argumento, nunca o importa. O
+   levantamento de acabamento passou a ser calculado em `liberacao.py` e
+   **entregue** ao BOM; a tensão que a especificação cita passou a vir do
+   resultado, não de um import.
+2. **O teste do visualizador travava em "as 12 pendências"** — um literal. Uma
+   pendência nova reprovaria o teste em vez de reprovar o projeto. Agora o
+   número sai de `pj.PENDENCIAS`.
+
+### Pendência 13 — nasceu de um item entrar no orçamento
+
+A quantidade de **luminária** é a única das seis frentes que **não** sai da
+geometria: sai de uma regra declarada (um ponto a cada 6 m²). Isso basta para
+comprar e não basta para iluminar.
+
+> A casa tem forro e iluminação **desenhados** desde a Etapa 2 e **nunca
+> calculados**. O lux por ambiente, a temperatura de cor e a uniformidade seguem
+> sem verificação — NBR ISO/CIE 8995-1.
+
+### E a planilha ganhou a lista de corte
+
+Oitava aba, **PEÇAS E CORTE**: cada tamanho padronizado e quantas vezes ele se
+repete — 1.021 peças em 499 barras de 6.000 mm, aproveitamento 87,2 %. Não
+substitui o nesting do fabricante (pendência 8): é lista de estudo, e está dito
+na própria aba.
+
+**Estado em R57:** 111 funções, 588 condições, **0 erros**; 208 verificações do
+visualizador, **0 falhas**; **118 itens** na planilha, 16 famílias, 81
+fornecedores, R$ 782.631,93 — o mesmo total no modelo e na planilha.

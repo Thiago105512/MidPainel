@@ -3163,6 +3163,30 @@ REVISOES = [
             "brinde. A TV deixou de ser uma so na casa: cada uma declara a "
             "propria diagonal, porque o tamanho sai da distancia que o comodo "
             "permite — 75\" no estar a 3,19 m, 55\" na master a 2,36 m"),
+    ("R57", "O ORCAMENTO DEIXA DE TER ESCOPO FORA. A pergunta foi direta — "
+            "esta TUDO na planilha? — e a resposta honesta era nao: NOVE "
+            "frentes estavam declaradas fora, e declarar a falta era melhor "
+            "que fingir cobertura. Mas continuar declarando depois de o modelo "
+            "saber quantificar seria preguica. SEIS entraram: revestimento "
+            "interno, pintura, loucas e metais, eletrica de acabamento, "
+            "equipamentos e marcenaria — 42 linhas novas, R$ 231,5 mil, e o "
+            "total vai de R$ 551 mil para R$ 783 mil (R$ 2.632/m2). Nenhuma "
+            "foi estimada: todas saem da geometria de USO que o modelo ja "
+            "tinha e que ninguem havia percorrido nesse sentido — louca "
+            "LOCADA em planta, bancada e armario declarados, area de parede e "
+            "de forro por ambiente, tomada pelo PERIMETRO da NBR 5410, "
+            "capacidade de cada split. Ficaram TRES, e nenhuma se deduz de "
+            "geometria: mao de obra de acabamento (depende de convencao "
+            "coletiva), projetos e taxas (dependem de quem assina) e BDI "
+            "(depende de quem constroi). A ponte para o indice mudou junto: "
+            "com o escopo quase no da obra entregue, o criterio deixou de ser "
+            "'ficar ABAIXO do popular' e passou a ser 'cair NA FAIXA' — "
+            "R$ 3.892/m2 extrapolados, entre o popular e o medio. Mexer no "
+            "numero ate passar seria a tentacao; mudar o criterio junto com o "
+            "escopo, e dizer que mudou, e o contrario disso. E nasceu "
+            "pendencia: a quantidade de luminaria e a unica das seis frentes "
+            "que sai de REGRA declarada e nao de geometria — a casa tem forro "
+            "e iluminacao desenhados desde a Etapa 2 e nunca calculados"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3271,6 +3295,17 @@ PENDENCIAS = [
     # do BOM sao (H) desde a primeira revisao e sempre estiveram marcados como
     # tal; o que faltava era o item que diz que isso TRANCA alguma coisa. Nao
     # tranca fabricar — tranca contratar.
+    # R57 — pendencia NOVA, e ela nasceu de um item entrar no orcamento. A
+    # quantidade de luminaria e a unica das seis frentes de acabamento que nao
+    # sai da geometria: sai de uma regra declarada (um ponto a cada 6 m2). Isso
+    # basta para comprar, nao basta para iluminar.
+    dict(n="13", titulo="Projeto luminotecnico por ambiente",
+         norma="NBR ISO/CIE 8995-1",
+         impacto="A casa tem forro e iluminacao DESENHADOS desde a Etapa 2 e "
+                 "nunca CALCULADOS. O orcamento ja compra luminaria por regra "
+                 "de area; o lux por ambiente, a temperatura de cor e a "
+                 "uniformidade seguem sem verificacao",
+         status="ABERTA", bloqueia="obra"),
     dict(n="12", titulo="Cotacao dos materiais: 100 % dos precos sao (H)",
          norma="Lei 14.133 art. 23 (parametro de 3 propostas)",
          impacto="O mapa de cotacao existe e esta pronto para sair; enquanto "
@@ -3314,13 +3349,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R56",
+    revisao="R57",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R56", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R57", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

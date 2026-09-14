@@ -4218,3 +4218,25 @@ def checar_acesso_das_subdivisoes() -> list[Achado]:
                           + (f" — acesso unico declarado por {o['unico_acesso']}"
                              if o["unico_acesso"] else "")))
     return out
+
+
+def checar_acabamento() -> list[Achado]:
+    """As seis frentes que deixaram de estar fora do orcamento (R57)."""
+    import projeto as pj
+    import nucleo.acabamento as ab
+    out = []
+    for titulo, detalhe, ok in ab.conferir(pj):
+        out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
+    lv = ab.levantar(pj)
+    for frente, linhas in sorted(lv["frentes"].items()):
+        v = sum(i["quantidade"] * i["preco"] for i in linhas)
+        out.append(Achado("NOTA", f"frente: {frente}",
+                          f"{len(linhas)} linhas, R$ {v:,.2f}".replace(",", ".")
+                          + " — " + "; ".join(i["sku"] for i in linhas)))
+    out.append(Achado("ATENCAO", "ponto de luz ainda e regra, nao calculo",
+                      f"um a cada {ab.PONTO_DE_LUZ_M2:g} m2, minimo um por "
+                      f"ambiente. A quantidade de luminaria e a unica destas "
+                      f"seis frentes que nao e consequencia da geometria: "
+                      f"depende de projeto luminotecnico (NBR ISO/CIE 8995-1), "
+                      f"que segue pendente"))
+    return out

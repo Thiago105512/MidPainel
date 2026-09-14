@@ -612,6 +612,19 @@ PROGRAMA = [
      "e a diferenca entre as duas coisas nao se ve em planta. O grafo confirma "
      "S-MAS/BANHO -> S-MAS/CLOSET -> S-MAS, e `unico_acesso` e conferido: a "
      "subdivisao que declara acesso unico nao pode ter outra vizinha."),
+    (128, "Acabamento: o orcamento deixa de ter escopo fora",
+     ["checar_acabamento"], "PARCIAL",
+     "Secao 153. A pergunta foi direta — esta TUDO na planilha? — e a resposta "
+     "honesta era nao: nove frentes estavam declaradas fora. Declarar a falta "
+     "era melhor que fingir cobertura, mas continuar declarando depois de o "
+     "modelo saber quantificar seria preguica. Seis entraram: revestimento, "
+     "pintura, loucas e metais, eletrica de acabamento, equipamentos e "
+     "marcenaria. Nenhuma foi estimada — todas saem da geometria de USO que o "
+     "modelo ja tinha: louca locada em planta, bancada e armario declarados, "
+     "area de parede e forro por ambiente, tomada pelo PERIMETRO da NBR 5410, "
+     "capacidade de cada split. Ficaram tres, e nenhuma se deduz de geometria: "
+     "mao de obra de acabamento, projetos e taxas, BDI. PARCIAL porque o ponto "
+     "de luz ainda e regra declarada, nao luminotecnica."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
