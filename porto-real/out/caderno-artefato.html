@@ -578,7 +578,7 @@
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R49 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R50 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -595,7 +595,7 @@
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>36,4 <span>kVA · 100 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>535 <span>condições · 0 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>539 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>35 <span>· A1</span></dd></div>
   </dl>
@@ -798,6 +798,7 @@
       <li><span class="r">R47</span><span>Catalogo tecnico com o desenho de cada peca — perfil, parafuso, chapa e tubo — gerado da PROPRIA peca: a mesma poligonal de linha media que o solver da NBR 14762 integra para achar A, Ix e Wx. Imagem de catalogo seria de um perfil generico, com marca de terceiro, e continuaria igual depois de a auditoria mudar uma espessura: passaria a mentir em silencio. A designacao ja E a dimensao. Zero imagens buscadas fora, e o teste confere que a cota desenhada e a dimensao que alimenta o calculo. Mais as duas decisoes do superior: o banho da suite 02 passa de J02 para J04 e espelha a 03 — a assimetria deixava o lado menor abaixo do minimo de area molhada — e a ocupacao do nicho de condensadora passa a ser derivada da lista, porque o texto dizia 2 ativas enquanto a lista mandava 5</span></li>
       <li><span class="r">R48</span><span>Fachada auditada contra o que foi COMBINADO. A regra declarada em R06 diz 'nenhuma superficie que exija pintura em altura', e o acabamento externo especificado era pintura acrilica num volume de 6,15 m: duas decisoes do mesmo projeto, uma negando a outra. Quem tinha razao era a fachada — FACHADA_MATERIAIS ja especifica revestimento mineral de fabrica, que nao se repinta — e a pintura externa passa a declarar ONDE se aplica: so o que se alcanca do chao. Repintar 150 m2 a 6 m custa tinta MAIS andaime, a cada cinco anos, para sempre. E os cinco brises, 16,8 m de ripado e 145,9 kg, existiam no desenho e no 3D sem material, sem massa e sem carga: 205,5 m de ripa, 33,6 de travessa e 66 fixacoes entram no orcamento. A altura e a profundidade do brise viviam como literal em modelo3d.py — 1.500 e 120 — contra os 150 declarados no dado: duas fontes, as duas em modulo de desenho</span></li>
       <li><span class="r">R49</span><span>Area externa e platibanda, os dois ultimos blocos que existiam so no desenho. 286 m2 de area aberta — muro de 113,4 m, quatro zonas de piso, piscina com revestimento e casca, jardim e paisagismo — somam R$ 88.125, 17 % do custo, exatamente a faixa de pratica para residencia deste porte, e a propria faixa virou verificacao: e o unico sinal de que o levantamento nao esquece um bloco inteiro. O muro e bloco APARENTE com hidrofugante, nao alvenaria pintada: a regra que barrou a pintura da fachada em R48 vale para 250 m2 de muro repintado a cada cinco anos. E a platibanda — 550 mm de parede em 64,8 m de perimetro, visivel nas quatro fachadas — ganha 109 montantes, 129,6 m de guia, 71,3 m2 de placa nas DUAS faces (a interna olha para a calha e recebe chuva) e 243,6 kg de aco em linha propria, sem voltar a ser contada em ACO-PERF</span></li>
+      <li><span class="r">R50</span><span>Viabilidade: cada pendencia com a EXPOSICAO medida — a fatia do custo que muda quando o dado chegar. Uma lista de pendencias diz o que falta e nao diz quanto do projeto depende de cada uma, e item que move 2 % aparece igual a item que move 100 % numa lista com bolinha. Um projeto tambem nao esta viavel em bloco: fabricacao esta travada por #3 e #8, obra por seis itens, e contrato por #12. A certidao do SU16 e a unica cuja falha invalida o projeto inteiro e nao um sistema dele. Duas exposicoes sao SIMULADAS e nao estimadas, porque o radier e o nesting sao parametro: radier de 250 mm em vez de 180, nesting de 80 % em vez de 87,5. E a pendencia 11 fecha por conferencia — o DN50 da PR-09 e a succao da piscina, nao ramal de agua fria; a pendencia nasceu de eu ter lido a tabela antiga errado em R39</span></li>
       </ol>
     </div>
     <div>
@@ -813,7 +814,7 @@
       <li><span class="n">8</span><span>Nesting codificado dos paineis LSF — A paginacao atual e de estudo, nao de corte</span><span class="s aberta">ABERTA</span></li>
       <li><span class="n">9</span><span>Divergencia geometrica R32 x Lista Consolidada — Documentada em docs/DIVERGENCIAS.md</span><span class="s resolvida">RESOLVIDA</span></li>
       <li><span class="n">10</span><span>Climatizacao da fita social — Resolvida por zona com fronteira aerodinamica (R02)</span><span class="s resolvida">RESOLVIDA</span></li>
-      <li><span class="n">11</span><span>Diametro de agua fria do ramal do chuveiro — Hidraulica: a tabela da PR-09 trazia DN50 no ramal; verificar se a troca de ramal acompanhou a decisao do chuveiro eletrico (peso 0,10 em vez de 0,40)</span><span class="s aberta">ABERTA</span></li>
+      <li><span class="n">11</span><span>Diametro de agua fria do ramal do chuveiro — RESOLVIDA em R50: o DN50 da PR-09 e a succao/retorno da piscina, nao ramal de agua fria. O ramal sai do calculo por pesos — DN25 por pavimento, DN32 no alimentador — e o chuveiro eletrico entra com peso 0,10 como decidido em R07</span><span class="s resolvida">RESOLVIDA</span></li>
       <li><span class="n">12</span><span>Cotacao dos materiais: 100 % dos precos sao (H) — O mapa de cotacao existe e esta pronto para sair; enquanto nao voltar, o custo e ordem de grandeza para auditar quantidade, nunca base de contrato</span><span class="s aberta">ABERTA</span></li>
       </ol>
     </div>
@@ -1653,6 +1654,7 @@ const VISTAS = [
   ["ambientes",  "Por ambiente",       "cômodo a cômodo, tudo num lugar só"],
   ["catalogo",   "Catálogo técnico",   "cada peça desenhada do modelo"],
   ["fachada",    "Fachada",            "o combinado, o desenhado e o estrutural"],
+  ["viabilidade","Viabilidade",        "o que falta, e quanto depende disso"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -1673,6 +1675,9 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    viabilidade: "O que ainda falta, quem fecha cada item e — o que uma " +
+                 "lista de pendências nunca diz — quanto do projeto depende " +
+                 "de cada um deles.",
     fachada: "As quatro faces, o que foi combinado para elas e se o que " +
              "está pendurado ali tem como ficar pendurado.",
     catalogo: "O desenho de cada peça que vai ser comprada: perfil, " +
@@ -1758,6 +1763,12 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    viabilidade: "Exposição é a fatia do custo que muda quando o dado " +
+                 "chegar, não a probabilidade de ele chegar errado — " +
+                 "probabilidade aqui seria palpite com aparência de número. E " +
+                 "o projeto não está viável em bloco: está liberado para uma " +
+                 "coisa e não para outra, e confundir as duas é como se atrasa " +
+                 "obra esperando o que não precisava esperar.",
     fachada: "Regra de fachada declarada que ninguém confere é preferência, " +
              "não regra. A conferência achou duas: o acabamento externo " +
              "especificado era PINTURA num volume de 6,15 m, contra a própria " +
@@ -2721,7 +2732,7 @@ function renderEng() {
              materiais: vistaMateriais, parafusos: vistaParafusos,
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
              ambientes: vistaAmbientes, catalogo: vistaCatalogo,
-             fachada: vistaFachada,
+             fachada: vistaFachada, viabilidade: vistaViabilidade,
              bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
@@ -3553,6 +3564,59 @@ function vistaFachada() {
         <tbody>${br}</tbody></table></div>
       <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
         ${esc2(B.nota)}. Ripa: ${esc2(B.ripa.desc)}, ${num(B.ripa.massa_m, 2)} kg/m.</p></div>`;
+}
+
+// --------------------------------------------------------- viabilidade
+// Uma lista de pendencias diz o que falta. Ela nao diz a unica coisa que
+// decide se um projeto pode andar: QUANTO DELE DEPENDE DE CADA UMA. Um item
+// que move 2 % do orcamento e nota de rodape; um que move 100 % e risco de
+// contrato — e os dois aparecem iguais numa lista com bolinha.
+function vistaViabilidade() {
+  const V = ENG.viabilidade;
+  if (!V) return barraModos() + "<p class='conta'>sem avaliação de viabilidade</p>";
+  const abertas = V.itens.filter(i => i.status === "ABERTA")
+                         .sort((a, b) => b.fracao - a.fracao);
+  const maior = Math.max(...abertas.map(i => i.fracao)) || 1;
+  const portoes = V.portoes.map(p =>
+    `<div class="cartao"><span class="rot">${esc2(p.portao)}</span>
+      <span class="val" style="color:${p.travado ? "var(--alert)" : "var(--ok)"}">${p.travado ? "travado" : "livre"}</span>
+      <span class="uni">${p.travado ? "por #" + p.itens.join(", #") : "nada pendente"}<br>
+        ${esc2(p.o_que_libera)}</span></div>`).join("");
+  const linhas = abertas.map(i =>
+    `<div class="eng-sec" style="margin-bottom:14px">
+      <div style="display:grid;grid-template-columns:40px 1fr 150px;gap:10px;
+        align-items:baseline">
+        <span style="font-family:var(--mono);font-size:15px;color:var(--alert)">#${esc2(i.n)}</span>
+        <div><b>${esc2(i.titulo)}</b>
+          <span class="sub" style="display:block;font-family:var(--mono);
+            font-size:10px;color:var(--ink-faint)">${esc2(i.norma)}${
+            i.bloqueia ? " · tranca " + esc2(i.bloqueia) : " · não tranca portão"}</span></div>
+        <span style="text-align:right;font-family:var(--mono);font-size:11px">
+          <b>${(i.fracao * 100).toFixed(1)} %</b><br>R$ ${num(i.exposicao, 0)}</span>
+      </div>
+      <div style="height:8px;background:var(--rule-soft);margin:8px 0">
+        <i style="display:block;height:100%;width:${(i.fracao / maior * 100).toFixed(1)}%;
+          background:${i.fracao > 0.5 ? "#d03b3b" : "#3f6fb5"}"></i></div>
+      <p class="conta" style="display:block;line-height:1.6;margin:0">
+        ${i.grandeza ? "<b>" + esc2(i.grandeza) + "</b> · " : ""}${esc2(i.simulacao)}</p>
+    </div>`).join("");
+  const feitas = V.itens.filter(i => i.status !== "ABERTA").map(i =>
+    `<li><span class="m">✓</span><span>#${esc2(i.n)} ${esc2(i.titulo)}
+      <span class="sub" style="display:block;color:var(--ink-faint);font-size:12px">${esc2(i.impacto)}</span></span>
+      <span class="st">resolvida</span></li>`).join("");
+  return `${barraModos()}${leitura("viabilidade")}
+    <div class="cartoes" style="margin-bottom:16px">${portoes}
+      <div class="cartao"><span class="rot">Pendências</span>
+        <span class="val">${V.abertas}</span>
+        <span class="uni">abertas · ${V.resolvidas} resolvidas</span></div>
+    </div>
+    <div class="selo nao" style="align-items:flex-start;margin-bottom:16px">
+      <b>Um projeto não está viável em bloco</b>
+      <span style="line-height:1.55">${esc2(V.leitura)}. <br><br>
+        <b>Exposição:</b> ${esc2(V.criterio)}.</span></div>
+    ${linhas}
+    ${feitas ? `<div class="eng-sec"><h3>Resolvidas</h3>
+      <ul class="check">${feitas}</ul></div>` : ""}`;
 }
 
 

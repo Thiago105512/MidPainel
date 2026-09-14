@@ -450,6 +450,63 @@ def checar_ambientes() -> list[Achado]:
     return out
 
 
+def checar_viabilidade() -> list[Achado]:
+    """O que falta, quem fecha, e QUANTO DO PROJETO depende disso.
+
+    Uma lista de pendencias diz o que falta. Ela nao diz a unica coisa que
+    decide se um projeto pode andar: quanto dele depende de cada uma. Um item
+    que move 2 % do orcamento e nota de rodape; um que move 100 % e risco de
+    contrato — e os dois aparecem iguais numa lista com bolinha.
+    """
+    import projeto as pj
+    out = []
+    r = fx.liberacao()
+    v = r["viabilidade"]
+
+    out.append(Achado("NOTA", "portoes",
+                      "; ".join(f"{p['portao']}: "
+                                + (f"TRAVADO por #{', #'.join(p['itens'])}"
+                                   if p["travado"] else "livre")
+                                for p in v["portoes"])
+                      + ". " + v["leitura"]))
+
+    abertas = sorted((i for i in v["itens"] if i["status"] == "ABERTA"),
+                     key=lambda i: -i["fracao"])
+    for i in abertas:
+        nivel = "ATENCAO" if i["fracao"] >= 0.5 else "NOTA"
+        out.append(Achado(nivel, f"#{i['n']} {i['titulo'][:34]}",
+                          f"exposicao de {i['fracao'] * 100:.1f} % do custo "
+                          f"(R$ {i['exposicao']:,.0f})"
+                          + (f", tranca {i['bloqueia']}" if i["bloqueia"]
+                             else ", nao tranca portao nenhum")
+                          + (f". {i['grandeza']}" if i["grandeza"] else "")
+                          + (f". {i['simulacao']}" if i["simulacao"] else "")))
+
+    # a exposicao tem de ser medida, nao chutada
+    mediveis = [i for i in abertas if i["simulacao"]]
+    out.append(Achado("NOTA" if len(mediveis) == len(abertas) else "ATENCAO",
+                      "exposicao medida",
+                      f"{len(mediveis)} de {len(abertas)} pendencias abertas "
+                      f"dizem o que muda quando o dado chegar, e duas delas "
+                      f"trazem SIMULACAO calculada — radier de 250 mm em vez "
+                      f"de 180, e nesting de 80 % em vez do atual. "
+                      + v["criterio"]))
+
+    # a pendencia 11 fechou por conferencia, nao por decreto
+    p11 = next((i for i in v["itens"] if i["n"] == "11"), None)
+    pru = pj.prumadas_hidraulicas()
+    dns = sorted({x["dn_agua"] for x in pru})
+    out.append(Achado("NOTA" if p11 and p11["status"] == "RESOLVIDA" else "ERRO",
+                      "#11 fechada por conferencia",
+                      f"o ramal de agua fria sai do calculo por pesos da NBR "
+                      f"5626 e da DN{', DN'.join(str(d) for d in dns)} — nao "
+                      f"existe DN50 em ramal de agua fria no modelo. O DN50 da "
+                      f"PR-09 e a succao e o retorno da PISCINA, circuito "
+                      f"proprio e correto. A pendencia nasceu em R39, quando "
+                      f"unifiquei duas listas e li a tabela antiga errado"))
+    return out
+
+
 def checar_externo() -> list[Achado]:
     """286 m2 de projeto que nao existiam no orcamento.
 

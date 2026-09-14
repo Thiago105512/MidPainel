@@ -490,6 +490,16 @@ PROGRAMA = [
      "nas quatro fachadas, sem montante, sem guia, sem fechamento e sem massa. "
      "PARCIAL porque equipamento de piscina e mobiliario externo continuam "
      "fora do levantamento."),
+    (116, "Viabilidade: o que falta, quem fecha e quanto depende disso",
+     ["checar_viabilidade"], "PARCIAL",
+     "Secoes 140 a 142. Uma lista de pendencias diz o que falta; ela nao diz a "
+     "unica coisa que decide se o projeto pode andar, que e quanto dele "
+     "depende de cada uma. Item que move 2 % do orcamento e nota de rodape; "
+     "item que move 100 % e risco de contrato, e os dois aparecem iguais numa "
+     "lista com bolinha. Exposicao e a fatia do custo que muda quando o dado "
+     "chegar — nao a probabilidade de ele chegar errado, que aqui seria "
+     "palpite com aparencia de numero. PARCIAL porque nove pendencias seguem "
+     "abertas e seis dependem de terceiros."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

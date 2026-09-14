@@ -3914,3 +3914,67 @@ compra aparece uma vez só — e há verificação para isso.
 Brise (R48), área externa (R49) e platibanda (R49): **existe no desenho, existe
 no 3D, não existe no modelo.** É o mesmo padrão do vigamento até R31 e da
 fundação até R37. O desenho convence, e a obra descobre.
+
+## R50 — viabilidade: o que falta, quem fecha, e quanto depende disso
+
+Uma lista de pendências diz **o que falta**. Ela não diz a única coisa que decide
+se um projeto pode andar: **quanto dele depende de cada uma.**
+
+> Um item aberto que move 2 % do orçamento é nota de rodapé; um que move 100 % é
+> risco de contrato. E os dois aparecem iguais numa lista com bolinha.
+
+### Um projeto não está viável em bloco
+
+| portão | libera | estado |
+|---|---|---|
+| **fabricação** | cortar perfil e montar painel | travado por **#3** (ART) e **#8** (nesting) |
+| **obra** | abrir canteiro, fundar e erguer | travado por #1, #2, #4, #5, #6, #7 |
+| **contrato** | assinar preço e prazo | travado por **#12** (cotação) |
+
+Confundir os três é como se atrasa obra esperando o que não precisava esperar.
+
+### A exposição de cada pendência
+
+| # | pendência | exposição | tranca |
+|---|---|---|---|
+| 1 | Certidão do SU16 | **100,0 %** | obra |
+| 12 | Cotação dos materiais | **100,0 %** | contrato |
+| 6 | Regulamento do condomínio | 20,0 % | obra |
+| 4 / 5 | Reuso e retenção pluvial | 17,0 % | obra |
+| 3 | ART do cálculo estrutural | 14,1 % | fabricação |
+| 8 | Nesting codificado | 13,8 % | fabricação |
+| 2 | Sondagem e radier | 8,2 % | obra |
+| 7 | Padrão trifásico | 7,1 % | obra |
+
+**#1 é a única cuja falha invalida o projeto inteiro**, e não um sistema dele: se
+a certidão trouxer taxa de ocupação menor que os 33,21 % adotados ou gabarito
+abaixo de dois pavimentos, a implantação muda e tudo é refeito.
+
+### Duas exposições são simuladas, não estimadas
+
+O radier é **parâmetro**, então dá para perguntar o que acontece se a sondagem
+pedir 250 mm em vez de 180 — e a resposta sai do próprio modelo. O mesmo para o
+nesting: se a máquina real render 80 % em vez dos 87,5 % do plano de estudo, o
+aço sobe uma quantia calculável.
+
+> Exposição é a fatia do custo que muda quando o dado chegar — **não** a
+> probabilidade de ele chegar errado. Probabilidade aqui seria palpite com
+> aparência de número.
+
+E a identidade `exposição = fração × custo` é conferida a cada execução: é ela
+que garante que a exposição foi **medida contra o total**, e não atribuída a olho.
+
+### Pendência 11 — fechada por conferência, e a causa era outra
+
+A pendência dizia: *"a tabela da PR-09 trazia DN50 no ramal; verificar se a troca
+de ramal acompanhou a decisão do chuveiro elétrico"*.
+
+Verificado: **o DN50 da PR-09 é a sucção e o retorno da piscina**, circuito
+próprio e correto. O ramal de água fria da casa sai do cálculo por pesos da NBR
+5626 e dá **DN25 por pavimento e DN32 no alimentador**, com velocidade de 1,19 a
+1,81 m/s — dentro do limite de conforto, que é mais restritivo que o da norma. E
+o chuveiro **elétrico** entra com peso 0,10, exatamente como R07 decidiu.
+
+Não existe nenhum ramal de água fria em DN50 no modelo. A pendência nasceu em R39,
+quando unifiquei as duas listas de pendências e **li a tabela antiga errado** —
+ela é minha, e fecha por conferência, não por decreto.

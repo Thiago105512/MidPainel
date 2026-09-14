@@ -1279,6 +1279,39 @@ def rodar(fotos: bool = False) -> int:
                     && ENG.bom.some(i => i.sku === 'PLA-MONT'); }"""),
            "e entra em linha propria, sem voltar a ser contada em ACO-PERF")
 
+        # ---- VIABILIDADE: o que falta, e quanto do projeto depende disso
+        pag.click("#vistasEng button[data-vista='viabilidade']")
+        pag.wait_for_timeout(500)
+        ok(pag.evaluate("() => ENG.viabilidade.itens.length") == 12,
+           "as 12 pendencias estao avaliadas uma a uma")
+        # o portao e o que decide: o projeto nao esta viavel em BLOCO
+        ok(pag.evaluate("""() => ENG.viabilidade.portoes.length === 3
+             && ENG.viabilidade.portoes.every(p =>
+                  typeof p.travado === 'boolean' && p.o_que_libera)"""),
+           "e os tres portoes dizem o que cada um libera",
+           pag.evaluate("""() => ENG.viabilidade.portoes
+             .map(p => p.portao + (p.travado ? ' travado' : ' livre')).join(' · ')"""))
+        ok(pag.evaluate("""() => ENG.viabilidade.itens
+             .filter(i => i.status === 'ABERTA')
+             .every(i => i.simulacao && i.simulacao.length > 30)"""),
+           "toda pendencia aberta diz o que muda quando o dado chegar")
+        # exposicao e medida contra o custo real, nao atribuida a olho
+        ok(pag.evaluate("""() => ENG.viabilidade.itens
+             .filter(i => i.status === 'ABERTA')
+             .every(i => i.fracao >= 0 && i.fracao <= 1
+                      && Math.abs(i.exposicao - i.fracao * ENG.custo) < 2)"""),
+           "e a exposicao e a fatia do custo, conferida contra o total")
+        # a pendencia fechada nao pode continuar contando exposicao
+        ok(pag.evaluate("""() => ENG.viabilidade.itens
+             .filter(i => i.status !== 'ABERTA')
+             .every(i => i.exposicao === 0)"""),
+           "pendencia resolvida deixa de pesar",
+           str(pag.evaluate("() => ENG.viabilidade.resolvidas")) + " resolvidas")
+        ok(pag.evaluate("""() => {
+             const t = document.getElementById('engConteudo').textContent;
+             return t.includes('%') && t.includes('travado'); }"""),
+           "e a tela mostra o portao travado com a exposicao ao lado")
+
         # ---- IMPRESSAO: o que sai no papel e o documento, nao a interface
         ok(pag.evaluate("""() => {
              const css = [...document.styleSheets].flatMap(s => {

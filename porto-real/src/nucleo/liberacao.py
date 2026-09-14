@@ -328,7 +328,16 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                sensibilidade=[co.sensibilidade(itens, f, 0.20)
                               for f in sorted({i.familia for i in itens})])
 
+    # ---- viabilidade: o que falta, quem fecha e QUANTO DO PROJETO depende
+    # disso. Vem por ultimo porque mede exposicao sobre o custo e sobre o
+    # levantamento inteiro — precisa deles prontos.
+    import nucleo.viabilidade as vi
+    _rv = dict(custo=custo, bom=itens, camadas=camadas, plano=plano,
+               verificacao=verif, cotacao=cot)
+    viabilidade = vi.avaliar(pj, _rv)
+
     return dict(cotacao=cot, ambientes=ambientes, catalogo=catalogo,
+                viabilidade=viabilidade,
                 fachada=fachada,
                 paineis=todos, pecas=pecas, plano=plano, bom=itens,
                 custo=custo, etapas=etapas, ordem=ordem, passos=passos,

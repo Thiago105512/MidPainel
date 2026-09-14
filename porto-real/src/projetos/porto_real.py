@@ -2758,6 +2758,19 @@ REVISOES = [
             "— ganha 109 montantes, 129,6 m de guia, 71,3 m2 de placa nas DUAS "
             "faces (a interna olha para a calha e recebe chuva) e 243,6 kg de "
             "aco em linha propria, sem voltar a ser contada em ACO-PERF"),
+    ("R50", "Viabilidade: cada pendencia com a EXPOSICAO medida — a fatia do "
+            "custo que muda quando o dado chegar. Uma lista de pendencias diz "
+            "o que falta e nao diz quanto do projeto depende de cada uma, e "
+            "item que move 2 % aparece igual a item que move 100 % numa lista "
+            "com bolinha. Um projeto tambem nao esta viavel em bloco: "
+            "fabricacao esta travada por #3 e #8, obra por seis itens, e "
+            "contrato por #12. A certidao do SU16 e a unica cuja falha "
+            "invalida o projeto inteiro e nao um sistema dele. Duas exposicoes "
+            "sao SIMULADAS e nao estimadas, porque o radier e o nesting sao "
+            "parametro: radier de 250 mm em vez de 180, nesting de 80 % em vez "
+            "de 87,5. E a pendencia 11 fecha por conferencia — o DN50 da PR-09 "
+            "e a succao da piscina, nao ramal de agua fria; a pendencia nasceu "
+            "de eu ter lido a tabela antiga errado em R39"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2814,12 +2827,21 @@ PENDENCIAS = [
     # divergente: oito itens, numeracao propria e um assunto que a lista da
     # PR-33 nunca teve. Unificar as duas nao pode significar perder o que so
     # uma delas sabia — e este item so existia na copia da PR-09.
+    # R50 — RESOLVIDA, e a causa era outra. O DN50 que a tabela da PR-09
+    # trazia nao e ramal de agua fria: e a succao e o retorno da PISCINA, que
+    # sao circuito proprio e estao corretos em DN50. O ramal de agua fria da
+    # casa sai do calculo por pesos da NBR 5626 e da DN25 por pavimento e DN32
+    # no alimentador geral, com velocidade de 1,19 a 1,81 m/s — dentro do
+    # limite de conforto, que e mais restritivo que o da norma. E o chuveiro
+    # ELETRICO entra com peso 0,10, exatamente como a decisao de R07 mandou.
+    # Nao ha nenhum ramal de agua fria em DN50 no modelo.
     dict(n="11", titulo="Diametro de agua fria do ramal do chuveiro",
          norma="NBR 5626",
-         impacto="Hidraulica: a tabela da PR-09 trazia DN50 no ramal; "
-                 "verificar se a troca de ramal acompanhou a decisao do "
-                 "chuveiro eletrico (peso 0,10 em vez de 0,40)",
-         status="ABERTA", bloqueia=""),
+         impacto="RESOLVIDA em R50: o DN50 da PR-09 e a succao/retorno da "
+                 "piscina, nao ramal de agua fria. O ramal sai do calculo por "
+                 "pesos — DN25 por pavimento, DN32 no alimentador — e o "
+                 "chuveiro eletrico entra com peso 0,10 como decidido em R07",
+         status="RESOLVIDA", bloqueia=""),
     # R40 — a pendencia que sempre existiu e nunca estava na lista. Os precos
     # do BOM sao (H) desde a primeira revisao e sempre estiveram marcados como
     # tal; o que faltava era o item que diz que isso TRANCA alguma coisa. Nao
@@ -2867,13 +2889,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R49",
+    revisao="R50",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R49", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R50", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

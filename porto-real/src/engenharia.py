@@ -427,6 +427,7 @@ def montar() -> dict:
             ok=r["combinacoes"]["ok"]),
         pendencias=r["pendencias"],
         catalogo=r["catalogo"],
+        viabilidade=r["viabilidade"],
         fachada=dict(r["fachada"],
                      platibanda=r["camadas"]["platibanda"],
                      externo=r["camadas"]["externo"]),

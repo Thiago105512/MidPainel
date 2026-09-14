@@ -143,6 +143,7 @@ const VISTAS = [
   ["ambientes",  "Por ambiente",       "cômodo a cômodo, tudo num lugar só"],
   ["catalogo",   "Catálogo técnico",   "cada peça desenhada do modelo"],
   ["fachada",    "Fachada",            "o combinado, o desenhado e o estrutural"],
+  ["viabilidade","Viabilidade",        "o que falta, e quanto depende disso"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -163,6 +164,9 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    viabilidade: "O que ainda falta, quem fecha cada item e — o que uma " +
+                 "lista de pendências nunca diz — quanto do projeto depende " +
+                 "de cada um deles.",
     fachada: "As quatro faces, o que foi combinado para elas e se o que " +
              "está pendurado ali tem como ficar pendurado.",
     catalogo: "O desenho de cada peça que vai ser comprada: perfil, " +
@@ -248,6 +252,12 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    viabilidade: "Exposição é a fatia do custo que muda quando o dado " +
+                 "chegar, não a probabilidade de ele chegar errado — " +
+                 "probabilidade aqui seria palpite com aparência de número. E " +
+                 "o projeto não está viável em bloco: está liberado para uma " +
+                 "coisa e não para outra, e confundir as duas é como se atrasa " +
+                 "obra esperando o que não precisava esperar.",
     fachada: "Regra de fachada declarada que ninguém confere é preferência, " +
              "não regra. A conferência achou duas: o acabamento externo " +
              "especificado era PINTURA num volume de 6,15 m, contra a própria " +
@@ -1215,7 +1225,7 @@ function renderEng() {
              materiais: vistaMateriais, parafusos: vistaParafusos,
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
              ambientes: vistaAmbientes, catalogo: vistaCatalogo,
-             fachada: vistaFachada,
+             fachada: vistaFachada, viabilidade: vistaViabilidade,
              bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
@@ -2199,5 +2209,60 @@ function vistaFachada() {
         <tbody>${br}</tbody></table></div>
       <p class="conta" style="display:block;margin-top:10px;line-height:1.5">
         ${esc2(B.nota)}. Ripa: ${esc2(B.ripa.desc)}, ${num(B.ripa.massa_m, 2)} kg/m.</p></div>`;
+}
+'''
+
+JS_ENG += r'''
+// --------------------------------------------------------- viabilidade
+// Uma lista de pendencias diz o que falta. Ela nao diz a unica coisa que
+// decide se um projeto pode andar: QUANTO DELE DEPENDE DE CADA UMA. Um item
+// que move 2 % do orcamento e nota de rodape; um que move 100 % e risco de
+// contrato — e os dois aparecem iguais numa lista com bolinha.
+function vistaViabilidade() {
+  const V = ENG.viabilidade;
+  if (!V) return barraModos() + "<p class='conta'>sem avaliação de viabilidade</p>";
+  const abertas = V.itens.filter(i => i.status === "ABERTA")
+                         .sort((a, b) => b.fracao - a.fracao);
+  const maior = Math.max(...abertas.map(i => i.fracao)) || 1;
+  const portoes = V.portoes.map(p =>
+    `<div class="cartao"><span class="rot">${esc2(p.portao)}</span>
+      <span class="val" style="color:${p.travado ? "var(--alert)" : "var(--ok)"}">${p.travado ? "travado" : "livre"}</span>
+      <span class="uni">${p.travado ? "por #" + p.itens.join(", #") : "nada pendente"}<br>
+        ${esc2(p.o_que_libera)}</span></div>`).join("");
+  const linhas = abertas.map(i =>
+    `<div class="eng-sec" style="margin-bottom:14px">
+      <div style="display:grid;grid-template-columns:40px 1fr 150px;gap:10px;
+        align-items:baseline">
+        <span style="font-family:var(--mono);font-size:15px;color:var(--alert)">#${esc2(i.n)}</span>
+        <div><b>${esc2(i.titulo)}</b>
+          <span class="sub" style="display:block;font-family:var(--mono);
+            font-size:10px;color:var(--ink-faint)">${esc2(i.norma)}${
+            i.bloqueia ? " · tranca " + esc2(i.bloqueia) : " · não tranca portão"}</span></div>
+        <span style="text-align:right;font-family:var(--mono);font-size:11px">
+          <b>${(i.fracao * 100).toFixed(1)} %</b><br>R$ ${num(i.exposicao, 0)}</span>
+      </div>
+      <div style="height:8px;background:var(--rule-soft);margin:8px 0">
+        <i style="display:block;height:100%;width:${(i.fracao / maior * 100).toFixed(1)}%;
+          background:${i.fracao > 0.5 ? "#d03b3b" : "#3f6fb5"}"></i></div>
+      <p class="conta" style="display:block;line-height:1.6;margin:0">
+        ${i.grandeza ? "<b>" + esc2(i.grandeza) + "</b> · " : ""}${esc2(i.simulacao)}</p>
+    </div>`).join("");
+  const feitas = V.itens.filter(i => i.status !== "ABERTA").map(i =>
+    `<li><span class="m">✓</span><span>#${esc2(i.n)} ${esc2(i.titulo)}
+      <span class="sub" style="display:block;color:var(--ink-faint);font-size:12px">${esc2(i.impacto)}</span></span>
+      <span class="st">resolvida</span></li>`).join("");
+  return `${barraModos()}${leitura("viabilidade")}
+    <div class="cartoes" style="margin-bottom:16px">${portoes}
+      <div class="cartao"><span class="rot">Pendências</span>
+        <span class="val">${V.abertas}</span>
+        <span class="uni">abertas · ${V.resolvidas} resolvidas</span></div>
+    </div>
+    <div class="selo nao" style="align-items:flex-start;margin-bottom:16px">
+      <b>Um projeto não está viável em bloco</b>
+      <span style="line-height:1.55">${esc2(V.leitura)}. <br><br>
+        <b>Exposição:</b> ${esc2(V.criterio)}.</span></div>
+    ${linhas}
+    ${feitas ? `<div class="eng-sec"><h3>Resolvidas</h3>
+      <ul class="check">${feitas}</ul></div>` : ""}`;
 }
 '''
