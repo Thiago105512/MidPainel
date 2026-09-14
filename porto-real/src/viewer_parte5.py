@@ -1353,14 +1353,320 @@ function abrirEng() {
     b.addEventListener("click", () => { engVista = id; pararAnim(); renderEng(); });
     li.appendChild(b); ul.appendChild(li);
   });
-  fetch("engenharia.json").then(r => r.json()).then(d => {
-    ENG = d;
-    painelSel = d.paineis[0].cod;
-    renderEng();
-  }).catch(() => {
+  garantirENG().then(renderEng).catch(() => {
     document.getElementById("engConteudo").innerHTML =
       "<div class='selo nao'><b>engenharia.json não carregou</b>" +
       "<span>a aba mostra o motor; sem o arquivo não há o que mostrar</span></div>";
   });
 }
+
+// O motor era carregado so quando a aba de engenharia abria. A busca global
+// precisa dele antes disso — quem procura "TP23" nao quer primeiro descobrir
+// em que aba TP23 mora. Uma promessa so, memorizada: duas chamadas simultaneas
+// nao viram dois downloads de 930 KB.
+let _promessaENG = null;
+function garantirENG() {
+  if (ENG) return Promise.resolve(ENG);
+  if (!_promessaENG) {
+    _promessaENG = fetch("engenharia.json").then(r => r.json()).then(d => {
+      ENG = d;
+      if (!painelSel && d.paineis && d.paineis.length) painelSel = d.paineis[0].cod;
+      return d;
+    });
+  }
+  return _promessaENG;
+}
+'''
+
+CSS_ENG += r'''
+  /* ---------------------------------------------------- busca global */
+  .lupa{font-family:var(--mono); font-size:11.5px; letter-spacing:.03em;
+        border:1px solid var(--rule); background:var(--surface); color:var(--ink-soft);
+        padding:5px 10px; cursor:pointer; border-radius:2px; display:flex;
+        align-items:center; gap:7px}
+  .lupa:hover{border-color:var(--accent); color:var(--accent)}
+  .lupa kbd{font-family:var(--mono); font-size:9.5px; border:1px solid var(--rule);
+            border-radius:2px; padding:1px 4px; color:var(--ink-faint)}
+  @media (max-width:560px){ .lupa kbd{display:none} }
+
+  .paleta{position:fixed; inset:0; z-index:50; background:rgba(10,14,18,.45);
+          display:flex; align-items:flex-start; justify-content:center;
+          padding:8vh 16px 16px}
+  .paleta-caixa{width:min(720px,100%); background:var(--surface);
+                border:1px solid var(--rule); box-shadow:var(--shadow);
+                border-radius:3px; display:flex; flex-direction:column;
+                max-height:76vh; overflow:hidden}
+  .paleta input{font-family:var(--body); font-size:16px; border:none;
+                border-bottom:1px solid var(--rule-soft); background:none;
+                color:var(--ink); padding:14px 16px; width:100%}
+  .paleta input:focus{outline:none}
+  .paleta .achados{overflow-y:auto; padding:6px 0}
+  .paleta .grupo{font-family:var(--mono); font-size:9.5px; letter-spacing:.13em;
+                 text-transform:uppercase; color:var(--ink-faint);
+                 padding:9px 16px 4px}
+  .paleta button.ach{display:grid; grid-template-columns:1fr auto; gap:12px;
+    width:100%; text-align:left; background:none; border:none; color:inherit;
+    font-family:inherit; font-size:13.5px; padding:7px 16px; cursor:pointer;
+    align-items:baseline}
+  .paleta button.ach:hover, .paleta button.ach[aria-current="true"]{
+    background:var(--accent-soft); box-shadow:inset 2px 0 0 var(--accent)}
+  .paleta .ach .sub{display:block; font-family:var(--mono); font-size:10.5px;
+                    color:var(--ink-faint); margin-top:1px}
+  .paleta .ach .onde{font-family:var(--mono); font-size:10px; color:var(--ink-faint);
+                     white-space:nowrap}
+  .paleta .rodape{border-top:1px solid var(--rule-soft); padding:8px 16px;
+    font-family:var(--mono); font-size:10.5px; color:var(--ink-faint);
+    display:flex; gap:14px; flex-wrap:wrap}
+'''
+
+JS_ENG += r'''
+// =====================================================================
+// BUSCA GLOBAL — uma pergunta, doze vistas e 35 pranchas
+//
+// Ate R41 cada vista tinha o seu filtro, e cada filtro so enxergava a propria
+// lista. Quem procurava "TP23" precisava saber ANTES em que aba TP23 mora —
+// e essa e exatamente a informacao que quem procura nao tem. Um sistema que
+// exige saber onde esta a resposta para poder procura-la nao tem busca: tem
+// filtros.
+//
+// O indice se monta do que ja existe (nada de estrutura paralela para
+// divergir) e cada achado sabe PARA ONDE IR. E por isso que isto vem depois da
+// rota de R41: sem endereco nao ha destino, e um resultado de busca que nao
+// leva a lugar nenhum e so um eco.
+// =====================================================================
+let _indice = null, _achSel = 0, _achAtuais = [];
+
+function _ir(rota, antes) {
+  if (typeof antes === "function") antes();
+  aplicarRota(rota);
+  if (rota.startsWith("eng/")) renderEng();
+  gravarRota();
+}
+
+function montarIndice() {
+  if (_indice) return _indice;
+  const ix = [];
+  const add = (tipo, chave, rotulo, sub, rota, antes) =>
+    ix.push({tipo, chave: (chave || "").toLowerCase(),
+             texto: ((rotulo || "") + " " + (sub || "")).toLowerCase(),
+             rotulo, sub, rota, antes});
+
+  if (typeof SHEETS !== "undefined") SHEETS.forEach(s => add(
+    "prancha", "pr-" + s.n, `PR-${s.n} · ${s.t}`,
+    `${s.etapa} · escala ${s.esc} · ${s.d.slice(0, 90)}`, `2d/PR-${s.n}`));
+
+  VISTAS.forEach(([id, nome, sub]) => add(
+    "vista", id, nome, sub, "eng/" + id));
+
+  if (!ENG) return (_indice = ix);
+
+  ENG.paineis.forEach(p => add(
+    "painel", p.cod, p.cod,
+    `${p.pecas.length} peças · ${p.comp} mm · ${p.parafusos} parafusos`,
+    "eng/paineis", () => { painelSel = p.cod; }));
+
+  todasPecas().forEach(q => add(
+    "peça", q.cod, q.cod,
+    `${q.familia} · ${q.perfil} · ${q.painel}`,
+    "eng/pecas", () => { pecaBusca = q.cod; pecaFam = ""; pecaPav = ""; pecaLimite = 150; }));
+
+  (ENG.bom || []).forEach(i => add(
+    "material", i.sku, `${i.sku} — ${i.descricao}`,
+    `${num(i.quantidade, 2)} ${i.unidade}${i.compra ? " · R$ " + num(i.total, 2) : " · rota alternativa"}`,
+    "eng/cotacao", () => { bomFiltro = i.sku; }));
+
+  ((ENG.materiais || {}).composicoes || []).forEach(c => add(
+    "composição", c.cod, `${c.cod} — ${c.nome}`,
+    `${num(c.area, 1)} m² · ${c.esp_nominal} mm · Rw ${c.rw}`,
+    "eng/materiais", () => { compSel = c.cod; }));
+
+  (((ENG.instalacoes || {}).shafts || {}).prumadas || []).forEach(v => add(
+    "prumada", v.cod, `${v.cod} — DN${v.dn}`,
+    `${esc2(v.onde)} · caixa ${v.lado} ${v.deslocado} mm em ${v.ambiente}`,
+    "eng/instalacoes"));
+
+  ((ENG.pendencias || {}).abertas || []).forEach(d => add(
+    "pendência", "pendencia-" + d.n, `#${d.n} ${d.titulo}`,
+    `${d.impacto.slice(0, 80)}${d.bloqueia ? " · tranca " + d.bloqueia : ""}`,
+    "eng/painel"));
+
+  (ENG.contratos || []).forEach(c => add(
+    "bloqueio", c.cod, `${c.cod} — ${c.titulo}`, c.bloqueio.slice(0, 90),
+    "eng/bloqueios", () => { contratoSel = c.cod; }));
+
+  if (typeof FICHAS !== "undefined") Object.keys(FICHAS).forEach(cod => {
+    const f = FICHAS[cod] || {};
+    add("ambiente", cod, `${cod} — ${f.nome || ""}`,
+        Object.keys(f).map(k => `${k}: ${f[k]}`).join(" · ").slice(0, 90),
+        cod.startsWith("S-") ? "2d/PR-03" : "2d/PR-02");
+  });
+  return (_indice = ix);
+}
+
+function procurar(q) {
+  const t = (q || "").trim().toLowerCase();
+  if (!t) return [];
+  const ix = montarIndice();
+  const out = [];
+  for (const e of ix) {
+    // a pontuacao e a ordem da resposta: codigo exato ganha de codigo que
+    // comeca com, que ganha de texto que contem. Sem isso, procurar "TP23"
+    // devolve primeiro as 14 pecas QUE MENCIONAM TP23 e so depois o painel
+    let p = -1;
+    if (e.chave === t) p = 0;
+    else if (e.chave.startsWith(t)) p = 1;
+    else if (e.chave.includes(t)) p = 2;
+    else if (e.texto.includes(t)) p = 3;
+    if (p >= 0) out.push({e, p});
+    if (out.length > 400) break;
+  }
+  out.sort((a, b) => a.p - b.p || a.e.rotulo.localeCompare(b.e.rotulo, "pt"));
+  return out.slice(0, 40).map(x => x.e);
+}
+
+function _pintarAchados(lista) {
+  const cx = document.getElementById("paletaAchados");
+  if (!lista.length) {
+    cx.innerHTML = `<p class="grupo">nada encontrado</p>`;
+    return;
+  }
+  let html = "", grupo = "";
+  lista.forEach((e, i) => {
+    if (e.tipo !== grupo) { grupo = e.tipo; html += `<p class="grupo">${esc2(grupo)}</p>`; }
+    html += `<button type="button" class="ach" data-i="${i}"
+       aria-current="${i === _achSel}">
+       <span>${esc2(e.rotulo)}<span class="sub">${esc2(e.sub || "")}</span></span>
+       <span class="onde">${esc2(e.rota)}</span></button>`;
+  });
+  cx.innerHTML = html;
+  const alvo = cx.querySelector(`[data-i="${_achSel}"]`);
+  if (alvo) alvo.scrollIntoView({block: "nearest"});
+}
+
+function abrirPaleta() {
+  let pal = document.getElementById("paleta");
+  if (!pal) {
+    pal = document.createElement("div");
+    pal.id = "paleta"; pal.className = "paleta";
+    pal.innerHTML = `<div class="paleta-caixa" role="dialog" aria-modal="true"
+        aria-label="Busca no caderno">
+        <input id="paletaEntrada" type="search" autocomplete="off"
+               placeholder="prancha, peça, painel, material, ambiente, pendência…">
+        <div class="achados" id="paletaAchados"></div>
+        <div class="rodape"><span><kbd>↑</kbd><kbd>↓</kbd> percorre</span>
+          <span><kbd>Enter</kbd> abre</span><span><kbd>Esc</kbd> fecha</span>
+          <span id="paletaConta"></span></div></div>`;
+    document.body.appendChild(pal);
+    pal.addEventListener("click", e => { if (e.target === pal) fecharPaleta(); });
+    const ent = pal.querySelector("#paletaEntrada");
+    ent.addEventListener("input", () => {
+      _achSel = 0;
+      _achAtuais = procurar(ent.value);
+      _pintarAchados(_achAtuais);
+      document.getElementById("paletaConta").textContent =
+        _achAtuais.length ? `${_achAtuais.length} resultado(s)` : "";
+    });
+    ent.addEventListener("keydown", e => {
+      if (e.key === "Escape") { fecharPaleta(); return; }
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        if (!_achAtuais.length) return;
+        _achSel = (_achSel + (e.key === "ArrowDown" ? 1 : -1) + _achAtuais.length)
+                  % _achAtuais.length;
+        _pintarAchados(_achAtuais);
+      }
+      if (e.key === "Enter" && _achAtuais[_achSel]) {
+        const a = _achAtuais[_achSel];
+        fecharPaleta();
+        _ir(a.rota, a.antes);
+      }
+    });
+    pal.querySelector("#paletaAchados").addEventListener("click", e => {
+      const b = e.target.closest("button.ach");
+      if (!b) return;
+      const a = _achAtuais[+b.dataset.i];
+      fecharPaleta();
+      if (a) _ir(a.rota, a.antes);
+    });
+  }
+  pal.hidden = false;
+  const ent = pal.querySelector("#paletaEntrada");
+  ent.value = ""; _achAtuais = []; _achSel = 0;
+  _pintarAchados([]);
+  document.getElementById("paletaConta").textContent = "";
+  ent.focus();
+  // o indice completo depende do motor; enquanto ele nao chega a busca ja
+  // funciona sobre as pranchas, e se completa sozinha quando chegar
+  garantirENG().then(() => { _indice = null; if (ent.value) ent.dispatchEvent(new Event("input")); })
+               .catch(() => {});
+}
+
+function fecharPaleta() {
+  const pal = document.getElementById("paleta");
+  if (pal) pal.hidden = true;
+}
+
+// o botao entra na barra por JS: a busca vale para os tres modos, e pendura-la
+// no HTML de um deles a faria sumir nos outros
+(function ligarBusca() {
+  const barra = document.querySelector(".toolbar .modos");
+  if (barra) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "lupa"; b.id = "abrirBusca";
+    b.innerHTML = `<span aria-hidden="true">⌕</span> buscar <kbd>Ctrl K</kbd>`;
+    b.addEventListener("click", abrirPaleta);
+    barra.parentElement.insertBefore(b, barra.nextSibling);
+  }
+  addEventListener("keydown", e => {
+    const dentro = /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName);
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault(); abrirPaleta(); return;
+    }
+    if (e.key === "/" && !dentro) { e.preventDefault(); abrirPaleta(); }
+  });
+})();
+'''
+
+CSS_ENG += r'''
+  /* ------------------------------------------------ impressao (secao 4)
+     Ctrl+P dava um resultado ruim: trilho, barra de ferramentas, minimapa e
+     cartoes de navegacao iam para o papel, e o desenho saia cortado dentro de
+     um palco de altura fixa em vh — unidade que nao existe em papel.
+
+     O que se imprime nao e a interface: e o DOCUMENTO. Cabecalho, a prancha ou
+     a vista aberta, e as notas. O resto e ferramenta de tela. */
+  @media print {
+    @page { size: A4 landscape; margin: 10mm; }
+    body{background:#fff; color:#000}
+    .rail, .modos, .barra, .barra2, .lupa, .paleta, .minimapa, .rodape2d,
+    .hint, .hud, .ficha, .filtros, .docs, .modos-leitura,
+    .toolbar .btn, .escalag{display:none !important}
+    .work{display:block; padding-block:0}
+    .stage-box{border:none; box-shadow:none}
+    /* altura em vh nao existe em papel: o palco precisa caber na folha */
+    .stage, .stage3d, #stageEng{height:auto !important; max-height:none !important;
+      overflow:visible !important}
+    .folha{position:static !important; transform:none !important;
+           box-shadow:none !important; width:100% !important}
+    .folha svg{width:100% !important; height:auto !important}
+    .rolagem{max-height:none !important; overflow:visible !important}
+    /* uma linha de tabela partida entre duas folhas e ilegivel */
+    .tabela tr{break-inside:avoid}
+    .eng-sec, .cartao, .nota, .selo{break-inside:avoid}
+    .cartoes{border-color:#bbb}
+    a[href^="http"]::after{content:" (" attr(href) ")"; font-size:9px}
+    /* a procedencia do que esta no papel: revisao e endereco da vista */
+    .stage-box::after{content:"Porto Real · impresso da vista " attr(data-rota);
+      display:block; font-family:var(--mono); font-size:9px; color:#555;
+      padding-top:6px; border-top:1px solid #ccc; margin-top:8px}
+  }
+'''
+
+JS_ENG += r'''
+// o rodape impresso carrega o endereco da vista: uma folha solta em cima da
+// mesa da obra nao diz de onde veio, e a rota e exatamente o que diz
+addEventListener("beforeprint", () => {
+  const cx = document.querySelector(".stage-box");
+  if (cx) cx.dataset.rota = "#" + (typeof rotaDaTela === "function" ? rotaDaTela() : "");
+});
 '''

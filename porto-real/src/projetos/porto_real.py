@@ -2515,6 +2515,18 @@ REVISOES = [
             "ordenando como numero — o cursor ja prometia isso em dez tabelas "
             "e so uma cumpria. E a lista de pecas sai em lotes: 8.218 nos por "
             "render viraram 1.470, preservando a rolagem do leitor"),
+    ("R42", "Busca global e impressao. O sistema nao tinha busca, tinha "
+            "filtros: cada vista enxergava a propria lista, e quem procurava "
+            "TP23 precisava saber ANTES em que aba TP23 mora — que e "
+            "exatamente o que quem procura nao sabe. Indice unico de 1.247 "
+            "entradas em 10 tipos, montado do que ja existe, com ranking (o "
+            "codigo exato vem antes de quem so o menciona) e, sobretudo, com "
+            "DESTINO: escolher um material abre a vista de cotacao ja filtrada "
+            "nele. So foi possivel depois da rota de R41 — resultado de busca "
+            "sem endereco e eco. E o Ctrl+P, que levava trilho, barra e "
+            "minimapa para o papel e cortava o desenho porque o palco tem "
+            "altura em vh, passa a imprimir o DOCUMENTO, com o endereco da "
+            "vista carimbado no rodape"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2620,13 +2632,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R41",
+    revisao="R42",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R41", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R42", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

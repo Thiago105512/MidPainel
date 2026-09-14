@@ -3378,3 +3378,52 @@ seguinte.
 Junto, uma correção que não aparece em número nenhum: **a rolagem é do leitor**,
 não do render. Trocar de filtro jogava a página de volta ao topo da vista, e
 numa tabela longa isso é perder o lugar a cada tecla.
+
+## Defeito 52 — o sistema não tinha busca; tinha filtros
+
+Cada vista tinha o seu campo, e cada campo enxergava a própria lista. Quem
+procurasse `TP23` precisava saber **antes** em que aba TP23 mora — e essa é
+exatamente a informação que quem procura não tem.
+
+> Um sistema que exige saber onde está a resposta para poder procurá-la não tem
+> busca: tem filtros.
+
+Agora há um índice único de **1.247 entradas em 10 tipos** — prancha, vista,
+painel, peça, material, composição, prumada, pendência, bloqueio e ambiente —
+montado do que já existe, sem estrutura paralela para divergir.
+
+### Por que isto vem depois da rota
+
+Cada achado **sabe para onde ir**, e escolher um material abre a vista de
+cotação já filtrada nele. Sem endereço não há destino, e resultado de busca que
+não leva a lugar nenhum é só um eco. R41 tinha de vir antes.
+
+### O ranking é a resposta
+
+Procurar `TP23` devolve 14 resultados. Sem pontuação, os primeiros seriam as
+peças **que mencionam** TP23, e o painel apareceria no meio:
+
+| pontuação | critério |
+|---|---|
+| 0 | o código é exatamente o termo |
+| 1 | o código começa com o termo |
+| 2 | o código contém o termo |
+| 3 | só o texto contém o termo |
+
+Ruído ordenado continua sendo ruído. O teste verifica que o primeiro resultado
+de `TP23` é o **painel**, não uma peça dele.
+
+## Defeito 53 — Ctrl+P dava um resultado ruim
+
+O caderno nunca teve folha de estilo de impressão. Quem apertasse Ctrl+P levava
+para o papel o trilho de navegação, a barra de ferramentas, o minimapa e os
+cartões — e o desenho saía **cortado**, porque o palco tem altura em `vh`,
+unidade que não existe em papel.
+
+O que se imprime não é a interface: é o **documento**. A folha de impressão
+esconde ferramenta de tela, solta as alturas, impede que uma linha de tabela se
+parta entre duas folhas, e carimba o rodapé com o **endereço da vista** — uma
+folha solta em cima da mesa da obra não diz de onde veio, e a rota diz.
+
+(O PDF das 35 pranchas continua sendo gerado pelo outro caminho, direto do
+modelo. Esta folha é para imprimir **a tela**, que é coisa diferente.)

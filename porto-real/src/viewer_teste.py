@@ -1013,6 +1013,68 @@ def rodar(fotos: bool = False) -> int:
              return v.length > 2 && v.every((x, i) => i === 0 || v[i - 1] <= x); }"""),
            "e ordena numero como numero, nao como texto")
 
+        # ---- BUSCA GLOBAL: uma pergunta, doze vistas e 35 pranchas
+        pag.goto(f"http://127.0.0.1:{porta}/porto-real-caderno.html")
+        pag.wait_for_selector("#rail li", state="attached")
+        pag.wait_for_timeout(1200)
+        ok(pag.evaluate("() => !!document.getElementById('abrirBusca')"),
+           "a busca existe nos tres modos, e nao dentro de um deles")
+        pag.keyboard.press("Control+k")
+        pag.wait_for_timeout(300)
+        ok(pag.evaluate("() => { const p = document.getElementById('paleta'); "
+                        "return !!p && !p.hidden; }"),
+           "Ctrl+K abre a busca")
+        pag.fill("#paletaEntrada", "TP23")
+        pag.wait_for_timeout(800)
+        ok(pag.evaluate("() => _achAtuais.length") > 5,
+           "procurar um painel acha o painel E o que depende dele",
+           str(pag.evaluate("() => _achAtuais.length")) + " resultados")
+        # o ranking e a resposta: o painel TP23 tem de vir antes das pecas que
+        # apenas o mencionam, senao a busca devolve ruido ordenado
+        ok(pag.evaluate("() => _achAtuais[0].tipo") == "painel",
+           "e o codigo exato vem antes de quem so o menciona",
+           pag.evaluate("() => _achAtuais[0].tipo + ': ' + _achAtuais[0].rotulo"))
+        ok(pag.evaluate("""() => _achAtuais.every(a => a.rota &&
+             (a.rota.startsWith('2d/') || a.rota.startsWith('eng/') || a.rota === '3d'))"""),
+           "todo resultado sabe para onde ir: busca sem destino e eco")
+        # atravessa os tipos, que e o ponto: ate aqui cada filtro via uma lista
+        ok(pag.evaluate("() => new Set(montarIndice().map(a => a.tipo)).size") >= 8,
+           "o indice atravessa prancha, peca, painel, material, ambiente e mais",
+           str(pag.evaluate("() => montarIndice().length")) + " entradas em "
+           + str(pag.evaluate("() => new Set(montarIndice().map(a => a.tipo)).size"))
+           + " tipos")
+        pag.fill("#paletaEntrada", "PR-22")
+        pag.wait_for_timeout(500)
+        pag.keyboard.press("Enter")
+        pag.wait_for_timeout(700)
+        ok(pag.evaluate("() => SHEETS[idxPrancha].n") == "22"
+           and pag.evaluate("() => location.hash") == "#2d/PR-22",
+           "escolher uma prancha abre a prancha, e o endereco acompanha",
+           pag.evaluate("() => location.hash"))
+        pag.keyboard.press("/")
+        pag.wait_for_timeout(300)
+        pag.fill("#paletaEntrada", "ACO-PERF")
+        pag.wait_for_timeout(600)
+        pag.keyboard.press("Enter")
+        pag.wait_for_timeout(700)
+        ok(pag.evaluate("() => location.hash") == "#eng/cotacao"
+           and pag.evaluate("() => bomFiltro") == "ACO-PERF",
+           "e escolher um material abre a vista JA filtrada nele",
+           pag.evaluate("() => bomFiltro"))
+        pag.keyboard.press("/")
+        pag.wait_for_timeout(250)
+        pag.keyboard.press("Escape")
+        pag.wait_for_timeout(250)
+        ok(pag.evaluate("() => document.getElementById('paleta').hidden"),
+           "Esc fecha")
+
+        # ---- IMPRESSAO: o que sai no papel e o documento, nao a interface
+        ok(pag.evaluate("""() => {
+             const css = [...document.styleSheets].flatMap(s => {
+               try { return [...s.cssRules]; } catch (e) { return []; } });
+             return css.some(r => r.conditionText && r.conditionText.includes('print')); }"""),
+           "existe folha de estilo de impressao")
+
         ok(not erros, "nenhum erro de console ou de script",
            " | ".join(erros[:3]))
         if externos:
