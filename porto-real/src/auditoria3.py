@@ -341,6 +341,93 @@ def checar_vento() -> list[Achado]:
     return out
 
 
+def checar_ambientes() -> list[Achado]:
+    """A verificacao por COMODO — o eixo que nao existia.
+
+    As 510 condicoes anteriores verificam por SISTEMA: estrutura, camadas, MEP,
+    fundacao, cotacao. Nenhuma verificava por comodo, e o comodo e a unidade em
+    que a casa e vivida, em que o pedreiro trabalha e em que o dono percebe
+    erro. Defeito nao se distribui por sistema: ele se concentra onde dois
+    sistemas se encontram, e os dois se encontram DENTRO de um comodo.
+
+    Na primeira execucao o eixo novo achou 24 divergencias. Quatorze eram um
+    defeito real e dez eram grossura da propria conferencia — e separar as duas
+    coisas foi metade do trabalho.
+    """
+    import projeto as pj
+    import nucleo.ambiente as am
+    out = []
+    r = fx.liberacao()
+    c = am.conferir(pj, r)
+    ds = c["dossies"]
+
+    out.append(Achado("NOTA" if abs(c["area_total"] - pj.CADASTRO.area_m2) < 0.1
+                      else "ERRO", "fecha a casa",
+                      f"{c['n']} comodos somando {c['area_total']} m2, contra "
+                      f"{pj.CADASTRO.area_m2} m2 de area declarada do projeto. "
+                      f"O dossie de cada comodo reune acabamento, vao, "
+                      f"tomada, peca hidraulica, ralo, clima e composicao de "
+                      f"parede num lugar so — que e onde o pedreiro trabalha"))
+
+    # ---- o defeito que o eixo novo achou: duas regras para a mesma tomada
+    prev = {x["amb"]: x for x in pj.previsao_iluminacao_tug()}
+    norma = sum(x["tugs"] for x in prev.values())
+    area5 = sum(max(1, int(a.area_mod / 5)) for a in pj.TERREO + pj.SUPERIOR)
+    import nucleo.instalacoes as ins
+    import inspect
+    usa = "previsao_iluminacao_tug" in inspect.getsource(ins.eletrica)
+    out.append(Achado("NOTA" if usa else "ERRO", "tomadas",
+                      f"{norma} tomadas pela NBR 5410 9.5.2.2, que conta "
+                      f"PERIMETRO — uma a cada 5,0 m de parede, 3,5 m em area "
+                      f"molhada. O levantamento de instalacoes contava "
+                      f"{area5} por AREA, uma segunda regra para o mesmo fato, "
+                      f"e a segunda estava errada. O sinal do erro nao era "
+                      f"uniforme: sobrava na garagem e na master, faltava na "
+                      f"lavanderia (1 contra 4), no banho, na despensa e na "
+                      f"cozinha — comodo estreito e comprido tem muito "
+                      f"perimetro e pouca area, e e nele que se mora"))
+
+    # ---- a decisao que vivia em comentario
+    out.append(Achado("NOTA" if hasattr(pj, "CONJUGADOS") else "ERRO",
+                      "conjugados",
+                      f"{len(getattr(pj, 'CONJUGADOS', []))} par(es) de "
+                      f"ambientes se conferem juntos, e isso agora e DADO. A "
+                      f"cozinha reprovou em iluminacao natural na primeira "
+                      f"execucao porque a conferencia via dois retangulos onde "
+                      f"o projeto ve um: 6.600 dos 7.200 mm de fronteira com o "
+                      f"gourmet estao abertos desde R07 — escrito em "
+                      f"comentario, e comentario nao e consultavel"))
+
+    # ---- classificar vao por prefixo de codigo reprovava o estar
+    esc = [d for d in ds if d["cod"] == "T-SOC"]
+    if esc:
+        d = esc[0]
+        out.append(Achado("NOTA" if d["area_ilum"] > 0 else "ERRO",
+                          "vao translucido",
+                          f"o estar ilumina por {d['area_ilum']:.2f} m2 de "
+                          f"porta-balcao. Classificar vao por PREFIXO de "
+                          f"codigo — J e janela, P e porta — reprovava o estar "
+                          f"e o eixo social inteiro, que abre por cortina de "
+                          f"vidro de 7,2 m. O criterio e opacidade, nao codigo"))
+
+    # ---- a area de permanencia nao e o retangulo
+    sub = [d for d in ds if d["area_subdividida"] > 0]
+    out.append(Achado("NOTA" if sub else "ATENCAO", "area de permanencia",
+                      f"{len(sub)} comodos descontam a subdivisao da area que "
+                      f"a janela precisa iluminar: banho e closet nao se "
+                      f"iluminam pela janela do quarto. A master cai de 46,8 "
+                      f"para {next((d['area_util'] for d in ds if d['cod'] == 'S-MAS'), 0)} "
+                      f"m2 de permanencia, e passa"))
+
+    # ---- o que sobrou, e sobrou de verdade
+    reais = [a for a in c["achados"] if a["nivel"] in ("ERRO", "ATENCAO")]
+    for a in reais:
+        out.append(Achado(a["nivel"], f"{a['amb']} · {a['item']}", a["texto"]))
+
+    out.append(Achado("NOTA", "criterio", c["criterio"]))
+    return out
+
+
 def checar_cotacao() -> list[Achado]:
     """O preco (H) vira cotacao por uma porta, e a porta tem tranca.
 

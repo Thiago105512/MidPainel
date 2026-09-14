@@ -3478,3 +3478,83 @@ Cor: uma *hue* sequencial (azul), validada contra as duas superfícies. Vermelho
 aparece uma vez só, para o limite normativo, e **sempre com texto** — vermelho
 contra verde tem separação ΔE 4,1 sob deuteranopia, ou seja, cor sozinha ali não
 informa ninguém.
+
+## Defeito 55 — 510 condições, nenhuma por cômodo
+
+Todas as verificações deste projeto olham por **sistema**: estrutura, camadas,
+MEP, fundação, cotação. Nenhuma olhava por **cômodo** — e o cômodo é a unidade
+em que a casa é vivida, em que o pedreiro trabalha e em que o dono percebe erro.
+
+> Defeito não se distribui por sistema. Ele se concentra **onde dois sistemas se
+> encontram**, e os dois se encontram dentro de um cômodo.
+
+"A lavanderia tem quantas tomadas?" era uma pergunta que este modelo, com 1.033
+peças conferidas uma a uma, não sabia responder.
+
+Na primeira execução o eixo novo acusou **24 divergências**. Quatorze eram um
+defeito real; dez eram grossura da própria conferência — e separar as duas
+coisas foi metade do trabalho.
+
+### O defeito real: duas regras para contar a mesma tomada
+
+O caso já previa tomadas pela **NBR 5410 9.5.2.2**, que conta **perímetro** —
+uma a cada 5,0 m de parede, 3,5 m em área molhada. O módulo de instalações, que
+escrevi em R38, contava `área / 5`: uma segunda regra para o mesmo fato, e a
+segunda estava errada.
+
+| | |
+|---|---|
+| pela norma | **71 tomadas** |
+| pelo módulo MEP | 55 |
+
+E o pior não é o total: **o sinal do erro não é uniforme.**
+
+| cômodo | norma | MEP | |
+|---|---|---|---|
+| Lavanderia | 4 | 1 | **−3** |
+| Banho, Despensa, Oficina, Hall, Core, Cozinha | 3–6 | 1–4 | −2 |
+| Garagem | 5 | 7 | +2 |
+| Suíte master | 6 | 9 | +3 |
+
+Sobrava onde não faz falta e faltava onde importa. Cômodo **estreito e
+comprido** tem muito perímetro e pouca área — e é nele que se mora. Uma
+lavanderia com uma tomada onde a norma pede quatro é um erro que chega na obra.
+
+### E a decisão que vivia num comentário
+
+A cozinha reprovou em iluminação natural (1/15 contra 1/8). O projeto decidiu em
+**R07** que cozinha e gourmet são um ambiente só — 6.600 dos 7.200 mm de
+fronteira abertos — mas a decisão estava escrita em **comentário**:
+
+> "iluminação e ventilação conferidas em conjunto com o gourmet, que é o mesmo
+> ambiente"
+
+Comentário não é consultável. Virou `CONJUGADOS`, dado do caso.
+
+### Três erros da própria conferência, registrados
+
+1. **Classificar vão por prefixo de código.** `J` é janela, `P` é porta — e com
+   isso o estar reprovou por falta de luz, abrindo por 2,4 m de porta-balcão, e
+   o eixo social inteiro, que abre por 7,2 m de cortina de vidro. O critério é
+   **opacidade**, não código.
+2. **Somar o retângulo inteiro do quarto.** Banho e closet não se iluminam pela
+   janela do dormitório. A master caiu de 46,8 para **21,6 m² de permanência** —
+   e passa.
+3. **Atribuir a peça hidráulica do banho à suíte.** Mesma raiz do defeito 44: o
+   dado do banho mora na lista de subdivisões.
+
+> Uma conferência nova que acusa muito na primeira execução está, quase sempre,
+> acusando a si mesma. Publicar os 24 achados seria transferir o trabalho de
+> triagem para quem lê.
+
+### O que sobrou, e sobrou de verdade
+
+| cômodo | achado |
+|---|---|
+| **T-DEP** Depósito/DML | nenhum vão externo em 3,6 m² — exige ventilação mecânica ou veneziana na porta |
+| **T-GOU** Gourmet | área molhada com cuba e **sem ralo** no levantamento de drenagem |
+| **S-S02 / S-S03 / S-MAS** | o banho é subdivisão, e `acabamentos()` enumera ambientes: **não existe piso, revestimento nem rodapé declarado** para os três banhos do superior |
+
+Nenhum deles é arbitrável por mim: o primeiro é decisão de ventilação, o segundo
+é decisão de projeto hidráulico, o terceiro é dado que falta. Os três entram
+como achado nomeado, no cômodo em que moram.

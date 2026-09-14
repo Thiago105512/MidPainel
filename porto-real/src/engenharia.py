@@ -424,6 +424,23 @@ def montar() -> dict:
             orfas=r["combinacoes"]["cobertura"]["orfas"],
             ok=r["combinacoes"]["ok"]),
         pendencias=r["pendencias"],
+        # o dossie vai INTEIRO: e a unica vista em que alguem procura "o que
+        # tem na lavanderia", e responder isso pela metade e pior que nao
+        # responder — manda conferir na prancha o que ja esta no modelo
+        ambientes=dict(
+            n=r["ambientes"]["n"], area_total=r["ambientes"]["area_total"],
+            criterio=r["ambientes"]["criterio"],
+            achados=r["ambientes"]["achados"],
+            por_ambiente=r["ambientes"]["por_ambiente"],
+            dossies=[{k: v for k, v in d.items() if k != "vaos"}
+                     | dict(vaos=[dict(tipo=v["tipo"], larg=v["larg"],
+                                       alt=v["alt"], peitoril=v["peitoril"],
+                                       area=round(v["area"], 2),
+                                       externo=v["externo"],
+                                       translucido=v["translucido"],
+                                       familia=v["familia"])
+                                  for v in d["vaos"]])
+                     for d in r["ambientes"]["dossies"]]),
         cotacao=dict(
             cobertura=r["cotacao"]["cobertura"],
             sensibilidade=sorted(r["cotacao"]["sensibilidade"],

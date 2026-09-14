@@ -1118,6 +1118,43 @@ def rodar(fotos: bool = False) -> int:
            "cujo fim bate com o total de horas do modelo",
            str(pag.evaluate("() => ENG.montagem.horas")) + " h")
 
+        # ---- POR AMBIENTE: o eixo em que a verificacao nao existia
+        pag.click("#vistasEng button[data-vista='ambientes']")
+        pag.wait_for_timeout(500)
+        ok(pag.evaluate("() => ENG.ambientes.dossies.length") == 17,
+           "os 17 comodos tem dossie",
+           str(pag.evaluate("() => ENG.ambientes.dossies.length")))
+        # a soma dos comodos e a area da casa: se nao fechar, falta comodo
+        ok(pag.evaluate("""() => Math.abs(ENG.ambientes.area_total
+             - ENG.projeto.area_m2) < 0.1"""),
+           "e a soma deles e exatamente a area declarada do projeto",
+           str(pag.evaluate("() => ENG.ambientes.area_total")) + " m2")
+        ok(pag.evaluate("""() => ENG.ambientes.dossies.every(d =>
+             d.piso && d.forro && d.tugs_norma > 0 && d.composicoes.length > 0)"""),
+           "cada dossie reune acabamento, tomada e as paredes que o cercam")
+        # a tomada tem de vir da previsao da norma, nao de uma segunda regra
+        ok(pag.evaluate("""() => {
+             const t = ENG.ambientes.dossies.reduce((s, d) => s + d.tugs_norma, 0);
+             return t === 71; }"""),
+           "as tomadas somam o que a NBR 5410 preve por perimetro",
+           str(pag.evaluate("""() => ENG.ambientes.dossies
+             .reduce((s, d) => s + d.tugs_norma, 0)""")) + " TUG")
+        ok(pag.evaluate("""() => {
+             const d = ENG.ambientes.dossies.find(x => x.cod === 'S-MAS');
+             return d.area_subdividida > 0 && d.area_util < d.area; }"""),
+           "a area de permanencia desconta banho e closet",
+           str(pag.evaluate("""() => ENG.ambientes.dossies
+             .find(x => x.cod === 'S-MAS').area_util""")) + " m2 na master")
+        ok(pag.evaluate("""() => {
+             const d = ENG.ambientes.dossies.find(x => x.cod === 'T-SOC');
+             return d.area_ilum > 0; }"""),
+           "e o estar ilumina pela porta-balcao, que nao e janela nem e opaca")
+        ultimo = pag.evaluate("() => ENG.ambientes.dossies.slice(-1)[0].cod")
+        pag.click(f"#engConteudo [data-amb='{ultimo}']")
+        pag.wait_for_timeout(300)
+        ok(pag.evaluate("() => ambSel") == ultimo,
+           "trocar de comodo troca o dossie", ultimo)
+
         # ---- IMPRESSAO: o que sai no papel e o documento, nao a interface
         ok(pag.evaluate("""() => {
              const css = [...document.styleSheets].flatMap(s => {

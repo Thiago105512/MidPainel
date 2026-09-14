@@ -225,6 +225,27 @@ SUPERIOR_ABERTO: list[Amb] = [
         pav="S", nivel=NIVEL_SUPERIOR, aberto=True),   # 14,04 m2 (YAML)
 ]
 
+# ---------------------------------------------------- conjugados (R44)
+# A cozinha e o gourmet sao UM ambiente: 6.600 dos 7.200 mm de fronteira estao
+# abertos, e a decisao esta escrita desde R07. Mas estava escrita em COMENTARIO
+# — "iluminacao e ventilacao conferidas em conjunto com o gourmet, que e o
+# mesmo ambiente" — e comentario nao e consultavel.
+#
+# A consequencia apareceu na primeira conferencia por comodo: a cozinha reprovou
+# em iluminacao natural (1/15 contra 1/8) porque a conferencia enxergava dois
+# retangulos onde o projeto ve um. O defeito nao era do projeto nem da regra: a
+# decisao existia e nao era dado.
+CONJUGADOS = [("T-COZ", "T-GOU")]
+
+
+def conjugado_de(cod: str) -> tuple:
+    """O grupo de ambientes que se conferem juntos, este inclusive."""
+    for g in CONJUGADOS:
+        if cod in g:
+            return g
+    return (cod,)
+
+
 # ------------------------------------------- subdivisoes internas (1:50)
 # (cod_pai, nome, x, y, w, h) — particoes dentro do modulo
 SUBDIVISOES = [
@@ -2538,6 +2559,20 @@ REVISOES = [
             "uma escala que nao existe. A soma das faixas e conferida contra o "
             "numero de montantes verificados: o desenho mostra o que o motor "
             "calculou, nao uma conta refeita no navegador"),
+    ("R44", "Verificacao por COMODO, o eixo que nao existia: as 510 condicoes "
+            "anteriores olham por sistema, e defeito se concentra onde dois "
+            "sistemas se encontram — dentro de um comodo. O dossie reune "
+            "acabamento, vao, tomada, peca hidraulica, ralo, clima e as "
+            "paredes que cercam cada um dos 17 comodos. Achou 24 divergencias "
+            "na primeira execucao: 14 de um defeito real — o levantamento de "
+            "instalacoes contava tomada por AREA e a NBR 5410 conta PERIMETRO, "
+            "71 contra 55, faltando 3 na lavanderia e sobrando 3 na master — e "
+            "10 de grossura da propria conferencia, que classificava vao por "
+            "prefixo de codigo e somava a area do banho na conta da janela do "
+            "quarto. A conjugacao cozinha-gourmet, decidida em R07 e escrita em "
+            "COMENTARIO, virou dado. Sobraram tres achados reais: o DML sem "
+            "vao, o gourmet molhado sem ralo e os tres banhos do superior sem "
+            "acabamento declarado"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2643,13 +2678,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R43",
+    revisao="R44",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R43", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R44", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

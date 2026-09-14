@@ -140,6 +140,7 @@ const VISTAS = [
   ["parafusos",  "Parafusos",          "5.266, e de onde vem cada um"],
   ["instalacoes","Instalações",        "percurso medido, e onde ele bate"],
   ["cotacao",    "Custo e cotação",    "o que se compra, e o que falta perguntar"],
+  ["ambientes",  "Por ambiente",       "cômodo a cômodo, tudo num lugar só"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -160,6 +161,9 @@ const LEITURA = {
                "quantas placas inteiras. Não metro quadrado — placa.",
     parafusos: "Quantos parafusos, quais, e onde. O número que interessa " +
                "não é o total: é quantos vêm de força calculada.",
+    ambientes: "O que tem em cada cômodo: acabamento, vão, tomada, peça " +
+               "hidráulica, ralo, clima e as paredes que o cercam — e onde " +
+               "essas decisões, tomadas em lugares diferentes, discordam.",
     cotacao: "Quanto custa, e — o que quase nenhum orçamento diz — quanto " +
              "do que custa foi perguntado a alguém. Hoje: zero. Todo preço " +
              "aqui é hipótese declarada, e o mapa de cotação já está pronto " +
@@ -237,6 +241,13 @@ const LEITURA = {
                "camadas, e a isolante não soma porque vive dentro da cavidade " +
                "do montante. A norma vem do material, não da camada: duas " +
                "fontes para o mesmo fato divergem na primeira correção.",
+    ambientes: "Defeito não se distribui por sistema: concentra-se onde dois " +
+               "sistemas se encontram, e os dois se encontram DENTRO de um " +
+               "cômodo. Na primeira execução este eixo achou 24 divergências " +
+               "— 14 de um defeito real (duas regras para contar tomada, e a " +
+               "segunda contava por área onde a NBR 5410 conta perímetro) e " +
+               "10 de grossura da própria conferência, que somava a área do " +
+               "banho na conta da janela do quarto.",
     cotacao: "Compra-se BARRA (kg, com a perda do plano de corte) e " +
              "produz-se PEÇA cortada: são o mesmo aço descrito de dois jeitos, " +
              "e somar os dois é pagar duas vezes. Era o que acontecia — " +
@@ -1183,6 +1194,7 @@ function renderEng() {
              logistica: vistaLogistica, documentos: vistaDocumentos,
              materiais: vistaMateriais, parafusos: vistaParafusos,
              instalacoes: vistaInstalacoes, cotacao: vistaCotacao,
+             ambientes: vistaAmbientes,
              bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
@@ -1248,6 +1260,7 @@ function ligarEng() {
     const novo = document.getElementById("bomBusca");
     if (novo) { novo.focus(); novo.setSelectionRange(pos, pos); }
   });
+  em("[data-amb]", "click", e => { ambSel = e.currentTarget.dataset.amb; renderEng(); });
   em("[data-comp]", "click", e => {
     compSel = e.currentTarget.dataset.comp; renderEng();
   });
@@ -1885,5 +1898,88 @@ function vizMontagem(passos, horas) {
     <p class="viz-legenda">A inclinação é a velocidade: trecho plano é passo
       rápido, trecho íngreme é onde a equipe fica. O prazo da obra é esta curva
       dividida pelo tamanho da equipe.</p></div>`;
+}
+'''
+
+JS_ENG += r'''
+// ---------------------------------------------------------- por ambiente
+// A vista que faltava. As outras doze olham o projeto por SISTEMA; esta olha
+// pelo comodo, que e onde se mora e onde se trabalha. Quem pergunta "o que tem
+// na lavanderia?" nao quer doze abas: quer uma.
+let ambSel = null;
+function vistaAmbientes() {
+  const A = ENG.ambientes;
+  if (!A) return barraModos() + "<p class='conta'>sem dossiê por ambiente</p>";
+  const d = A.dossies.find(x => x.cod === ambSel) || A.dossies[0];
+  const achados = A.achados.filter(x => x.amb === d.cod);
+  const lista = A.dossies.map(x => {
+    const n = A.por_ambiente[x.cod] || 0;
+    return `<li><button type="button" data-amb="${esc2(x.cod)}"
+       aria-current="${x.cod === d.cod}">${esc2(x.nome)}
+       <span class="sub">${esc2(x.cod)} · ${num(x.area, 1)} m²${
+         n ? " · " + n + " achado(s)" : ""}</span></button></li>`;
+  }).join("");
+  const linha = (r, v) => v === "" || v === null || v === undefined ? "" :
+    `<tr><td style="color:var(--ink-faint)">${esc2(r)}</td>
+      <td style="white-space:normal">${v}</td></tr>`;
+  const vaos = d.vaos.map(v =>
+    `<tr><td>${esc2(v.tipo)}</td><td>${v.larg} × ${v.alt}</td>
+      <td>${v.peitoril || "—"}</td><td>${num(v.area, 2)}</td>
+      <td>${v.externo ? (v.translucido ? "externo, ilumina" : "externo, opaco")
+                      : "interno"}</td>
+      <td style="white-space:normal;max-width:26ch">${esc2(v.familia)}</td></tr>`).join("");
+  const frac = f => f ? "1/" + (1 / f).toFixed(1) : "—";
+  const sel = achados.length
+    ? achados.map(x => `<div class="selo ${x.nivel === "ERRO" ? "nao" : ""}"
+        style="align-items:flex-start;margin-bottom:8px">
+        <b>${esc2(x.item)}</b><span style="line-height:1.55">${esc2(x.texto)}</span></div>`).join("")
+    : `<div class="selo"><b>sem divergência</b><span>acabamento, vão, tomada,
+        peça hidráulica, ralo, clima e composição de parede conferem entre si</span></div>`;
+  return `${barraModos()}${leitura("ambientes")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Cômodos</span>
+        <span class="val">${A.n}</span><span class="uni">somando ${num(A.area_total, 1)} m²</span></div>
+      <div class="cartao"><span class="rot">Divergências</span>
+        <span class="val" style="color:${A.achados.length ? "var(--alert)" : "var(--ok)"}">${A.achados.length}</span>
+        <span class="uni">entre sistemas, dentro de cômodos</span></div>
+      <div class="cartao"><span class="rot">Este cômodo</span>
+        <span class="val">${num(d.area, 1)}</span>
+        <span class="uni">m² · ${num(d.perimetro, 1)} m de perímetro</span></div>
+      <div class="cartao"><span class="rot">Iluminação</span>
+        <span class="val">${frac(d.frac_ilum)}</span>
+        <span class="uni">mínimo (H) ${frac(d.exige_ilum)}</span></div>
+    </div>
+    <div class="eng-grid"><ul class="lista">${lista}</ul>
+      <div>
+        <div class="desenho"><p class="cap" style="font-size:13px">
+          <b>${esc2(d.nome)}</b> · ${esc2(d.cod)} · ${d.pav === "T" ? "térreo" : "superior"}<br>
+          ${d.largura} × ${d.profundidade} mm · ${num(d.area, 2)} m²${
+            d.area_subdividida ? ` (${num(d.area_util, 2)} m² de permanência, descontando ${esc2(d.subdivisoes.join(", "))})` : ""}<br>
+          <i>${esc2(d.categoria)} · ${esc2(d.classe)}${d.molhado ? " · área molhada" : ""}</i></p></div>
+        ${sel}
+        <div class="rolagem" style="margin-top:12px">
+          <table class="tabela"><tbody>
+            ${linha("piso", esc2(d.piso))}
+            ${linha("parede", esc2(d.parede))}
+            ${linha("forro", esc2(d.forro) + " · h " + d.forro_h + " mm")}
+            ${linha("rodapé", esc2(d.rodape))}
+            ${linha("revestimento", d.revest_h ? "até " + d.revest_h + " mm" : "")}
+            ${linha("composições que o cercam", d.composicoes.join(" · ") + " · " + d.paineis + " painéis")}
+            ${linha("iluminação natural", num(d.area_ilum, 2) + " m² = " + frac(d.frac_ilum) + " (mínimo " + frac(d.exige_ilum) + ")")}
+            ${linha("ventilação natural", num(d.area_vent, 2) + " m² = " + frac(d.frac_vent) + " (mínimo " + frac(d.exige_vent) + ")")}
+            ${linha("tomadas (NBR 5410)", d.tugs_norma + " TUG · " + num(d.tug_va) + " VA" + (d.molhada_eletrica ? " · área molhada, uma a cada 3,5 m" : " · uma a cada 5,0 m"))}
+            ${linha("iluminação (carga)", num(d.ilum_va) + " VA")}
+            ${linha("cargas especiais", d.tue.length ? d.tue.map(t => esc2(t.desc) + " (" + num(t.va) + " VA)").join(" · ") : "")}
+            ${linha("peças hidráulicas", d.hidraulicas.length ? d.hidraulicas.map(h => esc2(h.cod) + (h.quente ? " (quente)" : "")).join(" · ") : "")}
+            ${linha("ralos", d.ralos || "")}
+            ${linha("climatização", d.clima.length ? d.clima.map(c => num(c.capacidade) + " BTU/h em " + esc2(c.nicho)).join(" · ") : "")}
+          </tbody></table></div>
+        <div class="eng-sec" style="margin-top:16px"><h3>Vãos deste cômodo — ${d.n_vaos}</h3>
+          <div class="rolagem"><table class="tabela"><thead><tr><th>tipo</th>
+            <th>vão mm</th><th>peitoril</th><th>m²</th><th>abre para</th>
+            <th>família</th></tr></thead><tbody>${vaos}</tbody></table></div></div>
+      </div></div>
+    <p class="conta" style="display:block;margin-top:14px;line-height:1.6">
+      ${esc2(A.criterio)}</p>`;
 }
 '''

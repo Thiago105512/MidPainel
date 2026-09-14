@@ -448,6 +448,17 @@ PROGRAMA = [
      "isso: 1.571 e 1.359 R$/m2 cabem ambos em 600 a 1.800. O que pega e "
      "identidade. PARCIAL porque 100 % dos precos continuam (H): o modulo "
      "monta o mapa, valida, compara e substitui, e nao inventa preco."),
+    (112, "Por comodo: o eixo em que a verificacao nao existia",
+     ["checar_ambientes"], "PARCIAL",
+     "Secoes 30, 40, 100 e 136. As 510 condicoes anteriores verificam por "
+     "SISTEMA — estrutura, camadas, MEP, fundacao, cotacao — e nenhuma por "
+     "comodo, que e a unidade em que a casa e vivida e em que o pedreiro "
+     "trabalha. Defeito nao se distribui por sistema: concentra-se onde dois "
+     "sistemas se encontram, e os dois se encontram dentro de um comodo. Na "
+     "primeira execucao o eixo achou 24 divergencias — 14 de um defeito real "
+     "(duas regras para contar tomada) e 10 de grossura da propria "
+     "conferencia. PARCIAL porque iluminacao e ventilacao dependem do Codigo "
+     "de Obras municipal, que e a pendencia 1: as fracoes sao (H) declaradas."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

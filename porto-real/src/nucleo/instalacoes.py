@@ -122,9 +122,17 @@ def eletrica(pj) -> dict:
     pontos = []
     for c in pj.CARGAS_ESPECIAIS:
         pontos.append(dict(cod=c["cod"], tipo="TUE", va=c["va"], v=c["v"]))
-    # pontos de iluminacao e tomada: derivados da area, como a NBR 5410 faz
+    # PONTOS DE TOMADA: da previsao que o CASO ja faz pela NBR 5410 9.5.2.2,
+    # que conta PERIMETRO — uma tomada a cada 5 m de parede, ou 3,5 m em area
+    # molhada. Esta funcao contava `area / 5`, inventando uma segunda regra
+    # para o mesmo fato, e a segunda estava errada: dava 55 tomadas onde a
+    # norma pede 71. O sinal do erro nao era uniforme — sobrava na garagem e na
+    # master, faltava na lavanderia (1 contra 4), no banho, na despensa e na
+    # cozinha, justamente onde a norma e mais exigente. Comodo estreito e
+    # comprido tem muito perimetro e pouca area, e e nele que se mora.
+    prev = {x["amb"]: x for x in pj.previsao_iluminacao_tug()}
     for a in pj.TERREO + pj.SUPERIOR:
-        n_tom = max(1, int(a.area_mod / 5))
+        n_tom = prev.get(a.cod, {}).get("tugs", 1)
         for i in range(n_tom):
             pontos.append(dict(cod=f"{a.cod}-TUG{i+1}", tipo="TUG",
                                amb=a.cod, x=a.x + a.w / 2, y=a.y + a.h / 2))

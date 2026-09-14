@@ -300,6 +300,12 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # foi perguntado a alguem. Precisa do resultado quase pronto, por isso vem
     # aqui: a especificacao de cada linha sai do modelo inteiro — norma do
     # material, designacao do perfil, DN da instalacao, fck da fundacao.
+    # ---- dossie por comodo: o eixo em que a verificacao nao existia. Vem
+    # depois das camadas porque le a composicao de cada parede que cerca o
+    # comodo, e depois dos paineis porque e deles que a parede vem.
+    import nucleo.ambiente as amb
+    ambientes = amb.conferir(pj, dict(paineis=todos, camadas=camadas))
+
     import nucleo.cotacao as co
     _parcial = dict(bom=itens, plano=plano, juntas=juntas, camadas=camadas)
     cot = dict(mapa=co.mapa(_parcial),
@@ -307,7 +313,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
                sensibilidade=[co.sensibilidade(itens, f, 0.20)
                               for f in sorted({i.familia for i in itens})])
 
-    return dict(cotacao=cot,
+    return dict(cotacao=cot, ambientes=ambientes,
                 paineis=todos, pecas=pecas, plano=plano, bom=itens,
                 custo=custo, etapas=etapas, ordem=ordem, passos=passos,
                 horas=horas, carga=carga, emissao=emissao,
