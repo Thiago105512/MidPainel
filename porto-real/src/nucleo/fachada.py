@@ -208,3 +208,55 @@ def conferir(pj, r: dict) -> dict:
                 regras=reg,
                 materiais=[dict(familia=m[0], onde=m[1])
                            for m in pj.FACHADA_MATERIAIS])
+
+
+# ---------------------------------------------------------------------------
+# PLATIBANDA — 550 mm de parede correndo todo o perimetro, sem estrutura
+#
+# TOPO_PLATIBANDA = 6.150 e o topo da parede do superior = 5.600. A diferenca —
+# 550 mm — e uma parede que existe em todo o contorno da cobertura, aparece nas
+# quatro fachadas, esconde a calha e recebe o rufo. Ela nao tinha montante, nao
+# tinha guia, nao tinha fechamento e nao tinha massa.
+#
+# E o terceiro elemento com o mesmo padrao nesta revisao, depois do brise e da
+# area externa: existe no desenho, existe no 3D, nao existe no modelo.
+# ---------------------------------------------------------------------------
+PLATIBANDA = dict(
+    montante="Ue 90x40x12x0,95", guia="U 92x38x0,95",
+    espac=600,
+    fechamento_externo="placa cimenticia 10 mm, mesmo mineral da fachada",
+    fechamento_interno="placa cimenticia 10 mm — face voltada para a calha, "
+                       "exposta a chuva dos dois lados",
+    massa_montante_m=1.407, massa_guia_m=1.229, massa_placa_m2=16.0,
+)
+
+
+def platibanda(pj) -> dict:
+    """Estrutura e fechamento dos 550 mm que coroam o volume."""
+    alt = pj.TOPO_PLATIBANDA - (pj.NIVEL_SUPERIOR + pj.PE_DIREITO)
+    if alt <= 0:
+        return dict(altura=0, comprimento_m=0.0, n=0, ok=True)
+    ambs = pj.TERREO + pj.SUPERIOR
+    xs = [a.x for a in ambs] + [a.x + a.w for a in ambs]
+    ys = [a.y for a in ambs] + [a.y + a.h for a in ambs]
+    # perimetro do envelope construido: a platibanda corre no contorno da
+    # projecao, e nao na soma dos planos de cobertura (que conta borda
+    # partilhada duas vezes, e esta declarado como conservador no seu proprio
+    # levantamento)
+    comp = 2 * ((max(xs) - min(xs)) + (max(ys) - min(ys))) / 1000.0
+    n_mont = int(comp * 1000 / PLATIBANDA["espac"]) + 1
+    m_mont = n_mont * alt / 1000.0
+    m_guia = 2 * comp
+    area_placa = 2 * comp * alt / 1000.0
+    massa = (m_mont * PLATIBANDA["massa_montante_m"]
+             + m_guia * PLATIBANDA["massa_guia_m"])
+    return dict(
+        altura=alt, comprimento_m=round(comp, 1), n_montantes=n_mont,
+        montante_m=round(m_mont, 1), guia_m=round(m_guia, 1),
+        placa_m2=round(area_placa, 1), massa_aco=round(massa, 1),
+        massa_placa=round(area_placa * PLATIBANDA["massa_placa_m2"], 1),
+        espac=PLATIBANDA["espac"], perfis=PLATIBANDA,
+        obs="a face interna da platibanda tambem leva placa: ela olha para a "
+            "calha e recebe chuva dos dois lados. Deixa-la aberta expoe o "
+            "montante ao tempo, e montante galvanizado exposto e o primeiro "
+            "ponto de corrosao de uma cobertura em LSF")

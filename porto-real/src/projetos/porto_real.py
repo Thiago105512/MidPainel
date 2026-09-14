@@ -463,6 +463,14 @@ PISO_EXTERNO = [
          area_m2=None, razao="area de permanencia com mobiliario e sombra"),
     dict(zona="passeio e acesso", material="piso drenante intertravado claro",
          area_m2=None, razao="compensa a permeabilidade perdida pelo deck"),
+    # R49 — a varanda da master era a unica area aberta sem zona de piso
+    # declarada: 14,04 m2 no pavimento superior, expostos a chuva, sem material.
+    # Leva o MESMO porcelanato externo R11 da faixa seca da piscina — nao e
+    # material novo, e a familia continua em tres.
+    dict(zona="varanda do pavimento superior",
+         material="porcelanato externo claro R11", area_m2=None,
+         razao="mesma exigencia de piso molhado e descalco da faixa da "
+               "piscina, sem acrescentar familia"),
 ]
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 # A caixa estava sobre o VAZIO do core: 25 kN apoiados em uma plataforma de
@@ -2737,6 +2745,19 @@ REVISOES = [
             "orcamento. A altura e a profundidade do brise viviam como literal "
             "em modelo3d.py — 1.500 e 120 — contra os 150 declarados no dado: "
             "duas fontes, as duas em modulo de desenho"),
+    ("R49", "Area externa e platibanda, os dois ultimos blocos que existiam so "
+            "no desenho. 286 m2 de area aberta — muro de 113,4 m, quatro zonas "
+            "de piso, piscina com revestimento e casca, jardim e paisagismo — "
+            "somam R$ 88.125, 17 % do custo, exatamente a faixa de pratica "
+            "para residencia deste porte, e a propria faixa virou verificacao: "
+            "e o unico sinal de que o levantamento nao esquece um bloco "
+            "inteiro. O muro e bloco APARENTE com hidrofugante, nao alvenaria "
+            "pintada: a regra que barrou a pintura da fachada em R48 vale para "
+            "250 m2 de muro repintado a cada cinco anos. E a platibanda — 550 "
+            "mm de parede em 64,8 m de perimetro, visivel nas quatro fachadas "
+            "— ganha 109 montantes, 129,6 m de guia, 71,3 m2 de placa nas DUAS "
+            "faces (a interna olha para a calha e recebe chuva) e 243,6 kg de "
+            "aco em linha propria, sem voltar a ser contada em ACO-PERF"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -2846,13 +2867,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R48",
+    revisao="R49",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R48", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R49", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

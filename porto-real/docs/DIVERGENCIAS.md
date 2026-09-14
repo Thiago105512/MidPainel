@@ -3840,3 +3840,77 @@ ensaio, e portanto (H).
 A regra *"vidro controlado, concentrado na fachada posterior"* está cumprida: a
 oeste é a mais envidraçada. E a face é **derivada** — quando o hall cresceu em
 R46, a fachada cresceu junto, sem que ninguém a redesenhasse.
+
+## Defeito 60 — 286 m² de área externa que não existiam no orçamento
+
+Quinze áreas abertas declaradas, uma piscina de 17,82 m² de lâmina com sistema
+completo (dois drenos de fundo, antiaprisionamento, bomba de velocidade
+variável), um deck de 7,8 × 5,4 m, um muro de 2,2 m em todo o perímetro, oito
+itens de paisagismo e **três zonas de piso com material escolhido e razão
+escrita**.
+
+Nada disso tinha quantidade, e nenhuma família `externo` existia no BOM.
+
+| | derivado | R$ |
+|---|---|---|
+| muro | 113,4 m × 2,2 m = 249,5 m² · 3.118 blocos | 21.311 |
+| pisos externos (4 zonas) | 163,4 m² | 35.706 |
+| jardim | 137,2 m² | 5.212 |
+| piscina | 30,4 m² de revestimento · 4,57 m³ de casca · 17,4 m de borda | 16.236 |
+| paisagismo | 5 árvores, 24 vasos | 9.660 |
+| **total** | | **88.125 — 17,0 % do custo** |
+
+Em residência deste porte a área externa é **10 a 20 %** do custo, e é onde o
+orçamento estoura — justamente porque entra por último e sem levantamento. O
+valor cair na faixa é o único sinal disponível de que o levantamento não esqueceu
+um bloco inteiro, e por isso virou verificação.
+
+### A decisão do muro, e a alternativa descartada
+
+**Bloco de concreto aparente 14, junta rebaixada, hidrofugante incolor.**
+
+| descartada | por quê |
+|---|---|
+| alvenaria revestida e pintada | 250 m² repintados a cada 4–5 anos: tinta **mais** andaime baixo, para sempre. A mesma regra que barrou a pintura da fachada em R48 vale aqui |
+| placa cimentícia sobre estrutura | mesmo acabamento da casa, o dobro do preço por m², num elemento que ninguém olha de perto |
+
+Textura franca, zero manutenção, e conversa com o ripado de alumínio e o mineral
+claro sem competir com eles.
+
+### A única área sem zona
+
+A varanda da master — 14,04 m² no pavimento superior, expostos à chuva — era a
+única área aberta sem material declarado. Recebeu o **mesmo** porcelanato externo
+R11 da faixa da piscina: não é material novo, e a contagem de famílias continua
+em três.
+
+## Defeito 61 — 550 mm de parede em todo o perímetro, sem estrutura
+
+`TOPO_PLATIBANDA` = 6.150 e o topo da parede do superior = 5.600. A diferença é
+uma **parede de 550 mm correndo todo o contorno da cobertura**, que aparece nas
+quatro fachadas, esconde a calha e recebe o rufo.
+
+Ela não tinha montante, não tinha guia, não tinha fechamento e não tinha massa.
+
+| | |
+|---|---|
+| perímetro | 64,8 m |
+| montantes | 109 a cada 600 mm (60,0 m de perfil) |
+| guia | 129,6 m (superior e inferior) |
+| placa | **71,3 m² em duas faces** |
+| aço | 243,6 kg |
+
+**As duas faces levam placa** — e essa é a parte que se esquece: a face interna
+olha para a calha e recebe chuva dos dois lados. Deixá-la aberta expõe o montante
+ao tempo, e *montante galvanizado exposto é o primeiro ponto de corrosão de uma
+cobertura em LSF.*
+
+O aço da platibanda entra em **linha própria** e não em `ACO-PERF`, que continua
+sendo a massa das 1.028 peças do modelo. É a disciplina do defeito 47: o que se
+compra aparece uma vez só — e há verificação para isso.
+
+### O terceiro elemento com o mesmo padrão nesta revisão
+
+Brise (R48), área externa (R49) e platibanda (R49): **existe no desenho, existe
+no 3D, não existe no modelo.** É o mesmo padrão do vigamento até R31 e da
+fundação até R37. O desenho convence, e a obra descobre.

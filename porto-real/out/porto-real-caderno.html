@@ -585,7 +585,7 @@
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R48 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R49 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -602,7 +602,7 @@
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>36,4 <span>kVA · 100 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>529 <span>condições · 0 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>535 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>35 <span>· A1</span></dd></div>
   </dl>
@@ -804,6 +804,7 @@
       <li><span class="r">R46</span><span>O mini lounge nao tinha como ser alcancado. 517 verificacoes conferem PROPRIEDADES de comodo e nenhuma perguntava se da para chegar nele: o lounge tinha porta, janela, clima, piso e tomadas, e nenhum vizinho. Entre ele e o hall havia uma faixa de 600 x 2.400 mm sem ambiente, e o painelizador, vendo exterior dos dois lados, ergueu DUAS paredes externas paralelas com a porta abrindo para o vazio entre elas. Estender o hall ate 12.600 REMOVE uma parede em vez de acrescentar, nao mexe em fachada e devolve ao hall a distribuicao para quatro destinos que R06 lhe deu. A casa ganhou 1,44 m2 e ficou mais barata: 1.028 pecas contra 1.033, 60 paineis contra 62. Entra conectividade(), que caminha a pe a partir da entrada — relacao entre comodos e grafo, nao tabela. E o lounge deixa de ser categoria APOIO, que lhe dava piso de garagem e o excluia da conta de ruido a dois metros da cabeceira de duas suites</span></li>
       <li><span class="r">R47</span><span>Catalogo tecnico com o desenho de cada peca — perfil, parafuso, chapa e tubo — gerado da PROPRIA peca: a mesma poligonal de linha media que o solver da NBR 14762 integra para achar A, Ix e Wx. Imagem de catalogo seria de um perfil generico, com marca de terceiro, e continuaria igual depois de a auditoria mudar uma espessura: passaria a mentir em silencio. A designacao ja E a dimensao. Zero imagens buscadas fora, e o teste confere que a cota desenhada e a dimensao que alimenta o calculo. Mais as duas decisoes do superior: o banho da suite 02 passa de J02 para J04 e espelha a 03 — a assimetria deixava o lado menor abaixo do minimo de area molhada — e a ocupacao do nicho de condensadora passa a ser derivada da lista, porque o texto dizia 2 ativas enquanto a lista mandava 5</span></li>
       <li><span class="r">R48</span><span>Fachada auditada contra o que foi COMBINADO. A regra declarada em R06 diz 'nenhuma superficie que exija pintura em altura', e o acabamento externo especificado era pintura acrilica num volume de 6,15 m: duas decisoes do mesmo projeto, uma negando a outra. Quem tinha razao era a fachada — FACHADA_MATERIAIS ja especifica revestimento mineral de fabrica, que nao se repinta — e a pintura externa passa a declarar ONDE se aplica: so o que se alcanca do chao. Repintar 150 m2 a 6 m custa tinta MAIS andaime, a cada cinco anos, para sempre. E os cinco brises, 16,8 m de ripado e 145,9 kg, existiam no desenho e no 3D sem material, sem massa e sem carga: 205,5 m de ripa, 33,6 de travessa e 66 fixacoes entram no orcamento. A altura e a profundidade do brise viviam como literal em modelo3d.py — 1.500 e 120 — contra os 150 declarados no dado: duas fontes, as duas em modulo de desenho</span></li>
+      <li><span class="r">R49</span><span>Area externa e platibanda, os dois ultimos blocos que existiam so no desenho. 286 m2 de area aberta — muro de 113,4 m, quatro zonas de piso, piscina com revestimento e casca, jardim e paisagismo — somam R$ 88.125, 17 % do custo, exatamente a faixa de pratica para residencia deste porte, e a propria faixa virou verificacao: e o unico sinal de que o levantamento nao esquece um bloco inteiro. O muro e bloco APARENTE com hidrofugante, nao alvenaria pintada: a regra que barrou a pintura da fachada em R48 vale para 250 m2 de muro repintado a cada cinco anos. E a platibanda — 550 mm de parede em 64,8 m de perimetro, visivel nas quatro fachadas — ganha 109 montantes, 129,6 m de guia, 71,3 m2 de placa nas DUAS faces (a interna olha para a calha e recebe chuva) e 243,6 kg de aco em linha propria, sem voltar a ser contada em ACO-PERF</span></li>
       </ol>
     </div>
     <div>
@@ -3523,6 +3524,35 @@ function vistaFachada() {
         ornamento: ${esc2(F.regras.ornamento)} ·
         manutenção: ${esc2(F.regras.manutencao)}.</p></div>
     <div class="eng-sec"><h3>Conferência das regras</h3>${ach}</div>
+    ${F.platibanda && F.platibanda.altura ? `
+    <div class="eng-sec"><h3>Platibanda — ${F.platibanda.altura} mm coroando
+      ${num(F.platibanda.comprimento_m, 1)} m de perímetro</h3>
+      <p class="conta" style="display:block;line-height:1.6">
+        ${F.platibanda.n_montantes} montantes a cada ${F.platibanda.espac} mm
+        (${num(F.platibanda.montante_m, 1)} m), ${num(F.platibanda.guia_m, 1)} m
+        de guia, <b>${num(F.platibanda.placa_m2, 1)} m²</b> de placa em duas
+        faces e ${num(F.platibanda.massa_aco, 1)} kg de aço.
+        ${esc2(F.platibanda.obs)}.</p></div>` : ""}
+    ${F.externo ? `
+    <div class="eng-sec"><h3>Área externa — ${num(F.externo.area_externa, 1)} m²</h3>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>zona</th>
+        <th>m²</th><th>material</th><th>por quê</th></tr></thead><tbody>
+        ${F.externo.pisos.itens.map(z => `<tr><td>${esc2(z.zona)}</td>
+          <td>${num(z.area, 2)}</td>
+          <td style="white-space:normal">${esc2(z.material)}</td>
+          <td style="white-space:normal;max-width:30ch">${esc2(z.razao)}</td></tr>`).join("")}
+        <tr><td>jardim e canteiro</td><td>${num(F.externo.pisos.jardim, 2)}</td>
+          <td>grama e vegetação</td><td>—</td></tr>
+        </tbody></table></div>
+      <p class="conta" style="display:block;margin-top:10px;line-height:1.55">
+        <b>Muro:</b> ${num(F.externo.muro.comprimento_m, 1)} m a
+        ${F.externo.muro.altura / 1000} m = ${num(F.externo.muro.area, 1)} m²,
+        ${num(F.externo.muro.blocos)} blocos · ${esc2(F.externo.muro.material)}.<br>
+        <b>Piscina:</b> ${F.externo.piscina.lamina} m² de lâmina,
+        ${F.externo.piscina.volume} m³, ${num(F.externo.piscina.revestimento_m2, 1)} m²
+        de revestimento e ${num(F.externo.piscina.concreto_m3, 2)} m³ de casca.<br>
+        <b>Paisagismo:</b> ${F.externo.paisagismo.arvores} árvores e
+        ${F.externo.paisagismo.vasos} vasos.</p></div>` : ""}
     <div class="eng-sec"><h3>Brises — ${B.n} elementos, ${num(B.massa, 1)} kg</h3>
       <div class="rolagem"><table class="tabela"><thead><tr><th>cód</th>
         <th>face</th><th>comp × alt</th><th>passo</th><th>ripas</th>

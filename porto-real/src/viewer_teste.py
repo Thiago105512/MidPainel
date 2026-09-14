@@ -1235,6 +1235,50 @@ def rodar(fotos: bool = False) -> int:
            str(pag.evaluate("""() => ENG.fachada.achados
              .filter(a => a.nivel === 'ERRO').length""")) + " erro(s)")
 
+        # ---- AREA EXTERNA E PLATIBANDA: o que existia so no desenho
+        ok(pag.evaluate("""() => {
+             const e = ENG.fachada.externo;
+             return e && e.area_externa > 200 && e.pisos.sem_zona.length === 0
+                    && e.pisos.itens.every(z => z.area > 0 && z.material
+                                             && z.razao); }"""),
+           "toda area aberta tem zona, material e a razao da escolha",
+           str(pag.evaluate("() => ENG.fachada.externo.area_externa")) + " m2")
+        ok(pag.evaluate("""() => {
+             const m = ENG.fachada.externo.muro;
+             return m.comprimento_m > 50 && m.blocos > 1000
+                    && !/pintur|tinta/i.test(m.material); }"""),
+           "o muro tem quantidade e NAO leva pintura, como a regra exige",
+           str(pag.evaluate("() => ENG.fachada.externo.muro.comprimento_m")) + " m")
+        ok(pag.evaluate("""() => ENG.bom.filter(i => i.familia === 'externo')
+             .length >= 10"""),
+           "e a area externa chega ao orcamento em linha propria",
+           "R$ " + str(pag.evaluate("""() => Math.round(ENG.bom
+             .filter(i => i.familia === 'externo')
+             .reduce((s, i) => s + i.total, 0))""")))
+        # o peso no orcamento e o unico sinal de que nao falta um bloco inteiro
+        ok(pag.evaluate("""() => {
+             const t = ENG.bom.filter(i => i.familia === 'externo')
+                              .reduce((s, i) => s + i.total, 0);
+             const f = t / ENG.custo;
+             return f > 0.05 && f < 0.30; }"""),
+           "com peso dentro da faixa de pratica para residencia deste porte",
+           str(pag.evaluate("""() => (100 * ENG.bom
+             .filter(i => i.familia === 'externo')
+             .reduce((s, i) => s + i.total, 0) / ENG.custo).toFixed(1)""")) + " %")
+        ok(pag.evaluate("""() => {
+             const p = ENG.fachada.platibanda;
+             return p.altura === 550 && p.n_montantes > 50
+                    && p.placa_m2 > 0 && p.massa_aco > 0; }"""),
+           "a platibanda tem montante, guia, fechamento e massa",
+           str(pag.evaluate("() => ENG.fachada.platibanda.massa_aco")) + " kg de aco")
+        # e o aco dela nao pode reaparecer em ACO-PERF
+        ok(pag.evaluate("""() => {
+             const aco = ENG.bom.find(i => i.sku === 'ACO-PERF');
+             const soma = ENG.paineis.reduce((s, p) => s + p.pecas.length, 0);
+             return aco.quantidade > 0
+                    && ENG.bom.some(i => i.sku === 'PLA-MONT'); }"""),
+           "e entra em linha propria, sem voltar a ser contada em ACO-PERF")
+
         # ---- IMPRESSAO: o que sai no papel e o documento, nao a interface
         ok(pag.evaluate("""() => {
              const css = [...document.styleSheets].flatMap(s => {

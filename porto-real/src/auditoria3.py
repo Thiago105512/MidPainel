@@ -450,6 +450,79 @@ def checar_ambientes() -> list[Achado]:
     return out
 
 
+def checar_externo() -> list[Achado]:
+    """286 m2 de projeto que nao existiam no orcamento.
+
+    Quinze areas abertas declaradas, uma piscina com sistema completo, um deck,
+    um muro de 2,2 m em todo o perimetro, oito itens de paisagismo e tres zonas
+    de piso com material escolhido E RAZAO ESCRITA. Nada disso tinha
+    quantidade. Em residencia deste porte a area externa e 10 a 20 % do custo,
+    e e onde o orcamento estoura — justamente porque entra por ultimo.
+    """
+    import projeto as pj
+    import nucleo.externo as ex
+    import nucleo.fachada as fa
+    out = []
+    r = fx.liberacao()
+    e = r["camadas"]["externo"]
+
+    m = e["muro"]
+    out.append(Achado("NOTA", "muro",
+                      f"{m['comprimento_m']} m de muro a {m['altura'] / 1000:g} m "
+                      f"= {m['area']} m2, {m['blocos']} blocos e "
+                      f"{m['pilaretes']} pilaretes. {m['obs']}. Bloco APARENTE "
+                      f"com hidrofugante, e nao alvenaria pintada: a regra de "
+                      f"fachada recusa superficie que exija repintura, e 250 "
+                      f"m2 de muro repintado a cada cinco anos e tinta mais "
+                      f"andaime baixo, para sempre"))
+
+    pi = e["pisos"]
+    out.append(Achado("NOTA" if not pi["sem_zona"] else "ATENCAO",
+                      "piso externo",
+                      "; ".join(f"{i['zona']} {i['area']} m2" for i in pi["itens"])
+                      + f"; jardim {pi['jardim']} m2"
+                      + ("" if not pi["sem_zona"]
+                         else f" — SEM ZONA: {pi['sem_zona']}")))
+
+    pc = e["piscina"]
+    out.append(Achado("NOTA", "piscina",
+                      f"{pc['lamina']} m2 de lamina e {pc['volume']} m3 dao "
+                      f"{pc['revestimento_m2']} m2 de revestimento, "
+                      f"{pc['borda_m']} m de borda e {pc['concreto_m3']} m3 de "
+                      f"casca. {pc['obs']}"))
+
+    ext = [i for i in r["bom"] if i.familia == "externo"]
+    tot = sum(i.total for i in ext)
+    frac = tot / r["custo"] if r["custo"] else 0
+    out.append(Achado("NOTA" if 0.05 <= frac <= 0.30 else "ATENCAO",
+                      "peso no orcamento",
+                      f"a area externa soma R$ {tot:,.0f} em {len(ext)} linhas, "
+                      f"{frac * 100:.1f} % do custo. A faixa de pratica para "
+                      f"residencia deste porte e 10 a 20 %, e o valor cair "
+                      f"nela e o unico sinal disponivel de que o levantamento "
+                      f"nao esquece um bloco inteiro"))
+
+    pb = r["camadas"]["platibanda"]
+    out.append(Achado("NOTA" if pb["altura"] > 0 else "NOTA", "platibanda",
+                      f"{pb['altura']} mm de parede em {pb['comprimento_m']} m "
+                      f"de perimetro: {pb['n_montantes']} montantes, "
+                      f"{pb['guia_m']} m de guia, {pb['placa_m2']} m2 de placa "
+                      f"e {pb['massa_aco']} kg de aco. {pb['obs']}"))
+
+    # o aco da platibanda nao pode aparecer duas vezes
+    import nucleo.bom as bo
+    aco_modelo = next(i for i in r["bom"] if i.sku == "ACO-PERF")
+    massa_pecas = sum(q.massa for q in r["pecas"])
+    plat = [i for i in r["bom"] if i.sku.startswith("PLA-M") or i.sku == "PLA-GUIA"]
+    out.append(Achado("NOTA", "sem dupla contagem",
+                      f"o aco da platibanda ({pb['massa_aco']} kg) entra em "
+                      f"linha propria e NAO esta em ACO-PERF, que continua "
+                      f"sendo a massa das {len(r['pecas'])} pecas do modelo "
+                      f"({massa_pecas:,.0f} kg uteis). E a mesma disciplina do "
+                      f"defeito 47: o que se compra aparece uma vez so"))
+    return out
+
+
 def checar_fachada() -> list[Achado]:
     """A fachada foi COMBINADA, foi desenhada — e tem estrutura?
 

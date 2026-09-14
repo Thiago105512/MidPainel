@@ -126,8 +126,11 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     camadas["impermeabilizacao"] = cd.impermeabilizacao(pj)
     import nucleo.fundacao as _fd
     camadas["fundacao"] = _fd.levantar(pj)
+    import nucleo.externo as _ex
+    camadas["externo"] = _ex.levantar(pj)
     import nucleo.fachada as _fa
     camadas["brises"] = _fa.brises(pj)
+    camadas["platibanda"] = _fa.platibanda(pj)
     camadas["faces"] = _fa.faces(pj)
     import nucleo.instalacoes as _ins
     _base = dict(T=pj.NIVEL_TERREO, S=pj.NIVEL_SUPERIOR)

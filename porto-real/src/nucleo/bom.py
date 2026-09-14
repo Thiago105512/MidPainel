@@ -296,6 +296,28 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                  cob["parafuso_un"], PRECO_COB["parafuso_un"], "un")):
             itens.append(ItemBOM(sku, desc, un, q, pr, "cobertura",
                                  fonte="derivado"))
+    # ---- platibanda: 550 mm de parede em todo o perimetro, 243 kg de aco e
+    # 71 m2 de placa que nao existiam. O aco dela NAO esta no plano de corte
+    # nem em ACO-PERF — entra como linha propria, e a auditoria confere que a
+    # dupla contagem nao voltou pela porta dos fundos.
+    pb = (camadas or {}).get("platibanda")
+    if pb and pb.get("altura"):
+        itens.append(ItemBOM("PLA-MONT", f"Platibanda: montante "
+                                         f"{pb['perfis']['montante']}", "m",
+                             pb["montante_m"], p["aco_perfil_kg"]
+                             * pb["perfis"]["massa_montante_m"], "cobertura",
+                             fonte=f"{pb['n_montantes']} montantes a cada "
+                                   f"{pb['espac']} mm"))
+        itens.append(ItemBOM("PLA-GUIA", f"Platibanda: guia "
+                                         f"{pb['perfis']['guia']}", "m",
+                             pb["guia_m"], p["aco_perfil_kg"]
+                             * pb["perfis"]["massa_guia_m"], "cobertura",
+                             fonte="guia superior e inferior"))
+        itens.append(ItemBOM("PLA-PLACA", "Platibanda: fechamento em placa "
+                                          "cimenticia, duas faces", "m2",
+                             pb["placa_m2"], PRECO_CAMADA["PLCIM"], "cobertura",
+                             fonte="duas faces: a interna olha para a calha"))
+
     # ---- brise: 205 m de ripa de aluminio que existiam no desenho e no 3D e
     # nao existiam no orcamento nem na carga
     br = (camadas or {}).get("brises")
@@ -314,6 +336,58 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                                             "roldana e trava", "cj",
                                  br["moveis"], PRECO_BRISE["mecanismo"],
                                  "fachada", fonte="(H) item de fornecedor"))
+
+    # ---- AREA EXTERNA: 286 m2 de projeto que nao existiam no orcamento.
+    # Muro, piso, piscina e paisagismo estavam desenhados, decididos e
+    # justificados — e em nenhuma linha de custo. Em residencia deste porte a
+    # area externa e 10 a 20 % do total, e e onde o orcamento estoura,
+    # justamente porque entra por ultimo e sem levantamento.
+    ext = (camadas or {}).get("externo")
+    if ext:
+        import nucleo.externo as _ex
+        P = _ex.PRECO
+        m = ext["muro"]
+        itens.append(ItemBOM("EXT-BLOCO", f"Muro: {m['material'][:44]}", "un",
+                             m["blocos"], P["bloco_un"], "externo",
+                             fonte=f"derivado de {m['comprimento_m']} m x "
+                                   f"{m['altura'] / 1000:g} m"))
+        itens.append(ItemBOM("EXT-GRAUTE", "Graute de cinta e pilarete do muro",
+                             "m3", m["graute_m3"], P["graute_m3"], "externo",
+                             fonte="derivado"))
+        itens.append(ItemBOM("EXT-HIDROF", "Hidrofugante incolor no muro "
+                                           "aparente", "m2", m["area"],
+                             P["hidrofugante_m2"], "externo",
+                             fonte="derivado — substitui pintura e repintura"))
+        preco_piso = {"porcelanato externo claro R11": P["piso_porcelanato_m2"],
+                      "WPC coextrudado claro": P["piso_wpc_m2"],
+                      "piso drenante intertravado claro": P["piso_drenante_m2"]}
+        for i, z in enumerate(ext["pisos"]["itens"], 1):
+            itens.append(ItemBOM(
+                f"EXT-PISO{i}", f"{z['zona']}: {z['material'][:36]}", "m2",
+                z["area"], preco_piso.get(z["material"], 120.0), "externo",
+                fonte="derivado das areas abertas da zona"))
+        itens.append(ItemBOM("EXT-GRAMA", "Grama e canteiro", "m2",
+                             ext["pisos"]["jardim"], P["grama_m2"], "externo",
+                             fonte="derivado dos jardins declarados"))
+        pc = ext["piscina"]
+        itens.append(ItemBOM("EXT-PISC-REV", "Piscina: revestimento de fundo e "
+                                             "paredes", "m2",
+                             pc["revestimento_m2"], P["piscina_revest_m2"],
+                             "externo", fonte="fundo + 4 paredes na "
+                                              "profundidade media"))
+        itens.append(ItemBOM("EXT-PISC-EST", f"Piscina: casca de concreto "
+                                             f"armado {pc['espessura_casca']} mm",
+                             "m3", pc["concreto_m3"], P["piscina_estrutura_m3"],
+                             "externo", fonte="derivado da area molhada"))
+        itens.append(ItemBOM("EXT-BORDA", "Borda de piscina", "m",
+                             pc["borda_m"], P["borda_m"], "externo",
+                             fonte="perimetro da lamina"))
+        pa = ext["paisagismo"]
+        itens.append(ItemBOM("EXT-ARV", "Arvore de porte", "un", pa["arvores"],
+                             P["arvore_un"], "externo", fonte="derivado"))
+        itens.append(ItemBOM("EXT-VASO", "Vaso e planta em vaso", "un",
+                             pa["vasos"], P["vaso_un"], "externo",
+                             fonte="derivado"))
 
     # ---- impermeabilizacao
     imp = (camadas or {}).get("impermeabilizacao")

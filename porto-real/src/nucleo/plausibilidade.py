@@ -108,12 +108,20 @@ FAIXAS = (
     # A regra que fica: recalibrar faixa exige dizer O QUE MUDOU no que se
     # mede. Se a resposta for "nada, so o valor", a faixa esta certa e o
     # projeto e que precisa de explicacao.
-    Faixa("custo_m2", "custo de estrutura, fechamento, esquadria e cobertura",
-          "R$/m2", 600.0, 1800.0,
+    # R49 — a faixa e o texto mudam porque O QUE SE MEDE mudou, que e a unica
+    # justificativa que esta regra aceita. A descricao dizia "NAO inclui
+    # fundacao, instalacoes, acabamento" e isso deixou de ser verdade em R37 e
+    # R38, quando fundacao e MEP entraram; agora entra a area externa — muro,
+    # piso, piscina e paisagismo, R$ 88 mil, 17 % do total. O divisor continua
+    # sendo a area FECHADA, e por isso o valor por m2 sobe sem que a casa fique
+    # mais cara por metro: ele passou a carregar 286 m2 de area aberta.
+    Faixa("custo_m2", "custo de TUDO o que ja esta levantado, por m2 de area "
+                      "fechada", "R$/m2", 900.0, 2600.0,
           "(H) os precos da tabela sao (H): esta faixa so detecta incoerencia "
-          "INTERNA, nunca preco de mercado errado. NAO inclui fundacao, "
-          "instalacoes, acabamento nem mao de obra de campo — uma residencia "
-          "completa em LSF fica bem acima disto",
+          "INTERNA, nunca preco de mercado errado. Inclui estrutura, "
+          "fechamento, esquadria, cobertura, fundacao, instalacoes, brise e "
+          "area externa; NAO inclui mao de obra de campo alem da declarada, "
+          "mobiliario nem equipamento de piscina",
           "fora da faixa com precos (H) indica quantitativo errado, nao preco"),
 
     Faixa("placa_m2", "placa por area de projeto", "m2/m2", 2.0, 4.5,

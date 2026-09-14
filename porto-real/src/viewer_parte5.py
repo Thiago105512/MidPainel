@@ -2163,6 +2163,35 @@ function vistaFachada() {
         ornamento: ${esc2(F.regras.ornamento)} ·
         manutenção: ${esc2(F.regras.manutencao)}.</p></div>
     <div class="eng-sec"><h3>Conferência das regras</h3>${ach}</div>
+    ${F.platibanda && F.platibanda.altura ? `
+    <div class="eng-sec"><h3>Platibanda — ${F.platibanda.altura} mm coroando
+      ${num(F.platibanda.comprimento_m, 1)} m de perímetro</h3>
+      <p class="conta" style="display:block;line-height:1.6">
+        ${F.platibanda.n_montantes} montantes a cada ${F.platibanda.espac} mm
+        (${num(F.platibanda.montante_m, 1)} m), ${num(F.platibanda.guia_m, 1)} m
+        de guia, <b>${num(F.platibanda.placa_m2, 1)} m²</b> de placa em duas
+        faces e ${num(F.platibanda.massa_aco, 1)} kg de aço.
+        ${esc2(F.platibanda.obs)}.</p></div>` : ""}
+    ${F.externo ? `
+    <div class="eng-sec"><h3>Área externa — ${num(F.externo.area_externa, 1)} m²</h3>
+      <div class="rolagem"><table class="tabela"><thead><tr><th>zona</th>
+        <th>m²</th><th>material</th><th>por quê</th></tr></thead><tbody>
+        ${F.externo.pisos.itens.map(z => `<tr><td>${esc2(z.zona)}</td>
+          <td>${num(z.area, 2)}</td>
+          <td style="white-space:normal">${esc2(z.material)}</td>
+          <td style="white-space:normal;max-width:30ch">${esc2(z.razao)}</td></tr>`).join("")}
+        <tr><td>jardim e canteiro</td><td>${num(F.externo.pisos.jardim, 2)}</td>
+          <td>grama e vegetação</td><td>—</td></tr>
+        </tbody></table></div>
+      <p class="conta" style="display:block;margin-top:10px;line-height:1.55">
+        <b>Muro:</b> ${num(F.externo.muro.comprimento_m, 1)} m a
+        ${F.externo.muro.altura / 1000} m = ${num(F.externo.muro.area, 1)} m²,
+        ${num(F.externo.muro.blocos)} blocos · ${esc2(F.externo.muro.material)}.<br>
+        <b>Piscina:</b> ${F.externo.piscina.lamina} m² de lâmina,
+        ${F.externo.piscina.volume} m³, ${num(F.externo.piscina.revestimento_m2, 1)} m²
+        de revestimento e ${num(F.externo.piscina.concreto_m3, 2)} m³ de casca.<br>
+        <b>Paisagismo:</b> ${F.externo.paisagismo.arvores} árvores e
+        ${F.externo.paisagismo.vasos} vasos.</p></div>` : ""}
     <div class="eng-sec"><h3>Brises — ${B.n} elementos, ${num(B.massa, 1)} kg</h3>
       <div class="rolagem"><table class="tabela"><thead><tr><th>cód</th>
         <th>face</th><th>comp × alt</th><th>passo</th><th>ripas</th>

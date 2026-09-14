@@ -479,6 +479,17 @@ PROGRAMA = [
      "existiam no desenho e no 3D sem material, sem massa e sem carga. PARCIAL "
      "porque o coeficiente de forma de ripado e o mecanismo do brise movel sao "
      "(H) ate o fornecedor."),
+    (115, "Area externa e platibanda: 286 m2 e 550 mm que nao existiam",
+     ["checar_externo"], "PARCIAL",
+     "Secoes 31, 32 e 34. Quinze areas abertas, piscina com sistema completo, "
+     "deck, muro de 2,2 m em todo o perimetro, oito itens de paisagismo e tres "
+     "zonas de piso com material escolhido e razao escrita — nada com "
+     "quantidade, e nenhuma familia 'externo' no BOM. Em residencia deste "
+     "porte a area externa e 10 a 20 % do custo e e onde o orcamento estoura. "
+     "Mais a platibanda: 550 mm de parede em 64,8 m de perimetro, aparecendo "
+     "nas quatro fachadas, sem montante, sem guia, sem fechamento e sem massa. "
+     "PARCIAL porque equipamento de piscina e mobiliario externo continuam "
+     "fora do levantamento."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
