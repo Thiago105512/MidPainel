@@ -4197,6 +4197,72 @@ def checar_lavabo_sob_escada() -> list[Achado]:
     return out
 
 
+def checar_termica() -> list[Achado]:
+    """A parede que a NBR 15220-3 verifica e a que a obra constroi? (R58)"""
+    import projeto as pj
+    import nucleo.termica as tm
+    out = []
+    for l in tm.levantar(pj):
+        lim = pj.LIMITES_ZB8.get(l["limite"], {})
+        out.append(Achado("NOTA" if l["u"] <= lim.get("U", 1e9) else "ERRO",
+                          f"U de {l['cod']}",
+                          f"{l['u']:.3f} W/m2.K contra limite {lim.get('U', 0):.2f} "
+                          f"— R efetivo {l['r_efetivo']:.3f}, ponte do montante "
+                          f"+{l['penalidade_ponte'] * 100:.1f} % sobre "
+                          f"{l['fracao_aco'] * 100:.1f} % da area"))
+        out.append(Achado("NOTA" if l["fso"] <= lim.get("FSo", 1e9) else "ERRO",
+                          f"FSo de {l['cod']}",
+                          f"{l['fso']:.2f} % contra {lim.get('FSo', 0):.1f} % "
+                          f"(absortancia {pj.ABSORTANCIA:.2f})"))
+        # O atraso reprova a parede por EXCESSO de desempenho: ver a nota em
+        # nucleo/termica.conferir. Fica ATENCAO, nao ERRO — nao ha defeito a
+        # corrigir, ha categoria normativa a escolher, e isso e do projetista.
+        if lim.get("atraso") and l["atraso_h"] > lim["atraso"]:
+            out.append(Achado("ATENCAO", f"categoria de {l['cod']}",
+                              f"atraso {l['atraso_h']:.2f} h passa dos "
+                              f"{lim['atraso']:.1f} h da linha '{lim['rotulo']}' "
+                              f"porque U = {l['u']:.3f} esta muito abaixo do "
+                              f"U <= {lim['U']:.2f} que a linha pressupoe — "
+                              f"parede melhor que a categoria, nao pior "
+                              f"(pendencia 14)"))
+    # a aferição contra a hipotese que o metodo novo substituiu
+    x = tm.sem_isolante(pj, "PE-1", "XPS")
+    out.append(Achado("NOTA", "aferição da ponte termica",
+                      f"derivada: +{x['ponte_com'] * 100:.1f} % com ISO strip e "
+                      f"+{x['ponte_sem'] * 100:.1f} % sem ela, contra as hipoteses "
+                      f"de 8 % e 40 % que vigoraram ate R57 — proximas, o que "
+                      f"sugere que ambas estao certas"))
+    out.append(Achado("NOTA", "o que a ISO strip compra",
+                      f"U de {x['u_sem']:.3f} para {x['u_com']:.3f}, queda de "
+                      f"{x['ganho'] * 100:.0f} % — e a camada de melhor relacao "
+                      f"desempenho/custo do envelope"))
+    return out
+
+
+def checar_ocupacao() -> list[Achado]:
+    """Espaco morto: bolsao sem ambiente, largura sem uso, nome sem lastro (R58)."""
+    import projeto as pj
+    import nucleo.ocupacao as oc
+    falhas = oc.conferir(pj)
+    c = oc.circulacao(pj)
+    out = [Achado("NOTA" if not falhas else "ERRO", "ocupacao",
+                  f"circulacao {c['area']:.2f} m2 = {c['taxa'] * 100:.1f} % da "
+                  f"area construida, sem largura excedente e sem bolsao"
+                  if not falhas else "; ".join(f["erro"] for f in falhas))]
+    v = oc.vazios(pj)
+    out.append(Achado("NOTA" if not [q for q in v if q["menor"] > 150] else "ERRO",
+                      "bolsao sem ambiente",
+                      f"{len(v)} vazio(s) interno(s) no raster de "
+                      f"{oc.GRID} mm dos dois pavimentos"))
+    for i in c["itens"]:
+        out.append(Achado("NOTA", f"circulacao: {i['cod']}",
+                          f"{i['largura']} mm de largura, {i['guardado']} mm de "
+                          f"armario, {i['livre']} mm livres — {i['portas']} "
+                          f"porta(s) pedem {i['limite']} mm, que e ao mesmo "
+                          f"tempo o minimo e o ponto em que passa a sobrar"))
+    return out
+
+
 def checar_acesso_das_subdivisoes() -> list[Achado]:
     """Toda subdivisao se alcanca, e a sequencia declarada e a real (R55)."""
     import projeto as pj

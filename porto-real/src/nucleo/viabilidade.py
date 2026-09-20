@@ -26,6 +26,18 @@ PORTOES = (
 )
 
 
+def _brl(v: float) -> str:
+    """R$ no padrao brasileiro.
+
+    Existia, espalhado pelas simulacoes, o idioma `f"R$ {v:,.2f}".replace(",",
+    ".")` aplicado a STRING INTEIRA. Ele acertava o separador de milhar e
+    destruia toda virgula do texto em volta: a pendencia 13 dizia "comprados
+    por REGRA de area. nao por calculo" porque a virgula da frase virou ponto.
+    Formatar moeda e trabalho de uma funcao, nao de um replace sobre prosa.
+    """
+    return f"R$ {v:,.2f}".replace(",", "\x00").replace(".", ",").replace("\x00", ".")
+
+
 def _exposicao(pj, r: dict, n: str) -> dict:
     """Quanto do projeto muda quando ESTE dado chegar."""
     custo = r["custo"] or 1.0
@@ -46,7 +58,7 @@ def _exposicao(pj, r: dict, n: str) -> dict:
                     grandeza=f"{f.get('volume_m3', 0)} m3 de concreto e "
                              f"{f.get('aco_kg', 0)} kg de aco",
                     simulacao=f"se a sondagem pedir radier de 250 mm em vez de "
-                              f"{esp}, o concreto sozinho sobe R$ {delta:,.0f} "
+                              f"{esp}, o concreto sozinho sobe {_brl(delta)} "
                               f"({delta / custo * 100:.1f} % do total) — e a "
                               f"taxa de armadura pode subir junto")
     if n == "3":       # ART do calculo estrutural
@@ -72,7 +84,7 @@ def _exposicao(pj, r: dict, n: str) -> dict:
                     grandeza=f"{pl['n_barras']} barras, aproveitamento "
                              f"{ap * 100:.1f} %",
                     simulacao=f"se o nesting da maquina real render 80 % em vez "
-                              f"de {ap * 100:.1f} %, o aco sobe R$ {delta:,.0f} "
+                              f"de {ap * 100:.1f} %, o aco sobe {_brl(delta)} "
                               f"({delta / custo * 100:.1f} %). O plano atual e "
                               f"de estudo: fecha a identidade bruto = usado + "
                               f"perda, e nao conhece a maquina")
@@ -122,12 +134,29 @@ def _exposicao(pj, r: dict, n: str) -> dict:
         ele = familia("eletrica")
         return dict(valor=ele, fracao=ele / custo,
                     grandeza="luminaria, interruptor e ponto de luz",
-                    simulacao=f"R$ {lum:,.2f} de luminaria estao comprados por "
+                    simulacao=f"{_brl(lum)} de luminaria estao comprados por "
                               f"REGRA de area, nao por calculo. O "
                               f"luminotecnico nao muda a casa: muda quantas "
                               f"luminarias, de que fluxo, e onde — e pode "
-                              f"dobrar ou reduzir pela metade a linha"
-                              .replace(",", "."))
+                              f"dobrar ou reduzir pela metade a linha")
+    if n == "14":      # rota de conformidade termica da parede externa
+        import nucleo.termica as tm
+        pe = next((l for l in tm.levantar(pj) if l["cod"] == "PE-1"), None)
+        xps = sum(i.total_compra for i in bom if i.sku.startswith("XPS"))
+        lim = pj.LIMITES_ZB8["parede_externa"]
+        return dict(valor=xps, fracao=xps / custo,
+                    grandeza="ISO strip de XPS na parede externa",
+                    simulacao=f"a parede entrega U = {pe['u']:.3f} contra o "
+                              f"U <= {lim['U']:.2f} da categoria, e e por ser "
+                              f"boa demais para a linha que seu atraso de "
+                              f"{pe['atraso_h']:.2f} h estoura os "
+                              f"{lim['atraso']:.1f} h dela. Ler a NBR 15575-4 "
+                              f"nao muda um parafuso da casa: decide se o "
+                              f"caminho de aprovacao e a tabela prescritiva "
+                              f"ou o criterio de transmitancia. Se um dia a "
+                              f"resposta for que falta inercia, quem paga e "
+                              f"esta linha — os {_brl(xps)} de XPS sao a "
+                              f"unica camada do envelope que se discutiria")
     return dict(valor=0.0, fracao=0.0, grandeza="", simulacao="")
 
 

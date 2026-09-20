@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="03" data-rev="R57">
+<g data-tipo="carimbo" data-cod="03" data-rev="R58">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R57</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R58</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">03</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R57</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R58</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -97,8 +97,8 @@
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="185.000" y1="327.000" x2="187.000" y2="327.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="185.000" y1="309.000" x2="187.000" y2="309.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="186.000" y1="327.000" x2="204.000" y2="327.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 204.000 327.000 A 18.000 18.000 0 0 1 186.000 345.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="186.000" y1="327.000" x2="168.000" y2="327.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 168.000 327.000 A 18.000 18.000 0 0 1 186.000 309.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="185.000" y1="303.000" x2="187.000" y2="303.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
@@ -271,6 +271,9 @@
 <polygon points="252.000,280.000 280.000,280.000 280.000,252.000 252.000,252.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
 <circle cx="266.000" cy="266.000" r="1.800" stroke="#000000" stroke-width="0.18" fill="none"/>
 <line x1="252.000" y1="280.000" x2="280.000" y2="252.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="marcenaria" data-cod="AR-09" data-familia="rouparia" data-amb="S-HAL" data-larg="4200" data-prof="600">
+<polygon points="198.000,330.000 282.000,330.000 282.000,318.000 198.000,318.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="ambiente" data-cod="S-S02" data-rot="SUITE 02" data-area="25.92" data-pav="S" data-molhado="nao" data-larg="5400" data-prof="4800" data-box="78.00 306.00 108.00 96.00">
 <text x="132.000" y="351.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>

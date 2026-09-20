@@ -20,6 +20,57 @@ from pranchas import base, _tabela
 
 
 # ---------------------------------------------------------------- termico
+# R58 — O CALCULO TERMICO NAO MORA MAIS AQUI.
+#
+# Ate R57 este arquivo calculava U a partir de `projeto.CAMADAS`, uma lista de
+# camadas escrita a mao que NAO era o fechamento construido: ela trocava os
+# 20 mm de XPS da ISO strip por uma camara de ar de 40 mm que a parede nao
+# tem, e nao continha o montante. Verificava uma parede inexistente — e
+# passava, que e o pior desfecho possivel para uma verificacao errada.
+#
+# Agora U, CT, atraso e FSo saem de `nucleo/termica.py`, que le as MESMAS
+# composicoes que geram o BOM. As funcoes abaixo continuam existindo porque a
+# prancha as usa, mas viraram fachada de leitura: nao ha mais aritmetica
+# termica neste arquivo.
+import nucleo.termica as tm
+import nucleo.camadas as cm
+
+COMPOSICAO_DE = {"parede_externa": "PE-1", "cobertura": "CB-1"}
+
+
+def _comp(chave):
+    cod = COMPOSICAO_DE[chave]
+    return cm.COMPOSICOES.get(cod) or cm.COMPOSICOES_PLANO[cod]
+
+
+def detalhe(chave) -> tuple[float, list[tuple[str, str, float]]]:
+    """Camada a camada da composicao REAL, para a prancha."""
+    comp = _comp(chave)
+    tipo = "cobertura" if chave == "cobertura" else "parede"
+    r = tm.resistencia(pj, comp, tipo)
+    linhas = [("Rse (superficial externa)", "-", tm.RSE)]
+    cont, miolo = tm.caminhos(comp)
+    for c in cont:
+        linhas.append((_mat_nome(c), f"{c.espessura * c.n:g}", round(tm._r_camada(c), 4)))
+    for c in miolo:
+        if c.material == "ACO":
+            linhas.append((f"{_mat_nome(c)} — {r['fracao_aco'] * 100:.1f} % da area",
+                           f"{c.espessura:g}", 0.0))
+        else:
+            linhas.append((_mat_nome(c), f"{c.espessura * c.n:g}", round(tm._r_camada(c), 4)))
+    if r["r_camara"]:
+        linhas.append((f"Camara de ar na sobra da cavidade", f"{r['camara_mm']:g}", r["r_camara"]))
+    linhas.append((f"Rsi (superficial interna)", "-", tm.FLUXO[tipo]))
+    return r["r_efetivo"], linhas
+
+
+def _mat_nome(c) -> str:
+    import nucleo.materiais as mt
+    m = mt.POR_MATERIAL.get(c.material)
+    nome = m.nome if m else c.material
+    return f"{nome} (x{c.n})" if c.n > 1 else nome
+
+
 def resistencia(camadas) -> tuple[float, list[tuple[str, str, float]]]:
     """R total [m2.K/W] e o detalhamento camada a camada."""
     linhas, R = [], 0.0
@@ -62,13 +113,15 @@ def ponte_termica(U_ideal: float, com_quebra: bool) -> float:
 
 def verificar_zb8() -> list[list[str]]:
     out = []
-    for chave, lim in pj.LIMITES_ZB8.items():
-        U = transmitancia(pj.CAMADAS[chave])
-        FS = fator_solar(U)
+    for l in tm.levantar(pj):
+        lim = pj.LIMITES_ZB8[l["limite"]]
         out.append([lim["rotulo"].upper(),
-                    f"{U:.3f}", f"<= {lim['U']:.2f}", "OK" if U <= lim["U"] else "REVER",
-                    f"{FS:.2f} %", f"<= {lim['FSo']:.1f} %",
-                    "OK" if FS <= lim["FSo"] else "REVER"])
+                    f"{l['u']:.3f}", f"<= {lim['U']:.2f}",
+                    "OK" if l["u"] <= lim["U"] else "REVER",
+                    f"{l['fso']:.2f} %", f"<= {lim['FSo']:.1f} %",
+                    "OK" if l["fso"] <= lim["FSo"] else "REVER",
+                    f"{l['atraso_h']:.1f} h", f"<= {lim['atraso']:.1f} h",
+                    "OK" if l["atraso_h"] <= lim["atraso"] else "FORA DA CATEGORIA"])
     return out
 
 
@@ -153,7 +206,7 @@ def prancha() -> Canvas:
     y = 40
     for chave, titulo in [("parede_externa", "PAREDE EXTERNA LSF 150 mm"),
                           ("cobertura", "COBERTURA — PAINEL SANDUICHE PIR 75 mm")]:
-        R, linhas = resistencia(pj.CAMADAS[chave])
+        R, linhas = detalhe(chave)
         U = 1.0 / R
         dados = [[n, e, f"{r:.4f}"] for n, e, r in linhas]
         dados.append(["R TOTAL", "", f"{R:.4f}"])
@@ -164,18 +217,26 @@ def prancha() -> Canvas:
 
     # ---- 2. verificacao ZB8
     y = _tabela(cv, (35, y), "VERIFICACAO — NBR 15220-3, ZONA BIOCLIMATICA 8",
-                ["ELEMENTO", "U calc.", "U limite", "", "FSo calc.", "FSo limite", ""],
-                verificar_zb8(), larguras=[54, 20, 22, 14, 22, 24, 16]) + 16
+                ["ELEMENTO", "U calc.", "U lim.", "", "FSo calc.", "FSo lim.", "",
+                 "atraso", "lim.", ""],
+                verificar_zb8(), larguras=[44, 17, 17, 12, 19, 19, 12, 16, 16, 30]) + 16
 
-    # ---- 3. ponte termica dos montantes
-    U_id = transmitancia(pj.CAMADAS["parede_externa"])
-    _tabela(cv, (35, y), "PONTE TERMICA DOS MONTANTES DE ACO (H)",
-            ["SITUACAO", "U efetivo", "perda de R", "efeito"],
-            [["Ideal, sem considerar o perfil", f"{U_id:.3f}", "-", "referencia de calculo"],
-             ["Montante sem quebra termica", f"{ponte_termica(U_id, False):.3f}", "40 %",
-              "o perfil curto-circuita a la mineral"],
-             ["Com banda isolante continua (ISO strip)", f"{ponte_termica(U_id, True):.3f}", "8 %",
-              "XPS/EPS 20 mm sob a placa externa"]],
+    # ---- 3. ponte termica dos montantes, agora DERIVADA da geometria
+    pe = tm.resistencia(pj, _comp("parede_externa"))
+    xps = tm.sem_isolante(pj, "PE-1", "XPS")
+    _tabela(cv, (35, y), "PONTE TERMICA DOS MONTANTES — DA GEOMETRIA, NAO DE HIPOTESE",
+            ["SITUACAO", "U efetivo", "penalidade", "efeito"],
+            [["Cavidade isolada, fora do montante", f"{pe['u_cavidade']:.3f}", "-",
+              f"{(1 - pe['fracao_aco']) * 100:.1f} % da area da parede"],
+             ["Sobre o montante de aco", f"{pe['u_montante']:.3f}", "-",
+              f"{pe['fracao_aco'] * 100:.1f} % da area — mesa de 40 mm a cada "
+              f"{pj.MONTANTE_ESPACAMENTO} mm"],
+             ["PAREDE, caminhos em paralelo (ISO 6946)", f"{pe['u']:.3f}",
+              f"+{pe['penalidade_ponte'] * 100:.1f} %", "o que a casa tem"],
+             ["A mesma parede SEM a ISO strip de XPS", f"{xps['u_sem']:.3f}",
+              f"+{xps['ponte_sem'] * 100:.1f} %",
+              f"o XPS derruba U em {xps['ganho'] * 100:.0f} % e a ponte de "
+              f"{xps['ponte_sem'] * 100:.0f} % para {xps['ponte_com'] * 100:.0f} %"]],
             larguras=[76, 26, 26, 84])
 
     # ---- 4. sombreamento por face

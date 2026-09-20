@@ -4721,3 +4721,139 @@ na própria aba.
 **Estado em R57:** 111 funções, 588 condições, **0 erros**; 208 verificações do
 visualizador, **0 falhas**; **118 itens** na planilha, 16 famílias, 81
 fornecedores, R$ 782.631,93 — o mesmo total no modelo e na planilha.
+
+## R58 — a parede verificada passa a ser a parede construída
+
+### Defeito 69 — a térmica verificava uma parede que ninguém vai construir
+
+O quinto caso do mesmo padrão: **duas fontes para o mesmo fato**. O desempenho
+térmico saía de `projeto.CAMADAS`, uma lista de camadas escrita à mão; o
+fechamento real, de `nucleo/camadas.COMPOSICOES`, que gera painel, BOM e compra.
+
+| PE-1 (o que se constrói) | CAMADAS (o que se verificava) |
+|---|---|
+| placa cimentícia 10 mm | placa cimentícia 10 mm |
+| **XPS 20 mm (ISO strip)** | **câmara de ar 40 mm** |
+| **montante Ue 90** | **ausente** |
+| lã de rocha 50 mm | lã mineral 50 mm |
+| gesso 12,5 mm | gesso 12,5 mm |
+
+A verificação ignorava os R$ 9.753,90 de XPS que a obra compra e punha no
+lugar uma câmara de ar que a parede não tem. E **passava** na NBR 15220-3 —
+o pior desfecho possível, porque erro que passa nunca levanta suspeita. Os
+defeitos 39 e 62 foram o mesmo padrão; este é o mais caro dos três.
+
+`CAMADAS` foi apagado. `nucleo/termica.py` lê as composições reais e deriva a
+ponte térmica da **fração de área do montante** — mesa de 40 mm a cada 600 mm,
+6,67 % da parede conduzindo 1.200 vezes mais que a lã ao lado — com os dois
+caminhos em paralelo da ISO 6946.
+
+**Aferição contra a hipótese substituída.** A ponte entrava até R57 como
+"40 % sem quebra térmica, 8 % com". O método derivado devolveu **+35,9 %** e
+**+10,5 %**. Conferência nova que confirma a antiga é conferência que
+provavelmente está certa; se tivesse devolvido algo muito distante, o dever
+seria descobrir qual das duas erra antes de confiar na nova.
+
+O que muda de fato é a decisão: o modelo agora **prova** que a ISO strip
+derruba U de 0,903 para 0,532 (−41 %) e a ponte de 36 % para 10 %.
+
+### Defeito 70 — a capacidade térmica de uma chapa maciça de aço
+
+Primeira execução do módulo novo: CT = 350,48 kJ/m²·K para uma parede de LSF —
+inércia de parede de concreto, o oposto exato do que ela é. A camada
+`ACO 90 mm` descreve o **espaço** que o montante ocupa, não matéria maciça: o
+perfil tem 0,95 mm de chapa dobrada. `massa_aco_m2()` passou a derivar a massa
+do perímetro desenvolvido da seção (2,03 kg/m² de parede). CT caiu para
+**26,43 kJ/m²·K** e o atraso de 17,83 h para 4,90 h — parede leve, que é o que
+ela é.
+
+### Defeito 71 — a fachada da casa não tinha acabamento nenhum
+
+237,9 m² de placa cimentícia comprados como "face exposta à chuva" e **zero
+linhas** de basecoat, tela, tratamento de junta ou pintura. Em Manaus, com
+~2.300 mm/ano de chuva quase horizontal, junta não tratada é o caminho da água
+para dentro do montante. Entraram 309,2 m² (placa + platibanda) de sistema
+completo, com **acrílico elastomérico liso com biocida** — liso e não
+texturizado porque relevo é área de superfície, área de superfície é biofilme,
+e biofilme aqui é fungo em dois anos; elastomérico porque o substrato é placa
+sobre estrutura metálica e trabalha.
+
+### Defeito 72 — o muro pago duas vezes
+
+`EXT-HIDROF` orçava 249,5 m² de hidrofugante sobre bloco **aparente**;
+`PIN-EXT` orçava os mesmos 249,5 m² de **pintura elastomérica**. Tratamentos
+excludentes, os dois pagos. Ficou o aparente: pintura sobre bloco em Manaus
+tem ciclo de 3 a 5 anos até o fungo e o descolamento no pé do muro;
+hidrofugante incolor não descasca porque não forma película. Saem R$ 6.487 e
+um item da manutenção perpétua.
+
+### Defeito 73 — cozinha e gourmet sem um centímetro de revestimento
+
+51,84 m² de ambiente, quatro bancadas de granito, cooktop, churrasqueira e duas
+cubas — e `revest_h` não declarado em nenhum dos dois: gesso pintado atrás do
+fogão. O frontão não sai do perímetro do cômodo (revestiria a sala inteira),
+sai da **bancada**, que o modelo loca desde R06: 600 mm de altura onde é
+respingo, 2.400 mm onde há fogo. +16,0 m² de cerâmica.
+
+### Defeito 74 — a rouparia existia no rótulo da planta
+
+`S-HAL` sempre se chamou "HALL E ROUPARIA", tem 11,52 m² e **nenhum armário no
+modelo**. É "existe no desenho, não existe no modelo" — só que desta vez o
+desenho era uma palavra. Quem achou foi `nucleo/ocupacao.py`, o eixo novo, que
+compara o que o nome promete com o que o modelo contém.
+
+A área veio de onde já sobrava: 2.400 mm de largura, 600 de armário, 1.800
+livres — exatamente folha de porta mais passagem da NBR 9050, para as quatro
+portas que dão no hall. **2,52 m² de guarda sem tirar área de ninguém.**
+
+### Defeito 75 — quarto de dormir sem onde guardar roupa
+
+`T-REV`, 18 m², banho próprio, cama de casal, zero armários e zero closet. A
+tentativa de corrigir dentro do quarto é que ensinou o resto: 3.000 mm de
+largura, 1.600 de cama, 600 de armário → 800 mm de passagem, abaixo dos 900 da
+NBR 9050; e as quatro paredes tomadas (cabeceira, janela J05, J01 + banho,
+porta). **O quarto não comporta armário.** Comportava a alcova — 3,24 m² com
+janela própria, já chamada ALCOVA DO REVERSÍVEL, já categoria "íntimo", e sem
+função declarada nenhuma: o espaço morto que o eixo foi feito para achar.
+Campo `serve` novo: guarda fora do cômodo só conta quando **declarada**, nunca
+deduzida do nome.
+
+### Defeito 76 — o eixo novo reprovou uma correção do próprio autor
+
+Pelo mesmo raciocínio da rouparia, pus um guarda-volumes de 400 mm no hall do
+térreo. A conferência derrubou ao **contar porta**: T-HAL tem três, uma folha
+de 900 mm que abra para dentro precisa dos 900 mm de passagem ao lado, e 1.800
+é exatamente a largura que o hall tem. Não havia sobra: havia a medida certa.
+O armário saiu. A regra virou bilateral — a mesma largura é piso e teto.
+
+### Defeito 77 — o `.replace(",", ".")` sobre prosa
+
+Idioma espalhado pelas simulações de viabilidade: `f"R$ {v:,.2f}".replace(",",
+".")` aplicado à **string inteira**. Acertava o separador de milhar e destruía
+toda vírgula do texto em volta — a pendência 13 lia "comprados por REGRA de
+área. não por cálculo". Formatar moeda virou função (`_brl`).
+
+### Defeito 78 — faixa de plausibilidade que envelheceu até reprovar
+
+A faixa de custo/m² era 900 a 2.600, dois literais escritos quando o escopo era
+menor. A cada revisão que trouxe um sistema novo — fundação em R37, MEP em R38,
+área externa em R49, acabamento em R57, fachada em R58 — o custo por m² subiu
+sem que a casa ficasse mais cara, até o teto reprovar. Teto que reprova por
+envelhecimento não mede nada: avisa que ninguém o atualizou. Agora deriva dos
+índices publicados corrigidos por `PARCELA_COBERTA`: **1.977,5 a 4.030,2**.
+
+### Pendência 14 — rota de conformidade térmica
+
+PE-1 entrega U = 0,532 W/m²·K, sete vezes melhor que o U ≤ 3,60 da linha
+"parede leve refletora" da ZB8 — e é **por ser boa demais para a linha** que
+seu atraso térmico (4,90 h) estoura os 4,3 h que a mesma linha admite. Não há
+defeito a corrigir: há categoria a escolher. A leitura técnica é que a tabela
+prescritiva da 15220-3 foi escrita para paredes de U alto, e que em clima
+quente-úmido inércia é passivo e não ativo — mas confirmar isso depende do
+**texto** da NBR 15575-4, que este projeto não tem acesso para ler. Enquanto
+não for lido, a classificação entra (H) e a verificação registra ATENÇÃO,
+nunca aprovação.
+
+**Estado em R58:** 113 funções, 596 condições, **0 erros**; 208 verificações do
+visualizador, **0 falhas**; 130 auditorias; **133 itens** no BOM, R$ 817.339,63
+(R$ 2.748,65/m²), dentro da faixa derivada; 14 pendências, 7 abertas.

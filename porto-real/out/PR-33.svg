@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="33" data-rev="R57">
+<g data-tipo="carimbo" data-cod="33" data-rev="R58">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,17 +26,17 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R57</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R58</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">33</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R57</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R58</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Revisao R57 — finalidade: COORDENACAO E APROVACAO PRELIMINAR.</text>
-<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Auditoria: 32 verificacoes e 188 condicoes; 0 erro(s), 8 atencao(oes), 19 nota(s).</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Revisao R58 — finalidade: COORDENACAO E APROVACAO PRELIMINAR.</text>
+<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Auditoria: 32 verificacoes e 188 condicoes; 0 erro(s), 8 atencao(oes), 21 nota(s).</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- NAO serve para: execucao de fundacao sem sondagem; fabricacao de painel sem nesting codificado; aprovacao legal sem ART/RRT.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Reproduzivel integralmente por 'python3 build.py' a partir do modelo.</text>
 </g>
@@ -393,7 +393,10 @@
 <polygon points="35.000,501.600 295.000,501.600 295.000,506.800 35.000,506.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="36.500" y="504.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">R57</text>
 <text x="54.500" y="504.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O ORCAMENTO DEIXA DE TER ESCOPO FORA. A pergunta foi direta — esta TUDO na planilha? — e a resposta honesta era nao: NOVE frentes estavam declaradas fora, e declarar a falta era melhor que fingir cobertura. Mas continuar declarando depois de o modelo saber quantificar seria preguica. SEIS …</text>
-<line x1="53.000" y1="200.000" x2="53.000" y2="506.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="35.000,506.800 295.000,506.800 295.000,512.000 35.000,512.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="36.500" y="509.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">R58</text>
+<text x="54.500" y="509.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A PAREDE VERIFICADA PASSA A SER A PAREDE CONSTRUIDA, E ESPACO MORTO VIRA MEDIDA. O desempenho termico saia de `projeto.CAMADAS`, uma lista escrita a mao, e o fechamento real de `nucleo/camadas.COMPOSICOES`. Duas fontes para a mesma parede — o quinto caso do padrao que este projeto ja catalogou — …</text>
+<line x1="53.000" y1="200.000" x2="53.000" y2="512.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="35.000" y="257.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PENDENCIAS</text>
 <polygon points="35.000,260.000 339.000,260.000 339.000,265.200 35.000,265.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="262.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">#</text>
@@ -474,15 +477,21 @@
 <text x="196.500" y="325.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A casa tem forro e iluminacao DESENHADOS desde a Etapa 2 e nunca CALCULADOS. O orcamento ja compra luminaria por regra de area; o lux por ambiente, a temperatura de cor e a uniformidade seguem sem verificacao</text>
 <text x="314.500" y="325.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ABERTA</text>
 <polygon points="35.000,327.600 339.000,327.600 339.000,332.800 35.000,332.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="36.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">12</text>
-<text x="46.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Cotacao dos materiais: 100 % dos precos sao (H)</text>
-<text x="150.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Lei 14.133 art. 23 (parametro de 3 propostas)</text>
-<text x="196.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O mapa de cotacao existe e esta pronto para sair; enquanto nao voltar, o custo e ordem de grandeza para auditar quantidade, nunca base de contrato</text>
+<text x="36.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">14</text>
+<text x="46.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Rota de conformidade termica da parede externa</text>
+<text x="150.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">NBR 15220-3 (tabela da ZB8) x NBR 15575-4 (desempenho)</text>
+<text x="196.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A parede PE-1 tem U = 0,532 W/m2.K, sete vezes melhor que o U &lt;= 3,60 da linha 'parede leve refletora' da ZB8 — e por isso mesmo seu atraso termico (4,90 h) passa dos 4,3 h que a MESMA linha admite. Nao ha defeito a corrigir: ha categoria a escolher. A leitura tecnica e que a tabela prescritiva da 15220-3 foi escrita para paredes de U alto, e que em clima quente-umido inercia e passivo e nao ativo — mas a confirmacao disso depende do TEXTO da 15575-4, que este projeto nao tem acesso para ler. Enquanto nao for lido, a classificacao entra (H) e a verificacao registra ATENCAO, nunca aprovacao</text>
 <text x="314.500" y="330.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ABERTA</text>
-<line x1="45.000" y1="260.000" x2="45.000" y2="332.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="149.000" y1="260.000" x2="149.000" y2="332.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="195.000" y1="260.000" x2="195.000" y2="332.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="313.000" y1="260.000" x2="313.000" y2="332.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="35.000,332.800 339.000,332.800 339.000,338.000 35.000,338.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="335.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">12</text>
+<text x="46.500" y="335.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Cotacao dos materiais: 100 % dos precos sao (H)</text>
+<text x="150.500" y="335.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Lei 14.133 art. 23 (parametro de 3 propostas)</text>
+<text x="196.500" y="335.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O mapa de cotacao existe e esta pronto para sair; enquanto nao voltar, o custo e ordem de grandeza para auditar quantidade, nunca base de contrato</text>
+<text x="314.500" y="335.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ABERTA</text>
+<line x1="45.000" y1="260.000" x2="45.000" y2="338.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="149.000" y1="260.000" x2="149.000" y2="338.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="195.000" y1="260.000" x2="195.000" y2="338.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="313.000" y1="260.000" x2="313.000" y2="338.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="35.000" y="347.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AUDITORIA FINAL — 32 VERIFICACOES, 188 CONDICOES</text>
 <polygon points="35.000,350.000 175.000,350.000 175.000,355.200 35.000,355.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="36.500" y="352.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">VERIFICACAO</text>
@@ -576,10 +585,10 @@
 <text x="158.500" y="425.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <polygon points="35.000,428.000 175.000,428.000 175.000,433.200 35.000,433.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="36.500" y="430.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">colisao_porta</text>
-<text x="92.500" y="430.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="92.500" y="430.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
 <text x="116.500" y="430.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="134.500" y="430.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
-<text x="158.500" y="430.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="158.500" y="430.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
 <polygon points="35.000,433.200 175.000,433.200 175.000,438.400 35.000,438.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="36.500" y="435.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">janela_mobiliario</text>
 <text x="92.500" y="435.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>

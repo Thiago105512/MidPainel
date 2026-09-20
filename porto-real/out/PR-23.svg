@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="23" data-rev="R57">
+<g data-tipo="carimbo" data-cod="23" data-rev="R58">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R57</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R58</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">23</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R57</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R58</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -101,8 +101,8 @@
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="265.000" y1="7.000" x2="269.000" y2="7.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="265.000" y1="-29.000" x2="269.000" y2="-29.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="267.000" y1="7.000" x2="303.000" y2="7.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 303.000 7.000 A 36.000 36.000 0 0 1 267.000 43.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="267.000" y1="7.000" x2="231.000" y2="7.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 231.000 7.000 A 36.000 36.000 0 0 1 267.000 -29.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="265.000" y1="-41.000" x2="269.000" y2="-41.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
@@ -312,8 +312,8 @@
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="391.000" y1="199.000" x2="395.000" y2="199.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="391.000" y1="163.000" x2="395.000" y2="163.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="393.000" y1="199.000" x2="429.000" y2="199.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 429.000 199.000 A 36.000 36.000 0 0 1 393.000 235.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="393.000" y1="199.000" x2="357.000" y2="199.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 357.000 199.000 A 36.000 36.000 0 0 1 393.000 163.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="391.000" y1="151.000" x2="395.000" y2="151.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
@@ -522,8 +522,8 @@
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="253.000" y1="271.000" x2="257.000" y2="271.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="253.000" y1="235.000" x2="257.000" y2="235.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="255.000" y1="271.000" x2="291.000" y2="271.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 291.000 271.000 A 36.000 36.000 0 0 1 255.000 307.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="255.000" y1="271.000" x2="219.000" y2="271.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 219.000 271.000 A 36.000 36.000 0 0 1 255.000 235.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="253.000" y1="223.000" x2="257.000" y2="223.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
@@ -739,8 +739,8 @@
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="307.000" y1="271.000" x2="311.000" y2="271.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="307.000" y1="235.000" x2="311.000" y2="235.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<line x1="309.000" y1="271.000" x2="345.000" y2="271.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<path d="M 345.000 271.000 A 36.000 36.000 0 0 1 309.000 307.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="309.000" y1="271.000" x2="273.000" y2="271.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<path d="M 273.000 271.000 A 36.000 36.000 0 0 1 309.000 235.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="vao" data-cod="P02" data-larg="900" data-alt="2100" data-peitoril="0" data-desc="porta interna (familia unificada)">
 <line x1="307.000" y1="223.000" x2="311.000" y2="223.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>

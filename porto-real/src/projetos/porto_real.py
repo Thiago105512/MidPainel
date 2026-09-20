@@ -871,31 +871,22 @@ BEIRAIS = {"N": 1_200, "S": 1_200, "L": 600, "O": 600}
 # DESEMPENHO — camadas construtivas para calculo de U, R e FSo
 # lambda em W/(m.K); espessura em mm. Camada de ar entra como resistencia.
 # =========================================================================
-CAMADAS = {
-    "parede_externa": [
-        ("Rse (resistencia superficial externa)", None, 0.040),
-        ("Chapa cimenticia", 10, 0.95),
-        ("Camara de ar nao ventilada", 40, 0.160),
-        ("La mineral", 50, 0.040),
-        ("Chapa de gesso acartonado", 12.5, 0.350),
-        ("Rsi (resistencia superficial interna)", None, 0.130),
-    ],
-    "parede_interna": [
-        ("Rsi", None, 0.130),
-        ("Chapa de gesso acartonado", 12.5, 0.350),
-        ("La mineral", 50, 0.040),
-        ("Camara de ar", 25, 0.160),
-        ("Chapa de gesso acartonado", 12.5, 0.350),
-        ("Rsi", None, 0.130),
-    ],
-    "cobertura": [
-        ("Rse", None, 0.040),
-        ("Chapa de aco", 0.5, 55.0),
-        ("Nucleo PIR", 75, 0.022),
-        ("Chapa de aco", 0.5, 55.0),
-        ("Rsi (fluxo descendente)", None, 0.170),
-    ],
-}
+# R58 — CAMADAS FOI APAGADO, E ESSE E O CONSERTO.
+#
+# Aqui existia um dicionario `CAMADAS` com a composicao termica de parede
+# externa, parede interna e cobertura, escrito a mao. O fechamento REAL sempre
+# esteve em nucleo/camadas.COMPOSICOES, que e o que gera painel, BOM e compra.
+# Duas fontes para a mesma parede — e elas divergiam onde mais importa:
+#
+#   * a termica tinha "camara de ar nao ventilada 40 mm" onde a parede tem
+#     20 mm de XPS continuo (a ISO strip, R$ 9.753,90 no orcamento);
+#   * a termica nao tinha montante nenhum, e a ponte termica entrava depois
+#     como um coeficiente de 40 % ou 8 % escolhido a dedo.
+#
+# O resultado passava na NBR 15220-3 — e erro que passa nunca levanta
+# suspeita. A verificacao correta esta em nucleo/termica.py, que le as
+# composicoes reais e deriva a ponte da fracao de area do montante.
+# Ver docs/DIVERGENCIAS.md, defeito 69.
 
 ABSORTANCIA = 0.30            # cor clara (alvo: <= 0,40 na ZB8)
 
@@ -1690,6 +1681,68 @@ ARMARIOS = [
     # livre) nao servem para ficar de pe nem sentado. Servem para guardar: o
     # armario de limpeza fica exatamente onde o pe-direito reprova qualquer
     # outro uso, e o lavabo fica com 1,80 m de profundidade util.
+
+    # R58 — A ROUPARIA QUE SO EXISTIA NO NOME.
+    #
+    # O ambiente S-HAL sempre se chamou "HALL E ROUPARIA" e nunca teve um
+    # armario no modelo. A palavra estava no rotulo da planta, e rotulo nao e
+    # dado: e o mesmo defeito que o projeto ja catalogou como "existe no
+    # desenho, nao existe no modelo", so que desta vez o desenho era uma
+    # palavra. Quem encontrou foi nucleo/ocupacao.py, que compara o que o nome
+    # promete com o que o modelo contem.
+    #
+    # A area vem de onde ela ja estava sobrando. O hall tem 2.400 mm de
+    # largura; a NBR 9050 pede 900 mm de passagem e 1.200 mm de conforto. Os
+    # 600 mm de armario deixam 1.800 mm livres — acima do conforto, e ainda
+    # sobra folga para abrir a porta do armario e passar alguem atras. Nao se
+    # tirou area de ninguem: converteu-se largura morta em guarda.
+    #
+    # Fica na face NORTE (y = 16.800), a unica sem porta: as tres portas do
+    # hall estao em x = 7.800 (duas) e y = 19.200, e a quarta em x = 12.600.
+    dict(cod="AR-09", amb="S-HAL", tipo="rouparia", x=8_400, y=16_800,
+         w=4_200, h=600),
+
+    # R58 — O GUARDA-VOLUMES DA ENTRADA FOI TENTADO E REPROVADO.
+    #
+    # Aqui existiu, por meia hora, um armario raso de 400 mm no hall do
+    # terreo, posto pelo mesmo raciocinio que criou a rouparia do superior:
+    # 1.800 mm de largura para uma funcao que e passar parecia sobra. A
+    # propria conferencia que o sugeriu derrubou a ideia ao contar as portas.
+    #
+    # T-HAL tem TRES portas. Uma folha de 900 mm que abra para dentro do hall
+    # precisa dos 900 mm de passagem da NBR 9050 ao lado dela — 1.800 mm, que
+    # e exatamente a largura que o hall tem. Nao havia sobra nenhuma: havia a
+    # medida certa, e o armario a teria comido.
+    #
+    # S-HAL, com 2.400 mm e quatro portas, sobrava 600 e por isso recebeu a
+    # rouparia. A diferenca entre os dois casos nao se ve no desenho nem na
+    # area: so aparece quando se conta porta. Fica registrado porque a
+    # tentacao vai voltar — todo hall parece largo demais numa planta.
+
+    # R58 — O QUARTO REVERSIVEL NAO TINHA ONDE GUARDAR ROUPA.
+    #
+    # 18 m2, banho proprio, cama de casal, e nenhum armario nem closet. A
+    # conferencia de ocupacao achou; a tentativa de consertar dentro do quarto
+    # e que ensinou o resto. T-REV tem 3.000 mm de largura, a cama tem 1.600 e
+    # um armario tem 600: sobram 800 mm de passagem, abaixo dos 900 da NBR
+    # 9050. As quatro paredes estao tomadas — cabeceira a oeste, janela J05 ao
+    # norte, J01 e o banho a leste, porta ao sul. O quarto NAO comporta
+    # armario, e insistir seria escrever no modelo um movel que nao cabe.
+    #
+    # A alcova comportava. T-ALC tem 3,24 m2, janela propria, ja se chama
+    # ALCOVA DO REVERSIVEL e ja e categoria "intimo" — e nao tinha funcao
+    # declarada nenhuma: era exatamente o espaco morto que a conferencia foi
+    # feita para achar. A parede leste dela (x = 11.400 a 12.000) encosta no
+    # quarto e nao tem vao: J01 esta na face norte, P02 esta a 1.200 mm ao sul,
+    # ja em T-CIR. Com 600 mm de armario sobram 1.200 mm de passagem — a
+    # largura de conforto da NBR 9050, nao a minima.
+    #
+    # O campo `serve` e a diferenca entre resolver e fingir: sem ele o armario
+    # pertenceria a alcova e o quarto continuaria, no modelo, sem guarda. A
+    # conferencia aceita guarda em outro ambiente quando a ligacao esta
+    # DECLARADA, nunca quando ela so pode ser deduzida do nome do comodo.
+    dict(cod="AR-11", amb="T-ALC", serve="T-REV", tipo="guarda-roupa",
+         x=11_400, y=9_600, w=600, h=1_800),
 ]
 
 # folgas minimas (NBR 9050 e pratica corrente)
@@ -3187,6 +3240,45 @@ REVISOES = [
             "pendencia: a quantidade de luminaria e a unica das seis frentes "
             "que sai de REGRA declarada e nao de geometria — a casa tem forro "
             "e iluminacao desenhados desde a Etapa 2 e nunca calculados"),
+    ("R58", "A PAREDE VERIFICADA PASSA A SER A PAREDE CONSTRUIDA, E ESPACO "
+     "MORTO VIRA MEDIDA. O desempenho termico saia de `projeto.CAMADAS`, uma "
+     "lista escrita a mao, e o fechamento real de `nucleo/camadas.COMPOSICOES`. "
+     "Duas fontes para a mesma parede — o quinto caso do padrao que este "
+     "projeto ja catalogou — e desta vez a divergencia estava onde mais custa: "
+     "a termica punha uma CAMARA DE AR de 40 mm no lugar dos 20 mm de XPS que "
+     "a obra compra por R$ 9.753,90, e nao tinha montante nenhum; a ponte "
+     "termica entrava depois como 40 % ou 8 % escolhidos a dedo. O numero "
+     "errado PASSAVA na NBR 15220-3, que e o pior desfecho possivel, porque "
+     "erro que passa nao levanta suspeita. CAMADAS foi apagado. U, capacidade "
+     "termica, atraso e FSo agora saem das composicoes reais, e a ponte sai da "
+     "fracao de area do montante — mesa de 40 mm a cada 600, 6,7 % da parede "
+     "conduzindo 1.200 vezes mais que a la ao lado. A aferição contra a "
+     "hipotese substituida fechou (+10,5 % contra 8 %, +35,9 % contra 40 %): as "
+     "hipoteses estavam certas, so nao eram derivadas — e conferencia nova que "
+     "confirma a antiga e conferencia que provavelmente esta certa. O que muda "
+     "de fato e a decisao: o modelo agora PROVA que a ISO strip derruba U em "
+     "41 % e a ponte de 36 % para 10 %. Segunda frente: OCUPACAO, o eixo que "
+     "torna 'sem espacos mortos' mensuravel por tres perguntas — bolsao sem "
+     "ambiente, largura de corredor acima de folha-de-porta mais passagem, e "
+     "ambiente cujo NOME promete o que o modelo nao contem. A terceira achou "
+     "'HALL E ROUPARIA' com 11,52 m2 e zero armarios: a rouparia existia no "
+     "rotulo da planta. A rouparia entrou (4.200 x 600 mm, na largura que "
+     "sobrava) e o quarto reversivel ganhou o guarda-roupa que nunca teve — "
+     "nao dentro dele, onde nao cabe com 900 mm de passagem, mas na ALCOVA, "
+     "que era exatamente o espaco sem funcao que o eixo procura. O eixo "
+     "tambem REPROVOU uma correcao propria: o guarda-volumes que eu havia "
+     "posto no hall do terreo estrangulava a passagem de tres portas, e saiu. "
+     "Terceira frente: a fachada da casa deixa de ser substrato nu. Havia "
+     "237,9 m2 de placa cimenticia comprados e nenhuma linha de acabamento "
+     "sobre eles — em Manaus, com 2.300 mm de chuva quase horizontal, junta "
+     "nao tratada e o caminho da agua para dentro do montante. Entraram "
+     "basecoat, tela, selante de junta e acrilico elastomerico LISO com "
+     "biocida (liso, nao texturizado: relevo e area de superficie, area de "
+     "superficie e biofilme, e biofilme aqui e fungo em dois anos). Saiu a "
+     "pintura do muro, que duplicava o hidrofugante sobre os mesmos 249,5 m2: "
+     "ficou o bloco aparente, que nao tem ciclo de repintura. E a faixa de "
+     "plausibilidade de custo, cujos dois literais haviam envelhecido ate "
+     "reprovar, passou a ser derivada dos indices publicados"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3306,6 +3398,19 @@ PENDENCIAS = [
                  "de area; o lux por ambiente, a temperatura de cor e a "
                  "uniformidade seguem sem verificacao",
          status="ABERTA", bloqueia="obra"),
+    dict(n="14", titulo="Rota de conformidade termica da parede externa",
+         norma="NBR 15220-3 (tabela da ZB8) x NBR 15575-4 (desempenho)",
+         impacto="A parede PE-1 tem U = 0,532 W/m2.K, sete vezes melhor que o "
+                 "U <= 3,60 da linha 'parede leve refletora' da ZB8 — e por "
+                 "isso mesmo seu atraso termico (4,90 h) passa dos 4,3 h que a "
+                 "MESMA linha admite. Nao ha defeito a corrigir: ha categoria "
+                 "a escolher. A leitura tecnica e que a tabela prescritiva da "
+                 "15220-3 foi escrita para paredes de U alto, e que em clima "
+                 "quente-umido inercia e passivo e nao ativo — mas a confirmacao "
+                 "disso depende do TEXTO da 15575-4, que este projeto nao tem "
+                 "acesso para ler. Enquanto nao for lido, a classificacao entra "
+                 "(H) e a verificacao registra ATENCAO, nunca aprovacao",
+         status="ABERTA", bloqueia="aprovacao"),
     dict(n="12", titulo="Cotacao dos materiais: 100 % dos precos sao (H)",
          norma="Lei 14.133 art. 23 (parametro de 3 propostas)",
          impacto="O mapa de cotacao existe e esta pronto para sair; enquanto "
@@ -3349,13 +3454,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R57",
+    revisao="R58",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R57", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R58", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

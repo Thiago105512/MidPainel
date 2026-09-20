@@ -63,27 +63,30 @@ class Faixa:
 # possivel — mas exige explicacao?". Se a resposta for nao, a faixa esta larga
 # demais e nao serve; se for "impossivel", entao e limite normativo e nao e
 # faixa de plausibilidade, e o lugar dele e na verificacao, nao aqui.
-FAIXAS = (
-    Faixa("aco_m2", "consumo de aco estrutural", "kg/m2", 18.0, 32.0,
-          "(H) pratica corrente para residencia em LSF de dois pavimentos; "
-          "casa terrea leve fica abaixo, edificio com grandes vaos acima",
-          "abaixo costuma significar estrutura FALTANDO no modelo — foi "
-          "assim que se descobriu que nao havia vigamento; acima costuma "
-          "significar vao grande sem viga intermediaria"),
+def _indice(cod: str) -> float:
+    import nucleo.mercado as mc
+    return next(i["valor"] for i in mc.INDICES if i["cod"] == cod)
 
-    Faixa("parafusos_m2", "parafusos estruturais", "un/m2", 12.0, 28.0,
-          "(H) pratica corrente, so estrutura (sem fechamento)",
-          "abaixo indica junta nao enumerada; acima, junta contada duas vezes"),
 
-    Faixa("aproveitamento", "aproveitamento do plano de corte", "%", 78.0, 96.0,
-          "(H) first-fit decreasing em barra de 6 m com pecas de 0,3 a 6 m",
-          "abaixo indica peca comprida demais para a barra; acima de 96 e "
-          "improvavel sem emenda livre, e sugere perda nao contabilizada"),
+def _piso_custo_m2() -> float:
+    """Steel frame popular, na parcela que este modelo cobre."""
+    import nucleo.mercado as mc
+    return round(_indice("SF-BR-POPULAR") * mc.PARCELA_COBERTA, 1)
 
-    Faixa("horas_m2", "montagem da estrutura", "h/m2", 0.25, 0.90,
-          "(H) equipe de 4, estrutura apenas, sem fechamento nem instalacoes",
-          "abaixo indica etapa faltando na sequencia; acima, painel pesado "
-          "demais ou acesso ruim"),
+
+def _teto_custo_m2() -> float:
+    """Steel frame de padrao ALTO, na mesma parcela.
+
+    O teto e o indice alto, nao o medio, por uma razao de geometria e nao de
+    generosidade: o divisor desta faixa e a area FECHADA (297,36 m2), e o
+    numerador carrega tambem 286 m2 de area ABERTA — muro, piscina, deck,
+    paisagismo. Os indices dividem por area construida coberta. Comparar os
+    dois sem essa ressalva reprovaria qualquer casa com terreno.
+    """
+    import nucleo.mercado as mc
+    return round(_indice("SF-BR-ALTO") * mc.PARCELA_COBERTA, 1)
+
+
 
     Faixa("co2e_m2", "CO2e incorporado", "kg/m2", 25.0, 75.0,
           "(H) dominado pelo aco: ~2 kg CO2e por kg de aco galvanizado, mais "
@@ -115,8 +118,47 @@ FAIXAS = (
     # piso, piscina e paisagismo, R$ 88 mil, 17 % do total. O divisor continua
     # sendo a area FECHADA, e por isso o valor por m2 sobe sem que a casa fique
     # mais cara por metro: ele passou a carregar 286 m2 de area aberta.
+
+
+FAIXAS = (
+    Faixa("aco_m2", "consumo de aco estrutural", "kg/m2", 18.0, 32.0,
+          "(H) pratica corrente para residencia em LSF de dois pavimentos; "
+          "casa terrea leve fica abaixo, edificio com grandes vaos acima",
+          "abaixo costuma significar estrutura FALTANDO no modelo — foi "
+          "assim que se descobriu que nao havia vigamento; acima costuma "
+          "significar vao grande sem viga intermediaria"),
+
+    Faixa("parafusos_m2", "parafusos estruturais", "un/m2", 12.0, 28.0,
+          "(H) pratica corrente, so estrutura (sem fechamento)",
+          "abaixo indica junta nao enumerada; acima, junta contada duas vezes"),
+
+    Faixa("aproveitamento", "aproveitamento do plano de corte", "%", 78.0, 96.0,
+          "(H) first-fit decreasing em barra de 6 m com pecas de 0,3 a 6 m",
+          "abaixo indica peca comprida demais para a barra; acima de 96 e "
+          "improvavel sem emenda livre, e sugere perda nao contabilizada"),
+
+    Faixa("horas_m2", "montagem da estrutura", "h/m2", 0.25, 0.90,
+          "(H) equipe de 4, estrutura apenas, sem fechamento nem instalacoes",
+          "abaixo indica etapa faltando na sequencia; acima, painel pesado "
+          "demais ou acesso ruim"),
+
+    # R58 — OS DOIS LITERAIS DESTA FAIXA VIRARAM DERIVACAO.
+    #
+    # A faixa era 900 a 2.600 R$/m2, dois numeros escritos a mao quando o
+    # escopo do modelo era menor. O proprio comentario acima conta a historia:
+    # a cada revisao que trouxe um sistema novo — fundacao em R37, MEP em R38,
+    # area externa em R49, acabamento em R57, fachada em R58 — o custo por m2
+    # subiu sem que a casa ficasse mais cara, e o teto fixo foi ficando para
+    # tras ate reprovar. Teto que reprova por envelhecimento nao mede nada: ele
+    # so avisa que ninguem o atualizou.
+    #
+    # Agora ele sai dos INDICES PUBLICADOS que o projeto ja declara em
+    # nucleo/mercado.py, corrigidos pela parcela do custo total que o modelo
+    # cobre. Se o escopo crescer de novo, PARCELA_COBERTA cresce junto e a
+    # faixa acompanha sozinha — que e a unica forma de uma faixa continuar
+    # verdadeira depois de quem a escreveu ter ido embora.
     Faixa("custo_m2", "custo de TUDO o que ja esta levantado, por m2 de area "
-                      "fechada", "R$/m2", 900.0, 2600.0,
+                      "fechada", "R$/m2", _piso_custo_m2(), _teto_custo_m2(),
           "(H) os precos da tabela sao (H): esta faixa so detecta incoerencia "
           "INTERNA, nunca preco de mercado errado. Inclui estrutura, "
           "fechamento, esquadria, cobertura, fundacao, instalacoes, brise e "

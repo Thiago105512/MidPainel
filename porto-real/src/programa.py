@@ -625,6 +625,34 @@ PROGRAMA = [
      "capacidade de cada split. Ficaram tres, e nenhuma se deduz de geometria: "
      "mao de obra de acabamento, projetos e taxas, BDI. PARCIAL porque o ponto "
      "de luz ainda e regra declarada, nao luminotecnica."),
+    (129, "Termica: a parede verificada e a parede construida?",
+     ["checar_termica"], "AUTOMATIZADA",
+     "Secao 154. O desempenho termico saia de `projeto.CAMADAS`, escrita a "
+     "mao, e o fechamento real de `nucleo/camadas.COMPOSICOES`. Duas fontes "
+     "para a mesma parede, e elas divergiam onde mais custa: a termica punha "
+     "uma camara de ar de 40 mm no lugar dos 20 mm de XPS que a obra compra "
+     "por R$ 9.753,90, e nao tinha montante nenhum — a ponte termica entrava "
+     "depois como 40 % ou 8 % escolhidos a dedo. O resultado PASSAVA na NBR "
+     "15220-3, e erro que passa nunca levanta suspeita. Agora U, capacidade "
+     "termica, atraso e FSo saem das composicoes reais, e a ponte sai da "
+     "fracao de area do montante (mesa de 40 mm a cada 600). A aferição "
+     "fechou: o metodo novo devolveu +10,5 % contra os 8 % arbitrados e "
+     "+35,9 % contra os 40 % — as hipoteses estavam certas, so nao eram "
+     "derivadas. Quem paga a diferenca e a decisao: o modelo agora prova que "
+     "o XPS derruba U em 41 % e a ponte de 36 % para 10 %."),
+    (130, "Ocupacao: espaco morto vira medida",
+     ["checar_ocupacao"], "AUTOMATIZADA",
+     "Secao 155. 'Sem espacos mortos' e pedido que todo projeto recebe e "
+     "quase nenhum verifica, porque espaco morto nao tem cota — e o que sobra "
+     "depois que o resto foi cotado. Tres perguntas o tornam mensuravel: ha "
+     "bolsao dentro do envelope sem ambiente (rasteriza e inunda de fora); "
+     "ha largura de corredor acima de folha-de-porta mais passagem; e ha "
+     "ambiente cujo NOME promete o que o modelo nao contem. A terceira achou "
+     "o defeito da estreia: 'HALL E ROUPARIA', 11,52 m2, zero armarios — a "
+     "rouparia existia no rotulo da planta. E a conferencia de guarda achou "
+     "o quarto reversivel sem armario nem closet, num quarto de 18 m2 cujas "
+     "quatro paredes estao tomadas: a solucao nao coube dentro dele, coube "
+     "na alcova, que era exatamente o espaco sem funcao que o eixo procura."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

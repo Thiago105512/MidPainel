@@ -117,6 +117,10 @@ class Material:
     densidade: float     # kg/m3
     E: float             # MPa (0 = nao estrutural)
     lambda_t: float      # W/mK, condutividade
+    # Calor especifico [kJ/kg.K], NBR 15220-2 anexo B. Sem ele nao existe
+    # capacidade termica, e sem capacidade termica nao existe atraso termico —
+    # que e a metade da verificacao da ZB8 que o projeto nao fazia ate R58.
+    calor_especifico: float = 1.00
     obs: str = ""
     # A norma pertence ao MATERIAL, nao a camada. Ela nasceu na camada em R34 e
     # durou uma revisao: duas fontes para o mesmo fato divergem na primeira
@@ -129,36 +133,36 @@ class Material:
 
 
 MATERIAIS = [
-    Material("ACO", "Aco estrutural", 7850, 205_000, 55.0,
+    Material("ACO", "Aco estrutural", 7850, 205_000, 55.0, 0.46,
              norma="NBR 15253 / NBR 6355"),
-    Material("ALU", "Aluminio", 2700, 70_000, 200.0, "esquadria e ACM",
+    Material("ALU", "Aluminio", 2700, 70_000, 200.0, 0.88, "esquadria e ACM",
              norma="NBR 10821"),
-    Material("MAD", "Madeira conifera", 500, 10_000, 0.13, norma="NBR 7190"),
-    Material("OSB", "OSB estrutural", 650, 3_500, 0.13, "diafragma e substrato",
+    Material("MAD", "Madeira conifera", 500, 10_000, 0.13, 1.34, norma="NBR 7190"),
+    Material("OSB", "OSB estrutural", 650, 3_500, 0.13, 1.34, "diafragma e substrato",
              norma="NBR 14810 / EN 300", chapa=(1220, 2440)),
-    Material("PLY", "Compensado", 600, 7_000, 0.14, norma="NBR 12498",
+    Material("PLY", "Compensado", 600, 7_000, 0.14, 1.34, norma="NBR 12498",
              chapa=(1220, 2440)),
-    Material("CLT", "CLT", 480, 11_000, 0.12, norma="EN 16351"),
-    Material("CONC", "Concreto estrutural", 2500, 30_000, 1.75, norma="NBR 6118"),
-    Material("PLCIM", "Placa cimenticia", 1700, 6_000, 0.35, "fechamento externo",
+    Material("CLT", "CLT", 480, 11_000, 0.12, 1.34, norma="EN 16351"),
+    Material("CONC", "Concreto estrutural", 2500, 30_000, 1.75, 1.0, norma="NBR 6118"),
+    Material("PLCIM", "Placa cimenticia", 1700, 6_000, 0.35, 0.84, "fechamento externo",
              norma="NBR 15498", chapa=(1200, 2400)),
-    Material("GESSO", "Chapa de gesso", 750, 2_000, 0.35, norma="NBR 14715",
+    Material("GESSO", "Chapa de gesso", 750, 2_000, 0.35, 0.84, norma="NBR 14715",
              chapa=(1200, 2400)),
-    Material("GESSORU", "Chapa de gesso RU", 800, 2_000, 0.35, "area umida",
+    Material("GESSORU", "Chapa de gesso RU", 800, 2_000, 0.35, 0.84, "area umida",
              norma="NBR 14715", chapa=(1200, 2400)),
-    Material("LAROCHA", "La de rocha", 64, 0, 0.045, "rolo ou painel",
+    Material("LAROCHA", "La de rocha", 64, 0, 0.045, 0.75, "rolo ou painel",
              norma="NBR 11722", chapa=(1200, 25_000)),
-    Material("LAVIDRO", "La de vidro", 20, 0, 0.040, "rolo",
+    Material("LAVIDRO", "La de vidro", 20, 0, 0.040, 0.7, "rolo",
              norma="NBR 11722", chapa=(1200, 25_000)),
-    Material("XPS", "XPS", 33, 0, 0.035, "quebra termica da ISO strip",
+    Material("XPS", "XPS", 33, 0, 0.035, 1.42, "quebra termica da ISO strip",
              norma="NBR 11752", chapa=(600, 1250)),
-    Material("EPS", "EPS", 20, 0, 0.040, norma="NBR 11752", chapa=(1000, 2000)),
-    Material("ACM", "ACM", 1600, 0, 0.50, norma="NBR 15827", chapa=(1250, 3200)),
-    Material("PIR", "Painel sandwich PIR", 40, 0, 0.023, "cobertura",
+    Material("EPS", "EPS", 20, 0, 0.040, 1.42, norma="NBR 11752", chapa=(1000, 2000)),
+    Material("ACM", "ACM", 1600, 0, 0.50, 0.88, norma="NBR 15827", chapa=(1250, 3200)),
+    Material("PIR", "Painel sandwich PIR", 40, 0, 0.023, 1.67, "cobertura",
              norma="NBR 16373", chapa=(1000, 12_000)),
-    Material("PUR", "Painel sandwich PUR", 40, 0, 0.026, norma="NBR 16373",
+    Material("PUR", "Painel sandwich PUR", 40, 0, 0.026, 1.67, norma="NBR 16373",
              chapa=(1000, 12_000)),
-    Material("VIDRO", "Vidro", 2500, 70_000, 1.00, norma="NBR 7199"),
+    Material("VIDRO", "Vidro", 2500, 70_000, 1.00, 0.84, norma="NBR 7199"),
 ]
 POR_MATERIAL = {m.cod: m for m in MATERIAIS}
 

@@ -171,7 +171,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     camadas["area_total"] = round(
         sum(i["area"] for i in camadas["itens"]), 1)
     import nucleo.acabamento as ab
-    acab = ab.levantar(pj)
+    acab = ab.levantar(pj, camadas)
     itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2,
                       n_parafusos=n_parafusos, camadas=camadas,
                       acabamento=acab)

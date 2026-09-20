@@ -370,14 +370,23 @@ def hierarquia_investimento() -> list[list[str]]:
 
 def payback_iso_strip(area_parede_m2: float) -> dict:
     """Retorno energetico do ISO strip, para mostrar que NAO e ele o argumento."""
-    U_s, U_c = dp.ponte_termica(dp.transmitancia(pj.CAMADAS["parede_externa"]), False), \
-               dp.ponte_termica(dp.transmitancia(pj.CAMADAS["parede_externa"]), True)
+    # R58 — os dois U vem da PAREDE, com e sem a camada, nao de dois
+    # coeficientes de perda arbitrados. O preco tambem deixa de ser 35,0
+    # escrito aqui e passa a ser o do BOM, fonte unica.
+    import nucleo.termica as tm
+    import nucleo.bom as bo
+    comp = tm.sem_isolante(pj, "PE-1", "XPS")
+    U_s, U_c = comp["u_sem"], comp["u_com"]
     dU = U_s - U_c
+    # dT medio entre o ar externo e o interno climatizado, horas de operacao do
+    # split no ano, COP do equipamento e tarifa (H) — os quatro sao hipoteses e
+    # continuam marcadas.
     dT, horas, cop, tarifa = 6.0, 3_000.0, 3.2, 0.95
     kwh = dU * area_parede_m2 * dT * horas / 1000.0 / cop
-    return dict(dU=dU, kwh=kwh, economia=kwh * tarifa,
-                custo=area_parede_m2 * 35.0,
-                payback=(area_parede_m2 * 35.0) / max(kwh * tarifa, 1e-6))
+    preco = bo.PRECO_CAMADA.get("xps_20mm_m2", 41.0)
+    custo = area_parede_m2 * preco
+    return dict(dU=dU, kwh=kwh, economia=kwh * tarifa, custo=custo,
+                payback=custo / max(kwh * tarifa, 1e-6))
 
 
 # =========================================================================
