@@ -130,7 +130,7 @@ def _exposicao(pj, r: dict, n: str) -> dict:
                               "entrada: muda quadro e alimentador, nao muda a "
                               "casa")
     if n == "13":      # luminotecnica
-        lum = sum(i.total_compra for i in bom if i.sku == "ELE-LUM")
+        lum = sum(i.total_compra for i in bom if i.sku.startswith("LUM-"))
         ele = familia("eletrica")
         return dict(valor=ele, fracao=ele / custo,
                     grandeza="luminaria, interruptor e ponto de luz",

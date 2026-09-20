@@ -26,7 +26,6 @@ DEMAOS = 2
 RENDIMENTO_TINTA = 10.0      # m2/L por demao, latex acrilico sobre selador
 RENDIMENTO_SELADOR = 12.0    # m2/L
 PERDA_REVESTIMENTO = 0.10    # corte e quebra de peca ceramica
-PONTO_DE_LUZ_M2 = 6.0        # (H): 1 ponto por 6 m2, minimo 1 por ambiente
 ALTURA_BANCADA = 900
 PROF_ARMARIO = 600
 
@@ -38,7 +37,7 @@ PRECO = {
     "registro": 95.0, "valvula": 45.0, "sifao": 38.0, "engate": 22.0,
     "acessorio": 85.0, "assento": 140.0,
     "tomada": 28.0, "interruptor": 32.0, "espelho": 12.0,
-    "luminaria": 95.0, "dr": 180.0, "dps": 120.0,
+    "dr": 180.0, "dps": 120.0,
     "split_9000": 2100.0, "split_18000": 3200.0, "split_30000": 5400.0,
     "exaustor": 260.0, "bomba_piscina": 2800.0, "portao_automatico": 2400.0,
     "bancada_m2": 1250.0, "gabinete_m": 1450.0, "armario_m2": 980.0,
@@ -49,6 +48,7 @@ PRECO = {
     # R58 — sistema de fachada sobre placa cimenticia. Ate aqui a casa comprava
     # 237,9 m2 de placa e nao comprava UMA linha de acabamento para ela.
     "basecoat_m2": 34.0, "tela_m2": 9.0, "selante_junta_m": 14.0,
+    "mineral_m2": 88.0, "junta_seca_m": 22.0, "forro_perfurado_m2": 96.0,
     "acrilico_elastomerico_l": 68.0, "mao_fachada_m2": 34.0,
     "frontao_m2": 128.0,
 }
@@ -89,6 +89,35 @@ def _geom(pj, cod) -> tuple:
     return 0.0, 0.0
 
 
+def _sem_forro(pj) -> set:
+    """Ambientes que o quadro de forros declara SEM forro — a unica fonte."""
+    # "estrutura aparente" e a marca de NAO ter forro. "sem forro suspenso" e
+    # outra coisa: o gesso do entrepiso esta la, e pintado (R59).
+    return {f[0] for f in pj.FORROS_SRC() if "estrutura aparente" in f[1].lower()}
+
+
+def _forro_nao_pintado(pj) -> set:
+    """Forro absorvente perfurado vem acabado de fabrica: nao se pinta."""
+    return {f[0] for f in pj.FORROS_SRC() if "perfurado" in f[1].lower()}
+
+
+def _portas_m(pj, cod) -> float:
+    """Metros de porta no perimetro do ambiente — rodape nao passa por porta."""
+    d = _sub(pj).get(cod)
+    if d is not None:
+        return (1 + (1 if d.get("liga") else 0)) * d["vao"] / 1000.0
+    a = _ambs(pj).get(cod)
+    if a is None:
+        return 0.0
+    tot = 0.0
+    for tipo, x, y, ori, pav in pj.VAOS:
+        if pav != a.pav or not tipo.startswith("P"):
+            continue
+        if (a.x - 90 <= x <= a.x + a.w + 90 and a.y - 90 <= y <= a.y + a.h + 90):
+            tot += pj.ESQUADRIAS[tipo][0] / 1000.0
+    return tot
+
+
 def _vaos_do(pj, cod) -> float:
     """Area de vao (porta e janela) que desconta de parede, em m2."""
     d = _sub(pj).get(cod)
@@ -118,21 +147,22 @@ def revestimento(pj) -> list[dict]:
     """
     out = []
     piso = parede = forro = rodape = 0.0
+    sem_forro = _sem_forro(pj)
     for ac in pj.acabamentos():
         cod = ac["amb"]
         area, perim = _geom(pj, cod)
         if area <= 0:
             continue
         piso += area
-        forro += area
+        if cod not in sem_forro:
+            forro += area
         h = ac.get("revest_h")
         vaos = _vaos_do(pj, cod)
         if h:
             parede += max(perim * h / 1000.0 - vaos, 0.0)
-        # rodape so onde NAO ha revestimento de parede ate o teto
-        portas = sum(pj.ESQUADRIAS[t][0] / 1000.0
-                     for t, x, y, o, p in pj.VAOS if t.startswith("P"))
-        rodape += perim if not h else 0.0
+        # rodape so onde NAO ha revestimento de parede ate o teto — e nunca
+        # atravessa porta (R59: 253 m viraram 236; a diferenca era porta)
+        rodape += max(perim - _portas_m(pj, cod), 0.0) if not h else 0.0
     # R58 — FRONTAO. Cozinha e gourmet somam 51,84 m2, quatro bancadas de
     # granito, cooktop, churrasqueira e duas cubas — e `revest_h` nao declarado
     # em nenhum dos dois: gesso pintado atras do fogao. A area de frontao nao
@@ -159,6 +189,13 @@ def revestimento(pj) -> list[dict]:
         dict(sku="REV-RODAPE", descricao="Rodape (poliestireno 100 mm, pintado)",
              unidade="m", quantidade=round(rodape, 1), preco=PRECO["rodape_m"],
              origem="perimetro dos ambientes sem revestimento de parede"),
+        dict(sku="REV-FORRO-ACUST", descricao="Forro absorvente perfurado (alfa 0,70), "
+                                                "acabado de fabrica",
+             unidade="m2", quantidade=round(sum(
+                 _geom(pj, f[0])[0] for f in pj.FORROS_SRC() if "perfurado" in f[1].lower()), 1),
+             preco=PRECO["forro_perfurado_m2"],
+             origem="quadro de forros: unico ponto que derruba a reverberacao do gourmet "
+                    "de 3,20 s para 0,86 s (R59: existia no quadro, nao no BOM)"),
         dict(sku="REV-ARG", descricao="Argamassa colante AC-III e regularizacao",
              unidade="m2", quantidade=round((piso + parede) * f, 1),
              preco=PRECO["argamassa_m2"], origem="piso mais parede revestida"),
@@ -192,13 +229,22 @@ def fachada(pj, camadas=None) -> list[dict]:
     junta; elastomerica faz ponte sobre ela. E a unica linha desta frente que
     nao aceita a versao barata.
     """
-    area = _area_placa_externa(pj, camadas)
+    faixa, mineral = _fachada_por_tratamento(pj, camadas)
+    area = faixa
     junta = area * JUNTA_POR_M2
     litros = area * DEMAOS_FACHADA / RENDIMENTO_ELASTOMERICO
     return [
+        dict(sku="FAC-MINERAL", descricao="Acrescimo: placa cimenticia com revestimento "
+                                          "mineral de fabrica, junta seca 6 mm",
+             unidade="m2", quantidade=round(mineral, 1), preco=PRECO["mineral_m2"],
+             origem="face externa do volume superior + face externa da platibanda: "
+                    "FACHADA_MATERIAIS e FACHADA_REGRAS (nada que exija pintura em altura)"),
+        dict(sku="FAC-JUNTA-SECA", descricao="Junta seca: perfil EPDM e fundo de junta",
+             unidade="m", quantidade=round(mineral * JUNTA_POR_M2, 1),
+             preco=PRECO["junta_seca_m"], origem="1,25 m por m2 de placa 1.200 x 2.400"),
         dict(sku="FAC-BASE", descricao="Basecoat de regularizacao sobre placa cimenticia",
              unidade="m2", quantidade=round(area, 1), preco=PRECO["basecoat_m2"],
-             origem="area de placa cimenticia externa + platibanda, do modelo de camadas"),
+             origem="faixa pintada: paineis PE-1 do terreo + face interna da platibanda"),
         dict(sku="FAC-TELA", descricao="Tela de fibra de vidro alcali-resistente, embutida no basecoat",
              unidade="m2", quantidade=round(area * 1.10, 1), preco=PRECO["tela_m2"],
              origem="mesma area + 10 % de transpasse entre panos"),
@@ -213,6 +259,34 @@ def fachada(pj, camadas=None) -> list[dict]:
              unidade="m2", quantidade=round(area, 1), preco=PRECO["mao_fachada_m2"],
              origem="area de fachada"),
     ]
+
+
+def _fachada_por_tratamento(pj, camadas=None) -> tuple[float, float]:
+    """(m2 pintados, m2 com revestimento mineral de fabrica).
+
+    R59 — a R58 pintou os 309 m2 inteiros e contradisse tres declaracoes do
+    proprio projeto: FACHADA_MATERIAIS ("placa com revestimento mineral,
+    junta seca"), FACHADA_REGRAS ("nenhuma superficie que exija pintura em
+    altura") e PINTURA.externa_onde ("a fachada do volume superior NAO e
+    pintada"). A composicao e base pintada ate 2.600 mm + volume mineral em
+    cima — decisao de fachada da Etapa 1, nao de orcamento. O que se pinta e
+    o que se alcanca do chao: os paineis do terreo e a face interna da
+    platibanda (alcancavel da cobertura).
+    """
+    pintado = mineral = 0.0
+    if camadas:
+        for d in camadas.get("detalhe", []):
+            if d.get("composicao") == "PE-1" and d.get("material") == "PLCIM":
+                if str(d.get("painel", "")).startswith("S"):
+                    mineral += d["area"]
+                else:
+                    pintado += d["area"]
+        pl = (camadas.get("platibanda") or {}).get("placa_m2", 0.0)
+        pintado += pl / 2          # face interna
+        mineral += pl / 2          # face externa
+    if pintado + mineral <= 0:
+        pintado = _area_placa_externa(pj, camadas)
+    return pintado, mineral
 
 
 def _area_placa_externa(pj, camadas=None) -> float:
@@ -239,6 +313,7 @@ def pintura(pj) -> list[dict]:
     que separa quem orca de quem chuta.
     """
     parede = forro = 0.0
+    nao_pinta = _sem_forro(pj) | _forro_nao_pintado(pj)
     for ac in pj.acabamentos():
         cod = ac["amb"]
         area, perim = _geom(pj, cod)
@@ -249,7 +324,10 @@ def pintura(pj) -> list[dict]:
         vaos = _vaos_do(pj, cod)
         util = max(perim * (h_forro - h_rev) / 1000.0 - (vaos if not h_rev else 0), 0.0)
         parede += util
-        forro += area
+        # garagem sem forro e gourmet com forro perfurado de fabrica: nao ha o
+        # que pintar (R59 — 66 m2 de tinta de forro sobre forro que nao existe)
+        if cod not in nao_pinta:
+            forro += area
     # R58 — PIN-EXT SAIU, E ISSO E O CONSERTO.
     #
     # Havia aqui uma linha de "pintura externa (acrilico elastomerico no muro)"
@@ -287,6 +365,26 @@ def pintura(pj) -> list[dict]:
     ]
 
 
+def _faces_livres_m(pj, box: dict, tol: int = 200) -> float:
+    # tol 200: a louca e locada a 150 mm da face acabada (azulejo + folga)
+    """Metros de perimetro do box que NAO encostam em parede do compartimento."""
+    amb = box["amb"]
+    cands = [d for d in pj.SUBDIVISOES if d["pai"] == amb and d.get("molhado")]
+    cands += [a for a in pj.TERREO + pj.SUPERIOR if a.cod == amb and a.molhado]
+    if not cands:
+        return 2 * (box["w"] + box["h"]) / 1000.0
+    c = cands[0]
+    cx, cy = (c["x"], c["y"]) if isinstance(c, dict) else (c.x, c.y)
+    cw, ch = (c["w"], c["h"]) if isinstance(c, dict) else (c.w, c.h)
+    x0, y0, x1, y1 = box["x"], box["y"], box["x"] + box["w"], box["y"] + box["h"]
+    livre = 0.0
+    livre += 0 if abs(x0 - cx) <= tol else box["h"]           # face oeste
+    livre += 0 if abs(x1 - (cx + cw)) <= tol else box["h"]    # face leste
+    livre += 0 if abs(y0 - cy) <= tol else box["w"]           # face norte
+    livre += 0 if abs(y1 - (cy + ch)) <= tol else box["w"]    # face sul
+    return livre / 1000.0
+
+
 # ------------------------------------------------- 3. loucas e metais
 def loucas_e_metais(pj) -> list[dict]:
     """Contagem, nao estimativa: cada peca esta LOCADA na planta desde R06.
@@ -298,8 +396,10 @@ def loucas_e_metais(pj) -> list[dict]:
     import collections
     n = collections.Counter(p["tipo"] for p in pj.LOUCAS)
     cubas = sum(b["cubas"] for b in pj.BANCADAS)
-    box_m2 = sum(2 * (p["w"] + p["h"]) / 1000.0 * 1.90
-                 for p in pj.LOUCAS if p["tipo"] == "box")
+    # R59 — o box contava as QUATRO faces em vidro. Box encosta em parede: as
+    # faces coincidentes com a parede do banho sao azulejo, nao vidro temperado
+    # a R$ 620/m2. So a face livre e a face de porta levam vidro.
+    box_m2 = sum(_faces_livres_m(pj, p) * 1.90 for p in pj.LOUCAS if p["tipo"] == "box")
     molhados = len({p["amb"] for p in pj.LOUCAS})
     chuveiros = sum(1 for c in pj.CARGAS_ESPECIAIS
                     if "chuveiro" in c["desc"].lower())
@@ -366,7 +466,8 @@ def eletrica_de_acabamento(pj) -> list[dict]:
     prev = pj.previsao_iluminacao_tug()
     tug = sum(p["tugs"] for p in prev)
     tue = len(pj.CARGAS_ESPECIAIS)
-    pontos = sum(max(1, math.ceil(p["area"] / PONTO_DE_LUZ_M2)) for p in prev)
+    import nucleo.luminotecnica as lu
+    lum = lu.compras(pj)          # R59 — pendencia 13 fechada: metodo dos lumens
     # interruptor: um por ambiente, dois onde ha duas entradas
     inter = len(prev) + sum(1 for p in prev if p["area"] >= 18)
     return [
@@ -379,10 +480,7 @@ def eletrica_de_acabamento(pj) -> list[dict]:
         dict(sku="ELE-INT", descricao="Interruptor simples e paralelo com placa",
              unidade="un", quantidade=inter, preco=PRECO["interruptor"],
              origem="um por ambiente, dois nos de 18 m2 ou mais"),
-        dict(sku="ELE-LUM", descricao="Luminaria LED embutida no forro",
-             unidade="un", quantidade=pontos, preco=PRECO["luminaria"],
-             origem=f"(H) um ponto a cada {PONTO_DE_LUZ_M2:g} m2, minimo um por "
-                    f"ambiente — depende de projeto luminotecnico"),
+        *lum,
         dict(sku="ELE-DR", descricao="Disjuntor diferencial residual 30 mA",
              unidade="un", quantidade=6, preco=PRECO["dr"],
              origem="um por grupo de circuitos de area molhada e externa"),
@@ -491,8 +589,10 @@ def conferir(pj) -> list[tuple[str, str, bool]]:
          f"{sum(i['quantidade'] for i in fr['eletrica'] if i['sku'] == 'ELE-TUG')} "
          f"TUG pela NBR 5410 9.5.2.2",
          True),
-        ("ponto de luz segue (H)",
-         f"regra de um a cada {PONTO_DE_LUZ_M2:g} m2 — e a unica quantidade "
-         f"desta frente que nao e consequencia, e vira pendencia de "
-         f"luminotecnica", True),
+        ("ponto de luz e calculo, nao regra (R59)",
+         f"{sum(i['quantidade'] for i in fr['eletrica'] if i['sku'].startswith('LUM-') and i['unidade'] == 'un'):.0f} "
+         f"luminarias pelo metodo dos lumens + "
+         f"{sum(i['quantidade'] for i in fr['eletrica'] if i['sku'] == 'LUM-LINEAR'):.1f} m "
+         f"de linear de tarefa — nenhuma quantidade desta frente e regra de area",
+         not any(i["sku"] == "ELE-LUM" for i in fr["eletrica"])),
     ]

@@ -653,6 +653,38 @@ PROGRAMA = [
      "o quarto reversivel sem armario nem closet, num quarto de 18 m2 cujas "
      "quatro paredes estao tomadas: a solucao nao coube dentro dele, coube "
      "na alcova, que era exatamente o espaco sem funcao que o eixo procura."),
+    (131, "Luminotecnica: o ponto de luz vira calculo",
+     ["checar_luminotecnica"], "AUTOMATIZADA",
+     "Secao 156. A pendencia 13 fecha. Ate R58 a luminaria era 'um ponto a "
+     "cada 6 m2' — a unica quantidade das frentes de acabamento que era regra "
+     "e nao consequencia. Agora e metodo dos lumens: iluminancia-alvo por uso "
+     "(8995-1 onde ha tarefa, 5413 no residencial), indice do local, CU por "
+     "tabela declarada, FM 0,8; a MALHA de uniformidade (SHR 1,2) decide "
+     "quantos pontos e o fluxo decide qual luminaria — a menor que a malha "
+     "comporta, nunca a quantidade de fracas que o fluxo pediria. Foi isso "
+     "que derrubou 123 downlights de 1.000 lm para 73 pontos bem escolhidos. "
+     "Nicho de 600 mm nao recebe malha, recebe linear no comprimento que o "
+     "fluxo pede; forro perfurado nao recebe embutido; pe-direito duplo "
+     "recebe pendente; tarefa (bancada, espelho, closet, escada) e contada "
+     "das pecas. Temperatura de cor e regra: 2.700 K no intimo, 4.000 K onde "
+     "se corta ou trabalha. A primeira execucao acusou a si mesma tres "
+     "vezes — closet com 770 lux, office com dez pontos, suite iluminada "
+     "pelas dimensoes brutas — e as tres foram corrigidas no metodo."),
+    (132, "Acabamento auditado: forro, box, WPC e fachada",
+     ["checar_acabamento_auditado"], "AUTOMATIZADA",
+     "Secao 157. Quatro quantidades que o modelo ja sabia e o orcamento nao "
+     "usava. O FORRO SUSPENSO (FO-1) existia como composicao desde R34 e "
+     "nunca foi quantificado: 148 m2 sob cobertura com gesso e la no quadro "
+     "de acabamentos e nada no BOM — sexto caso de 'existe na especificacao, "
+     "nao existe no modelo'. O BOX contava as quatro faces em vidro temperado; "
+     "box encosta em parede, e parede e azulejo: 32 m2 viraram 16. O WPC "
+     "(R$ 320/m2, o piso mais caro da casa) cobria 76 m2 com a razao "
+     "'permanencia com mobiliario e sombra' — 43 m2 deles eram descobertos ou "
+     "patio de churrasqueira, e foram para o porcelanato R11 que a casa ja "
+     "compra. A FACHADA da R58 pintava os 309 m2 e contradizia tres "
+     "declaracoes do projeto (mineral de fabrica em altura, nada que exija "
+     "pintura em altura): agora e base pintada ate 2.600 mm e volume mineral "
+     "com junta seca em cima, como a Etapa 1 decidiu."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

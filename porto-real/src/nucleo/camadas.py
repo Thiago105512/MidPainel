@@ -471,29 +471,60 @@ COMPOSICOES_PLANO = {
 }
 
 
-def quantificar_planos(casa: dict) -> dict:
+# Perfilaria do forro suspenso, por m2 de forro. Canaleta principal a cada
+# 600 mm e travessa a cada 1.200: 1/0,6 + 1/1,2 metros por m2. Tirante (pendural)
+# a cada 600 x 1.200 mm = um por 0,72 m2. Nao e coeficiente de pratica: e a
+# malha da NBR 15758-2, a mesma modulacao da parede.
+PERFIL_FORRO_M_POR_M2 = 1 / 0.6 + 1 / 1.2
+TIRANTE_POR_M2 = 1 / 0.72
+
+
+def quantificar_planos(casa: dict, sem_forro: tuple = ()) -> dict:
     """Area de camada dos planos horizontais, da geometria do vigamento.
 
     A area vem dos PLANOS que o vigamento ja define — cada comodo vigado tem
     vao, corrido e tipo. Nao ha coeficiente: o piso do superior e a soma dos
     comodos do superior, e a cobertura e a soma do que esta sob ela.
+
+    R59 — O FORRO SUSPENSO EXISTIA COMO COMPOSICAO E NAO COMO QUANTIDADE.
+    FO-1 esta declarada em COMPOSICOES_PLANO desde R34 ("ambientes sob
+    cobertura"), e esta funcao so percorria EP-1 e CB-1. Resultado: todo
+    comodo sob a cobertura — as cinco pecas do superior, o hall, a alcova, a
+    circulacao e o quarto reversivel, 148 m2 — tinha gesso pintado no quadro
+    de acabamentos e NENHUMA chapa, la ou perfil no orcamento. O quadro dizia
+    "gesso liso + la mineral sobre o forro" e o BOM nao comprava nem o gesso
+    nem a la. Existia na especificacao, nao existia no modelo — pela sexta vez.
+
+    Quem nao recebe forro e dito por nome (`sem_forro`), vindo do quadro de
+    forros do projeto: a garagem fica com o painel PIR aparente.
     """
     por_material: dict = {}
     detalhe = []
+    forro = dict(area=0.0, perimetro=0.0, regioes=[])
     for pl in casa["planos"]:
         if not pl["ok"]:
             continue
         area = pl["vao"] * pl["corrido"] / 1e6
-        comp = COMPOSICOES_PLANO["EP-1" if pl["tipo"] == "piso" else "CB-1"]
-        for c in comp.camadas:
-            chave = (c.material, c.espessura)
-            por_material[chave] = por_material.get(chave, 0.0) + area * c.n
-            detalhe.append(dict(plano=pl["regiao"], tipo=pl["tipo"],
-                                composicao=comp.cod, material=c.material,
-                                espessura=c.espessura, area=round(area, 2)))
+        comps = [COMPOSICOES_PLANO["EP-1" if pl["tipo"] == "piso" else "CB-1"]]
+        if pl["tipo"] == "cobertura" and pl["regiao"] not in sem_forro:
+            comps.append(COMPOSICOES_PLANO["FO-1"])
+            forro["area"] += area
+            forro["perimetro"] += 2 * (pl["vao"] + pl["corrido"]) / 1000.0
+            forro["regioes"].append(pl["regiao"])
+        for comp in comps:
+            for c in comp.camadas:
+                chave = (c.material, c.espessura)
+                por_material[chave] = por_material.get(chave, 0.0) + area * c.n
+                detalhe.append(dict(plano=pl["regiao"], tipo=pl["tipo"],
+                                    composicao=comp.cod, material=c.material,
+                                    espessura=c.espessura, area=round(area, 2)))
     itens = [dict(material=m, espessura=e, area=round(a, 1))
              for (m, e), a in sorted(por_material.items(), key=lambda kv: -kv[1])]
-    return dict(itens=itens, detalhe=detalhe,
+    forro.update(area=round(forro["area"], 1), perimetro=round(forro["perimetro"], 1),
+                 perfil_m=round(forro["area"] * PERFIL_FORRO_M_POR_M2, 1),
+                 tirante_un=int(round(forro["area"] * TIRANTE_POR_M2)),
+                 tabica_m=round(forro["perimetro"], 1), sem_forro=list(sem_forro))
+    return dict(itens=itens, detalhe=detalhe, forro=forro,
                 area_total=round(sum(i["area"] for i in itens), 1))
 
 

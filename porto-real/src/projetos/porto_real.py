@@ -630,6 +630,16 @@ PISO_EXTERNO = [
          area_m2=None, razao="e onde se anda descalco no pico do sol"),
     dict(zona="lounge e circulacao do deck", material="WPC coextrudado claro",
          area_m2=None, razao="area de permanencia com mobiliario e sombra"),
+    # R59 — WPC so onde a razao dele vale. A zona "lounge e circulacao" punha
+    # WPC coextrudado (R$ 320/m2, o piso mais caro da casa) em 76 m2, dos quais
+    # 21,6 m2 sao DESCOBERTOS (deck norte, patio) e 21,6 m2 sao o patio da
+    # CHURRASQUEIRA — e a razao declarada era "permanencia com mobiliario e
+    # sombra". WPC ao sol de Manaus esquenta e trabalha; WPC sob brasa e
+    # gordura mancha. Os dois vao para o porcelanato R11 claro que a casa ja
+    # compra para a faixa da piscina: sem familia nova, R$ 172/m2 a menos.
+    dict(zona="patio e deck descoberto", material="porcelanato externo claro R11",
+         area_m2=None, razao="sol pleno ou churrasqueira: superficie fria, lavavel e "
+                             "sem movimento termico — a mesma peca da faixa da piscina"),
     dict(zona="passeio e acesso", material="piso drenante intertravado claro",
          area_m2=None, razao="compensa a permeabilidade perdida pelo deck"),
     # R49 — a varanda da master era a unica area aberta sem zona de piso
@@ -2577,8 +2587,8 @@ SOLEIRAS = dict(interna="sem soleira — piso continuo na mesma cota",
 PINTURA = dict(interna="latex acrilico acetinado, 2 demaos sobre selador",
                umida="latex acrilico premium com biocida, 2 demaos",
                externa="acrilico elastomerico sobre base cimenticia",
-               externa_onde="muro, face interna de platibanda e rodape de "
-                            "fachada ate 2.600 mm — tudo alcancavel do chao. A "
+               externa_onde="face interna de platibanda e rodape de "
+                            "fachada ate 2.600 mm — tudo alcancavel do chao. O MURO nao e pintado: bloco aparente com hidrofugante (R58), sem ciclo de repintura. A "
                             "fachada do volume superior NAO e pintada: leva o "
                             "revestimento mineral de fabrica da FACHADA_MATERIAIS",
                forro="latex PVA fosco branco")
@@ -3279,6 +3289,42 @@ REVISOES = [
      "ficou o bloco aparente, que nao tem ciclo de repintura. E a faixa de "
      "plausibilidade de custo, cujos dois literais haviam envelhecido ate "
      "reprovar, passou a ser derivada dos indices publicados"),
+    ("R59", "AUDITORIA EXAUSTIVA DO ACABAMENTO, E O PONTO DE LUZ VIRA CALCULO. "
+     "O proprietario pediu o melhor conforto e estetica pelo menor preco, e a "
+     "resposta foi percorrer cada quantidade de acabamento contra o que o "
+     "modelo ja sabia. Oito defeitos, dois eixos. (1) O FORRO SUSPENSO nunca "
+     "foi quantificado: FO-1 existia como composicao desde R34 e a funcao que "
+     "soma os planos so percorria entrepiso e cobertura — 148 m2 sob a "
+     "cobertura com 'gesso liso + la mineral' no quadro e nem chapa, nem la, "
+     "nem perfil no orcamento. Sexto caso de 'existe na especificacao, nao "
+     "existe no modelo'. (2) O BOX contava as quatro faces em vidro temperado; "
+     "box encosta em parede, e parede e azulejo: 32 m2 viraram 16. (3) O WPC, "
+     "piso mais caro da casa a R$ 320/m2, cobria 76 m2 com a razao "
+     "'permanencia com mobiliario e sombra' — 43 m2 eram descobertos ou patio "
+     "de churrasqueira, e foram para o porcelanato R11 que a casa ja compra. "
+     "(4) A fachada da R58 pintava os 309 m2 inteiros e contradizia tres "
+     "declaracoes da Etapa 1 (mineral de fabrica em altura, junta seca, nada "
+     "que exija pintura em altura): agora e base pintada ate 2.600 mm e "
+     "volume mineral em cima. (5) A garagem, sem forro, comprava 36 m2 de "
+     "tinta de forro; o gourmet, com forro perfurado de fabrica, comprava "
+     "tinta e nao comprava o perfurado. (6) Oficina e deposito diziam "
+     "'estrutura aparente' estando SOB dormitorio — o forro deles e a chapa do "
+     "entrepiso, obrigatoria. (7) O rodape atravessava porta: 253 m viraram "
+     "221. (8) O quadro de forros carregava areas de tres revisoes atras. E a "
+     "PENDENCIA 13 fechou: nucleo/luminotecnica.py aplica o metodo dos lumens "
+     "ambiente a ambiente — iluminancia-alvo por uso (8995-1 onde ha tarefa, "
+     "5413 no residencial), indice do local, CU, FM 0,8 — e deixa a MALHA de "
+     "uniformidade (SHR 1,2) decidir quantos pontos e o fluxo decidir qual "
+     "luminaria, a menor que a malha comporta. Foi isso que separou 123 "
+     "downlights fracos de 94 pontos certos: nicho de 600 mm recebe linear no "
+     "comprimento que o fluxo pede, forro perfurado recebe sobrepor, pe-direito "
+     "duplo recebe pendente, e a tarefa (bancada, espelho, closet, escada) e "
+     "contada das pecas, a 4.000 K onde se corta e 2.700 K onde se dorme. A "
+     "primeira execucao acusou a si mesma tres vezes — closet a 770 lux, "
+     "office com dez pontos, suite iluminada pelas dimensoes brutas — e as "
+     "tres correcoes foram no metodo, nao no resultado. Saldo: R$ 817 mil "
+     "para R$ 829 mil, e o que subiu e forro que faltava; o que desceu e "
+     "vidro e WPC que sobravam"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3393,11 +3439,13 @@ PENDENCIAS = [
     # basta para comprar, nao basta para iluminar.
     dict(n="13", titulo="Projeto luminotecnico por ambiente",
          norma="NBR ISO/CIE 8995-1",
-         impacto="A casa tem forro e iluminacao DESENHADOS desde a Etapa 2 e "
-                 "nunca CALCULADOS. O orcamento ja compra luminaria por regra "
-                 "de area; o lux por ambiente, a temperatura de cor e a "
-                 "uniformidade seguem sem verificacao",
-         status="ABERTA", bloqueia="obra"),
+         impacto="RESOLVIDA em R59: nucleo/luminotecnica.py aplica o metodo dos "
+                 "lumens ambiente a ambiente (iluminancia-alvo por uso, indice "
+                 "do local, CU, FM), impoe a malha de uniformidade (SHR 1,2), "
+                 "escolhe a menor luminaria que a malha comporta, e conta a "
+                 "luz de TAREFA das pecas — bancada, espelho, closet, escada. "
+                 "A luminaria deixou de ser regra de area",
+         status="RESOLVIDA", bloqueia=""),
     dict(n="14", titulo="Rota de conformidade termica da parede externa",
          norma="NBR 15220-3 (tabela da ZB8) x NBR 15575-4 (desempenho)",
          impacto="A parede PE-1 tem U = 0,532 W/m2.K, sete vezes melhor que o "
@@ -3454,13 +3502,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R58",
+    revisao="R59",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R58", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R59", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

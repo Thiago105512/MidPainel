@@ -4239,6 +4239,60 @@ def checar_termica() -> list[Achado]:
     return out
 
 
+def checar_luminotecnica() -> list[Achado]:
+    """Metodo dos lumens por ambiente, malha de uniformidade e luz de tarefa (R59)."""
+    import projeto as pj
+    import nucleo.luminotecnica as lu
+    out = []
+    for titulo, detalhe, ok in lu.conferir(pj):
+        out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
+    lv = lu.levantar(pj)
+    out.append(Achado("NOTA", "quadro luminotecnico",
+                      f"{lv['n_geral']} luminarias gerais em {len(lv['geral'])} "
+                      f"ambientes, {lv['w_geral']:.0f} W ({lv['w_m2']} W/m2), "
+                      f"{len(lv['tarefa'])} pontos de tarefa"))
+    for x in lv["geral"]:
+        out.append(Achado("NOTA", f"lux: {x['cod']}",
+                          f"{x['uso']}: alvo {x['E_alvo']} lx, obtido {x['E_obtido']} "
+                          f"lx com {x['n']} x {x['luminaria']} a {x['tcor']} K "
+                          f"(k {x['k']}, CU {x['cu']})"))
+    return out
+
+
+def checar_acabamento_auditado() -> list[Achado]:
+    """As quantidades de acabamento contra o que o modelo ja sabia (R59)."""
+    import projeto as pj
+    import fixture as fx
+    r = fx.liberacao()
+    bom = {i.sku: i for i in r["bom"]}
+    out = []
+    fo = r["camadas"]["planos"]["forro"]
+    out.append(Achado("NOTA" if fo["area"] > 0 and "FOR-PERFIL" in bom else "ERRO",
+                      "forro suspenso quantificado",
+                      f"{fo['area']} m2 de FO-1 em {len(fo['regioes'])} regioes sob "
+                      f"cobertura; sem forro: {fo['sem_forro']}"))
+    box = bom.get("LOU-BOX")
+    n_box = sum(1 for l in pj.LOUCAS if l["tipo"] == "box")
+    out.append(Achado("NOTA" if box and box.quantidade / n_box < 6.0 else "ERRO",
+                      "box de vidro so nas faces livres",
+                      f"{box.quantidade if box else 0} m2 em {n_box} boxes "
+                      f"({(box.quantidade / n_box) if box else 0:.1f} m2/box)"))
+    ext = {i["zona"]: i for i in r["camadas"]["externo"]["pisos"]["itens"]} \
+        if isinstance(r["camadas"]["externo"].get("pisos"), dict) else {}
+    wpc = next((i for i in ext.values() if "WPC" in i["material"]), None)
+    out.append(Achado("NOTA" if wpc and wpc["area"] < 40 else "ATENCAO",
+                      "WPC so em area coberta de permanencia",
+                      f"{wpc['area'] if wpc else 0} m2 de WPC em {wpc['areas'] if wpc else []}"))
+    fam = [s for s in bom if s.startswith("FAC-")]
+    out.append(Achado("NOTA" if "FAC-MINERAL" in bom and "FAC-TINTA" in bom else "ERRO",
+                      "fachada: base pintada + volume mineral",
+                      f"{bom['FAC-TINTA'].quantidade if 'FAC-TINTA' in bom else 0} L de "
+                      f"elastomerico na faixa ate 2.600 mm; "
+                      f"{bom['FAC-MINERAL'].quantidade if 'FAC-MINERAL' in bom else 0} m2 "
+                      f"de mineral de fabrica em altura — {len(fam)} linhas"))
+    return out
+
+
 def checar_ocupacao() -> list[Achado]:
     """Espaco morto: bolsao sem ambiente, largura sem uso, nome sem lastro (R58)."""
     import projeto as pj
@@ -4293,16 +4347,15 @@ def checar_acabamento() -> list[Achado]:
     out = []
     for titulo, detalhe, ok in ab.conferir(pj):
         out.append(Achado("NOTA" if ok else "ERRO", titulo, detalhe))
-    lv = ab.levantar(pj)
+    import fixture as _fx
+    lv = ab.levantar(pj, _fx.liberacao()["camadas"])
     for frente, linhas in sorted(lv["frentes"].items()):
         v = sum(i["quantidade"] * i["preco"] for i in linhas)
         out.append(Achado("NOTA", f"frente: {frente}",
                           f"{len(linhas)} linhas, R$ {v:,.2f}".replace(",", ".")
                           + " — " + "; ".join(i["sku"] for i in linhas)))
-    out.append(Achado("ATENCAO", "ponto de luz ainda e regra, nao calculo",
-                      f"um a cada {ab.PONTO_DE_LUZ_M2:g} m2, minimo um por "
-                      f"ambiente. A quantidade de luminaria e a unica destas "
-                      f"seis frentes que nao e consequencia da geometria: "
-                      f"depende de projeto luminotecnico (NBR ISO/CIE 8995-1), "
-                      f"que segue pendente"))
+    out.append(Achado("NOTA", "ponto de luz e calculo desde R59",
+                      "metodo dos lumens por ambiente em nucleo/luminotecnica.py; "
+                      "a pendencia 13 fechou e nenhuma quantidade das sete frentes "
+                      "e regra de area"))
     return out

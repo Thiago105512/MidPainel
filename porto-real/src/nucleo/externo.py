@@ -52,11 +52,11 @@ PRECO = {
 # faltava era dizer QUAIS areas caem em cada uma.
 ZONA_DE_AREA = {
     "T-DKP": "faixa seca da piscina",
-    "T-DKL": "lounge e circulacao do deck",
+    "T-DKL": "patio e deck descoberto",       # R59: descoberto, sol pleno
     "T-DKC": "lounge e circulacao do deck",
     "T-ALP": "lounge e circulacao do deck",
-    "T-PAT": "lounge e circulacao do deck",
-    "T-PT2": "lounge e circulacao do deck",
+    "T-PAT": "patio e deck descoberto",       # R59: churrasqueira
+    "T-PT2": "patio e deck descoberto",       # R59: descoberto
     "T-VAR": "passeio e acesso",
     "T-LOG": "passeio e acesso",
     "T-VRL": "passeio e acesso",

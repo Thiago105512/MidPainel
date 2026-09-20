@@ -119,7 +119,10 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     camadas["paginacao"] = cd.paginar(todos, fam["familia"])
     # os planos horizontais so podem ser quantificados depois do vigamento,
     # que e quem define quais comodos tem piso e quais tem cobertura
-    camadas["planos"] = cd.quantificar_planos(casa)
+    # R59 — quem nao recebe forro vem do quadro de forros do projeto, nao de
+    # lista escrita aqui: "sem forro" no quadro e a unica fonte.
+    sem_forro = tuple(f[0] for f in pj.FORROS_SRC() if "estrutura aparente" in f[1].lower())
+    camadas["planos"] = cd.quantificar_planos(casa, sem_forro)
     import nucleo.esquadrias as _es
     camadas["esquadrias"] = _es.levantar(pj, _es.vidros_da_prancha(_ep))
     camadas["cobertura"] = cd.acessorios_cobertura(casa, pj)

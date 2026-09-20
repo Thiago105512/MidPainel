@@ -213,10 +213,6 @@ def especificar(item, r: dict) -> dict:
         tens = ((r.get("eletrica") or {}).get("tensao") or {}).get(
             "esquema", "esquema declarado no projeto")
         esp.append(f"tensao 127 V para TUG e 220 V para TUE, conforme {tens}")
-        if sku == "ELE-LUM":
-            faltas.append("fluxo luminoso e temperatura de cor por ambiente: "
-                          "depende de projeto luminotecnico, que e pendencia "
-                          "aberta — a quantidade aqui e regra declarada")
         normas += ["NBR 5410", "NBR 14136"]
 
     elif sku.startswith("EQP-"):
@@ -234,6 +230,36 @@ def especificar(item, r: dict) -> dict:
                    "ferragem com amortecedor")
         faltas.append("desenho executivo de marcenaria: a planta da a "
                       "extensao e a profundidade, nao o interior do movel")
+
+    elif sku.startswith("FAC-"):
+        if sku == "FAC-MINERAL":
+            esp.append("placa cimenticia 1.200 x 2.400 com revestimento mineral "
+                       "aplicado em fabrica, cor clara, junta seca de 6 mm com "
+                       "perfil EPDM — face externa do volume superior e da platibanda")
+            faltas.append("fabricante e linha do revestimento mineral: acabamento "
+                          "de fachada e decisao do proprietario")
+        else:
+            esp.append("sistema de fachada sobre placa cimenticia: basecoat com "
+                       "tela de fibra de vidro alcali-resistente, junta com "
+                       "selante PU, acabamento acrilico elastomerico LISO com "
+                       "biocida — faixa ate 2.600 mm e face interna da platibanda")
+        normas += ["NBR 15498", "NBR 13245"]
+
+    elif sku.startswith("FOR-"):
+        esp.append("perfilaria de forro em aco galvanizado, malha 600 x 1.200, "
+                   "pendural regulavel; tabica perimetral de sombra")
+        normas += ["NBR 15758-2"]
+
+    elif sku.startswith("LUM-"):
+        esp.append("luminaria LED de linha, IRC >= 80 (>= 90 no closet), "
+                   "eficacia >= 80 lm/W, driver com garantia >= 3 anos")
+        esp.append("temperatura de cor por ambiente conforme o quadro "
+                   "luminotecnico: 2.700 K intimo, 3.000 K social, 4.000 K tarefa")
+        esp.append("quantidade pelo METODO DOS LUMENS por ambiente e malha de "
+                   "uniformidade (SHR 1,2); tarefa contada das pecas")
+        faltas.append("marca e modelo: o fluxo e a potencia de cada tipo estao "
+                      "declarados; o produto e escolha de acabamento")
+        normas += ["NBR ISO/CIE 8995-1", "Portaria INMETRO 20/2017 (LED)"]
 
     elif sku.startswith("PIN-"):
         esp.append("tinta e mao de obra conforme especificacao de acabamento")

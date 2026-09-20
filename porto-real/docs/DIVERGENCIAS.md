@@ -4857,3 +4857,101 @@ nunca aprovação.
 **Estado em R58:** 113 funções, 596 condições, **0 erros**; 208 verificações do
 visualizador, **0 falhas**; 130 auditorias; **133 itens** no BOM, R$ 817.339,63
 (R$ 2.748,65/m²), dentro da faixa derivada; 14 pendências, 7 abertas.
+
+## R59 — auditoria exaustiva do acabamento; o ponto de luz vira cálculo
+
+### Defeito 79 — o forro suspenso nunca foi quantificado
+
+`FO-1` (gesso 12,5 + lã de vidro 50) existe em `COMPOSICOES_PLANO` desde R34,
+com o texto "ambientes sob cobertura". `quantificar_planos()` só percorria
+EP-1 (entrepiso) e CB-1 (cobertura). Resultado: **148,3 m² de forro** em nove
+regiões sob a cobertura — as cinco peças do superior, hall, alcova, circulação
+e quarto reversível — tinham "gesso liso + lã mineral sobre o forro" no quadro
+de acabamentos e **nem chapa, nem lã, nem perfil, nem tirante, nem tabica** no
+orçamento. Sexto caso de *existe na especificação, não existe no modelo*.
+Entraram: +148,3 m² de gesso e lã de vidro (mesclados nas linhas existentes),
+370,8 m de perfilaria F530, 206 pendurais, 136,8 m de tabica.
+
+### Defeito 80 — o box contava as quatro faces em vidro
+
+`LOU-BOX` somava `2·(w+h)·1,90` por box — o perímetro inteiro em vidro
+temperado 8 mm a R$ 620/m². Box encosta em parede; face contra parede é
+azulejo. `_faces_livres_m()` compara cada face do box com a parede do
+compartimento (tolerância 200 mm: a louça é locada a 150 da face acabada).
+**32,3 m² → 16,1 m², −R$ 10.044.** Só o box da master tem duas faces livres.
+
+### Defeito 81 — WPC onde a razão dele não vale
+
+A zona "lounge e circulação do deck" (WPC coextrudado, R$ 320/m², o piso mais
+caro da casa) cobria 76,3 m² com a razão *"permanência com mobiliário e
+sombra"*. Dentro dela: deck norte **descoberto** (17,3 m²), pátio **descoberto**
+(4,3 m²) e o pátio da **churrasqueira** (21,6 m²). WPC ao sol de Manaus
+esquenta e trabalha; sob brasa e gordura, mancha. Os 43,2 m² foram para o
+porcelanato externo R11 claro que a casa já compra para a faixa da piscina —
+**sem família nova, −R$ 7.430**. WPC fica nos 33,1 m² cobertos de permanência.
+
+### Defeito 82 — a fachada da R58 contradizia a Etapa 1
+
+R58 pintou os 309 m² de placa cimentícia com elastomérico. Três declarações do
+projeto diziam outra coisa: `FACHADA_MATERIAIS` ("placa com revestimento
+mineral, junta seca de 6 mm"), `FACHADA_REGRAS` ("nenhuma superfície que exija
+pintura em altura") e `PINTURA.externa_onde` ("a fachada do volume superior
+NÃO é pintada"). O defeito era meu, de uma revisão atrás — a prova de que a
+conferência nova precisa existir: `checar_acabamento_auditado` agora exige as
+duas linhas. Fachada = base pintada até 2.600 mm (168,2 m²: painéis PE-1 do
+térreo + face interna da platibanda) + volume mineral de fábrica com junta
+seca EPDM (141,0 m²: painéis PE-1 do superior + face externa da platibanda).
+
+### Defeito 83 — tinta de forro sobre forro que não existe
+
+A garagem está "sem forro (estrutura aparente)" no quadro e comprava 36 m² de
+tinta PVA e 36 m² de área de forro. O gourmet tem forro absorvente perfurado
+acabado de fábrica: comprava tinta e **não comprava o perfurado** (30,2 m²,
+R$ 2.899, o único item que derruba a reverberação de 3,20 s para 0,86 s).
+
+### Defeito 84 — "estrutura aparente" sob dormitório
+
+Oficina e depósito diziam "sem forro (estrutura aparente)". Os dois estão
+**sob** a suíte 02 e a master: o teto deles é a chapa de gesso do entrepiso
+EP-1 — camada acústica e de compartimentação, não acabamento opcional. O
+quadro passa a dizer "gesso do entrepiso EP-1, sem forro suspenso", e a
+bandeira de *não ter forro* é a expressão "estrutura aparente", não "sem
+forro".
+
+### Defeito 85 — rodapé atravessando porta
+
+`REV-RODAPE` = perímetro dos ambientes sem revestimento até o teto, sem
+descontar vão de porta. **253,2 m → 220,9 m.**
+
+### Defeito 86 — o quadro de forros com áreas de três revisões atrás
+
+`FORROS` carregava T-COZ 18,00 m² (é 21,60) e S-MAS 28,80 m² (é 46,80). O
+campo de área ali é uma terceira fonte; ficou corrigido e o consumidor lê a
+área do ambiente.
+
+### Pendência 13 fechada — luminotécnica
+
+`nucleo/luminotecnica.py`, método dos lumens: Φ = E·A/(CU·FM), com E por uso
+(NBR ISO/CIE 8995-1 onde há tarefa; valores consolidados da antiga NBR 5413 no
+residencial — declarados um a um com a origem), índice do local k, CU por
+tabela (H) de downlight LED 70/50/20, FM 0,8. **A malha de uniformidade
+(SHR 1,2 × h_m) decide quantos pontos; o fluxo decide qual luminária — a
+menor da família que a malha comporta.** Nicho < 1,0 m recebe linear no
+comprimento que o fluxo pede (não o do nicho: 2,4 m eram 770 lux num
+guarda-roupa); forro perfurado/aparente recebe sobrepor; pé-direito duplo
+recebe pendente; tarefa (bancada, espelho, closet, mesa do office, escada) é
+contada das peças. Temperatura de cor por uso: 2.700 K íntimo, 3.000 K social,
+4.000 K tarefa. Verificações: todo ambiente ≥ alvo; eficácia ≥ 80 lm/W; W
+calculado ≤ VA previsto pela NBR 5410; luz de tarefa onde há tarefa.
+
+A primeira execução acusou a si mesma três vezes — 123 downlights de 1.000 lm,
+closets a 770 lux, office com dez pontos, suíte iluminada pelas dimensões
+brutas (banho e closet contados como dormitório) — e as três correções foram
+no método. Resultado: **94 pontos gerais, 1.918 W (6,45 W/m²), 13 pontos de
+tarefa, 20,4 m de linear.** `ELE-LUM` (58 un por regra) saiu; entram oito
+linhas `LUM-*` por tipo.
+
+**Estado em R59:** 115 funções, 603 condições, **0 erros**; 208 verificações do
+visualizador, **0 falhas**; 132 auditorias; **147 itens** no BOM,
+R$ 828.665,37 (R$ 2.786,74/m²), dentro da faixa derivada; 14 pendências,
+**6 abertas**.

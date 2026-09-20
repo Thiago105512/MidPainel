@@ -231,18 +231,25 @@ FORROS = [
      "unico ponto que derruba a reverberacao de 3,20 s para 0,86 s"),
     ("T-SOC", "gesso liso + cortinas e tapetes", 25.20,
      "absorcao vem do mobiliario; forro tecnico aqui teria ganho marginal"),
-    ("T-COZ", "gesso liso lavavel", 18.00,
+    ("T-COZ", "gesso liso lavavel", 21.60,
      "superficie de facil limpeza tem prioridade sobre absorcao"),
     ("S-S02", "gesso liso + la mineral sobre o forro", 25.92,
      "la sobre o forro atenua ruido de chuva no painel PIR"),
     ("S-S03", "gesso liso + la mineral sobre o forro", 25.92, "idem"),
-    ("S-MAS", "gesso liso + la mineral sobre o forro", 28.80, "idem"),
+    ("S-MAS", "gesso liso + la mineral sobre o forro", 46.80, "idem"),
     ("T-GAR", "sem forro (estrutura aparente)", 36.00,
      "ambiente sem exigencia acustica nem termica"),
-    ("T-OFI", "sem forro (estrutura aparente)", 9.00, "idem"),
+    # R59 — a oficina e o deposito estao SOB o pavimento superior: o forro
+    # deles e a chapa de gesso do entrepiso EP-1, parafusada na viga.
+    # "Estrutura aparente" aqui seria OSB e viga vistos de baixo, sem a chapa
+    # que fecha o entrepiso — e a chapa e camada acustica e de
+    # compartimentacao, nao acabamento. Nao ha forro SUSPENSO, e e isso que a
+    # linha passa a dizer. A garagem, essa sim, esta so sob a cobertura.
+    ("T-OFI", "gesso do entrepiso EP-1, sem forro suspenso", 9.00,
+     "sob dormitorio: a chapa do entrepiso e obrigatoria, nao opcional"),
     # era T-DML, ambiente que nao existe mais: a decisao nunca chegava ao
     # desenho. O deposito herdou a funcao e o criterio.
-    ("T-DEP", "sem forro (estrutura aparente)", 3.60, "idem"),
+    ("T-DEP", "gesso do entrepiso EP-1, sem forro suspenso", 3.60, "idem"),
 ]
 
 

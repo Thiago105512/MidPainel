@@ -119,6 +119,8 @@ PRECO_CAMADA = {
     "LAVIDRO": 22.00, "XPS": 41.00, "OSB": 58.00, "ACO": 0.0,
     "PIR": 132.00, "PUR": 126.00, "EPS": 18.00, "ACM": 210.00,
 }
+# (H) perfilaria de forro, como todo preco deste projeto
+PRECO_FORRO = {"perfil_m": 6.80, "tirante_un": 3.20, "tabica_m": 14.00}
 NOME_CAMADA = {
     "PLCIM": "Placa cimenticia", "GESSO": "Chapa de gesso",
     "GESSORU": "Chapa de gesso RU", "LAROCHA": "La de rocha",
@@ -303,6 +305,21 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                                  "m" if item.endswith("_m") else "un",
                                  round(q, 1), PRECO_ESQ.get(item, 0.0),
                                  "esquadria", fonte="derivado"))
+    # ---- forro suspenso: chapa e la ja entraram pelas camadas; o que faltava
+    # e o que segura a chapa — perfil, tirante e tabica (R59)
+    fo = ((camadas or {}).get("planos") or {}).get("forro")
+    if fo and fo.get("area"):
+        for sku, desc, q, pr, un in (
+                ("FOR-PERFIL", "Forro: canaleta e travessa F530 galvanizada",
+                 fo["perfil_m"], PRECO_FORRO["perfil_m"], "m"),
+                ("FOR-TIRANTE", "Forro: pendural regulavel com tirante",
+                 fo["tirante_un"], PRECO_FORRO["tirante_un"], "un"),
+                ("FOR-TABICA", "Forro: tabica perimetral de sombra",
+                 fo["tabica_m"], PRECO_FORRO["tabica_m"], "m")):
+            itens.append(ItemBOM(sku, desc, un, round(q, 1), pr, "vedacao",
+                                 fonte=f"{fo['area']:.1f} m2 de forro suspenso "
+                                       f"em {len(fo['regioes'])} regioes sob "
+                                       f"cobertura, malha 600 x 1.200"))
     # ---- cobertura: o que fecha uma cobertura e o perimetro, nao a area
     cob = (camadas or {}).get("cobertura")
     if cob:
