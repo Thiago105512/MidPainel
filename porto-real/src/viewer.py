@@ -27,6 +27,18 @@ import viewer_parte5 as v5
 AQUI = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(AQUI, "..", "out", "porto-real-caderno.html")
 TRES = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+# R60 — o three.js vai EMBUTIDO no HTML quando o arquivo vendorizado existe.
+# Um visualizador que depende de CDN e um visualizador que nao abre no
+# celular do proprietario sem sinal, nem no container de teste, nem daqui a
+# dez anos quando a URL mudar. O caderno e um arquivo so, e continua sendo.
+TRES_VENDOR = os.path.join(AQUI, "vendor", "three.min.js")
+
+
+def _script_three() -> str:
+    if os.path.exists(TRES_VENDOR):
+        with open(TRES_VENDOR, encoding="utf-8") as f:
+            return "<script>/* three.js r128 — MIT — embutido (R60) */\n" + f.read() + "\n</script>"
+    return f'<script src="{TRES}"></script>'
 
 
 # ---------------------------------------------------------------------------
@@ -455,7 +467,7 @@ __PEND__
   </div>
 </footer>
 
-<script src="__TRES__"></script>
+__SCRIPT_THREE__
 <script>
 const SHEETS = __SHEETS__;
 const FICHAS = __FICHAS__;
@@ -539,7 +551,7 @@ def partes() -> tuple[str, str]:
                  .replace("__PALCO2D__", v4.HTML_PALCO_2D)
                  .replace("__HTML3D__", v2.HTML_3D)
                  .replace("__HTMLENG__", v5.HTML_ENG)
-                 .replace("__TRES__", TRES)
+                 .replace("__SCRIPT_THREE__", _script_three())
                  .replace("__JS_2D__", v4.JS_2D)
                  .replace("__JS_ENG__", v5.JS_ENG)
                  .replace("__JS_3D__", v3.JS_3D)

@@ -144,14 +144,17 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
 
     # ---- cotas de nivel
     if pav == "T":
-        an.nivel(cv, vw, P(5_400, 10_200), 0)
-        an.nivel(cv, vw, P(7_500, 16_200), 0)
-        an.nivel(cv, vw, P(7_500, 22_800), 0)
+        # R60 — a cota de nivel estava no CENTRO do ambiente, em cima do
+        # nome: "GOURMET" e "ESTAR / JANTAR" saiam com o triangulo por cima.
+        # Vai 1.500 mm ao sul do rotulo, ainda dentro do comodo.
+        an.nivel(cv, vw, P(5_400, 8_700), 0)
+        an.nivel(cv, vw, P(7_500, 14_700), 0)
+        an.nivel(cv, vw, P(7_500, 21_300), 0)
         an.nivel(cv, vw, P(6_900, 29_100), -20)
         an.nivel(cv, vw, P(13_200, 26_400), -150)
     else:
-        an.nivel(cv, vw, P(5_100, 15_600), pj.NIVEL_SUPERIOR)
-        an.nivel(cv, vw, P(13_200, 18_600), pj.NIVEL_SUPERIOR)
+        an.nivel(cv, vw, P(5_100, 14_100), pj.NIVEL_SUPERIOR)
+        an.nivel(cv, vw, P(13_200, 17_400), pj.NIVEL_SUPERIOR)
 
     # ---- cadeias de cotas (parciais + totais, externas ao desenho)
     xs = sorted({a.x for a in fechados} | {a.x + a.w for a in fechados})
@@ -238,13 +241,17 @@ def _legenda_convencoes(cv: Canvas, pos) -> None:
 # PR-01 — IMPLANTACAO E SITUACAO
 # =========================================================================
 def implantacao() -> Canvas:
-    cv = base("IMPLANTACAO E SITUACAO", "1:200", "01", notas=[
+    # R60 — 1:100, nao 1:200. Em 1:200 o lote de 20 x 40 m ocupava 100 x 200
+    # mm num papel de 841 x 594: 4 % da folha, o resto em branco. A prancha de
+    # implantacao e a primeira que prefeitura, vizinho e construtor abrem, e
+    # era a menos legivel do caderno.
+    cv = base("IMPLANTACAO E SITUACAO", "1:100", "01", notas=[
         "Lote 20.000 x 40.000 mm = 800,00 m2.",
         "Recuos: frontal 7.200 / lateral esq. 2.400 / faixa tecnica dir. 3.200 / fundo 13.600 mm.",
         "Parametros do SU16 Tarumã/Tarumã-Açu sao hipoteses (H) — pendente certidao de uso do solo.",
         "Sem muro frontal; muros laterais e de fundo h = 2.200 mm.",
     ])
-    vw = View(200, 120, 500, 0, 0)
+    vw = View(100, 150, 520, 0, 0)
 
     # ---- lote
     L, Pf = pj.LOTE_L, pj.LOTE_P
@@ -303,11 +310,11 @@ def implantacao() -> Canvas:
     an.cadeia(cv, vw, [0, Pf], 0, "V", -22)
 
     an.norte(cv, (735, 92), 9, pj.NORTE_EM_PLANTA)
-    an.titulo_desenho(cv, (120, 528), "1", "IMPLANTACAO", "1:200")
-    an.escala_grafica(cv, (120, 544), vw, 5_000, 4)
+    an.titulo_desenho(cv, (150, 540), "1", "IMPLANTACAO", "1:100")
+    an.escala_grafica(cv, (150, 556), vw, 5_000, 4)
 
     # ---- quadro de verificacao urbanistica
-    _tabela(cv, (430, 120), "VERIFICACAO URBANISTICA (H)",
+    _tabela(cv, (470, 120), "VERIFICACAO URBANISTICA (H)",
             ["PARAMETRO", "PROJETO", "LIMITE", ""],
             [[n, v, l, "OK" if ok else "REVER"] for n, v, l, ok in pj.verificacao_urbanistica()],
             larguras=[62, 40, 48, 18])

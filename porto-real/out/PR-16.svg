@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="841mm" height="594mm" viewBox="0 0 841 594">
 <rect width="841" height="594" fill="#ffffff"/>
-<defs><clipPath id="rec1"><rect x="25.00" y="10.00" width="806.00" height="574.00"/></clipPath><pattern id="absorv" patternUnits="userSpaceOnUse" width="1.1" height="1.1" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.1" stroke="#c77" stroke-width="0.07"/></pattern></defs>
+<defs><clipPath id="rec1"><rect x="25.00" y="10.00" width="806.00" height="574.00"/></clipPath><pattern id="absorv" patternUnits="userSpaceOnUse" width="1.1" height="1.1" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.1" stroke="#c77" stroke-width="0.07"/></pattern><pattern id="semforro" patternUnits="userSpaceOnUse" width="1.6" height="1.6" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="1.6" stroke="#999" stroke-width="0.05"/></pattern></defs>
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="16" data-rev="R59">
+<g data-tipo="carimbo" data-cod="16" data-rev="R60">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,152 +26,890 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R59</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R60</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">16</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R59</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R60</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Planta refletida: vista do forro projetada no plano horizontal.</text>
-<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Forro absorvente apenas no gourmet — unico ponto com reverberacao critica.</text>
-<text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Alcapoes tecnicos de 600 x 600 mm; passarela de cobertura de 600 mm.</text>
-<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Iluminacao geral 3.000 K, IRC minimo 90.</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Planta refletida: vista do forro projetada no plano horizontal, terreo e superior.</text>
+<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Luminarias pelo METODO DOS LUMENS por ambiente (NBR ISO/CIE 8995-1 / NBR 5413), malha de uniformidade SHR 1,2.</text>
+<text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 96 pontos gerais, 13 pontos de tarefa, 1918 W (6.45 W/m2).</text>
+<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Cor: 2.700 K intimo · 3.000 K social e circulacao · 4.000 K cozinha, banho e trabalho.</text>
 </g>
 <g clip-path="url(#rec1)" data-tipo="recorte">
-<polygon points="70.000,400.000 150.000,400.000 150.000,320.000 70.000,320.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="110.000" y="357.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">GARAGEM</text>
-<text x="110.000" y="361.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">sem forro (estrutura aparente)</text>
-<circle cx="90.000" cy="380.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="90.000" cy="340.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="130.000" cy="380.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="130.000" cy="340.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="150.000,368.000 174.000,368.000 174.000,320.000 150.000,320.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="162.000" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">HALL</text>
-<text x="162.000" y="345.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="162.000" cy="344.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="174.000,368.000 198.000,368.000 198.000,344.000 174.000,344.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="186.000" y="353.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">ALCOVA DO REVERSIVEL</text>
-<text x="186.000" y="357.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="186.000" cy="356.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="174.000,344.000 198.000,344.000 198.000,320.000 174.000,320.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="186.000" y="329.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CIRCULACAO</text>
-<text x="186.000" y="333.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="186.000" cy="332.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="198.000,400.000 238.000,400.000 238.000,320.000 198.000,320.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="218.000" y="357.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">QUARTO REVERSIVEL</text>
-<text x="218.000" y="361.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="218.000" cy="380.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="218.000" cy="340.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="70.000,320.000 110.000,320.000 110.000,280.000 70.000,280.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="90.000" y="297.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">OFICINA</text>
-<text x="90.000" y="301.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso do entrepiso EP-1, sem forro</text>
-<circle cx="90.000" cy="300.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="110.000,320.000 166.000,320.000 166.000,240.000 110.000,240.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="138.000" y="277.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">ESTAR / JANTAR</text>
-<text x="138.000" y="281.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso + cortinas e tapetes</text>
-<circle cx="138.000" cy="300.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="138.000" cy="260.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="166.000,320.000 198.000,320.000 198.000,240.000 166.000,240.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="182.000" y="277.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CORE / ESCADA</text>
-<text x="182.000" y="281.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="182.000" cy="300.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="182.000" cy="260.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="70.000,240.000 110.000,240.000 110.000,144.000 70.000,144.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="90.000" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">COZINHA</text>
-<text x="90.000" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso lavavel</text>
-<circle cx="90.000" cy="224.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="90.000" cy="192.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="90.000" cy="160.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="110.000,240.000 166.000,240.000 166.000,144.000 110.000,144.000" stroke="#999" stroke-width="0.3" fill="url(#absorv)" stroke-linejoin="miter"/>
-<text x="138.000" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">GOURMET</text>
-<text x="138.000" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">forro absorvente (la mineral apare</text>
-<circle cx="138.000" cy="224.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="138.000" cy="192.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<circle cx="138.000" cy="160.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="166.000,240.000 206.000,240.000 206.000,200.000 166.000,200.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="186.000" y="217.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">LAVANDERIA</text>
-<text x="186.000" y="221.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
-<circle cx="186.000" cy="220.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="166.000,200.000 206.000,200.000 206.000,184.000 166.000,184.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="186.000" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">DEPOSITO / DML</text>
-<text x="186.000" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso do entrepiso EP-1, sem forro</text>
-<circle cx="186.000" cy="192.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<polygon points="166.000,264.000 174.000,264.000 174.000,256.000 166.000,256.000" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
-<text x="170.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AT-01</text>
-<polygon points="90.000,264.000 98.000,264.000 98.000,256.000 90.000,256.000" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
-<text x="94.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AT-02</text>
-<polygon points="138.000,176.000 146.000,176.000 146.000,168.000 138.000,168.000" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
-<text x="142.000" y="164.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AT-03</text>
-<circle cx="470.000" cy="60.000" r="1.100" stroke="#b90" stroke-width="0.18" fill="#ffd"/>
-<text x="476.000" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">luminaria embutida, 3.000 K, IRC 90</text>
-<polygon points="466.000,68.000 474.000,68.000 474.000,74.000 466.000,74.000" stroke="#000000" stroke-width="0.4" fill="#fff" stroke-linejoin="miter"/>
-<text x="478.000" y="71.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">alcapao tecnico 600 x 600 mm</text>
-<polygon points="466.000,80.000 474.000,80.000 474.000,86.000 466.000,86.000" stroke="#000000" stroke-width="0.18" fill="url(#absorv)" stroke-linejoin="miter"/>
-<text x="478.000" y="83.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">forro absorvente (alfa 0,70)</text>
-<text x="466.000" y="97.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">FORROS POR AMBIENTE</text>
-<polygon points="466.000,100.000 720.000,100.000 720.000,105.200 466.000,105.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
-<text x="467.500" y="102.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AMBIENTE</text>
-<text x="489.500" y="102.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">SOLUCAO</text>
-<text x="581.500" y="102.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AREA</text>
-<text x="601.500" y="102.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">POR QUE</text>
-<polygon points="466.000,105.200 720.000,105.200 720.000,110.400 466.000,110.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="467.500" y="107.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GOU</text>
-<text x="489.500" y="107.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">forro absorvente (la mineral aparente ou per</text>
-<text x="581.500" y="107.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">30.24</text>
-<text x="601.500" y="107.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">unico ponto que derruba a reverberacao de 3,20 s par</text>
-<polygon points="466.000,110.400 720.000,110.400 720.000,115.600 466.000,115.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="467.500" y="113.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-SOC</text>
-<text x="489.500" y="113.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gesso liso + cortinas e tapetes</text>
-<text x="581.500" y="113.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">25.20</text>
-<text x="601.500" y="113.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">absorcao vem do mobiliario; forro tecnico aqui teria</text>
-<polygon points="466.000,115.600 720.000,115.600 720.000,120.800 466.000,120.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="467.500" y="118.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
-<text x="489.500" y="118.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gesso liso lavavel</text>
-<text x="581.500" y="118.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">21.60</text>
-<text x="601.500" y="118.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">superficie de facil limpeza tem prioridade sobre abs</text>
-<polygon points="466.000,120.800 720.000,120.800 720.000,126.000 466.000,126.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="467.500" y="123.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
-<text x="489.500" y="123.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gesso liso + la mineral sobre o forro</text>
-<text x="581.500" y="123.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">25.92</text>
-<text x="601.500" y="123.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">la sobre o forro atenua ruido de chuva no painel PIR</text>
-<polygon points="466.000,126.000 720.000,126.000 720.000,131.200 466.000,131.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="467.500" y="128.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
-<text x="489.500" y="128.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gesso liso + la mineral sobre o forro</text>
-<text x="581.500" y="128.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">25.92</text>
-<text x="601.500" y="128.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">idem</text>
-<polygon points="466.000,131.200 720.000,131.200 720.000,136.400 466.000,136.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="467.500" y="133.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
-<text x="489.500" y="133.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gesso liso + la mineral sobre o forro</text>
-<text x="581.500" y="133.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">46.80</text>
-<text x="601.500" y="133.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">idem</text>
-<polygon points="466.000,136.400 720.000,136.400 720.000,141.600 466.000,141.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="467.500" y="139.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GAR</text>
-<text x="489.500" y="139.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sem forro (estrutura aparente)</text>
-<text x="581.500" y="139.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36.00</text>
-<text x="601.500" y="139.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ambiente sem exigencia acustica nem termica</text>
-<polygon points="466.000,141.600 720.000,141.600 720.000,146.800 466.000,146.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="467.500" y="144.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-OFI</text>
-<text x="489.500" y="144.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gesso do entrepiso EP-1, sem forro suspenso</text>
-<text x="581.500" y="144.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9.00</text>
-<text x="601.500" y="144.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sob dormitorio: a chapa do entrepiso e obrigatoria, </text>
-<polygon points="466.000,146.800 720.000,146.800 720.000,152.000 466.000,152.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="467.500" y="149.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-DEP</text>
-<text x="489.500" y="149.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gesso do entrepiso EP-1, sem forro suspenso</text>
-<text x="581.500" y="149.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.60</text>
-<text x="601.500" y="149.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">idem</text>
-<line x1="488.000" y1="100.000" x2="488.000" y2="152.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="580.000" y1="100.000" x2="580.000" y2="152.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="600.000" y1="100.000" x2="600.000" y2="152.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<circle cx="790.000" cy="60.000" r="9.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
-<polygon points="799.000,60.000 787.744,62.067 790.000,60.000 787.744,57.933" stroke="#000000" stroke-width="0.3" fill="#000" stroke-linejoin="miter"/>
-<text x="803.000" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">N</text>
-<circle cx="74.000" cy="416.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
-<text x="74.000" y="416.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
-<text x="81.000" y="414.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">FORRO REFLETIDO — TERREO</text>
-<text x="81.000" y="419.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:75</text>
-<line x1="70.000" y1="421.600" x2="131.400" y2="421.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<g data-tipo="forro" data-cod="T-GAR" data-rot="GARAGEM" data-solucao="sem forro (estrutura aparente)">
+<polygon points="50.000,430.000 130.000,430.000 130.000,350.000 50.000,350.000" stroke="#999" stroke-width="0.3" fill="url(#semforro)" stroke-linejoin="miter"/>
+</g>
+<text x="90.000" y="386.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">GARAGEM</text>
+<text x="90.000" y="389.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">sem forro (estrutura aparente)</text>
+<text x="90.000" y="392.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-HAL" data-rot="HALL" data-solucao="gesso liso">
+<polygon points="130.000,398.000 154.000,398.000 154.000,350.000 130.000,350.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="142.000" y="370.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">HALL</text>
+<text x="142.000" y="373.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<text x="142.000" y="376.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-ALC" data-rot="ALCOVA DO REVERSIVEL" data-solucao="gesso liso">
+<polygon points="154.000,398.000 178.000,398.000 178.000,374.000 154.000,374.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="166.000" y="382.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">ALCOVA DO REVERSIVEL</text>
+<text x="166.000" y="385.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<text x="166.000" y="388.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-CIR" data-rot="CIRCULACAO" data-solucao="gesso liso">
+<polygon points="154.000,374.000 178.000,374.000 178.000,350.000 154.000,350.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="166.000" y="358.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CIRCULACAO</text>
+<text x="166.000" y="361.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<text x="166.000" y="364.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-REV" data-rot="QUARTO REVERSIVEL" data-solucao="gesso liso">
+<polygon points="178.000,430.000 218.000,430.000 218.000,350.000 178.000,350.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="198.000" y="386.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">QUARTO REVERSIVEL</text>
+<text x="198.000" y="389.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<text x="198.000" y="392.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-OFI" data-rot="OFICINA" data-solucao="gesso do entrepiso ep-1, sem forro suspe">
+<polygon points="50.000,350.000 90.000,350.000 90.000,310.000 50.000,310.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="70.000" y="326.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">OFICINA</text>
+<text x="70.000" y="329.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso do entrepiso EP-1, sem f</text>
+<text x="70.000" y="332.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-SOC" data-rot="ESTAR / JANTAR" data-solucao="gesso liso + cortinas e tapetes">
+<polygon points="90.000,350.000 146.000,350.000 146.000,270.000 90.000,270.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="118.000" y="306.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">ESTAR / JANTAR</text>
+<text x="118.000" y="309.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso + cortinas e tapete</text>
+<text x="118.000" y="312.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-COR" data-rot="CORE / ESCADA" data-solucao="gesso liso">
+<polygon points="146.000,350.000 178.000,350.000 178.000,270.000 146.000,270.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="162.000" y="306.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CORE / ESCADA</text>
+<text x="162.000" y="309.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<text x="162.000" y="312.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-COZ" data-rot="COZINHA" data-solucao="gesso liso lavavel">
+<polygon points="50.000,270.000 90.000,270.000 90.000,174.000 50.000,174.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="70.000" y="218.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">COZINHA</text>
+<text x="70.000" y="221.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso lavavel</text>
+<text x="70.000" y="224.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-GOU" data-rot="GOURMET" data-solucao="forro absorvente (la mineral aparente ou">
+<polygon points="90.000,270.000 146.000,270.000 146.000,174.000 90.000,174.000" stroke="#999" stroke-width="0.3" fill="url(#absorv)" stroke-linejoin="miter"/>
+</g>
+<text x="118.000" y="218.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">GOURMET</text>
+<text x="118.000" y="221.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">forro absorvente (la mineral a</text>
+<text x="118.000" y="224.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-LAV" data-rot="LAVANDERIA" data-solucao="gesso liso">
+<polygon points="146.000,270.000 186.000,270.000 186.000,230.000 146.000,230.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="166.000" y="246.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">LAVANDERIA</text>
+<text x="166.000" y="249.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<text x="166.000" y="252.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="T-DEP" data-rot="DEPOSITO / DML" data-solucao="gesso do entrepiso ep-1, sem forro suspe">
+<polygon points="146.000,230.000 186.000,230.000 186.000,214.000 146.000,214.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="166.000" y="218.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">DEPOSITO / DML</text>
+<text x="166.000" y="221.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso do entrepiso EP-1, sem f</text>
+<text x="166.000" y="224.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<polygon points="50.000,270.000 74.000,270.000 74.000,242.000 50.000,242.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="194.000,382.000 218.000,382.000 218.000,350.000 194.000,350.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="162.000,326.000 178.000,326.000 178.000,302.000 162.000,302.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<g data-tipo="luminaria" data-cod="T-GAR" data-lum="sobrepor-24" data-k="4000" data-geral="sim">
+<circle cx="70.000" cy="410.000" r="1.300" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="68.700" y1="410.000" x2="71.300" y2="410.000" stroke="#3b82c4" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="70.000" y1="408.700" x2="70.000" y2="411.300" stroke="#3b82c4" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GAR" data-lum="sobrepor-24" data-k="4000" data-geral="sim">
+<circle cx="70.000" cy="370.000" r="1.300" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="68.700" y1="370.000" x2="71.300" y2="370.000" stroke="#3b82c4" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="70.000" y1="368.700" x2="70.000" y2="371.300" stroke="#3b82c4" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GAR" data-lum="sobrepor-24" data-k="4000" data-geral="sim">
+<circle cx="110.000" cy="410.000" r="1.300" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="108.700" y1="410.000" x2="111.300" y2="410.000" stroke="#3b82c4" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="110.000" y1="408.700" x2="110.000" y2="411.300" stroke="#3b82c4" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GAR" data-lum="sobrepor-24" data-k="4000" data-geral="sim">
+<circle cx="110.000" cy="370.000" r="1.300" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="108.700" y1="370.000" x2="111.300" y2="370.000" stroke="#3b82c4" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="110.000" y1="368.700" x2="110.000" y2="371.300" stroke="#3b82c4" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-HAL" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="142.000" cy="386.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-HAL" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="142.000" cy="362.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-ALC" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="166.000" cy="386.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-CIR" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="166.000" cy="362.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-REV" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="188.000" cy="416.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-REV" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="188.000" cy="390.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-REV" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="188.000" cy="363.333" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-REV" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="208.000" cy="416.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-REV" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="208.000" cy="390.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-OFI" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="56.667" cy="340.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-OFI" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="56.667" cy="320.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-OFI" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="70.000" cy="340.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-OFI" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="70.000" cy="320.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-OFI" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="83.333" cy="340.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-OFI" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="83.333" cy="320.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-SOC" data-lum="downlight-24" data-k="3000" data-geral="sim">
+<circle cx="104.000" cy="336.667" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-SOC" data-lum="downlight-24" data-k="3000" data-geral="sim">
+<circle cx="104.000" cy="310.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-SOC" data-lum="downlight-24" data-k="3000" data-geral="sim">
+<circle cx="104.000" cy="283.333" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-SOC" data-lum="downlight-24" data-k="3000" data-geral="sim">
+<circle cx="132.000" cy="336.667" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-SOC" data-lum="downlight-24" data-k="3000" data-geral="sim">
+<circle cx="132.000" cy="310.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-SOC" data-lum="downlight-24" data-k="3000" data-geral="sim">
+<circle cx="132.000" cy="283.333" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COR" data-lum="pendente-40" data-k="3000" data-geral="sim">
+<circle cx="162.000" cy="336.667" r="1.400" stroke="#c9a227" stroke-width="0.4" fill="#fff"/>
+<circle cx="162.000" cy="336.667" r="0.400" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COR" data-lum="pendente-40" data-k="3000" data-geral="sim">
+<circle cx="162.000" cy="283.333" r="1.400" stroke="#c9a227" stroke-width="0.4" fill="#fff"/>
+<circle cx="162.000" cy="283.333" r="0.400" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="60.000" cy="234.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="60.000" cy="210.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="60.000" cy="186.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="80.000" cy="258.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="80.000" cy="234.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="80.000" cy="210.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="80.000" cy="186.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GOU" data-lum="sobrepor-24" data-k="3000" data-geral="sim">
+<circle cx="104.000" cy="258.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="102.700" y1="258.000" x2="105.300" y2="258.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="104.000" y1="256.700" x2="104.000" y2="259.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GOU" data-lum="sobrepor-24" data-k="3000" data-geral="sim">
+<circle cx="104.000" cy="234.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="102.700" y1="234.000" x2="105.300" y2="234.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="104.000" y1="232.700" x2="104.000" y2="235.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GOU" data-lum="sobrepor-24" data-k="3000" data-geral="sim">
+<circle cx="104.000" cy="210.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="102.700" y1="210.000" x2="105.300" y2="210.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="104.000" y1="208.700" x2="104.000" y2="211.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GOU" data-lum="sobrepor-24" data-k="3000" data-geral="sim">
+<circle cx="104.000" cy="186.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="102.700" y1="186.000" x2="105.300" y2="186.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="104.000" y1="184.700" x2="104.000" y2="187.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GOU" data-lum="sobrepor-24" data-k="3000" data-geral="sim">
+<circle cx="132.000" cy="258.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="130.700" y1="258.000" x2="133.300" y2="258.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="132.000" y1="256.700" x2="132.000" y2="259.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GOU" data-lum="sobrepor-24" data-k="3000" data-geral="sim">
+<circle cx="132.000" cy="234.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="130.700" y1="234.000" x2="133.300" y2="234.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="132.000" y1="232.700" x2="132.000" y2="235.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GOU" data-lum="sobrepor-24" data-k="3000" data-geral="sim">
+<circle cx="132.000" cy="210.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="130.700" y1="210.000" x2="133.300" y2="210.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="132.000" y1="208.700" x2="132.000" y2="211.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-GOU" data-lum="sobrepor-24" data-k="3000" data-geral="sim">
+<circle cx="132.000" cy="186.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="130.700" y1="186.000" x2="133.300" y2="186.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="132.000" y1="184.700" x2="132.000" y2="187.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-LAV" data-lum="downlight-18" data-k="4000" data-geral="sim">
+<circle cx="156.000" cy="260.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-LAV" data-lum="downlight-18" data-k="4000" data-geral="sim">
+<circle cx="156.000" cy="240.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-LAV" data-lum="downlight-18" data-k="4000" data-geral="sim">
+<circle cx="176.000" cy="260.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-LAV" data-lum="downlight-18" data-k="4000" data-geral="sim">
+<circle cx="176.000" cy="240.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-DEP" data-lum="downlight-18" data-k="4000" data-geral="sim">
+<circle cx="156.000" cy="222.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-DEP" data-lum="downlight-18" data-k="4000" data-geral="sim">
+<circle cx="176.000" cy="222.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ/DESPENSA" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="62.000" cy="263.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COZ/DESPENSA" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="62.000" cy="249.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-REV/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="206.000" cy="374.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-REV/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="206.000" cy="358.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="T-COR/LAVABO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="170.000" cy="314.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-BC-01" data-lum="linear" data-k="4000" data-geral="nao">
+<line x1="55.333" y1="218.000" x2="55.333" y2="190.000" stroke="#3b82c4" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-BC-02" data-lum="linear" data-k="4000" data-geral="nao">
+<line x1="55.333" y1="242.000" x2="55.333" y2="218.000" stroke="#3b82c4" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-BC-03" data-lum="linear" data-k="4000" data-geral="nao">
+<line x1="90.000" y1="210.000" x2="110.000" y2="210.000" stroke="#3b82c4" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-BC-04" data-lum="linear" data-k="4000" data-geral="nao">
+<line x1="142.000" y1="262.000" x2="142.000" y2="214.000" stroke="#3b82c4" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-BC-06" data-lum="linear" data-k="4000" data-geral="nao">
+<line x1="55.333" y1="346.000" x2="55.333" y2="314.000" stroke="#3b82c4" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-LC-02" data-lum="arandela" data-k="4000" data-geral="nao">
+<polygon points="173.100,307.767 174.900,307.767 174.900,309.567 173.100,309.567" stroke="#3b82c4" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-LC-15" data-lum="arandela" data-k="4000" data-geral="nao">
+<polygon points="197.100,373.767 198.900,373.767 198.900,375.567 197.100,375.567" stroke="#3b82c4" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-ESCADA" data-lum="balizador" data-k="3000" data-geral="nao">
+<circle cx="148.000" cy="343.333" r="0.500" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-ESCADA" data-lum="balizador" data-k="3000" data-geral="nao">
+<circle cx="148.000" cy="330.000" r="0.500" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-ESCADA" data-lum="balizador" data-k="3000" data-geral="nao">
+<circle cx="148.000" cy="316.667" r="0.500" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-ESCADA" data-lum="balizador" data-k="3000" data-geral="nao">
+<circle cx="148.000" cy="303.333" r="0.500" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-ESCADA" data-lum="balizador" data-k="3000" data-geral="nao">
+<circle cx="148.000" cy="290.000" r="0.500" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-ESCADA" data-lum="balizador" data-k="3000" data-geral="nao">
+<circle cx="148.000" cy="276.667" r="0.500" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+</g>
+<circle cx="54.000" cy="448.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
+<text x="54.000" y="448.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
+<text x="61.000" y="446.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">FORRO REFLETIDO — TERREO</text>
+<text x="61.000" y="451.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:75</text>
+<line x1="50.000" y1="453.600" x2="111.400" y2="453.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<g data-tipo="forro" data-cod="S-S02" data-rot="SUITE 02" data-solucao="gesso liso + la mineral sobre o forro">
+<polygon points="250.000,350.000 322.000,350.000 322.000,286.000 250.000,286.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="286.000" y="314.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>
+<text x="286.000" y="317.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso + la mineral sobre </text>
+<text x="286.000" y="320.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="S-S03" data-rot="SUITE 03" data-solucao="gesso liso + la mineral sobre o forro">
+<polygon points="250.000,286.000 322.000,286.000 322.000,222.000 250.000,222.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="286.000" y="250.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 03</text>
+<text x="286.000" y="253.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso + la mineral sobre </text>
+<text x="286.000" y="256.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="S-HAL" data-rot="HALL E ROUPARIA" data-solucao="gesso liso">
+<polygon points="322.000,302.000 386.000,302.000 386.000,270.000 322.000,270.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="354.000" y="282.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">HALL E ROUPARIA</text>
+<text x="354.000" y="285.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<text x="354.000" y="288.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="S-LOU" data-rot="MINI LOUNGE / TV" data-solucao="gesso liso">
+<polygon points="386.000,302.000 426.000,302.000 426.000,270.000 386.000,270.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="406.000" y="282.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">MINI LOUNGE / TV</text>
+<text x="406.000" y="285.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso</text>
+<text x="406.000" y="288.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<g data-tipo="forro" data-cod="S-MAS" data-rot="SUITE MASTER" data-solucao="gesso liso + la mineral sobre o forro">
+<polygon points="322.000,270.000 426.000,270.000 426.000,190.000 322.000,190.000" stroke="#999" stroke-width="0.3" fill="#fafafa" stroke-linejoin="miter"/>
+</g>
+<text x="374.000" y="226.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE MASTER</text>
+<text x="374.000" y="229.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">gesso liso + la mineral sobre </text>
+<text x="374.000" y="232.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">h 2,60</text>
+<polygon points="250.000,350.000 274.000,350.000 274.000,318.000 250.000,318.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="250.000,318.000 258.000,318.000 258.000,286.000 250.000,286.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="250.000,286.000 274.000,286.000 274.000,254.000 250.000,254.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="250.000,254.000 258.000,254.000 258.000,222.000 250.000,222.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="338.000,270.000 386.000,270.000 386.000,230.000 338.000,230.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="386.000,270.000 426.000,270.000 426.000,230.000 386.000,230.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="402.000,230.000 426.000,230.000 426.000,190.000 402.000,190.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<g data-tipo="luminaria" data-cod="S-S02" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="262.000" cy="296.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="286.000" cy="339.333" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="286.000" cy="318.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="286.000" cy="296.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="310.000" cy="339.333" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="310.000" cy="318.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="310.000" cy="296.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="262.000" cy="232.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="286.000" cy="275.333" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="286.000" cy="254.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="286.000" cy="232.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="310.000" cy="275.333" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="310.000" cy="254.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03" data-lum="downlight-12" data-k="2700" data-geral="sim">
+<circle cx="310.000" cy="232.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-HAL" data-lum="downlight-24" data-k="3000" data-geral="sim">
+<circle cx="338.000" cy="286.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-HAL" data-lum="downlight-24" data-k="3000" data-geral="sim">
+<circle cx="370.000" cy="286.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-LOU" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="396.000" cy="294.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-LOU" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="396.000" cy="278.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-LOU" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="416.000" cy="294.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-LOU" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="416.000" cy="278.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="335.000" cy="256.667" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="335.000" cy="230.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="335.000" cy="203.333" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="361.000" cy="203.333" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS" data-lum="downlight-18" data-k="2700" data-geral="sim">
+<circle cx="387.000" cy="203.333" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="262.000" cy="342.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="262.000" cy="326.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S02/CLOSET" data-lum="linear" data-k="3000" data-geral="sim">
+<line x1="254.000" y1="308.000" x2="254.000" y2="296.000" stroke="#c9a227" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="262.000" cy="278.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="262.000" cy="262.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-S03/CLOSET" data-lum="linear" data-k="3000" data-geral="sim">
+<line x1="254.000" y1="244.000" x2="254.000" y2="232.000" stroke="#c9a227" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="350.000" cy="260.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="350.000" cy="240.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="374.000" cy="260.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/BANHO" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="374.000" cy="240.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/CLOSET" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="396.000" cy="260.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/CLOSET" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="396.000" cy="240.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/CLOSET" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="416.000" cy="260.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/CLOSET" data-lum="downlight-18" data-k="3000" data-geral="sim">
+<circle cx="416.000" cy="240.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/OFFICE" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="408.000" cy="220.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/OFFICE" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="408.000" cy="200.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/OFFICE" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="420.000" cy="220.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="S-MAS/OFFICE" data-lum="downlight-24" data-k="4000" data-geral="sim">
+<circle cx="420.000" cy="200.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#fffbe6"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-LC-05" data-lum="arandela" data-k="4000" data-geral="nao">
+<polygon points="265.100,344.100 266.900,344.100 266.900,345.900 265.100,345.900" stroke="#3b82c4" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-LC-08" data-lum="arandela" data-k="4000" data-geral="nao">
+<polygon points="265.100,280.100 266.900,280.100 266.900,281.900 265.100,281.900" stroke="#3b82c4" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-LC-11" data-lum="arandela" data-k="4000" data-geral="nao">
+<polygon points="354.433,233.767 356.233,233.767 356.233,235.567 354.433,235.567" stroke="#3b82c4" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-LC-11" data-lum="arandela" data-k="4000" data-geral="nao">
+<polygon points="354.433,233.767 356.233,233.767 356.233,235.567 354.433,235.567" stroke="#3b82c4" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-S-MAS-CLOSET" data-lum="linear" data-k="3000" data-geral="nao">
+<line x1="386.000" y1="250.000" x2="426.000" y2="250.000" stroke="#c9a227" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="luminaria" data-cod="LT-S-MAS-OFFICE" data-lum="linear" data-k="4000" data-geral="nao">
+<line x1="406.000" y1="210.000" x2="422.000" y2="210.000" stroke="#3b82c4" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+</g>
+<circle cx="254.000" cy="448.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
+<text x="254.000" y="448.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">2</text>
+<text x="261.000" y="446.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">FORRO REFLETIDO — SUPERIOR</text>
+<text x="261.000" y="451.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:75</text>
+<line x1="250.000" y1="453.600" x2="315.600" y2="453.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<circle cx="480.000" cy="46.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<text x="485.000" y="46.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">downlight embutido</text>
+<circle cx="480.000" cy="52.000" r="1.300" stroke="#c9a227" stroke-width="0.18" fill="#fffbe6"/>
+<line x1="478.700" y1="52.000" x2="481.300" y2="52.000" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="480.000" y1="50.700" x2="480.000" y2="53.300" stroke="#c9a227" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="485.000" y="52.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">plafon de sobrepor (forro perfurado / aparente)</text>
+<circle cx="480.000" cy="58.000" r="1.400" stroke="#c9a227" stroke-width="0.4" fill="#fff"/>
+<circle cx="480.000" cy="58.000" r="0.400" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+<text x="485.000" y="58.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">pendente (pe-direito duplo)</text>
+<line x1="478.000" y1="64.000" x2="482.000" y2="64.000" stroke="#3b82c4" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<text x="485.000" y="64.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear de tarefa (bancada, closet, mesa)</text>
+<polygon points="479.100,69.100 480.900,69.100 480.900,70.900 479.100,70.900" stroke="#3b82c4" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<text x="485.000" y="70.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">arandela de espelho</text>
+<circle cx="480.000" cy="76.000" r="0.500" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+<text x="485.000" y="76.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">balizador de escada</text>
+<circle cx="480.000" cy="84.000" r="1.100" stroke="#e08a1e" stroke-width="0.18" fill="#e08a1e"/>
+<text x="484.000" y="84.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2700 K</text>
+<circle cx="520.000" cy="84.000" r="1.100" stroke="#c9a227" stroke-width="0.18" fill="#c9a227"/>
+<text x="524.000" y="84.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<circle cx="560.000" cy="84.000" r="1.100" stroke="#3b82c4" stroke-width="0.18" fill="#3b82c4"/>
+<text x="564.000" y="84.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="478.000,90.000 486.000,90.000 486.000,95.000 478.000,95.000" stroke="#000000" stroke-width="0.18" fill="url(#absorv)" stroke-linejoin="miter"/>
+<text x="489.000" y="92.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">forro absorvente perfurado (alfa 0,70)</text>
+<polygon points="478.000,97.000 486.000,97.000 486.000,102.000 478.000,102.000" stroke="#000000" stroke-width="0.18" fill="url(#semforro)" stroke-linejoin="miter"/>
+<text x="489.000" y="99.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sem forro (painel PIR aparente)</text>
+<text x="480.000" y="107.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">LUMINOTECNICA POR AMBIENTE — METODO DOS LUMENS</text>
+<polygon points="480.000,110.000 672.000,110.000 672.000,115.200 480.000,115.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="481.500" y="112.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AMB</text>
+<text x="507.500" y="112.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">USO</text>
+<text x="527.500" y="112.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">m2</text>
+<text x="539.500" y="112.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">alvo lx</text>
+<text x="553.500" y="112.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">obtido</text>
+<text x="567.500" y="112.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">LUMINARIA</text>
+<text x="645.500" y="112.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">cor</text>
+<text x="661.500" y="112.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">W</text>
+<polygon points="480.000,115.200 672.000,115.200 672.000,120.400 480.000,120.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="117.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GAR</text>
+<text x="507.500" y="117.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">apoio</text>
+<text x="527.500" y="117.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36.0</text>
+<text x="539.500" y="117.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">75</text>
+<text x="553.500" y="117.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">113</text>
+<text x="567.500" y="117.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 x Plafon LED de sobrepor 24 W</text>
+<text x="645.500" y="117.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<text x="661.500" y="117.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">96</text>
+<polygon points="480.000,120.400 672.000,120.400 672.000,125.600 480.000,125.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="123.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-HAL</text>
+<text x="507.500" y="123.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">circulacao</text>
+<text x="527.500" y="123.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6.5</text>
+<text x="539.500" y="123.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">100</text>
+<text x="553.500" y="123.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">151</text>
+<text x="567.500" y="123.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="123.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="123.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36</text>
+<polygon points="480.000,125.600 672.000,125.600 672.000,130.800 480.000,130.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="128.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-ALC</text>
+<text x="507.500" y="128.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="527.500" y="128.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.2</text>
+<text x="539.500" y="128.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150</text>
+<text x="553.500" y="128.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">151</text>
+<text x="567.500" y="128.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="128.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2700 K</text>
+<text x="661.500" y="128.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18</text>
+<polygon points="480.000,130.800 672.000,130.800 672.000,136.000 480.000,136.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="133.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-CIR</text>
+<text x="507.500" y="133.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">circulacao</text>
+<text x="527.500" y="133.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.2</text>
+<text x="539.500" y="133.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">100</text>
+<text x="553.500" y="133.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">151</text>
+<text x="567.500" y="133.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="133.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="133.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18</text>
+<polygon points="480.000,136.000 672.000,136.000 672.000,141.200 480.000,141.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="138.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-REV</text>
+<text x="507.500" y="138.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="527.500" y="138.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13.7</text>
+<text x="539.500" y="138.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150</text>
+<text x="553.500" y="138.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">240</text>
+<text x="567.500" y="138.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="138.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2700 K</text>
+<text x="661.500" y="138.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">90</text>
+<polygon points="480.000,141.200 672.000,141.200 672.000,146.400 480.000,146.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="143.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-OFI</text>
+<text x="507.500" y="143.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">oficina</text>
+<text x="527.500" y="143.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9.0</text>
+<text x="539.500" y="143.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
+<text x="553.500" y="143.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">567</text>
+<text x="567.500" y="143.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6 x Downlight LED embutido 24 W</text>
+<text x="645.500" y="143.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<text x="661.500" y="143.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">144</text>
+<polygon points="480.000,146.400 672.000,146.400 672.000,151.600 480.000,151.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-SOC</text>
+<text x="507.500" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">social</text>
+<text x="527.500" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">25.2</text>
+<text x="539.500" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">258</text>
+<text x="567.500" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6 x Downlight LED embutido 24 W</text>
+<text x="645.500" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="149.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">144</text>
+<polygon points="480.000,151.600 672.000,151.600 672.000,156.800 480.000,156.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="154.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COR</text>
+<text x="507.500" y="154.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">escada</text>
+<text x="527.500" y="154.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">12.2</text>
+<text x="539.500" y="154.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150</text>
+<text x="553.500" y="154.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">188</text>
+<text x="567.500" y="154.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 x Pendente LED de pe-direito dup</text>
+<text x="645.500" y="154.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="154.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">80</text>
+<polygon points="480.000,156.800 672.000,156.800 672.000,162.000 480.000,162.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="159.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
+<text x="507.500" y="159.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">cozinha</text>
+<text x="527.500" y="159.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17.8</text>
+<text x="539.500" y="159.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">300</text>
+<text x="553.500" y="159.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">383</text>
+<text x="567.500" y="159.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7 x Downlight LED embutido 24 W</text>
+<text x="645.500" y="159.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<text x="661.500" y="159.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">168</text>
+<polygon points="480.000,162.000 672.000,162.000 672.000,167.200 480.000,167.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="164.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GOU</text>
+<text x="507.500" y="164.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">social</text>
+<text x="527.500" y="164.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">30.2</text>
+<text x="539.500" y="164.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="164.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">294</text>
+<text x="567.500" y="164.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8 x Plafon LED de sobrepor 24 W</text>
+<text x="645.500" y="164.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="164.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">192</text>
+<polygon points="480.000,167.200 672.000,167.200 672.000,172.400 480.000,172.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="169.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LAV</text>
+<text x="507.500" y="169.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">servico</text>
+<text x="527.500" y="169.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9.0</text>
+<text x="539.500" y="169.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="169.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">268</text>
+<text x="567.500" y="169.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="169.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<text x="661.500" y="169.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">72</text>
+<polygon points="480.000,172.400 672.000,172.400 672.000,177.600 480.000,177.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-DEP</text>
+<text x="507.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">servico</text>
+<text x="527.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.6</text>
+<text x="539.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">272</text>
+<text x="567.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<text x="661.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36</text>
+<polygon points="480.000,177.600 672.000,177.600 672.000,182.800 480.000,182.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
+<text x="507.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="527.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20.2</text>
+<text x="539.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150</text>
+<text x="553.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">151</text>
+<text x="567.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7 x Downlight LED embutido 12 W</text>
+<text x="645.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2700 K</text>
+<text x="661.500" y="180.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">84</text>
+<polygon points="480.000,182.800 672.000,182.800 672.000,188.000 480.000,188.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
+<text x="507.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="527.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20.2</text>
+<text x="539.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150</text>
+<text x="553.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">151</text>
+<text x="567.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7 x Downlight LED embutido 12 W</text>
+<text x="645.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2700 K</text>
+<text x="661.500" y="185.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">84</text>
+<polygon points="480.000,188.000 672.000,188.000 672.000,193.200 480.000,193.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-HAL</text>
+<text x="507.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">circulacao</text>
+<text x="527.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11.5</text>
+<text x="539.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">100</text>
+<text x="553.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">122</text>
+<text x="567.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 x Downlight LED embutido 24 W</text>
+<text x="645.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="190.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">48</text>
+<polygon points="480.000,193.200 672.000,193.200 672.000,198.400 480.000,198.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-LOU</text>
+<text x="507.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">social</text>
+<text x="527.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7.2</text>
+<text x="539.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">308</text>
+<text x="567.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="195.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">72</text>
+<polygon points="480.000,198.400 672.000,198.400 672.000,203.600 480.000,203.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
+<text x="507.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">intimo</text>
+<text x="527.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">21.6</text>
+<text x="539.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">150</text>
+<text x="553.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">173</text>
+<text x="567.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2700 K</text>
+<text x="661.500" y="201.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">90</text>
+<polygon points="480.000,203.600 672.000,203.600 672.000,208.800 480.000,208.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02/BANHO</text>
+<text x="507.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho</text>
+<text x="527.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4.3</text>
+<text x="539.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">233</text>
+<text x="567.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36</text>
+<polygon points="480.000,208.800 672.000,208.800 672.000,214.000 480.000,214.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02/CLOSET</text>
+<text x="507.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">closet</text>
+<text x="527.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.4</text>
+<text x="539.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">288</text>
+<text x="567.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear 0.9 m</text>
+<text x="645.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="211.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">16</text>
+<polygon points="480.000,214.000 672.000,214.000 672.000,219.200 480.000,219.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03/BANHO</text>
+<text x="507.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho</text>
+<text x="527.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4.3</text>
+<text x="539.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">233</text>
+<text x="567.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="216.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36</text>
+<polygon points="480.000,219.200 672.000,219.200 672.000,224.400 480.000,224.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03/CLOSET</text>
+<text x="507.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">closet</text>
+<text x="527.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.4</text>
+<text x="539.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">288</text>
+<text x="567.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear 0.9 m</text>
+<text x="645.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">16</text>
+<polygon points="480.000,224.400 672.000,224.400 672.000,229.600 480.000,229.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ/DESPENSA</text>
+<text x="507.500" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">servico</text>
+<text x="527.500" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.8</text>
+<text x="539.500" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">366</text>
+<text x="567.500" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 x Downlight LED embutido 24 W</text>
+<text x="645.500" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<text x="661.500" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">48</text>
+<polygon points="480.000,229.600 672.000,229.600 672.000,234.800 480.000,234.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-REV/BANHO</text>
+<text x="507.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho</text>
+<text x="527.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4.3</text>
+<text x="539.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">233</text>
+<text x="567.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="232.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36</text>
+<polygon points="480.000,234.800 672.000,234.800 672.000,240.000 480.000,240.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COR/LAVABO</text>
+<text x="507.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho</text>
+<text x="527.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.2</text>
+<text x="539.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">227</text>
+<text x="567.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="237.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18</text>
+<polygon points="480.000,240.000 672.000,240.000 672.000,245.200 480.000,245.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS/BANHO</text>
+<text x="507.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">banho</text>
+<text x="527.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10.8</text>
+<text x="539.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">251</text>
+<text x="567.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="242.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">72</text>
+<polygon points="480.000,245.200 672.000,245.200 672.000,250.400 480.000,250.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS/CLOSET</text>
+<text x="507.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">closet</text>
+<text x="527.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9.0</text>
+<text x="539.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
+<text x="553.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">268</text>
+<text x="567.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 x Downlight LED embutido 18 W</text>
+<text x="645.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<text x="661.500" y="247.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">72</text>
+<polygon points="480.000,250.400 672.000,250.400 672.000,255.600 480.000,255.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS/OFFICE</text>
+<text x="507.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">office</text>
+<text x="527.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5.4</text>
+<text x="539.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">300</text>
+<text x="553.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">517</text>
+<text x="567.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 x Downlight LED embutido 24 W</text>
+<text x="645.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<text x="661.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">96</text>
+<line x1="506.000" y1="110.000" x2="506.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="526.000" y1="110.000" x2="526.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="538.000" y1="110.000" x2="538.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="552.000" y1="110.000" x2="552.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="566.000" y1="110.000" x2="566.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="644.000" y1="110.000" x2="644.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="660.000" y1="110.000" x2="660.000" y2="255.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="480.000" y="262.600" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">LUZ DE TAREFA</text>
+<polygon points="480.000,265.600 648.000,265.600 648.000,270.800 480.000,270.800" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="481.500" y="268.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COD</text>
+<text x="511.500" y="268.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ONDE</text>
+<text x="595.500" y="268.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">TIPO</text>
+<text x="617.500" y="268.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">QTD</text>
+<text x="633.500" y="268.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">cor</text>
+<polygon points="480.000,270.800 648.000,270.800 648.000,276.000 480.000,276.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="273.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-BC-01</text>
+<text x="511.500" y="273.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">bancada BC-01 (T-COZ)</text>
+<text x="595.500" y="273.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear</text>
+<text x="617.500" y="273.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.1 m</text>
+<text x="633.500" y="273.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,276.000 648.000,276.000 648.000,281.200 480.000,281.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="278.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-BC-02</text>
+<text x="511.500" y="278.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">bancada BC-02 (T-COZ)</text>
+<text x="595.500" y="278.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear</text>
+<text x="617.500" y="278.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.8 m</text>
+<text x="633.500" y="278.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,281.200 648.000,281.200 648.000,286.400 480.000,286.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="283.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-BC-03</text>
+<text x="511.500" y="283.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">bancada BC-03 (T-GOU)</text>
+<text x="595.500" y="283.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear</text>
+<text x="617.500" y="283.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5 m</text>
+<text x="633.500" y="283.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,286.400 648.000,286.400 648.000,291.600 480.000,291.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="289.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-BC-04</text>
+<text x="511.500" y="289.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">bancada BC-04 (T-GOU)</text>
+<text x="595.500" y="289.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear</text>
+<text x="617.500" y="289.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.6 m</text>
+<text x="633.500" y="289.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,291.600 648.000,291.600 648.000,296.800 480.000,296.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="294.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-BC-06</text>
+<text x="511.500" y="294.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">bancada BC-06 (T-OFI)</text>
+<text x="595.500" y="294.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear</text>
+<text x="617.500" y="294.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.4 m</text>
+<text x="633.500" y="294.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,296.800 648.000,296.800 648.000,302.000 480.000,302.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="299.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-LC-02</text>
+<text x="511.500" y="299.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">espelho do lavatorio LC-02 (T-COR)</text>
+<text x="595.500" y="299.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">arandela</text>
+<text x="617.500" y="299.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="633.500" y="299.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,302.000 648.000,302.000 648.000,307.200 480.000,307.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="304.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-LC-15</text>
+<text x="511.500" y="304.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">espelho do lavatorio LC-15 (T-REV)</text>
+<text x="595.500" y="304.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">arandela</text>
+<text x="617.500" y="304.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="633.500" y="304.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,307.200 648.000,307.200 648.000,312.400 480.000,312.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="309.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-LC-05</text>
+<text x="511.500" y="309.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">espelho do lavatorio LC-05 (S-S02)</text>
+<text x="595.500" y="309.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">arandela</text>
+<text x="617.500" y="309.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="633.500" y="309.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,312.400 648.000,312.400 648.000,317.600 480.000,317.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="315.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-LC-08</text>
+<text x="511.500" y="315.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">espelho do lavatorio LC-08 (S-S03)</text>
+<text x="595.500" y="315.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">arandela</text>
+<text x="617.500" y="315.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="633.500" y="315.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,317.600 648.000,317.600 648.000,322.800 480.000,322.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="320.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-LC-11</text>
+<text x="511.500" y="320.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">espelho do lavatorio LC-11 (S-MAS)</text>
+<text x="595.500" y="320.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">arandela</text>
+<text x="617.500" y="320.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="633.500" y="320.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,322.800 648.000,322.800 648.000,328.000 480.000,328.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="325.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-S-MAS-CLOSET</text>
+<text x="511.500" y="325.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">closet da S-MAS</text>
+<text x="595.500" y="325.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear</text>
+<text x="617.500" y="325.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.0 m</text>
+<text x="633.500" y="325.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<polygon points="480.000,328.000 648.000,328.000 648.000,333.200 480.000,333.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="330.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-S-MAS-OFFICE</text>
+<text x="511.500" y="330.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">mesa do office da S-MAS</text>
+<text x="595.500" y="330.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">linear</text>
+<text x="617.500" y="330.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.2 m</text>
+<text x="633.500" y="330.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4000 K</text>
+<polygon points="480.000,333.200 648.000,333.200 648.000,338.400 480.000,338.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="335.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LT-ESCADA</text>
+<text x="511.500" y="335.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">escada (balizadores)</text>
+<text x="595.500" y="335.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">balizador</text>
+<text x="617.500" y="335.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="633.500" y="335.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3000 K</text>
+<line x1="510.000" y1="265.600" x2="510.000" y2="338.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="594.000" y1="265.600" x2="594.000" y2="338.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="616.000" y1="265.600" x2="616.000" y2="338.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="632.000" y1="265.600" x2="632.000" y2="338.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<circle cx="800.000" cy="60.000" r="9.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
+<polygon points="809.000,60.000 797.744,62.067 800.000,60.000 797.744,57.933" stroke="#000000" stroke-width="0.3" fill="#000" stroke-linejoin="miter"/>
+<text x="813.000" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">N</text>
 </g>
 </svg>

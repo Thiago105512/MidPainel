@@ -172,54 +172,134 @@ def elevacoes_internas() -> Canvas:
 # PR-16 — PLANTA DE FORRO E ILUMINACAO (refletida)
 # =========================================================================
 def forro() -> Canvas:
+    """Planta refletida de forro e luminotecnica — dos DOIS pavimentos, do calculo.
+
+    R60 — ate R59 esta prancha desenhava so o terreo e punha as luminarias
+    por uma malha propria (`int(a.w / 2.400)`), uma TERCEIRA regra que nao era
+    nem a regra de area do orcamento nem o calculo. Desde R59 a luminaria e
+    metodo dos lumens; a prancha passa a desenhar exatamente os pontos que o
+    calculo produziu (nucleo/luminotecnica.pontos), os mesmos que a cena 3D
+    mostra. Uma luminaria a mais ou a menos aqui e um defeito, nao um desenho.
+    """
+    import nucleo.luminotecnica as lu
+    lv = lu.levantar(pj)
+    pts = lu.pontos(pj)
     cv = base("PLANTA DE FORRO E ILUMINACAO", "1:75", "16", notas=[
-        "Planta refletida: vista do forro projetada no plano horizontal.",
-        "Forro absorvente apenas no gourmet — unico ponto com reverberacao critica.",
-        "Alcapoes tecnicos de 600 x 600 mm; passarela de cobertura de 600 mm.",
-        "Iluminacao geral 3.000 K, IRC minimo 90.",
+        "Planta refletida: vista do forro projetada no plano horizontal, terreo e superior.",
+        "Luminarias pelo METODO DOS LUMENS por ambiente (NBR ISO/CIE 8995-1 / NBR 5413), "
+        "malha de uniformidade SHR 1,2.",
+        f"{lv['n_geral']} pontos gerais, {len(lv['tarefa'])} pontos de tarefa, "
+        f"{lv['w_geral']:.0f} W ({lv['w_m2']} W/m2).",
+        "Cor: 2.700 K intimo · 3.000 K social e circulacao · 4.000 K cozinha, banho e trabalho.",
     ])
-    vw = View(75, 70, 400, 2_400, 7_200)
+    trat = {c: (sol, j) for c, sol, _, j in ep.FORROS}
     pat_abs = cv.hachura("absorv", espac=1.1, ang=45, w=0.07, cor="#c77")
+    pat_sem = cv.hachura("semforro", espac=1.6, ang=-45, w=0.05, cor="#999")
+    cor_k = {2700: "#e08a1e", 3000: "#c9a227", 4000: "#3b82c4"}
+    acab = {a["amb"]: a for a in pj.acabamentos()}
 
-    trat = {c: (s, j) for c, s, _, j in ep.FORROS}
-    for a in pj.TERREO:
-        sol = trat.get(a.cod, ("gesso liso", ""))[0]
-        absorvente = "absorvente" in sol
-        cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
-                   vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
-                  "vista", fechado=True,
-                  preenche=f"url(#{pat_abs})" if absorvente else "#fafafa", cor="#999")
-        c = vw.pt(P(a.cx, a.cy))
-        cv.texto_p((c[0], c[1] - 3), a.nome, TXT["micro"], "middle", peso="bold")
-        cv.texto_p((c[0], c[1] + 1), sol[:34], TXT["micro"], "middle", cor=CINZA)
-        # luminarias: malha proporcional a area
-        nx = max(1, int(a.w / 2_400))
-        ny = max(1, int(a.h / 2_400))
-        for i in range(nx):
-            for j in range(ny):
-                p = vw.pt(P(a.x + a.w * (i + 0.5) / nx, a.y + a.h * (j + 0.5) / ny))
-                cv.circ_p(p, 1.1, "fino", preenche="#ffd", cor="#b90")
-    # alcapoes tecnicos
-    for x, y, rot in ((9_600, 17_400, "AT-01"), (3_900, 17_400, "AT-02"),
-                      (7_500, 24_000, "AT-03")):
-        cv.poli_p([vw.pt(P(x, y)), vw.pt(P(x + 600, y)), vw.pt(P(x + 600, y + 600)),
-                   vw.pt(P(x, y + 600))], "corte2", fechado=True, preenche="#fff")
-        cv.texto_p(vw.pt(P(x + 300, y + 900)), rot, TXT["micro"], "middle", cor="#06c")
+    def rect(vw, x, y, w, h, estilo, **kw):
+        cv.poli_p([vw.pt(P(x, y)), vw.pt(P(x + w, y)), vw.pt(P(x + w, y + h)),
+                   vw.pt(P(x, y + h))], estilo, fechado=True, **kw)
 
-    cv.circ_p((470, 60), 1.1, "fino", preenche="#ffd", cor="#b90")
-    cv.texto_p((476, 60), "luminaria embutida, 3.000 K, IRC 90", TXT["min"], "start")
-    cv.poli_p([(466, 68), (474, 68), (474, 74), (466, 74)], "corte2", fechado=True, preenche="#fff")
-    cv.texto_p((478, 71), "alcapao tecnico 600 x 600 mm", TXT["min"], "start")
-    cv.poli_p([(466, 80), (474, 80), (474, 86), (466, 86)], "fino", fechado=True,
-              preenche=f"url(#{pat_abs})")
-    cv.texto_p((478, 83), "forro absorvente (alfa 0,70)", TXT["min"], "start")
+    def pavimento(pav, vw, titulo):
+        ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
+        for a in ambs:
+            sol = trat.get(a.cod, ("gesso liso", ""))[0].lower()
+            absorv = "absorvente" in sol or "perfurado" in sol
+            sem = "estrutura aparente" in sol
+            fill = f"url(#{pat_abs})" if absorv else (f"url(#{pat_sem})" if sem else "#fafafa")
+            with cv.escopo("forro", a.cod, rot=a.nome, solucao=sol[:40]):
+                rect(vw, a.x, a.y, a.w, a.h, "vista", preenche=fill, cor="#999")
+            c = vw.pt(P(a.cx, a.cy))
+            hf = (acab.get(a.cod) or {}).get("forro_h") or pj.PE_DIREITO
+            cv.texto_p((c[0], c[1] - 3.2), a.nome, TXT["micro"], "middle", peso="bold")
+            cv.texto_p((c[0], c[1] - 0.6), (trat.get(a.cod, ("gesso liso",))[0])[:30],
+                       TXT["micro"], "middle", cor=CINZA)
+            cv.texto_p((c[0], c[1] + 2.0), f"h {hf / 1000:.2f}".replace(".", ","),
+                       TXT["micro"], "middle", cor=CINZA)
+        for d in pj.SUBDIVISOES:
+            if (d["pai"].startswith("S-")) != (pav == "S"):
+                continue
+            rect(vw, d["x"], d["y"], d["w"], d["h"], "fino", preenche="none", cor="#aaa")
+        # luminarias: os pontos do calculo, e so eles
+        for q in pts:
+            if q["pav"] != pav:
+                continue
+            cor = cor_k.get(q["tcor"], "#999")
+            with cv.escopo("luminaria", q["cod"], lum=q["tipo"], k=str(q["tcor"]),
+                           geral="sim" if q["geral"] else "nao"):
+                if "seg" in q:
+                    x0, y0, x1, y1 = q["seg"]
+                    cv.linha_p(vw.pt(P(x0, y0)), vw.pt(P(x1, y1)), "corte", cor=cor)
+                elif q["tipo"] == "arandela":
+                    c = vw.pt(P(*q["p"]))
+                    cv.poli_p([(c[0] - 0.9, c[1] - 0.9), (c[0] + 0.9, c[1] - 0.9),
+                               (c[0] + 0.9, c[1] + 0.9), (c[0] - 0.9, c[1] + 0.9)],
+                              "fino", fechado=True, preenche="#fff", cor=cor)
+                elif q["tipo"] == "balizador":
+                    c = vw.pt(P(*q["p"]))
+                    cv.circ_p(c, 0.5, "fino", preenche=cor, cor=cor)
+                elif q["tipo"].startswith("pendente"):
+                    c = vw.pt(P(*q["p"]))
+                    cv.circ_p(c, 1.4, "corte2", preenche="#fff", cor=cor)
+                    cv.circ_p(c, 0.4, "fino", preenche=cor, cor=cor)
+                else:
+                    c = vw.pt(P(*q["p"]))
+                    r = 1.1 if q["tipo"].startswith("downlight") else 1.3
+                    cv.circ_p(c, r, "fino", preenche="#fffbe6", cor=cor)
+                    if q["tipo"].startswith("sobrepor"):
+                        cv.linha_p((c[0] - r, c[1]), (c[0] + r, c[1]), "fino", cor=cor)
+                        cv.linha_p((c[0], c[1] - r), (c[0], c[1] + r), "fino", cor=cor)
+        an.titulo_desenho(cv, (vw.ox, 452), "1" if pav == "T" else "2", titulo, "1:75")
 
-    _tabela(cv, (466, 100), "FORROS POR AMBIENTE",
-            ["AMBIENTE", "SOLUCAO", "AREA", "POR QUE"],
-            [[c, s[:44], f"{a:.2f}", j[:52]] for c, s, a, j in ep.FORROS],
-            larguras=[22, 92, 20, 120])
-    an.norte(cv, (790, 60), 9, pj.NORTE_EM_PLANTA)
-    an.titulo_desenho(cv, (70, 420), "1", "FORRO REFLETIDO — TERREO", "1:75")
+    # R60 — 1:75 e nao 1:100: em 1:100 os dois pavimentos ocupavam 15 % da
+    # folha. A prancha e para ler luminaria por luminaria; escala e legibilidade.
+    pavimento("T", View(75, 50, 430, 2_400, 7_200), "FORRO REFLETIDO — TERREO")
+    pavimento("S", View(75, 250, 430, 2_400, 7_200), "FORRO REFLETIDO — SUPERIOR")
+
+    # legenda
+    lx, ly = 480, 46
+    itens = [("downlight embutido", "circ", "#c9a227"), ("plafon de sobrepor (forro perfurado / aparente)", "cruz", "#c9a227"),
+             ("pendente (pe-direito duplo)", "pend", "#c9a227"), ("linear de tarefa (bancada, closet, mesa)", "lin", "#3b82c4"),
+             ("arandela de espelho", "quad", "#3b82c4"), ("balizador de escada", "pt", "#c9a227")]
+    for k, (txt, forma, cor) in enumerate(itens):
+        y = ly + k * 6
+        if forma == "circ":
+            cv.circ_p((lx, y), 1.1, "fino", preenche="#fffbe6", cor=cor)
+        elif forma == "cruz":
+            cv.circ_p((lx, y), 1.3, "fino", preenche="#fffbe6", cor=cor)
+            cv.linha_p((lx - 1.3, y), (lx + 1.3, y), "fino", cor=cor); cv.linha_p((lx, y - 1.3), (lx, y + 1.3), "fino", cor=cor)
+        elif forma == "pend":
+            cv.circ_p((lx, y), 1.4, "corte2", preenche="#fff", cor=cor); cv.circ_p((lx, y), 0.4, "fino", preenche=cor, cor=cor)
+        elif forma == "lin":
+            cv.linha_p((lx - 2, y), (lx + 2, y), "corte", cor=cor)
+        elif forma == "quad":
+            cv.poli_p([(lx - 0.9, y - 0.9), (lx + 0.9, y - 0.9), (lx + 0.9, y + 0.9), (lx - 0.9, y + 0.9)], "fino", fechado=True, preenche="#fff", cor=cor)
+        else:
+            cv.circ_p((lx, y), 0.5, "fino", preenche=cor, cor=cor)
+        cv.texto_p((lx + 5, y), txt, TXT["min"], "start")
+    y = ly + len(itens) * 6 + 2
+    for k, (kk, cor) in enumerate(cor_k.items()):
+        cv.circ_p((lx + k * 40, y), 1.1, "fino", preenche=cor, cor=cor)
+        cv.texto_p((lx + 4 + k * 40, y), f"{kk} K", TXT["min"], "start")
+    cv.poli_p([(lx - 2, y + 6), (lx + 6, y + 6), (lx + 6, y + 11), (lx - 2, y + 11)], "fino", fechado=True, preenche=f"url(#{pat_abs})")
+    cv.texto_p((lx + 9, y + 8.5), "forro absorvente perfurado (alfa 0,70)", TXT["min"], "start")
+    cv.poli_p([(lx - 2, y + 13), (lx + 6, y + 13), (lx + 6, y + 18), (lx - 2, y + 18)], "fino", fechado=True, preenche=f"url(#{pat_sem})")
+    cv.texto_p((lx + 9, y + 15.5), "sem forro (painel PIR aparente)", TXT["min"], "start")
+
+    # quadro luminotecnico
+    linhas = [[x["cod"], x["uso"], f"{x['area']:.1f}", str(x["E_alvo"]), str(x["E_obtido"]),
+               f"{x['n']} x {x['luminaria'][:30]}" if x["tipo"] != "linear" else f"linear {x['m']:.1f} m",
+               f"{x['tcor']} K", f"{x['w']:.0f}"] for x in lv["geral"]]
+    yt = _tabela(cv, (480, y + 26), "LUMINOTECNICA POR AMBIENTE — METODO DOS LUMENS",
+                 ["AMB", "USO", "m2", "alvo lx", "obtido", "LUMINARIA", "cor", "W"],
+                 linhas, larguras=[26, 20, 12, 14, 14, 78, 16, 12])
+    tar = [[t["cod"], t["onde"][:40], t["tipo"], f"{t['m']:.1f} m" if t["tipo"] == "linear" else str(t["n"]),
+            f"{t['tcor']} K"] for t in lv["tarefa"]]
+    _tabela(cv, (480, yt + 10), "LUZ DE TAREFA",
+            ["COD", "ONDE", "TIPO", "QTD", "cor"], tar, larguras=[30, 84, 22, 16, 16])
+    an.norte(cv, (800, 60), 9, pj.NORTE_EM_PLANTA)
     return cv
 
 

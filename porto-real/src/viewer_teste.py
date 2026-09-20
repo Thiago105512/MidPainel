@@ -333,7 +333,7 @@ def rodar(fotos: bool = False) -> int:
         # rol escrito no teste envelhece na primeira camada nova e acusa falha
         # onde so houve crescimento
         esperados = pag.evaluate("""() => ['terreo','superior','lajes',
-          'platibandas','externo','mob','escada','lsf']
+          'platibandas','externo','mob','escada','lsf','luz']
           .reduce((s,k)=>s+(M3[k]?M3[k].length:0),0)""")
         ok(n == esperados, "todos os solidos exportados entraram na cena",
            f"{n} de {esperados}")
@@ -381,6 +381,17 @@ def rodar(fotos: bool = False) -> int:
         ok(pag.evaluate("() => document.getElementById('stage3d')"
                         ".querySelectorAll('canvas').length") == 1,
            "um unico canvas no palco")
+        # R60 — luminarias e rotulos: a cena mostra os pontos do calculo
+        ok(pag.evaluate("() => M3.luz.length") > 90
+           and pag.evaluate("() => R.grupos.luz.children.length === M3.luz.length"),
+           "as luminarias da luminotecnica estao na cena, uma a uma",
+           str(pag.evaluate("() => M3.luz.length")))
+        ok(pag.evaluate("() => R.grupos.rotulos.children.length === M3.ambientes.length"),
+           "cada ambiente tem o seu rotulo (sprite) na cena")
+        ok(pag.evaluate("() => R.solTrajeto.children.length > 1"),
+           "o trajeto do sol esta desenhado para a epoca escolhida")
+        ok(pag.evaluate("() => document.querySelectorAll('script[src*=three]').length === 0"),
+           "o three.js esta embutido: nenhum script externo")
 
         # o canvas precisa ter conteudo, nao um fundo liso
         cores = pag.evaluate("""() => {

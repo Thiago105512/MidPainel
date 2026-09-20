@@ -132,6 +132,54 @@ def _geom(pj, cod: str) -> tuple:
     return (d["w"] / 1000.0, d["h"] / 1000.0) if d else (0.0, 0.0)
 
 
+def _rect(pj, cod: str) -> tuple:
+    """(x, y, w, h) em mm do ambiente ou da subdivisao."""
+    a = next((x for x in pj.TERREO + pj.SUPERIOR if x.cod == cod), None)
+    if a is not None:
+        return a.x, a.y, a.w, a.h
+    d = next((x for x in pj.SUBDIVISOES if f"{x['pai']}/{x['nome']}" == cod), None)
+    return (d["x"], d["y"], d["w"], d["h"]) if d else (0, 0, 0, 0)
+
+
+def _dentro_de_subdivisao(pj, cod: str, x: float, y: float) -> bool:
+    for d in pj.SUBDIVISOES:
+        if d["pai"] == cod and d["x"] <= x <= d["x"] + d["w"] and d["y"] <= y <= d["y"] + d["h"]:
+            return True
+    return False
+
+
+def _malha(pj, cod: str, s_max: float, minimo: int = 0) -> list:
+    """Pontos da malha de luminarias sobre a geometria REAL do ambiente.
+
+    Colunas e linhas saem do espacamento maximo de uniformidade; os pontos que
+    caem dentro de uma subdivisao (banho, closet, office) sao descartados —
+    eles pertencem a subdivisao, que tem malha propria. Se o fluxo pedir mais
+    pontos do que a malha tem, a malha adensa no eixo maior ate caber.
+    """
+    x, y, w, h = _rect(pj, cod)
+    if w <= 0 or h <= 0:
+        return []
+    cols = max(1, math.ceil(w / 1000.0 / s_max))
+    rows = max(1, math.ceil(h / 1000.0 / s_max))
+    pai = "/" not in cod
+    for _ in range(12):
+        pts = []
+        for i in range(cols):
+            for j in range(rows):
+                px = x + w * (i + 0.5) / cols
+                py = y + h * (j + 0.5) / rows
+                if pai and _dentro_de_subdivisao(pj, cod, px, py):
+                    continue
+                pts.append((px, py))
+        if len(pts) >= max(minimo, 1):
+            return pts
+        if w / cols >= h / rows:
+            cols += 1
+        else:
+            rows += 1
+    return pts
+
+
 def _forro_h(pj, cod: str, acab: dict) -> float:
     if cod == "T-COR":
         # o core e aberto ate a cobertura: a luminaria pendura do pe-direito
@@ -196,10 +244,16 @@ def geral(pj, cat: dict, acab: dict) -> list[dict]:
             lum = LUMINARIAS["linear"]
             m = min(max(L, W), max(0.6, math.ceil(fluxo / lum["lm"] / 0.3) * 0.3))
             E_ob = m * lum["lm"] * cu * FM / area
+            rx, ry, rw, rh = _rect(pj, cod)
+            horizontal = rw >= rh
+            cx, cy = rx + rw / 2, ry + rh / 2
+            seg = ((cx - m * 500, cy, cx + m * 500, cy) if horizontal
+                   else (cx, cy - m * 500, cx, cy + m * 500))
             out.append(dict(cod=cod, nome=nome, uso=uso, area=round(area, 2),
                             E_alvo=E, origem=origem, k=round(k, 2), cu=round(cu, 3),
                             h_m=round(h_m, 2), fluxo_lm=round(fluxo), tipo="linear",
                             luminaria=lum["nome"], n=1, m=round(m, 2),
+                            segmento=[round(v) for v in seg],
                             n_malha=1, E_obtido=round(E_ob), w=round(m * lum["w"], 1),
                             w_m2=round(m * lum["w"] / area, 2), tcor=TCOR[uso],
                             preco=lum["preco"]))
@@ -207,14 +261,23 @@ def geral(pj, cat: dict, acab: dict) -> list[dict]:
         # pendente a 5,6 m: a malha e pelo VAO, nao pela altura (um pendente
         # por lance de escada e um no patamar e o que se pendura de verdade)
         s_max = SHR_MAX * h_m if familia != "pendente" else max(L, W) / 2
-        n_malha = max(1, math.ceil(L / s_max)) * max(1, math.ceil(W / s_max))
+        # R60 — a malha deixa de ser uma CONTA (cols x rows) e vira PONTOS
+        # sobre a geometria real do ambiente, descontadas as subdivisoes.
+        # E a mesma lista que a prancha de forro desenha e que a cena 3D
+        # mostra: um ponto que nao existe aqui nao existe em lugar nenhum.
+        pts = _malha(pj, cod, s_max)
+        n_malha = max(1, len(pts))
         tipo, n = _escolher(familia, fluxo, n_malha)
+        if n > len(pts):
+            pts = _malha(pj, cod, s_max, minimo=n)
+            n = len(pts)
         lum = LUMINARIAS[tipo]
         E_ob = n * lum["lm"] * cu * FM / area
         out.append(dict(cod=cod, nome=nome, uso=uso, area=round(area, 2),
                         E_alvo=E, origem=origem, k=round(k, 2), cu=round(cu, 3),
                         h_m=round(h_m, 2), fluxo_lm=round(fluxo), tipo=tipo,
                         luminaria=lum["nome"], n=n, m=0.0, n_malha=n_malha,
+                        pontos=[(round(x), round(y)) for x, y in pts],
                         E_obtido=round(E_ob), w=round(n * lum["w"], 1),
                         w_m2=round(n * lum["w"] / area, 2), tcor=TCOR[uso],
                         preco=lum["preco"]))
@@ -228,7 +291,11 @@ def tarefa(pj) -> list[dict]:
         if b.get("tipo") == "tanque":
             continue
         m = max(b["w"], b["h"]) / 1000.0
+        cx, cy = b["x"] + b["w"] / 2, b["y"] + b["h"] / 2
+        seg = ((b["x"], cy, b["x"] + b["w"], cy) if b["w"] >= b["h"]
+               else (cx, b["y"], cx, b["y"] + b["h"]))
         out.append(dict(cod=f"LT-{b['cod']}", onde=f"bancada {b['cod']} ({b['amb']})",
+                        amb=b["amb"], segmento=[round(v) for v in seg],
                         tipo="linear", m=round(m, 2), n=1, tcor=4000,
                         regra="perfil sob o armario superior, todo o comprimento da bancada"))
     for l in pj.LOUCAS:
@@ -236,23 +303,39 @@ def tarefa(pj) -> list[dict]:
             larg = max(l["w"], l["h"]) / 1000.0
             n = 2 if larg >= 1.2 else 1
             out.append(dict(cod=f"LT-{l['cod']}", onde=f"espelho do lavatorio {l['cod']} ({l['amb']})",
+                            amb=l["amb"], pontos=[(round(l["x"] + l["w"] / 2), round(l["y"] + l["h"] / 2))] * n,
                             tipo="arandela", n=n, m=0.0, tcor=4000,
                             regra="uma arandela por lado do espelho; duas em cuba dupla"))
     for d in pj.SUBDIVISOES:
         if "CLOSET" in d["nome"].upper() and d["w"] * d["h"] >= 4e6:
+            cx, cy = d["x"] + d["w"] / 2, d["y"] + d["h"] / 2
+            seg = ((d["x"], cy, d["x"] + d["w"], cy) if d["w"] >= d["h"]
+                   else (cx, d["y"], cx, d["y"] + d["h"]))
             out.append(dict(cod=f"LT-{d['pai']}-CLOSET", onde=f"closet da {d['pai']}",
+                            amb=f"{d['pai']}/{d['nome']}", segmento=[round(v) for v in seg],
                             tipo="linear", m=round(max(d["w"], d["h"]) / 1000.0, 2), n=1,
                             tcor=3000, regra="linear sobre o cabideiro, IRC >= 90 para cor de roupa"))
     for d in pj.SUBDIVISOES:
         if "OFFICE" in d["nome"].upper():
+            cx, cy = d["x"] + d["w"] / 2, d["y"] + d["h"] / 2
             out.append(dict(cod=f"LT-{d['pai']}-OFFICE", onde=f"mesa do office da {d['pai']}",
+                            amb=f"{d['pai']}/{d['nome']}",
+                            segmento=[round(cx - 600), round(cy), round(cx + 600), round(cy)],
                             tipo="linear", m=1.2, n=1, tcor=4000,
                             regra="linear sobre a mesa: os 500 lux da 8995-1 sao na TAREFA, "
                                   "nao no comodo inteiro"))
     esc = pj.ESCADA_EXEC
     degraus = esc["lances"] * esc["espelhos_lance"]
+    core = next((a for a in pj.TERREO if a.cod == "T-COR"), None)
+    nb = max(2, degraus // 3)
+    pts = []
+    if core is not None:
+        for i in range(nb):
+            t = (i + 0.5) / nb
+            pts.append((round(core.x + 150), round(core.y + core.h * t)))
     out.append(dict(cod="LT-ESCADA", onde="escada (balizadores)", tipo="balizador",
-                    n=max(2, degraus // 3), m=0.0, tcor=3000,
+                    amb="T-COR", pontos=pts,
+                    n=nb, m=0.0, tcor=3000,
                     regra="um balizador a cada tres degraus, aceso por sensor a noite"))
     return out
 
@@ -331,3 +414,40 @@ def conferir(pj) -> list[tuple[str, str, bool]]:
          f"{len(lv['tarefa'])} pontos de tarefa (bancada, espelho, closet, escada)",
          len(lv["tarefa"]) > 0),
     ]
+
+
+def pontos(pj) -> list[dict]:
+    """Toda luminaria com posicao: a prancha de forro e a cena 3D leem daqui.
+
+    Cada item: cod (ambiente ou LT-xxx), pav, tipo, tcor, z (cota em mm acima
+    do piso do pavimento), e ou `p` [x, y] (ponto) ou `seg` [x0, y0, x1, y1].
+    """
+    acab = {a["amb"]: a for a in pj.acabamentos()}
+    lv = levantar(pj)
+    out = []
+    def pav_de(cod):
+        return "S" if cod.startswith("S-") else "T"
+    for x in lv["geral"]:
+        z = round(_forro_h(pj, x["cod"], acab) * 1000)
+        if x["tipo"] == "linear":
+            out.append(dict(cod=x["cod"], pav=pav_de(x["cod"]), tipo="linear",
+                            tcor=x["tcor"], z=z, seg=x["segmento"], geral=True))
+        else:
+            for px, py in x["pontos"]:
+                out.append(dict(cod=x["cod"], pav=pav_de(x["cod"]), tipo=x["tipo"],
+                                tcor=x["tcor"], z=z, p=[px, py], geral=True))
+    for t in lv["tarefa"]:
+        amb = t.get("amb", "")
+        z = round(_forro_h(pj, amb.split("/")[0] if amb else "T-SOC", acab) * 1000)
+        if t["tipo"] == "linear":
+            out.append(dict(cod=t["cod"], pav=pav_de(amb), tipo="linear", tcor=t["tcor"],
+                            z=z, seg=t["segmento"], geral=False))
+        elif t["tipo"] == "arandela":
+            for px, py in t["pontos"]:
+                out.append(dict(cod=t["cod"], pav=pav_de(amb), tipo="arandela",
+                                tcor=t["tcor"], z=1900, p=[px, py], geral=False))
+        elif t["tipo"] == "balizador":
+            for px, py in t["pontos"]:
+                out.append(dict(cod=t["cod"], pav="T", tipo="balizador", tcor=t["tcor"],
+                                z=300, p=[px, py], geral=False))
+    return out

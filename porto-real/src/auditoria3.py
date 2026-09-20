@@ -4293,6 +4293,34 @@ def checar_acabamento_auditado() -> list[Achado]:
     return out
 
 
+def checar_luz_no_desenho() -> list[Achado]:
+    """A PR-16 e a cena 3D desenham exatamente os pontos que o calculo produziu (R60)."""
+    import os, re
+    import projeto as pj
+    import nucleo.luminotecnica as lu
+    pts = lu.pontos(pj)
+    out = []
+    svg = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "out", "PR-16.svg")
+    if os.path.exists(svg):
+        with open(svg, encoding="utf-8") as f:
+            n = len(re.findall(r'data-tipo="luminaria"', f.read()))
+        out.append(Achado("NOTA" if n == len(pts) else "ERRO", "PR-16 desenha o calculo",
+                          f"{n} luminarias na prancha contra {len(pts)} no calculo"))
+    else:
+        out.append(Achado("ATENCAO", "PR-16 ainda nao gerada", "rode build.py"))
+    import modelo3d
+    d = modelo3d.exportar()
+    out.append(Achado("NOTA" if len(d["luz"]) == len(pts) else "ERRO",
+                      "a cena 3D mostra o calculo",
+                      f"{len(d['luz'])} luminarias na cena contra {len(pts)} no calculo"))
+    # mobiliario da cena = LAYOUT do modelo
+    mob_layout = {b["amb"] for b in d["mob"] if b.get("amb", "").startswith("LY-")}
+    out.append(Achado("NOTA" if len(mob_layout) == len(pj.LAYOUT) else "ERRO",
+                      "a cena desenha o LAYOUT, nao coordenadas proprias",
+                      f"{len(mob_layout)} pecas de layout na cena, {len(pj.LAYOUT)} no modelo"))
+    return out
+
+
 def checar_ocupacao() -> list[Achado]:
     """Espaco morto: bolsao sem ambiente, largura sem uso, nome sem lastro (R58)."""
     import projeto as pj

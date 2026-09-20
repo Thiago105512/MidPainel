@@ -33,7 +33,11 @@ TOPO_TERREO = Z["T"]["laje_topo"] + PLATIBANDA
 TOPO_SUPERIOR = Z["S"]["laje_topo"] + PLATIBANDA
 
 CORES = {
-    "parede_ext": "#d9d4cb", "parede_int": "#e8e4dc", "laje": "#cfcac1",
+    # R60 — a fachada tem DOIS tratamentos (R59): base pintada ate 2.600 mm e
+    # volume superior em mineral claro de fabrica. A cena mostra os dois.
+    "parede_ext": "#ebe7e0", "parede_base": "#cfc8bc", "parede_int": "#e8e4dc",
+    "laje": "#cfcac1",
+    "luz_2700": "#ffb865", "luz_3000": "#ffd27a", "luz_4000": "#dff0ff",
     "platibanda": "#cdc7bd", "vidro": "#8fc4dd", "porta": "#9b7245",
     "piso_int": "#e6e1d8", "deck": "#b08a5e", "piscina": "#5aa7c8",
     "pilar": "#4a4f55", "viga": "#5b6169", "mob": "#b9b2a6",
@@ -67,7 +71,8 @@ def _paredes(pav: str) -> list[dict]:
     z0, z1 = Z[pav]["piso"], Z[pav]["teto"]
     out = []
     for par in paredes:
-        cor = CORES["parede_ext"] if par.externa else CORES["parede_int"]
+        cor = ((CORES["parede_base"] if pav == "T" else CORES["parede_ext"])
+               if par.externa else CORES["parede_int"])
         e = par.esp
         cortes = el.recortes_na_parede(par, vaos)
         if par.horizontal:
@@ -348,16 +353,24 @@ def _mobiliario() -> list[dict]:
             h = alturas.get(m["tipo"], 800)
             out.append(_box("mob", m["x"], m["y"], z0, m["x"] + m["w"],
                             m["y"] + m["h"], z0 + h, cor, m["cod"]))
-    # camas, sofa e mesa: volume simples so para dar escala
-    camas = [("S-S02", 4_200, 14_400), ("S-S03", 4_200, 19_200),
-             ("S-MAS", 8_400, 23_100)]
-    for cod, x, y in camas:
-        out.append(_box("mob", x, y, Z["S"]["piso"], x + 1_600, y + 2_000,
-                        Z["S"]["piso"] + 550, CORES["mob"], cod + "/cama"))
-    out.append(_box("mob", 6_000, 14_400, 0, 8_400, 15_300, 750, CORES["mob"], "sofa"))
-    out.append(_box("mob", 6_300, 21_600, 0, 8_700, 23_400, 750, CORES["mob"], "mesa"))
-    out.append(_box("mob", 3_600, 27_600, 0, 6_000, 28_800, 750, CORES["mob"],
-                    "mesa da varanda"))
+    # R60 — camas, sofa, mesa e TV vem do LAYOUT do modelo, nao de tres
+    # coordenadas escritas aqui. Ate R59 a cama da suite 02 estava na cena em
+    # (4.200, 14.400) e no modelo em (5.725, 14.000); a da master a 2,6 m de
+    # onde a planta de layout a desenha. "Existe no modelo, o 3D desenha
+    # outra coisa" — a mesma doenca que R31 achou na escada.
+    alt_layout = {"cama": 550, "sofa": 750, "poltrona": 750, "mesa": 750,
+                  "rack": 450, "carro": 1_450}
+    for l in pj.LAYOUT:
+        pav = pav_de(l["amb"])
+        z0 = Z[pav]["piso"]
+        if l["tipo"] == "tv":
+            # painel de TV: na parede, a 900 mm do piso, nao no chao
+            out.append(_box("mob", l["x"], l["y"], z0 + 900, l["x"] + l["w"],
+                            l["y"] + l["h"], z0 + 1_700, "#2b2f33", l["cod"]))
+            continue
+        out.append(_box("mob", l["x"], l["y"], z0, l["x"] + l["w"], l["y"] + l["h"],
+                        z0 + alt_layout.get(l["tipo"], 600),
+                        "#8e959c" if l["tipo"] == "carro" else CORES["mob"], l["cod"]))
     return out
 
 
@@ -380,6 +393,27 @@ def _escada() -> list[dict]:
             z = l["z_ini"] + (l["z_fim"] - l["z_ini"]) * frac
             out.append(_box("escada", l["x"], y0, z - 150, l["x"] + l["w"],
                             y0 + e["piso"], z + e["alt_espelho"], CORES["escada"]))
+    return out
+
+
+def _luz() -> list[dict]:
+    """Luminarias na cota do forro — da luminotecnica, o mesmo que a PR-16."""
+    import nucleo.luminotecnica as lu
+    out = []
+    for q in lu.pontos(pj):
+        z0 = Z[q["pav"]]["piso"]
+        cor = CORES.get(f"luz_{q['tcor']}", CORES["luz_3000"])
+        if "seg" in q:
+            x0, y0, x1, y1 = q["seg"]
+            hz = y0 == y1
+            out.append(_box("luz", min(x0, x1) - (0 if hz else 40), min(y0, y1) - (40 if hz else 0),
+                            z0 + q["z"] - 40, max(x0, x1) + (0 if hz else 40),
+                            max(y0, y1) + (40 if hz else 0), z0 + q["z"], cor, q["cod"]))
+        else:
+            x, y = q["p"]
+            r = 70 if q["tipo"] != "balizador" else 40
+            z = z0 + q["z"]
+            out.append(_box("luz", x - r, y - r, z - 20, x + r, y + r, z, cor, q["cod"]))
     return out
 
 
@@ -463,6 +497,7 @@ def exportar(caminho: str | None = None) -> dict:
         lajes=_lajes(), platibandas=_platibandas(),
         externo=_externos() + _lote(), mob=_mobiliario(), escada=_escada(),
         ambientes=_ambientes(), cenas=CENAS, cores=CORES,
+        luz=_luz(),
         lsf=_estrutura_lsf(), cores_lsf=CORES_LSF)
     # separa o que e do superior para permitir ligar/desligar
     dados["superior"] = [b for b in dados["superior"]]

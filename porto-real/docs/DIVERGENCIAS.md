@@ -4955,3 +4955,50 @@ linhas `LUM-*` por tipo.
 visualizador, **0 falhas**; 132 auditorias; **147 itens** no BOM,
 R$ 828.665,37 (R$ 2.786,74/m²), dentro da faixa derivada; 14 pendências,
 **6 abertas**.
+
+## R60 — o visualizador e as pranchas leem o que o modelo sabe
+
+### Defeito 87 — a PR-16 desenhava uma terceira regra de luminárias
+
+`forro()` punha luminárias por `int(a.w / 2.400)` × `int(a.h / 2.400)` — nem a
+regra de área do orçamento (R57), nem o método dos lumens (R59) — e só no
+térreo. A malha luminotécnica passou a ser **geometria**: `_malha()` gera os
+pontos sobre o ambiente real, descartando os que caem em subdivisão, e adensa
+quando o fluxo pede mais pontos que a malha tem. `pontos(pj)` é a lista única
+(96 pontos gerais + 19 de tarefa) que a PR-16, a cena 3D e o BOM consomem. A
+auditoria 133 conta: SVG = cena = cálculo.
+
+### Defeito 88 — a cena 3D desenhava camas em coordenadas próprias
+
+`_mobiliario()` tinha `camas = [("S-S02", 4_200, 14_400), …]` e um sofá, uma
+mesa e uma "mesa da varanda" escritos no exportador. O modelo tem `LAYOUT`
+desde R53 com 15 peças: a cama da suíte 02 está em (5.725, 14.000), a da
+master a 2,6 m de onde a cena a punha. A cena agora desenha o LAYOUT, peça a
+peça; a "mesa da varanda", que não existe no modelo, saiu.
+
+### Defeito 89 — a cena não tinha luminária; a fachada tinha uma cor só
+
+Nenhuma das 115 luminárias estava na cena. Entram na cota do forro (ou a
+1.900 no espelho, 300 no balizador), com a cor da temperatura. E a fachada da
+R59 tem dois tratamentos — base pintada até 2.600 e volume mineral — que a
+cena mostrava com um único `parede_ext`; agora `parede_base` no térreo.
+
+### Legibilidade (não é defeito de modelo, é defeito de leitura)
+
+- **PR-01 em 1:200**: lote de 20 × 40 m ocupava 100 × 200 mm numa A1 — 4 % da
+  folha. Passa a **1:100**.
+- **PR-16**: dois pavimentos em **1:75**, tabela luminotécnica por ambiente e
+  quadro de luz de tarefa; legenda por tipo e por temperatura de cor.
+- **Cota de nível sobre o nome do ambiente**: "GOURMET" e "ESTAR / JANTAR"
+  saíam com o triângulo por cima. Deslocada 1.500 mm ao sul.
+- **3D**: arestas nos volumes da edificação (não nas 800 peças da estrutura),
+  vidro e água em `MeshPhong` com brilho, céu em gradiente, rótulos de
+  ambiente como sprites (camada), luminárias (camada), **trajeto do sol**
+  desenhado para a época (Manaus a 3° S: no equinócio o arco passa a 87°).
+- **three.js embutido** (`src/vendor/three.min.js`, r128, MIT): o caderno é
+  um arquivo só e abre sem rede. O teste verifica que não há `<script src>`
+  externo.
+
+**Estado em R60:** 133 auditorias, 116 funções; 0 erros; testes do
+visualizador com 4 verificações novas (luminárias na cena, rótulos, trajeto do
+sol, three embutido).

@@ -685,6 +685,17 @@ PROGRAMA = [
      "declaracoes do projeto (mineral de fabrica em altura, nada que exija "
      "pintura em altura): agora e base pintada ate 2.600 mm e volume mineral "
      "com junta seca em cima, como a Etapa 1 decidiu."),
+    (133, "Desenho e cena leem o calculo da luz",
+     ["checar_luz_no_desenho"], "AUTOMATIZADA",
+     "Secao 158. A PR-16 punha as luminarias por uma malha propria — "
+     "`int(a.w / 2.400)` — uma TERCEIRA regra que nao era a do orcamento nem "
+     "a do calculo, e so no terreo. A cena 3D nao tinha luminaria nenhuma, e "
+     "punha as camas em coordenadas escritas no exportador, a 2,6 m de onde a "
+     "planta de layout as desenha. Agora a malha e GEOMETRIA (pontos sobre o "
+     "ambiente real, descontadas as subdivisoes) numa lista so, e a prancha, "
+     "a cena e o BOM leem dela. A verificacao conta: luminarias no SVG = "
+     "luminarias na cena = pontos do calculo. E o mobiliario da cena e o "
+     "LAYOUT, peca a peca."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

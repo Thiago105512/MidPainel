@@ -3325,6 +3325,28 @@ REVISOES = [
      "tres correcoes foram no metodo, nao no resultado. Saldo: R$ 817 mil "
      "para R$ 829 mil, e o que subiu e forro que faltava; o que desceu e "
      "vidro e WPC que sobravam"),
+    ("R60", "O VISUALIZADOR E AS PRANCHAS LEEM O QUE O MODELO SABE — E FICAM "
+     "LEGIVEIS. Tres defeitos de 'desenho que nao segue o modelo' e quatro de "
+     "legibilidade. (1) A PR-16 punha as luminarias por uma malha propria, "
+     "`int(a.w / 2.400)`, uma TERCEIRA regra que nao era a do orcamento nem a "
+     "do calculo — e so no terreo. Agora a malha luminotecnica e GEOMETRIA: "
+     "pontos sobre o ambiente real, descontadas as subdivisoes, numa lista so "
+     "(nucleo/luminotecnica.pontos), e a prancha, a cena 3D e o BOM leem "
+     "dela. A auditoria conta: luminarias no SVG = luminarias na cena = pontos "
+     "do calculo. (2) A cena 3D punha as camas em coordenadas escritas no "
+     "exportador, a 2,6 m de onde a planta de layout as desenha; agora o "
+     "mobiliario da cena e o LAYOUT, peca a peca. (3) A cena nao tinha "
+     "luminaria nenhuma; tem 115, na cota do forro, com a cor da temperatura. "
+     "Legibilidade: a PR-01 ia em 1:200 — o lote ocupava 4 % da folha A1 — e "
+     "passa a 1:100; a PR-16 mostra os dois pavimentos em 1:75; a cota de "
+     "nivel saiu de cima do nome do ambiente. No 3D: arestas nos volumes "
+     "(uma massa de cor virou um modelo que se le), vidro e agua com brilho, "
+     "ceu em gradiente, base pintada e volume mineral com cores distintas "
+     "como a R59 decidiu, rotulos de ambiente como sprites, o TRAJETO DO SOL "
+     "desenhado para a epoca escolhida (a 3 graus do equador o arco quase "
+     "encosta no zenite — e por isso que beiral nao sombreia e brise vertical "
+     "sim). E o three.js foi embutido no HTML: o caderno volta a ser um "
+     "arquivo so, que abre sem rede, no celular, e daqui a dez anos"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3502,13 +3524,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R59",
+    revisao="R60",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R59", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R60", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
