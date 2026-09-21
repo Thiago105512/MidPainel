@@ -3,6 +3,8 @@ Kd 0.812 0.784 0.737
 newmtl vao_8fc4dd
 Kd 0.561 0.769 0.867
 d 0.45
+newmtl caixilho_4a4f55
+Kd 0.290 0.310 0.333
 newmtl parede_e8e4dc
 Kd 0.910 0.894 0.863
 newmtl vao_9b7245
@@ -21,6 +23,8 @@ newmtl cobertura_cfcac1
 Kd 0.812 0.792 0.757
 newmtl platibanda_cdc7bd
 Kd 0.804 0.780 0.741
+newmtl fascia_4a4f55
+Kd 0.290 0.310 0.333
 newmtl deck_b08a5e
 Kd 0.690 0.541 0.369
 newmtl piscina_5aa7c8
@@ -30,6 +34,8 @@ newmtl externo_b08a5e
 Kd 0.690 0.541 0.369
 newmtl externo_cfd8cf
 Kd 0.812 0.847 0.812
+newmtl forro_9b7245
+Kd 0.608 0.447 0.271
 newmtl pilar_4a4f55
 Kd 0.290 0.310 0.333
 newmtl tecnico_9a8f80

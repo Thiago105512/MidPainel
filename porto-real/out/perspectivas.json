@@ -1,5 +1,5 @@
 {
- "revisao": "R66",
+ "revisao": "R67",
  "olho": 1550,
  "recuo_porta": 700,
  "vistas": [
@@ -254,6 +254,105 @@
    ],
    "fov": 46,
    "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "rua-ne",
+   "titulo": "Da rua, esquina NE",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "rua",
+   "pos": [
+    24000,
+    -14000,
+    1600
+   ],
+   "alvo": [
+    9000,
+    10200,
+    3600
+   ],
+   "fov": 52,
+   "hora": 9.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "rua-se",
+   "titulo": "Da rua, esquina SE",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "rua",
+   "pos": [
+    -4000,
+    -14000,
+    1600
+   ],
+   "alvo": [
+    9000,
+    10200,
+    3600
+   ],
+   "fov": 52,
+   "hora": 9.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "chegada",
+   "titulo": "Chegada — do acesso de veiculos",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "rua",
+   "pos": [
+    5400,
+    400,
+    1600
+   ],
+   "alvo": [
+    10500,
+    10200,
+    3000
+   ],
+   "fov": 66,
+   "hora": 9.0,
    "camadas": [
     "terreo",
     "superior",
@@ -934,15 +1033,15 @@
    "amb": "T-PAT",
    "pav": "T",
    "tipo": "interna",
-   "origem": "porta",
+   "origem": "canto",
    "pos": [
-    10300,
-    24600,
+    15100,
+    23900,
     1550
    ],
    "alvo": [
-    13471,
-    25427,
+    11802,
+    25615,
     1300
    ],
    "fov": 62,
@@ -969,13 +1068,13 @@
    "tipo": "interna",
    "origem": "canto",
    "pos": [
-    6000,
-    28900,
+    2900,
+    26900,
     1550
    ],
    "alvo": [
-    6000,
-    27150,
+    6714,
+    28130,
     1300
    ],
    "fov": 62,
@@ -1002,13 +1101,13 @@
    "tipo": "interna",
    "origem": "canto",
    "pos": [
-    7500,
+    4100,
     29900,
     1550
    ],
    "alvo": [
-    7500,
-    33450,
+    8633,
+    32833,
     1300
    ],
    "fov": 62,
@@ -1231,15 +1330,15 @@
    "amb": "S-MAS",
    "pav": "S",
    "tipo": "interna",
-   "origem": "canto",
+   "origem": "porta",
    "pos": [
-    8300,
-    24700,
+    8400,
+    19900,
     4850
    ],
    "alvo": [
-    12908,
-    21311,
+    12931,
+    23058,
     4600
    ],
    "fov": 62,

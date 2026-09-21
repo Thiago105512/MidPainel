@@ -133,16 +133,22 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
 
     # ---- brises verticais (sombreamento das faces leste e oeste)
     for b in pj.BRISES:
-        if (b["cod"] == "BR-OS") != (pav == "S"):
+        if b.get("pav", "T") != pav:
             continue
-        x, y, w, h = b["x"], b["y"], b["w"], b["h"]
-        cv.poli_p([vw.pt(P(x, y)), vw.pt(P(x + w, y)), vw.pt(P(x + w, y + h)),
-                   vw.pt(P(x, y + h))], "vista", fechado=True, preenche="#f3e3cf")
-        n = int(w / b["passo"])
+        import nucleo.fachada as _fa
+        x0, y0, x1, y1 = _fa.retangulo_brise(b)     # R67: a mesma leitura da cena
+        cv.poli_p([vw.pt(P(x0, y0)), vw.pt(P(x1, y0)), vw.pt(P(x1, y1)),
+                   vw.pt(P(x0, y1))], "vista", fechado=True, preenche="#f3e3cf")
+        ao_longo_x = (x1 - x0) >= (y1 - y0)
+        n = int(((x1 - x0) if ao_longo_x else (y1 - y0)) / b["passo"])
         for i in range(n + 1):
-            xx = x + i * b["passo"]
-            cv.linha_p(vw.pt(P(xx, y)), vw.pt(P(xx, y + h)), "fino", cor="#a9743a")
-        cv.texto_p(vw.pt(P(x + w / 2, y + h + 500)),
+            if ao_longo_x:
+                xx = x0 + i * b["passo"]
+                cv.linha_p(vw.pt(P(xx, y0)), vw.pt(P(xx, y1)), "fino", cor="#a9743a")
+            else:
+                yy = y0 + i * b["passo"]
+                cv.linha_p(vw.pt(P(x0, yy)), vw.pt(P(x1, yy)), "fino", cor="#a9743a")
+        cv.texto_p(vw.pt(P((x0 + x1) / 2, y1 + 500)),
                    f"{b['cod']}  RIPADO VERTICAL", TXT["micro"], "middle", cor="#a9743a")
 
     # ---- cotas de nivel

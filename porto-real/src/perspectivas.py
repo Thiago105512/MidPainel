@@ -219,6 +219,22 @@ def _vistas_externas() -> list[dict]:
                         pos=[round(cx + dist * math.cos(a)), round(cy + dist * math.sin(a)), 6_500],
                         alvo=[round(cx), round(cy), 2_500], fov=FOV_EXTERNO + 8, hora=hora,
                         camadas=CAMADAS_FOTO))
+    # R67 — da calcada do outro lado da rua, olho a 1,6 m: e assim que a casa
+    # sera vista de fato; a vista frontal a 6,5 m e a menos generosa que existe
+    lote_l = pj.LOTE_L
+    for tag, xcam in (("ne", lote_l + 4_000), ("se", -4_000)):
+        out.append(dict(id=f"rua-{tag}", titulo=f"Da rua, esquina {tag.upper()}", grupo="externa",
+                        amb="-", pav="T", tipo="externa", origem="rua",
+                        pos=[xcam, -14_000, 1_600], alvo=[round(cx), round(y0 + 3_000), 3_600],
+                        fov=52, hora=9.0, camadas=CAMADAS_FOTO))
+    # chegada: de dentro do vao do portao de acesso, olho a 1,6 m — a fachada
+    # que quem entra ve, com o portico e o volume superior por tras da garagem
+    gar = next((a for a in pj.TERREO if a.cod == "T-GAR"), None)
+    gx = (gar.x + gar.w / 2) if gar else cx
+    out.append(dict(id="chegada", titulo="Chegada — do acesso de veiculos", grupo="externa",
+                    amb="-", pav="T", tipo="externa", origem="rua",
+                    pos=[round(gx), 400, 1_600], alvo=[round(cx + 1_500), round(y0 + 3_000), 3_000],
+                    fov=66, hora=9.0, camadas=CAMADAS_FOTO))
     for az, nome, hora in ((225, "aerea do sudeste", 10.0), (45, "aerea do noroeste", 15.0)):
         a = math.radians(az)
         out.append(dict(id=f"aer-{az:03d}", titulo=f"Vista {nome}", grupo="externa",

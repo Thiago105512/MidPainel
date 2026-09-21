@@ -1046,15 +1046,15 @@
   "t": "Perspectivas externas",
   "esc": "s/ escala",
   "etapa": "R66",
-  "d": "A casa vista de fora em oito azimutes a 6,5 m de altura de olho e duas aéreas, com o sol de Manaus na hora que ilumina a face olhada. Cada foto traz a planta-chave com a câmera e o cone de visão. É a maquete eletrônica do modelo, não um render: sem textura nem material, mas com proporção, vão e sombra verdadeiros.",
+  "d": "A casa vista de fora: oito azimutes a 6,5 m de altura de olho, duas aéreas, duas da calçada do outro lado da rua a 1,6 m e a chegada, de dentro do vão do portão. Cada foto traz a planta-chave com a câmera e o cone de visão. As de rua mostram a verdade do lote: o muro de 2,2 m esconde o térreo e o que se lê da calçada é a fascia grafite e o volume superior.",
   "k": [
    [
-    "8 + 2",
-    "azimutes em volta do envelope construído e duas aéreas"
+    "8 + 2 + 3",
+    "azimutes, aéreas, e as três de quem chega pela rua"
    ],
    [
-    "6,5 m",
-    "altura da câmera externa: acima do muro, abaixo da platibanda"
+    "1,6 m",
+    "olho de pedestre nas vistas de rua e na chegada"
    ],
    [
     "derivada",

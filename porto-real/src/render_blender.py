@@ -66,9 +66,28 @@ def material(bpy, nome: str, cor_hex: str):
         nt.links.new(bp.outputs["Normal"], bsdf.inputs["Normal"])
         return tex
 
-    if tipo in ("parede", "muro", "platibanda", "laje", "cobertura"):
+    if tipo in ("parede", "platibanda") and cor_hex.lower() == "ebe7e0":
+        # mineral claro de grande formato 1.200 x 2.400 com junta seca de 6 mm:
+        # a junta e o que faz a placa ler como placa
+        bsdf.inputs["Roughness"].default_value = 0.8
+        br = nt.nodes.new("ShaderNodeTexBrick")
+        br.inputs["Scale"].default_value = 1.0
+        br.inputs["Mortar Size"].default_value = 0.006
+        br.inputs["Brick Width"].default_value = 1.2
+        br.inputs["Row Height"].default_value = 2.4
+        br.inputs["Color1"].default_value = (r ** 2.2, g ** 2.2, b ** 2.2, 1)
+        br.inputs["Color2"].default_value = (r ** 2.2, g ** 2.2, b ** 2.2, 1)
+        br.inputs["Mortar"].default_value = (0.25, 0.24, 0.23, 1)
+        co = nt.nodes.new("ShaderNodeTexCoord")
+        nt.links.new(co.outputs["Object"], br.inputs["Vector"])
+        nt.links.new(br.outputs["Color"], bsdf.inputs["Base Color"])
+        bp = nt.nodes.new("ShaderNodeBump")
+        bp.inputs["Strength"].default_value = 0.5
+        nt.links.new(br.outputs["Fac"], bp.inputs["Height"])
+        nt.links.new(bp.outputs["Normal"], bsdf.inputs["Normal"])
+    elif tipo in ("parede", "muro", "platibanda", "laje", "cobertura"):
         bsdf.inputs["Roughness"].default_value = 0.85
-        bump(40.0, 0.08)                                   # reboco mineral
+        bump(40.0, 0.08)                                   # reboco pintado
     elif tipo == "vao" and cor_hex.lower() in ("8fc4dd", "9dd0e8", "8ec4dc"):
         # vidro: para o raio de sombra, transparente (senao o interior fica escuro)
         bsdf.inputs["Base Color"].default_value = (0.85, 0.93, 0.97, 1)
@@ -98,11 +117,17 @@ def material(bpy, nome: str, cor_hex: str):
     elif tipo == "deck":
         bsdf.inputs["Roughness"].default_value = 0.6
         bump(12.0, 0.3, "WAVE")                            # tabuas
-    elif tipo in ("pilar", "brise"):
+    elif tipo == "forro":
+        bsdf.inputs["Roughness"].default_value = 0.45     # madeira do portico
+        bump(20.0, 0.2, "WAVE")
+    elif tipo in ("pilar", "brise", "fascia", "caixilho"):
         bsdf.inputs["Metallic"].default_value = 0.7
         bsdf.inputs["Roughness"].default_value = 0.35
         if tipo == "brise":
             bump(28.0, 0.6, "WAVE")                        # ripas
+    elif tipo == "copa":
+        bsdf.inputs["Roughness"].default_value = 0.9
+        bump(25.0, 0.9)
     elif tipo in ("lote", "externo", "radier", "reservatorio"):
         if g > r and g > b:                                # verde: grama
             bsdf.inputs["Base Color"].default_value = (0.13, 0.30, 0.10, 1)
@@ -140,6 +165,31 @@ def montar(bpy, obj_path: str):
     chao = bpy.context.active_object
     mc = material(bpy, "chao_externo_9aa89a", "9aa89a")
     chao.data.materials.append(mc)
+    # arvores do paisagismo (PA-xx com porte): tronco + copa, na posicao declarada
+    import projeto as pj
+    for p in pj.PAISAGISMO:
+        porte = p.get("porte", "")
+        try:
+            alt = float(porte.split(" a ")[0].replace(",", ".")) if " a " in porte else 0.0
+        except ValueError:
+            alt = 0.0
+        if alt < 3.0:
+            continue
+        alt = min(alt, 9.0)                                   # na entrega: arvore jovem
+        x, y = p["x"] / 1000, p["y"] / 1000
+        n = max(1, min(p.get("qtd", 1), 3))
+        for k in range(n):
+            dx = (k - (n - 1) / 2) * 2.5
+            bpy.ops.mesh.primitive_cylinder_add(radius=0.12, depth=alt * 0.45,
+                                                location=(x + dx, y, alt * 0.225))
+            tr = bpy.context.active_object
+            tr.data.materials.append(material(bpy, "tronco_6b4a2e", "6b4a2e"))
+            bpy.ops.mesh.primitive_uv_sphere_add(radius=alt * 0.28, location=(x + dx, y, alt * 0.7))
+            cp = bpy.context.active_object
+            cp.scale = (1.0, 1.0, 0.75 if "Palmeira" not in p["especie"] else 0.35)
+            cp.data.materials.append(material(bpy, "copa_2f6b2a", "2f6b2a"))
+            for pl in cp.data.polygons:
+                pl.use_smooth = True
     # rua e calcada na testada (y < 0): contexto minimo para a foto ler "rua"
     import bpy as _b
     _b.ops.mesh.primitive_plane_add(size=1, location=(10, -1.5, -0.24))

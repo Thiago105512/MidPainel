@@ -109,6 +109,42 @@ def _face_ou_interno(pj, v) -> str:
     return pj.face_do_vao(x, y, ori, pav)
 
 
+def retangulo_brise(b: dict) -> tuple:
+    """(x0, y0, x1, y1) em planta pela convencao declarada em BRISES (R67)."""
+    x, y, w, h, f = b["x"], b["y"], b["w"], b["h"], b["face"]
+    if f == "L":
+        return x, y - h, x + w, y
+    if f == "O":
+        return x, y, x + w, y + h
+    if f == "S":
+        return x - h, y, x, y + w
+    return x, y, x + h, y + w
+
+
+def volumes_platibanda(pj) -> list[dict]:
+    """Os retangulos em planta que tem platibanda: o superior e o volume baixo
+    (garagem e frente) — uma leitura para a cena, a fascia e o rufo."""
+    out = []
+    if pj.SUPERIOR:
+        out.append(dict(pav="S", x0=min(a.x for a in pj.SUPERIOR), x1=max(a.x + a.w for a in pj.SUPERIOR),
+                        y0=min(a.y for a in pj.SUPERIOR), y1=max(a.y + a.h for a in pj.SUPERIOR)))
+    baixos = [a for a in pj.TERREO
+              if not any(a.x >= s.x and a.y >= s.y and a.x + a.w <= s.x + s.w
+                         and a.y + a.h <= s.y + s.h for s in pj.SUPERIOR)]
+    if baixos:
+        out.append(dict(pav="T", x0=min(a.x for a in baixos), x1=max(a.x + a.w for a in baixos),
+                        y0=min(a.y for a in baixos), y1=max(a.y + a.h for a in baixos)))
+    return out
+
+
+def fascia(pj) -> dict:
+    """Fascia de aluminio grafite no topo de toda platibanda (R67): metros e area."""
+    f = pj.FASCIA
+    per = sum(2 * ((v["x1"] - v["x0"]) + (v["y1"] - v["y0"])) for v in volumes_platibanda(pj)) / 1000.0
+    return dict(altura=f["altura"], material=f["material"], perimetro_m=round(per, 1),
+                area_m2=round(per * f["altura"] / 1000.0, 1), n_volumes=len(volumes_platibanda(pj)))
+
+
 def brises(pj) -> dict:
     """Cada brise com ripa, travessa, fixacao e MASSA.
 

@@ -140,6 +140,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     camadas["externo"] = _ex.levantar(pj)
     import nucleo.fachada as _fa
     camadas["brises"] = _fa.brises(pj)
+    camadas["fascia"] = _fa.fascia(pj)
     camadas["platibanda"] = _fa.platibanda(pj)
     camadas["faces"] = _fa.faces(pj)
     import nucleo.instalacoes as _ins

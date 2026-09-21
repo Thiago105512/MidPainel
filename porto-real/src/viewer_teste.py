@@ -1239,11 +1239,13 @@ def rodar(fotos: bool = False) -> int:
            "o vidro esta concentrado na face posterior, como combinado",
            pag.evaluate("""() => ENG.fachada.faces.slice()
              .sort((a, b) => b.area_vidro - a.area_vidro)[0].nome"""))
-        ok(pag.evaluate("""() => {
+        # R67 — o literal 5 envelheceu com o BR-LS: o numero vem do caso
+        _nb = len(_pjt.BRISES)
+        ok(pag.evaluate("""(n) => {
              const b = ENG.fachada.brises;
-             return b.n === 5 && b.ripa_m > 100 && b.massa > 0
-                    && b.itens.every(x => x.altura > 0 && x.n_ripas > 0); }"""),
-           "os cinco brises tem ripa, altura e massa — nao so retangulo",
+             return b.n === n && b.ripa_m > 100 && b.massa > 0
+                    && b.itens.every(x => x.altura > 0 && x.n_ripas > 0); }""", _nb),
+           f"os {_nb} brises tem ripa, altura e massa — nao so retangulo",
            str(pag.evaluate("() => ENG.fachada.brises.ripa_m")) + " m de ripa, "
            + str(pag.evaluate("() => ENG.fachada.brises.massa")) + " kg")
         ok(pag.evaluate("""() => ENG.bom.some(i => i.sku === 'BRI-RIPA'

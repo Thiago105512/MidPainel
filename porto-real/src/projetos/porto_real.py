@@ -857,27 +857,49 @@ if __name__ == "__main__":
 # literal dentro de modelo3d.py, enquanto o dado declarava profundidade 150.
 # Duas fontes para a mesma peca, e as duas dentro de modulos de DESENHO — o
 # ripado nao existia como material, como massa nem como carga em lugar nenhum.
+# R67 — CONVENCAO DECLARADA (defeito 107): a planta desenhava todo brise
+# correndo em X e a cena 3D todo brise correndo em Y; cada uma acertava metade.
+# Aqui: `w` e o comprimento AO LONGO da fachada, `h` a profundidade das ripas,
+# (x, y) o inicio da linha de fachada, e a face diz para que lado o brise sai:
+#   L: corre em x, ocupa y-h..y   |  O: corre em x, ocupa y..y+h
+#   S: corre em y, ocupa x-h..x   |  N: corre em y, ocupa x..x+h
+# `pav` diz de que piso z0 e medido. fachada.retangulo_brise() e a unica leitura.
 BRISES = [
-    dict(cod="BR-O", face="O", x=5_400, y=27_600, w=4_200, h=150,
+    dict(cod="BR-O", face="O", x=5_400, y=27_600, w=4_200, h=150, pav="T",
          tipo="ripado vertical MOVEL, recolhivel", passo=150,
          desc="alpendre do gourmet - recolhe totalmente para liberar a vista da piscina", z0=900, altura=1_500),
-    dict(cod="BR-L", face="L", x=12_000, y=7_200, w=3_000, h=150,
+    dict(cod="BR-L", face="L", x=12_000, y=7_200, w=3_000, h=150, pav="T",
          tipo="ripado vertical fixo", passo=150,
          desc="quarto reversivel - testada leste", z0=900, altura=1_500),
     # R09 — as duas janelas amplas das suites ficam a 2.400 mm da divisa sul com
     # peitoril de 1.100: altura de olho de quem passa no recuo do vizinho. Brise
     # ripado vertical fixo resolve privacidade e sol rasante de uma vez, na mesma
     # familia de aluminio grafite do portao e da fachada.
-    dict(cod="BR-S2", face="S", x=2_400, y=15_900, w=1_800, h=150,
+    dict(cod="BR-S2", face="S", x=2_400, y=15_900, w=1_800, h=150, pav="S",
          tipo="ripado vertical fixo", passo=80,
          desc="janela ampla da suite 02 — privacidade contra a divisa sul", z0=900, altura=1_500),
-    dict(cod="BR-S3", face="S", x=2_400, y=20_700, w=1_800, h=150,
+    dict(cod="BR-S3", face="S", x=2_400, y=20_700, w=1_800, h=150, pav="S",
          tipo="ripado vertical fixo", passo=80,
          desc="janela ampla da suite 03 — privacidade contra a divisa sul", z0=900, altura=1_500),
-    dict(cod="BR-OS", face="O", x=10_200, y=22_800, w=6_000, h=150,
+    dict(cod="BR-OS", face="O", x=10_200, y=22_800, w=6_000, h=150, pav="S",
          tipo="ripado vertical movel", passo=150,
          desc="varanda master - pavimento superior", z0=900, altura=1_500),
+    # R67 — a face leste do volume superior tinha duas janelas soltas (J04 do
+    # banho e J01 da suite 02) num pano cego: lidas da rua como dois olhos. Um
+    # ripado continuo de 3,9 m as unifica numa faixa, corta o sol das 8 h e da
+    # privacidade ao banho — o mesmo gesto do BR-L no terreo, uma linha acima.
+    dict(cod="BR-LS", face="L", x=3_000, y=13_200, w=3_900, h=150, pav="S",
+         tipo="ripado vertical fixo", passo=80,
+         desc="volume superior sobre a rua — unifica J04 e J01 numa faixa", z0=900, altura=1_500),
 ]
+
+# R67 — FASCIA. O topo da platibanda lia como uma tampa fina e clara; o que
+# faz a casa contemporanea parecer baixa e longa e uma linha escura continua
+# no alto. E da mesma familia do portao e dos brises (aluminio grafite), nao
+# uma quarta: FACHADA_REGRAS["familias_max"] continua 3. 450 mm dobrados
+# sobre a platibanda, com o rufo integrado — substitui o rufo, nao se soma.
+FASCIA = dict(altura=450, espessura=20, material="aluminio grafite dobrado, rufo integrado",
+              onde="topo de toda platibanda, terreo e superior")
 
 # Sol das 16h a 30 graus de altitude: um anteparo vertical a 5.400 mm do vao
 # precisaria de 3.120 mm de altura para sombrea-lo. Nenhum brise proximo
@@ -2762,7 +2784,7 @@ ILUMINACAO_FACHADA = [
 FACHADA_MATERIAIS = [
     ("Mineral claro de grande formato", "placa cimenticia com revestimento "
      "mineral 1.200 x 2.400, junta seca de 6 mm"),
-    ("Aluminio grafite ripado", "portao de correr, brises e guarda-corpo"),
+    ("Aluminio grafite ripado", "portao de correr, brises, guarda-corpo e fascia da platibanda"),
     ("Madeira", "folha da porta de entrada e forro do portico"),
 ]
 FACHADA_REGRAS = dict(
@@ -3713,6 +3735,20 @@ REVISOES = [
      "(out/porto-real.obj) para Blender, SketchUp ou Twinmotion. Auditoria "
      "139: toda camera no seu comodo e fora de parede ou movel, todo comodo "
      "com vista, fotos da revisao corrente"),
+    ("R67", "FACHADA LESTE. O primeiro render mostrou o que a maquete de caixas "
+     "escondia: portao dominando, duas janelas soltas no volume superior, base e "
+     "volume da mesma cor, tampa fina no alto. Tres achados de modelo: o portao "
+     "era madeira na cena (105); o brise da varanda master estava no terreo "
+     "(106: z0 sem pavimento); planta e cena desenhavam os brises em eixos "
+     "diferentes (107: convencao nao declarada — agora fachada.retangulo_brise "
+     "e a unica leitura). Duas decisoes de composicao, na mesma familia de "
+     "materiais: BR-LS, ripado continuo de 3,9 m sobre as janelas leste do "
+     "superior; FASCIA de 450 mm em aluminio grafite no topo de toda "
+     "platibanda, rufo integrado. E o que e representacao: caixilhos, ripas "
+     "reais no portao e nos brises, forro de madeira do portico e juntas do "
+     "mineral entram na cena e no OBJ; arvores do paisagismo e cameras ao "
+     "nivel da rua entram no render. Base clara fica clara: alfa 0,30 e "
+     "decisao termica (ZB8), a sofisticacao vem do relevo, nao da tinta escura"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3898,13 +3934,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R66",
+    revisao="R67",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R66", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R67", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

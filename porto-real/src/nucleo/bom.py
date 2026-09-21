@@ -110,6 +110,7 @@ PRECO_ESQ = {            # (H)
 PRECO_BRISE = {          # (H)
     "ripa_m": 42.00, "travessa_m": 38.00, "fixacao": 6.50, "mecanismo": 2_400.00,
 }
+PRECO_FASCIA_M = 220.00  # (H) aluminio grafite dobrado 450 mm, rufo integrado, instalado
 PRECO_COB = {            # (H)
     "calha_m": 118.00, "rufo_m": 62.00, "cumeeira_m": 74.00,
     "parafuso_un": 1.80, "impermeab_m2": 78.00,
@@ -431,6 +432,13 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                                             "roldana e trava", "cj",
                                  br["moveis"], PRECO_BRISE["mecanismo"],
                                  "fachada", fonte="(H) item de fornecedor"))
+
+    # ---- fascia (R67): a linha escura no topo da platibanda, rufo integrado
+    fc = (camadas or {}).get("fascia")
+    if fc:
+        itens.append(ItemBOM("FAC-FASCIA", f"Fascia de platibanda {fc['altura']} mm, {fc['material']}",
+                             "m", fc["perimetro_m"], PRECO_FASCIA_M, "fachada",
+                             fonte="perimetro das platibandas (fachada.volumes_platibanda)"))
 
     # ---- AREA EXTERNA: 286 m2 de projeto que nao existiam no orcamento.
     # Muro, piso, piscina e paisagismo estavam desenhados, decididos e

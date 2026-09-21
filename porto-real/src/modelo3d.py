@@ -17,6 +17,7 @@ import json
 import os
 
 import projeto as pj
+import nucleo.fachada as _fa
 import elementos as el
 import especificacao as ep
 
@@ -39,6 +40,7 @@ CORES = {
     "laje": "#cfcac1", "ventilador": "#5a5f66",
     "luz_2700": "#ffb865", "luz_3000": "#ffd27a", "luz_4000": "#dff0ff",
     "platibanda": "#cdc7bd", "vidro": "#8fc4dd", "porta": "#9b7245",
+    "fascia": "#4a4f55", "caixilho": "#4a4f55",
     "piso_int": "#e6e1d8", "deck": "#b08a5e", "piscina": "#5aa7c8",
     "pilar": "#4a4f55", "viga": "#5b6169", "mob": "#b9b2a6",
     "bancada": "#8d8579", "louca": "#eceff1", "escada": "#c6c0b6",
@@ -55,6 +57,35 @@ CORES = {
 
 def _cx(x0, x1):
     return (x0 + x1) / 2
+
+
+RIPA_LARG = 40      # mm, largura da ripa de aluminio (fachada.RIPA)
+
+
+def _ripas(t, x0, y0, x1, y1, z0, z1, passo, cor, cod=None) -> list[dict]:
+    """Ripas verticais ao longo do lado maior do retangulo (x0,y0)-(x1,y1)."""
+    out = []
+    ao_longo_x = (x1 - x0) >= (y1 - y0)
+    comp = (x1 - x0) if ao_longo_x else (y1 - y0)
+    n = int(comp / passo) + 1
+    for i in range(n):
+        s = min(i * passo, comp - RIPA_LARG)
+        if ao_longo_x:
+            out.append(_box(t, x0 + s, y0, z0, x0 + s + RIPA_LARG, y1, z1, cor, cod))
+        else:
+            out.append(_box(t, x0, y0 + s, z0, x1, y0 + s + RIPA_LARG, z1, cor, cod))
+    return out
+
+
+def _caixilho(x0, y0, z0, x1, y1, z1, hz: bool) -> list[dict]:
+    """Marco de 60 mm em volta do vao, alinhado com a parede (R67)."""
+    m = 60
+    c = CORES["caixilho"]
+    if hz:      # vao numa parede que corre em x
+        return [_box("caixilho", x0, y0, z0, x1, y1, z0 + m, c), _box("caixilho", x0, y0, z1 - m, x1, y1, z1, c),
+                _box("caixilho", x0, y0, z0, x0 + m, y1, z1, c), _box("caixilho", x1 - m, y0, z0, x1, y1, z1, c)]
+    return [_box("caixilho", x0, y0, z0, x1, y1, z0 + m, c), _box("caixilho", x0, y0, z1 - m, x1, y1, z1, c),
+            _box("caixilho", x0, y0, z0, x1, y0 + m, z1, c), _box("caixilho", x0, y1 - m, z0, x1, y1, z1, c)]
 
 
 def _cor_vao(tipo: str) -> str:
@@ -109,8 +140,12 @@ def _paredes(pav: str) -> list[dict]:
                 if topo < z1:
                     out.append(_box("parede", vx0, y - e / 2, topo,
                                     vx1, y + e / 2, z1, cor))
-                out.append(_box("vao", vx0, y - 25, z0 + v["peitoril"], vx1, y + 25, topo,
-                                _cor_vao(v["tipo"])))
+                zb = z0 + v["peitoril"]
+                if v["tipo"].startswith("PG"):     # portao: ripas, nao chapa
+                    out += _ripas("vao", vx0, y - 25, vx1, y + 25, zb, topo, 150, CORES["brise"])
+                else:
+                    out.append(_box("vao", vx0, y - 25, zb, vx1, y + 25, topo, _cor_vao(v["tipo"])))
+                    out += _caixilho(vx0, y - 30, zb, vx1, y + 30, topo, True)
         else:
             a, b = min(par.y1, par.y2), max(par.y1, par.y2)
             x = par.x1
@@ -134,8 +169,9 @@ def _paredes(pav: str) -> list[dict]:
                 if topo < z1:
                     out.append(_box("parede", x - e / 2, vy0, topo,
                                     x + e / 2, vy1, z1, cor))
-                out.append(_box("vao", x - 25, vy0, z0 + v["peitoril"], x + 25, vy1, topo,
-                                _cor_vao(v["tipo"])))
+                zb = z0 + v["peitoril"]
+                out.append(_box("vao", x - 25, vy0, zb, x + 25, vy1, topo, _cor_vao(v["tipo"])))
+                out += _caixilho(x - 30, vy0, zb, x + 30, vy1, topo, False)
     return out
 
 
@@ -184,29 +220,30 @@ def _lajes() -> list[dict]:
 
 
 def _platibandas() -> list[dict]:
-    """Faixa de 250 mm no contorno de cada volume — a linha reta da fachada."""
+    """Faixa de 250 mm no contorno de cada volume, e a FASCIA grafite no topo (R67).
+
+    Os retangulos vem de fachada.volumes_platibanda: a mesma leitura que da o
+    perimetro da fascia no orcamento.
+    """
     out = []
-    for lst, ztopo, zbase in ((pj.SUPERIOR, TOPO_SUPERIOR, Z["S"]["laje_topo"]),):
-        if not lst:
-            continue
-        x0 = min(a.x for a in lst); x1 = max(a.x + a.w for a in lst)
-        y0 = min(a.y for a in lst); y1 = max(a.y + a.h for a in lst)
-        e = pj.PAR_EXT
-        out += [_box("platibanda", x0, y0, zbase, x1, y0 + e, ztopo, CORES["platibanda"]),
-                _box("platibanda", x0, y1 - e, zbase, x1, y1, ztopo, CORES["platibanda"]),
-                _box("platibanda", x0, y0, zbase, x0 + e, y1, ztopo, CORES["platibanda"]),
-                _box("platibanda", x1 - e, y0, zbase, x1, y1, ztopo, CORES["platibanda"])]
-    # volume de um pavimento (garagem e frente)
-    baixos = [a for a in pj.TERREO
-              if not any(a.x >= s.x and a.y >= s.y and a.x + a.w <= s.x + s.w
-                         and a.y + a.h <= s.y + s.h for s in pj.SUPERIOR)]
-    if baixos:
-        x0 = min(a.x for a in baixos); x1 = max(a.x + a.w for a in baixos)
-        y0 = min(a.y for a in baixos); y1 = max(a.y + a.h for a in baixos)
-        e = pj.PAR_EXT
-        zb, zt = Z["T"]["laje_topo"], TOPO_TERREO
+    e = pj.PAR_EXT
+    fa = pj.FASCIA
+    for v in _fa.volumes_platibanda(pj):
+        x0, x1, y0, y1 = v["x0"], v["x1"], v["y0"], v["y1"]
+        if v["pav"] == "S":
+            zb, zt = Z["S"]["laje_topo"], TOPO_SUPERIOR
+        else:
+            zb, zt = Z["T"]["laje_topo"], TOPO_TERREO
         out += [_box("platibanda", x0, y0, zb, x1, y0 + e, zt, CORES["platibanda"]),
-                _box("platibanda", x0, y0, zb, x0 + e, y1, zt, CORES["platibanda"])]
+                _box("platibanda", x0, y1 - e, zb, x1, y1, zt, CORES["platibanda"]),
+                _box("platibanda", x0, y0, zb, x0 + e, y1, zt, CORES["platibanda"]),
+                _box("platibanda", x1 - e, y0, zb, x1, y1, zt, CORES["platibanda"])]
+        t, h = fa["espessura"], fa["altura"]
+        out += [_box("fascia", x0 - t, y0 - t, zt - h, x1 + t, y0, zt + t, CORES["fascia"]),
+                _box("fascia", x0 - t, y1, zt - h, x1 + t, y1 + t, zt + t, CORES["fascia"]),
+                _box("fascia", x0 - t, y0, zt - h, x0, y1, zt + t, CORES["fascia"]),
+                _box("fascia", x1, y0, zt - h, x1 + t, y1, zt + t, CORES["fascia"]),
+                _box("fascia", x0 - t, y0 - t, zt, x1 + t, y1 + t, zt + t, CORES["fascia"])]
     return out
 
 
@@ -241,6 +278,11 @@ def _externos() -> list[dict]:
         out.append(_box("cobertura", alp.x, alp.y, Z["T"]["teto"],
                         alp.x + alp.w, alp.y + alp.h, Z["T"]["laje_topo"],
                         CORES["laje"], "T-ALP"))
+    # R67 — forro de madeira do portico (FACHADA_MATERIAIS: "forro do portico")
+    var = next((a for a in pj.TERREO_ABERTO if a.cod == "T-VAR"), None)
+    if var:
+        out.append(_box("forro", var.x, var.y, Z["T"]["teto"] - 60, var.x + var.w, var.y + var.h,
+                        Z["T"]["teto"] - 20, CORES["porta"], "T-VAR"))
     for pl in pj.PILARES:
         s = 200
         out.append(_box("pilar", pl["x"] - s / 2, pl["y"] - s / 2, 0,
@@ -253,14 +295,12 @@ def _externos() -> list[dict]:
         out.append(_box("tecnico", t["x"], t["y"], 0, t["x"] + t["w"],
                         t["y"] + t["h"], h, CORES["tecnico"], t["cod"]))
     for br in pj.BRISES:
-        # R48 — do DADO: a altura e a profundidade eram literais aqui (1.500 de
-        # altura desenhada como 900 a 2.400, e 120 de profundidade contra os
-        # 150 declarados). O 3D convencia com uma medida que o dado nao tinha.
-        pr = br["h"] / 2
-        z0 = br.get("z0", 900)
-        out.append(_box("brise", br["x"] - pr, br["y"], z0,
-                        br["x"] + pr, br["y"] + br["w"],
-                        z0 + br.get("altura", 1_500), CORES["brise"], br["cod"]))
+        # R67 — convencao unica (fachada.retangulo_brise), pavimento declarado
+        # (defeito 106: BR-OS estava no terreo) e RIPAS de verdade, nao um bloco
+        x0, y0, x1, y1 = _fa.retangulo_brise(br)
+        z0 = Z[br.get("pav", "T")]["piso"] + br.get("z0", 900)
+        z1 = z0 + br.get("altura", 1_500)
+        out += _ripas("brise", x0, y0, x1, y1, z0, z1, br["passo"], CORES["brise"], br["cod"])
     return out
 
 

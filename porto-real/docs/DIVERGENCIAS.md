@@ -5288,3 +5288,50 @@ o sol do céu obedece a `sun_direction`, não a `sun_rotation`: o primeiro rende
 da tarde tinha a fachada oeste na sombra às 16 h. O vetor do sol passou a ser
 gravado diretamente, e a exposição vai para −5 EV. Imagem é medida também:
 três exposições lado a lado decidiram, não o olho numa só.
+
+## R67 — Fachada leste: o que o render mostrou
+
+O proprietário viu o primeiro render e disse que não parecia a casa
+sofisticada que tínhamos discutido. Tinha razão, e a imagem valeu por isso:
+é o olho humano achando premissa errada, o quinto molde da meta-auditoria.
+Separei o que era **representação** do que era **composição** — misturar os
+dois é o erro clássico de quem responde a um render "melhorando o render".
+
+### Três defeitos de modelo achados pela imagem
+- **105 — o portão era madeira na cena.** `FACHADA_MATERIAIS` declara
+  alumínio grafite ripado; a regra da cena era "começa com P". `_cor_vao()`.
+- **106 — o brise da varanda master estava no térreo.** `z0 = 900` era
+  absoluto; BR-OS ganhou `pav="S"` e todo brise declara o pavimento.
+- **107 — planta e cena desenhavam os brises em eixos diferentes.** A planta
+  punha todo brise correndo em X, a cena todo brise correndo em Y; cada uma
+  acertava metade (a planta os das faces L/O, a cena os das faces S/N). A
+  convenção não estava escrita. Agora está, em BRISES, e
+  `fachada.retangulo_brise()` é a única leitura — planta, cena, OBJ.
+
+### Duas decisões de composição, na mesma família de materiais
+| Decisão | Por quê | Custo (H) |
+|---|---|---|
+| **BR-LS**, ripado vertical fixo de 3,9 m, passo 80, sobre J04 e J01 da face leste do superior | duas janelas soltas num pano cego liam da rua como dois olhos; a faixa contínua unifica, corta o sol das 8 h e dá privacidade ao banho — o mesmo gesto do BR-L do térreo, uma linha acima | + R$ 3,4 mil |
+| **FASCIA** de 450 mm em alumínio grafite dobrado no topo de toda platibanda, rufo integrado | a tampa fina e clara não dava a linha horizontal escura que faz a casa contemporânea parecer baixa e longa; substitui o rufo, não se soma | + R$ 25,1 mil (114 m) |
+
+O que **não** mudou, de propósito: a base térrea continua clara. Uma base
+grafite daria contraste na foto e absortância 0,7 na parede oeste de Manaus;
+`carga_termica` agora sente isso (R65) e a ZB8 pede α ≤ 0,4. A sofisticação
+vem do relevo (ripas, juntas, fascia, pórtico de madeira) e da vegetação, não
+da tinta escura. `familias_max = 3` continua verdadeiro.
+
+### O que era só representação, e entrou na cena e no OBJ
+Caixilhos de 60 mm em todo vão, ripas reais no portão (passo 150) e nos
+brises (passo declarado), forro de madeira do pórtico, fascia. No render:
+juntas secas de 6 mm do mineral 1.200 × 2.400 (textura de tijolo com a placa
+como tijolo), árvores do paisagismo na posição declarada com o porte
+declarado, e três câmeras novas de pedestre: duas da calçada do outro lado
+da rua e a **chegada**, de dentro do vão do portão — a fachada que quem entra
+vê. As de rua ensinaram outra coisa: o muro de 2,2 m esconde o térreo
+inteiro; da calçada, a casa é a fascia e o volume superior.
+
+BOM: 165 → 166 itens; R$ 939.573 → R$ 968.128.
+
+**Estado em R67:** 139 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas (o teste tinha "cinco brises" como literal: agora lê `len(BRISES)`);
+46 pranchas; 45 perspectivas; BOM de 166 itens, R$ 968.127,81.
