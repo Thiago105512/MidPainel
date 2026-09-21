@@ -453,3 +453,151 @@ def hidraulica_e_casa_de_maquinas() -> Canvas:
              for i in itens] + [["", "total do sistema", "", "", "", _f(sum(i["qtd"] * i["preco"] for i in itens), 2)]],
             larguras=[30, 104, 12, 20, 24, 30], h_lin=4.0)
     return cv
+
+
+# =========================================================================
+# PR-72 — CANTEIRO DE OBRAS (R79)
+# =========================================================================
+def canteiro() -> Canvas:
+    import nucleo.canteiro as ct
+    z, mv, dr, lg, r = ct.zonas(pj), ct.movimentacao(pj), ct.drenagem(pj), ct.ligacoes(pj), ct.resumo(pj)
+    cv = base("CANTEIRO DE OBRAS: LOGISTICA, ESTOQUE, CIRCULACAO E DRENAGEM PROVISORIA", "indicada", "72", notas=[
+        f"Canteiro no recuo de frente e na faixa tecnica norte: {r['area_canteiro_m2']} m2 em {r['zonas']} zonas, "
+        f"equipe de pico de {r['equipe']} pessoas (H). Os elementos tecnicos definitivos da faixa norte so entram na fase 5.",
+        f"Movimentacao: painel mais pesado {mv['massa_max']} kg contra {mv['limite_manual']} kg a mao ({mv['montadores']} montadores): "
+        f"{mv['veredito']}. Munck: {mv['munck']}.",
+        f"Drenagem provisoria: vala de {dr['vala']['base']} x {dr['vala']['prof']} mm a {dr['vala']['decliv'] * 100:.0f} % no pe da plataforma "
+        f"({dr['comp_mm'] / 1000:.0f} m), caixa de sedimentacao de {dr['volume_m3']} m3 antes da sarjeta; {dr['q_ls']} L/s de projeto "
+        f"(C {dr['c']}, {dr['intensidade']} mm/h). {dr['sentido']}.",
+        f"Ligacoes provisorias no ponto do medidor definitivo ({lg['ponto']}): {lg['energia'][:60]}; {lg['agua'][:50]}.",
+    ])
+    COR = {"CT-PISTA": "#fff2b3", "CT-PED": "#d9f2d9", "CT-ESC": "#e0e0e0", "CT-VES": "#e0e0e0", "CT-CAV": "#dbe7f7",
+           "CT-PLA": "#c9d9f0", "CT-SAN": "#ffe0c2", "CT-TAP": "#333"}
+    # ============ DET 1 — planta do canteiro 1:100
+    vw = View(100, 45, 520, 0, 0)
+    an.titulo_desenho(cv, (40, 100), "1", "PLANTA DO CANTEIRO (fases 1 a 4)", "1:100")
+    L = pj.LOTE_L, pj.LOTE_P
+    h_casa = cv.hachura("casa72", espac=2.0, ang=45, w=0.1, cor="#bbb")
+    h_circ = cv.hachura("circ72", espac=1.6, ang=-45, w=0.08, cor="#7c9")
+    with cv.escopo("canteiro", "PLANTA"):
+        # rua e meio-fio
+        cv.poli_p([vw.pt(P(-1_000, -2_500)), vw.pt(P(L[0] + 1_000, -2_500)), vw.pt(P(L[0] + 1_000, 0)), vw.pt(P(-1_000, 0))], "fino",
+                  fechado=True, preenche="#f0f0f0", cor="#999")
+        cv.texto_p(vw.pt(P(L[0] / 2, -1_400)), "RUA — betoneira, bomba de concreto e carreta estacionam aqui; descarga pelo portao", TXT["micro"], "middle", cor="#666")
+        cv.poli_p([vw.pt(P(0, 0)), vw.pt(P(L[0], 0)), vw.pt(P(L[0], L[1])), vw.pt(P(0, L[1]))], "corte", fechado=True, preenche="#fff", cor="#000")
+        # plataforma da casa
+        pla = ct._plataforma(pj)
+        cv.poli_p([vw.pt(P(pla["x0"], pla["y0"])), vw.pt(P(pla["x0"] + pla["w"], pla["y0"])), vw.pt(P(pla["x0"] + pla["w"], pla["y0"] + pla["h"])),
+                   vw.pt(P(pla["x0"], pla["y0"] + pla["h"]))], "vista", fechado=True, preenche=f"url(#{h_casa})", cor="#666")
+        cv.texto_p(vw.pt(P(pla["x0"] + pla["w"] / 2, pla["y0"] + pla["h"] / 2)), "CASA — plataforma e radier (fase 1), LSF (fase 2)", TXT["min"], "middle", cor="#555")
+        # piscina e deck (fase 5), tracejados
+        for q, rot in ((pj.DECK, "deck (fase 5)"), (pj.PISCINA, "piscina (fase 5)")):
+            cv.poli_p([vw.pt(P(q["x"], q["y"])), vw.pt(P(q["x"] + q["w"], q["y"])), vw.pt(P(q["x"] + q["w"], q["y"] + q["h"])), vw.pt(P(q["x"], q["y"] + q["h"]))],
+                      "fino", fechado=True, preenche="none", cor="#8ab")
+            cv.texto_p(vw.pt(P(q["x"] + q["w"] / 2, q["y"] + q["h"] / 2)), rot, TXT["micro"], "middle", cor="#8ab")
+        # elementos tecnicos definitivos (fase 5, exceto o medidor)
+        for t in pj.TECNICOS:
+            if t["zona"] in ("INT",):
+                continue
+            med = "medidores" in t["nome"].lower()
+            cv.poli_p([vw.pt(P(t["x"], t["y"])), vw.pt(P(t["x"] + t["w"], t["y"])), vw.pt(P(t["x"] + t["w"], t["y"] + t["h"])), vw.pt(P(t["x"], t["y"] + t["h"]))],
+                      "vista" if med else "fino", fechado=True, preenche="#fde" if med else "none", cor="#c36" if med else "#aaa")
+            if med:
+                cv.texto_p(vw.pt(P(t["x"] + t["w"] / 2, t["y"] - 350)), f"{t['cod']} ligacoes provisorias", TXT["micro"], "middle", cor="#c36")
+        # zonas
+        for q in z:
+            with cv.escopo("canteiro", q["cod"], fase=q["fase"], area=str(q["area_m2"])):
+                pts = [vw.pt(P(q["x"], q["y"])), vw.pt(P(q["x"] + q["w"], q["y"])), vw.pt(P(q["x"] + q["w"], q["y"] + q["h"])), vw.pt(P(q["x"], q["y"] + q["h"]))]
+                if q.get("circulacao"):
+                    cv.poli_p(pts, "fino", fechado=True, preenche=f"url(#{h_circ})", cor="#7c9")
+                    cv.texto_p(vw.pt(P(q["x"] + q["w"] / 2, q["y"] + q["h"] / 2)), q["nome"], TXT["micro"], "middle", rot=90, cor="#396")
+                elif q["cod"] == "CT-TAP":
+                    cv.poli_p(pts, "grosso", fechado=True, preenche="#333", cor="#333")
+                elif q["cod"].startswith("CT-RES"):
+                    cv.poli_p(pts, "vista", fechado=True, preenche="#ffe0c2", cor="#b5651d")
+                    cv.texto_p(vw.pt(P(q["x"] + q["w"] / 2, q["y"] + q["h"] / 2)), f"RES {q['cod'][-1]}", TXT["micro"], "middle", cor="#b5651d")
+                elif q["cod"] == "CT-PLA":
+                    continue          # mesmo chao do cavalete, fases 3-4: rotulado abaixo
+                else:
+                    cv.poli_p(pts, "vista", fechado=True, preenche=COR.get(q["cod"], "#eee"), cor="#333")
+                    rot = q["nome"] if q["cod"] != "CT-CAV" else f"{q['nome']} (f. 2) / placas paletizadas (f. 3-4)"
+                    cv.texto_p(vw.pt(P(q["x"] + q["w"] / 2, q["y"] + q["h"] / 2)), rot[:58], TXT["micro"], "middle",
+                               rot=90 if q["h"] > q["w"] * 1.6 else 0)
+        # portoes
+        pg = pj.PORTAO_TESTADA
+        for x0, w_, rot in ((pg["veiculo_x"] - pg["veiculo_larg"] / 2, pg["veiculo_larg"], "portao veicular"),
+                            (pg["pedestre_x"] - pg["pedestre_larg"] / 2, pg["pedestre_larg"], "pedestre")):
+            cv.linha_p(vw.pt(P(x0, 0)), vw.pt(P(x0 + w_, 0)), "grosso", cor="#c90")
+            cv.texto_p(vw.pt(P(x0 + w_ / 2, -500)), rot, TXT["micro"], "middle", cor="#c90")
+        # drenagem provisoria
+        tr_ = dr["tracado"]
+        for k in range(len(tr_) - 1):
+            cv.linha_p(vw.pt(P(*tr_[k])), vw.pt(P(*tr_[k + 1])), "vista", cor="#06c", dash="2,1")
+        cx = dr["caixa"]
+        cv.poli_p([vw.pt(P(cx["x"], cx["y"])), vw.pt(P(cx["x"] + cx["w"], cx["y"])), vw.pt(P(cx["x"] + cx["w"], cx["y"] + cx["h"])), vw.pt(P(cx["x"], cx["y"] + cx["h"]))],
+                  "vista", fechado=True, preenche="#dff0fa", cor="#06c")
+        cv.texto_p(vw.pt(P(cx["x"] + cx["w"] / 2, cx["y"] - 400)), "caixa de sedimentacao -> sarjeta", TXT["micro"], "middle", cor="#06c")
+        cv.texto_p(vw.pt(P((tr_[0][0] + tr_[1][0]) / 2, tr_[0][1] + 350)), f"vala provisoria {dr['vala']['base']} x {dr['vala']['prof']}, {dr['vala']['decliv'] * 100:.0f} %", TXT["micro"], "middle", cor="#06c")
+        cv.texto_p(vw.pt(P(-600, L[1] / 2)), "SUL — divisa (recuo 2,40)", TXT["micro"], "middle", rot=90, cor=CINZA)
+        cv.texto_p(vw.pt(P(L[0] + 600, L[1] / 2)), "NORTE — divisa (faixa tecnica 3,20)", TXT["micro"], "middle", rot=90, cor=CINZA)
+        cv.texto_p(vw.pt(P(L[0] / 2, L[1] + 600)), "FUNDO — lado alto do lote", TXT["micro"], "middle", cor=CINZA)
+        an.cadeia(cv, vw, [0, pj.RECUO_ESQ, pla["x0"] + pla["w"], L[0]], L[1] + 1_200, "H", 6)
+        an.cadeia(cv, vw, [0, pj.RECUO_FRENTE, pla["y0"] + pla["h"], pj.DECK["y"], pj.DECK["y"] + pj.DECK["h"], L[1]], -1_000, "V", -8)
+    an.norte(cv, (262, 128), 7, pj.NORTE_EM_PLANTA)
+
+    # ============ DET 2 — vala e caixa de sedimentacao 1:20
+    vw2 = View(20, 300, 175, 0, 0)
+    an.titulo_desenho(cv, (290, 100), "2", "VALA PROVISORIA E CAIXA DE SEDIMENTACAO", "1:20")
+    with cv.escopo("canteiro", "VALA"):
+        v = dr["vala"]
+        topo = v["base"] + 2 * v["talude"] * v["prof"]
+        h_terra = cv.hachura("terra72", espac=2.0, ang=-45, w=0.1, cor="#c9b79c")
+        cv.poli_p([vw2.pt(P(-800, 0)), vw2.pt(P(topo + 800, 0)), vw2.pt(P(topo + 800, -v["prof"] - 500)), vw2.pt(P(-800, -v["prof"] - 500))], "fino",
+                  fechado=True, preenche=f"url(#{h_terra})", cor="#c9b79c")
+        cv.poli_p([vw2.pt(P(0, 0)), vw2.pt(P(v["talude"] * v["prof"], -v["prof"])), vw2.pt(P(v["talude"] * v["prof"] + v["base"], -v["prof"])), vw2.pt(P(topo, 0))],
+                  "corte", fechado=True, preenche="#fff", cor="#333")
+        cv.poli_p([vw2.pt(P(v["talude"] * 100, -100)), vw2.pt(P(v["talude"] * v["prof"], -v["prof"])), vw2.pt(P(v["talude"] * v["prof"] + v["base"], -v["prof"])),
+                   vw2.pt(P(topo - v["talude"] * 100, -100))], "fino", fechado=True, preenche="#dff0fa", cor="#06c")
+        cv.texto_p(vw2.pt(P(topo / 2, -v["prof"] - 700)), f"vala {v['base']} x {v['prof']}, talude 1:{v['talude']:.0f}, {v['decliv'] * 100:.0f} % — {dr['q_vala_ls']} L/s "
+                   f"(projeto {dr['q_ls']} L/s); brita no fundo onde a agua corre", TXT["micro"], "middle")
+        an.cadeia(cv, vw2, [0, v["talude"] * v["prof"], v["talude"] * v["prof"] + v["base"], topo], 200, "H", 6)
+        an.cadeia(cv, vw2, [0, -v["prof"]], topo + 300, "V", 8)
+        # caixa
+        vw3 = View(20, 430, 175, 0, 0)
+        cx = dr["caixa"]
+        cv.poli_p([vw3.pt(P(-600, 0)), vw3.pt(P(cx["w"] + 600, 0)), vw3.pt(P(cx["w"] + 600, -cx["prof"] - 600)), vw3.pt(P(-600, -cx["prof"] - 600))], "fino",
+                  fechado=True, preenche=f"url(#{h_terra})", cor="#c9b79c")
+        cv.poli_p([vw3.pt(P(-100, 0)), vw3.pt(P(cx["w"] + 100, 0)), vw3.pt(P(cx["w"] + 100, -cx["prof"] - 100)), vw3.pt(P(-100, -cx["prof"] - 100))], "corte",
+                  fechado=True, preenche="#ccc", cor="#333")
+        cv.poli_p([vw3.pt(P(0, 0)), vw3.pt(P(cx["w"], 0)), vw3.pt(P(cx["w"], -cx["prof"])), vw3.pt(P(0, -cx["prof"]))], "corte", fechado=True, preenche="#fff", cor="#333")
+        cv.poli_p([vw3.pt(P(0, -cx["prof"] + 300)), vw3.pt(P(cx["w"], -cx["prof"] + 300)), vw3.pt(P(cx["w"], -cx["prof"])), vw3.pt(P(0, -cx["prof"]))], "fino",
+                  fechado=True, preenche="#c9b79c", cor="#a98")
+        cv.linha_p(vw3.pt(P(-600, -150)), vw3.pt(P(0, -150)), "vista", cor="#06c")
+        cv.linha_p(vw3.pt(P(cx["w"], -250)), vw3.pt(P(cx["w"] + 600, -250)), "vista", cor="#06c")
+        cv.texto_p(vw3.pt(P(-400, 100)), "entra (vala)", TXT["micro"], "middle", cor="#06c")
+        cv.texto_p(vw3.pt(P(cx["w"] + 400, 100)), "sai (sarjeta)", TXT["micro"], "middle", cor="#06c")
+        cv.texto_p(vw3.pt(P(cx["w"] / 2, -cx["prof"] + 150)), "sedimento: limpar apos chuva forte", TXT["micro"], "middle", cor="#765")
+        cv.texto_p(vw3.pt(P(cx["w"] / 2, -cx["prof"] - 800)), f"caixa {cx['w']} x {cx['h']} x {cx['prof']} mm em bloco, {dr['volume_m3']} m3, "
+                   f"{dr['tempo_s']} s de retencao; saida 100 mm abaixo da entrada", TXT["micro"], "middle")
+        an.cadeia(cv, vw3, [0, cx["w"]], 200, "H", 6)
+        an.cadeia(cv, vw3, [0, -cx["prof"] + 300, -cx["prof"]], cx["w"] + 200, "V", 8)
+
+    # ============ tabelas
+    lin = [[q["cod"], q["nome"][:44], f"{q['w'] / 1000:.1f} x {q['h'] / 1000:.1f}".replace(".", ","), _f(q["area_m2"]), q["fase"], q["obs"][:56]] for q in z]
+    y = _tabela(cv, (600, 40), "ZONAS DO CANTEIRO", ["COD", "ZONA", "m x m", "m2", "FASE", "OBS"], lin,
+                larguras=[20, 68, 22, 14, 14, 92], h_lin=4.0)
+    y = _tabela(cv, (600, y + 5), "O RECUO POR FASE", ["F", "FASE", "O QUE OCUPA O RECUO"],
+                [[a, b_, c_] for a, b_, c_ in ct.FASES_OBRA], larguras=[8, 70, 152], h_lin=5.0)
+    lin = [["Equipe de pico", f"{ct.EQUIPE} pessoas (H)"],
+           ["Sanitarios (NR-18)", f"1 vaso por {ct.NR18['vaso_por']}, lavatorio por {ct.NR18['lavatorio_por']}; refeitorio {ct.NR18['refeitorio_m2_pessoa']:.0f} m2/pessoa"],
+           ["Paineis", f"{mv['lotes']['terreo']['n']} do terreo ({mv['lotes']['terreo']['massa_total']} kg) e {mv['lotes']['superior']['n']} do superior "
+                       f"({mv['lotes']['superior']['massa_total']} kg); maior {mv['comp_max'] / 1000:.1f} m, mais pesado {mv['massa_max']} kg"],
+           ["Movimentacao", mv["veredito"]], ["Munck", mv["munck"][:70]],
+           ["Placas", f"{ct.placas_para_canteiro(pj)['placas']} placas em {r['paletes']} paletes de {ct.PLACAS_POR_PALETE}"],
+           ["Residuos", "; ".join(c[:22] for c in ct.CLASSES_RESIDUO)],
+           ["Tapume", f"{ct.NR18['tapume_h'] / 1000:.1f} m na testada ate o muro (fase 5)"],
+           ["Energia provisoria", lg["energia"][:74]], ["Agua provisoria", lg["agua"][:74]]]
+    y = _tabela(cv, (600, y + 5), "EQUIPE, MOVIMENTACAO E LIGACOES", ["ITEM", "PROJETO"], lin, larguras=[36, 194], h_lin=4.4)
+    _tabela(cv, (300, 300), "CONFERENCIAS DESTA PRANCHA", ["O QUE", "COMO", ""],
+            [[t[:44], d[:84], "ok" if ok else "NAO"] for t, d, ok in ct.conferir(pj)], larguras=[72, 200, 14], h_lin=4.0)
+    return cv

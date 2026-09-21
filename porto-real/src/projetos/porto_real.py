@@ -3111,10 +3111,16 @@ PAISAGISMO = [
          "sem canteiro corrido e sem raiz junto ao radier",
          qtd=9, raiz="em vaso", afast_min=300, poda="nenhuma",
          obs="substitui a sebe de murta da Etapa 4, que exigia poda a cada 60 dias"),
-    dict(cod="PA-04", x=14_400, y=30_600, amb="T-JN3", especie="Palmeira-acai (Euterpe oleracea)",
-         porte="10 a 15 m", funcao="verticalidade e sombra pontual no jardim norte",
+    # R79 — estavam em (14.400, 30.600), 4,2 m a NORTE da piscina: a barlavento
+    # do vento de E/NE que leva a sujeira para o skimmer. Acai solta cacho
+    # (fruto roxo sobre porcelanato claro) e folha de 2 a 3 m — tudo caia no
+    # deck e na agua. Vao para o canto noroeste do jardim de fundo, a
+    # sotavento: o que cai delas o vento leva para longe da piscina.
+    dict(cod="PA-04", x=15_600, y=37_500, amb="T-JFU", especie="Palmeira-acai (Euterpe oleracea)",
+         porte="10 a 15 m", funcao="verticalidade no canto noroeste, a sotavento da piscina",
          qtd=3, raiz="fasciculada, proxima ao tronco", afast_min=1_500,
-         poda="retirada de folha seca, 1x por ano"),
+         poda="retirada de folha seca, 1x por ano",
+         obs="R79: saiu do jardim norte, onde ficava a barlavento da piscina"),
     dict(cod="PA-05", x=11_100, y=8_400, amb="T-JLE", especie="Vasos com Formio e Agave",
          porte="0,6 a 1,0 m", funcao="jardim de inverno leste, visto do banho",
          qtd=6, raiz="em vaso", afast_min=300, poda="nenhuma"),
@@ -3930,6 +3936,15 @@ REVISOES = [
      "mesmas posicoes. Corrigidos: os lados da faixa seca do deck estavam no "
      "referencial errado; TUE-17 sobe de 500 para 700 VA (0,5 cv = 601 VA + "
      "fonte dos LEDs); a succao e de 6,8 m, nao 6,2. Auditoria 148"),
+    ("R79", "CANTEIRO DE OBRAS E DUAS CORRECOES DA PISCINA. nucleo/canteiro deriva "
+     "do lote, dos portoes, dos 62 paineis e das 837 placas as zonas do canteiro "
+     "(pista, pedestres, conteineres, cavalete, paletes, sanitario, baias por "
+     "classe, circulacao, tapume), a movimentacao do painel mais pesado, a "
+     "drenagem provisoria (vala e caixa de sedimentacao pela chuva de projeto) "
+     "e o conteudo do recuo por fase. PR-72, auditoria 149. A bomba da piscina "
+     "(TC-13) entra na conferencia de ruido, que so ouvia condensadoras e a bomba "
+     "de recalque. As tres palmeiras de acai saem do jardim norte, a barlavento "
+     "da piscina, para o canto noroeste do fundo"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4136,13 +4151,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R78",
+    revisao="R79",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R78", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R79", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

@@ -40,6 +40,8 @@ SUPORTE_COND = ("base de concreto 100 mm no piso do nicho, isoladores de borrach
                 "com o LSF; linhas com abracadeiras de borracha")
 LW_CONDENSADORA = {9_000: 52.0, 18_000: 56.0, 30_000: 60.0}   # dB(A) potencia sonora (H)
 LW_BOMBA = 58.0                                              # bomba de recalque / pressurizador
+LW_BOMBA_PISCINA = 55.0                                      # (H) bomba de velocidade variavel em rotacao baixa, a das 6 h de renovacao
+LIMITE_DECK = 45.0                                           # (H) NBR 10152, area externa de lazer
 RW_JANELA = 30.0                                             # vidro laminado fechado (H)
 LIMITE_DORMITORIO = 35.0                                     # NBR 10152, dormitorio, conforto
 Z_CONDENSADORA = 600
@@ -126,7 +128,27 @@ def _fontes(pj) -> list[dict]:
         t = tc["TC-02"]
         out.append(dict(cod="TC-02", nome=t["nome"], x=t["x"] + t["w"] / 2, y=t["y"] + t["h"] / 2, z=300,
                         unidades=1, lw=LW_BOMBA))
+    # R79 — a bomba da piscina nao estava aqui: a casa de maquinas fica na faixa
+    # tecnica norte, a 5,6 m do deck e a poucos metros das janelas do fundo
+    cm = next((t for t in tc.values() if t.get("casa_maquinas")), None)
+    if cm:
+        out.append(dict(cod=cm["cod"], nome=cm["nome"], x=cm["x"] + cm["w"] / 2, y=cm["y"] + cm["h"] / 2, z=300,
+                        unidades=1, lw=LW_BOMBA_PISCINA))
     return out
+
+
+def ruido_deck(pj) -> dict | None:
+    """A bomba da piscina ouvida do canto mais proximo do deck (fonte em recinto
+    com venezianas: sem credito de atenuacao, a favor da seguranca)."""
+    f = next((x for x in _fontes(pj) if "piscina" in x["nome"].lower()), None)
+    if not f:
+        return None
+    dk = pj.DECK
+    px = min(max(f["x"], dk["x"]), dk["x"] + dk["w"])
+    py = min(max(f["y"], dk["y"]), dk["y"] + dk["h"])
+    d = math.sqrt((px - f["x"]) ** 2 + (py - f["y"]) ** 2 + (1_200 - f["z"]) ** 2)
+    lp = f["lw"] - 20 * math.log10(max(d, 1_000) / 1000) - 8
+    return dict(fonte=f["cod"], lw=f["lw"], d_m=round(d / 1000, 1), lp=round(lp, 1), limite=LIMITE_DECK, ok=lp <= LIMITE_DECK)
 
 
 def ruido(pj) -> list[dict]:
@@ -171,4 +193,8 @@ def conferir(pj) -> list[tuple[str, str, bool]]:
                     f"{r['lp_janela']:.0f} dB(A) na janela, {r['lp_dentro']:.0f} dentro (limite {LIMITE_DORMITORIO:.0f})",
                     r["ok"]))
     out.append(("condensadoras no piso", "nenhuma em mao-francesa: " + SUPORTE_COND[:60], "mao-francesa" not in SUPORTE_COND))
+    rd = ruido_deck(pj)
+    if rd:
+        out.append(("bomba da piscina ouvida do deck", f"{rd['fonte']} ({rd['lw']} dB(A)) a {rd['d_m']} m: {rd['lp']:.0f} dB(A) "
+                    f"(limite {rd['limite']:.0f}, area de lazer)", rd["ok"]))
     return out

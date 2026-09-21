@@ -1128,7 +1128,14 @@ function executivoInstalacoes() {
     <table class="tab"><thead><tr><th>ponto</th><th>linha</th><th>Q m³/h</th><th>DN</th><th>v m/s</th><th>L m</th><th>hf m</th></tr></thead><tbody>
     ${Pi.linhas.map(l => `<tr><td>${esc2(l.cod)}</td><td>${esc2(l.linha)}</td><td class="num">${num(l.q_m3h, 2)}</td><td class="num">${l.dn}</td><td class="num">${num(l.v_ms, 2)}</td><td class="num">${(l.comp_mm / 1000).toFixed(1)}</td><td class="num">${num(l.hf_m, 3)}</td></tr>`).join("")}
     </tbody></table>` : "";
-  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : []), ...(Lf ? Lf.conferencia : []), ...(Pi ? Pi.conferencia : [])].filter(c => !c.ok)
+  const Ca = X.canteiro;
+  const cant = Ca ? `<h4 class="sub">Canteiro de obras (R79)</h4>
+    <p class="desenho cap">${Ca.resumo.zonas} zonas (${num(Ca.resumo.area_canteiro_m2, 1)} m²) para ${Ca.resumo.equipe} pessoas; ${Ca.resumo.paineis} painéis, o mais pesado ${num(Ca.resumo.massa_max, 1)} kg
+    (${esc2(Ca.movimentacao.veredito)}); ${Ca.resumo.paletes} paletes de placas; drenagem provisória ${num(Ca.resumo.q_ls, 1)} L/s de projeto contra ${num(Ca.resumo.q_vala_ls, 1)} L/s da vala.</p>
+    <table class="tab"><thead><tr><th>zona</th><th>nome</th><th>m × m</th><th>m²</th><th>fase</th></tr></thead><tbody>
+    ${Ca.zonas.map(q => `<tr><td>${esc2(q.cod)}</td><td>${esc2(q.nome)}</td><td class="num">${(q.w / 1000).toFixed(1)} × ${(q.h / 1000).toFixed(1)}</td><td class="num">${num(q.area_m2, 1)}</td><td>${esc2(q.fase)}</td></tr>`).join("")}
+    </tbody></table>` : "";
+  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : []), ...(Lf ? Lf.conferencia : []), ...(Pi ? Pi.conferencia : []), ...(Ca ? Ca.conferencia : [])].filter(c => !c.ok)
     .map(c => `<li><b>${esc2(c.titulo)}</b> — ${esc2(c.detalhe)}</li>`).join("");
   return `<h4 class="sub">Executivo (R72) — circuito a circuito, peça a peça</h4>
     <div class="cartoes" style="margin-bottom:16px">
@@ -1153,6 +1160,7 @@ function executivoInstalacoes() {
     ${seg}
     ${lsf}
     ${pisc}
+    ${cant}
     ${conf ? `<h4 class="sub">Conferências que não passam</h4><ul>${conf}</ul>` : "<p class='conta'>todas as conferências do executivo passam</p>"}`;
 }
 

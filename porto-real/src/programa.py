@@ -856,6 +856,17 @@ PROGRAMA = [
      "bomba (0,5 cv = 601 VA: o TUE-17 de 500 VA nao cobria), os LEDs na parede "
      "da casa com queda a 12 V conferida, e os itens do sistema na BOM. Os lados "
      "da faixa seca estavam no referencial errado (x como leste-oeste)."),
+    (149, "Canteiro de obras: zonas, movimentacao, drenagem provisoria e ligacoes",
+     ["checar_canteiro"], "AUTOMATIZADA",
+     "Secao 174. A planta do canteiro estava em FALTA com a nota 'no recuo de "
+     "frente e na faixa tecnica'. nucleo/canteiro deriva as zonas do lote, dos "
+     "portoes, dos 62 paineis (cavalete de 8,2 m para o painel de 7,2) e das 837 "
+     "placas; confere que nenhuma zona pisa a plataforma, o deck ou o medidor, "
+     "que a pista tem a largura do portao, que o painel mais pesado (89 kg) se "
+     "carrega a mao, que ha sanitario pela NR-18 e baia por classe (CONAMA 307), "
+     "e que a vala provisoria vence a chuva de projeto com a caixa de "
+     "sedimentacao antes da sarjeta. A bomba da piscina entrou na conferencia "
+     "de ruido (gas.ruido), que so ouvia condensadoras e a bomba de recalque."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

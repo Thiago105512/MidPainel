@@ -5913,3 +5913,46 @@ visualizador ganha o bloco da piscina.
 0 falhas; 71 pranchas. Matriz: 461 distintos, 360 TEM + 45 NA = **87,9 %**,
 32 PARCIAL, **13 FALTA**, 11 EXTERNO. BOM R$ 1.032.616,55 (+ R$ 12.296,04 do
 sistema da piscina, que não estava em linha nenhuma).
+
+## R79 — Canteiro de obras, e duas correções que a posição da piscina pediu
+
+O proprietário perguntou se a localização da piscina mudara alguma coisa. A
+resposta honesta tinha dois itens que o modelo não conferia:
+
+1. **A bomba da piscina não estava na conferência de ruído.** `gas.ruido`
+   ouvia as condensadoras (TC-09, TC-10) e a bomba de recalque (TC-02); a casa
+   de máquinas TC-13, na faixa técnica norte, a 6,4 m do deck, não. Entra com
+   55 dB(A) de potência sonora (bomba de velocidade variável em rotação baixa,
+   H) e dois receptores: as janelas dos dormitórios (28 dB(A) na pior, 1,5
+   dentro, limite 35) e o canto mais próximo do deck (31 dB(A), limite 45 de
+   área de lazer, H).
+2. **As três palmeiras de açaí estavam a barlavento da piscina.** PA-04 em
+   (14.400, 30.600): 4,2 m a norte da lâmina, com o vento de E/NE levando
+   cacho e folha para o deck e para a água. Vão para o canto noroeste do
+   jardim de fundo (15.600, 37.500): 2,5 m da divisa de fundo, 4,4 m da
+   norte, 10 m da casa; o que cai delas o vento leva para longe da piscina.
+
+E o item de backlog: a **planta do canteiro** (PR-72), em FALTA desde a
+matriz, com a nota "no recuo de frente e na faixa técnica". `nucleo/canteiro`
+deriva tudo do que o modelo já sabe:
+
+| Zona | De onde sai |
+|---|---|
+| Pista de veículos 5,4 × 7,2 m e entrada de pedestres | as linhas dos dois portões da testada (`PORTAO_TESTADA`) |
+| Cavalete de painéis 8,2 × 4,2 m | 36 painéis do maior lote a 100 mm cada; o painel mais longo tem 7,2 m e não cabe em pé no recuo de 7,2: deita ao longo da testada |
+| Placas paletizadas | 837 placas (paginação da casa) em 21 paletes, 6 por vez, no chão do cavalete nas fases 3 e 4 |
+| Contêineres de escritório e vestiário | 20', no canto sul e junto ao medidor TC-08 (ponto das ligações provisórias) |
+| Sanitário e 4 baias de resíduo | NR-18 (1 por 20 pessoas) e CONAMA 307 (classes A a D), na faixa técnica norte, cujos elementos definitivos só entram na fase 5 |
+| Circulação até o fundo | faixa técnica (1,8 m) e recuo sul (2,4 m) |
+| Vala e caixa de sedimentação | método racional com C 0,50 de solo exposto e os 180 mm/h da calha: 13,7 L/s; a vala 300 × 300 a 1 % dá 209; caixa de 0,8 m³, 59 s de retenção |
+| Movimentação | painel mais pesado 89 kg contra 100 kg de quatro montadores: a mão; munck do recuo não alcança o fundo (26 m) |
+
+Doze conferências (nenhuma zona sobre a plataforma, o deck ou o medidor; sem
+sobreposição na mesma fase; pista na largura do portão; painel cabe no
+cavalete; sanitário; baias; vala; caixa; ligações; circulação). A primeira
+execução acusou o próprio módulo duas vezes, como de hábito: o cavalete em
+pé saía do lote, e as placas pisavam o vestiário. Auditoria 149.
+
+**Estado em R79:** 149 auditorias, 0 erros; 221 verificações do visualizador,
+0 falhas; 72 pranchas. Matriz: 461 distintos, 362 TEM + 45 NA = **88,3 %**,
+32 PARCIAL, **11 FALTA**, 11 EXTERNO. BOM inalterada (R$ 1.032.616,55).

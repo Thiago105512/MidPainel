@@ -36,6 +36,7 @@ import nucleo.circuitos as cir
 import nucleo.gas as gas
 import nucleo.seguranca as seg
 import nucleo.piscina as psc
+import nucleo.canteiro as cnt
 import nucleo.detalhes_lsf as dlsf
 import nucleo.eletrica as elt
 import nucleo.mercado as mk
@@ -555,7 +556,11 @@ def montar() -> dict:
             piscina=dict(resumo=psc.resumo(pj), geometria=psc.geometria(pj), escada=psc.escada(pj), bordas=psc.bordas(pj),
                          pontos=psc.pontos(pj), linhas=psc.linhas(pj), filtro=psc.filtro(pj), bomba=psc.bomba(pj),
                          diagrama=psc.diagrama(pj), iluminacao=psc.iluminacao(pj), itens=psc.itens_bom(pj),
-                         conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in psc.conferir(pj)])),
+                         conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in psc.conferir(pj)]),
+            canteiro=dict(resumo=cnt.resumo(pj), zonas=cnt.zonas(pj), movimentacao=cnt.movimentacao(pj),
+                          drenagem={k: v for k, v in cnt.drenagem(pj).items() if k != "tracado"}, ligacoes=cnt.ligacoes(pj),
+                          fases=[dict(n=a, nome=b, recuo=c) for a, b, c in cnt.FASES_OBRA],
+                          conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in cnt.conferir(pj)])),
         marcenaria=dict(
             moveis=[{k: v for k, v in m.items() if k != "modulos"} | dict(
                 modulos=[dict(n=mo["n"], larg=mo["larg"], ferragens=mo["ferragens"],

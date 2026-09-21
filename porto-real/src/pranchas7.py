@@ -369,6 +369,7 @@ INDICE = [
     ("69", "Paginacao de fachada e vista explodida (R75)"),
     ("70", "Piscina: cortes, escada de praia, borda e iluminacao subaquatica (R78)"),
     ("71", "Piscina: planta hidraulica, diagrama e casa de maquinas (R78)"),
+    ("72", "Canteiro de obras: zonas, movimentacao, drenagem provisoria e fases (R79)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},

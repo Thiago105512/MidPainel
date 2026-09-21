@@ -4647,6 +4647,22 @@ def checar_piscina_executiva() -> list[Achado]:
     return out
 
 
+def checar_canteiro() -> list[Achado]:
+    """Canteiro de obras: zonas, movimentacao, drenagem provisoria e ligacoes (R79)."""
+    import projeto as pj
+    import nucleo.canteiro as ct
+    out = []
+    conf = ct.conferir(pj)
+    for t, d, ok in conf:
+        if not ok:
+            out.append(Achado("ERRO", f"canteiro: {t}", d))
+    r = ct.resumo(pj)
+    out.append(Achado("NOTA", "canteiro", f"{sum(1 for c in conf if c[2])} de {len(conf)} conferencias passam; "
+                      f"{r['zonas']} zonas ({r['area_canteiro_m2']} m2) para {r['equipe']} pessoas; {r['paineis']} paineis, "
+                      f"o mais pesado {r['massa_max']} kg; {r['paletes']} paletes; drenagem {r['q_ls']} L/s contra {r['q_vala_ls']} da vala"))
+    return out
+
+
 def checar_moldes_de_defeito() -> list[Achado]:
     """Meta-auditoria (R65): literais do caso, alcance das entidades, funcoes duplicadas.
 

@@ -107,6 +107,7 @@ CADERNO = [
     ("69", "PAGINACAO DE FACHADA E EXPLODIDA",    lambda: p13.fachada_e_explodida()),
     ("70", "PISCINA: CORTES, ESCADA, BORDA E LUZ", lambda: p14.cortes_escada_borda_iluminacao()),
     ("71", "PISCINA: HIDRAULICA E CASA DE MAQUINAS", lambda: p14.hidraulica_e_casa_de_maquinas()),
+    ("72", "CANTEIRO DE OBRAS",                     lambda: p14.canteiro()),
 ]
 
 
