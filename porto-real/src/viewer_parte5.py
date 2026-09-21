@@ -1103,7 +1103,15 @@ function executivoInstalacoes() {
     `<tr><td>${esc2(p.cod)}</td><td>${esc2(p.amb)}</td><td>${esc2(p.tipo)}</td><td class="num">${p.z_mm}</td>
       <td class="num">${p.estatica_kpa.toFixed(0)}</td><td class="num">${p.perdas_kpa.toFixed(0)}</td>
       <td class="num">${p.dinamica_kpa.toFixed(0)}</td><td>${p.gravidade_ok ? "gravidade" : "TC-14"}</td></tr>`).join("");
-  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia].filter(c => !c.ok)
+  const S = X.seguranca;
+  const seg = S ? `<h4 class="sub">Dados, CFTV, alarme, automação e incêndio</h4>
+    <p class="desenho cap">${S.resumo.pontos_dados} pontos de dados, ${S.resumo.access_points} APs (${S.resumo.cobertos}/${S.resumo.ambientes} ambientes cobertos),
+    ${S.resumo.cameras} câmeras, ${S.resumo.magneticos} magnéticos, ${S.resumo.ivp} IVP, ${S.resumo.modulos_automacao} módulos de automação,
+    ${S.resumo.cortinas} cortinas, ${S.resumo.extintores} extintores, ${S.resumo.detectores} detectores · ${num(S.resumo.cabo_utp_m, 0)} m de UTP.</p>
+    <table class="tab"><thead><tr><th>câmera</th><th>onde</th><th>olha</th><th>cabo m</th></tr></thead><tbody>
+    ${S.cameras.map(c => `<tr><td>${esc2(c.cod)}</td><td>${esc2(c.onde)}</td><td>${esc2(c.olha)}</td><td class="num">${(c.cabo_mm / 1000).toFixed(1)}</td></tr>`).join("")}
+    </tbody></table>` : "";
+  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : [])].filter(c => !c.ok)
     .map(c => `<li><b>${esc2(c.titulo)}</b> — ${esc2(c.detalhe)}</li>`).join("");
   return `<h4 class="sub">Executivo (R72) — circuito a circuito, peça a peça</h4>
     <div class="cartoes" style="margin-bottom:16px">
@@ -1125,6 +1133,7 @@ function executivoInstalacoes() {
     <h4 class="sub">Água fria — pressão em cada peça (kPa)</h4>
     <table class="tab"><thead><tr><th>peça</th><th>amb</th><th>tipo</th><th>z mm</th><th>estát.</th><th>perdas</th><th>dinâm.</th><th>como</th></tr></thead>
       <tbody>${pec}</tbody></table>
+    ${seg}
     ${conf ? `<h4 class="sub">Conferências que não passam</h4><ul>${conf}</ul>` : "<p class='conta'>todas as conferências do executivo passam</p>"}`;
 }
 

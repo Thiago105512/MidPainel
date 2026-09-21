@@ -19,6 +19,7 @@ import pranchas8 as p8
 import pranchas9 as p9
 import pranchas10 as p10
 import pranchas11 as p11
+import pranchas12 as p12
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -97,6 +98,8 @@ CADERNO = [
     ("62", "ESGOTO E VENTILACAO: ISOMETRICO",      lambda: p11.esgoto()),
     ("63", "AGUA FRIA: ISOMETRICO E PRESSOES",     lambda: p11.agua_fria()),
     ("64", "PLUVIAL, GAS, AR NOVO E SUPORTES",     lambda: p11.complementares()),
+    ("65", "DADOS, CFTV, ALARME E AUTOMACAO",     lambda: p12.seguranca_eletronica()),
+    ("66", "PREVENCAO CONTRA INCENDIO",           lambda: p12.incendio()),
 ]
 
 

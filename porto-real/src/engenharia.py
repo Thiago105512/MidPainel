@@ -34,6 +34,7 @@ import nucleo.esgoto as esg
 import nucleo.agua as agu
 import nucleo.circuitos as cir
 import nucleo.gas as gas
+import nucleo.seguranca as seg
 import nucleo.eletrica as elt
 import nucleo.mercado as mk
 
@@ -539,8 +540,12 @@ def montar() -> dict:
             circuitos=dict(circuitos=cir.circuitos(pj), quadros=cir.quadros(pj), entrada=cir.entrada(pj),
                            materiais=cir.materiais(pj), resumo={k: v for k, v in cir.resumo(pj).items() if k != "quadros"},
                            conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in cir.conferir(pj)]),
-            gas=dict(rede=gas.rede(pj), renovacao=gas.renovacao(pj), suportes=gas.suportes(pj),
-                     conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in gas.conferir(pj)])),
+            gas=dict(rede=gas.rede(pj), renovacao=gas.renovacao(pj), suportes=gas.suportes(pj), ruido=gas.ruido(pj),
+                     conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in gas.conferir(pj)]),
+            seguranca=dict(resumo=seg.resumo(pj), dados=seg.pontos_dados(pj), aps=seg.access_points(pj),
+                           cameras=seg.cameras(pj), alarme=seg.alarme(pj), automacao=seg.automacao(pj),
+                           incendio=seg.incendio(pj), wifi=seg.cobertura_wifi(pj),
+                           conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in seg.conferir(pj)])),
         marcenaria=dict(
             moveis=[{k: v for k, v in m.items() if k != "modulos"} | dict(
                 modulos=[dict(n=mo["n"], larg=mo["larg"], ferragens=mo["ferragens"],

@@ -5726,3 +5726,52 @@ distintos, 330 TEM + 43 NA = **82 % resolvido**, 38 PARCIAL, 31 FALTA,
 11 EXTERNO. BOM inalterado (R$ 1.020.320,51): este lote é de projeto, não de
 quantidade — o material elétrico e hidráulico já estava no BOM pelo percurso
 de R51; agora tem o desenho que o justifica.
+
+## R73 — Condensadoras sem vibração: a casa como ambiente de paz
+
+O proprietário perguntou onde fica a caixa d'água e pediu "área técnica para
+não ficar trepidando ar-condicionado". A pergunta acertou num erro meu de
+R72: eu tinha especificado as condensadoras em **mão-francesa**, que é o
+suporte padrão em alvenaria e o pior possível em light steel frame — a
+parede de 60 kg/m² vira caixa de ressonância para o compressor. Corrigido:
+**toda condensadora vai ao piso do nicho** (TC-09 norte, TC-10 sul), sobre
+base de concreto de 100 mm e isoladores de borracha (frequência natural
+≤ 10 Hz), a 200 mm da parede, sem contato com o LSF; bomba de recalque
+(TC-02) e pressurizador (TC-14, no ático junto à caixa) sobre coxins com
+conexões flexíveis dos dois lados.
+
+Ruído aéreo, que é a outra metade: `gas.ruido` calcula cada nicho e cada
+bomba como fonte (potências somadas) na janela de cada dormitório e dentro
+com a janela fechada. Pior caso: **14 dB(A) dentro** (limite 35, NBR 10152).
+Com a janela aberta, o quarto reversível recebe 41 dB(A) da bomba de
+recalque a 2,9 m — ela é intermitente (enche a caixa e para), e fica
+registrado, não escondido.
+
+Onde estão as coisas que ele perguntou: caixa d'água de 2.000 L no ático
+sobre o banho da master (PR-20, base a +6,20 m), cisterna de 3.000 L
+enterrada na faixa técnica norte (TC-01), nichos de condensadoras TC-09
+(faixa técnica norte, 6,6 m, atrás de painel ripado) e TC-10 (recuo sul,
+encostado na garagem, para as suítes 02 e 03).
+
+## R74 — Lote 4: dados, CFTV, alarme, automação e incêndio
+
+O rack TC-07 dizia "8 câmeras, 3 access points, 1 videoporteiro" desde R41
+e nada mais. `nucleo/seguranca` dá coordenada e cabo a cada um: 13 pontos
+RJ45 (TV, postos de trabalho, cabeceiras, sociais), 3 APs com cobertura
+conferida em 32 de 32 ambientes, 8 câmeras com o que cada uma olha (os
+quatro cantos do muro, portão, pórtico, deck da piscina — segurança de
+criança —, garagem), sensor magnético em todos os 11 vãos externos de porta,
+9 IVP, videoporteiro e fechaduras, 523 m de UTP com lance máximo de 90 m
+conferido. Automação sem fio (Zigbee, hub no rack): 11 módulos nos
+circuitos de iluminação social e externa, 4 cortinas blackout motorizadas,
+presença nas circulações, 4 cenas — cabeado dedicado (KNX) numa casa
+unifamiliar custa mais do que automatiza, e a escolha fica escrita como (H).
+
+Incêndio: residência unifamiliar é dispensada de projeto pelo CBM-AM. O que
+está na PR-66 — 3 extintores ABC (um por pavimento mais a garagem), 9
+detectores de fumaça (todo dormitório e circulação), calor na cozinha,
+manta e detector de GLP — é boa prática, e a prancha diz que é.
+
+**Estado em R74:** 146 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; 66 pranchas. Matriz: 460 distintos, 341 TEM + 44 NA = **84 %**,
+37 PARCIAL, 27 FALTA, 11 EXTERNO. BOM inalterado.

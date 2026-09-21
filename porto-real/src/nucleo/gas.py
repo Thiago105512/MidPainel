@@ -32,7 +32,17 @@ ABRIGO = dict(norma="NBR 13523", afastamento_vao_mm=1_500, afastamento_ignicao_m
 FATOR_PERCURSO = 1.20
 AR_NOVO_LS_PESSOA = 7.5
 AR_NOVO_LS_M2 = 0.3
-SUPORTE_COND = "mao-francesa em aco galvanizado 450 mm, par, carga 60 kg, com coxim"
+# R73 — NENHUMA condensadora em mao-francesa numa casa de light steel frame: a
+# parede e leve (60 kg/m2) e vira caixa de som para a vibracao do compressor.
+# Toda condensadora vai ao PISO do nicho, sobre base de concreto e isoladores.
+SUPORTE_COND = ("base de concreto 100 mm no piso do nicho, isoladores de borracha (deflexao "
+                "estatica >= 6 mm, frequencia natural <= 10 Hz), 200 mm da parede, sem contato "
+                "com o LSF; linhas com abracadeiras de borracha")
+LW_CONDENSADORA = {9_000: 52.0, 18_000: 56.0, 30_000: 60.0}   # dB(A) potencia sonora (H)
+LW_BOMBA = 58.0                                              # bomba de recalque / pressurizador
+RW_JANELA = 30.0                                             # vidro laminado fechado (H)
+LIMITE_DORMITORIO = 35.0                                     # NBR 10152, dormitorio, conforto
+Z_CONDENSADORA = 600
 ABRAC_H = 1_500
 ABRAC_V = 2_000
 
@@ -93,7 +103,51 @@ def suportes(pj) -> dict:
     return dict(condensadoras=cond, suporte=SUPORTE_COND, abracadeiras=abr,
                 isolamento_m=round(sum(l["comp"] for l in lf) / 1000 * 2, 1),
                 regra=f"abracadeira a cada {ABRAC_H} mm na horizontal e {ABRAC_V} mm na vertical; "
-                      "linha isolada com elastomerico 9 mm, acabamento em canaleta")
+                      "linha isolada com elastomerico 9 mm, acabamento em canaleta",
+                bombas="bomba de recalque TC-02 e pressurizador TC-14 sobre coxins de borracha, com "
+                       "conexoes flexiveis nos dois lados: sem tubo rigido ligando bomba a parede")
+
+
+def _fontes(pj) -> list[dict]:
+    """Cada nicho e cada bomba como fonte sonora, com a potencia somada."""
+    tc = {t["cod"]: t for t in pj.TECNICOS}
+    por_nicho = {}
+    for c in pj.CLIMATIZACAO:
+        if c.get("reserva"):
+            continue
+        por_nicho.setdefault(c["nicho"], []).append(LW_CONDENSADORA.get(c["capacidade"], 56.0))
+    out = []
+    for n, lws in por_nicho.items():
+        t = tc[n]
+        lw = 10 * math.log10(sum(10 ** (l / 10) for l in lws))
+        out.append(dict(cod=n, nome=t["nome"], x=t["x"] + t["w"] / 2, y=t["y"] + t["h"] / 2, z=Z_CONDENSADORA,
+                        unidades=len(lws), lw=round(lw, 1)))
+    if "TC-02" in tc:
+        t = tc["TC-02"]
+        out.append(dict(cod="TC-02", nome=t["nome"], x=t["x"] + t["w"] / 2, y=t["y"] + t["h"] / 2, z=300,
+                        unidades=1, lw=LW_BOMBA))
+    return out
+
+
+def ruido(pj) -> list[dict]:
+    """Nivel sonoro de cada fonte externa na janela de cada dormitorio, e
+    dentro com a janela fechada: Lp = Lw - 20 log d - 8 (hemisferico, sem
+    credito do painel ripado), interno = Lp - (Rw - 3)."""
+    out = []
+    for f in _fontes(pj):
+        for tipo, x, y, o, pav in pj.VAOS:
+            amb = pj.amb_do_vao(x, y, pav)
+            if pj.CATEGORIA.get(amb) != "intimo" or not tipo.startswith("J") or not pj.vao_externo(x, y, o, pav):
+                continue
+            lg, al, pe, _ = pj.ESQUADRIAS[tipo]
+            z = (pj.NIVEL_SUPERIOR if pav == "S" else 0) + pe + al / 2
+            d = math.sqrt((x - f["x"]) ** 2 + (y - f["y"]) ** 2 + (z - f["z"]) ** 2)
+            lp = f["lw"] - 20 * math.log10(max(d, 1_000) / 1000) - 8
+            dentro = lp - (RW_JANELA - 3)
+            out.append(dict(fonte=f["cod"], lw=f["lw"], janela=tipo, amb=amb, pav=pav, d_m=round(d / 1000, 1),
+                            lp_janela=round(lp, 1), lp_dentro=round(dentro, 1), limite=LIMITE_DORMITORIO,
+                            ok=dentro <= LIMITE_DORMITORIO))
+    return sorted(out, key=lambda r: -r["lp_dentro"])
 
 
 def conferir(pj) -> list[tuple[str, str, bool]]:
@@ -108,4 +162,13 @@ def conferir(pj) -> list[tuple[str, str, bool]]:
                 r["comp_total_mm"] < 60_000))
     for x in renovacao(pj):
         out.append((f"ar novo {x['amb']}", f"{x['q_ls']} L/s ({x['q_m3h']:.0f} m3/h) — {x['como']}", True))
+    pior = {}
+    for r in ruido(pj):
+        if r["amb"] not in pior or r["lp_dentro"] > pior[r["amb"]]["lp_dentro"]:
+            pior[r["amb"]] = r
+    for amb, r in pior.items():
+        out.append((f"ruido em {amb}", f"{r['fonte']} ({r['lw']} dB(A)) a {r['d_m']} m da {r['janela']}: "
+                    f"{r['lp_janela']:.0f} dB(A) na janela, {r['lp_dentro']:.0f} dentro (limite {LIMITE_DORMITORIO:.0f})",
+                    r["ok"]))
+    out.append(("condensadoras no piso", "nenhuma em mao-francesa: " + SUPORTE_COND[:60], "mao-francesa" not in SUPORTE_COND))
     return out

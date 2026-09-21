@@ -4595,6 +4595,23 @@ def checar_instalacoes_executivo() -> list[Achado]:
     return out
 
 
+def checar_seguranca() -> list[Achado]:
+    """Dados, Wi-Fi, CFTV, alarme, automacao e incendio, ponto a ponto (R74)."""
+    import projeto as pj
+    import nucleo.seguranca as sg
+    out = []
+    conf = sg.conferir(pj)
+    for t, d, ok in conf:
+        if not ok:
+            out.append(Achado("ERRO", t, d))
+    r = sg.resumo(pj)
+    out.append(Achado("NOTA", "seguranca", f"{sum(1 for c in conf if c[2])} de {len(conf)} conferencias passam; "
+                      f"{r['pontos_dados']} pontos, {r['cameras']} cameras, {r['magneticos']} magneticos, "
+                      f"{r['modulos_automacao']} modulos, {r['extintores']} extintores, {r['detectores']} detectores"))
+    out.append(Achado("NOTA", "incendio", sg.incendio(pj)["exigencia"]))
+    return out
+
+
 def checar_moldes_de_defeito() -> list[Achado]:
     """Meta-auditoria (R65): literais do caso, alcance das entidades, funcoes duplicadas.
 

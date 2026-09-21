@@ -826,6 +826,15 @@ PROGRAMA = [
      "primeira execucao: os quadros de 36 e 24 modulos nao cabiam 59 circuitos "
      "(110) e o TUG da cozinha caia 6,4 % a 30 m do quadro em 2,5 mm2 — a "
      "secao passa a subir pela queda, e a tabela diz onde."),
+    (146, "Dados, CFTV, alarme, automacao e incendio: ponto a ponto",
+     ["checar_seguranca"], "AUTOMATIZADA",
+     "Secao 171. O rack TC-07 dizia '8 cameras, 3 access points, 1 videoporteiro' "
+     "desde R41 e nada mais. nucleo/seguranca da a cada um coordenada, cabo ate "
+     "o rack (limite de 90 m), o que a camera olha, sensor magnetico em todo vao "
+     "externo de porta, cobertura Wi-Fi conferida por ambiente, modulos de "
+     "automacao por circuito de iluminacao, extintor por pavimento e detector "
+     "em todo dormitorio. Incendio em residencia unifamiliar nao e exigido: o "
+     "que esta na PR-66 e boa pratica e diz que e."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

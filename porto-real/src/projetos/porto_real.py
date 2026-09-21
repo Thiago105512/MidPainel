@@ -3877,6 +3877,23 @@ REVISOES = [
      "a 84 e 48. O TUG da cozinha vai a 6 mm2 pela queda de tensao. A PR-07 "
      "ganhou as faces reais (defeito 109) e o visualizador virou arquivo unico. "
      "27 itens da matriz saem do backlog"),
+    ("R73", "CONDENSADORAS SEM VIBRACAO. O proprietario pediu 'area tecnica para "
+     "nao ficar trepidando'. Numa casa de light steel frame a parede e leve e "
+     "vira caixa de som: nenhuma condensadora em mao-francesa — todas no piso "
+     "do nicho sobre base de concreto e isoladores de borracha, sem contato com "
+     "o LSF; bomba de recalque e pressurizador sobre coxins com conexoes "
+     "flexiveis. nucleo/gas.ruido calcula o nivel de cada nicho e bomba na "
+     "janela de cada dormitorio e dentro com a janela fechada (limite 35 dB(A), "
+     "NBR 10152): pior caso 14 dB(A) dentro; com a janela aberta o quarto "
+     "reversivel recebe 41 dB(A) da bomba de recalque a 2,9 m — ela e "
+     "intermitente, e fica registrado"),
+    ("R74", "LOTE 4 DO BACKLOG: DADOS, CFTV, ALARME, AUTOMACAO E INCENDIO. "
+     "nucleo/seguranca deriva 13 pontos de dados, 3 APs com cobertura conferida, "
+     "8 cameras com o que cada uma olha, sensor magnetico em todo vao externo, "
+     "IVP nas passagens, videoporteiro e fechaduras, automacao Zigbee por "
+     "circuito de iluminacao social com cortinas motorizadas e 4 cenas, "
+     "extintor por pavimento e detector em todo dormitorio. PR-65 e 66, "
+     "auditoria 146. 25 itens da matriz saem do backlog"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4083,13 +4100,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R72",
+    revisao="R74",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R72", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R74", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

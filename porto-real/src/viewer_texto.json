@@ -1550,5 +1550,47 @@
     "7 condensadoras em mão-francesa; abraçadeira a cada 1,5 m horizontal e 2,0 m vertical"
    ]
   ]
+ },
+ {
+  "n": "65",
+  "t": "Dados, CFTV, alarme e automação",
+  "esc": "1:100",
+  "etapa": "R74",
+  "d": "Cada ponto de rede, access point, câmera, sensor magnético, IVP, módulo de automação e cortina motorizada, com o cabo até o rack e a cobertura Wi-Fi conferida.",
+  "k": [
+   [
+    "rack",
+    "o texto do TC-07 dizia '8 câmeras, 3 APs'; agora cada uma tem coordenada, cabo e o que olha"
+   ],
+   [
+    "alarme",
+    "sensor em todo vão externo de porta; IVP nas passagens; 20 zonas"
+   ],
+   [
+    "automação",
+    "Zigbee com hub local: cabeado dedicado custa mais do que automatiza numa casa unifamiliar"
+   ]
+  ]
+ },
+ {
+  "n": "66",
+  "t": "Prevenção contra incêndio",
+  "esc": "1:100",
+  "etapa": "R74",
+  "d": "Extintor por pavimento mais garagem, detector de fumaça em cada dormitório e circulação, calor na cozinha, manta e detector de GLP — declarado como boa prática, não exigência.",
+  "k": [
+   [
+    "exigência",
+    "residência unifamiliar é dispensada de projeto pelo CBM-AM; o que está aqui é escolha, e diz que é"
+   ],
+   [
+    "cozinha",
+    "detector de calor, não de fumaça: a fumaça da cocção daria alarme falso"
+   ],
+   [
+    "gás",
+    "detector de GLP a 300 mm do piso com corte na central"
+   ]
+  ]
  }
 ]

@@ -488,7 +488,9 @@ def complementares() -> Canvas:
         f"{g['potencia_kw']} kW; autonomia de {g['autonomia_dias']:.0f} dias a 2 h/dia de uso pleno (H).",
         f"Renovacao de ar: {gs.AR_NOVO_LS_PESSOA} L/s por pessoa + {gs.AR_NOVO_LS_M2} L/s por m2 (H). Sem VMC: a vazao "
         "requerida fica declarada por ambiente e a renovacao e por janela e exaustor.",
-        f"Suportes: {sp['suporte']}; {sp['regra']}.",
+        f"Suportes: {sp['suporte']}; {sp['regra']}. {sp['bombas']}.",
+        "Ruido nos dormitorios: Lp = Lw - 20 log d - 8 na janela (sem credito do painel ripado), "
+        f"dentro com a janela fechada Lp - (Rw {gs.RW_JANELA:.0f} - 3); limite {gs.LIMITE_DORMITORIO:.0f} dB(A) (NBR 10152).",
     ])
     # ---- pluvial iso 1:150
     x0, y0, x1, y1 = _extremos(pj.cobertos())
@@ -541,7 +543,12 @@ def complementares() -> Canvas:
     lf = pj.linhas_frigorigenas()
     lin = [[l["cod"], l["nicho"], f"{l['comp'] / 1000:.1f}", f"{l['horizontal'] / 1000:.1f}", f"{l['subida'] / 1000:.1f}",
             str(math.ceil(l["horizontal"] / gs.ABRAC_H) + math.ceil(l["subida"] / gs.ABRAC_V)), "reserva" if l.get("reserva") else ""] for l in lf]
-    _tabela(cv, (640, 120), f"SUPORTES — {sp['condensadoras']} condensadoras em mao-francesa, {sp['abracadeiras']} abracadeiras",
+    _tabela(cv, (640, 120), f"SUPORTES — {sp['condensadoras']} condensadoras no piso sobre isoladores, {sp['abracadeiras']} abracadeiras",
             ["LINHA", "NICHO", "L m", "HOR.", "SUB.", "ABRAC.", ""], lin, larguras=[24, 16, 12, 12, 12, 14, 16], h_lin=3.8)
     cv.texto_p((640, 180), f"isolamento elastomerico 9 mm: {sp['isolamento_m']} m (ida e volta)", TXT["micro"], "start", cor=CINZA)
+    ru = gs.ruido(pj)
+    lin = [[r["fonte"], f"{r['lw']:.0f}", r["janela"], r["amb"], f"{r['d_m']}", f"{r['lp_janela']:.0f}", f"{r['lp_dentro']:.0f}",
+            "ok" if r["ok"] else "ACIMA"] for r in ru[:26]]
+    _tabela(cv, (640, 190), "RUIDO DAS FONTES EXTERNAS NOS DORMITORIOS — dB(A)", ["FONTE", "Lw", "JANELA", "AMB", "d m", "JANELA", "DENTRO", ""],
+            lin, larguras=[18, 12, 14, 16, 12, 16, 16, 14], h_lin=3.6)
     return cv
