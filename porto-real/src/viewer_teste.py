@@ -1151,7 +1151,8 @@ def rodar(fotos: bool = False) -> int:
            "cada dossie reune acabamento, tomada e as paredes que o cercam")
         # a tomada tem de vir da previsao da norma, nao de uma segunda regra
         # R63 — era `t === 71`, literal: envelheceu na primeira tomada de bancada
-        _tug_modelo = sum(q["tugs"] for q in _pj.previsao_iluminacao_tug())
+        import projeto as _pjt
+        _tug_modelo = sum(q["tugs"] for q in _pjt.previsao_iluminacao_tug())
         ok(pag.evaluate("""(n) => {
              const t = ENG.ambientes.dossies.reduce((s, d) => s + d.tugs_norma, 0);
              return t === n; }""", _tug_modelo),
