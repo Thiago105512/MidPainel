@@ -15,7 +15,7 @@ PLATIBANDA_2PAV = pj.TOPO_PLATIBANDA
 RADIER = pj.RADIER["espessura"]   # do caso, nao literal
 
 
-def _dentro(ambs, x, y) -> bool:
+def _ponto_em_ambiente(ambs, x, y) -> bool:
     return any(a.x <= x < a.x + a.w and a.y <= y < a.y + a.h for a in ambs)
 
 
@@ -50,7 +50,7 @@ def _desenhar_corte(cv: Canvas, vw: View, eixo: str, coord: int, letra: str,
     u = ini
     while u < fim:
         x, y = (u, coord) if eixo == "H" else (coord, u)
-        celulas.append((u, _dentro(T, x + 1, y + 1), _dentro(S, x + 1, y + 1)))
+        celulas.append((u, _ponto_em_ambiente(T, x + 1, y + 1), _ponto_em_ambiente(S, x + 1, y + 1)))
         u += passo
     runs = []
     for u, t, s_ in celulas:
@@ -168,10 +168,10 @@ def _na_face(pav: str, x: int, y: int, ori: str, face_dir: str) -> bool:
     ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
     d = 300
     if ori == "H":
-        sul, norte = _dentro(ambs, x, y - d), _dentro(ambs, x, y + d)
+        sul, norte = _ponto_em_ambiente(ambs, x, y - d), _ponto_em_ambiente(ambs, x, y + d)
         return (face_dir == "S" and norte and not sul) or \
                (face_dir == "N" and sul and not norte)
-    oeste, leste = _dentro(ambs, x - d, y), _dentro(ambs, x + d, y)
+    oeste, leste = _ponto_em_ambiente(ambs, x - d, y), _ponto_em_ambiente(ambs, x + d, y)
     return (face_dir == "O" and leste and not oeste) or \
            (face_dir == "L" and oeste and not leste)
 

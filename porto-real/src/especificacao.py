@@ -385,8 +385,8 @@ def prancha_mapa() -> Canvas:
         "Nenhum eixo, vao ou cota muda: varia so o conteudo dentro da espessura.",
         "A cor indica a exigencia do local, nao a espessura.",
     ])
-    _mapa(cv, View(100, 60, 330, 2_400, 7_200), pj.TERREO, "TERREO")
-    _mapa(cv, View(100, 230, 330, 2_400, 7_200), pj.SUPERIOR, "SUPERIOR")
+    _mapa(cv, View(100, 60, 330, pj.RECUO_ESQ, pj.RECUO_FRENTE), pj.TERREO, "TERREO")
+    _mapa(cv, View(100, 230, 330, pj.RECUO_ESQ, pj.RECUO_FRENTE), pj.SUPERIOR, "SUPERIOR")
 
     q = quantitativo()
     linhas = []

@@ -5,13 +5,13 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="03" data-rev="R65">
+<g data-tipo="carimbo" data-cod="42" data-rev="R65">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
 <line x1="656.000" y1="538.000" x2="831.000" y2="538.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <text x="659.000" y="544.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PROJETO ARQUITETONICO</text>
-<text x="659.000" y="550.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PLANTA BAIXA — PAVIMENTO SUPERIOR</text>
+<text x="659.000" y="550.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PLANTA DE LAYOUT — PAVIMENTO SUPERIOR</text>
 <line x1="656.000" y1="555.000" x2="831.000" y2="555.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="702.000" y1="555.000" x2="702.000" y2="584.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="748.000" y1="555.000" x2="748.000" y2="584.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
@@ -30,7 +30,7 @@
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
-<text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">03</text>
+<text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">42</text>
 <text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 42   REV R65</text>
 </g>
 <g data-tipo="notas">
@@ -275,6 +275,27 @@
 </g>
 <g data-tipo="marcenaria" data-cod="AR-14" data-familia="gaveteiro" data-amb="S-MAS" data-larg="1000" data-prof="600">
 <polygon points="302.000,258.000 322.000,258.000 322.000,246.000 302.000,246.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="layout" data-cod="LY-10" data-amb="S-S02" data-peca="cama" data-larg="2000" data-prof="1600">
+<polygon points="144.500,386.000 184.500,386.000 184.500,354.000 144.500,354.000" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>
+<polygon points="175.500,386.000 184.500,386.000 184.500,354.000 175.500,354.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<line x1="170.500" y1="386.000" x2="170.500" y2="354.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="layout" data-cod="LY-11" data-amb="S-S03" data-peca="cama" data-larg="2000" data-prof="1600">
+<polygon points="144.500,258.000 184.500,258.000 184.500,226.000 144.500,226.000" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>
+<polygon points="175.500,258.000 184.500,258.000 184.500,226.000 175.500,226.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<line x1="170.500" y1="258.000" x2="170.500" y2="226.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="layout" data-cod="LY-12" data-amb="S-MAS" data-peca="cama" data-larg="1930" data-prof="2030">
+<polygon points="250.700,204.600 289.300,204.600 289.300,164.000 250.700,164.000" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>
+<polygon points="250.700,173.000 289.300,173.000 289.300,164.000 250.700,164.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<line x1="250.700" y1="178.000" x2="289.300" y2="178.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="layout" data-cod="LY-14" data-amb="S-MAS" data-peca="tv" data-larg="1400" data-prof="60">
+<polygon points="252.000,219.700 280.000,219.700 280.000,218.500 252.000,218.500" stroke="#000000" stroke-width="0.6" fill="#333" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="layout" data-cod="LY-15" data-amb="S-MAS" data-peca="rack" data-larg="1930" data-prof="40">
+<polygon points="250.700,220.500 289.300,220.500 289.300,219.700 250.700,219.700" stroke="#000000" stroke-width="0.18" fill="#f4f1ea" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="ambiente" data-cod="S-S02" data-rot="SUITE 02" data-area="25.92" data-pav="S" data-molhado="nao" data-larg="5400" data-prof="4800" data-box="78.00 306.00 108.00 96.00">
 <text x="132.000" y="351.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>

@@ -26,17 +26,7 @@ PORTOES = (
 )
 
 
-def _brl(v: float) -> str:
-    """R$ no padrao brasileiro.
-
-    Existia, espalhado pelas simulacoes, o idioma `f"R$ {v:,.2f}".replace(",",
-    ".")` aplicado a STRING INTEIRA. Ele acertava o separador de milhar e
-    destruia toda virgula do texto em volta: a pendencia 13 dizia "comprados
-    por REGRA de area. nao por calculo" porque a virgula da frase virou ponto.
-    Formatar moeda e trabalho de uma funcao, nao de um replace sobre prosa.
-    """
-    return f"R$ {v:,.2f}".replace(",", "\x00").replace(".", ",").replace("\x00", ".")
-
+from nucleo.formato import brl as _brl   # R65: uma funcao, nao tres
 
 def _exposicao(pj, r: dict, n: str) -> dict:
     """Quanto do projeto muda quando ESTE dado chegar."""

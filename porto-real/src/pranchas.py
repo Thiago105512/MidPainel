@@ -9,7 +9,7 @@ import mobiliario as mob
 import anotacao as an
 from core import P, Canvas, View, TXT, CINZA, PRETO, MARGEM_ESQ
 
-TOTAL_PRANCHAS = "41"
+TOTAL_PRANCHAS = "42"
 
 
 def base(titulo: str, escala: str, prancha: str, formato: str = "A1",
@@ -48,7 +48,7 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
         "Parede externa 150 mm / divisoria interna 100 mm (H).",
         "Mobiliario fixo indica pontos de agua e esgoto (NBR 6492).",
     ])
-    vw = View(50, 78, 522, 2_400, 7_200)
+    vw = View(50, 78, 522, pj.RECUO_ESQ, pj.RECUO_FRENTE)
 
     # A 1:50 os 40 m de lote dariam 800 mm de papel numa folha de 594: a planta
     # baixa nao comporta o lote inteiro, e ate R11 o excedente era simplesmente
@@ -171,8 +171,8 @@ def planta(pav: str, prancha: str, layout: bool = False) -> Canvas:
     an.cadeia(cv, vw, xs, y1, "H", -14)         # parciais, acima
 
     # ---- eixos modulares estruturais
-    eixos_x = [2_400, 8_400, 9_600, 12_000, 16_800]
-    eixos_y = [7_200, 13_200, 19_200, 26_400, 30_600]
+    eixos_x = [pj.RECUO_ESQ, 8_400, 9_600, 12_000, 16_800]
+    eixos_y = [pj.RECUO_FRENTE, 13_200, 19_200, 26_400, 30_600]
     for i, xv in enumerate(eixos_x):
         an.eixo_modular(cv, vw, xv, y0, y1, "V", chr(65 + i))
     for i, yv in enumerate(eixos_y):
@@ -298,8 +298,8 @@ def implantacao() -> Canvas:
               preenche="none", cor="#0a6")
 
     # ---- acesso de veiculos e pedestres
-    cv.poli_p([vw.pt(P(2_400, 0)), vw.pt(P(8_400, 0)), vw.pt(P(8_400, 7_200)),
-               vw.pt(P(2_400, 7_200))], "fino", fechado=True, preenche="#f5f5f5", cor=CINZA)
+    cv.poli_p([vw.pt(P(pj.RECUO_ESQ, 0)), vw.pt(P(8_400, 0)), vw.pt(P(8_400, pj.RECUO_FRENTE)),
+               vw.pt(P(pj.RECUO_ESQ, pj.RECUO_FRENTE))], "fino", fechado=True, preenche="#f5f5f5", cor=CINZA)
     cv.texto_p(vw.pt(P(5_400, 3_600)), "ACESSO DE VEICULOS", TXT["micro"], "middle", cor=CINZA)
     cv.texto_p(vw.pt(P(9_300, 3_600)), "PEDESTRES", TXT["micro"], "middle", cor=CINZA)
 
@@ -309,7 +309,7 @@ def implantacao() -> Canvas:
     # ---- cotas do lote e recuos
     an.cadeia(cv, vw, [0, 2_400, 8_400, 16_800, L], 0, "H", 12)
     an.cadeia(cv, vw, [0, L], 0, "H", 22)
-    an.cadeia(cv, vw, [0, 7_200, 13_200, 19_200, 26_400, Pf], 0, "V", -12)
+    an.cadeia(cv, vw, [0, pj.RECUO_FRENTE, 13_200, 19_200, 26_400, Pf], 0, "V", -12)
     an.cadeia(cv, vw, [0, Pf], 0, "V", -22)
 
     an.norte(cv, (735, 92), 9, pj.NORTE_EM_PLANTA)
@@ -349,9 +349,10 @@ def _tecnicos(cv: Canvas, vw: View, rotulos: bool = True) -> None:
                    rot=90 if vert else 0, cor="#b5651d")
     for p in pj.PILARES:
         c = vw.pt(P(p["x"], p["y"]))
-        cv.poli_p([(c[0] - 1.6, c[1] - 1.6), (c[0] + 1.6, c[1] - 1.6),
-                   (c[0] + 1.6, c[1] + 1.6), (c[0] - 1.6, c[1] + 1.6)],
-                  "corte", fechado=True, preenche="#444", cor="#444")
+        with cv.escopo("pilar", p["cod"]):   # R65: com codigo, a meta-auditoria o acha
+            cv.poli_p([(c[0] - 1.6, c[1] - 1.6), (c[0] + 1.6, c[1] - 1.6),
+                       (c[0] + 1.6, c[1] + 1.6), (c[0] - 1.6, c[1] + 1.6)],
+                      "corte", fechado=True, preenche="#444", cor="#444")
 
 
 # =========================================================================
@@ -366,7 +367,7 @@ def cobertura() -> Canvas:
         f"C = {cb['coef_escoamento']} -> Q = {pj.vazao_pluvial_ls():.4f} L/s.",
         "Reservatorio de retencao pluvial 2.500 L — irrigacao e lavagem, sem ligacao a rede potavel.",
     ])
-    vw = View(75, 120, 500, 2_400, 7_200)   # R62: 1:75, a cobertura ocupava 20 % da folha
+    vw = View(75, 120, 500, pj.RECUO_ESQ, pj.RECUO_FRENTE)   # R62: 1:75, a cobertura ocupava 20 % da folha
 
     baixos = pj.cobertos()
     altos = pj.SUPERIOR

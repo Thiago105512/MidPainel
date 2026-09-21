@@ -267,7 +267,7 @@ PASSO_BUSCA = 25.0        # mm por tentativa
 AFASTAMENTO_MAX = 400.0   # mm: alem disso a caixa deixa de ser caixa de parede
 
 
-def _ambientes(pj) -> list:
+def _retangulos_habitaveis(pj) -> list:
     """Todo retangulo habitavel do caso, ambiente ou subdivisao.
 
     A subdivisao entra porque e ONDE o banho de fato esta: as suites sao
@@ -311,7 +311,7 @@ def resolver_shafts(pj, paineis, base_por_pav: dict) -> dict:
     so como coordenada o orcamento nao saberia dela.
     """
     est = volumes_estrutura(paineis, base_por_pav)
-    ambs = _ambientes(pj)
+    ambs = _retangulos_habitaveis(pj)
     out, placa, piso_tomado = {}, 0.0, 0.0
     for pr in pj.PRUMADAS:
         a, b = pr["secao"]

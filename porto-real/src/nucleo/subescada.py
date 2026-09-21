@@ -61,14 +61,14 @@ def altura_livre(pj, x: float, y: float) -> float:
     return max(0.0, l["z"] - ESTRUTURA_LANCE - FORRO)
 
 
-def _sub(pj):
+def _lavabo(pj):
     return next((d for d in pj.SUBDIVISOES
                  if f"{d['pai']}/{d['nome']}" in pj.LAVABOS), None)
 
 
 def pontos(pj) -> list[dict]:
     """Cada exigencia do lavabo, no ponto em que ela e exigida."""
-    d = _sub(pj)
+    d = _lavabo(pj)
     if d is None:
         return []
     out = []
@@ -105,7 +105,7 @@ def pontos(pj) -> list[dict]:
 
 def janela(pj) -> dict | None:
     """A janela do lavabo cabe sob o lance, no ponto em que esta?"""
-    d = _sub(pj)
+    d = _lavabo(pj)
     if d is None:
         return None
     for t, x, y, ori, pav in pj.VAOS:
@@ -123,7 +123,7 @@ def janela(pj) -> dict | None:
 
 
 def resumo(pj) -> dict:
-    d = _sub(pj)
+    d = _lavabo(pj)
     if d is None:
         return dict(existe=False)
     ps = pontos(pj)

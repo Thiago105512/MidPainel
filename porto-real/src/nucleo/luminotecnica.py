@@ -36,6 +36,7 @@ para a parede — e projeta a sombra dela exatamente onde a tarefa esta.
 from __future__ import annotations
 
 import math
+import nucleo.geometria as _ge
 
 # ------------------------------------------------- iluminancia-alvo por uso
 # (lux, origem). O uso vem da CATEGORIA do ambiente e do nome da subdivisao.
@@ -109,7 +110,7 @@ def _cu(k: float) -> float:
     return CU_TABELA[-1][1]
 
 
-def _uso(pj, cod: str, cat: dict) -> str:
+def _uso_luminico(pj, cod: str, cat: dict) -> str:
     if "/" in cod:
         nome = cod.split("/")[1].upper()
         for chave in ("BANHO", "LAVABO", "CLOSET", "OFFICE", "DESPENSA"):
@@ -124,21 +125,13 @@ def _uso(pj, cod: str, cat: dict) -> str:
     return cat.get(cod, "apoio")
 
 
-def _geom(pj, cod: str) -> tuple:
-    a = next((x for x in pj.TERREO + pj.SUPERIOR if x.cod == cod), None)
-    if a is not None:
-        return a.w / 1000.0, a.h / 1000.0
-    d = next((x for x in pj.SUBDIVISOES if f"{x['pai']}/{x['nome']}" == cod), None)
-    return (d["w"] / 1000.0, d["h"] / 1000.0) if d else (0.0, 0.0)
+def _dimensoes_m(pj, cod: str) -> tuple:
+    return _ge.dimensoes_m(pj, cod)      # R65: geometria compartilhada
 
 
 def _rect(pj, cod: str) -> tuple:
     """(x, y, w, h) em mm do ambiente ou da subdivisao."""
-    a = next((x for x in pj.TERREO + pj.SUPERIOR if x.cod == cod), None)
-    if a is not None:
-        return a.x, a.y, a.w, a.h
-    d = next((x for x in pj.SUBDIVISOES if f"{x['pai']}/{x['nome']}" == cod), None)
-    return (d["x"], d["y"], d["w"], d["h"]) if d else (0, 0, 0, 0)
+    return _ge.retangulo(pj, cod)
 
 
 def _dentro_de_subdivisao(pj, cod: str, x: float, y: float) -> bool:
@@ -212,7 +205,7 @@ def geral(pj, cat: dict, acab: dict) -> list[dict]:
     subs = [(f"{d['pai']}/{d['nome']}", f"{d['nome']} da {d['pai']}")
             for d in pj.SUBDIVISOES]
     for cod, nome in ambientes + subs:
-        L, W = _geom(pj, cod)
+        L, W = _dimensoes_m(pj, cod)
         bruta = L * W
         area = bruta - (_subdiv_area(pj, cod) if "/" not in cod else 0.0)
         if area <= 0:
@@ -224,7 +217,7 @@ def geral(pj, cat: dict, acab: dict) -> list[dict]:
             # dormitorio
             f = math.sqrt(area / bruta)
             L, W = L * f, W * f
-        uso = _uso(pj, cod, cat)
+        uso = _uso_luminico(pj, cod, cat)
         E, origem = ALVO[uso]
         h_forro = _forro_h(pj, cod, acab)
         h_m = h_forro - PLANO_TRABALHO.get(uso, PLANO_PADRAO)

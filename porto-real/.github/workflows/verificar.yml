@@ -18,3 +18,7 @@ jobs:
         run: python3 src/programa.py | tee programa.log; grep -q "0 erro(s)" programa.log
       - name: visualizador
         run: python3 src/viewer_teste.py | tee viewer.log; ! grep -q FALHA viewer.log
+      # R65 — a meta-auditoria de mutacao: muda um valor do caso, mede quem se
+      # mexe. Um consumidor parado e uma segunda fonte esperando para divergir.
+      - name: meta-auditoria (mutacao)
+        run: python3 src/meta_auditoria.py --mutacao | tee meta.log; ! grep -q "!!\|ERRO" meta.log

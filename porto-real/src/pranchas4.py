@@ -191,6 +191,7 @@ def forro() -> Canvas:
         f"{lv['n_geral']} pontos gerais, {len(lv['tarefa'])} pontos de tarefa, "
         f"{lv['w_geral']:.0f} W ({lv['w_m2']} W/m2).",
         "Cor: 2.700 K intimo · 3.000 K social e circulacao · 4.000 K cozinha, banho e trabalho.",
+        f"{sum(v['qtd'] for v in pj.VENTILADORES)} ventiladores de teto (verde), diametro em mm.",
     ])
     trat = {c: (sol, j) for c, sol, _, j in ep.FORROS}
     pat_abs = cv.hachura("absorv", espac=1.1, ang=45, w=0.07, cor="#c77")
@@ -251,12 +252,29 @@ def forro() -> Canvas:
                     if q["tipo"].startswith("sobrepor"):
                         cv.linha_p((c[0] - r, c[1]), (c[0] + r, c[1]), "fino", cor=cor)
                         cv.linha_p((c[0], c[1] - r), (c[0], c[1] + r), "fino", cor=cor)
+        # R65 — ventiladores de teto: os dez declarados so apareciam somados na
+        # PR-28 (e so os do terreo); a planta refletida e o lugar deles.
+        for v in pj.VENTILADORES:
+            if (v["amb"].startswith("S-")) != (pav == "S"):
+                continue
+            a = next((q for q in ambs + pj.TERREO_ABERTO if q.cod == v["amb"]), None)
+            if a is None:
+                continue
+            for i in range(v["qtd"]):
+                cx = a.cx + (0 if v["qtd"] == 1 else (i - (v["qtd"] - 1) / 2) * a.w / v["qtd"])
+                c = vw.pt(P(cx, a.cy))
+                with cv.escopo("ventilador", v["cod"], diam=str(v["diam"])):
+                    cv.circ_p(c, vw.d(v["diam"]) / 2, "fino", preenche="none", cor="#0a6")
+                    cv.linha_p((c[0] - vw.d(v["diam"]) / 2, c[1]), (c[0] + vw.d(v["diam"]) / 2, c[1]),
+                               "fino", cor="#0a6")
+                    cv.texto_p((c[0], c[1] + vw.d(v["diam"]) / 2 + 1.6),
+                               f"{v['cod']} {v['diam']}", TXT["micro"], "middle", cor="#0a6")
         an.titulo_desenho(cv, (vw.ox, 452), "1" if pav == "T" else "2", titulo, "1:75")
 
     # R60 — 1:75 e nao 1:100: em 1:100 os dois pavimentos ocupavam 15 % da
     # folha. A prancha e para ler luminaria por luminaria; escala e legibilidade.
-    pavimento("T", View(75, 50, 430, 2_400, 7_200), "FORRO REFLETIDO — TERREO")
-    pavimento("S", View(75, 250, 430, 2_400, 7_200), "FORRO REFLETIDO — SUPERIOR")
+    pavimento("T", View(75, 50, 430, pj.RECUO_ESQ, pj.RECUO_FRENTE), "FORRO REFLETIDO — TERREO")
+    pavimento("S", View(75, 250, 430, pj.RECUO_ESQ, pj.RECUO_FRENTE), "FORRO REFLETIDO — SUPERIOR")
 
     # legenda
     lx, ly = 480, 46
@@ -313,7 +331,7 @@ def acessibilidade() -> Canvas:
         "Porta de correr de 900 mm no banho libera a area de varredura.",
         "Reforcos para barra de apoio embutidos antes do fechamento das placas.",
     ])
-    vw = View(75, 70, 400, 2_400, 7_200)
+    vw = View(75, 70, 400, pj.RECUO_ESQ, pj.RECUO_FRENTE)
 
     cores = {"social": "#f6c453", "intimo": "#a29bfe", "servico": "#74b9ff",
              "oficina": "#74b9ff", "circulacao": "#dfe6e9", "apoio": "#b2bec3",
@@ -409,7 +427,7 @@ def paginacao_lsf() -> Canvas:
         "Nenhuma peca entra em nesting sem codigo, largura, altura, espessura, material e revisao.",
         "Numeracao por pavimento; a familia define a composicao interna do painel.",
     ])
-    vw = View(100, 70, 400, 2_400, 7_200)
+    vw = View(100, 70, 400, pj.RECUO_ESQ, pj.RECUO_FRENTE)
 
     for a in pj.TERREO:
         cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),

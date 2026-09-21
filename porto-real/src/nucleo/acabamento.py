@@ -20,6 +20,7 @@ sai de uma regra declarada, marcada, e vira pendencia propria.
 from __future__ import annotations
 
 import math
+import nucleo.geometria as _ge
 
 # --------------------------------------------------------------- criterios
 DEMAOS = 2
@@ -80,14 +81,8 @@ def _sub(pj) -> dict:
 
 
 def _geom(pj, cod) -> tuple:
-    """(area m2, perimetro m) de um ambiente OU de uma subdivisao."""
-    a = _ambs(pj).get(cod)
-    if a is not None:
-        return a.w * a.h / 1e6, 2 * (a.w + a.h) / 1000.0
-    d = _sub(pj).get(cod)
-    if d is not None:
-        return d["w"] * d["h"] / 1e6, 2 * (d["w"] + d["h"]) / 1000.0
-    return 0.0, 0.0
+    """(area m2, perimetro m) de um ambiente OU de uma subdivisao — de geometria.py (R65)."""
+    return _ge.area_perimetro(pj, cod)
 
 
 def _sem_forro(pj) -> set:
@@ -587,9 +582,7 @@ def levantar(pj, camadas=None) -> dict:
                          "luz por regra declarada ate haver luminotecnica")
 
 
-def _brl(v) -> str:
-    s = f"{v:,.2f}".replace(",", "\x00").replace(".", ",").replace("\x00", ".")
-    return "R$ " + s
+from nucleo.formato import brl as _brl   # R65: uma funcao, nao tres
 
 
 def conferir(pj) -> list[tuple[str, str, bool]]:

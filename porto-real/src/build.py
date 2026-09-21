@@ -65,6 +65,9 @@ CADERNO = [
     ("39", "DESEMPENHO ACUSTICO",               lambda: p8.acustica()),
     ("40", "CARGAS, FASES E MERCADO",           lambda: p8.cargas_e_mercado()),
     ("41", "ENERGIA: FOTOVOLTAICA, SPDA E VIDRO", lambda: p8.energia()),
+    # R65 — a meta-auditoria achou LY-10 a LY-15 em nenhuma prancha: o layout
+    # do superior existia no modelo e nao existia no caderno.
+    ("42", "PLANTA DE LAYOUT — SUPERIOR",       lambda: pr.planta("S", "42", layout=True)),
 ]
 
 

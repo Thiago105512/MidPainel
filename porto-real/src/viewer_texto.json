@@ -1015,5 +1015,30 @@
     "Ng, irradiação e tarifa são dados de sítio (H): confirmar no mapa, no atlas e na fatura"
    ]
   ]
+ },
+ {
+  "n": "42",
+  "t": "Planta de layout — superior",
+  "esc": "1:50",
+  "etapa": "R65",
+  "d": "O pavimento superior com o mobiliário solto que o modelo já declarava (LY-10 a LY-15) e nunca tinha desenhado. A meta-auditoria de alcance — cada entidade do caso chega a alguma prancha? — apontou seis itens de layout sem prancha; esta é a prancha. Camas, cabeceiras e o estar do mini lounge contra as circulações reais, como a PR-04 faz no térreo.",
+  "k": [
+   [
+    "LY-10 a LY-15",
+    "itens de layout do superior que existiam só no modelo"
+   ],
+   [
+    "AR-11 a AR-14",
+    "guarda-roupas e gaveteiro desenhados com as camas"
+   ],
+   [
+    "1:50",
+    "mesma escala e mesma leitura da planta de layout do térreo"
+   ],
+   [
+    "alcance",
+    "a conferência que gerou a prancha passa a rodar em cada revisão"
+   ]
+  ]
  }
 ]

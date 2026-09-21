@@ -1205,12 +1205,15 @@ def escolher_perfil(w_kn_m: float, vao_mm: int, limite: int,
 # sustentando o mini lounge sobre o deck norte, a master sobre o varal e o
 # patio, e a varanda. Substitui os seis pilares dispersos da revisao anterior:
 # duas linhas continuas sao mais baratas de executar e deixam o terreo legivel.
+# R65 — cada pilar tem codigo: era a unica lista de pecas do caso sem `cod`,
+# e por isso a meta-auditoria nao conseguia dizer se ele chegava a cena e a
+# prancha. O que nao tem nome nao se confere.
 PILARES = [
-    dict(x=12_600, y=16_800), dict(x=15_600, y=16_800),
-    dict(x=12_600, y=19_200), dict(x=15_600, y=19_200),
-    dict(x=12_600, y=22_200), dict(x=15_600, y=22_200),
-    dict(x=12_600, y=25_200), dict(x=15_600, y=25_200),
-    dict(x=12_600, y=27_000), dict(x=15_600, y=27_000),
+    dict(cod="PL-01", x=12_600, y=16_800), dict(cod="PL-02", x=15_600, y=16_800),
+    dict(cod="PL-03", x=12_600, y=19_200), dict(cod="PL-04", x=15_600, y=19_200),
+    dict(cod="PL-05", x=12_600, y=22_200), dict(cod="PL-06", x=15_600, y=22_200),
+    dict(cod="PL-07", x=12_600, y=25_200), dict(cod="PL-08", x=15_600, y=25_200),
+    dict(cod="PL-09", x=12_600, y=27_000), dict(cod="PL-10", x=15_600, y=27_000),
 ]
 PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
 
@@ -1894,6 +1897,16 @@ CLIMA_Q_VIDRO = 200         # BTU/h por m2 de vidro com g = G_REF (0,35) e brise
 CLIMA_Q_PESSOA = 600        # BTU/h por ocupante acima de dois
 CLIMA_Q_EQUIP = 200         # BTU/h por equipamento (TV, computador)
 CAPACIDADES_COMERCIAIS = (9_000, 12_000, 18_000, 24_000, 30_000, 36_000)
+# R65 (defeito 99) — a mutacao da ABSORTANCIA nao movia carga nenhuma: CLIMA_Q_M2
+# e uma taxa por m2 de piso (H) que embute a envoltoria CLARA e nao le nem U
+# nem alfa. Uma casa pintada de grafite teria a mesma carga que uma branca.
+# O que entra e a DIFERENCA para a absortancia de calibracao, pela temperatura
+# sol-ar (NBR 15220-2): dT = (alfa - alfa_ref) . I / h_e, sobre a parede
+# externa real do ambiente com o U real da PE-1 (nucleo/termica). Em alfa =
+# 0,30 o termo e zero e nada muda; em 0,60 o estar ganha ~900 BTU/h.
+ABSORTANCIA_REF_CLIMA = 0.30   # (H) alfa com que CLIMA_Q_M2 foi calibrado
+IRRADIANCIA_PAREDE = 600       # W/m2 (H) pico em fachada L/O a 3 S
+H_EXTERNO = 25.0               # W/(m2.K) NBR 15220-2, coef. superficial externo
 FATOR_VENTILADOR = 0.85     # NBR 16401-2: 0,8 m/s eleva o setpoint ~2,5 C
 FATOR_DUTO = 1.05           # perda termica e de vazao na rede de dutos
 # largura de nicho por faixa de capacidade (condensadora + folga lateral)
@@ -1981,6 +1994,23 @@ def face_do_vao(x, y, ori, pav) -> str:
     if ori == "H":
         return "L" if dentro(x, y + 300) else "O"
     return "N" if dentro(x - 300, y) else "S"
+
+
+def vao_externo(x, y, ori, pav) -> bool:
+    """O vao da para fora? Comodo fechado de UM lado so (R65, defeito 97).
+
+    fachada.py tinha regra propria — vao externo era o que encostava na CAIXA
+    ENVOLVENTE do volume — e ela deixava de fora 19 vaos externos em reentrancias
+    (a porta de entrada P01 no portico, J01/J04 da faixa norte, PV02 do gourmet).
+    A fracao de vidro por face e a area liquida da fachada saiam menores. Uma
+    regra so: e externo o vao que tem ambiente fechado de um lado e nao do outro.
+    """
+    ambs = TERREO if pav == "T" else SUPERIOR
+    def dentro(px, py):
+        return any(a.x <= px < a.x + a.w and a.y <= py < a.y + a.h for a in ambs)
+    if ori == "H":
+        return dentro(x, y + 300) != dentro(x, y - 300)
+    return dentro(x - 300, y) != dentro(x + 300, y)
 
 
 def amb_do_vao(x, y, pav) -> str:
@@ -2091,13 +2121,47 @@ def carga_termica(cod: str, pessoas: int = 2, equip: int = 0,
         area = area_condicionada(cod) + sum(area_condicionada(c) for c in (mais or []))
         # R61 — vidro ponderado pelo fator solar: CLIMA_Q_VIDRO vale para g_ref
         vidro = ganho_vidro(cod) + sum(ganho_vidro(c) for c in (mais or []))
-    q = (area * CLIMA_Q_M2 + vidro * CLIMA_Q_VIDRO
+    opaco = 0.0 if area_m2 is not None else (
+        ganho_opaco(cod) + sum(ganho_opaco(c) for c in (mais or [])))
+    q = (area * CLIMA_Q_M2 + vidro * CLIMA_Q_VIDRO + opaco
          + max(0, pessoas - 2) * CLIMA_Q_PESSOA + equip * CLIMA_Q_EQUIP)
     if ventilador:
         q *= FATOR_VENTILADOR
     if duto:
         q *= FATOR_DUTO
     return int(math.ceil(q / 100.0) * 100)
+
+
+def paredes_externas_m2(cod: str) -> float:
+    """Area de parede do ambiente que da para fora (lado sem ambiente fechado)."""
+    a = next((q for q in TERREO + SUPERIOR if q.cod == cod), None)
+    if a is None:
+        return 0.0
+    ambs = TERREO if a.pav == "T" else SUPERIOR
+    def dentro(px, py):
+        return any(q.x <= px < q.x + q.w and q.y <= py < q.y + q.h for q in ambs)
+    ext = 0
+    for (mx, my, comp) in ((a.x + a.w / 2, a.y - 300, a.w), (a.x + a.w / 2, a.y + a.h + 300, a.w),
+                           (a.x - 300, a.y + a.h / 2, a.h), (a.x + a.w + 300, a.y + a.h / 2, a.h)):
+        if not dentro(mx, my):
+            ext += comp
+    return ext * PE_DIREITO / 1e6
+
+
+def _u_parede_externa() -> float:
+    import sys
+    import nucleo.termica as tm
+    me = sys.modules[__name__]
+    r = next((x for x in tm.levantar(me) if x["cod"] == "PE-1"), None)
+    return r["u"] if r else 0.0
+
+
+def ganho_opaco(cod: str) -> float:
+    """BTU/h que a absortancia ADICIONA sobre a calibracao de CLIMA_Q_M2 (R65)."""
+    d_t = (ABSORTANCIA - ABSORTANCIA_REF_CLIMA) * IRRADIANCIA_PAREDE / H_EXTERNO
+    if abs(d_t) < 1e-9:
+        return 0.0
+    return _u_parede_externa() * paredes_externas_m2(cod) * d_t * 3.412
 
 
 def capacidade_comercial(carga: int) -> int:
@@ -3623,6 +3687,21 @@ REVISOES = [
      "as faces da fachada — e a terceira nao fechava por orientacao: as "
      "larguras das faces estavam trocadas (defeito 96). Corrigido; o vidro "
      "e 22,9 % da area fechada, 39 % dele na face oeste"),
+    ("R65", "META-AUDITORIA. 'Toda resposta acha uma falha; da para achar todas?' "
+     "Nao todas — mas da para procurar o MOLDE delas em vez de uma por vez: "
+     "mutacao (muda um valor do caso em subprocesso, mede quem se mexe), "
+     "literal igual a valor do caso fora do caso, entidade que nao chega a "
+     "prancha ou a cena, funcao privada repetida. Achados da primeira rodada: "
+     "fachada.py tinha regra propria de face por caixa envolvente e deixava 19 "
+     "vaos externos como 'internos' (defeito 97; fracao de vidro por face e "
+     "area liquida de fachada erradas); Config.modulacao default 600 era "
+     "segunda fonte de MONTANTE_ESPACAMENTO (98); a carga termica nao lia a "
+     "absortancia — ganho opaco por temperatura sol-ar sobre a calibracao "
+     "(99); ventiladores em nenhuma prancha nem cena (100); layout do "
+     "superior LY-10..15 em nenhuma prancha — PR-42 (101); pilares sem "
+     "codigo (102); tres formatadores de R$, duas geometrias, duas faces "
+     "(103); 14 literais 7.200/2.400 em desenho (104). Auditoria 138 no "
+     "programa; mutacao na CI"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3808,13 +3887,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R64",
+    revisao="R65",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R64", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R65", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

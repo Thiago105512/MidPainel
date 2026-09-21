@@ -64,7 +64,7 @@ def faces(pj) -> list[dict]:
     for face, larg_t, larg_s in (("L", sx_t, sx_s), ("O", sx_t, sx_s),
                                  ("S", sy_t, sy_s), ("N", sy_t, sy_s)):
         area = (larg_t * h_t + larg_s * h_s) / 1e6
-        vaos = [v for v in pj.VAOS if _face_do_vao(pj, v) == face]
+        vaos = [v for v in pj.VAOS if _face_ou_interno(pj, v) == face]
         a_vao = sum(pj.ESQUADRIAS[t][0] * pj.ESQUADRIAS[t][1]
                     for t, *_ in vaos) / 1e6
         vidro = sum(pj.ESQUADRIAS[t][0] * pj.ESQUADRIAS[t][1]
@@ -91,23 +91,22 @@ def _opaco(familia: str) -> bool:
     return "porta" in f and "balcao" not in f and "vidro" not in f and "correr" not in f
 
 
-def _face_do_vao(pj, v) -> str:
-    """De que face este vao pertence, pela posicao no envelope."""
+def _face_ou_interno(pj, v) -> str:
+    """Face do vao (N/S/L/O) ou "interno" — pela regra do CASO, nao por uma daqui.
+
+    R65 (defeito 97): ate R64 esta funcao classificava por CAIXA ENVOLVENTE —
+    era externo o vao a menos de 200 mm do retangulo que contem a casa. O
+    volume e escalonado: 19 vaos externos em reentrancias (P01 no portico, os
+    J01/J04 da faixa norte, PV02 do gourmet, J01/J04/J05 do superior) saiam
+    como "interno", a fracao de vidro por face ficava menor do que e, e a area
+    liquida da fachada (o que se reveste) ficava MAIOR do que e. Duas regras
+    para o mesmo fato, uma delas errada: a meta-auditoria de funcoes duplicadas
+    achou o nome repetido; a comparacao das duas achou o erro.
+    """
     tipo, x, y, ori, pav = v
-    ambs = pj.TERREO + pj.SUPERIOR
-    xs = [a.x for a in ambs] + [a.x + a.w for a in ambs]
-    ys = [a.y for a in ambs] + [a.y + a.h for a in ambs]
-    x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
-    T = 200
-    if ori == "V" and abs(x - x0) <= T:
-        return "S"
-    if ori == "V" and abs(x - x1) <= T:
-        return "N"
-    if ori == "H" and abs(y - y0) <= T:
-        return "L"
-    if ori == "H" and abs(y - y1) <= T:
-        return "O"
-    return "interno"
+    if not pj.vao_externo(x, y, ori, pav):
+        return "interno"
+    return pj.face_do_vao(x, y, ori, pav)
 
 
 def brises(pj) -> dict:

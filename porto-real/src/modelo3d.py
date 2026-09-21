@@ -36,7 +36,7 @@ CORES = {
     # R60 — a fachada tem DOIS tratamentos (R59): base pintada ate 2.600 mm e
     # volume superior em mineral claro de fabrica. A cena mostra os dois.
     "parede_ext": "#ebe7e0", "parede_base": "#cfc8bc", "parede_int": "#e8e4dc",
-    "laje": "#cfcac1",
+    "laje": "#cfcac1", "ventilador": "#5a5f66",
     "luz_2700": "#ffb865", "luz_3000": "#ffd27a", "luz_4000": "#dff0ff",
     "platibanda": "#cdc7bd", "vidro": "#8fc4dd", "porta": "#9b7245",
     "piso_int": "#e6e1d8", "deck": "#b08a5e", "piscina": "#5aa7c8",
@@ -237,7 +237,7 @@ def _externos() -> list[dict]:
         s = 200
         out.append(_box("pilar", pl["x"] - s / 2, pl["y"] - s / 2, 0,
                         pl["x"] + s / 2, pl["y"] + s / 2, Z["T"]["teto"],
-                        CORES["pilar"]))
+                        CORES["pilar"], pl["cod"]))
     for t in pj.TECNICOS:
         if t.get("zona") == "INT" or t.get("rasante"):
             continue
@@ -252,7 +252,7 @@ def _externos() -> list[dict]:
         z0 = br.get("z0", 900)
         out.append(_box("brise", br["x"] - pr, br["y"], z0,
                         br["x"] + pr, br["y"] + br["w"],
-                        z0 + br.get("altura", 1_500), CORES["brise"]))
+                        z0 + br.get("altura", 1_500), CORES["brise"], br["cod"]))
     return out
 
 
@@ -418,7 +418,32 @@ def _luz() -> list[dict]:
     return out
 
 
-def _ambientes() -> list[dict]:
+def _ventiladores() -> list[dict]:
+    """Ventiladores de teto, na cota do forro do ambiente (R65).
+
+    Dez ventiladores declarados em VENTILADORES eram somados na prancha de
+    climatizacao e nao existiam na cena nem na planta de forro do superior.
+    A pa fica 350 mm abaixo do forro; o disco tem o diametro declarado.
+    """
+    acab = {a["amb"]: a for a in pj.acabamentos()}
+    ambs = {a.cod: a for a in pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO}
+    out = []
+    for v in pj.VENTILADORES:
+        a = ambs.get(v["amb"])
+        if a is None:
+            continue
+        pav = "S" if v["amb"].startswith("S-") else "T"
+        hf = (acab.get(v["amb"]) or {}).get("forro_h") or pj.PE_DIREITO
+        z = Z[pav]["piso"] + hf - 350
+        r = v["diam"] / 2
+        for i in range(v["qtd"]):
+            cx = a.cx + (0 if v["qtd"] == 1 else (i - (v["qtd"] - 1) / 2) * a.w / v["qtd"])
+            out.append(_box("mob", cx - r, a.cy - r, z - 40, cx + r, a.cy + r, z,
+                            CORES["ventilador"], v["cod"]))
+    return out
+
+
+def _rotulos_ambientes() -> list[dict]:
     out = []
     for a in pj.TERREO + pj.SUPERIOR:
         pav = a.pav
@@ -430,7 +455,7 @@ def _ambientes() -> list[dict]:
 
 CENAS = [
     dict(id="perspectiva", nome="Perspectiva geral",
-         alvo=[10_000, 20_000, 1_500], dist=34_000, azim=-38, elev=24,
+         alvo=[pj.LOTE_L // 2, pj.LOTE_P // 2, 1_500], dist=34_000, azim=-38, elev=24,
          hora=10,
          mostra=["cobertura", "superior", "terreo", "externo", "mob"],
          nota="Volumetria inteira: garagem em um pavimento na frente, portico "
@@ -442,7 +467,7 @@ CENAS = [
          nota="O que se ve da rua: portao ripado, portico recuado e o volume "
               "superior emergindo atras."),
     dict(id="fita", nome="Fita social sem cobertura",
-         alvo=[7_500, 20_000, 1_200], dist=24_000, azim=-55, elev=40,
+         alvo=[7_500, pj.LOTE_P // 2, 1_200], dist=24_000, azim=-55, elev=40,
          corte=1_500,
          hora=12,
          mostra=["terreo", "externo", "mob", "escada"],
@@ -471,13 +496,13 @@ CENAS = [
          mostra=["cobertura", "superior", "terreo", "externo", "mob"],
          nota="A varanda de 3.000 mm em balanco, sem pilar entre a mesa e a agua."),
     dict(id="tecnica", nome="Faixa tecnica norte",
-         alvo=[16_000, 20_000, 1_200], dist=26_000, azim=0, elev=14,
+         alvo=[16_000, pj.LOTE_P // 2, 1_200], dist=26_000, azim=0, elev=14,
          hora=11,
          mostra=["cobertura", "superior", "terreo", "externo"],
          nota="A espinha de manutencao: cisterna, bomba, GLP, nichos de "
               "condensadoras, casa de maquinas e deposito, tudo num corredor so."),
     dict(id="topo", nome="Implantacao de cima",
-         alvo=[10_000, 20_000, 0], dist=42_000, azim=-90, elev=88,
+         alvo=[pj.LOTE_L // 2, pj.LOTE_P // 2, 0], dist=42_000, azim=-90, elev=88,
          hora=12,
          mostra=["cobertura", "superior", "terreo", "externo"],
          nota="Taxa de ocupacao, recuos e a relacao entre construido e livre."),
@@ -496,8 +521,8 @@ def exportar(caminho: str | None = None) -> dict:
         terreo=_paredes("T") + _subdivisoes(),
         superior=_paredes("S"),
         lajes=_lajes(), platibandas=_platibandas(),
-        externo=_externos() + _lote(), mob=_mobiliario(), escada=_escada(),
-        ambientes=_ambientes(), cenas=CENAS, cores=CORES,
+        externo=_externos() + _lote(), mob=_mobiliario() + _ventiladores(), escada=_escada(),
+        ambientes=_rotulos_ambientes(), cenas=CENAS, cores=CORES,
         luz=_luz(),
         lsf=_estrutura_lsf(), cores_lsf=CORES_LSF)
     # separa o que e do superior para permitir ligar/desligar
@@ -534,7 +559,7 @@ def _estrutura_lsf() -> list[dict]:
     import nucleo.materiais as mt
     import nucleo.descida as ds
 
-    cfg = pn.Config(altura=pj.PE_DIREITO)
+    cfg = pn.Config(altura=pj.PE_DIREITO, modulacao=pj.MONTANTE_ESPACAMENTO)
     aco = mt.POR_ACO["ZAR 230"]
     pais = {pav: pn.painelizar(el.derivar_paredes(amb),
                                list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")

@@ -734,6 +734,19 @@ PROGRAMA = [
      "cada prancha e esta condicao lista as que ficam abaixo de 45 %. "
      "PARCIAL porque ocupacao nao e legibilidade: e o proxy que da para "
      "medir sem olho."),
+    (138, "Meta-auditoria: os moldes em que os defeitos vieram",
+     ["checar_moldes_de_defeito"], "PARCIAL",
+     "Secao 163. Depois de 96 defeitos, o proprietario perguntou se dava para "
+     "achar todos de uma vez. Nao da — mas da para procurar o FORMATO deles: "
+     "duas fontes para o mesmo fato (mutacao: muda-se um valor do caso num "
+     "subprocesso e mede-se quem se mexe), literal que envelhece (numero "
+     "escrito fora do caso igual a um valor do caso), entidade que nao chega "
+     "ao desenho ou a cena, funcao privada repetida. A primeira execucao "
+     "achou seis: a regra propria de face na fachada (19 vaos externos "
+     "contados como internos), a modulacao default do Config, a carga "
+     "termica surda a absortancia, os ventiladores e o layout do superior "
+     "sem prancha, os pilares sem codigo. PARCIAL porque premissa errada so "
+     "olho humano acha."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

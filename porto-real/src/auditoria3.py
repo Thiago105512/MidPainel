@@ -3742,7 +3742,7 @@ def checar_instalacoes() -> list[Achado]:
                             f"de piso e {sh['placa_m2']:.2f} m2 de placa RU"))
         # a decisao promete tres coisas. Cada uma e conferida.
         import nucleo.instalacoes as _in
-        ambs = _in._ambientes(pj)
+        ambs = _in._retangulos_habitaveis(pj)
         fora = [k for k, v in res.items()
                 if v["deslocado"] and not any(
                     _in._dentro(v["x"], v["y"], v["x"] + v["secao"][0],
@@ -4389,6 +4389,53 @@ def checar_ocupacao_das_folhas() -> list[Achado]:
                   f"{len(baixas)} de {len(oc)} abaixo de {OCUPACAO_MIN * 100:.0f} % da folha: "
                   + ", ".join(f"PR-{k} ({v * 100:.0f} %)" for k, v in baixas) if baixas
                   else f"todas as {len(oc)} pranchas ocupam >= {OCUPACAO_MIN * 100:.0f} %")]
+    return out
+
+
+def checar_moldes_de_defeito() -> list[Achado]:
+    """Meta-auditoria (R65): literais do caso, alcance das entidades, funcoes duplicadas.
+
+    As outras 137 conferem FATOS; esta confere o FORMATO em que os defeitos
+    vieram: literal que envelhece, entidade que nao chega ao desenho, funcao
+    repetida com semantica quase igual. O teste de mutacao (segunda fonte) e o
+    mais lento — sete subprocessos — e roda com META_MUTACAO=1 ou na CI.
+    """
+    import os
+    import meta_auditoria as ma
+    out = []
+    lit = ma.literais_magicos()
+    out.append(Achado("NOTA" if not lit else "ERRO", "literais do caso",
+                      f"{len(lit)} numero(s) escrito(s) fora do caso iguais a "
+                      f"{', '.join(ma.LITERAIS_DO_CASO)}"
+                      + (": " + "; ".join(f"{a['arquivo']}:{a['linha']} ({a['igual_a']})" for a in lit[:8]) if lit else "")))
+    alc, n_svg = ma.alcance_das_entidades()
+    if n_svg == 0:
+        out.append(Achado("ATENCAO", "alcance", "sem pranchas em out/: rode build.py"))
+    else:
+        sem_pr = [a for a in alc if not a["prancha"]]
+        sem_3d = [a for a in alc if a["esperado_cena"] and not a["cena"]]
+        out.append(Achado("NOTA" if not sem_pr else "ERRO", "entidade sem prancha",
+                          f"{len(alc)} entidades com codigo em {len(set(a['lista'] for a in alc))} listas; "
+                          f"{len(sem_pr)} em nenhuma das {n_svg} pranchas"
+                          + (": " + ", ".join(a["cod"] for a in sem_pr[:12]) if sem_pr else "")))
+        out.append(Achado("NOTA" if not sem_3d else "ERRO", "entidade sem cena 3D",
+                          f"{sum(1 for a in alc if a['esperado_cena'])} deveriam estar na cena; "
+                          f"{len(sem_3d)} faltam" + (": " + ", ".join(a["cod"] for a in sem_3d[:12]) if sem_3d else "")))
+    dup = ma.funcoes_duplicadas()
+    out.append(Achado("NOTA" if not dup else "ERRO", "funcoes duplicadas",
+                      f"{len(dup)} nome(s) privado(s) repetido(s) entre modulos produtores"
+                      + (": " + ", ".join(d["funcao"] for d in dup) if dup else "")))
+    if os.environ.get("META_MUTACAO"):
+        for m in ma.teste_de_mutacao():
+            if "erro" in m:
+                out.append(Achado("ERRO", f"mutacao {m['mutacao']}", m["erro"])); continue
+            ruim = m["parados_suspeitos"] or m["inesperados"]
+            out.append(Achado("NOTA" if not ruim else "ERRO", f"mutacao {m['mutacao']}",
+                              f"moveu {', '.join(m['moveu'])}"
+                              + (f"; PARADOS {m['parados_suspeitos']}" if m["parados_suspeitos"] else "")
+                              + (f"; inesperados {m['inesperados']}" if m["inesperados"] else "")))
+    else:
+        out.append(Achado("NOTA", "mutacao", "nao rodada (META_MUTACAO=1 para rodar; a CI roda)"))
     return out
 
 

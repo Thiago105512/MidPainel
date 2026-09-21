@@ -147,8 +147,8 @@ def locacao() -> Canvas:
     cv.poli_p([(rn[0], rn[1]), (rn[0] - 3, rn[1] + 5), (rn[0] + 3, rn[1] + 5)],
               "corte", fechado=True, preenche="#000")
     cv.texto_p((rn[0] + 5, rn[1] + 4), "RN +0,00", TXT["micro"], "start")
-    an.cadeia(cv, vw, [0, 2_400, 16_800, L], 0, "H", 14)
-    an.cadeia(cv, vw, [0, 7_200, 27_600, Pf], 0, "V", -14)
+    an.cadeia(cv, vw, [0, pj.RECUO_ESQ, 16_800, L], 0, "H", 14)
+    an.cadeia(cv, vw, [0, pj.RECUO_FRENTE, 27_600, Pf], 0, "V", -14)
     an.norte(cv, (280, 120), 8, pj.NORTE_EM_PLANTA)
 
     linhas = []
@@ -339,6 +339,7 @@ INDICE = [
     ("39", "Desempenho acustico entre ambientes (R52)"),
     ("40", "Cargas, equilibrio de fases e mercado (R52)"),
     ("41", "Energia: fotovoltaica, SPDA e vidro solar (R61)"),
+    ("42", "Planta de layout — superior (R65)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},

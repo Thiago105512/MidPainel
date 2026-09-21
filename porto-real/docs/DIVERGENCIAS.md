@@ -5118,3 +5118,99 @@ face** — o número que justifica brise e vidro — estava na face errada.
 Achado ao responder "quanto vidro tem a casa": três contadores de vidro
 (vãos, esquadrias líquidas de caixilho, faces) davam três números, e o
 terceiro não fechava por orientação.
+
+## R65 — Meta-auditoria: procurar o molde, não o defeito
+
+O proprietário observou que toda resposta acabava achando uma falha e
+perguntou se dava para achar todas de uma vez. Não dá — mas 96 defeitos
+documentados cabem em cinco moldes, e quatro deles são mecanizáveis:
+
+| Molde | Detector (`src/meta_auditoria.py`) | Onde roda |
+|---|---|---|
+| duas fontes para o mesmo fato | **mutação**: muda um valor do caso num subprocesso e mede quem se mexe; consumidor parado é suspeito | CI (`--mutacao`) e `META_MUTACAO=1` |
+| literal que envelhece | número escrito fora do caso igual a um valor distintivo do caso (PE_DIREITO, RECUO_FRENTE, TOPO_PLATIBANDA, LOTE_P) | auditoria 138 |
+| existe no modelo, não chega ao desenho | cada código do caso: está em alguma prancha? na cena 3D, quando é volume? | auditoria 138 |
+| função duplicada "quase igual" | nome privado repetido entre módulos produtores (auditorias excluídas: recomputar é o papel delas) | auditoria 138 |
+| premissa errada | — só olho humano | folha de contato, proprietário |
+
+A primeira versão do teste de mutação acusou a si mesma: mudava `PE_DIREITO`
+em memória e nada se mexia, porque as constantes derivadas são calculadas na
+importação. "Conferência nova que acusa muito na primeira execução está quase
+sempre acusando a si mesma." A versão que ficou reescreve o trecho do caso e
+reimporta em subprocesso.
+
+### Defeito 97 — a fachada tinha regra própria de "vão externo"
+`fachada._face_do_vao` classificava por **caixa envolvente**: era externo o
+vão a menos de 200 mm do retângulo que contém a casa. O volume é escalonado;
+19 vãos externos em reentrâncias (a porta de entrada P01 no pórtico, J01/J04
+da faixa norte, PV02 do gourmet, J01/J04/J05 do superior) saíam como
+"interno". A fração de vidro por face — o número que justifica brise e vidro
+low-e — estava subestimada em todas as faces, e a área líquida de fachada
+superestimada. Achado pelo detector de funções duplicadas (`_face_do_vao`
+existia em dois módulos) e confirmado comparando as duas regras vão a vão.
+
+| Face | vãos antes → depois | vidro m² antes → depois | fração |
+|---|---|---|---|
+| L (testada) | 2 → 7 | 2,16 → 5,76 | 2,8 % → 7,5 % |
+| O (piscina) | 1 → 5 | 18,72 → 26,64 | 24,5 % → 34,8 % |
+| S | 5 → 7 | 8,64 → 16,56 | 9,6 % → 18,3 % |
+| N | 3 → 11 | 3,60 → 19,08 | 4,0 % → 21,1 % |
+
+Regra única agora: `projeto.vao_externo()` (ambiente fechado de um lado só) e
+`projeto.face_do_vao()`. O total de vidro (68,0 m²) não mudou — ele vinha de
+`vaos_envidracados`, que já usava a regra do caso.
+
+### Defeito 98 — `Config.modulacao` era segunda fonte de `MONTANTE_ESPACAMENTO`
+A mutação de `MONTANTE_ESPACAMENTO` (600 → 400) moveu só o U da parede; peças
+e massa ficaram paradas. A painelização lia o default 600 da dataclass. Mesmo
+defeito do 90 (altura), no campo ao lado: `Config(altura=PE_DIREITO,
+modulacao=MONTANTE_ESPACAMENTO)` nos quatro pontos de construção.
+
+### Defeito 99 — a carga térmica era surda à absortância
+A mutação de `ABSORTANCIA` (0,30 → 0,60) não moveu nada. `CLIMA_Q_M2` é uma
+taxa por m² de piso (H) que embute a envoltória clara e não lê U nem α: uma
+casa grafite teria a mesma carga que uma branca. Entra o ganho opaco pela
+temperatura sol-ar (NBR 15220-2), `Δt = (α − α_ref)·I/h_e`, sobre a parede
+externa real do ambiente (`paredes_externas_m2`) com o U real da PE-1
+(`nucleo/termica`). Em α = 0,30 o termo é zero e nenhuma capacidade muda; em
+0,60 o estar ganha cerca de 900 BTU/h. Não é "mais um número": é a sensibilidade
+que faltava para a auditoria de cor da fachada ter consequência.
+
+### Defeito 100 — dez ventiladores em nenhuma prancha e em nenhuma cena
+`VENTILADORES` era somado num quadro da PR-28 e desenhado só no térreo, sem
+código. Os do superior (VT-07..09) não existiam em desenho nenhum. Agora estão
+na planta refletida (PR-16), nos dois pavimentos, com código e diâmetro, e na
+cena 3D a 350 mm do forro.
+
+### Defeito 101 — o layout do superior existia no modelo e não no caderno
+`LY-10` a `LY-15` (camas, cabeceiras, estar do mini lounge) em nenhuma prancha:
+havia planta de layout do térreo (PR-04) e nenhuma do superior. PR-42.
+
+### Defeito 102 — pilares sem código
+`PILARES` era a única lista de peças sem `cod`; a cena desenhava dez caixas
+anônimas e a planta dez quadrados. Sem nome não há como conferir alcance.
+`PL-01..10`, com escopo na planta e código na cena; brises ganham código na
+cena também.
+
+### Defeito 103 — três formatadores de R$, duas geometrias, duas faces
+`_brl` em viabilidade, `_brl` em acabamento e `brl` em core; `_geom` em
+acabamento (área, perímetro) e em luminotecnica (largura, profundidade) com o
+mesmo nome e retornos diferentes; `_sub` com dois significados; `_ambientes`
+com três. Um só `nucleo/formato.py` e um só `nucleo/geometria.py`; os nomes
+que significam coisas diferentes passam a chamar-se diferente
+(`_uso_luminico`, `_lavabo`, `_rotulos_ambientes`, `_retangulos_habitaveis`,
+`_ponto_em_ambiente`, `_face_ou_interno`). O detector fica em 138: nome
+privado repetido entre produtores é ERRO.
+
+### Defeito 104 — 7.200 e 2.400 escritos em 14 lugares de desenho
+`View(…, 2_400, 7_200)`, eixos, cadeias de cota, o retângulo do acesso: o
+recuo de frente e o recuo esquerdo como literal. Se o lote mudar, o desenho
+fica no lugar. `pj.RECUO_FRENTE` / `pj.RECUO_ESQ`; e as cenas do 3D miravam
+`[10_000, 20_000]` em vez do centro do lote.
+
+**Estado em R65:** 138 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; 42 pranchas; meta-auditoria: 6 mutações com todos os consumidores
+esperados em movimento, 0 literais do caso fora do caso, 131 entidades todas
+em prancha (e em cena onde são volume), 0 funções privadas repetidas. BOM de
+165 itens, R$ 939.573,41 — inalterado: nenhum dos oito defeitos era de
+quantidade, todos eram de fonte, alcance ou nome.

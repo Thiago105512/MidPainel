@@ -55,8 +55,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # R61 — a altura do painel e o pe-direito do PROJETO. Um Config() default
     # aqui painelizava a 2.600 enquanto o modelo ja estava a 2.900: 64 pecas
     # de guia com codigo diferente entre a fabrica e a cena.
-    cfg = cfg or pn.Config(altura=pj.PE_DIREITO)
-    cfg = cfg or pn.Config()
+    cfg = cfg or pn.Config(altura=pj.PE_DIREITO, modulacao=pj.MONTANTE_ESPACAMENTO)
     cat = pn._catalogo_massa()
     aco = mt.POR_ACO["ZAR 230"]
 
