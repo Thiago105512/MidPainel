@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import json
 import sys
 
 import pranchas as pr
@@ -76,6 +77,8 @@ def main(png: bool = True, pdf: bool = True, so: set | None = None) -> None:
     """
     os.makedirs(OUT, exist_ok=True)
     svgs = []
+    ocup_path = os.path.join(OUT, "ocupacao.json")
+    ocup = json.load(open(ocup_path)) if os.path.exists(ocup_path) else {}
     for num, nome, fn in CADERNO:
         caminho = os.path.join(OUT, f"PR-{num}.svg")
         if so and num not in so:
@@ -83,10 +86,19 @@ def main(png: bool = True, pdf: bool = True, so: set | None = None) -> None:
                 svgs.append(caminho)
             continue
         cv = fn()
-        caminho = os.path.join(OUT, f"PR-{num}.svg")
         cv.salvar(caminho)
         svgs.append(caminho)
-        print(f"  PR-{num}  {nome:<34} {os.path.getsize(caminho)//1024:>4} KB")
+        # R62 — quanto da folha o desenho ocupa. A folha de contato mostrou
+        # pranchas usando 20 % da A1; um olho ve, a auditoria passa a medir.
+        try:
+            x0, y0, x1, y1 = cv.caixa_desenho()
+            util = (cv.larg - cv.marg - 25) * (cv.alt - 2 * cv.marg)
+            ocup[num] = round(max(0.0, (x1 - x0) * (y1 - y0)) / util, 3)
+        except Exception:
+            pass
+        print(f"  PR-{num}  {nome:<34} {os.path.getsize(caminho)//1024:>4} KB"
+              f"  ocupa {ocup.get(num, 0) * 100:3.0f} %")
+    json.dump(ocup, open(ocup_path, "w"), indent=1)
 
     if png or pdf:
         import cairosvg

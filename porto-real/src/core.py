@@ -182,6 +182,11 @@ class Canvas:
             if x > self._cx1: self._cx1 = x
             if y > self._cy1: self._cy1 = y
 
+    def zerar_caixa(self) -> None:
+        """Recomeca a medicao da caixa do desenho (apos moldura e carimbo)."""
+        self._cx0 = self._cy0 = 1e9
+        self._cx1 = self._cy1 = -1e9
+
     def caixa_desenho(self) -> tuple[float, float, float, float]:
         """(x0, y0, x1, y1) do que foi emitido, em mm de papel."""
         return (self._cx0, self._cy0, self._cx1, self._cy1)

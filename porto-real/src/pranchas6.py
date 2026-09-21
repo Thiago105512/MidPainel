@@ -24,10 +24,14 @@ def _fundo(cv: Canvas, vw: View, pav: str, rotulos: bool = False) -> None:
     """Planta de fundo em linha leve, para receber a camada de instalacao."""
     ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
     abertos = pj.TERREO_ABERTO if pav == "T" else pj.SUPERIOR_ABERTO
-    for a in abertos:
-        cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
-                   vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
-                  "cota", fechado=True, preenche="#fbfbfb", cor="#ddd")
+    # R62 — o fundo em 1:75 vai ate o jardim de fundo (y = 39.600) e sairia
+    # 97 mm acima da moldura. O que sai e grama: recorta-se na moldura.
+    from core import MARGEM_ESQ as _ME
+    with cv.recorte(_ME, cv.marg + 2, cv.larg - cv.marg, cv.alt - cv.marg):
+        for a in abertos:
+            cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
+                       vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
+                      "cota", fechado=True, preenche="#fbfbfb", cor="#ddd")
     paredes = el.derivar_paredes(ambs)
     vaos = list(el.vaos_do_pavimento(pav))
     for p in paredes:
@@ -58,7 +62,7 @@ def _simbolo(cv: Canvas, vw: View, x, y, letra: str, cor: str, r: float = 2.2) -
 def hidrossanitaria() -> Canvas:
     pru = pj.prumadas_hidraulicas()
     geral = next(p for p in pru if p["pav"] == "GERAL")
-    cv = base("INSTALACOES HIDROSSANITARIAS", "1:100", "26", notas=[
+    cv = base("INSTALACOES HIDROSSANITARIAS", "1:75", "26", notas=[
         f"Agua fria por metodo dos pesos (NBR 5626): Q = 0,30 x raiz(soma dos pesos) "
         f"= {geral['q']} L/s com {geral['pesos']} pesos.",
         f"Alimentador DN{geral['dn_agua']} a {geral['v']} m/s — limitado pelo conforto "
@@ -69,11 +73,11 @@ def hidrossanitaria() -> Canvas:
         f"reaparece aqui como diametro menor em toda a casa.",
     ])
     pecas = pj.pecas_hidraulicas()
-    for pav, ox, num in (("T", 40, "1"), ("S", 330, "2")):
-        vw = View(100, ox, 340, 1_800, 6_800)
-        an.titulo_desenho(cv, (ox - 10, 372), num,
+    for pav, ox, num in (("T", 40, "1"), ("S", 320, "2")):
+        vw = View(75, ox, 350, 1_800, 6_800)   # R62: 1:75
+        an.titulo_desenho(cv, (ox - 10, 382), num,
                           f"PONTOS HIDRAULICOS — {'TERREO' if pav == 'T' else 'SUPERIOR'}",
-                          "1:100")
+                          "1:75")
         _fundo(cv, vw, pav)
         for p in pecas:
             if (p["amb"].startswith("S-")) != (pav == "S"):
@@ -165,7 +169,7 @@ def hidrossanitaria() -> Canvas:
 def eletrica() -> Canvas:
     d = pj.demanda_eletrica()
     prev = pj.previsao_iluminacao_tug()
-    cv = base("ELETRICA, ILUMINACAO E DADOS", "1:100", "27", notas=[
+    cv = base("ELETRICA, ILUMINACAO E DADOS", "1:75", "27", notas=[
         f"Previsao de carga conforme NBR 5410 9.5.2. Instalada "
         f"{num_br(d['instalada_va'])} VA; demanda provavel {num_br(d['demanda_va'])} VA.",
         f"Entrada {pj.TENSAO['esquema']}: {d['corrente_a']} A -> padrao "
@@ -175,11 +179,11 @@ def eletrica() -> Canvas:
         f"Quadro geral {pj.TECNICOS[4]['nome'].split('(')[0].strip()} na garagem; "
         f"quadro do superior no hall.",
     ])
-    for pav, ox, num in (("T", 40, "1"), ("S", 330, "2")):
-        vw = View(100, ox, 340, 1_800, 6_800)
+    for pav, ox, num in (("T", 40, "1"), ("S", 320, "2")):
+        vw = View(75, ox, 350, 1_800, 6_800)   # R62: 1:75
         an.titulo_desenho(cv, (ox - 10, 372), num,
                           f"PONTOS ELETRICOS — {'TERREO' if pav == 'T' else 'SUPERIOR'}",
-                          "1:100")
+                          "1:75")
         _fundo(cv, vw, pav)
         ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
         for a in ambs:
@@ -279,7 +283,7 @@ def eletrica() -> Canvas:
 # =========================================================================
 def climatizacao() -> Canvas:
     linhas_f = pj.linhas_frigorigenas()
-    cv = base("CLIMATIZACAO — LINHAS FRIGORIGENAS, DUTOS E DRENOS", "1:100", "28",
+    cv = base("CLIMATIZACAO — LINHAS FRIGORIGENAS, DUTOS E DRENOS", "1:75", "28",
               notas=[
         f"Dois nichos de condensadoras. Linha mais longa {max(l['comp'] for l in linhas_f)/1000:.1f} m, "
         f"contra o limite de conforto de {pj.LINHA_FRIG_MAX/1000:.0f} m.",
@@ -290,8 +294,8 @@ def climatizacao() -> Canvas:
         "Isolamento continuo na travessia de parede, com bucha de passagem: corte de "
         "isolamento na parede condensa dentro do montante.",
     ])
-    vw = View(100, 40, 430, 800, 6_800)
-    an.titulo_desenho(cv, (30, 462), "1", "PERCURSO DAS LINHAS E DUTOS", "1:100")
+    vw = View(75, 40, 470, 800, 6_800)   # R62: 1:75
+    an.titulo_desenho(cv, (30, 500), "1", "PERCURSO DAS LINHAS E DUTOS", "1:75")
     _fundo(cv, vw, "T")
     # superior em tracejado
     for a in pj.SUPERIOR:

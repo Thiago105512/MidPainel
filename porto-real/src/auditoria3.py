@@ -4374,6 +4374,24 @@ def checar_fotovoltaica() -> list[Achado]:
     return out
 
 
+OCUPACAO_MIN = 0.45   # fracao da area util da folha que o desenho deve ocupar
+
+
+def checar_ocupacao_das_folhas() -> list[Achado]:
+    """Legibilidade medida: fracao da folha ocupada por cada prancha (R62)."""
+    import os, json
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "out", "ocupacao.json")
+    if not os.path.exists(p):
+        return [Achado("ATENCAO", "ocupacao das folhas", "rode build.py")]
+    oc = json.load(open(p))
+    baixas = sorted((k, v) for k, v in oc.items() if v < OCUPACAO_MIN)
+    out = [Achado("NOTA" if not baixas else "ATENCAO", "pranchas pouco ocupadas",
+                  f"{len(baixas)} de {len(oc)} abaixo de {OCUPACAO_MIN * 100:.0f} % da folha: "
+                  + ", ".join(f"PR-{k} ({v * 100:.0f} %)" for k, v in baixas) if baixas
+                  else f"todas as {len(oc)} pranchas ocupam >= {OCUPACAO_MIN * 100:.0f} %")]
+    return out
+
+
 def checar_ocupacao() -> list[Achado]:
     """Espaco morto: bolsao sem ambiente, largura sem uso, nome sem lastro (R58)."""
     import projeto as pj

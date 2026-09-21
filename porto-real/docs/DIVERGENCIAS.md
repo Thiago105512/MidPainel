@@ -5057,3 +5057,17 @@ fatura. Nenhum muda a casa; os três mudam payback e classe.
 `pyproject.toml`, `requirements.txt`, CI (`.github/workflows/verificar.yml`:
 build sem PNG + programa com `0 erro(s)` + visualizador sem `FALHA`),
 `build.py --so=16,41` regenera só as pranchas pedidas.
+
+## R62 — legibilidade medida
+
+A folha de contato das 41 pranchas mostrou o que a auditoria não via:
+cobertura em 1:100 ocupando 20 % da A1, cortes em 1:60 num terço da folha,
+plantas de instalação encolhidas. **PR-05 → 1:75, PR-06 → 1:50, PR-26/27/28 →
+1:75** (fundo recortado na moldura, porque o jardim de fundo sairia 97 mm
+acima). E o olho virou medida: `build.py` grava em `out/ocupacao.json` a
+fração da folha que o **desenho** ocupa — medida depois do carimbo
+(`cv.zerar_caixa()`), porque com o carimbo dentro toda prancha "ocupava" 90 %
+— e a auditoria 137 lista as que ficam abaixo de 45 %. Treze ficam: são as
+pranchas de tabela (09, 13, 14, 30, 37, 39, 40), onde ocupação é proxy fraco,
+e cinco de desenho (06, 20, 21, 34, 38) que merecem o mesmo tratamento numa
+próxima passada. PARCIAL, e declarado como tal.

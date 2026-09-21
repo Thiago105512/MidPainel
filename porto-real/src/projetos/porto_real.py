@@ -3558,6 +3558,14 @@ REVISOES = [
      "nova. Pendencia 15: Ng, HSP e tarifa sao dados de sitio a confirmar. O "
      "total vai de R$ 829 mil para R$ 902 mil, e cada real a mais tem nome: "
      "FV R$ 50 mil, SPDA R$ 14 mil, low-e R$ 7 mil, pe-direito o resto"),
+    ("R62", "LEGIBILIDADE MEDIDA. A folha de contato das 41 pranchas mostrou o "
+     "que nenhuma auditoria via: cobertura em 1:100 ocupando 20 % da A1, "
+     "cortes em 1:60 num terco da folha, plantas de instalacao encolhidas. "
+     "Cobertura vai a 1:75, cortes a 1:50, hidraulica, eletrica e "
+     "climatizacao a 1:75 (o fundo recortado na moldura). E o olho vira "
+     "medida: build.py grava a fracao da folha que cada prancha ocupa e a "
+     "auditoria 137 lista as que ficam abaixo de 45 % — proxy, nao "
+     "legibilidade, e por isso PARCIAL"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3743,13 +3751,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R61",
+    revisao="R62",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R61", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R62", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

@@ -17,6 +17,9 @@ def base(titulo: str, escala: str, prancha: str, formato: str = "A1",
     cv = Canvas(formato)
     cv.moldura()
     an.carimbo(cv, titulo, escala, prancha, TOTAL_PRANCHAS, notas)
+    # R62 — a caixa do desenho comeca DEPOIS do carimbo: com ele dentro toda
+    # prancha 'ocupa' 90 % da folha, porque o carimbo encosta na moldura
+    cv.zerar_caixa()
     cv.abrir_folha()          # nada mais nesta folha sai da moldura sem ser medido
     return cv
 
@@ -356,14 +359,14 @@ def _tecnicos(cv: Canvas, vw: View, rotulos: bool = True) -> None:
 # =========================================================================
 def cobertura() -> Canvas:
     cb = pj.COBERTURA
-    cv = base("PLANTA DE COBERTURA", "1:100", "05", notas=[
+    cv = base("PLANTA DE COBERTURA", "1:75", "05", notas=[
         f"Painel sanduiche PIR {pj.ESP_PAINEL_PIR} mm; inclinacao {cb['inclinacao']*100:.0f} %.",
         f"Calha externa {cb['calha_l']}x{cb['calha_h']} mm; {cb['descidas']} descidas DN{cb['dn_descida']}.",
         f"Contribuicao {pj.area_contribuicao_m2():.2f} m2 | i = {cb['intensidade_mm_h']} mm/h | "
         f"C = {cb['coef_escoamento']} -> Q = {pj.vazao_pluvial_ls():.4f} L/s.",
         "Reservatorio de retencao pluvial 2.500 L — irrigacao e lavagem, sem ligacao a rede potavel.",
     ])
-    vw = View(100, 150, 470, 2_400, 7_200)
+    vw = View(75, 120, 500, 2_400, 7_200)   # R62: 1:75, a cobertura ocupava 20 % da folha
 
     baixos = pj.cobertos()
     altos = pj.SUPERIOR
@@ -423,8 +426,8 @@ def cobertura() -> Canvas:
     an.cadeia(cv, vw, [x0, ax0, ax1, x1], y0, "H", 14)
     an.cadeia(cv, vw, [y0, ay0, ay1, y1], x0, "V", -14)
     an.norte(cv, (735, 92), 9, pj.NORTE_EM_PLANTA)
-    an.titulo_desenho(cv, (150, 512), "1", "COBERTURA", "1:100")
-    an.escala_grafica(cv, (150, 528), vw, 2_000, 5)
+    an.titulo_desenho(cv, (120, 528), "1", "COBERTURA", "1:75")
+    an.escala_grafica(cv, (120, 544), vw, 2_000, 5)
     return cv
 
 

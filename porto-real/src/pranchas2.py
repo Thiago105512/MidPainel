@@ -120,7 +120,7 @@ def _desenhar_corte(cv: Canvas, vw: View, eixo: str, coord: int, letra: str,
 
 
 def cortes() -> Canvas:
-    cv = base("CORTES AA E BB", "1:60", "06", notas=[
+    cv = base("CORTES AA E BB", "1:50", "06", notas=[
         f"Pe-direito acabado {pj.PE_DIREITO} mm; piso a piso {pj.PISO_A_PISO} mm.",
         f"Topo da platibanda +{PLATIBANDA_2PAV/1000:.3f} m (dois pavimentos) e "
         f"+{PLATIBANDA_1PAV/1000:.3f} m (um pavimento) — H.",
@@ -129,14 +129,14 @@ def cortes() -> Canvas:
     ])
     x0, y0, x1, y1 = _extremos(pj.TERREO)
 
-    vwA = View(60, 80, 240, x0, 0)
+    vwA = View(50, 80, 250, x0, 0)   # R62: 1:50, os cortes ocupavam um terco da folha
     _desenhar_corte(cv, vwA, "H", 16_200, "A", x0, x1)
-    an.titulo_desenho(cv, (80, 262), "1", "CORTE AA — TRANSVERSAL", "1:60")
+    an.titulo_desenho(cv, (80, 272), "1", "CORTE AA — TRANSVERSAL", "1:50")
 
-    vwB = View(60, 80, 490, y0, 0)
+    vwB = View(50, 80, 525, y0, 0)
     _desenhar_corte(cv, vwB, "V", 7_500, "B", y0, y1)
-    an.titulo_desenho(cv, (80, 512), "2", "CORTE BB — LONGITUDINAL", "1:60")
-    an.escala_grafica(cv, (80, 528), vwB, 2_000, 5)
+    an.titulo_desenho(cv, (80, 546), "2", "CORTE BB — LONGITUDINAL", "1:50")
+    an.escala_grafica(cv, (80, 562), vwB, 2_000, 5)
     return cv
 
 

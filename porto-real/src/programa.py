@@ -725,6 +725,15 @@ PROGRAMA = [
      "cobertura do superior fora da passarela, a carga nao passa da reservada, "
      "o inversor tem lugar (TC-17), a potencia e microgeracao, e a geracao e "
      "da ordem do consumo. Sete linhas no BOM."),
+    (137, "Legibilidade medida: quanto da folha cada prancha ocupa",
+     ["checar_ocupacao_das_folhas"], "PARCIAL",
+     "Secao 162. A folha de contato das 41 pranchas mostrou o que nenhuma "
+     "auditoria via: implantacao em 1:200 ocupando 4 % da A1, cortes em "
+     "1:60 em um terco da folha, plantas de instalacao encolhidas. Um olho "
+     "ve; a auditoria passa a medir — build.py grava a fracao ocupada de "
+     "cada prancha e esta condicao lista as que ficam abaixo de 45 %. "
+     "PARCIAL porque ocupacao nao e legibilidade: e o proxy que da para "
+     "medir sem olho."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
