@@ -5574,3 +5574,66 @@ são marcenaria (124–145), instalações em isométrico e diagramas verticais
 0 falhas; 54 pranchas; 45 perspectivas. Matriz: 621 linhas, 447 entregáveis
 distintos, 291 TEM + 42 NA = 74% resolvido, 42 PARCIAL, 61 FALTA, 11 EXTERNO.
 BOM de 166 itens, R$ 968.127,81 (inalterado: o lote é de representação).
+
+## R71 — Marcenaria: o móvel deixa de ser preço por metro e vira peça
+
+Até R70 a marcenaria era duas coisas: um preço por m² de frente no BOM
+(MAR-ARM, MAR-GAB) e uma elevação desenhada à mão na PR-15. O preço é honesto
+como estimativa e a elevação é honesta como intenção, mas nenhum dos dois
+diz o que o marceneiro corta, fura e parafusa. `nucleo/marcenaria.py` diz,
+pela mesma regra do steel frame: o móvel não é desenhado, é derivado.
+
+| Passo | Regra (H onde aplicável) |
+|---|---|
+| Inventário | ARMARIOS; gabinete de cada BANCADA de granito; gabinete suspenso de cada lavatório de LOUCAS; rack, painel de TV e mesa do LAYOUT; cabeceira de cada cama; as duas paredes do CLOSET de SUBDIVISOES |
+| Módulos | frente dividida em módulos iguais de até 600 mm — a folha de porta máxima, por peso na dobradiça e giro na circulação; painel, cabeceira e mesa são peça única |
+| Peças | laterais, base, topo, fundo de 6 mm, prateleiras pelo passo da família, porta, gavetas (frente, laterais, traseira, fundo); fita de borda por aresta exposta |
+| Furação | sistema 32: fileiras a 37 mm das bordas, furos de 5 × 13 a cada 32; canecos de 35 na porta, tantos quanto a altura pede (2 até 900 … 5 acima de 2.000) |
+| Corte | as peças de 15 mm passam pelo mesmo `nestar_chapas` das placas de fechamento, em chapa 2.750 × 1.850 com serra de 4 mm |
+| Ferragens | dobradiças, corrediças no maior comprimento comercial que cabe, suportes, sapatas, cabideiro, ripas, espuma; puxador por categoria de ambiente |
+
+Resultado: **31 móveis, 90 módulos, 984 peças, 91,9 m² de frente, 44 portas
+e 64 gavetas; 68 chapas de 15 mm a 89 % e 20 de 6 mm a 85 %.** O tampo da
+mesa de trabalho nasceu em chapa de 25 mm e foi para duas de 15 coladas: uma
+chapa de 25 aberta para um tampo só era 82 % de perda, e o nesting acusou.
+
+### O achado: o BOM contava só o que ARMARIOS e BANCADAS listavam
+Ao montar o inventário, ficou claro o que o orçamento não via: o closet
+tinha cabideiro (MAR-CAB) e não tinha armário; os cinco lavatórios tinham
+cuba e não tinham gabinete; a TV do estar tinha rack e não tinha painel; as
+quatro camas não tinham cabeceira; a mesa de trabalho da alcova (LY-13,
+"mesa de trabalho" no próprio LAYOUT) não existia para ninguém. Nada disso
+era decisão — era o levantamento parando onde a lista parava.
+
+`acabamento.marcenaria()` passou a derivar do inventário único: MAR-ARM
+cobre toda caixa de MDF (armários, roupeiros, closet, gaveteiro, rack, mesa,
+gabinetes de banho) pelo mesmo preço por m² de frente; MAR-PRAT passou a
+contar metro de *prateleira* e não metro de *estante* (2,1 m de despensa de
+2,2 m de altura eram R$ 546); MAR-PAINEL e MAR-CABEC entram; MAR-CAB sai
+(o cabideiro é ferragem do módulo). A marcenaria vai de R$ 30,7 mil para
+R$ 73,3 mil, e o BOM de R$ 968.128 para **R$ 1.020.321** (+5,4 %). É o custo
+de olhar.
+
+A auditoria 144 confere o que tem de ser verdade: cada móvel cabe na parede
+do seu ambiente, nenhuma folha passa de 600, toda peça cabe na chapa, o
+aproveitamento não cai de 60 %, todo ARMARIO tem plano, o BOM carrega
+exatamente a frente que o inventário tem, e o material pelo plano fica
+entre 20 e 60 % do serviço sob medida — deu **43 %**, que é onde uma
+marcenaria de MDF com ferragem de linha costuma ficar. Na primeira execução
+a razão deu 119 %: o material derivado de 31 móveis contra o serviço de 11.
+O número não estava errado; estava medindo a lacuna.
+
+### As pranchas
+PR-55 planta com cada móvel hachurado e o quadro; PR-56 e 57 elevações
+módulo a módulo (gabinetes, roupeiros, closet, gaveteiro, cabeceiras,
+painéis, rack, mesa) com as seções 1:10 do apoio sob granito e do módulo de
+guarda-roupa; PR-58 as 12 primeiras chapas desenhadas, o quadro das 88 e a
+lateral típica com o sistema 32; PR-59 ferragens, mapa de puxadores,
+material × serviço e a lista de peças. A vista Marcenaria do visualizador
+tem a lista inteira. A auditoria 66 (funções duplicadas) pegou um `_fmt`
+meu repetido entre módulos na primeira execução: renomeado.
+
+**Estado em R71:** 144 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; 59 pranchas; 21 vistas de engenharia. Matriz: 621 linhas, 447
+entregáveis distintos, 308 TEM + 43 NA = 79 % resolvido, 40 PARCIAL, 45
+FALTA, 11 EXTERNO. BOM de 167 itens, R$ 1.020.320,51.

@@ -17,6 +17,7 @@ import pranchas6 as p6
 import pranchas7 as p7
 import pranchas8 as p8
 import pranchas9 as p9
+import pranchas10 as p10
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -85,6 +86,11 @@ CADERNO = [
     ("52", "ESQUADRIAS: TIPOS E DETALHES",       lambda: p9.esquadrias()),
     ("53", "MAPA DE CORES, RODAPES E PEITORIS",  lambda: p9.mapa_de_cores()),
     ("54", "PLANTA HUMANIZADA",                  lambda: p9.humanizada()),
+    ("55", "PLANTA DE MARCENARIA",                lambda: p10.planta_marcenaria()),
+    ("56", "MARCENARIA I: GABINETES",              lambda: p10.detalhamento_1()),
+    ("57", "MARCENARIA II: DORMITORIOS",           lambda: p10.detalhamento_2()),
+    ("58", "MARCENARIA: CORTE E FURACAO",          lambda: p10.plano_de_corte()),
+    ("59", "MARCENARIA: FERRAGENS E PECAS",        lambda: p10.ferragens_e_pecas()),
 ]
 
 

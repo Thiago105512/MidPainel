@@ -800,6 +800,19 @@ PROGRAMA = [
      "cruzada; e cada janela externa contra a divisa que olha, pelo art. 1.301 "
      "do Codigo Civil (1,50 m), com o brise que a protege. Regra legal, nao "
      "gosto — e a que muda de lado se a pendencia 16 mudar o recuo."),
+    (144, "Marcenaria: cada movel em modulos, pecas, chapas e ferragens",
+     ["checar_marcenaria"], "AUTOMATIZADA",
+     "Secao 169. Ate R70 a marcenaria era um preco por m2 de frente e uma "
+     "elevacao desenhada a mao. nucleo/marcenaria deriva cada movel do caso "
+     "— ARMARIOS, gabinete de cada bancada, gabinete de cada lavatorio, rack, "
+     "painel e mesa do LAYOUT, cabeceira de cada cama, as duas paredes do "
+     "closet — em modulos de ate 600 mm, pecas com fita e furacao (sistema "
+     "32), plano de corte pelo mesmo nesting das placas e ferragens contadas. "
+     "O achado: o BOM contava so ARMARIOS e BANCADAS; o closet tinha cabideiro "
+     "sem armario, os lavatorios cuba sem gabinete, a TV rack sem painel. O "
+     "orcamento de marcenaria passou a sair do mesmo inventario das pranchas "
+     "55 a 59, e o material pelo plano e conferido contra o servico sob "
+     "medida: tem de ficar entre 20 e 60 %."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

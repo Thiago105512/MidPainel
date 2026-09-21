@@ -4477,7 +4477,7 @@ def checar_entregaveis() -> list[Achado]:
     caderno = {n for n, _, _ in build.CADERNO}
     eng = {"painel", "paineis", "pecas", "corte", "montagem", "logistica", "documentos",
            "materiais", "parafusos", "instalacoes", "cotacao", "ambientes", "catalogo",
-           "fachada", "viabilidade", "geotecnia", "pluvial", "acustica", "eletrica", "bloqueios"}
+           "fachada", "viabilidade", "geotecnia", "pluvial", "acustica", "eletrica", "marcenaria", "bloqueios"}
     out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "out")
     falhas = en.conferir(pj, caderno, eng, out_dir)
     r = en.resumo()
@@ -4529,6 +4529,38 @@ def checar_ventilacao_privacidade() -> list[Achado]:
     out.append(Achado("NOTA" if not exp else "ATENCAO", "exposicao ao vizinho",
                       f"{len(exp)} janela(s) a menos de 3 m da divisa sem brise nem peitoril alto"
                       + (": " + ", ".join(f"{p['tipo']}/{p['amb']} face {p['face']}" for p in exp) if exp else "")))
+    return out
+
+
+def checar_marcenaria() -> list[Achado]:
+    """Cada movel derivado em modulos, pecas, chapas e ferragens (R71)."""
+    import projeto as pj
+    import nucleo.marcenaria as mc
+    out = []
+    r = mc.resumo(pj)
+    out.append(Achado("NOTA", "inventario",
+                      f"{r['moveis']} moveis, {r['modulos']} modulos, {r['pecas']} pecas, "
+                      f"{r['frente_m2']:.2f} m2 de frente, {r['portas']} portas e {r['gavetas']} gavetas"))
+    for t, d, ok in mc.conferir(pj):
+        if not ok:
+            out.append(Achado("ERRO", t, d))
+    n_ok = sum(1 for _, _, ok in mc.conferir(pj) if ok)
+    out.append(Achado("NOTA", "conferencias", f"{n_ok} conferencias passam"))
+    for esp, v in r["chapas"].items():
+        out.append(Achado("NOTA", f"chapa {esp} mm",
+                          f"{v['n']} chapas, {v['aproveitamento'] * 100:.0f} % de aproveitamento"))
+    c = r["custo"]
+    out.append(Achado("NOTA", "material x servico",
+                      f"material R$ {c['material']:,.0f} = {c['razao'] * 100:.0f} % do servico sob "
+                      f"medida R$ {c['servico_bom']:,.0f}"))
+    # o BOM tem de carregar exatamente o que o inventario tem
+    import nucleo.acabamento as ac
+    bom = {l["sku"]: l for l in ac.marcenaria(pj)}
+    caixa = sum(m["area_frente_m2"] for m in mc.moveis(pj)
+                if m["familia"] not in ("prateleiras", "painel tv", "cabeceira", "gabinete"))
+    out.append(Achado("NOTA" if abs(bom["MAR-ARM"]["quantidade"] - caixa) < 0.05 else "ERRO",
+                      "BOM = inventario",
+                      f"MAR-ARM {bom['MAR-ARM']['quantidade']:.2f} m2 contra {caixa:.2f} m2 de frente de caixa"))
     return out
 
 

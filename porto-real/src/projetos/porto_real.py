@@ -3847,6 +3847,19 @@ REVISOES = [
      "peitoris (PR-53), planta humanizada (PR-54) e o cortineiro nas janelas "
      "intimas da PR-16. Regra do lote: nenhuma peca digitada; o que esta na "
      "prancha esta no caso. 36 itens da matriz passam a TEM"),
+    ("R71", "LOTE 2 DO BACKLOG: MARCENARIA. nucleo/marcenaria deriva cada movel "
+     "do caso — ARMARIOS, gabinete de cada bancada de granito, gabinete de cada "
+     "lavatorio, rack, painel de TV e mesa do LAYOUT, cabeceira de cada cama, "
+     "as duas paredes do closet — em modulos de ate 600 mm, pecas com fita e "
+     "furacao sistema 32, plano de corte pelo mesmo nesting das placas e "
+     "ferragens contadas. PR-55 (planta e quadro), 56 e 57 (elevacoes modulo a "
+     "modulo com secoes 1:10), 58 (corte e furacao), 59 (ferragens, puxadores "
+     "e lista de pecas); vista Marcenaria no visualizador; auditoria 144. O "
+     "achado: o BOM contava so ARMARIOS e BANCADAS — closet sem armario, "
+     "lavatorios sem gabinete, TV sem painel, camas sem cabeceira. O orcamento "
+     "de marcenaria passou a sair do mesmo inventario das pranchas, e o "
+     "material pelo plano e conferido contra o servico sob medida. 20 itens "
+     "da matriz (124 a 145) saem do backlog"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4053,13 +4066,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R70",
+    revisao="R71",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R70", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R71", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

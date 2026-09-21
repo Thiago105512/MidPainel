@@ -1340,5 +1340,110 @@
     "cotas ficam na PR-02 e PR-03"
    ]
   ]
+ },
+ {
+  "n": "55",
+  "t": "Planta de marcenaria",
+  "esc": "1:75",
+  "etapa": "R71",
+  "d": "Os dois pavimentos com cada móvel de marcenaria hachurado e codificado, e o quadro de móveis: 31 móveis derivados de ARMARIOS, BANCADAS, LOUCAS, LAYOUT e do CLOSET.",
+  "k": [
+   [
+    "inventário",
+    "o BOM contava só ARMARIOS e BANCADAS; agora conta o closet, os gabinetes de banho, os painéis, as cabeceiras e a mesa"
+   ],
+   [
+    "módulo",
+    "até 600 mm — a folha de porta máxima"
+   ],
+   [
+    "quadro",
+    "frente, profundidade, altura, módulos, portas, gavetas e m² de frente"
+   ]
+  ]
+ },
+ {
+  "n": "56",
+  "t": "Marcenaria I — gabinetes",
+  "esc": "1:40 · 1:10",
+  "etapa": "R71",
+  "d": "Gabinetes sob granito da cozinha, gourmet e oficina, gabinetes suspensos dos lavatórios, torre e estantes, módulo a módulo, com a seção do apoio.",
+  "k": [
+   [
+    "seção A",
+    "sapata, rodapé recuado 50, caixa de 770, granito 30: topo a 900"
+   ],
+   [
+    "cuba",
+    "módulo da cuba sem prateleira; módulo do cooktop com uma"
+   ],
+   [
+    "lavatório",
+    "gabinete suspenso de 500 mm com uma gaveta por módulo"
+   ]
+  ]
+ },
+ {
+  "n": "57",
+  "t": "Marcenaria II — dormitórios",
+  "esc": "1:40 · 1:10",
+  "etapa": "R71",
+  "d": "Guarda-roupas, rouparia, closet, gaveteiro, cabeceiras, painéis de TV, rack e mesa de trabalho, cada um em módulos derivados; seção do módulo de guarda-roupa.",
+  "k": [
+   [
+    "guarda-roupa",
+    "cabideiro a 400 do topo, prateleira sobre ele, duas gavetas internas de 200"
+   ],
+   [
+    "closet",
+    "os mesmos módulos sem porta nas duas paredes declaradas"
+   ],
+   [
+    "painel de TV",
+    "ripas de 40 a cada 80 sobre fundo de 15, na largura do rack"
+   ]
+  ]
+ },
+ {
+  "n": "58",
+  "t": "Marcenaria — corte e furação",
+  "esc": "1:25 · 1:10",
+  "etapa": "R71",
+  "d": "Plano de corte das chapas de MDF 15 e 6 mm pelo mesmo nesting das placas de fechamento, e a furação sistema 32 da lateral típica.",
+  "k": [
+   [
+    "nesting",
+    "corte guilhotinado em faixas, chapa 2.750 x 1.850, serra 4 mm"
+   ],
+   [
+    "aproveitamento",
+    "89 % nas chapas de 15 mm"
+   ],
+   [
+    "sistema 32",
+    "fileiras a 37 da borda, furos de 5 mm a cada 32; canecos de 35 na porta"
+   ]
+  ]
+ },
+ {
+  "n": "59",
+  "t": "Marcenaria — ferragens e peças",
+  "esc": "s/ escala",
+  "etapa": "R71",
+  "d": "Ferragens contadas, puxador por móvel, material pelo plano contra o serviço sob medida do BOM, e a lista de peças.",
+  "k": [
+   [
+    "razão",
+    "material = 43 % do serviço: dentro da faixa de 20 a 60 %"
+   ],
+   [
+    "puxador",
+    "gola grafite nas áreas sociais e de serviço, cava a 45° nos dormitórios"
+   ],
+   [
+    "lista",
+    "984 peças; a lista inteira está na vista Marcenaria"
+   ]
+  ]
  }
 ]

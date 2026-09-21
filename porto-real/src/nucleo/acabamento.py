@@ -43,7 +43,7 @@ PRECO = {
     "exaustor": 260.0, "bomba_piscina": 2800.0, "portao_automatico": 2400.0,
     "bancada_m2": 1250.0, "gabinete_m": 1450.0, "armario_m2": 980.0,
     "nicho_box": 420.0, "ducha_teto": 890.0, "cortina_blackout_m": 380.0,
-    "prateleira_m": 260.0, "cabideiro_m": 320.0,
+    "prateleira_m": 260.0, "painel_m2": 420.0, "cabeceira_m2": 650.0,
     "tinta_l": 42.0, "selador_l": 28.0, "mao_pintura_m2": 26.0,
     "piso_m2": 118.0, "parede_ceramica_m2": 96.0, "rodape_m": 34.0,
     "argamassa_m2": 18.0, "rejunte_m2": 9.0,
@@ -529,31 +529,46 @@ def equipamentos(pj) -> list[dict]:
 
 # ------------------------------------------------------- 6. marcenaria
 def marcenaria(pj) -> list[dict]:
-    """Bancada, gabinete, armario e cabideiro — do que esta locado na planta."""
-    tampo = sum(b["w"] * b["h"] / 1e6 for b in pj.BANCADAS)
-    gabinete = sum(max(b["w"], b["h"]) / 1000.0 for b in pj.BANCADAS)
-    arm = sum(a["w"] * a["h"] / 1e6 for a in pj.ARMARIOS
-              if a["tipo"] != "prateleiras")
-    prat = sum(max(a["w"], a["h"]) / 1000.0 for a in pj.ARMARIOS
-               if a["tipo"] == "prateleiras")
-    # closet: cabide em duas paredes de cada closet declarado
-    cab = 0.0
-    for d in pj.SUBDIVISOES:
-        if d["nome"] == "CLOSET":
-            cab += (d["w"] + d["h"]) / 1000.0
+    """Tampo, gabinete, armario, prateleira, painel e cabeceira — do inventario
+    de nucleo/marcenaria, que deriva cada movel do caso (R71).
+
+    Ate R70 esta funcao somava ARMARIOS e BANCADAS e parava: o closet tinha
+    cabideiro sem armario, os lavatorios tinham cuba sem gabinete, a TV tinha
+    rack sem painel, as camas nao tinham cabeceira e a mesa de trabalho da
+    alcova nao existia para o orcamento. O inventario passou a ser um so, e o
+    preco por m2 de frente (sob medida, material + fabricacao + montagem)
+    passou a valer para tudo o que e caixa de MDF.
+    """
+    import nucleo.marcenaria as mc
+    mv = mc.moveis(pj)
+    tampo = sum(b["w"] * b["h"] / 1e6 for b in pj.BANCADAS if b.get("tipo") != "tanque")
+    gabinete = sum(m["frente"] / 1000.0 for m in mv if m["familia"] == "gabinete")
+    caixa = ("armario alto", "guarda-roupa", "rouparia", "gaveteiro", "closet",
+             "rack", "mesa", "gabinete banho")
+    arm = sum(m["area_frente_m2"] for m in mv if m["familia"] in caixa)
+    prat = sum(p["qtd"] * p["larg"] / 1000.0 for m in mv if m["familia"] == "prateleiras"
+               for mod in m["modulos"] for p in mod["pecas"] if p["nome"] == "PRAT")
+    painel = sum(m["area_frente_m2"] for m in mv if m["familia"] == "painel tv")
+    cabec = sum(m["area_frente_m2"] for m in mv if m["familia"] == "cabeceira")
     return [
         dict(sku="MAR-TAMPO", descricao="Tampo de bancada (quartzo/granito)",
              unidade="m2", quantidade=round(tampo, 2), preco=PRECO["bancada_m2"],
              origem="BANCADAS: largura x profundidade de cada uma"),
         dict(sku="MAR-GAB", descricao="Gabinete sob bancada, sob medida",
              unidade="m", quantidade=round(gabinete, 2), preco=PRECO["gabinete_m"],
-             origem="comprimento de cada bancada"),
-        dict(sku="MAR-ARM", descricao="Armario de MDF sob medida",
+             origem="marcenaria: frente de cada gabinete sob granito"),
+        dict(sku="MAR-ARM", descricao="Armario de MDF sob medida (frente)",
              unidade="m2", quantidade=round(arm, 2), preco=PRECO["armario_m2"],
-             origem="ARMARIOS: frente de cada armario alto"),
-        dict(sku="MAR-PRAT", descricao="Prateleira e nicho",
+             origem="marcenaria: armarios, roupeiros, closet, gaveteiro, rack, mesa e gabinetes de banho"),
+        dict(sku="MAR-PRAT", descricao="Prateleira aberta, por metro de prateleira",
              unidade="m", quantidade=round(prat, 2), preco=PRECO["prateleira_m"],
-             origem="ARMARIOS do tipo prateleira"),
+             origem="marcenaria: cada prateleira das estantes abertas"),
+        dict(sku="MAR-PAINEL", descricao="Painel ripado de TV",
+             unidade="m2", quantidade=round(painel, 2), preco=PRECO["painel_m2"],
+             origem="marcenaria: um painel na largura do rack atras de cada TV"),
+        dict(sku="MAR-CABEC", descricao="Cabeceira estofada",
+             unidade="m2", quantidade=round(cabec, 2), preco=PRECO["cabeceira_m2"],
+             origem="marcenaria: lado da cama mais 300 mm de cada lado"),
         # R63 — blackout nos dormitorios: janela leste acorda as 6 h em Manaus
         dict(sku="MAR-CORT", descricao="Cortina blackout com trilho, dormitorios",
              unidade="m", quantidade=round(sum(
@@ -563,9 +578,6 @@ def marcenaria(pj) -> list[dict]:
                  and v["tipo"] not in ("J02", "J04")), 1),
              preco=PRECO["cortina_blackout_m"],
              origem="largura das janelas de dormitorio (exceto banho)"),
-        dict(sku="MAR-CAB", descricao="Cabideiro e gaveteiro de closet",
-             unidade="m", quantidade=round(cab, 2), preco=PRECO["cabideiro_m"],
-             origem="duas paredes de cada CLOSET declarado nas subdivisoes"),
     ]
 
 

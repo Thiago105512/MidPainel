@@ -29,6 +29,7 @@ import nucleo.cotacao as co
 import nucleo.geotecnia as gt
 import nucleo.pluvial as pl
 import nucleo.acustica as ac
+import nucleo.marcenaria as mc
 import nucleo.eletrica as elt
 import nucleo.mercado as mk
 
@@ -524,6 +525,22 @@ def montar() -> dict:
             decisao=pj.PLUVIAL,
             conferencia=[dict(titulo=t, detalhe=d, ok=o)
                          for t, d, o in pl.conferir(pj)]),
+        marcenaria=dict(
+            moveis=[{k: v for k, v in m.items() if k != "modulos"} | dict(
+                modulos=[dict(n=mo["n"], larg=mo["larg"], ferragens=mo["ferragens"],
+                              pecas=[dict(cod=p["cod"], nome=p["nome"], larg=p["larg"], alt=p["alt"],
+                                          esp=p["esp"], qtd=p["qtd"], fita_m=p["fita_m"]) for p in mo["pecas"]])
+                         for mo in m["modulos"]])
+                    for m in mc.moveis(pj)],
+            resumo=mc.resumo(pj), ferragens=mc.ferragens(pj), puxadores=mc.puxadores(pj),
+            furacao=mc.furacao(pj), custo=mc.custo_material(pj),
+            nesting={str(esp): dict(n=v["n"], aproveitamento=v["aproveitamento"], pecas=v["pecas"],
+                                    chapas=[dict(cod=ch["cod"], pecas=[dict(cod=c, larg=w, alt=h, girada=r)
+                                                                       for fx in ch["faixas"] for c, w, h, r in fx["pecas"]])
+                                            for ch in v["chapas"]])
+                     for esp, v in mc.nesting(pj).items()},
+            familias=mc.FAMILIAS, sistema32=mc.SISTEMA_32, puxador=mc.PUXADOR, precos=mc.PRECO,
+            conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in mc.conferir(pj)]),
         acustica=dict(
             pares=ac.pares(pj), entre_zonas=ac.entre_zonas(pj),
             fontes=ac.FONTES, limites=ac.LIMITE, portas=ac.RW_PORTA,

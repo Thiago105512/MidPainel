@@ -352,6 +352,11 @@ INDICE = [
     ("52", "Esquadrias: tipos, quantidades e detalhes (R70)"),
     ("53", "Mapa de cores, rodapes, soleiras e peitoris (R70)"),
     ("54", "Planta humanizada (R70)"),
+    ("55", "Planta de marcenaria e quadro de moveis (R71)"),
+    ("56", "Marcenaria I: gabinetes de cozinha, gourmet, oficina e banhos (R71)"),
+    ("57", "Marcenaria II: roupeiros, closet, cabeceiras e paineis (R71)"),
+    ("58", "Marcenaria: plano de corte de chapas e furacao sistema 32 (R71)"),
+    ("59", "Marcenaria: ferragens, puxadores e lista de pecas (R71)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},

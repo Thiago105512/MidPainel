@@ -148,6 +148,7 @@ const VISTAS = [
   ["pluvial",   "Água de chuva",       "o lote inteiro, e o que fica retido"],
   ["acustica",  "Acústica",            "quem ouve quem, e através de quê"],
   ["eletrica",  "Cargas e mercado",    "220/127, fases equilibradas e fornecedores"],
+  ["marcenaria", "Marcenaria",         "cada móvel em módulos, peças e ferragens"],
   ["bloqueios",  "O que não faço",     "10 contratos, 20 seções"],
 ];
 
@@ -194,6 +195,11 @@ const LEITURA = {
     pluvial: "Quanto do lote é impermeável, quanto a obra passou a mandar " +
              "para a rua e quanto disso fica retido. O que faz o trabalho é " +
              "o orifício, não o volume.",
+    marcenaria: "Cada armário, gabinete, closet, cabeceira e painel da casa, " +
+                "derivado do caso: módulos, peças, chapas e ferragens. O " +
+                "número que importa é a razão material/serviço — se o " +
+                "material pelo plano passa do preço sob medida, o preço " +
+                "está errado.",
     acustica: "Quem ouve quem, e através de quê. Uma parede de 44 dB com " +
               "uma porta de correr no meio entrega 20: em acústica o elo " +
               "fraco domina.",
@@ -321,6 +327,13 @@ const LEITURA = {
                "profundidade investigada é conferida pelo critério dos 10 % " +
                "da tensão vertical efetiva — pergunta que a NBR 6122 exige e " +
                "quase ninguém faz.",
+    marcenaria: "O inventário une ARMARIOS, BANCADAS, LOUCAS (lavatórios), " +
+                "LAYOUT (rack, painel, mesa, camas) e o CLOSET. Cada frente é " +
+                "dividida em módulos iguais de até 600 mm — a folha de porta " +
+                "máxima —, cada módulo vira laterais, base, topo, fundo de " +
+                "6 mm, prateleiras, porta e gavetas; as laterais recebem o " +
+                "sistema 32 e a porta os canecos de 35. As peças de 15 mm " +
+                "passam pelo mesmo nesting das placas de fechamento.",
     pluvial: "Método racional com C ponderado pelas superfícies declaradas, e " +
              "a mesma intensidade que dimensiona calha e descida — fonte " +
              "única. O volume é o excedente (C_pós − C_pré) acumulado no " +
@@ -1271,7 +1284,7 @@ function renderEng() {
              fachada: vistaFachada, viabilidade: vistaViabilidade,
              geotecnia: vistaGeotecnia, pluvial: vistaPluvial,
              acustica: vistaAcustica, eletrica: vistaEletrica,
-             bloqueios: vistaBloqueios}[engVista];
+             marcenaria: vistaMarcenaria, bloqueios: vistaBloqueios}[engVista];
   // a rolagem e do LEITOR, nao do render. Trocar de filtro ou de ordenacao
   // jogava a pagina de volta ao topo da vista, e numa tabela de 900 linhas
   // isso e perder o lugar a cada tecla.
@@ -2451,6 +2464,52 @@ function vistaPluvial() {
       antes da próxima chuva, que é a condição de ele servir para alguma
       coisa.</p>
     ${_conf(P.conferencia)}`;
+}
+
+function vistaMarcenaria() {
+  const M = ENG.marcenaria;
+  if (!M) return barraModos() + "<p class='conta'>sem marcenaria derivada</p>";
+  const R = M.resumo, C = M.custo, F = M.ferragens;
+  const linhas = M.moveis.map(m =>
+    `<tr><td>${esc2(m.cod)}</td><td>${esc2(m.amb)}</td><td>${esc2(m.familia)}</td>
+      <td class="num">${num(m.frente, 0)}</td><td class="num">${num(m.prof, 0)}</td>
+      <td class="num">${num(m.alt, 0)}</td><td class="num">${m.n_modulos}</td>
+      <td class="num">${m.n_portas}</td><td class="num">${m.n_gavetas}</td>
+      <td class="num">${m.n_pecas}</td><td class="num">${num(m.area_frente_m2, 2)}</td>
+      <td>${esc2(m.puxador)}</td></tr>`).join("");
+  const ferr = [["Dobradiças", F.dobradicas, "un"], ["Corrediças", F.corredicas_par, "par"],
+                ["Perfil gola", F.gola_m, "m"], ["Puxadores", F.puxadores, "un"],
+                ["Suportes", F.suportes, "un"], ["Sapatas", F.sapatas, "un"],
+                ["Cabideiro", F.cabideiro_m, "m"], ["Ripas", F.ripas_m, "m"]]
+    .map(([n, q, u]) => `<tr><td>${n}</td><td class="num">${num(q, 1)}</td><td>${u}</td></tr>`).join("");
+  const custo = C.linhas.map(l =>
+    `<tr><td>${esc2(l.item)}</td><td class="num">${num(l.qtd, 1)}</td>
+      <td class="num">${num(l.unit, 2)}</td><td class="num">${num(l.total, 2)}</td></tr>`).join("");
+  const conf = M.conferencia.filter(c => !c.ok).map(c =>
+    `<li><b>${esc2(c.titulo)}</b> — ${esc2(c.detalhe)}</li>`).join("");
+  return `${barraModos()}${leitura("marcenaria")}
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Móveis</span><span class="val">${R.moveis}</span>
+        <span class="uni">${R.modulos} módulos · ${R.pecas} peças</span></div>
+      <div class="cartao"><span class="rot">Frente</span><span class="val">${num(R.frente_m2, 1)}</span>
+        <span class="uni">m² · ${R.portas} portas · ${R.gavetas} gavetas</span></div>
+      <div class="cartao"><span class="rot">Chapas 15 / 6 mm</span>
+        <span class="val">${R.chapas["15"].n} / ${R.chapas["6"].n}</span>
+        <span class="uni">${(R.chapas["15"].aproveitamento * 100).toFixed(0)} % de aproveitamento</span></div>
+      <div class="cartao"><span class="rot">Material / serviço</span>
+        <span class="val">${(C.razao * 100).toFixed(0)} %</span>
+        <span class="uni">R$ ${num(C.material, 0)} de R$ ${num(C.servico_bom, 0)}</span></div>
+    </div>
+    <h4 class="sub">Quadro de móveis — tudo o que é marcenaria na casa</h4>
+    <table class="tab"><thead><tr><th>cód</th><th>amb</th><th>família</th><th>frente</th><th>prof</th>
+      <th>alt</th><th>mód</th><th>portas</th><th>gav</th><th>peças</th><th>m² fr</th><th>puxador</th></tr></thead>
+      <tbody>${linhas}</tbody></table>
+    <h4 class="sub">Ferragens derivadas</h4>
+    <table class="tab"><thead><tr><th>item</th><th>qtd</th><th>un</th></tr></thead><tbody>${ferr}</tbody></table>
+    <h4 class="sub">Material pelo plano x serviço sob medida do BOM</h4>
+    <table class="tab"><thead><tr><th>item</th><th>qtd</th><th>unit R$</th><th>total R$</th></tr></thead>
+      <tbody>${custo}</tbody></table>
+    ${conf ? `<h4 class="sub">Conferências que não passam</h4><ul>${conf}</ul>` : "<p class='conta'>todas as conferências de marcenaria passam</p>"}`;
 }
 
 function vistaAcustica() {
