@@ -53,10 +53,11 @@ def planta_marcenaria() -> Canvas:
     def pavimento(pav, vw, titulo, num):
         fech = pj.TERREO if pav == "T" else pj.SUPERIOR
         for a in fech:
-            cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)), vw.pt(P(a.x + a.w, a.y + a.h)),
-                       vw.pt(P(a.x, a.y + a.h))], "fino", fechado=True, preenche="#fbfaf7", cor="#999")
-            c = vw.pt(P(a.cx, a.cy))
-            cv.texto_p((c[0], c[1] + 1.2), a.cod, TXT["micro"], "middle", cor="#aaa")
+            with cv.escopo("ambiente", a.cod, rot=a.nome):
+                cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)), vw.pt(P(a.x + a.w, a.y + a.h)),
+                           vw.pt(P(a.x, a.y + a.h))], "fino", fechado=True, preenche="#fbfaf7", cor="#999")
+                c = vw.pt(P(a.cx, a.cy))
+                cv.texto_p((c[0], c[1] + 1.2), a.cod, TXT["micro"], "middle", cor="#aaa")
         paredes = el.derivar_paredes(fech)
         el.desenhar_paredes(cv, vw, paredes, list(el.vaos_do_pavimento(pav)))
         _desenhar_subdivisoes(cv, vw, pav)

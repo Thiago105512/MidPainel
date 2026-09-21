@@ -44,10 +44,16 @@ def _fundo(cv: Canvas, vw: View, pav: str, rotulos: bool = False) -> None:
                    vw.pt(P(x0, y1))], "fino", fechado=True,
                   preenche="#e4e4e4", cor="#bbb")
     for a in ambs:
-        cv.texto_p(vw.pt(P(a.cx, a.cy)), a.cod, TXT["micro"], "middle", cor="#aaa")
-        if rotulos:
-            cv.texto_p(vw.pt(P(a.cx, a.cy + 400)), a.nome[:16], TXT["micro"],
-                       "middle", cor="#ccc")
+        # R77 — o ambiente como escopo: e por ele que o visualizador recorta a
+        # prancha comodo a comodo, sem tabela paralela de coordenadas
+        with cv.escopo("ambiente", a.cod, rot=a.nome):
+            cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)),
+                       vw.pt(P(a.x + a.w, a.y + a.h)), vw.pt(P(a.x, a.y + a.h))],
+                      "cota", fechado=True, preenche="none", cor="#eee")
+            cv.texto_p(vw.pt(P(a.cx, a.cy)), a.cod, TXT["micro"], "middle", cor="#aaa")
+            if rotulos:
+                cv.texto_p(vw.pt(P(a.cx, a.cy + 400)), a.nome[:16], TXT["micro"],
+                           "middle", cor="#ccc")
 
 
 def _simbolo(cv: Canvas, vw: View, x, y, letra: str, cor: str, r: float = 2.2) -> None:

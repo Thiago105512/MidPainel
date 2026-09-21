@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="28" data-rev="R75">
+<g data-tipo="carimbo" data-cod="28" data-rev="R77">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R75</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R77</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">28</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 69   REV R75</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 69   REV R77</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -90,18 +90,54 @@
 <polygon points="157.333,265.333 197.333,265.333 197.333,264.000 157.333,264.000" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
 <polygon points="157.333,249.667 197.333,249.667 197.333,247.667 157.333,247.667" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
 <polygon points="61.333,209.667 157.333,209.667 157.333,207.667 61.333,207.667" stroke="#bbb" stroke-width="0.18" fill="#e4e4e4" stroke-linejoin="miter"/>
+<g data-tipo="ambiente" data-cod="T-GAR" data-rot="GARAGEM">
+<polygon points="61.333,464.667 141.333,464.667 141.333,384.667 61.333,384.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="101.333" y="424.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-GAR</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-HAL" data-rot="HALL">
+<polygon points="141.333,432.667 165.333,432.667 165.333,384.667 141.333,384.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="153.333" y="408.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-HAL</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-ALC" data-rot="ALCOVA DO REVERSIVEL">
+<polygon points="165.333,432.667 189.333,432.667 189.333,408.667 165.333,408.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="177.333" y="420.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-ALC</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-CIR" data-rot="CIRCULACAO">
+<polygon points="165.333,408.667 189.333,408.667 189.333,384.667 165.333,384.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="177.333" y="396.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-CIR</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-REV" data-rot="QUARTO REVERSIVEL">
+<polygon points="189.333,464.667 229.333,464.667 229.333,384.667 189.333,384.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="209.333" y="424.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-REV</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-OFI" data-rot="OFICINA">
+<polygon points="61.333,384.667 101.333,384.667 101.333,344.667 61.333,344.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="81.333" y="364.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-OFI</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-SOC" data-rot="ESTAR / JANTAR">
+<polygon points="101.333,384.667 157.333,384.667 157.333,304.667 101.333,304.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="129.333" y="344.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-SOC</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-COR" data-rot="CORE / ESCADA">
+<polygon points="157.333,384.667 189.333,384.667 189.333,304.667 157.333,304.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="173.333" y="344.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-COR</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-COZ" data-rot="COZINHA">
+<polygon points="61.333,304.667 101.333,304.667 101.333,208.667 61.333,208.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="81.333" y="256.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-COZ</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-GOU" data-rot="GOURMET">
+<polygon points="101.333,304.667 157.333,304.667 157.333,208.667 101.333,208.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="129.333" y="256.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-GOU</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-LAV" data-rot="LAVANDERIA">
+<polygon points="157.333,304.667 197.333,304.667 197.333,264.667 157.333,264.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="177.333" y="284.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-LAV</text>
+</g>
+<g data-tipo="ambiente" data-cod="T-DEP" data-rot="DEPOSITO / DML">
+<polygon points="157.333,264.667 197.333,264.667 197.333,248.667 157.333,248.667" stroke="#eee" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>
 <text x="177.333" y="256.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-DEP</text>
+</g>
 <polygon points="61.333,384.667 133.333,384.667 133.333,320.667 61.333,320.667" stroke="#c9c9c9" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
 <polygon points="61.333,320.667 133.333,320.667 133.333,256.667 61.333,256.667" stroke="#c9c9c9" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
 <polygon points="133.333,336.667 197.333,336.667 197.333,304.667 133.333,304.667" stroke="#c9c9c9" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>

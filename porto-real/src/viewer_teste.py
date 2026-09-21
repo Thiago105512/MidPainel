@@ -1008,6 +1008,35 @@ def rodar(fotos: bool = False) -> int:
            "e escolher a prancha 34 no seletor abre a prancha 34")
         ok(pag.evaluate("() => document.documentElement.scrollWidth <= innerWidth + 1"),
            "com o seletor, a pagina continua sem rolagem lateral no celular")
+        # R77 — modo Comodo: tudo de um ambiente numa pilha vertical
+        pag.click("button[data-modo='comodo']")
+        pag.wait_for_timeout(1500)
+        n_cards = pag.evaluate(
+            "() => document.querySelectorAll('#stageComodo details.ccard').length")
+        ok(n_cards >= 8, "o modo Comodo empilha pelo menos 8 cartoes do ambiente",
+           f"{n_cards} cartoes")
+        pag.evaluate("() => document.querySelector(\"#comodos button[data-amb='T-COZ']\").click()")
+        pag.wait_for_timeout(1500)
+        vb = pag.evaluate("""() => { const s = document.querySelector(
+             '#stageComodo details[open] .crop svg');
+             return s ? s.getAttribute('viewBox') : null; }""")
+        # a folha A1 tem 841 mm: um recorte de comodo tem de ser bem menor que meia folha
+        ok(vb is not None and float(vb.split()[2]) < 841 / 2,
+           "e a planta abre recortada no comodo, nao a folha inteira", str(vb))
+        ok(pag.evaluate("() => location.hash") == "#comodo/T-COZ",
+           "o endereco acompanha o comodo (#comodo/T-COZ)",
+           pag.evaluate("() => location.hash"))
+        _n_amb = pag.evaluate("() => ENG.ambientes.dossies.length")
+        n_sel = pag.evaluate("() => document.getElementById('selNav').options.length")
+        ok(n_sel == _n_amb, f"no celular o seletor lista os {_n_amb} comodos", f"{n_sel} opcoes")
+        ok(pag.evaluate("() => document.documentElement.scrollWidth <= innerWidth + 1"),
+           "e o modo Comodo nao estoura a largura do celular")
+        pag.evaluate("() => aplicarRota('#comodo/S-MAS')")
+        pag.wait_for_timeout(1000)
+        ok(pag.evaluate("() => comodoSel") == "S-MAS"
+           and "S-MAS" in pag.evaluate(
+               "() => document.querySelector('#stageComodo .ctit').textContent"),
+           "e abrir o endereco #comodo/S-MAS mostra a suite master")
         pag.click("button[data-modo='eng']")
         pag.wait_for_timeout(300)
         pag.set_viewport_size({"width": 1440, "height": 960})

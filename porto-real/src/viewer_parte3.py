@@ -432,6 +432,7 @@ const DONO = {
   "2d":  ["stage", "barra2d", "barra2", "rail2d", "notas2d", "dica2d"],
   "3d":  ["stage3d", "rail3d", "notas3d", "dica3d"],
   "eng": ["stageEng", "railEng", "dicaEng"],
+  "comodo": ["stageComodo", "railComodo"],
 };
 function modo(qual) {
   const e2 = qual === "3d";
@@ -443,6 +444,7 @@ function modo(qual) {
     b.setAttribute("aria-selected", (b.dataset.modo === qual) + ""));
   if (typeof gravarRota === "function") gravarRota();
   if (qual === "eng") { abrirEng(); return; }
+  if (qual === "comodo") { abrirComodo(); return; }
   if (qual === "2d") { if (svg2d) ajustar(semMoldura ? caixaDesenho() : null); return; }
   if (!carregou3d) {
     carregou3d = true;

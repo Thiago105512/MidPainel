@@ -1471,6 +1471,7 @@ function rotaDaTela() {
   const qual = m ? m.dataset.modo : "2d";
   if (qual === "eng") return "eng/" + engVista;
   if (qual === "3d") return "3d";
+  if (qual === "comodo") return "comodo/" + (comodoSel || "");
   const s = (typeof SHEETS !== "undefined" && SHEETS[idxPrancha]) || null;
   return s ? "2d/PR-" + s.n : "2d";
 }
@@ -1499,6 +1500,9 @@ function aplicarRota(h) {
       modo("eng");
     } else if (qual === "3d") {
       modo("3d");
+    } else if (qual === "comodo") {
+      if (partes[1]) comodoSel = partes[1];
+      modo("comodo");
     } else if (qual === "2d") {
       modo("2d");
       if (partes[1] && typeof SHEETS !== "undefined") {

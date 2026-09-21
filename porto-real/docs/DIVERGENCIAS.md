@@ -5832,3 +5832,35 @@ visíveis — passava porque testava só o desktop.
 
 **Estado em R76:** 147 auditorias, 0 erros; 215 verificações do visualizador,
 0 falhas; 69 pranchas; matriz 86 %.
+
+## R77 — Modo Cômodo: o caderno por ambiente, na vertical
+
+No telefone ninguém "lê a prancha"; procura-se um lugar. O quarto modo do
+visualizador parte do ambiente, não da folha: escolhe-se um dos 17 cômodos e
+a tela empilha, um cartão por assunto, o que o caderno diz daquele lugar.
+
+| Cartão | De onde vem |
+|---|---|
+| 14 recortes de prancha (planta, layout, forro, hidráulica, elétrica, clima, humanizada, marcenaria em planta e em elevação, elevações internas, cortes, dados/CFTV, incêndio, contraventamento) | o SVG da própria prancha, recortado pela caixa (`getBBox`) dos elementos com `data-cod` ou `data-amb` do ambiente, mais 12 mm de papel em volta. Térreo e superior escolhem a prancha do seu pavimento |
+| acabamentos, vãos, tomadas | o dossiê do ambiente (`ENG.ambientes`), o mesmo da vista "ambientes" |
+| circuitos, peças de água, ramais de esgoto, reforços LSF, dados e incêndio | `ENG.executivo`, filtrado por `amb` |
+| móveis | `ENG.marcenaria`, filtrado por `amb` |
+| conferências | os achados do dossiê, ou o selo "sem divergência" |
+
+Para o recorte existir, o ambiente precisava ter identidade no desenho. As
+plantas de fundo (pranchas 6, 10 e 11) agora envolvem cada ambiente num
+`escopo("ambiente", cod)`: o SVG ganha `data-tipo="ambiente" data-cod="T-COZ"`
+sem nenhuma linha nova. É a mesma regra do resto do caderno — o desenho não
+sabe nada que o modelo não saiba; ele só marca de quem é cada traço.
+
+O endereço acompanha: `#comodo/T-COZ` abre a cozinha, e o botão Voltar desfaz
+a troca de cômodo. No celular o `<select>` do índice passa a listar os
+cômodos, porque ele lê os botões do trilho visível, seja qual for o modo.
+
+Seis verificações novas, a 390 px: o modo empilha ≥ 8 cartões; a planta abre
+recortada (largura do `viewBox` < meia folha); o endereço vira `#comodo/T-COZ`;
+o seletor lista os 17 cômodos; nada estoura a largura; e `#comodo/S-MAS`
+mostra a suíte master.
+
+**Estado em R77:** 147 auditorias, 0 erros; 221 verificações do visualizador,
+0 falhas; 69 pranchas; matriz 86 %.

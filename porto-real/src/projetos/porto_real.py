@@ -3906,6 +3906,15 @@ REVISOES = [
      "enxuta com os controles avancados atras de um botao, prancha aberta sem "
      "moldura, pinca no 2D e no 3D, ficha em folha inferior, tabelas rolando no "
      "proprio conteiner. Nada muda no desktop. Tres verificacoes novas a 390 px"),
+    ("R77", "MODO COMODO NO VISUALIZADOR. Quarto modo, pensado para o telefone: "
+     "toca-se num dos 17 ambientes e o caderno empilha, na vertical, o recorte "
+     "desse ambiente em 14 pranchas (planta, layout, forro, hidraulica, "
+     "eletrica, clima, humanizada, marcenaria, elevacoes, cortes, dados, "
+     "incendio, contraventamento) e as tabelas so dele (acabamentos, vaos, "
+     "circuitos, pecas de agua e esgoto, moveis, reforcos LSF, conferencias). "
+     "O recorte e a caixa dos elementos data-cod/data-amb do ambiente no SVG "
+     "da propria prancha: as plantas ganharam escopo por ambiente (pranchas "
+     "6, 10 e 11). Endereco #comodo/COD. Seis verificacoes novas"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4112,13 +4121,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R76",
+    revisao="R77",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R76", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R77", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
