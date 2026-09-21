@@ -297,3 +297,44 @@ def climatizacao_testes() -> Canvas:
     _tabela(cv, (360, y + 6), "CONFERENCIAS DESTA PRANCHA", ["O QUE", "COMO", ""], [[a[:44], b[:70], "ok" if o else "NAO"] for a, b, o in conf],
             larguras=[70, 120, 14], h_lin=3.8)
     return cv
+
+
+# =========================================================================
+# PR-76 — PADROES DA CASA, NORMAS, HIPOTESES E DERIVACOES (R81)
+# =========================================================================
+def padroes_da_casa() -> Canvas:
+    import nucleo.padroes as pd
+    cat = pd.catalogo(pj)
+    r = pd.resumo(pj)
+    cv = base("PADROES DA CASA, NORMAS, HIPOTESES E DERIVACOES", "s/ escala", "76", notas=[
+        f"{r['constantes']} constantes de {len(pd.MODULOS)} modulos, todas com classe e dono: {r['padroes']} PADROES da casa "
+        f"({r['fixadas']} com o valor fixado pelo caso, que o modulo le), {r['normas']} limites de NORMA ou catalogo, "
+        f"{r['hipoteses']} HIPOTESES com o nome de quem confirma. O que nao esta aqui e DERIVADO: nunca se digita.",
+        "Padrao e onde variar nao acrescenta valor (a mesma altura de tomada em toda a casa). Norma e o que ninguem aqui decide. "
+        "Hipotese e o numero que espera o fabricante, a concessionaria ou a obra — e muda quando eles responderem.",
+        "A auditoria 151 cobra que toda constante nova nasca classificada: hipotese sem dono e erro.",
+    ])
+    def modn(m):
+        return m.split(".")[-1]
+    pads = [e for e in cat if e["classe"] == "padrao"]
+    lin = [[modn(e["modulo"]), e["nome"], (e["valor_txt"][:26] + (f" {e['un']}" if e["un"] else "")), e["texto"][:74]] for e in pads]
+    meio = (len(lin) + 1) // 2
+    y1 = _tabela(cv, (40, 40), f"PADROES DA CASA ({len(pads)}) — decisao do proprietario, valor lido pelo modulo", ["MODULO", "CONSTANTE", "VALOR", "RAZAO"],
+                 lin[:meio], larguras=[24, 44, 44, 130], h_lin=3.4)
+    y2 = _tabela(cv, (300, 40), "PADROES DA CASA (continuacao)", ["MODULO", "CONSTANTE", "VALOR", "RAZAO"], lin[meio:], larguras=[24, 44, 44, 130], h_lin=3.4)
+    hips = [e for e in cat if e["classe"] == "hipotese"]
+    lin = [[modn(e["modulo"]), e["nome"], e["valor_txt"][:22], e["texto"].replace("dono: ", "")[:56]] for e in hips]
+    y3 = _tabela(cv, (560, 40), f"HIPOTESES ({len(hips)}) — quem confirma", ["MODULO", "CONSTANTE", "VALOR", "DONO"], lin, larguras=[24, 44, 40, 110], h_lin=3.4)
+    lin = [[o[:70], d[:76]] for o, d in pd.DERIVADOS]
+    y4 = _tabela(cv, (560, y3 + 6), f"DERIVADOS ({len(pd.DERIVADOS)}) — nunca se digita", ["O QUE", "DE ONDE"], lin, larguras=[104, 114], h_lin=4.0)
+    conf = pd.conferir(pj)
+    _tabela(cv, (560, y4 + 6), "CONFERENCIAS DESTA PRANCHA", ["O QUE", "COMO", ""], [[a[:44], b[:60], "ok" if o else "NAO"] for a, b, o in conf],
+            larguras=[80, 124, 14], h_lin=3.8)
+    nrm = [e for e in cat if e["classe"] == "norma"]
+    lin = [[modn(e["modulo"]), e["nome"], e["valor_txt"][:22], e["texto"][:60]] for e in nrm]
+    meio = (len(lin) + 1) // 2
+    y0 = max(y1, y2) + 8
+    _tabela(cv, (40, y0), f"NORMAS E CATALOGOS ({len(nrm)}) — ninguem aqui decide", ["MODULO", "CONSTANTE", "VALOR", "FONTE"], lin[:meio],
+            larguras=[24, 44, 40, 112], h_lin=3.2)
+    _tabela(cv, (300, y0), "NORMAS E CATALOGOS (continuacao)", ["MODULO", "CONSTANTE", "VALOR", "FONTE"], lin[meio:], larguras=[24, 44, 40, 112], h_lin=3.2)
+    return cv

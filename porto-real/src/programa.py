@@ -879,6 +879,16 @@ PROGRAMA = [
      "abrir, esgoto sob o piso — e conta buchas, clips, abracadeiras e caixas. "
      "Queda e pressao recalculadas com o percurso real; mapa de ocultos por "
      "parede; tubulacao na cena 3D; mapa de testes por sistema."),
+    (151, "Padroes da casa, normas e hipoteses: toda constante tem classe e dono",
+     ["checar_padroes"], "AUTOMATIZADA",
+     "Secao 176. O proprietario perguntou se a logica de tudo e a padronizacao e "
+     "pediu que as decisoes fossem tomadas por ele. PADROES_DA_CASA classifica as "
+     "188 constantes dos 15 modulos de instalacoes, piscina, canteiro, luz, "
+     "marcenaria e acabamento: padrao (decisao da casa, valor fixado pelo caso e "
+     "lido pelo modulo), norma (ninguem aqui decide) ou hipotese (com o dono de "
+     "quem confirma). A auditoria cobra cobertura total, constante existente, "
+     "valor aplicado, hipotese com dono e gemeos iguais (a altura da bancada em "
+     "dois modulos). Constante nova sem classe e erro na primeira execucao."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

@@ -112,6 +112,7 @@ CADERNO = [
     ("73", "ELETRICA: PONTOS, PERCURSOS E FIXADORES", lambda: p15.eletrica_pontos_percursos()),
     ("74", "AGUA E ESGOTO: PERCURSO OCULTO E FUROS", lambda: p15.agua_esgoto_ocultos()),
     ("75", "CLIMATIZACAO ISOMETRICO E MAPA DE TESTES", lambda: p15.climatizacao_testes()),
+    ("76", "PADROES DA CASA, NORMAS E HIPOTESES",     lambda: p15.padroes_da_casa()),
 ]
 
 

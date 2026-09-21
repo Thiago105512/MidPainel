@@ -4683,6 +4683,21 @@ def checar_percurso() -> list[Achado]:
     return out
 
 
+def checar_padroes() -> list[Achado]:
+    """Toda constante tem classe e dono; o caso fixa os padroes e o modulo le (R81)."""
+    import projeto as pj
+    import nucleo.padroes as pd
+    out = []
+    conf = pd.conferir(pj)
+    for t, d, ok in conf:
+        if not ok:
+            out.append(Achado("ERRO", f"padroes: {t}", d))
+    r = pd.resumo(pj)
+    out.append(Achado("NOTA", "padroes", f"{sum(1 for c in conf if c[2])} de {len(conf)} conferencias passam; {r['constantes']} constantes: "
+                      f"{r['padroes']} padroes ({r['fixadas']} fixados pelo caso), {r['normas']} normas, {r['hipoteses']} hipoteses com dono"))
+    return out
+
+
 def checar_moldes_de_defeito() -> list[Achado]:
     """Meta-auditoria (R65): literais do caso, alcance das entidades, funcoes duplicadas.
 

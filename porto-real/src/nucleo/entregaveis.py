@@ -717,7 +717,7 @@ ITENS = [
     (616, "Caderno de fabricacao", "TEM", "ENG:pecas", "PR-18, PR-36"),
     (617, "Caderno de montagem", "TEM", "ENG:documentos", "=465"),
     (618, "Caderno de compatibilizacao", "TEM", "PR-14", ""),
-    (619, "Caderno de especificacoes", "TEM", "PR-13", ""),
+    (619, "Caderno de especificacoes", "TEM", "PR-13", "PR-76: padroes, normas e hipoteses com dono (R81)"),
     (620, "Caderno as-built", "EXTERNO", "obra", "=575"),
     (621, "Prancha mestre do projeto", "TEM", "PR-48", "esta matriz"),
 ]

@@ -14,3 +14,7 @@ from projetos.porto_real import *          # noqa: F401,F403
 from projetos import porto_real as _caso
 
 CASO = _caso
+
+# R81 — os padroes da casa fixados pelo caso passam a valer nos modulos
+import nucleo.padroes as _padroes
+_padroes.aplicar(_caso)

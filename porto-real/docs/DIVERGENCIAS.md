@@ -6017,3 +6017,52 @@ Pranchas 73, 74 e 75; auditoria 150; 3 verificações novas do visualizador.
 **Estado em R80:** 150 auditorias, 0 erros; 224 verificações do visualizador,
 0 falhas; 75 pranchas. Matriz: 462 distintos, 367 TEM + 45 NA = **89,2 %**,
 31 PARCIAL, **8 FALTA**, 11 EXTERNO. BOM R$ 1.037.862,10.
+
+## R81 — Padrões da casa, normas e hipóteses: toda constante tem dono
+
+O proprietário perguntou se "a lógica de tudo é a padronização" e, diante da
+resposta (não: é derivação; padronizar é uma das consequências), pediu que as
+decisões fossem tomadas por ele. Foram. `PADROES_DA_CASA`, no caso, classifica
+as **188 constantes** dos 15 módulos de instalações, piscina, canteiro, luz,
+marcenaria, LSF e acabamento em três classes:
+
+| Classe | Quantas | O que é | Exemplos |
+|---|---|---|---|
+| **padrão** | 85 (70 com valor fixado pelo caso) | decisão da casa: uniforme porque variar não acrescenta valor; o módulo lê o valor do caso | tomada a 300, bancada a 1.100, interruptor a 1.100, paralelo a 700, split a 2.200; eletroduto a 1.450, PEX a 400, furo hidráulico 32; clip a 1,2 m; luz 2.700 K íntimo / 3.000 social / 4.000 cozinha; caimento do deck 1 %; esgoto a 2 % também no DN100; reserva de 20 % de vias; MDF 15, porta ≤ 600, gaveta 200 |
+| **norma** | 70 | limite de norma, tabela comercial ou física: ninguém aqui decide | queda 4 %, zona 1 do box, caimento mínimo, DN por UHC, Iz do cabo, chapa 1.850 × 2.750, furo até meia alma (AISI), 127/220 V |
+| **hipótese** | 33, cada uma com dono | número que espera confirmação de fora | Lw da condensadora (fabricante), rendimento e fp da bomba (placa), Rw do vidro (fabricante), vento dominante (INMET), equipe de pico (construtora), C do solo exposto (obra), rendimento da tinta (fabricante) |
+
+O que não está na lista é **derivado** e nunca se digita: posição de ponto,
+percurso, seção, DN, número de degraus, quantidade de fixador, BOM.
+
+Mecânica: `nucleo/padroes.aplicar(caso)` roda ao importar o projeto e escreve
+nos módulos os valores que o caso fixou; o módulo continua tendo o seu valor
+próprio como reserva para outro caso. A auditoria 151 cobra cinco coisas:
+toda constante numérica dos módulos governados está classificada (constante
+nova sem classe é erro na primeira execução); toda classificação aponta para
+uma constante que existe; o valor fixado é o que o módulo usa; toda hipótese
+tem dono; gêmeos dizem o mesmo número (a altura da bancada vive em dois
+módulos, `marcenaria.BANCADA_ACABADA` e `acabamento.ALTURA_BANCADA`, e a
+auditoria os obriga a coincidir).
+
+Decisões tomadas por mim onde havia margem, e a razão:
+
+- **Tomada baixa a 300 mm e não 400**: móveis e rodapé de 100 escondem menos;
+  300 é o que o mercado brasileiro instala e o que o eletricista faz sem
+  pensar. Uniformidade vale mais que o centímetro.
+- **Interruptor a 1.100 e não 1.200**: mesma altura da tomada de bancada e
+  do lavatório; uma cota só para tudo o que é "alto" na parede.
+- **Esgoto a 2 % no DN100** (a norma pede 1 %): é a resposta ao "para não
+  entupir" da R72, agora escrita como padrão.
+- **Reserva de 20 % de vias** em todo quadro: EV e piscina já ensinaram que
+  a carga cresce.
+- **Luz por zona**, não por ambiente: 2.700 K onde se dorme, 3.000 onde se
+  convive, 4.000 onde se trabalha com faca.
+
+PR-76 lista tudo, em três tabelas e a de derivados. Nada de geometria mudou:
+os 70 valores fixados são os que os módulos já usavam; o que mudou é que
+agora são decisão sua, registrada, e não hipótese minha.
+
+**Estado em R81:** 151 auditorias, 0 erros; 224 verificações do visualizador,
+0 falhas; 76 pranchas. Matriz e BOM inalteradas (89,2 %, 8 FALTA;
+R$ 1.037.862,10).

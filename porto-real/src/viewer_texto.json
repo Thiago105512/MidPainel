@@ -1781,5 +1781,26 @@
     "esgoto no radier, furos hidráulicos, eletroduto a 1.450, cargas suspensas, fita X, impermeabilização, shaft"
    ]
   ]
+ },
+ {
+  "n": "76",
+  "t": "Padrões da casa, normas e hipóteses",
+  "esc": "s/ escala",
+  "etapa": "R81",
+  "d": "Toda constante dos módulos de instalações, piscina, canteiro, luz, marcenaria e acabamento com classe e dono: padrões decididos pela casa, limites de norma ou catálogo, hipóteses com quem as confirma, e o que é derivado e nunca se digita.",
+  "k": [
+   [
+    "padrão",
+    "85 decisões da casa com o valor fixado pelo caso: altura de tomada, cota do furo, cor da luz por zona, passo do clip"
+   ],
+   [
+    "norma",
+    "70 limites que ninguém aqui decide: queda de 4 %, zona do box, caimento, diâmetro interno de tubo"
+   ],
+   [
+    "hipótese",
+    "33 números que esperam fabricante, concessionária ou obra, cada um com dono; hipótese sem dono é erro"
+   ]
+  ]
  }
 ]

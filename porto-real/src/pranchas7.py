@@ -373,6 +373,7 @@ INDICE = [
     ("73", "Eletrica: cada ponto com coordenada, percurso parede a parede e fixadores (R80)"),
     ("74", "Agua e esgoto: percurso oculto por parede, furos hidraulicos nos paineis e fixadores (R80)"),
     ("75", "Climatizacao em isometrico, mapa de testes por sistema e pontos criticos (R80)"),
+    ("76", "Padroes da casa, normas, hipoteses com dono e derivacoes (R81)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},
