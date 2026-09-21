@@ -347,6 +347,11 @@ INDICE = [
     ("47", "Terreno: perfil, plataforma e cotas (R68)"),
     ("48", "Matriz de entregaveis — prancha mestre (R69)"),
     ("49", "Ventilacao natural e privacidade (R69)"),
+    ("50", "Cortes por ambiente e corte de fachada (R70)"),
+    ("51", "Elevacoes internas II, derivadas do modelo (R70)"),
+    ("52", "Esquadrias: tipos, quantidades e detalhes (R70)"),
+    ("53", "Mapa de cores, rodapes, soleiras e peitoris (R70)"),
+    ("54", "Planta humanizada (R70)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},

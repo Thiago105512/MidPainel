@@ -16,6 +16,7 @@ import pranchas5 as p5
 import pranchas6 as p6
 import pranchas7 as p7
 import pranchas8 as p8
+import pranchas9 as p9
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -78,6 +79,12 @@ CADERNO = [
     # R69 — a lista de 621 entregaveis medida, e dois estudos que ela pedia
     ("48", "MATRIZ DE ENTREGAVEIS — PRANCHA MESTRE", lambda: p8.entregaveis()),
     ("49", "VENTILACAO NATURAL E PRIVACIDADE",   lambda: p8.ventilacao()),
+    # R70 — lote 1 do backlog da matriz
+    ("50", "CORTES POR AMBIENTE E DE FACHADA",   lambda: p9.cortes_por_ambiente()),
+    ("51", "ELEVACOES INTERNAS II",              lambda: p9.elevacoes_derivadas()),
+    ("52", "ESQUADRIAS: TIPOS E DETALHES",       lambda: p9.esquadrias()),
+    ("53", "MAPA DE CORES, RODAPES E PEITORIS",  lambda: p9.mapa_de_cores()),
+    ("54", "PLANTA HUMANIZADA",                  lambda: p9.humanizada()),
 ]
 
 

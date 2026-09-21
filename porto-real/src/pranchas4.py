@@ -192,6 +192,7 @@ def forro() -> Canvas:
         f"{lv['w_geral']:.0f} W ({lv['w_m2']} W/m2).",
         "Cor: 2.700 K intimo · 3.000 K social e circulacao · 4.000 K cozinha, banho e trabalho.",
         f"{sum(v['qtd'] for v in pj.VENTILADORES)} ventiladores de teto (verde), diametro em mm.",
+        "Cortineiro (tracejado roxo): rebaixo de 150 mm ao longo da janela de todo ambiente intimo.",
     ])
     trat = {c: (sol, j) for c, sol, _, j in ep.FORROS}
     pat_abs = cv.hachura("absorv", espac=1.1, ang=45, w=0.07, cor="#c77")
@@ -269,6 +270,23 @@ def forro() -> Canvas:
                                "fino", cor="#0a6")
                     cv.texto_p((c[0], c[1] + vw.d(v["diam"]) / 2 + 1.6),
                                f"{v['cod']} {v['diam']}", TXT["micro"], "middle", cor="#0a6")
+        # R70 (item 65) — cortineiro: rebaixo de 150 mm ao longo da janela de
+        # todo ambiente intimo, onde o BOM ja compra blackout (MAR-CORT)
+        for tipo, x, y, ori, pv in pj.VAOS:
+            if pv != pav or not tipo.startswith("J"):
+                continue
+            amb = pj.amb_do_vao(x, y, pv)
+            if pj.CATEGORIA.get(amb) != "intimo":
+                continue
+            lg = pj.ESQUADRIAS[tipo][0] + 400
+            if ori == "H":
+                dentro = 150 if any(a.cod == amb and a.y <= y + 300 <= a.y + a.h for a in ambs) else -150
+                p0, p1 = vw.pt(P(x - lg / 2, y + dentro)), vw.pt(P(x + lg / 2, y + dentro))
+            else:
+                dentro = 150 if any(a.cod == amb and a.x <= x + 300 <= a.x + a.w for a in ambs) else -150
+                p0, p1 = vw.pt(P(x + dentro, y - lg / 2)), vw.pt(P(x + dentro, y + lg / 2))
+            with cv.escopo("cortineiro", f"{amb}/{tipo}"):
+                cv.linha_p(p0, p1, "corte2", cor="#7a5c99", dash="3 1.5")
         an.titulo_desenho(cv, (vw.ox, 452), "1" if pav == "T" else "2", titulo, "1:75")
 
     # R60 — 1:75 e nao 1:100: em 1:100 os dois pavimentos ocupavam 15 % da

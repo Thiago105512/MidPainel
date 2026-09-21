@@ -5530,3 +5530,47 @@ autor, e é para isso que ela existe.
 distintos, 264 TEM + 42 NA = 71% resolvido, 44 PARCIAL, 72 FALTA, 11 EXTERNO.
 BOM de 166 itens, R$ 968.127,81. Transporte: 62 painéis em 1 viagem de
 carreta, 4.200 mm contra 4.400 de limite.
+
+## R70 — Lote 1 do backlog: o que sai do modelo sem digitar nada
+
+A matriz de R69 deixou 72 entregáveis FALTA. Este lote produz os que o modelo
+já sabia desenhar e só não tinha prancha: cinco pranchas novas (PR-50 a 54)
+e um acréscimo na planta de forro (PR-17). Regra do lote, que vale para os
+seguintes: nenhuma peça desenhada à mão. A PR-15 (R03) tem elevações com
+módulos digitados um a um; as de agora saem de ARMARIOS, BANCADAS, LOUCAS,
+EQUIPAMENTOS e LAYOUT pelo código — se um armário mudar de largura no caso,
+a elevação muda junto, e a auditoria de alcance passa a ver cada código
+também nestas pranchas.
+
+| Prancha | Conteúdo | Itens da lista |
+|---|---|---|
+| PR-50 | cortes 1-1 a 5-5 pelo centro de garagem, cozinha, gourmet, master e banhos das suítes, pelo mesmo desenhador dos cortes AA/BB; corte construtivo de fachada 1:25 do radier à fáscia | 84–89, 93 |
+| PR-51 | nove elevações internas derivadas: a parede de cada cômodo é a que tem mais itens do caso (`_melhor_face`), não a que eu escolhi | 100, 102–106 |
+| PR-52 | as 11 famílias de esquadria em uso, com quantidade, vidro por `vidro_do_vao` e peitoril; detalhes 1:5 de peitoril, soleira, trilho e portão | 108, 112–115, 119–123 |
+| PR-53 | paleta a partir de `modelo3d.CORES` (a mesma do visualizador e do render), rodapés por ambiente, soleiras e peitoris por vão | 72–76 |
+| PR-54 | planta humanizada com o piso de cada ambiente na cor do acabamento declarado | 51 |
+| PR-17 | cortineiros nas janelas dos ambientes íntimos, como escopo auditável | 65 |
+
+### A moldura acusou três pranchas na primeira execução
+A auditoria 64 (conteúdo dentro da moldura) reprovou PR-51, 52 e 54 na
+primeira passagem: 7,9 mm à esquerda na cadeia de cotas, 21,8 mm em cima na
+esquadria mais alta, 68 mm em cima na planta humanizada. Os três são o mesmo
+erro — dimensionar a vista pela casa e esquecer o que está em volta dela: a
+cota fica fora do desenho, a porta P01 tem 2,8 m mais o título, e o térreo
+humanizado inclui as áreas abertas até o fundo do lote (39,6 m, que a 1:75
+são 528 mm numa folha de 574 úteis). PR-52 foi para 1:40 e PR-54 para 1:100.
+O corte de fachada da PR-50 nasceu em cima do carimbo; a moldura não mede
+sobreposição, o olho mediu, e ele foi para o vão entre o corte 3 e as notas.
+
+### O que a matriz diz depois do lote
+36 linhas da lista mudaram de status: 27 entregáveis distintos passaram a
+TEM e 14 deixaram de contar como sinônimo porque ganharam referência própria
+(433 → 447 distintos; o denominador cresce quando se produz, e isso é
+correto). O que fica: 61 FALTA distintos, e os maiores blocos
+são marcenaria (124–145), instalações em isométrico e diagramas verticais
+(266–314) e dados/automação/segurança (316–346) — os lotes R71 a R73.
+
+**Estado em R70:** 143 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; 54 pranchas; 45 perspectivas. Matriz: 621 linhas, 447 entregáveis
+distintos, 291 TEM + 42 NA = 74% resolvido, 42 PARCIAL, 61 FALTA, 11 EXTERNO.
+BOM de 166 itens, R$ 968.127,81 (inalterado: o lote é de representação).

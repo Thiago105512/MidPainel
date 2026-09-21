@@ -3837,6 +3837,16 @@ REVISOES = [
      "ventilacao natural e cruzada por ambiente (15575-4 e 15220-3) e "
      "privacidade janela a janela pelo art. 1.301 do Codigo Civil. PR-48 "
      "(matriz, a prancha mestre do item 621) e PR-49; auditorias 142 e 143"),
+    ("R70", "LOTE 1 DO BACKLOG. Cinco pranchas novas que a matriz apontava como "
+     "FALTA e o modelo sabia fazer: cortes por ambiente e corte construtivo de "
+     "fachada do radier a fascia (PR-50), elevacoes internas derivadas de "
+     "ARMARIOS/BANCADAS/LOUCAS/LAYOUT pelo codigo, com a parede escolhida "
+     "pelo numero de itens e nao a mao (PR-51), esquadrias familia a familia "
+     "com quantidade, vidro e os quatro detalhes de estanqueidade (PR-52), "
+     "mapa de cores da mesma fonte que a cena e o render, rodapes, soleiras e "
+     "peitoris (PR-53), planta humanizada (PR-54) e o cortineiro nas janelas "
+     "intimas da PR-16. Regra do lote: nenhuma peca digitada; o que esta na "
+     "prancha esta no caso. 36 itens da matriz passam a TEM"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4043,13 +4053,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R69",
+    revisao="R70",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R69", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R70", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

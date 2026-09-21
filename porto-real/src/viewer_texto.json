@@ -1215,5 +1215,130 @@
     "BR-S2 e BR-S3 existem por isto: a suíte olha a divisa sul a 2,40 m"
    ]
   ]
+ },
+ {
+  "n": "50",
+  "t": "Cortes por ambiente",
+  "esc": "1:50 · 1:25",
+  "etapa": "R70",
+  "d": "Cinco cortes, cada um pelo centro do ambiente que o nomeia, gerados pelo mesmo desenhador dos cortes AA e BB. E o corte construtivo de fachada, do radier à fáscia, com as camadas da PE-1 e a reposição de solo da PR-47. A planta-chave ao lado de cada título mostra onde o plano passa.",
+  "k": [
+   [
+    "5 cortes",
+    "garagem, cozinha, gourmet, master e banhos das suítes"
+   ],
+   [
+    "1:25",
+    "o corte de fachada, do lastro à fáscia grafite"
+   ],
+   [
+    "um desenhador",
+    "o mesmo código da PR-06: mudou a casa, mudam os seis"
+   ],
+   [
+    "planta-chave",
+    "o plano de corte em vermelho sobre o térreo"
+   ]
+  ]
+ },
+ {
+  "n": "51",
+  "t": "Elevações internas II",
+  "esc": "1:40",
+  "etapa": "R70",
+  "d": "Nove paredes desenhadas do modelo, não à mão: cada item vem de ARMARIOS, BANCADAS, LOUCAS, EQUIPAMENTOS ou LAYOUT pelo código, e a parede escolhida de cada ambiente é a que tem mais itens. A PR-15 tem módulos digitados; esta não tem nenhum.",
+  "k": [
+   [
+    "9 paredes",
+    "lavanderia, suítes, master, gourmet, estar, lounge, reversível e cozinha"
+   ],
+   [
+    "150 mm",
+    "um item está na parede quando encosta nela a menos disso"
+   ],
+   [
+    "por código",
+    "cada retângulo carrega o código do caso e a auditoria de alcance o vê"
+   ],
+   [
+    "parede automática",
+    "a com mais itens, não a que eu escolhi"
+   ]
+  ]
+ },
+ {
+  "n": "52",
+  "t": "Esquadrias",
+  "esc": "1:25 · 1:5",
+  "etapa": "R70",
+  "d": "Cada família em uso desenhada em elevação com largura, altura, peitoril, quantidade e o vidro que a regra de fator solar atribui. Famílias declaradas sem uso ficam de fora: esquadria que não está em VAOS não é comprada. Quatro detalhes decidem a estanqueidade: peitoril com pingadeira, soleira, trilho de correr e o portão ripado.",
+  "k": [
+   [
+    "11 famílias",
+    "em uso, de 39 vãos"
+   ],
+   [
+    "8 folhas",
+    "de 900 mm na cortina de vidro low-e"
+   ],
+   [
+    "4 detalhes",
+    "os encontros onde a água entra ou não"
+   ],
+   [
+    "alumínio grafite",
+    "todas: sem PVC, sem veneziana"
+   ]
+  ]
+ },
+ {
+  "n": "53",
+  "t": "Mapa de cores e peitoris",
+  "esc": "s/ escala",
+  "etapa": "R70",
+  "d": "A paleta de fachada é a mesma da cena 3D e do render: a amostra impressa e o pixel na tela saem do mesmo dicionário. Rodapé por ambiente, soleira por porta externa e peitoril por janela, derivados de acabamentos, VAOS e ESQUADRIAS.",
+  "k": [
+   [
+    "8 famílias",
+    "de material e cor, cada uma com onde vai"
+   ],
+   [
+    "3 texturas",
+    "junta seca de 6 mm, ripa a cada 150, régua de 100"
+   ],
+   [
+    "19 soleiras e peitoris",
+    "um por vão externo, com material"
+   ],
+   [
+    "mesma fonte",
+    "modelo3d.CORES alimenta a prancha, o visualizador e o Blender"
+   ]
+  ]
+ },
+ {
+  "n": "54",
+  "t": "Planta humanizada",
+  "esc": "1:100",
+  "etapa": "R70",
+  "d": "Os dois pavimentos com o piso de cada ambiente na cor do acabamento declarado e o mobiliário do caso. Sem cota: a leitura é de uso, não de execução.",
+  "k": [
+   [
+    "cor do piso",
+    "vem da descrição do acabamento, não de uma paleta separada"
+   ],
+   [
+    "mobiliário",
+    "LAYOUT, ARMARIOS, BANCADAS e LOUCAS, pelo código"
+   ],
+   [
+    "áreas abertas",
+    "deck, grama e seixo com o piso externo declarado"
+   ],
+   [
+    "sem cota",
+    "cotas ficam na PR-02 e PR-03"
+   ]
+  ]
  }
 ]
