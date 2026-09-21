@@ -246,7 +246,9 @@ window.urlRecurso = function (nome) {
     .stage-box.paineis .hud{display:flex !important}
     .stage-box.paineis #semmold, .stage-box.paineis #medir{display:inline-block}
     .selnav .btn[aria-pressed="true"]{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
-    .stage{height:calc(100svh - 200px); min-height:360px}
+    /* prancha A1 e apaisada: num visor em pe, a altura do palco segue a largura
+       (proporcao da folha mais a minimapa), nao a tela inteira */
+    .stage{height:min(calc(100svh - 200px), calc(78vw + 130px)); min-height:340px}
     .stage3d{height:calc(100svh - 200px) !important; min-height:360px}
     .ficha{top:auto; bottom:0; left:0; right:0; width:auto; max-height:46%;
            border-radius:6px 6px 0 0}
@@ -4379,8 +4381,12 @@ mostrar(1);
     enchendo = true;
     const bs = [...fonte().querySelectorAll("button")];
     const rotulo = b => {
-      const partes = [...b.children].map(c => c.textContent.replace(/\s+/g, " ").trim()).filter(Boolean);
-      return (partes.length ? partes.join(" · ") : b.textContent.replace(/\s+/g, " ").trim()).slice(0, 64);
+      // "02 · Planta baixa — terreo · 1:50": separador antes da escala/subtitulo
+      // e depois do numero, onde quer que eles estejam aninhados
+      const c = b.cloneNode(true);
+      c.querySelectorAll(".esc, .sub").forEach(e => e.insertAdjacentText("beforebegin", " · "));
+      c.querySelectorAll(".num").forEach(e => e.insertAdjacentText("afterend", " · "));
+      return c.textContent.replace(/\s+/g, " ").replace(/( · )+/g, " · ").trim().slice(0, 64);
     };
     sel.innerHTML = bs.map((b, i) =>
       `<option value="${i}" ${b.getAttribute("aria-current") === "true" ? "selected" : ""}>${rotulo(b)}</option>`).join("");
