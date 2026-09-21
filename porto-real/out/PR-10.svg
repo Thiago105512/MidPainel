@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="10" data-rev="R60">
+<g data-tipo="carimbo" data-cod="10" data-rev="R61">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R60</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R61</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">10</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R60</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R61</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -86,41 +86,41 @@
 <text x="226.000" y="86.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCADA — CORTE ESQUEMATICO</text>
 <text x="226.000" y="91.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:25</text>
 <line x1="215.000" y1="93.600" x2="280.600" y2="93.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<polyline points="230.000,200.000 230.000,193.333 242.000,193.333 242.000,186.667 254.000,186.667 254.000,180.000 266.000,180.000 266.000,173.333 278.000,173.333 278.000,166.667 290.000,166.667 290.000,160.000 302.000,160.000 302.000,153.333 314.000,153.333 314.000,146.667 326.000,146.667 326.000,140.000 338.000,140.000 338.000,133.333 350.000,133.333 350.000,126.667 362.000,126.667 362.000,120.000 374.000,120.000 374.000,113.333 386.000,113.333 386.000,106.667 398.000,106.667 398.000,100.000 410.000,100.000 410.000,93.333 422.000,93.333 422.000,86.667 434.000,86.667 434.000,80.000 446.000,80.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linejoin="miter"/>
-<line x1="230.000" y1="200.000" x2="446.000" y2="200.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="230.000" y1="200.000" x2="446.000" y2="80.000" stroke="#c00" stroke-width="0.13" fill="none" stroke-dasharray="6,2,1,2" stroke-linecap="round"/>
-<line x1="242.000" y1="156.000" x2="446.000" y2="36.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<line x1="242.000" y1="163.200" x2="446.000" y2="43.200" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polyline points="230.000,200.000 230.000,193.400 241.200,193.400 241.200,186.800 252.400,186.800 252.400,180.200 263.600,180.200 263.600,173.600 274.800,173.600 274.800,167.000 286.000,167.000 286.000,160.400 297.200,160.400 297.200,153.800 308.400,153.800 308.400,147.200 319.600,147.200 319.600,140.600 330.800,140.600 330.800,134.000 342.000,134.000 342.000,127.400 353.200,127.400 353.200,120.800 364.400,120.800 364.400,114.200 375.600,114.200 375.600,107.600 386.800,107.600 386.800,101.000 398.000,101.000 398.000,94.400 409.200,94.400 409.200,87.800 420.400,87.800 420.400,81.200 431.600,81.200 431.600,74.600 442.800,74.600 442.800,68.000 454.000,68.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linejoin="miter"/>
+<line x1="230.000" y1="200.000" x2="454.000" y2="200.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="230.000" y1="200.000" x2="454.000" y2="68.000" stroke="#c00" stroke-width="0.13" fill="none" stroke-dasharray="6,2,1,2" stroke-linecap="round"/>
+<line x1="242.000" y1="156.000" x2="454.000" y2="24.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="242.000" y1="163.200" x2="454.000" y2="31.200" stroke="#000000" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <g data-tipo="cota" data-eixo="H" data-parciais="2">
 <line x1="230.000" y1="200.000" x2="230.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="242.000" y1="200.000" x2="242.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="254.000" y1="200.000" x2="254.000" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="230.000" y1="212.000" x2="254.000" y2="212.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="241.200" y1="200.000" x2="241.200" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="252.400" y1="200.000" x2="252.400" y2="213.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="230.000" y1="212.000" x2="252.400" y2="212.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="229.300" y1="212.700" x2="230.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="241.300" y1="212.700" x2="242.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="236.000" y="210.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,30</text>
-<line x1="241.300" y1="212.700" x2="242.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="253.300" y1="212.700" x2="254.700" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="248.000" y="210.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,30</text>
+<line x1="240.500" y1="212.700" x2="241.900" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="235.600" y="210.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,28</text>
+<line x1="240.500" y1="212.700" x2="241.900" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="251.700" y1="212.700" x2="253.100" y2="211.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="246.800" y="210.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,28</text>
 </g>
 <g data-tipo="cota" data-eixo="V" data-parciais="3">
 <line x1="230.000" y1="200.000" x2="216.800" y2="200.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="230.000" y1="193.333" x2="216.800" y2="193.333" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="230.000" y1="186.667" x2="216.800" y2="186.667" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="230.000" y1="80.000" x2="216.800" y2="80.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="218.000" y1="200.000" x2="218.000" y2="80.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="230.000" y1="193.400" x2="216.800" y2="193.400" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="230.000" y1="186.800" x2="216.800" y2="186.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="230.000" y1="68.000" x2="216.800" y2="68.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="218.000" y1="200.000" x2="218.000" y2="68.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="217.300" y1="200.700" x2="218.700" y2="199.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="217.300" y1="194.033" x2="218.700" y2="192.633" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="216.884" y="196.667" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 216.884 196.667)">0,17</text>
-<line x1="217.300" y1="194.033" x2="218.700" y2="192.633" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="217.300" y1="187.367" x2="218.700" y2="185.967" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="216.884" y="190.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 216.884 190.000)">0,17</text>
-<line x1="217.300" y1="187.367" x2="218.700" y2="185.967" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="217.300" y1="80.700" x2="218.700" y2="79.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="216.884" y="133.333" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 216.884 133.333)">2,67</text>
+<line x1="217.300" y1="194.100" x2="218.700" y2="192.700" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="216.884" y="196.700" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 216.884 196.700)">0,17</text>
+<line x1="217.300" y1="194.100" x2="218.700" y2="192.700" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="217.300" y1="187.500" x2="218.700" y2="186.100" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="216.884" y="190.100" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 216.884 190.100)">0,17</text>
+<line x1="217.300" y1="187.500" x2="218.700" y2="186.100" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="217.300" y1="68.700" x2="218.700" y2="67.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="216.884" y="127.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 216.884 127.400)">2,97</text>
 </g>
-<text x="230.000" y="214.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 18 espelhos x 166.67 mm</text>
-<text x="230.000" y="218.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- piso 300 mm | Blondel 633.33 mm</text>
+<text x="230.000" y="214.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 20 espelhos x 165.00 mm</text>
+<text x="230.000" y="218.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- piso 280 mm | Blondel 610.00 mm</text>
 <text x="230.000" y="222.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- largura util 1000 mm | patamar 1000x1000 mm</text>
 <text x="230.000" y="227.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- guarda-corpo 1.100 mm | corrimao 920 mm</text>
 <text x="230.000" y="231.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- altura livre vertical minima 2.100 mm</text>
@@ -158,8 +158,8 @@
 <text x="656.000" y="91.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:25</text>
 <line x1="645.000" y1="93.600" x2="716.900" y2="93.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="652.000" y1="200.000" x2="796.000" y2="200.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-<polygon points="660.000,200.000 666.000,200.000 666.000,96.000 660.000,96.000" stroke="#000000" stroke-width="0.6" fill="#e0e0e0" stroke-linejoin="miter"/>
-<text x="663.000" y="88.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 663.000 88.000)">PAREDE</text>
+<polygon points="660.000,200.000 666.000,200.000 666.000,84.000 660.000,84.000" stroke="#000000" stroke-width="0.6" fill="#e0e0e0" stroke-linejoin="miter"/>
+<text x="663.000" y="76.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 663.000 76.000)">PAREDE</text>
 <polygon points="666.000,192.000 698.000,192.000 698.000,156.000 666.000,156.000" stroke="#000000" stroke-width="0.3" fill="#f0f0f0" stroke-linejoin="miter"/>
 <text x="682.000" y="174.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">CONDENSADORA</text>
 <line x1="700.000" y1="200.000" x2="700.000" y2="128.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>

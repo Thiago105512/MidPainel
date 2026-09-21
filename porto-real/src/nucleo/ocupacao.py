@@ -107,8 +107,7 @@ def vazios(pj) -> list[dict]:
 # ------------------------------------------------- 2. circulacao e excedente
 def circulacao(pj) -> dict:
     """Quanto da area construida e so passagem, e quanto disso e excedente."""
-    import especificacao as _ep  # so para a categoria; nao ha dado aqui
-    cat = _ep.CATEGORIA
+    cat = pj.CATEGORIA
     total = sum(a.w * a.h for a in pj.TERREO + pj.SUPERIOR) / 1e6
     itens = []
     for a in pj.TERREO + pj.SUPERIOR:
@@ -213,8 +212,7 @@ def promessas(pj) -> list[dict]:
 
 def guarda(pj) -> list[dict]:
     """Dormitorio sem lugar declarado para guardar roupa."""
-    import especificacao as _ep
-    cat = _ep.CATEGORIA
+    cat = pj.CATEGORIA
     falhas = []
     for a in pj.TERREO + pj.SUPERIOR:
         if cat.get(a.cod) not in DORMITORIO:

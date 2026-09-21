@@ -346,7 +346,7 @@ def _nesting(plano: dict) -> dict:
 
 def montar() -> dict:
     """Roda a cadeia e transcreve o resultado — sem recalcular nada."""
-    cfg = pn.Config()
+    cfg = pn.Config(altura=pj.PE_DIREITO)   # R61: uma fonte para a altura
     r = lb.rodar(pj, el, cfg)
     cat = pn._catalogo_massa()
     massas = {p.cod: p for p in r["pecas"]}

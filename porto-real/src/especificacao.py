@@ -23,28 +23,14 @@ from pranchas import base, _tabela, _extremos
 
 G = pj.GRID
 
-# ------------------------------------------------------- categorias de uso
-CATEGORIA = {
-    "T-REV": "intimo", "S-S02": "intimo", "S-S03": "intimo", "S-MAS": "intimo",
-    "T-SOC": "social", "T-GOU": "social", "T-COZ": "social",
-    # R46 — o mini lounge estava como "apoio", a mesma categoria da garagem, e
-    # herdava dela o piso CIMENTICIO POLIDO. E sala de TV no pavimento intimo:
-    # leva porcelanato como o resto do andar, exige 1/6 de iluminacao em vez de
-    # 1/8, e — o que mais importa — passa a contar como FONTE de ruido, que e
-    # o que ele de fato e a dois metros da cabeceira de duas suites.
-    "S-LOU": "social",
-    "T-LAV": "servico", "T-DEP": "servico",
-    "T-OFI": "oficina",
-    "T-HAL": "circulacao", "T-CIR": "circulacao", "T-COR": "circulacao",
-    "S-HAL": "circulacao",
-    "T-GAR": "apoio", "T-ALC": "intimo",
-}
-MOLHADOS = {"T-COZ", "T-LAV", "T-GOU", "T-REV/BANHO", "T-COR/LAVABO"}
-# a oficina e fonte E receptor: quer silencio para dentro e para fora
-SILENCIO = {"T-OFI"}
-
-# fontes de ruido relevantes: o que exige parede acustica do outro lado
-FONTES = {"social", "apoio", "circulacao", "servico"}
+# R61 — CATEGORIA, MOLHADOS, SILENCIO, FONTES e FORROS sao DADOS DO CASO e
+# moram em projetos/porto_real.py. Viviam aqui, num modulo de prancha, e seis
+# modulos do nucleo os importavam — furando a fronteira "o motor nao importa
+# prancha". Os nomes ficam como alias para quem ainda os le daqui.
+CATEGORIA = pj.CATEGORIA
+MOLHADOS = pj.MOLHADOS
+SILENCIO = pj.SILENCIO
+FONTES = pj.FONTES
 
 # =========================================================================
 # FAMILIAS — duas espessuras, quatro composicoes
@@ -226,31 +212,7 @@ def sobreposicao() -> list[dict]:
     return out
 
 
-FORROS = [
-    ("T-GOU", "forro absorvente (la mineral aparente ou perfurado, alfa 0,70)", 30.24,
-     "unico ponto que derruba a reverberacao de 3,20 s para 0,86 s"),
-    ("T-SOC", "gesso liso + cortinas e tapetes", 25.20,
-     "absorcao vem do mobiliario; forro tecnico aqui teria ganho marginal"),
-    ("T-COZ", "gesso liso lavavel", 21.60,
-     "superficie de facil limpeza tem prioridade sobre absorcao"),
-    ("S-S02", "gesso liso + la mineral sobre o forro", 25.92,
-     "la sobre o forro atenua ruido de chuva no painel PIR"),
-    ("S-S03", "gesso liso + la mineral sobre o forro", 25.92, "idem"),
-    ("S-MAS", "gesso liso + la mineral sobre o forro", 46.80, "idem"),
-    ("T-GAR", "sem forro (estrutura aparente)", 36.00,
-     "ambiente sem exigencia acustica nem termica"),
-    # R59 — a oficina e o deposito estao SOB o pavimento superior: o forro
-    # deles e a chapa de gesso do entrepiso EP-1, parafusada na viga.
-    # "Estrutura aparente" aqui seria OSB e viga vistos de baixo, sem a chapa
-    # que fecha o entrepiso — e a chapa e camada acustica e de
-    # compartimentacao, nao acabamento. Nao ha forro SUSPENSO, e e isso que a
-    # linha passa a dizer. A garagem, essa sim, esta so sob a cobertura.
-    ("T-OFI", "gesso do entrepiso EP-1, sem forro suspenso", 9.00,
-     "sob dormitorio: a chapa do entrepiso e obrigatoria, nao opcional"),
-    # era T-DML, ambiente que nao existe mais: a decisao nunca chegava ao
-    # desenho. O deposito herdou a funcao e o criterio.
-    ("T-DEP", "gesso do entrepiso EP-1, sem forro suspenso", 3.60, "idem"),
-]
+FORROS = pj.FORROS
 
 
 # =========================================================================
@@ -270,29 +232,14 @@ def especificar_vaos() -> list[list[str]]:
         if not tipo.startswith(("J", "PV", "CV")):
             continue
         lg, al, pe, _ = pj.ESQUADRIAS[tipo]
-        face = _face_do_vao(x, y, ori, pav)
+        face = pj.face_do_vao(x, y, ori, pav)
+        # R61 — a regra do vidro mora no projeto (vidro_do_vao): a carga
+        # termica precisa dela e o caso nao pode importar a prancha
+        vidro, just = pj.vidro_do_vao(tipo, face)
         crit_solar = face in ("L", "O")
         # ruido externo relevante: face leste (via do condominio)
         crit_acustico = face == "L" or (face == "O" and tipo.startswith("PV"))
-        if tipo.startswith("CV"):
-            # declarado no proprio cadastro do vao: 8 folhas de 900 mm em
-            # temperado 10 mm, sem montante vertical. Nao e deducao desta
-            # funcao, e transcricao do que a esquadria ja diz de si.
-            vidro, just = ("temperado 10 mm, 8 folhas de 900 mm",
-                           "cortina retratil sem montante: a espessura vem da "
-                           "altura de 2.600 sem apoio intermediario")
-        elif tipo == "J02":
-            vidro, just = "temperado 6 mm translucido", "banheiro: sem exigencia"
-        elif crit_solar and crit_acustico:
-            vidro, just = ("laminado 6+6 PVB acustico + controle solar",
-                           "face critica em sol E em ruido")
-        elif crit_acustico:
-            vidro, just = "laminado 6+6 PVB acustico", "ruido externo relevante"
-        elif crit_solar:
-            vidro, just = "laminado 6+6 com controle solar", "sol rasante, sem ruido"
-        else:
-            vidro, just = "temperado 8 mm comum", "face protegida: sem exigencia"
-        out.append([tipo, f"{lg}x{al}", face, fam_amb.get(_amb_do_vao(x, y, pav), "-"),
+        out.append([tipo, f"{lg}x{al}", face, fam_amb.get(pj.amb_do_vao(x, y, pav), "-"),
                     vidro, just])
     # consolida repetidos
     vistos, final = set(), []
@@ -307,6 +254,10 @@ def especificar_vaos() -> list[list[str]]:
 
 
 def _amb_do_vao(x, y, pav):
+    return pj.amb_do_vao(x, y, pav)
+
+
+def _amb_do_vao_antigo(x, y, pav):
     ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
     for d in (300, -300):
         for a in ambs:
@@ -315,7 +266,11 @@ def _amb_do_vao(x, y, pav):
     return "-"
 
 
-def _face_do_vao(x, y, ori, pav):
+def _face_do_vao(x, y, ori, pav):   # R61: alias; a regra vive em projeto.face_do_vao
+    return pj.face_do_vao(x, y, ori, pav)
+
+
+def _face_do_vao_antigo(x, y, ori, pav):
     ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
     def dentro(px, py):
         return any(a.x <= px < a.x + a.w and a.y <= py < a.y + a.h for a in ambs)

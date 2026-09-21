@@ -103,7 +103,7 @@ PRECO_FUND = {           # (H)
     "substituicao_m3": 128.00, "compactacao_m3": 22.00, "ensaio_un": 380.00,
 }
 PRECO_ESQ = {            # (H)
-    "caixilho_m": 185.00, "vidro_m2": 310.00,
+    "caixilho_m": 185.00, "vidro_m2": 310.00, "vidro_lowe_acrescimo_m2": 390.00,
     "roldana": 18.00, "fecho": 42.00, "trilho_m": 96.00,
     "dobradica": 26.00, "fechadura": 145.00, "batente": 210.00,
 }
@@ -119,6 +119,13 @@ PRECO_CAMADA = {
     "LAVIDRO": 22.00, "XPS": 41.00, "OSB": 58.00, "ACO": 0.0,
     "PIR": 132.00, "PUR": 126.00, "EPS": 18.00, "ACM": 210.00,
 }
+# (H) SPDA e fotovoltaica, como todo preco deste projeto
+PRECO_SPDA = {"captor_m": 38.0, "descida_conexao_un": 260.0, "anel_m": 46.0,
+              "haste_un": 95.0, "bep_un": 420.0, "dps_classe1_un": 890.0,
+              "ensaio_un": 650.0}
+PRECO_FV = {"modulo_un": 780.0, "inversor_kw": 620.0, "estrutura_m2": 95.0,
+            "stringbox_un": 680.0, "cabo_m": 14.0, "instalacao_kwp": 550.0,
+            "homologacao_un": 1_800.0}
 # (H) perfilaria de forro, como todo preco deste projeto
 PRECO_FORRO = {"perfil_m": 6.80, "tirante_un": 3.20, "tabica_m": 14.00}
 NOME_CAMADA = {
@@ -299,6 +306,13 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
         itens.append(ItemBOM("ESQ-VIDRO", "Vidro (ver especificacao por vao)",
                              "m2", esq["area_vidro"], PRECO_ESQ["vidro_m2"],
                              "esquadria", fonte="derivado"))
+        if esq.get("area_lowe"):
+            # R61 — o acrescimo do low-e sobre o vidro base, so na area que o
+            # recebe; somar vidro e low-e inteiros seria pagar o vidro duas vezes
+            itens.append(ItemBOM("ESQ-VIDRO-LOWE", "Acrescimo: laminado low-e (g <= 0,35) "
+                                 "sobre o vidro base", "m2", esq["area_lowe"],
+                                 PRECO_ESQ["vidro_lowe_acrescimo_m2"], "esquadria",
+                                 fonte="vaos com low-e no quadro de vidros"))
         for item, q in sorted(esq["ferragem"].items()):
             itens.append(ItemBOM(f"FER-{item[:6].upper()}",
                                  f"Ferragem: {item.replace('_m','')}",
@@ -320,6 +334,49 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                                  fonte=f"{fo['area']:.1f} m2 de forro suspenso "
                                        f"em {len(fo['regioes'])} regioes sob "
                                        f"cobertura, malha 600 x 1.200"))
+    # ---- SPDA (R61): captor no perimetro da cobertura, descida pela
+    # estrutura, anel de aterramento no radier
+    sp = (camadas or {}).get("spda")
+    if sp:
+        for sku, desc, q, pr, un in (
+                ("SPD-CAPTOR", "Captor: cabo de aluminio 70 mm2 no perimetro da cobertura",
+                 sp["captor_m"], PRECO_SPDA["captor_m"], "m"),
+                ("SPD-DESCIDA", "Descida natural pela estrutura LSF: conector de teste e ligacao",
+                 sp["descidas"], PRECO_SPDA["descida_conexao_un"], "un"),
+                ("SPD-ANEL", "Anel de aterramento: cobre nu 50 mm2 no perimetro do radier",
+                 sp["anel_m"], PRECO_SPDA["anel_m"], "m"),
+                ("SPD-HASTE", "Haste de aterramento 5/8 x 2.400 mm", sp["hastes"],
+                 PRECO_SPDA["haste_un"], "un"),
+                ("SPD-BEP", "Barramento de equipotencializacao principal", 1,
+                 PRECO_SPDA["bep_un"], "un"),
+                ("SPD-DPS1", "DPS classe I, 12,5 kA, 3F+N, na entrada", 1,
+                 PRECO_SPDA["dps_classe1_un"], "un"),
+                ("SPD-ENSAIO", "Ensaio de continuidade e resistencia de aterramento", 1,
+                 PRECO_SPDA["ensaio_un"], "un")):
+            itens.append(ItemBOM(sku, desc, un, round(q, 1), pr, "eletrica",
+                                 fonte=f"NBR 5419-3 classe {sp['classe']}: "
+                                       f"{sp['descidas']} descidas a <= {sp['espac_descida_m']:.0f} m"))
+    # ---- fotovoltaica (R61)
+    fv = (camadas or {}).get("fotovoltaica")
+    if fv:
+        for sku, desc, q, pr, un in (
+                ("FV-MODULO", f"Modulo fotovoltaico {fv['modulo_wp']} Wp", fv["n_modulos"],
+                 PRECO_FV["modulo_un"], "un"),
+                ("FV-INVERSOR", f"Inversor string {fv['inversor_kw']:.0f} kW, trifasico 220 V",
+                 fv["inversor_kw"], PRECO_FV["inversor_kw"], "kW"),
+                ("FV-ESTRUTURA", "Estrutura de fixacao em aluminio sobre terca",
+                 fv["area_modulos_m2"], PRECO_FV["estrutura_m2"], "m2"),
+                ("FV-STRINGBOX", "String box CC com DPS e seccionadora", 1,
+                 PRECO_FV["stringbox_un"], "un"),
+                ("FV-CABO", "Cabo solar 6 mm2 e eletroduto ate o inversor", fv["cabo_m"],
+                 PRECO_FV["cabo_m"], "m"),
+                ("FV-INSTAL", "Instalacao e comissionamento", fv["kwp_instalado"],
+                 PRECO_FV["instalacao_kwp"], "kWp"),
+                ("FV-HOMOLOG", "Projeto e homologacao na concessionaria (REN 1.000)", 1,
+                 PRECO_FV["homologacao_un"], "un")):
+            itens.append(ItemBOM(sku, desc, un, round(q, 2), pr, "eletrica",
+                                 fonte=f"{fv['consumo_kwh_dia']:.1f} kWh/dia, HSP {fv['hsp']} (H), "
+                                       f"PR {fv['pr']}"))
     # ---- cobertura: o que fecha uma cobertura e o perimetro, nao a area
     cob = (camadas or {}).get("cobertura")
     if cob:

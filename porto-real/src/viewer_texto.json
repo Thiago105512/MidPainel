@@ -990,5 +990,30 @@
     "declarados FORA do orçamento: louças, climatização, pintura, revestimento, marcenaria e mais"
    ]
   ]
+ },
+ {
+  "n": "41",
+  "t": "Energia: fotovoltaica, SPDA e vidro solar",
+  "esc": "s/ escala",
+  "etapa": "R61",
+  "d": "Três decisões que ficam caras depois da estrutura. A cortina de 7,2 m olha para oeste e o modelo não sabia o fator solar do vidro: com temperado comum entrariam 5 kW de calor no estar; com laminado low-e, 2,2. Manaus tem uma das maiores densidades de raios do país e a casa não tinha SPDA — a estrutura de aço é descida natural, o que falta custa captor, anel e conexão. E 184 m² de cobertura plana com 4,6 kWh/m²·dia: a fotovoltaica cobre a climatização e paga-se em poucos anos.",
+  "k": [
+   [
+    "g ≤ 0,35",
+    "na cortina oeste: o vidro passa a ter fator solar e a carga térmica escala com ele"
+   ],
+   [
+    "4 descidas",
+    "pela estrutura LSF (montante de 184 mm² ≥ 50), anel de cobre no radier, DPS classe I"
+   ],
+   [
+    "kWp",
+    "dimensionado do consumo estimado, com a área e a carga conferidas contra a cobertura"
+   ],
+   [
+    "pendência 15",
+    "Ng, irradiação e tarifa são dados de sítio (H): confirmar no mapa, no atlas e na fatura"
+   ]
+  ]
  }
 ]

@@ -52,6 +52,10 @@ def _documentos_ok(pj, pecas, plano, paineis, cat) -> bool:
 
 def rodar(pj, el, cfg: pn.Config = None) -> dict:
     """Executa a cadeia toda sobre o caso e devolve o estado do projeto."""
+    # R61 — a altura do painel e o pe-direito do PROJETO. Um Config() default
+    # aqui painelizava a 2.600 enquanto o modelo ja estava a 2.900: 64 pecas
+    # de guia com codigo diferente entre a fabrica e a cena.
+    cfg = cfg or pn.Config(altura=pj.PE_DIREITO)
     cfg = cfg or pn.Config()
     cat = pn._catalogo_massa()
     aco = mt.POR_ACO["ZAR 230"]
@@ -129,6 +133,10 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     camadas["impermeabilizacao"] = cd.impermeabilizacao(pj)
     import nucleo.fundacao as _fd
     camadas["fundacao"] = _fd.levantar(pj)
+    import nucleo.spda as _sp
+    import nucleo.fotovoltaica as _fv
+    camadas["spda"] = _sp.levantar(pj, camadas["cobertura"], camadas["fundacao"])
+    camadas["fotovoltaica"] = _fv.levantar(pj, camadas["planos"])
     import nucleo.externo as _ex
     camadas["externo"] = _ex.levantar(pj)
     import nucleo.fachada as _fa

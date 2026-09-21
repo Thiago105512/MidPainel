@@ -122,7 +122,7 @@ ZONA_ACUSTICA = {
     "T-OFI": "servico",
 }
 
-PE_DIREITO = 2_600      # mm, altura do fechamento para a conta de area
+# R61 — era um literal 2.600 aqui, segunda fonte do pe-direito; le-se do projeto
 
 
 def composto(pares: list[tuple[float, float]]) -> float:
@@ -203,7 +203,7 @@ def pares(pj) -> list[dict]:
                 if not uso:
                     continue
                 comp = s["fim"] - s["ini"]
-                s_total = comp * PE_DIREITO / 1e6
+                s_total = comp * pj.PE_DIREITO / 1e6
                 # portas e janelas que caem NESTE trecho
                 furos = []
                 for tipo, x, y, ori, _p in vaos:

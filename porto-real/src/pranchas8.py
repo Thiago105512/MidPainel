@@ -21,7 +21,7 @@ import math
 import projeto as pj
 import anotacao as an
 import fixture as fx
-from core import P, Canvas, View, TXT, CINZA, PRETO
+from core import num_br, P, Canvas, View, TXT, CINZA, PRETO
 from pranchas import base, _tabela, TOTAL_PRANCHAS
 
 import nucleo.geotecnia as gt
@@ -411,8 +411,8 @@ def cargas_e_mercado() -> Canvas:
                    (bx, by + 6)], "vista", fechado=True,
                   preenche="#dbe6f3", cor="#3f6fb5")
         cv.texto_p((bx + va * esc + 4, by + 4),
-                   f"{va:,.0f} VA  ({eq['corrente_por_fase'][fase]:.1f} A)"
-                   .replace(",", "."), TXT["micro"], "start", cor="#5c666f")
+                   f"{num_br(va)} VA  ({eq['corrente_por_fase'][fase]:.1f} A)",
+                   TXT["micro"], "start", cor="#5c666f")
         by += 11
     cv.texto_p((bx, by + 6),
                f"desequilibrio de {eq['desequilibrio']*100:.2f} % contra "
@@ -481,4 +481,101 @@ def cargas_e_mercado() -> Canvas:
             ["ESCOPO", "SITUACAO NO MODELO"],
             [[k, v] for k, v in mk.FORA_DO_ORCAMENTO],
             larguras=[90, 190])
+    return cv
+
+
+# =========================================================================
+# PR-41 — ENERGIA: FOTOVOLTAICA, SPDA E VIDRO SOLAR (R61)
+# =========================================================================
+def energia() -> Canvas:
+    import nucleo.spda as sp
+    import nucleo.fotovoltaica as fv
+    r = fx.liberacao()
+    s = r["camadas"]["spda"]
+    f = r["camadas"]["fotovoltaica"]
+    cv = base("ENERGIA — FOTOVOLTAICA, SPDA E VIDRO SOLAR", "s/ escala", "41", notas=[
+        "Tres decisoes que ficam caras depois da estrutura: o vidro da cortina, o "
+        "para-raios e a geracao propria.",
+        f"Manaus: Ng = {sp.NG_MANAUS:g} descargas/km2.ano (H) — entre as maiores do pais; "
+        f"irradiacao {fv.HSP:g} kWh/m2.dia (H).",
+        "A estrutura de aco do LSF e descida natural (NBR 5419-3): a protecao custa "
+        "captor, anel e conexao, nao cobre pela fachada.",
+        "Valores (H) de sitio e de preco: pendencia 15.",
+    ])
+    vaos = pj.vaos_envidracados()
+    linhas = [[v["tipo"], v["face"], v["amb"], f"{v['area']:.2f}", v["vidro"][:44],
+               f"{v['g']:.2f}", f"{v['area'] * v['g'] / pj.G_REF:.1f}",
+               "OK" if not (v["face"] in ("L", "O") and v["g"] > pj.G_MAX_SOL) else "REVER"]
+              for v in vaos]
+    y = _tabela(cv, (35, 44), f"VIDRO POR VAO — FATOR SOLAR (g <= {pj.G_MAX_SOL:.2f} nas faces L e O)",
+                ["VAO", "FACE", "AMB", "m2", "VIDRO", "g", "m2 equiv.", ""],
+                linhas, larguras=[18, 14, 20, 14, 96, 12, 20, 16]) + 8
+    cv.texto_p((35, y), "m2 equiv. = area x g / g_ref: e o que entra na carga termica "
+                        "(CLIMA_Q_VIDRO vale para g = 0,35).", TXT["min"], "start", cor=CINZA)
+    soc = next(c for c in pj.CLIMATIZACAO if c["amb"] == "T-SOC")
+    q = pj.carga_termica("T-SOC", soc["pessoas"], soc["equip"], soc.get("mais"),
+                         soc.get("conta_ventilador", False), soc.get("duto", False))
+    extra = int(18.72 * (0.80 - 0.35) / pj.G_REF * pj.CLIMA_Q_VIDRO)
+    cv.texto_p((35, y + 5), f"Zona social: carga {q} BTU/h com low-e na cortina, contra "
+                            f"{soc['capacidade']} BTU/h instalados. Com temperado comum (g 0,80) "
+                            f"a mesma cortina somaria {extra} BTU/h.", TXT["min"], "start")
+    y2 = _tabela(cv, (35, y + 16), "SPDA — NBR 5419: AVALIACAO E COMPONENTES",
+                 ["ITEM", "VALOR", "ORIGEM"],
+                 [["Densidade de descargas Ng", f"{sp.NG_MANAUS:g} /km2.ano", "(H) RINDAT/ELAT — pendencia 15"],
+                  ["Area de exposicao equivalente Ad", f"{s['ad_m2']:.0f} m2",
+                   "L.W + 6H(L+W) + 9.pi.H2, com H = topo da platibanda"],
+                  ["Frequencia de descargas diretas Nd", f"{s['nd_ano']:.4f} /ano",
+                   f"Ng . Ad . Cd (Cd = {s['cd']:g}, estrutura isolada)"],
+                  ["Periodo de retorno", f"{s['retorno_anos']:.0f} anos", "1 / Nd"],
+                  ["Classe de protecao adotada", s["classe"], "decisao de projeto: Manaus, dois pavimentos, aco"],
+                  ["Captor", f"anel de {s['captor_m']:.1f} m no perimetro da cobertura",
+                   f"malha {s['malha_m']:.0f} x {s['malha_m']:.0f} m: a cobertura cabe numa celula"],
+                  ["Descidas", f"{s['descidas']} pela estrutura LSF (naturais)",
+                   f"espacamento <= {s['espac_descida_m']:.0f} m; montante {s['secao_montante_mm2']:.0f} mm2 >= 50"],
+                  ["Aterramento", f"anel de {s['anel_m']:.1f} m + {s['hastes']} hastes",
+                   "cobre nu 50 mm2 no perimetro do radier"],
+                  ["Protecao interna", "BEP + DPS classe I na entrada + DPS classe II nos quadros",
+                   "NBR 5419-4 / NBR 5410"]],
+                 larguras=[60, 90, 120]) + 8
+    y3 = _tabela(cv, (35, y2), "FOTOVOLTAICA — DIMENSIONAMENTO",
+                 ["ITEM", "VALOR", "ORIGEM"],
+                 [["Consumo estimado", f"{f['consumo_kwh_dia']:.1f} kWh/dia · {f['consumo_kwh_mes']:.0f} kWh/mes",
+                   "splits por capacidade e horas (H), iluminacao calculada, chuveiro, base"],
+                  ["Irradiacao (HSP)", f"{f['hsp']:g} kWh/m2.dia", "(H) Atlas INPE — pendencia 15"],
+                  ["Potencia necessaria", f"{f['kwp']:.2f} kWp", f"consumo / (HSP x PR {f['pr']})"],
+                  ["Modulos", f"{f['n_modulos']} x {f['modulo_wp']} Wp = {f['kwp_instalado']:.2f} kWp",
+                   f"{f['area_modulos_m2']:.1f} m2 com folga; o consumo pediria {f['n_pedido']}, "
+                   f"cabem {f['n_cabe']} — instala-se o que cabe"],
+                  ["Cobertura disponivel", f"{f['area_cobertura_m2']:.1f} m2 (superior, menos passarela)",
+                   "OK" if f["cabe"] else "NAO CABE"],
+                  ["Carga na cobertura", f"{f['carga_kn_m2']:.3f} kN/m2",
+                   f"limite declarado em cargas: {f['carga_limite_kn_m2']:.2f} kN/m2 — "
+                   + ("OK" if f["carga_ok"] else "REVER")],
+                  ["Inversor", f"{f['inversor_kw']:.0f} kW em {f['local_inversor']} (faixa tecnica norte)",
+                   f"relacao CC/CA {f['kwp_instalado'] / f['inversor_kw']:.2f}"],
+                  ["Geracao anual", f"{f['geracao_kwh_ano']:.0f} kWh",
+                   f"cobre {f['cobertura_consumo'] * 100:.0f} % do consumo estimado"],
+                  ["Economia e retorno", f"R$ {f['economia_ano']:.0f}/ano · payback {f['payback_anos']:.1f} anos",
+                   f"tarifa R$ {f['tarifa']:.2f}/kWh (H); custo (H) do BOM"]],
+                 larguras=[60, 90, 120]) + 6
+    cv.texto_p((35, y3), "Microgeracao distribuida (REN ANEEL 1.000/2021): compensacao de creditos; "
+                         "a rede continua sendo a bateria.", TXT["min"], "start", cor=CINZA)
+    an.titulo_desenho(cv, (450, 54), "1", "PERFIL DE INSOLACAO NA FACHADA OESTE", "s/ escala")
+    ox, oy = 470, 230
+    cv.linha_p((ox, oy), (ox + 300, oy), "vista")
+    cv.texto_p((ox + 300, oy + 5), "horizonte oeste", TXT["micro"], "end", cor=CINZA)
+    for hora, cor in ((14, "#c9a227"), (16, "#e08a1e"), (17, "#b5541a")):
+        alt = math.degrees(math.asin(math.cos(math.radians(3.1)) * math.cos(math.radians((hora - 12) * 15))))
+        L = 150
+        x1, y1 = ox + L * math.cos(math.radians(alt)), oy - L * math.sin(math.radians(alt))
+        cv.linha_p((ox, oy), (x1, y1), "eixo", cor=cor)
+        cv.texto_p((x1 + 2, y1), f"{hora}h · {alt:.0f}°", TXT["micro"], "start", cor=cor)
+    cv.poli_p([(ox - 4, oy), (ox, oy), (ox, oy - 78), (ox - 4, oy - 78)], "corte", fechado=True, preenche="#8fc4dd")
+    cv.texto_p((ox - 6, oy - 40), "cortina CV-01  2,60 m", TXT["micro"], "end", rot=90)
+    cv.texto_p((450, oy + 16), "Equinocio, latitude 3 S: as 16 h o sol esta a 30 graus, de frente para a "
+                              "cortina. Beiral de 1 m sombreia so os 58 cm de cima; o que resolve e o "
+                              "vidro (g) e o brise vertical.", TXT["min"], "start")
+    cv.texto_p((450, oy + 21), "Com g = 0,80 entram ~600 W/m2 x 0,80 = 480 W/m2; com low-e g = 0,35, "
+                              "210 W/m2. Sao 18,7 m2: 5,0 kW contra 2,2 kW de calor no estar.",
+               TXT["min"], "start")
     return cv

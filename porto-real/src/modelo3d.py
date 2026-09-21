@@ -533,7 +533,7 @@ def _estrutura_lsf() -> list[dict]:
     import nucleo.materiais as mt
     import nucleo.descida as ds
 
-    cfg = pn.Config()
+    cfg = pn.Config(altura=pj.PE_DIREITO)
     aco = mt.POR_ACO["ZAR 230"]
     pais = {pav: pn.painelizar(el.derivar_paredes(amb),
                                list(el.vaos_do_pavimento(pav)), cfg, f"{pav}P")

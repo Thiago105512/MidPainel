@@ -341,8 +341,7 @@ def tarefa(pj) -> list[dict]:
 
 
 def levantar(pj) -> dict:
-    import especificacao as _ep     # so a categoria; o dado esta em pj
-    cat = _ep.CATEGORIA
+    cat = pj.CATEGORIA
     acab = {a["amb"]: a for a in pj.acabamentos()}
     g = geral(pj, cat, acab)
     t = tarefa(pj)

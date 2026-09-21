@@ -338,6 +338,7 @@ INDICE = [
     ("38", "Retencao pluvial e superficies do lote (R52)"),
     ("39", "Desempenho acustico entre ambientes (R52)"),
     ("40", "Cargas, equilibrio de fases e mercado (R52)"),
+    ("41", "Energia: fotovoltaica, SPDA e vidro solar (R61)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},

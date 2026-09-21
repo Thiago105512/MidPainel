@@ -16,7 +16,7 @@ import nucleo.pluvial as _pluv
 import elementos as el
 import mobiliario as mob
 import anotacao as an
-from core import P, Canvas, View, TXT, CINZA, PRETO
+from core import num_br, P, Canvas, View, TXT, CINZA, PRETO
 from pranchas import base, _tabela
 
 
@@ -167,8 +167,7 @@ def eletrica() -> Canvas:
     prev = pj.previsao_iluminacao_tug()
     cv = base("ELETRICA, ILUMINACAO E DADOS", "1:100", "27", notas=[
         f"Previsao de carga conforme NBR 5410 9.5.2. Instalada "
-        f"{d['instalada_va']:,} VA; demanda provavel {d['demanda_va']:,} VA."
-        .replace(",", "."),
+        f"{num_br(d['instalada_va'])} VA; demanda provavel {num_br(d['demanda_va'])} VA.",
         f"Entrada {pj.TENSAO['esquema']}: {d['corrente_a']} A -> padrao "
         f"{d['padrao_a']} A com cabo de {d['secao_mm2']} mm2.",
         "Fator de demanda do ar condicionado adotado 1,00 — em Manaus ele e carga "

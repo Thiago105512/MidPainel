@@ -51,7 +51,9 @@ def modelo(pj=None, el=None, cfg=None, fresco: bool = False) -> dict:
 
     pj = pj or _pj
     el = el or _el
-    cfg = cfg or pn.Config()
+    # R61 — a altura do painel e o pe-direito do PROJETO, nao o default da
+    # dataclass: os dois valiam 2.600 por coincidencia, e coincidencia nao e fonte
+    cfg = cfg or pn.Config(altura=pj.PE_DIREITO)
     chave = (pj.CADASTRO.project_id, pj.EMISSAO["revisao"], id(cfg.__class__),
              cfg.modulacao, cfg.altura, cfg.perfil_stud, cfg.u_alvo)
     if not fresco and _CACHE.get("chave") == chave:

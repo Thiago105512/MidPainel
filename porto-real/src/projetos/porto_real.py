@@ -58,11 +58,21 @@ CAMT_MAX = 1.00
 GABARITO_MAX = 4
 
 # ------------------------------------------------------- alturas / niveis
-PE_DIREITO = 2_600
-PISO_A_PISO = 3_000
+# R61 — PE-DIREITO DE 2.900, NAO 2.600.
+#
+# 2.600 e o que a NBR 15575 aceita (2.500) com folga, e e baixo para esta casa
+# neste clima: a fita social tem 20,7 m de eixo continuo e uma cortina de 7,2 m
+# para a piscina, e o gourmet leva forro absorvente. Em clima quente-umido a
+# pratica e 2.800 a 3.000 — a coluna de ar acima da cabeca e conforto que nao
+# consome energia. Custa ~6 % em montante, placa e pintura, e e a decisao que
+# nao muda mais depois do radier. Piso-a-piso 3.300 mantem os 400 mm de
+# entreforro que as instalacoes ja usam.
+PE_DIREITO = 2_900
+PISO_A_PISO = 3_300
 NIVEL_TERREO = 0
-NIVEL_SUPERIOR = 3_000
-TOPO_PLATIBANDA = 6_150          # H
+NIVEL_SUPERIOR = PISO_A_PISO
+# derivado: topo da parede do superior + 550 de platibanda (era literal 6.150)
+TOPO_PLATIBANDA = NIVEL_SUPERIOR + PE_DIREITO + 550
 ALT_MURO = 2_200
 INCLIN_COBERTURA = 0.05          # 5 %
 ESP_PAINEL_PIR = 75
@@ -458,7 +468,7 @@ ESQUADRIAS = {
     # giram 90 graus para estacionar em nicho lateral. O ganho e conceitual, nao
     # de conforto: quando aberta, NAO SOBRA MONTANTE NENHUM no meio da vista.
     "CV01": (7_200, 2_600,     0, "CORTINA DE VIDRO retratil, 8 folhas de 900 mm "
-                                  "de vidro temperado 10 mm, sem montante vertical"),
+                                  "de vidro laminado 6+6 low-e (g <= 0,35), sem montante vertical"),
 }
 
 # (tipo, x, y, orientacao, pavimento) — x,y = centro do vao no eixo da parede
@@ -694,7 +704,11 @@ def carga_hidraulica_mca(pav: str) -> float:
     ponto = (PISO_A_PISO if pav == "S" else 0) + ALTURA_CHUVEIRO
     return round((base - ponto) / 1_000, 2)
 
-# escada em U — 18 espelhos x 166,67 mm, piso 300, largura util 1.000
+# escada em U — R61: 20 espelhos x 165 mm, piso 280, largura util 1.000.
+# Com piso-a-piso 3.300, 18 espelhos dariam 183 mm (acima dos 180 da NBR 9077)
+# e 20 x 165 fecham Blondel em 2 x 165 + 280 = 610, dentro de 600-650. O piso
+# cai de 300 para 280 (NBR 9077 pede >= 250 em residencia) porque cada lance
+# ganhou um degrau e o core continua com 6.000 mm.
 # A geometria da escada passa a ser DADO do modelo, com cada lance e o patamar
 # em coordenada declarada. Antes existia so no codigo de desenho, e por isso
 # nenhuma verificacao de altura livre era possivel: o patamar invadia 100 mm
@@ -703,9 +717,10 @@ def carga_hidraulica_mca(pav: str) -> float:
 # Correcao: o primeiro espelho sobe de y = 13.200 (rente a borda do core) e o
 # patamar termina em 16.600, 200 mm antes da borda da laje do hall.
 ESCADA = dict(x=9_600, y=13_200, w=2_400, h=6_000,
-              espelhos=18, alt_espelho=3_000 / 18, piso=300,
-              larg_lance=1_000, patamar=1_000, blondel=2 * (3_000 / 18) + 300,
-              y0=13_400,            # inicio do patamar inferior
+              espelhos=20, alt_espelho=PISO_A_PISO / 20, piso=280,
+              larg_lance=1_000, patamar=1_000,
+              blondel=2 * (PISO_A_PISO / 20) + 280,
+              y0=13_250,            # inicio do patamar inferior (R61: 150 mm mais ao sul)
               y_chegada=16_800,     # onde o segundo lance encosta no hall
               folga_lances=100)     # vazio entre os dois lances
 
@@ -1505,11 +1520,11 @@ def alturas_revestimento() -> dict[str, int]:
 
 # =========================================================================
 # ESCADA — verificacao executiva
-# 18 espelhos de 166,67 mm e piso de 300 mm. Blondel: 2h + p = 633,3 mm,
+# R61: 20 espelhos de 165 mm e piso de 280 mm. Blondel: 2h + p = 610 mm,
 # dentro da faixa 600-650 recomendada. Altura livre e o que ninguem verifica.
 # =========================================================================
 ESCADA_EXEC = dict(
-    lances=2, espelhos_lance=9, patamar_l=1_000, patamar_c=2_200,
+    lances=2, espelhos_lance=10, patamar_l=1_000, patamar_c=2_200,
     altura_livre_min=2_100,        # NBR 9077
     guarda_corpo=1_100,            # NBR 14718 para pavimento elevado
     corrimao_h=(920, 700),         # duas alturas: adulto e crianca (NBR 9050)
@@ -1836,6 +1851,12 @@ TECNICOS = [
          x=16_800, y=31_800, w=800, h=1_000,
          obs="na borda da faixa tecnica junto ao deck: ramal curto, ralo proprio "
              "e nenhum volume solto no meio do jardim"),
+    # R61 — inversor fotovoltaico na faixa tecnica norte, entre a bomba de
+    # recalque e o nicho de condensadoras: sombra, ventilacao e a 12 m do
+    # quadro geral. Quem instala FV depois do fechamento abre parede.
+    dict(cod="TC-17", nome="Inversor fotovoltaico 10 kW + string box", x=17_200,
+         y=11_000, w=600, h=400, zona="FT-N",
+         obs="fixado na parede externa, IP65, a 1.500 mm do piso"),
 ]
 
 
@@ -1857,7 +1878,7 @@ TECNICOS = [
 # de 36.000 BTU sobre o jantar, caso o morador opte depois por fechar o vidro.
 # =========================================================================
 CLIMA_Q_M2 = 700            # BTU/h por m2 de piso condicionado
-CLIMA_Q_VIDRO = 200         # BTU/h por m2 de vidro sombreado
+CLIMA_Q_VIDRO = 200         # BTU/h por m2 de vidro com g = G_REF (0,35) e brise; escala com g
 CLIMA_Q_PESSOA = 600        # BTU/h por ocupante acima de dois
 CLIMA_Q_EQUIP = 200         # BTU/h por equipamento (TV, computador)
 CAPACIDADES_COMERCIAIS = (9_000, 12_000, 18_000, 24_000, 30_000, 36_000)
@@ -1909,6 +1930,113 @@ def area_condicionada(cod: str) -> float:
     return round(area, 2)
 
 
+# =========================================================================
+# R61 — VIDRO COM FATOR SOLAR. O modelo conhecia o vidro pelo Rw (acustica) e
+# por uma string de especificacao; nao conhecia o que ele deixa entrar de
+# sol. A cortina de 7,2 m olha para OESTE, para a piscina, com o sol de 16 h a
+# 30 graus de altitude: temperado comum (g = 0,80) deixa entrar 80 % da
+# radiacao, e essa era a maior carga termica da casa FORA do calculo de
+# climatizacao — CLIMA_Q_VIDRO era uma constante "vidro sombreado".
+# Agora cada vao tem g, a carga escala com g, e as faces L/O tem limite.
+# =========================================================================
+# (H) fator solar por familia de vidro — valores tipicos de catalogo; o
+# produto cotado traz o g ensaiado (NBR 16023) e substitui a familia
+VIDRO_G = {"low-e": 0.35, "controle solar": 0.45, "laminado": 0.72,
+           "temperado": 0.80, "translucido": 0.70}
+G_REF = 0.35                  # g para o qual CLIMA_Q_VIDRO foi calibrado
+G_MAX_SOL = 0.45              # limite declarado para faces leste e oeste
+# (H) peso da orientacao na carga solar. A 3 graus do equador o sol passa
+# quase no zenite: as faces NORTE e SUL recebem sol rasante so perto dos
+# solsticios, e por poucas horas; LESTE e OESTE recebem o sol baixo da manha e
+# da tarde todos os dias do ano. A calibracao de CLIMA_Q_VIDRO e da face
+# critica; nas outras o mesmo vidro entrega metade.
+FATOR_FACE = {"L": 1.0, "O": 1.0, "N": 0.5, "S": 0.5}
+
+
+def fator_solar(vidro: str) -> float:
+    v = (vidro or "").lower()
+    for chave in ("low-e", "controle solar", "laminado", "translucido", "temperado"):
+        if chave in v:
+            return VIDRO_G[chave]
+    return VIDRO_G["temperado"]
+
+
+def face_do_vao(x, y, ori, pav) -> str:
+    """Face (N/S/L/O) que o vao olha — saiu de especificacao.py (R61)."""
+    ambs = TERREO if pav == "T" else SUPERIOR
+    def dentro(px, py):
+        return any(a.x <= px < a.x + a.w and a.y <= py < a.y + a.h for a in ambs)
+    if ori == "H":
+        return "L" if dentro(x, y + 300) else "O"
+    return "N" if dentro(x - 300, y) else "S"
+
+
+def amb_do_vao(x, y, pav) -> str:
+    ambs = TERREO if pav == "T" else SUPERIOR
+    for d in (300, -300):
+        for a in ambs:
+            if a.x <= x + d <= a.x + a.w and a.y <= y + d <= a.y + a.h:
+                return a.cod
+    return "-"
+
+
+def vidro_do_vao(tipo: str, face: str) -> tuple[str, str]:
+    """(especificacao, justificativa) — a REGRA, num lugar so.
+
+    Vivia em especificacao.especificar_vaos(); a carga termica precisava dela
+    e nao podia importa-la (caso nao importa prancha). Agora a prancha e a
+    carga leem daqui.
+    """
+    crit_solar = face in ("L", "O")
+    crit_acustico = face == "L" or (face == "O" and tipo.startswith("PV"))
+    if tipo.startswith("CV"):
+        # R61 — era temperado 10 mm (g 0,80) olhando para oeste. Laminado
+        # low-e 6+6: g <= 0,35, e o PVB da a rigidez que a folha de 2.600 sem
+        # montante pedia do temperado de 10.
+        return ("laminado 6+6 low-e, 8 folhas de 900 mm, g <= 0,35",
+                "cortina retratil sem montante para OESTE: sem low-e, 18 m2 "
+                "de vidro entregam a maior carga termica da casa")
+    if tipo == "J02":
+        return "temperado 6 mm translucido", "banheiro: sem exigencia"
+    if crit_solar and crit_acustico:
+        return ("laminado 6+6 PVB acustico + controle solar",
+                "face critica em sol E em ruido")
+    if crit_acustico:
+        return "laminado 6+6 PVB acustico", "ruido externo relevante"
+    if crit_solar:
+        return "laminado 6+6 com controle solar", "sol rasante, sem ruido"
+    return "temperado 8 mm comum", "face protegida: sem exigencia"
+
+
+def vaos_envidracados() -> list[dict]:
+    """Todo vao com vidro: tipo, face, ambiente, area, vidro e g."""
+    out = []
+    for tipo, x, y, ori, pav in VAOS:
+        if not tipo.startswith(("J", "PV", "CV")):
+            continue
+        lg, al, pe, _ = ESQUADRIAS[tipo]
+        face = face_do_vao(x, y, ori, pav)
+        vidro, just = vidro_do_vao(tipo, face)
+        out.append(dict(tipo=tipo, x=x, y=y, ori=ori, pav=pav, face=face,
+                        amb=amb_do_vao(x, y, pav), area=round(lg * al / 1e6, 2),
+                        vidro=vidro, g=fator_solar(vidro), just=just))
+    return out
+
+
+def ganho_vidro(cod: str) -> float:
+    """Area de vidro do ambiente PONDERADA pelo fator solar (m2 equivalentes a g_ref)."""
+    amb = next((a for a in TERREO + SUPERIOR if a.cod == cod), None)
+    if amb is None:
+        return 0.0
+    tot = 0.0
+    for v in vaos_envidracados():
+        if v["pav"] != amb.pav:
+            continue
+        if amb.x - 200 <= v["x"] <= amb.x + amb.w + 200 and amb.y - 200 <= v["y"] <= amb.y + amb.h + 200:
+            tot += v["area"] * v["g"] / G_REF * FATOR_FACE.get(v["face"], 1.0)
+    return round(tot, 2)
+
+
 def area_vidro(cod: str) -> float:
     """Area de vidro dos vaos que pertencem ao ambiente (janelas e PV)."""
     amb = next((a for a in TERREO + SUPERIOR if a.cod == cod), None)
@@ -1939,7 +2067,8 @@ def carga_termica(cod: str, pessoas: int = 2, equip: int = 0,
         area, vidro = area_m2, (vidro_m2 or 0.0)
     else:
         area = area_condicionada(cod) + sum(area_condicionada(c) for c in (mais or []))
-        vidro = area_vidro(cod) + sum(area_vidro(c) for c in (mais or []))
+        # R61 — vidro ponderado pelo fator solar: CLIMA_Q_VIDRO vale para g_ref
+        vidro = ganho_vidro(cod) + sum(ganho_vidro(c) for c in (mais or []))
     q = (area * CLIMA_Q_M2 + vidro * CLIMA_Q_VIDRO
          + max(0, pessoas - 2) * CLIMA_Q_PESSOA + equip * CLIMA_Q_EQUIP)
     if ventilador:
@@ -2642,9 +2771,62 @@ def acabamentos() -> list[dict]:
     return out
 
 
+# =========================================================================
+# R61 — categorias de uso, molhados, fontes de ruido e forros: DADOS DO CASO.
+# Vieram de especificacao.py, onde seis modulos do nucleo iam busca-los.
+# =========================================================================
+# ------------------------------------------------------- categorias de uso
+CATEGORIA = {
+    "T-REV": "intimo", "S-S02": "intimo", "S-S03": "intimo", "S-MAS": "intimo",
+    "T-SOC": "social", "T-GOU": "social", "T-COZ": "social",
+    # R46 — o mini lounge estava como "apoio", a mesma categoria da garagem, e
+    # herdava dela o piso CIMENTICIO POLIDO. E sala de TV no pavimento intimo:
+    # leva porcelanato como o resto do andar, exige 1/6 de iluminacao em vez de
+    # 1/8, e — o que mais importa — passa a contar como FONTE de ruido, que e
+    # o que ele de fato e a dois metros da cabeceira de duas suites.
+    "S-LOU": "social",
+    "T-LAV": "servico", "T-DEP": "servico",
+    "T-OFI": "oficina",
+    "T-HAL": "circulacao", "T-CIR": "circulacao", "T-COR": "circulacao",
+    "S-HAL": "circulacao",
+    "T-GAR": "apoio", "T-ALC": "intimo",
+}
+MOLHADOS = {"T-COZ", "T-LAV", "T-GOU", "T-REV/BANHO", "T-COR/LAVABO"}
+# a oficina e fonte E receptor: quer silencio para dentro e para fora
+SILENCIO = {"T-OFI"}
+
+# fontes de ruido relevantes: o que exige parede acustica do outro lado
+FONTES = {"social", "apoio", "circulacao", "servico"}
+
+FORROS = [
+    ("T-GOU", "forro absorvente (la mineral aparente ou perfurado, alfa 0,70)", 30.24,
+     "unico ponto que derruba a reverberacao de 3,20 s para 0,86 s"),
+    ("T-SOC", "gesso liso + cortinas e tapetes", 25.20,
+     "absorcao vem do mobiliario; forro tecnico aqui teria ganho marginal"),
+    ("T-COZ", "gesso liso lavavel", 21.60,
+     "superficie de facil limpeza tem prioridade sobre absorcao"),
+    ("S-S02", "gesso liso + la mineral sobre o forro", 25.92,
+     "la sobre o forro atenua ruido de chuva no painel PIR"),
+    ("S-S03", "gesso liso + la mineral sobre o forro", 25.92, "idem"),
+    ("S-MAS", "gesso liso + la mineral sobre o forro", 46.80, "idem"),
+    ("T-GAR", "sem forro (estrutura aparente)", 36.00,
+     "ambiente sem exigencia acustica nem termica"),
+    # R59 — a oficina e o deposito estao SOB o pavimento superior: o forro
+    # deles e a chapa de gesso do entrepiso EP-1, parafusada na viga.
+    # "Estrutura aparente" aqui seria OSB e viga vistos de baixo, sem a chapa
+    # que fecha o entrepiso — e a chapa e camada acustica e de
+    # compartimentacao, nao acabamento. Nao ha forro SUSPENSO, e e isso que a
+    # linha passa a dizer. A garagem, essa sim, esta so sob a cobertura.
+    ("T-OFI", "gesso do entrepiso EP-1, sem forro suspenso", 9.00,
+     "sob dormitorio: a chapa do entrepiso e obrigatoria, nao opcional"),
+    # era T-DML, ambiente que nao existe mais: a decisao nunca chegava ao
+    # desenho. O deposito herdou a funcao e o criterio.
+    ("T-DEP", "gesso do entrepiso EP-1, sem forro suspenso", 3.60, "idem"),
+]
+
+
 def FORROS_SRC():
-    import especificacao as ep
-    return ep.FORROS
+    return FORROS
 
 
 # -------------------------------------------------------------- LOCACAO
@@ -3347,6 +3529,35 @@ REVISOES = [
      "encosta no zenite — e por isso que beiral nao sombreia e brise vertical "
      "sim). E o three.js foi embutido no HTML: o caderno volta a ser um "
      "arquivo so, que abre sem rede, no celular, e daqui a dez anos"),
+    ("R61", "AS TRES DECISOES QUE FICAM CARAS DEPOIS DA ESTRUTURA — E O "
+     "PE-DIREITO. (1) PE-DIREITO de 2.600 para 2.900 (piso-a-piso 3.300): a "
+     "norma aceita 2.500, a pratica em clima quente-umido e 2.800 a 3.000, e a "
+     "fita social de 20,7 m com cortina de 7,2 m sentiria 2.600 como teto "
+     "baixo. A escada cresceu com ele: 20 espelhos de 165 mm e piso de 280 "
+     "(Blondel 610), 10 por lance, patamar 150 mm mais ao sul; a altura do "
+     "painel deixou de ser o default da dataclass e passou a ser o pe-direito "
+     "do projeto (valiam 2.600 por coincidencia); a platibanda e derivada. "
+     "(2) VIDRO COM FATOR SOLAR: o modelo conhecia o vidro pelo Rw e por uma "
+     "string; nao sabia o que ele deixa entrar de sol. A cortina de 7,2 m olha "
+     "para OESTE: temperado comum (g 0,80) entregava 5 kW no estar, fora do "
+     "calculo de climatizacao. Agora cada vao tem g, a carga escala com g e "
+     "com a face (a 3 graus do equador norte e sul recebem metade), as faces "
+     "L/O tem limite 0,45, a cortina vai a laminado low-e 6+6 (g 0,35), e a "
+     "regra do vidro saiu da prancha para o projeto — a carga precisava dela. "
+     "(3) SPDA: Manaus esta entre as maiores densidades de raios do pais e a "
+     "casa tinha DPS e nenhum para-raios. NBR 5419-2 da o risco (Ad 2.818 m2, "
+     "Nd 0,034/ano, retorno 30 anos, Ng (H)); classe IV declarada; a "
+     "estrutura de aco e descida natural (montante 155 mm2 >= 50), entao o "
+     "que se compra e captor em anel, 4 descidas com conector, anel de cobre "
+     "no radier, hastes, BEP, DPS classe I e ensaio. (4) FOTOVOLTAICA: era "
+     "'infraestrutura futura'. O consumo sai do modelo (splits por "
+     "capacidade e horas (H), iluminacao calculada, chuveiros): 67,6 kWh/dia; "
+     "o telhado do superior comporta 29 modulos de 550 Wp = 15,95 kWp, 85 % "
+     "do consumo, inversor de 15 kW em TC-17 na faixa tecnica, carga 0,133 "
+     "kN/m2 contra 0,15 reservados, payback 2,5 anos com tarifa (H). PR-41 "
+     "nova. Pendencia 15: Ng, HSP e tarifa sao dados de sitio a confirmar. O "
+     "total vai de R$ 829 mil para R$ 902 mil, e cada real a mais tem nome: "
+     "FV R$ 50 mil, SPDA R$ 14 mil, low-e R$ 7 mil, pe-direito o resto"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3468,6 +3679,14 @@ PENDENCIAS = [
                  "luz de TAREFA das pecas — bancada, espelho, closet, escada. "
                  "A luminaria deixou de ser regra de area",
          status="RESOLVIDA", bloqueia=""),
+    dict(n="15", titulo="Dados de sitio da energia: raios, sol e tarifa",
+         norma="NBR 5419-2 (Ng) · Atlas Brasileiro de Energia Solar (HSP) · ANEEL/Amazonas Energia (tarifa)",
+         impacto="O SPDA e a fotovoltaica sao dimensionados com tres numeros de "
+                 "sitio que entraram (H): densidade de descargas Ng = 12/km2.ano, "
+                 "irradiacao 4,6 kWh/m2.dia e tarifa R$ 0,95/kWh. Nenhum muda a "
+                 "casa; os tres mudam o payback e a classe de protecao. Confirmar "
+                 "no mapa RINDAT/ELAT, no Atlas INPE e na fatura",
+         status="ABERTA", bloqueia=""),
     dict(n="14", titulo="Rota de conformidade termica da parede externa",
          norma="NBR 15220-3 (tabela da ZB8) x NBR 15575-4 (desempenho)",
          impacto="A parede PE-1 tem U = 0,532 W/m2.K, sete vezes melhor que o "
@@ -3524,13 +3743,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R60",
+    revisao="R61",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R60", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R61", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

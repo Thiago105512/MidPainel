@@ -1,0 +1,15 @@
+[project]
+name = "porto-real"
+version = "0.61.0"
+description = "Projeto Porto Real — residencia em LSF, Manaus/AM: modelo parametrico, caderno de pranchas, visualizador e auditoria"
+requires-python = ">=3.11"
+dependencies = [
+    "cairosvg>=2.7",
+    "pymupdf>=1.24",
+    "openpyxl>=3.1",
+    "playwright>=1.45",
+]
+
+[tool.porto-real]
+# O que um contribuidor roda antes de dizer "0 erros". A CI roda o mesmo.
+verificar = ["python3 src/build.py --no-png", "python3 src/programa.py", "python3 src/viewer_teste.py"]

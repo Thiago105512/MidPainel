@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="22" data-rev="R60">
+<g data-tipo="carimbo" data-cod="22" data-rev="R61">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R60</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R61</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">22</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R60</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R61</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -302,7 +302,7 @@
 <line x1="2.000" y1="-203.000" x2="2.000" y2="-255.800" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="4.000" y1="-246.200" x2="4.000" y2="-299.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 </g>
-<g data-tipo="vao" data-cod="CV01" data-larg="7200" data-alt="2600" data-peitoril="0" data-desc="CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro temperado 10 mm, sem montante vertical">
+<g data-tipo="vao" data-cod="CV01" data-larg="7200" data-alt="2600" data-peitoril="0" data-desc="CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro laminado 6+6 low-e (g &lt;= 0,35), sem montante vertical">
 <line x1="-285.000" y1="-320.000" x2="-285.000" y2="-326.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="3.000" y1="-320.000" x2="3.000" y2="-326.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <polygon points="-285.000,-320.000 -277.000,-320.000 -277.000,-326.000 -285.000,-326.000" stroke="#b5651d" stroke-width="0.6" fill="#b5651d" stroke-linejoin="miter"/>
@@ -634,7 +634,7 @@
 <line x1="152.000" y1="13.000" x2="152.000" y2="-39.800" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="154.000" y1="-30.200" x2="154.000" y2="-83.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 </g>
-<g data-tipo="vao" data-cod="CV01" data-larg="7200" data-alt="2600" data-peitoril="0" data-desc="CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro temperado 10 mm, sem montante vertical">
+<g data-tipo="vao" data-cod="CV01" data-larg="7200" data-alt="2600" data-peitoril="0" data-desc="CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro laminado 6+6 low-e (g &lt;= 0,35), sem montante vertical">
 <line x1="-135.000" y1="-104.000" x2="-135.000" y2="-110.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="153.000" y1="-104.000" x2="153.000" y2="-110.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <polygon points="-135.000,-104.000 -127.000,-104.000 -127.000,-110.000 -135.000,-110.000" stroke="#b5651d" stroke-width="0.6" fill="#b5651d" stroke-linejoin="miter"/>
@@ -959,7 +959,7 @@
 <line x1="614.000" y1="181.000" x2="614.000" y2="128.200" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="616.000" y1="137.800" x2="616.000" y2="85.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 </g>
-<g data-tipo="vao" data-cod="CV01" data-larg="7200" data-alt="2600" data-peitoril="0" data-desc="CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro temperado 10 mm, sem montante vertical">
+<g data-tipo="vao" data-cod="CV01" data-larg="7200" data-alt="2600" data-peitoril="0" data-desc="CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro laminado 6+6 low-e (g &lt;= 0,35), sem montante vertical">
 <line x1="327.000" y1="64.000" x2="327.000" y2="58.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="615.000" y1="64.000" x2="615.000" y2="58.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <polygon points="327.000,64.000 335.000,64.000 335.000,58.000 327.000,58.000" stroke="#b5651d" stroke-width="0.6" fill="#b5651d" stroke-linejoin="miter"/>
@@ -1316,7 +1316,7 @@
 <line x1="500.000" y1="61.000" x2="500.000" y2="8.200" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="502.000" y1="17.800" x2="502.000" y2="-35.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 </g>
-<g data-tipo="vao" data-cod="CV01" data-larg="7200" data-alt="2600" data-peitoril="0" data-desc="CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro temperado 10 mm, sem montante vertical">
+<g data-tipo="vao" data-cod="CV01" data-larg="7200" data-alt="2600" data-peitoril="0" data-desc="CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro laminado 6+6 low-e (g &lt;= 0,35), sem montante vertical">
 <line x1="213.000" y1="-56.000" x2="213.000" y2="-62.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <line x1="501.000" y1="-56.000" x2="501.000" y2="-62.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
 <polygon points="213.000,-56.000 221.000,-56.000 221.000,-62.000 213.000,-62.000" stroke="#b5651d" stroke-width="0.6" fill="#b5651d" stroke-linejoin="miter"/>

@@ -157,6 +157,19 @@ def _exposicao(pj, r: dict, n: str) -> dict:
                               f"resposta for que falta inercia, quem paga e "
                               f"esta linha — os {_brl(xps)} de XPS sao a "
                               f"unica camada do envelope que se discutiria")
+    if n == "15":      # dados de sitio da energia: Ng, HSP, tarifa
+        fv = sum(i.total_compra for i in bom if i.sku.startswith("FV-"))
+        sp = sum(i.total_compra for i in bom if i.sku.startswith("SPD-"))
+        f = r["camadas"].get("fotovoltaica", {})
+        return dict(valor=fv + sp, fracao=(fv + sp) / custo,
+                    grandeza="fotovoltaica e SPDA",
+                    simulacao=f"tres numeros de sitio entraram (H): Ng, HSP e tarifa. "
+                              f"Se a irradiacao real for 10 % menor, a geracao cai 10 % e o "
+                              f"payback de {f.get('payback_anos', 0)} anos vai a "
+                              f"{round(f.get('payback_anos', 0) / 0.9, 1)}; se o Ng do mapa "
+                              f"for o dobro, o risco dobra e a classe IV continua a decisao. "
+                              f"Nenhum dos tres muda a casa: mudam {_brl(fv)} de FV e "
+                              f"{_brl(sp)} de SPDA no retorno, nao na existencia")
     return dict(valor=0.0, fracao=0.0, grandeza="", simulacao="")
 
 

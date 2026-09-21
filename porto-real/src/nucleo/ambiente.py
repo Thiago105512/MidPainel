@@ -41,9 +41,8 @@ ABRE = {"correr": 0.50, "batente": 0.90, "basculante": 0.85, "fixa": 0.0,
 
 def _classe(pj, a) -> str:
     """Como este ambiente e tratado para iluminacao e ventilacao."""
-    import especificacao as ep
-    cat = ep.CATEGORIA.get(a.cod, "apoio")
-    if a.cod in ep.MOLHADOS or getattr(a, "molhado", False):
+    cat = pj.CATEGORIA.get(a.cod, "apoio")
+    if a.cod in pj.MOLHADOS or getattr(a, "molhado", False):
         return "molhado"
     if cat in ("intimo",):
         return "dormitorio"
@@ -114,7 +113,6 @@ def vaos_do_ambiente(pj, a, todos_ambientes) -> list[dict]:
 
 def dossie(pj, r: dict) -> list[dict]:
     """Tudo o que o modelo sabe sobre cada comodo, num lugar so."""
-    import especificacao as ep
     todos = (pj.TERREO + pj.SUPERIOR + pj.TERREO_ABERTO + pj.SUPERIOR_ABERTO)
     acab = {x["amb"]: x for x in pj.acabamentos()}
     prev = {x["amb"]: x for x in pj.previsao_iluminacao_tug()}
@@ -172,8 +170,8 @@ def dossie(pj, r: dict) -> list[dict]:
             cod=a.cod, nome=a.nome, pav=a.pav, area=round(area, 2),
             perimetro=round(2 * (a.w + a.h) / 1000.0, 2),
             largura=a.w, profundidade=a.h,
-            categoria=ep.CATEGORIA.get(a.cod, "apoio"), classe=classe,
-            molhado=a.cod in ep.MOLHADOS or bool(getattr(a, "molhado", False)),
+            categoria=pj.CATEGORIA.get(a.cod, "apoio"), classe=classe,
+            molhado=a.cod in pj.MOLHADOS or bool(getattr(a, "molhado", False)),
             # o banho da suite e SUBDIVISAO: a peca hidraulica e o ralo sao
             # lancados no codigo do comodo-pai, e o flag de molhado vive na
             # subdivisao. Sao duas formas de dizer a mesma coisa, e conferir
@@ -207,7 +205,6 @@ def dossie(pj, r: dict) -> list[dict]:
 
 def conferir(pj, r: dict) -> dict:
     """Onde as decisoes discordam, comodo a comodo."""
-    import especificacao as ep
     ds = dossie(pj, r)
     achados = []
 

@@ -5002,3 +5002,58 @@ cena mostrava com um único `parede_ext`; agora `parede_base` no térreo.
 **Estado em R60:** 133 auditorias, 116 funções; 0 erros; testes do
 visualizador com 4 verificações novas (luminárias na cena, rótulos, trajeto do
 sol, three embutido).
+
+## R61 — as três decisões que ficam caras depois da estrutura, e o pé-direito
+
+### Decisão — pé-direito 2,60 → 2,90 m (piso-a-piso 3,30)
+A norma aceita 2,50; a prática em clima quente-úmido é 2,80–3,00, e a fita
+social (20,7 m de eixo, cortina de 7,2 m, forro absorvente no gourmet) sentiria
+2,60 como teto baixo. Cascata resolvida no modelo: escada com **20 espelhos de
+165 mm e piso de 280** (Blondel 610; 18 espelhos dariam 183 mm, acima da NBR
+9077), 10 por lance, patamar 150 mm mais ao sul; platibanda **derivada**
+(NIVEL_SUPERIOR + PE_DIREITO + 550) em vez do literal 6.150; PR-25 reenquadrada.
+
+### Defeito 90 — a altura do painel era o default da dataclass
+`painel.Config.altura = 2_600` e `PE_DIREITO = 2_600` valiam o mesmo por
+coincidência; `fixture` e `modelo3d` criavam `Config()` sem passar a altura.
+Subir o pé-direito no projeto não teria subido um único montante. Agora
+`Config(altura=pj.PE_DIREITO)` — uma fonte. `acustica.py` tinha um terceiro
+literal 2.600; removido.
+
+### Defeito 91 — o vidro não tinha fator solar; a cortina olhava para oeste
+O modelo conhecia o vidro pelo Rw e por uma string. CV-01 (7,2 × 2,6 m, face
+oeste, sol de 16 h a 30°) era temperado 10 mm: g ≈ 0,80, ~480 W/m², **5 kW no
+estar fora do cálculo de climatização** — `CLIMA_Q_VIDRO` era uma constante
+"vidro sombreado". Agora `VIDRO_G` (H, catálogo), `G_MAX_SOL = 0,45` nas faces
+L/O, `FATOR_FACE` (N/S = 0,5: a 3° do equador só L/O recebem sol baixo todo
+dia), `ganho_vidro()` pondera cada vão e `carga_termica()` lê dele. A cortina
+vai a **laminado 6+6 low-e (g 0,35)**. A regra do vidro (`vidro_do_vao`) saiu
+de `especificacao.py` para o projeto — a carga precisava dela e o caso não
+importa prancha. Cargas resultantes: social 28.200 ≤ 30.000; master 17.800 ≤
+18.000 — sem low-e o social passaria a 36.000.
+
+### Defeito 92 — Manaus, dois pavimentos, estrutura de aço, e nenhum SPDA
+Havia DPS classe II nos quadros e nada mais. `nucleo/spda.py`: NBR 5419-2 Ad =
+2.818 m², Nd = 0,034/ano (retorno 30 anos) com Ng (H) 12/km²·ano; classe IV
+declarada como decisão; a estrutura LSF é descida natural (montante 155 mm² ≥
+50 mm², NBR 5419-3), então o que se compra é captor em anel (160,8 m), 4
+descidas com conector de teste, anel de cobre nu 50 mm² no radier (63,6 m),
+4 hastes, BEP, DPS classe I e o ensaio. Sete linhas, R$ 14 mil (H).
+
+### Defeito 93 — fotovoltaica como "infraestrutura futura"
+`nucleo/fotovoltaica.py`: consumo do **modelo** (splits por capacidade e horas
+(H), iluminação calculada em R59, chuveiros, base) = 67,6 kWh/dia. HSP 4,6
+(H), PR 0,78 → 18,8 kWp pedidos; **o telhado do superior comporta 29 módulos
+= 15,95 kWp** fora da passarela de 600 mm — instala-se o que cabe e declara-se
+85 % do consumo, em vez de desenhar módulos onde não há telhado. Carga 0,133
+kN/m² ≤ 0,15 reservados desde R38; inversor 15 kW em **TC-17** (faixa técnica
+norte, novo); payback 2,5 anos com tarifa (H). PR-41 nova.
+
+### Pendência 15 — dados de sítio da energia
+Ng, HSP e tarifa entram (H). Confirmar no mapa RINDAT/ELAT, no Atlas INPE e na
+fatura. Nenhum muda a casa; os três mudam payback e classe.
+
+### Código
+`pyproject.toml`, `requirements.txt`, CI (`.github/workflows/verificar.yml`:
+build sem PNG + programa com `0 erro(s)` + visualizador sem `FALHA`),
+`build.py --so=16,41` regenera só as pranchas pedidas.

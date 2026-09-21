@@ -696,6 +696,35 @@ PROGRAMA = [
      "a cena e o BOM leem dela. A verificacao conta: luminarias no SVG = "
      "luminarias na cena = pontos do calculo. E o mobiliario da cena e o "
      "LAYOUT, peca a peca."),
+    (134, "Vidro com fator solar: a cortina oeste entra na carga",
+     ["checar_vidro_solar"], "AUTOMATIZADA",
+     "Secao 159. O modelo conhecia o vidro pelo Rw e por uma string; nao "
+     "conhecia o que ele deixa entrar de sol. A cortina de 7,2 m olha para "
+     "oeste, com o sol de 16 h a 30 graus: temperado comum (g 0,80) deixava "
+     "entrar 480 W/m2 — 5 kW no estar — e CLIMA_Q_VIDRO era uma constante de "
+     "'vidro sombreado'. Agora cada vao tem g (VIDRO_G, catalogo, (H)), a "
+     "carga termica escala com g/g_ref, as faces L/O tem limite 0,45, e a "
+     "regra do vidro saiu da prancha para o projeto (vidro_do_vao) porque a "
+     "carga precisava dela e o caso nao importa prancha. CV-01 vai a laminado "
+     "low-e 6+6: g 0,35."),
+    (135, "SPDA: a estrutura de aco e descida natural",
+     ["checar_spda"], "AUTOMATIZADA",
+     "Secao 160. Manaus esta entre as maiores densidades de descargas do pais "
+     "e a casa tinha DPS e nenhum para-raios. NBR 5419-2 da o risco (Ad, Nd) "
+     "com Ng (H) de mapa; a classe IV e decisao declarada. NBR 5419-3 aceita a "
+     "estrutura como descida quando a secao passa de 50 mm2 — o montante tem "
+     "184 — entao o que se compra e captor em anel no perimetro da cobertura, "
+     "anel de cobre no radier, hastes, BEP, DPS classe I e o ensaio de "
+     "continuidade. Sete linhas no BOM, familia eletrica."),
+    (136, "Fotovoltaica: dimensionada do consumo do modelo",
+     ["checar_fotovoltaica"], "AUTOMATIZADA",
+     "Secao 161. Era 'infraestrutura futura' e 0,15 kN/m2 reservados. O "
+     "consumo sai do que o modelo declara — capacidade de cada split, potencia "
+     "calculada da iluminacao, chuveiros — com horas (H); o sol e a tarifa sao "
+     "dados de sitio (H), pendencia 15. Conferidos: os modulos cabem na "
+     "cobertura do superior fora da passarela, a carga nao passa da reservada, "
+     "o inversor tem lugar (TC-17), a potencia e microgeracao, e a geracao e "
+     "da ordem do consumo. Sete linhas no BOM."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

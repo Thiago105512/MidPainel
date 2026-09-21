@@ -63,13 +63,25 @@ CADERNO = [
     ("38", "RETENCAO PLUVIAL E SUPERFICIES",    lambda: p8.retencao_pluvial()),
     ("39", "DESEMPENHO ACUSTICO",               lambda: p8.acustica()),
     ("40", "CARGAS, FASES E MERCADO",           lambda: p8.cargas_e_mercado()),
+    ("41", "ENERGIA: FOTOVOLTAICA, SPDA E VIDRO", lambda: p8.energia()),
 ]
 
 
-def main(png: bool = True, pdf: bool = True) -> None:
+def main(png: bool = True, pdf: bool = True, so: set | None = None) -> None:
+    """Gera o caderno inteiro, ou so as pranchas em `so` (R61: --so 16,41).
+
+    Gerar as 41 pranchas leva minutos; corrigir UMA prancha exigia as 41.
+    Com --so, o SVG/PNG/PDF das outras fica como esta e o caderno unico e o
+    visualizador sao remontados a partir do que ha em out/.
+    """
     os.makedirs(OUT, exist_ok=True)
     svgs = []
     for num, nome, fn in CADERNO:
+        caminho = os.path.join(OUT, f"PR-{num}.svg")
+        if so and num not in so:
+            if os.path.exists(caminho):
+                svgs.append(caminho)
+            continue
         cv = fn()
         caminho = os.path.join(OUT, f"PR-{num}.svg")
         cv.salvar(caminho)
@@ -79,6 +91,8 @@ def main(png: bool = True, pdf: bool = True) -> None:
     if png or pdf:
         import cairosvg
         for c in svgs:
+            if so and c.split("PR-")[-1][:2] not in so:
+                continue
             if png:
                 cairosvg.svg2png(url=c, write_to=c.replace(".svg", ".png"), output_width=2400)
             if pdf:
@@ -109,4 +123,8 @@ def main(png: bool = True, pdf: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    main(png="--no-png" not in sys.argv, pdf="--no-pdf" not in sys.argv)
+    _so = None
+    for _a in sys.argv[1:]:
+        if _a.startswith("--so="):
+            _so = {x.strip().zfill(2) for x in _a[5:].split(",") if x.strip()}
+    main(png="--no-png" not in sys.argv, pdf="--no-pdf" not in sys.argv, so=_so)

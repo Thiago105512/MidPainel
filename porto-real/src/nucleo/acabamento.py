@@ -564,6 +564,11 @@ def levantar(pj, camadas=None) -> dict:
                          "luz por regra declarada ate haver luminotecnica")
 
 
+def _brl(v) -> str:
+    s = f"{v:,.2f}".replace(",", "\x00").replace(".", ",").replace("\x00", ".")
+    return "R$ " + s
+
+
 def conferir(pj) -> list[tuple[str, str, bool]]:
     lv = levantar(pj)
     fr = lv["frentes"]
@@ -573,7 +578,7 @@ def conferir(pj) -> list[tuple[str, str, bool]]:
     return [
         ("as sete frentes foram levantadas",
          f"{lv['n']} linhas em {len(fr)} frentes, somando "
-         f"R$ {lv['total']:,.2f}".replace(",", "."), len(fr) == 7),
+         f"{_brl(lv['total'])}", len(fr) == 7),
         ("nenhum SKU repetido", f"{len(skus)} SKUs, {len(n)} distintos",
          len(skus) == len(n)),
         ("toda linha diz de onde veio",

@@ -560,8 +560,8 @@ def escada() -> Canvas:
     ])
 
     # ---------------- planta 1:25
-    vw = View(25, 50, 290, e["x"] - 400, e["y"] - 400)
-    an.titulo_desenho(cv, (40, 310), "1", "PLANTA DA ESCADA", "1:25")
+    vw = View(25, 50, 306, e["x"] - 400, e["y"] - 400)   # R61: +16 mm, a escada cresceu
+    an.titulo_desenho(cv, (40, 326), "1", "PLANTA DA ESCADA", "1:25")
     cv.poli_p([vw.pt(P(e["x"], e["y"])), vw.pt(P(e["x"] + e["w"], e["y"])),
                vw.pt(P(e["x"] + e["w"], e["y"] + e["h"])),
                vw.pt(P(e["x"], e["y"] + e["h"]))], "fino", fechado=True,
@@ -603,7 +603,7 @@ def escada() -> Canvas:
     an.norte(cv, (200, 120), 7, pj.NORTE_EM_PLANTA)
 
     # ---------------- corte longitudinal 1:25
-    vw2 = View(25, 300, 260, e["y"] - 400, 0)
+    vw2 = View(25, 300, 276, e["y"] - 400, 0)   # R61: escada de 3.300 mm
     an.titulo_desenho(cv, (290, 290), "2", "CORTE LONGITUDINAL — ALTURA LIVRE", "1:25")
     l1, pt, l2 = lances
     # piso do terreo e do superior

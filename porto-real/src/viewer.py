@@ -67,7 +67,7 @@ def figuras() -> list[tuple[str, str, str]]:
          f"kVA · {el['padrao_a']} A"),
         ("Auditoria", str(cob["condicoes"]), f"condições · {erros} erro"),
         ("Eixo social", _br(eixo["profundidade_total"] / 1000, 1), "m contínuos"),
-        ("Pranchas", "40", "· A1"),
+        ("Pranchas", p7.TOTAL_PRANCHAS, "· A1"),
     ]
 
 

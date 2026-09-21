@@ -231,6 +231,22 @@ def especificar(item, r: dict) -> dict:
         faltas.append("desenho executivo de marcenaria: a planta da a "
                       "extensao e a profundidade, nao o interior do movel")
 
+    elif sku.startswith("SPD-"):
+        esp.append("SPDA conforme NBR 5419-3, classe IV: captor em anel no perimetro "
+                   "da cobertura, descidas naturais pela estrutura de aco com "
+                   "continuidade ensaiada, anel de aterramento no radier")
+        faltas.append("laudo de continuidade eletrica da estrutura e medicao de "
+                      "resistencia de aterramento apos a execucao")
+        normas += ["NBR 5419-3", "NBR 5419-4", "NBR 5410"]
+
+    elif sku.startswith("FV-"):
+        esp.append("sistema fotovoltaico conectado a rede (on-grid), microgeracao "
+                   "REN ANEEL 1.000/2021; modulos monocristalinos, inversor string "
+                   "trifasico com monitoramento")
+        faltas.append("marca e modelo de modulo e inversor; a potencia e a area "
+                      "estao dimensionadas, o produto e cotacao")
+        normas += ["NBR 16274", "NBR 16690", "Portaria INMETRO 140/2022"]
+
     elif sku.startswith("FAC-"):
         if sku == "FAC-MINERAL":
             esp.append("placa cimenticia 1.200 x 2.400 com revestimento mineral "

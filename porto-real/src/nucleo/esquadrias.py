@@ -148,7 +148,8 @@ def levantar(pj, vidros: dict = None) -> dict:
             else:
                 ferragem[item] = ferragem.get(item, 0) + q * e.folhas * e.n
     sem_vidro = [e.tipo for e in saida if e.tem_vidro and not e.vidro]
-    return dict(itens=saida, n=sum(e.n for e in saida),
+    return dict(itens=saida,
+                area_lowe=round(sum(e.area for e in saida if 'low-e' in (e.vidro or '').lower()), 2), n=sum(e.n for e in saida),
                 area=round(total_area, 2), area_vidro=round(total_vidro, 2),
                 caixilho_m=round(total_caixilho, 1),
                 ferragem=ferragem, sem_vidro=sem_vidro,

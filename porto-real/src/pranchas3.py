@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import projeto as pj
 import anotacao as an
-from core import P, Canvas, View, TXT, CINZA, PRETO
+from core import num_br, P, Canvas, View, TXT, CINZA, PRETO
 from pranchas import base, _tabela
 
 
@@ -108,9 +108,9 @@ def detalhes() -> Canvas:
     vw4 = View(25, 660, 200, 0, 0)
     an.titulo_desenho(cv, (645, 92), "4", "FAIXA TECNICA LATERAL — CORTE", "1:25")
     cv.linha_p(vw4.pt(P(-200, 0)), vw4.pt(P(3_400, 0)), "corte")
-    cv.poli_p([vw4.pt(P(0, 0)), vw4.pt(P(150, 0)), vw4.pt(P(150, 2_600)), vw4.pt(P(0, 2_600))],
+    cv.poli_p([vw4.pt(P(0, 0)), vw4.pt(P(150, 0)), vw4.pt(P(150, pj.PE_DIREITO)), vw4.pt(P(0, pj.PE_DIREITO))],
               "corte", fechado=True, preenche="#e0e0e0")
-    cv.texto_p(vw4.pt(P(75, 2_800)), "PAREDE", TXT["micro"], "middle", rot=90)
+    cv.texto_p(vw4.pt(P(75, pj.PE_DIREITO + 200)), "PAREDE", TXT["micro"], "middle", rot=90)
     cv.poli_p([vw4.pt(P(150, 200)), vw4.pt(P(950, 200)), vw4.pt(P(950, 1_100)),
                vw4.pt(P(150, 1_100))], "vista", fechado=True, preenche="#f0f0f0")
     cv.texto_p(vw4.pt(P(550, 650)), "CONDENSADORA", TXT["micro"], "middle")
@@ -184,8 +184,8 @@ def quadros() -> Canvas:
              ["Climatizacao", "Carga instalada (ver quadro proprio)",
               f"{pj.carga_instalada_btu():,} BTU/h".replace(",", ".")],
              ["Climatizacao", "Infraestrutura reservada",
-              f"{pj.carga_instalada_btu(True)-pj.carga_instalada_btu():,} BTU/h"
-              .replace(",", ".") + " (social + oficina)"],
+              f"{num_br(pj.carga_instalada_btu(True)-pj.carga_instalada_btu())} BTU/h"
+              " (social + oficina)"],
              ["Eletrica", "Quadros", "geral 36 modulos | superior 24 modulos"],
              ["Eletrica", "Infraestrutura futura", "fotovoltaica + carregador de VE"],
              ["Dados", "CFTV / Wi-Fi / videoporteiro", "8 cameras | 3 APs | 1 unidade"],

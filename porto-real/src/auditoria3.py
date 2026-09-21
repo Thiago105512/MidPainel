@@ -2027,7 +2027,7 @@ def checar_bom() -> list[Achado]:
                       f"custo base {tot:,.0f}: p50 {mc['p50']:,.0f}, p80 "
                       f"{mc['p80']:,.0f}, p95 {mc['p95']:,.0f} — a cauda direita "
                       f"vale {(mc['p95']/mc['p50']-1)*100:.0f} % a mais que a "
-                      f"mediana".replace(",", ".")))
+                      f"mediana"))
 
     # todo preco entra declarado como hipotese
     sem_h = [i.sku for i in itens if i.fonte == "(H)" and i.preco_unit <= 0]
@@ -4044,8 +4044,7 @@ def checar_mercado() -> list[Achado]:
                           f"R$ {l['valor']:,.2f} ({l['fracao']*100:.1f} % do "
                           f"custo) — {l['fornecedores']} fornecedores, "
                           f"{l['manaus']} em Manaus: "
-                          f"{', '.join(f[0] for f in l['lista'][:5])}"
-                          .replace(",", ",")))
+                          f"{', '.join(f[0] for f in l['lista'][:5])}"))
     ad = mk.aderencia(pj, r)
     out.append(Achado("ATENCAO", "escopo do orcamento",
                       f"R$ {ad['total']:,.2f} cobrem os sistemas modelados, "
@@ -4321,6 +4320,60 @@ def checar_luz_no_desenho() -> list[Achado]:
     return out
 
 
+from core import brl as _brl
+
+
+def checar_vidro_solar() -> list[Achado]:
+    """Todo vao nas faces leste e oeste tem g dentro do limite; a carga usa o g (R61)."""
+    import projeto as pj
+    out = []
+    ruins = [v for v in pj.vaos_envidracados() if v["face"] in ("L", "O") and v["g"] > pj.G_MAX_SOL]
+    out.append(Achado("NOTA" if not ruins else "ERRO", "fator solar nas faces L/O",
+                      f"limite g <= {pj.G_MAX_SOL:.2f}; fora: "
+                      f"{[(v['tipo'], v['face'], v['g']) for v in ruins] or 'nenhum'}"))
+    cv = next((v for v in pj.vaos_envidracados() if v["tipo"].startswith("CV")), None)
+    out.append(Achado("NOTA" if cv and cv["g"] <= 0.35 else "ERRO", "cortina CV-01",
+                      f"face {cv['face'] if cv else '?'}, g = {cv['g'] if cv else '?'}: {cv['vidro'] if cv else ''}"))
+    for c in pj.CLIMATIZACAO:
+        if c.get("reserva"):
+            continue
+        q = pj.carga_termica(c["amb"], c["pessoas"], c["equip"], c.get("mais"),
+                             c.get("conta_ventilador", False), c.get("duto", False),
+                             c.get("area_m2"), c.get("vidro_m2"))
+        out.append(Achado("NOTA" if q <= c["capacidade"] else "ERRO",
+                          f"carga com g: {c['amb']}{'/' + c['compartimento'] if c.get('compartimento') else ''}",
+                          f"{q} BTU/h contra {c['capacidade']} instalados"))
+    return out
+
+
+def checar_spda() -> list[Achado]:
+    """Para-raios: risco calculado, componentes e descida natural pela estrutura (R61)."""
+    import projeto as pj
+    import fixture as fx
+    import nucleo.spda as sp
+    r = fx.liberacao()
+    out = [Achado("NOTA" if ok else "ERRO", t, d) for t, d, ok in sp.conferir(pj, r)]
+    skus = {i.sku for i in r["bom"]}
+    out.append(Achado("NOTA" if {"SPD-CAPTOR", "SPD-ANEL", "SPD-DPS1"} <= skus else "ERRO",
+                      "o SPDA esta no orcamento", f"{sorted(s for s in skus if s.startswith('SPD-'))}"))
+    return out
+
+
+def checar_fotovoltaica() -> list[Achado]:
+    """Geracao dimensionada do consumo do modelo, com area, carga e lugar conferidos (R61)."""
+    import projeto as pj
+    import fixture as fx
+    import nucleo.fotovoltaica as fv
+    r = fx.liberacao()
+    out = [Achado("NOTA" if ok else "ERRO", t, d) for t, d, ok in fv.conferir(pj, r)]
+    f = r["camadas"]["fotovoltaica"]
+    out.append(Achado("NOTA", "quadro fotovoltaico",
+                      f"{f['consumo_kwh_dia']} kWh/dia -> {f['kwp_instalado']} kWp em "
+                      f"{f['n_modulos']} modulos, {f['geracao_kwh_ano']:.0f} kWh/ano, "
+                      f"payback {f['payback_anos']} anos (H)"))
+    return out
+
+
 def checar_ocupacao() -> list[Achado]:
     """Espaco morto: bolsao sem ambiente, largura sem uso, nome sem lastro (R58)."""
     import projeto as pj
@@ -4380,7 +4433,7 @@ def checar_acabamento() -> list[Achado]:
     for frente, linhas in sorted(lv["frentes"].items()):
         v = sum(i["quantidade"] * i["preco"] for i in linhas)
         out.append(Achado("NOTA", f"frente: {frente}",
-                          f"{len(linhas)} linhas, R$ {v:,.2f}".replace(",", ".")
+                          f"{len(linhas)} linhas, {_brl(v)}"
                           + " — " + "; ".join(i["sku"] for i in linhas)))
     out.append(Achado("NOTA", "ponto de luz e calculo desde R59",
                       "metodo dos lumens por ambiente em nucleo/luminotecnica.py; "

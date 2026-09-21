@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="01" data-rev="R60">
+<g data-tipo="carimbo" data-cod="01" data-rev="R61">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R60</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R61</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">01</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 40   REV R60</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R61</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -100,6 +100,8 @@
 <text x="327.500" y="246.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 327.500 246.000)">TC-15</text>
 <polygon points="318.000,202.000 326.000,202.000 326.000,192.000 318.000,192.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
 <text x="322.000" y="197.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 322.000 197.000)">TC-16</text>
+<polygon points="322.000,410.000 328.000,410.000 328.000,406.000 322.000,406.000" stroke="#b5651d" stroke-width="0.3" fill="#fff3d6" stroke-linejoin="miter"/>
+<text x="325.000" y="408.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">TC-17</text>
 <polygon points="274.400,350.400 277.600,350.400 277.600,353.600 274.400,353.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 <polygon points="304.400,350.400 307.600,350.400 307.600,353.600 304.400,353.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 <polygon points="274.400,326.400 277.600,326.400 277.600,329.600 274.400,329.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
