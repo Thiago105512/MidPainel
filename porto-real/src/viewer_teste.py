@@ -989,12 +989,27 @@ def rodar(fotos: bool = False) -> int:
         for v in ("painel", "pecas", "cotacao", "instalacoes", "materiais",
                   "parafusos", "paineis", "corte", "montagem", "logistica",
                   "documentos", "bloqueios"):
-            pag.click(f"#vistasEng button[data-vista='{v}']")
+            # R76: no celular o indice vira <select>; o botao existe mas nao
+            # esta visivel, e o clique vai pelo DOM
+            pag.evaluate(f"() => document.querySelector(\"#vistasEng button[data-vista='{v}']\").click()")
             pag.wait_for_timeout(150)
             if pag.evaluate("() => document.documentElement.scrollWidth > innerWidth + 1"):
                 estouros.append(v)
         ok(not estouros, "e nenhuma das 12 vistas de engenharia estoura",
            "estouram: " + ", ".join(estouros) if estouros else "12 vistas medidas")
+        # R76 — navegacao de celular: o <select> espelha o indice e troca a prancha
+        pag.click("button[data-modo='2d']")
+        pag.wait_for_timeout(300)
+        n_sel = pag.evaluate("() => document.getElementById('selNav').options.length")
+        ok(n_sel == _n, f"no celular o seletor lista as {_n} pranchas", f"{n_sel} opcoes")
+        pag.select_option("#selNav", "33")
+        pag.wait_for_timeout(900)
+        ok("34/" in pag.evaluate("() => document.getElementById('sheetMeta').textContent"),
+           "e escolher a prancha 34 no seletor abre a prancha 34")
+        ok(pag.evaluate("() => document.documentElement.scrollWidth <= innerWidth + 1"),
+           "com o seletor, a pagina continua sem rolagem lateral no celular")
+        pag.click("button[data-modo='eng']")
+        pag.wait_for_timeout(300)
         pag.set_viewport_size({"width": 1440, "height": 960})
         pag.wait_for_timeout(400)
 

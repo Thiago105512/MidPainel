@@ -212,6 +212,50 @@ window.urlRecurso = function (nome) {
   .colofon + .colofon{margin-top:10px}
   @media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }
 
+  /* ---------- celular (R76): o caderno cabe na mao ----------
+     A pagina ja nao rolava de lado; o que faltava era o desenho comecar
+     acima da dobra, uma navegacao que nao fosse uma fita de 69 botoes e
+     zoom de pinca. Nada aqui muda o desktop. */
+  .selnav{display:none}
+  @media (max-width:860px){
+    .wrap{padding-inline:14px}
+    .head{padding-block:12px 10px; gap:8px}
+    .head h1{font-size:26px; margin:2px 0}
+    .stamp{max-width:none; font-size:10.5px; padding:6px 10px}
+    .figures{display:flex; overflow-x:auto; scroll-snap-type:x proximity;
+             -webkit-overflow-scrolling:touch; scrollbar-width:thin}
+    .fig{flex:0 0 46%; scroll-snap-align:start; padding:9px 12px}
+    .fig dd{font-size:16px}
+    .rail{display:none}
+    .work{padding-block:10px 20px; gap:12px}
+    .stage-box{margin-inline:-6px}
+    .toolbar{position:sticky; top:env(safe-area-inset-top,0px); z-index:6;
+             background:var(--surface); gap:6px; padding:7px 8px}
+    .toolbar .title{flex:1 1 100%; order:-1; font-size:14px}
+    .btn{padding:7px 9px; font-size:11px; min-height:38px}
+    .selnav{display:flex; gap:6px; flex:1 1 100%; align-items:stretch; min-width:0; width:100%}
+    .selnav select{flex:1 1 0; width:100%; min-width:0; font-family:var(--mono); font-size:12px;
+      padding:8px; border:1px solid var(--rule); border-radius:2px;
+      background:var(--surface); color:var(--ink); min-height:38px}
+    /* no celular a barra guarda so o essencial: setas de prancha, "sem
+       moldura" e "medir" ficam atras do botao Paineis, com as camadas */
+    #prev, #next, #semmold, #medir{display:none}
+    #barra2, .hud, .leitura{display:none !important}
+    .stage-box.paineis #barra2, .stage-box.paineis .leitura{display:block !important}
+    .stage-box.paineis .hud{display:flex !important}
+    .stage-box.paineis #semmold, .stage-box.paineis #medir{display:inline-block}
+    .selnav .btn[aria-pressed="true"]{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
+    .stage{height:calc(100svh - 200px); min-height:360px}
+    .stage3d{height:calc(100svh - 200px) !important; min-height:360px}
+    .ficha{top:auto; bottom:0; left:0; right:0; width:auto; max-height:46%;
+           border-radius:6px 6px 0 0}
+    .leitura{max-width:72%; font-size:11px}
+    #engConteudo table{display:block; overflow-x:auto; max-width:100%; white-space:nowrap}
+    .cartoes{grid-template-columns:repeat(2,1fr)}
+    .modos-leitura{margin-left:0; flex-wrap:wrap}
+    .hint{font-size:10px}
+  }
+
   /* ---------- abas 2D / 3D ---------- */
   .modos{display:flex; gap:2px; margin-right:14px}
   .modos button{
@@ -603,7 +647,7 @@ window.urlRecurso = function (nome) {
 <header>
   <div class="wrap head">
     <div class="id">
-      <p class="eyebrow">Projeto arquitetônico · revisão R75 · coordenação</p>
+      <p class="eyebrow">Projeto arquitetônico · revisão R76 · coordenação</p>
       <h1>Porto Real</h1>
       <p>Residência unifamiliar · Manaus/AM · SU16 Tarumã <span style="color:var(--ink-faint)">(H)</span>
          · lote 20,00 × 40,00 m · Light Steel Frame sobre radier</p>
@@ -620,7 +664,7 @@ window.urlRecurso = function (nome) {
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>44,1 <span>kVA · 125 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>658 <span>condições · 1 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>658 <span>condições · 2 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>69 <span>· A1</span></dd></div>
   </dl>
@@ -849,6 +893,7 @@ window.urlRecurso = function (nome) {
       <li><span class="r">R73</span><span>CONDENSADORAS SEM VIBRACAO. O proprietario pediu 'area tecnica para nao ficar trepidando'. Numa casa de light steel frame a parede e leve e vira caixa de som: nenhuma condensadora em mao-francesa — todas no piso do nicho sobre base de concreto e isoladores de borracha, sem contato com o LSF; bomba de recalque e pressurizador sobre coxins com conexoes flexiveis. nucleo/gas.ruido calcula o nivel de cada nicho e bomba na janela de cada dormitorio e dentro com a janela fechada (limite 35 dB(A), NBR 10152): pior caso 14 dB(A) dentro; com a janela aberta o quarto reversivel recebe 41 dB(A) da bomba de recalque a 2,9 m — ela e intermitente, e fica registrado</span></li>
       <li><span class="r">R74</span><span>LOTE 4 DO BACKLOG: DADOS, CFTV, ALARME, AUTOMACAO E INCENDIO. nucleo/seguranca deriva 13 pontos de dados, 3 APs com cobertura conferida, 8 cameras com o que cada uma olha, sensor magnetico em todo vao externo, IVP nas passagens, videoporteiro e fechaduras, automacao Zigbee por circuito de iluminacao social com cortinas motorizadas e 4 cenas, extintor por pavimento e detector em todo dormitorio. PR-65 e 66, auditoria 146. 25 itens da matriz saem do backlog</span></li>
       <li><span class="r">R75</span><span>LOTE 5 DO BACKLOG: COMPLEMENTOS DO LSF. nucleo/detalhes_lsf poe em planta os 14 paineis com fita X com hold-down e chumbador (PR-67, com as tolerancias de montagem), loca os 13 itens pendurados da marcenaria na parede que os recebe com reforco de OSB, deriva os 12 encontros em T, detalha rodape e junta de movimentacao (PR-68), pagina a fachada pelo nesting da casa inteira e desenha a explodida dos paineis externos (PR-69). Auditoria 147. 13 itens da matriz saem do backlog</span></li>
+      <li><span class="r">R76</span><span>VISUALIZADOR PARA CELULAR. Indicadores em faixa rolavel, indice num &lt;select&gt; que espelha os botoes (pranchas, vistas e cenas), barra enxuta com os controles avancados atras de um botao, prancha aberta sem moldura, pinca no 2D e no 3D, ficha em folha inferior, tabelas rolando no proprio conteiner. Nada muda no desktop. Tres verificacoes novas a 390 px</span></li>
       </ol>
     </div>
     <div>
@@ -1047,20 +1092,45 @@ stage.addEventListener("wheel", e => {
 }, {passive: false});
 
 let arr = null;
+// dois dedos: pinca. O mapa guarda cada ponteiro; com dois, o zoom segue a
+// razao das distancias e o deslocamento segue o ponto medio
+const dedos = new Map();
+let pinca = null;
 stage.addEventListener("pointerdown", e => {
   if (medindo) return;
   stage.setPointerCapture(e.pointerId);
+  dedos.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  if (dedos.size === 2) {
+    const [a, b] = [...dedos.values()];
+    pinca = {d0: Math.hypot(a.x - b.x, a.y - b.y) || 1, esc0: escala,
+             mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2};
+    arr = null;
+    return;
+  }
   arr = {x: e.clientX, y: e.clientY, tx, ty, mov: false};
   stage.classList.add("dragging");
 });
 stage.addEventListener("pointermove", e => {
+  if (dedos.has(e.pointerId)) dedos.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  if (pinca && dedos.size === 2) {
+    const [a, b] = [...dedos.values()];
+    const d = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+    zoomPara(pinca.esc0 * d / pinca.d0, mx, my);
+    tx += mx - pinca.mx; ty += my - pinca.my;
+    pinca.mx = mx; pinca.my = my;
+    aplicar();
+    return;
+  }
   if (!arr) return;
   if (Math.abs(e.clientX - arr.x) + Math.abs(e.clientY - arr.y) > 3) arr.mov = true;
   tx = arr.tx + (e.clientX - arr.x);
   ty = arr.ty + (e.clientY - arr.y);
   aplicar();
 });
-["pointerup", "pointercancel"].forEach(ev => stage.addEventListener(ev, () => {
+["pointerup", "pointercancel"].forEach(ev => stage.addEventListener(ev, e => {
+  dedos.delete(e.pointerId);
+  if (dedos.size < 2) pinca = null;
   arr = null; stage.classList.remove("dragging");
 }));
 stage.addEventListener("dblclick", e => { if (!medindo) passo(1, e.clientX, e.clientY); });
@@ -1577,13 +1647,30 @@ function montar3D(dados) {
 
   // ---- orbita, pan e dolly
   let ar = null;
+  const dedos = new Map();
+  let pinca = null;
   el.addEventListener("pointerdown", ev => {
     el.setPointerCapture(ev.pointerId);
+    dedos.set(ev.pointerId, {x: ev.clientX, y: ev.clientY});
+    if (dedos.size === 2) {
+      const [a, b] = [...dedos.values()];
+      pinca = {d0: Math.hypot(a.x - b.x, a.y - b.y) || 1, dist0: R.dist};
+      ar = null;
+      return;
+    }
     ar = {x: ev.clientX, y: ev.clientY, az: R.azim, el: R.elev,
           alvo: R.alvo.clone(), pan: ev.shiftKey || ev.button === 1};
     el.classList.add("dragging");
   });
   el.addEventListener("pointermove", ev => {
+    if (dedos.has(ev.pointerId)) dedos.set(ev.pointerId, {x: ev.clientX, y: ev.clientY});
+    if (pinca && dedos.size === 2) {
+      const [a, b] = [...dedos.values()];
+      const d = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+      R.dist = Math.min(90000, Math.max(3000, pinca.dist0 * pinca.d0 / d));
+      render();
+      return;
+    }
     if (!ar) return;
     const dx = ev.clientX - ar.x, dy = ev.clientY - ar.y;
     if (ar.pan) {
@@ -1597,7 +1684,9 @@ function montar3D(dados) {
     }
     render();
   });
-  ["pointerup", "pointercancel"].forEach(e2 => el.addEventListener(e2, () => {
+  ["pointerup", "pointercancel"].forEach(e2 => el.addEventListener(e2, ev => {
+    dedos.delete(ev.pointerId);
+    if (dedos.size < 2) pinca = null;
     ar = null; el.classList.remove("dragging");
   }));
   el.addEventListener("wheel", ev => {
@@ -4252,6 +4341,75 @@ document.getElementById("prev").onclick = () => mostrar(idxPrancha - 1);
 document.getElementById("next").onclick = () => mostrar(idxPrancha + 1);
 
 mostrar(1);
+</script>
+
+<script>
+// R76 — navegacao de celular: um <select> que espelha o indice visivel (pranchas,
+// vistas de engenharia ou cenas 3D) e dois botoes de passo. Le os botoes do
+// proprio indice; nao ha segunda lista para divergir.
+(function () {
+  const bar = document.querySelector(".toolbar");
+  if (!bar) return;
+  const box = document.createElement("div");
+  box.className = "selnav";
+  box.innerHTML = `<button class="btn" id="navPrev" type="button" aria-label="Anterior">◀</button>
+    <select id="selNav" aria-label="Ir para"></select>
+    <button class="btn" id="navNext" type="button" aria-label="Próximo">▶</button>
+    <button class="btn" id="navPaineis" type="button" aria-pressed="false"
+            title="Camadas, busca, sol e medição">☰</button>`;
+  bar.appendChild(box);
+  const sel = box.querySelector("#selNav");
+  const caixa = document.querySelector(".stage-box");
+  box.querySelector("#navPaineis").onclick = ev => {
+    const on = !caixa.classList.contains("paineis");
+    caixa.classList.toggle("paineis", on);
+    ev.currentTarget.setAttribute("aria-pressed", on ? "true" : "false");
+  };
+  function fonte() {
+    for (const id of ["rail2d", "railEng", "rail3d"]) {
+      const d = document.getElementById(id);
+      if (d && !d.hidden) return d;
+    }
+    return document.getElementById("rail2d");
+  }
+  let enchendo = false;
+  function encher() {
+    if (enchendo) return;
+    enchendo = true;
+    const bs = [...fonte().querySelectorAll("button")];
+    const rotulo = b => {
+      const partes = [...b.children].map(c => c.textContent.replace(/\s+/g, " ").trim()).filter(Boolean);
+      return (partes.length ? partes.join(" · ") : b.textContent.replace(/\s+/g, " ").trim()).slice(0, 64);
+    };
+    sel.innerHTML = bs.map((b, i) =>
+      `<option value="${i}" ${b.getAttribute("aria-current") === "true" ? "selected" : ""}>${rotulo(b)}</option>`).join("");
+    enchendo = false;
+  }
+  sel.addEventListener("change", () => {
+    const b = [...fonte().querySelectorAll("button")][+sel.value];
+    if (b) { b.click(); setTimeout(encher, 80); }
+  });
+  function passoNav(k) {
+    const i = +sel.value + k;
+    if (i >= 0 && i < sel.options.length) { sel.value = i; sel.dispatchEvent(new Event("change")); }
+  }
+  box.querySelector("#navPrev").onclick = () => passoNav(-1);
+  box.querySelector("#navNext").onclick = () => passoNav(1);
+  const mo = new MutationObserver(() => encher());
+  ["rail2d", "railEng", "rail3d"].forEach(id => {
+    const d = document.getElementById(id);
+    if (d) mo.observe(d, {attributes: true, subtree: true, childList: true,
+                          attributeFilter: ["aria-current", "hidden"]});
+  });
+  document.querySelectorAll("button[data-modo]").forEach(b => b.addEventListener("click", () => setTimeout(encher, 60)));
+  encher();
+  // no celular a prancha abre "sem moldura": a moldura e o carimbo cabem numa
+  // tela de 1.440 px, num visor de 390 so tiram espaco do desenho
+  if (matchMedia("(max-width:860px)").matches) {
+    const sm = document.getElementById("semmold");
+    if (sm && sm.getAttribute("aria-pressed") !== "true") setTimeout(() => sm.click(), 400);
+  }
+})();
 </script>
 
 </body>

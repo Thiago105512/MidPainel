@@ -5805,3 +5805,30 @@ dos painéis externos (PR-69) usa a mesma projeção isométrica das redes.
 **Estado em R75:** 147 auditorias, 0 erros; 212 verificações do visualizador,
 0 falhas; 69 pranchas. Matriz: 460 distintos, 350 TEM + 45 NA = **86 %**,
 37 PARCIAL, **17 FALTA**, 11 EXTERNO. BOM inalterado.
+
+## R76 — O caderno na mão: visualizador para celular
+
+O proprietário lê o caderno no telefone. A página já não rolava de lado
+(R51), mas abria com uma tela inteira de indicadores antes do desenho, uma
+fita horizontal de 69 botões como índice, a prancha inteira de A1 em 390 px
+e nenhum zoom de pinça. Nada aqui muda o desktop; tudo está atrás de
+`@media (max-width: 860px)`.
+
+| O que era | O que ficou |
+|---|---|
+| 8 indicadores em duas colunas, uma tela inteira | faixa horizontal rolável, meia tela |
+| fita de 69 botões (e de 21 vistas, e de 8 cenas) | um `<select>` que espelha o índice visível, com setas — lê os botões do próprio índice, não há segunda lista para divergir |
+| barra com 10 botões em três linhas | modos + zoom + seletor; setas de prancha, "sem moldura" e "medir" atrás do botão ☰, junto com as camadas, a busca e o sol do 3D |
+| prancha inteira com moldura e carimbo, ilegível | abre "sem moldura": o desenho ocupa a largura; moldura e carimbo cabem em 1.440 px, não em 390 |
+| só arrastar | pinça no 2D (zoom pela razão das distâncias, deslocamento pelo ponto médio) e no 3D |
+| ficha do elemento à direita, cobrindo o desenho | folha inferior, 46 % da altura |
+| tabelas de engenharia cortadas | rolam dentro do próprio contêiner |
+
+O teste do visualizador ganhou três verificações no visor de 390 px: o
+seletor lista as 69 pranchas, escolher a 34 abre a 34, e a página continua
+sem rolagem lateral com o seletor. Um defeito do próprio teste apareceu na
+primeira execução: ele clicava botões do índice que no celular não estão
+visíveis — passava porque testava só o desktop.
+
+**Estado em R76:** 147 auditorias, 0 erros; 215 verificações do visualizador,
+0 falhas; 69 pranchas; matriz 86 %.

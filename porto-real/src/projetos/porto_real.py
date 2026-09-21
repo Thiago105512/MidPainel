@@ -3901,6 +3901,11 @@ REVISOES = [
      "detalha rodape e junta de movimentacao (PR-68), pagina a fachada pelo "
      "nesting da casa inteira e desenha a explodida dos paineis externos "
      "(PR-69). Auditoria 147. 13 itens da matriz saem do backlog"),
+    ("R76", "VISUALIZADOR PARA CELULAR. Indicadores em faixa rolavel, indice "
+     "num <select> que espelha os botoes (pranchas, vistas e cenas), barra "
+     "enxuta com os controles avancados atras de um botao, prancha aberta sem "
+     "moldura, pinca no 2D e no 3D, ficha em folha inferior, tabelas rolando no "
+     "proprio conteiner. Nada muda no desktop. Tres verificacoes novas a 390 px"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4107,13 +4112,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R75",
+    revisao="R76",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R75", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R76", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

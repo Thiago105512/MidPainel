@@ -306,6 +306,50 @@ HEAD = r'''<title>Caderno Porto Real</title>
   .colofon code{font-family:var(--mono); font-size:11.5px; color:var(--ink-soft)}
   .colofon + .colofon{margin-top:10px}
   @media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }
+
+  /* ---------- celular (R76): o caderno cabe na mao ----------
+     A pagina ja nao rolava de lado; o que faltava era o desenho comecar
+     acima da dobra, uma navegacao que nao fosse uma fita de 69 botoes e
+     zoom de pinca. Nada aqui muda o desktop. */
+  .selnav{display:none}
+  @media (max-width:860px){
+    .wrap{padding-inline:14px}
+    .head{padding-block:12px 10px; gap:8px}
+    .head h1{font-size:26px; margin:2px 0}
+    .stamp{max-width:none; font-size:10.5px; padding:6px 10px}
+    .figures{display:flex; overflow-x:auto; scroll-snap-type:x proximity;
+             -webkit-overflow-scrolling:touch; scrollbar-width:thin}
+    .fig{flex:0 0 46%; scroll-snap-align:start; padding:9px 12px}
+    .fig dd{font-size:16px}
+    .rail{display:none}
+    .work{padding-block:10px 20px; gap:12px}
+    .stage-box{margin-inline:-6px}
+    .toolbar{position:sticky; top:env(safe-area-inset-top,0px); z-index:6;
+             background:var(--surface); gap:6px; padding:7px 8px}
+    .toolbar .title{flex:1 1 100%; order:-1; font-size:14px}
+    .btn{padding:7px 9px; font-size:11px; min-height:38px}
+    .selnav{display:flex; gap:6px; flex:1 1 100%; align-items:stretch; min-width:0; width:100%}
+    .selnav select{flex:1 1 0; width:100%; min-width:0; font-family:var(--mono); font-size:12px;
+      padding:8px; border:1px solid var(--rule); border-radius:2px;
+      background:var(--surface); color:var(--ink); min-height:38px}
+    /* no celular a barra guarda so o essencial: setas de prancha, "sem
+       moldura" e "medir" ficam atras do botao Paineis, com as camadas */
+    #prev, #next, #semmold, #medir{display:none}
+    #barra2, .hud, .leitura{display:none !important}
+    .stage-box.paineis #barra2, .stage-box.paineis .leitura{display:block !important}
+    .stage-box.paineis .hud{display:flex !important}
+    .stage-box.paineis #semmold, .stage-box.paineis #medir{display:inline-block}
+    .selnav .btn[aria-pressed="true"]{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
+    .stage{height:calc(100svh - 200px); min-height:360px}
+    .stage3d{height:calc(100svh - 200px) !important; min-height:360px}
+    .ficha{top:auto; bottom:0; left:0; right:0; width:auto; max-height:46%;
+           border-radius:6px 6px 0 0}
+    .leitura{max-width:72%; font-size:11px}
+    #engConteudo table{display:block; overflow-x:auto; max-width:100%; white-space:nowrap}
+    .cartoes{grid-template-columns:repeat(2,1fr)}
+    .modos-leitura{margin-left:0; flex-wrap:wrap}
+    .hint{font-size:10px}
+  }
 __CSS_EXTRA__
 __CSS_2D__
 __CSS_ENG__
@@ -524,6 +568,75 @@ document.getElementById("prev").onclick = () => mostrar(idxPrancha - 1);
 document.getElementById("next").onclick = () => mostrar(idxPrancha + 1);
 
 mostrar(1);
+</script>
+
+<script>
+// R76 — navegacao de celular: um <select> que espelha o indice visivel (pranchas,
+// vistas de engenharia ou cenas 3D) e dois botoes de passo. Le os botoes do
+// proprio indice; nao ha segunda lista para divergir.
+(function () {
+  const bar = document.querySelector(".toolbar");
+  if (!bar) return;
+  const box = document.createElement("div");
+  box.className = "selnav";
+  box.innerHTML = `<button class="btn" id="navPrev" type="button" aria-label="Anterior">◀</button>
+    <select id="selNav" aria-label="Ir para"></select>
+    <button class="btn" id="navNext" type="button" aria-label="Próximo">▶</button>
+    <button class="btn" id="navPaineis" type="button" aria-pressed="false"
+            title="Camadas, busca, sol e medição">☰</button>`;
+  bar.appendChild(box);
+  const sel = box.querySelector("#selNav");
+  const caixa = document.querySelector(".stage-box");
+  box.querySelector("#navPaineis").onclick = ev => {
+    const on = !caixa.classList.contains("paineis");
+    caixa.classList.toggle("paineis", on);
+    ev.currentTarget.setAttribute("aria-pressed", on ? "true" : "false");
+  };
+  function fonte() {
+    for (const id of ["rail2d", "railEng", "rail3d"]) {
+      const d = document.getElementById(id);
+      if (d && !d.hidden) return d;
+    }
+    return document.getElementById("rail2d");
+  }
+  let enchendo = false;
+  function encher() {
+    if (enchendo) return;
+    enchendo = true;
+    const bs = [...fonte().querySelectorAll("button")];
+    const rotulo = b => {
+      const partes = [...b.children].map(c => c.textContent.replace(/\s+/g, " ").trim()).filter(Boolean);
+      return (partes.length ? partes.join(" · ") : b.textContent.replace(/\s+/g, " ").trim()).slice(0, 64);
+    };
+    sel.innerHTML = bs.map((b, i) =>
+      `<option value="${i}" ${b.getAttribute("aria-current") === "true" ? "selected" : ""}>${rotulo(b)}</option>`).join("");
+    enchendo = false;
+  }
+  sel.addEventListener("change", () => {
+    const b = [...fonte().querySelectorAll("button")][+sel.value];
+    if (b) { b.click(); setTimeout(encher, 80); }
+  });
+  function passoNav(k) {
+    const i = +sel.value + k;
+    if (i >= 0 && i < sel.options.length) { sel.value = i; sel.dispatchEvent(new Event("change")); }
+  }
+  box.querySelector("#navPrev").onclick = () => passoNav(-1);
+  box.querySelector("#navNext").onclick = () => passoNav(1);
+  const mo = new MutationObserver(() => encher());
+  ["rail2d", "railEng", "rail3d"].forEach(id => {
+    const d = document.getElementById(id);
+    if (d) mo.observe(d, {attributes: true, subtree: true, childList: true,
+                          attributeFilter: ["aria-current", "hidden"]});
+  });
+  document.querySelectorAll("button[data-modo]").forEach(b => b.addEventListener("click", () => setTimeout(encher, 60)));
+  encher();
+  // no celular a prancha abre "sem moldura": a moldura e o carimbo cabem numa
+  // tela de 1.440 px, num visor de 390 so tiram espaco do desenho
+  if (matchMedia("(max-width:860px)").matches) {
+    const sm = document.getElementById("semmold");
+    if (sm && sm.getAttribute("aria-pressed") !== "true") setTimeout(() => sm.click(), 400);
+  }
+})();
 </script>
 '''
 

@@ -257,13 +257,30 @@ function montar3D(dados) {
 
   // ---- orbita, pan e dolly
   let ar = null;
+  const dedos = new Map();
+  let pinca = null;
   el.addEventListener("pointerdown", ev => {
     el.setPointerCapture(ev.pointerId);
+    dedos.set(ev.pointerId, {x: ev.clientX, y: ev.clientY});
+    if (dedos.size === 2) {
+      const [a, b] = [...dedos.values()];
+      pinca = {d0: Math.hypot(a.x - b.x, a.y - b.y) || 1, dist0: R.dist};
+      ar = null;
+      return;
+    }
     ar = {x: ev.clientX, y: ev.clientY, az: R.azim, el: R.elev,
           alvo: R.alvo.clone(), pan: ev.shiftKey || ev.button === 1};
     el.classList.add("dragging");
   });
   el.addEventListener("pointermove", ev => {
+    if (dedos.has(ev.pointerId)) dedos.set(ev.pointerId, {x: ev.clientX, y: ev.clientY});
+    if (pinca && dedos.size === 2) {
+      const [a, b] = [...dedos.values()];
+      const d = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+      R.dist = Math.min(90000, Math.max(3000, pinca.dist0 * pinca.d0 / d));
+      render();
+      return;
+    }
     if (!ar) return;
     const dx = ev.clientX - ar.x, dy = ev.clientY - ar.y;
     if (ar.pan) {
@@ -277,7 +294,9 @@ function montar3D(dados) {
     }
     render();
   });
-  ["pointerup", "pointercancel"].forEach(e2 => el.addEventListener(e2, () => {
+  ["pointerup", "pointercancel"].forEach(e2 => el.addEventListener(e2, ev => {
+    dedos.delete(ev.pointerId);
+    if (dedos.size < 2) pinca = null;
     ar = null; el.classList.remove("dragging");
   }));
   el.addEventListener("wheel", ev => {

@@ -244,20 +244,45 @@ stage.addEventListener("wheel", e => {
 }, {passive: false});
 
 let arr = null;
+// dois dedos: pinca. O mapa guarda cada ponteiro; com dois, o zoom segue a
+// razao das distancias e o deslocamento segue o ponto medio
+const dedos = new Map();
+let pinca = null;
 stage.addEventListener("pointerdown", e => {
   if (medindo) return;
   stage.setPointerCapture(e.pointerId);
+  dedos.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  if (dedos.size === 2) {
+    const [a, b] = [...dedos.values()];
+    pinca = {d0: Math.hypot(a.x - b.x, a.y - b.y) || 1, esc0: escala,
+             mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2};
+    arr = null;
+    return;
+  }
   arr = {x: e.clientX, y: e.clientY, tx, ty, mov: false};
   stage.classList.add("dragging");
 });
 stage.addEventListener("pointermove", e => {
+  if (dedos.has(e.pointerId)) dedos.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  if (pinca && dedos.size === 2) {
+    const [a, b] = [...dedos.values()];
+    const d = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+    zoomPara(pinca.esc0 * d / pinca.d0, mx, my);
+    tx += mx - pinca.mx; ty += my - pinca.my;
+    pinca.mx = mx; pinca.my = my;
+    aplicar();
+    return;
+  }
   if (!arr) return;
   if (Math.abs(e.clientX - arr.x) + Math.abs(e.clientY - arr.y) > 3) arr.mov = true;
   tx = arr.tx + (e.clientX - arr.x);
   ty = arr.ty + (e.clientY - arr.y);
   aplicar();
 });
-["pointerup", "pointercancel"].forEach(ev => stage.addEventListener(ev, () => {
+["pointerup", "pointercancel"].forEach(ev => stage.addEventListener(ev, e => {
+  dedos.delete(e.pointerId);
+  if (dedos.size < 2) pinca = null;
   arr = null; stage.classList.remove("dragging");
 }));
 stage.addEventListener("dblclick", e => { if (!medindo) passo(1, e.clientX, e.clientY); });
