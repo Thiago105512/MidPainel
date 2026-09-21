@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="54" data-rev="R81">
+<g data-tipo="carimbo" data-cod="54" data-rev="R82">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R81</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R82</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">54</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R81</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R82</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -379,15 +379,25 @@
 <text x="51.000" y="499.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:100</text>
 <line x1="40.000" y1="501.600" x2="90.900" y2="501.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <g data-tipo="piso" data-cod="S-S02" data-piso="porcelanato retificado 900 x 9">
-<polygon points="300.000,410.000 354.000,410.000 354.000,362.000 300.000,362.000" stroke="#777" stroke-width="0.3" fill="#e9e6df" stroke-linejoin="miter"/>
+<polygon points="300.000,470.000 354.000,470.000 354.000,422.000 300.000,422.000" stroke="#777" stroke-width="0.3" fill="#e9e6df" stroke-linejoin="miter"/>
 </g>
-<text x="327.000" y="384.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>
-<text x="327.000" y="387.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">porcelanato retificado 900</text>
+<text x="327.000" y="444.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>
+<text x="327.000" y="447.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">porcelanato retificado 900</text>
 <g data-tipo="piso" data-cod="S-S03" data-piso="porcelanato retificado 900 x 9">
-<polygon points="300.000,362.000 354.000,362.000 354.000,314.000 300.000,314.000" stroke="#777" stroke-width="0.3" fill="#e9e6df" stroke-linejoin="miter"/>
+<polygon points="354.000,470.000 408.000,470.000 408.000,422.000 354.000,422.000" stroke="#777" stroke-width="0.3" fill="#e9e6df" stroke-linejoin="miter"/>
 </g>
-<text x="327.000" y="336.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 03</text>
-<text x="327.000" y="339.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">porcelanato retificado 900</text>
+<text x="381.000" y="444.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE 03</text>
+<text x="381.000" y="447.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">porcelanato retificado 900</text>
+<g data-tipo="piso" data-cod="S-CIR" data-piso="porcelanato retificado 900 x 9">
+<polygon points="354.000,410.000 366.000,410.000 366.000,374.000 354.000,374.000" stroke="#777" stroke-width="0.3" fill="#e9e6df" stroke-linejoin="miter"/>
+</g>
+<text x="360.000" y="390.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CIRCULACAO SUPERIOR</text>
+<text x="360.000" y="393.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">porcelanato retificado 900</text>
+<g data-tipo="piso" data-cod="S-CI2" data-piso="porcelanato retificado 900 x 9">
+<polygon points="345.000,422.000 390.000,422.000 390.000,410.000 345.000,410.000" stroke="#777" stroke-width="0.3" fill="#e9e6df" stroke-linejoin="miter"/>
+</g>
+<text x="367.500" y="414.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CORREDOR DAS SUITES</text>
+<text x="367.500" y="417.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">porcelanato retificado 900</text>
 <g data-tipo="piso" data-cod="S-HAL" data-piso="porcelanato retificado 900 x 9">
 <polygon points="354.000,374.000 402.000,374.000 402.000,350.000 354.000,350.000" stroke="#777" stroke-width="0.3" fill="#e9e6df" stroke-linejoin="miter"/>
 </g>
@@ -403,36 +413,36 @@
 </g>
 <text x="393.000" y="318.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">SUITE MASTER</text>
 <text x="393.000" y="321.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">porcelanato retificado 900</text>
-<polygon points="300.000,410.000 318.000,410.000 318.000,386.000 300.000,386.000" stroke="#888" stroke-width="0.18" fill="#dfe4e6" stroke-linejoin="miter"/>
-<polygon points="300.000,362.000 318.000,362.000 318.000,338.000 300.000,338.000" stroke="#888" stroke-width="0.18" fill="#dfe4e6" stroke-linejoin="miter"/>
+<polygon points="336.000,470.000 354.000,470.000 354.000,446.000 336.000,446.000" stroke="#888" stroke-width="0.18" fill="#dfe4e6" stroke-linejoin="miter"/>
+<polygon points="390.000,446.000 408.000,446.000 408.000,422.000 390.000,422.000" stroke="#888" stroke-width="0.18" fill="#dfe4e6" stroke-linejoin="miter"/>
 <polygon points="366.000,350.000 402.000,350.000 402.000,320.000 366.000,320.000" stroke="#888" stroke-width="0.18" fill="#dfe4e6" stroke-linejoin="miter"/>
 <polygon points="402.000,350.000 432.000,350.000 432.000,320.000 402.000,320.000" stroke="#888" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
 <polygon points="414.000,320.000 432.000,320.000 432.000,290.000 414.000,290.000" stroke="#888" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
 <g data-tipo="louca" data-cod="LC-04" data-familia="vaso" data-amb="S-S02" data-larg="400" data-prof="650">
-<polygon points="302.000,408.500 306.000,408.500 306.000,407.000 302.000,407.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="304.000" cy="404.700" r="2.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="338.000,468.500 342.000,468.500 342.000,467.000 338.000,467.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="340.000" cy="464.700" r="2.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="louca" data-cod="LC-05" data-familia="lavatorio" data-amb="S-S02" data-larg="700" data-prof="450">
-<polygon points="308.500,408.500 315.500,408.500 315.500,404.000 308.500,404.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="312.000" cy="406.250" r="1.350" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="344.500,468.500 351.500,468.500 351.500,464.000 344.500,464.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="348.000" cy="466.250" r="1.350" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="louca" data-cod="LC-06" data-familia="box" data-amb="S-S02" data-larg="900" data-prof="1000">
-<polygon points="301.500,397.000 310.500,397.000 310.500,387.000 301.500,387.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="306.000" cy="392.000" r="0.900" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="301.500" y1="397.000" x2="310.500" y2="387.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polygon points="337.500,457.000 346.500,457.000 346.500,447.000 337.500,447.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="342.000" cy="452.000" r="0.900" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="337.500" y1="457.000" x2="346.500" y2="447.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="louca" data-cod="LC-07" data-familia="vaso" data-amb="S-S03" data-larg="400" data-prof="650">
-<polygon points="302.000,360.500 306.000,360.500 306.000,359.000 302.000,359.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="304.000" cy="356.700" r="2.000" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="392.000,444.500 396.000,444.500 396.000,443.000 392.000,443.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="394.000" cy="440.700" r="2.000" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="louca" data-cod="LC-08" data-familia="lavatorio" data-amb="S-S03" data-larg="700" data-prof="450">
-<polygon points="308.500,360.500 315.500,360.500 315.500,356.000 308.500,356.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
-<circle cx="312.000" cy="358.250" r="1.350" stroke="#000000" stroke-width="0.18" fill="none"/>
+<polygon points="398.500,444.500 405.500,444.500 405.500,440.000 398.500,440.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<circle cx="402.000" cy="442.250" r="1.350" stroke="#000000" stroke-width="0.18" fill="none"/>
 </g>
 <g data-tipo="louca" data-cod="LC-09" data-familia="box" data-amb="S-S03" data-larg="900" data-prof="1000">
-<polygon points="301.500,349.000 310.500,349.000 310.500,339.000 301.500,339.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<circle cx="306.000" cy="344.000" r="0.900" stroke="#000000" stroke-width="0.18" fill="none"/>
-<line x1="301.500" y1="349.000" x2="310.500" y2="339.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polygon points="391.500,433.000 400.500,433.000 400.500,423.000 391.500,423.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<circle cx="396.000" cy="428.000" r="0.900" stroke="#000000" stroke-width="0.18" fill="none"/>
+<line x1="391.500" y1="433.000" x2="400.500" y2="423.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="louca" data-cod="LC-10" data-familia="vaso" data-amb="S-MAS" data-larg="400" data-prof="650">
 <polygon points="375.000,349.000 379.000,349.000 379.000,347.500 375.000,347.500" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
@@ -451,23 +461,23 @@
 <polygon points="360.000,374.000 402.000,374.000 402.000,368.000 360.000,368.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="marcenaria" data-cod="AR-12" data-familia="guarda-roupa" data-amb="S-S02" data-larg="600" data-prof="2400">
-<polygon points="300.000,386.000 306.000,386.000 306.000,362.000 300.000,362.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
+<polygon points="300.000,470.000 306.000,470.000 306.000,446.000 300.000,446.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="marcenaria" data-cod="AR-13" data-familia="guarda-roupa" data-amb="S-S03" data-larg="600" data-prof="2400">
-<polygon points="300.000,338.000 306.000,338.000 306.000,314.000 300.000,314.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
+<g data-tipo="marcenaria" data-cod="AR-13" data-familia="guarda-roupa" data-amb="S-S03" data-larg="2400" data-prof="600">
+<polygon points="354.000,428.000 378.000,428.000 378.000,422.000 354.000,422.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="marcenaria" data-cod="AR-14" data-familia="gaveteiro" data-amb="S-MAS" data-larg="1000" data-prof="600">
 <polygon points="412.000,338.000 422.000,338.000 422.000,332.000 412.000,332.000" stroke="#000000" stroke-width="0.18" fill="#f1ede4" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="layout" data-cod="LY-10" data-amb="S-S02" data-peca="cama" data-larg="2000" data-prof="1600">
-<polygon points="333.250,402.000 353.250,402.000 353.250,386.000 333.250,386.000" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>
-<polygon points="348.750,402.000 353.250,402.000 353.250,386.000 348.750,386.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<line x1="346.250" y1="402.000" x2="346.250" y2="386.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<g data-tipo="layout" data-cod="LY-10" data-amb="S-S02" data-peca="cama" data-larg="1600" data-prof="2000">
+<polygon points="310.000,442.750 326.000,442.750 326.000,422.750 310.000,422.750" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>
+<polygon points="310.000,427.250 326.000,427.250 326.000,422.750 310.000,422.750" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<line x1="310.000" y1="429.750" x2="326.000" y2="429.750" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="layout" data-cod="LY-11" data-amb="S-S03" data-peca="cama" data-larg="2000" data-prof="1600">
-<polygon points="333.250,338.000 353.250,338.000 353.250,322.000 333.250,322.000" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>
-<polygon points="348.750,338.000 353.250,338.000 353.250,322.000 348.750,322.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<line x1="346.250" y1="338.000" x2="346.250" y2="322.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polygon points="354.750,456.000 374.750,456.000 374.750,440.000 354.750,440.000" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>
+<polygon points="354.750,456.000 359.250,456.000 359.250,440.000 354.750,440.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<line x1="361.750" y1="456.000" x2="361.750" y2="440.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 </g>
 <g data-tipo="layout" data-cod="LY-12" data-amb="S-MAS" data-peca="cama" data-larg="1930" data-prof="2030">
 <polygon points="386.350,311.300 405.650,311.300 405.650,291.000 386.350,291.000" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>

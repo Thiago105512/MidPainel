@@ -45,6 +45,11 @@ import nucleo.verificacao as vr
 VAO_MAX_LAJE = 4_500.0     # mm
 
 
+# R82 — pilares declarados pelo caso (x, y); liberacao.rodar preenche antes
+# de dimensionar. Vazio = nenhum pilar, como antes.
+PILARES_XY: set = set()
+
+
 def contexto(paineis, acima_de: dict = None) -> dict:
     """Geometria de influencia de cada painel, como DADO devolvido.
 
@@ -208,8 +213,17 @@ def esforco_por_montante(p, ctx: dict, cargas: dict, cfg: pn.Config,
     a = acoes_sobre(p, ctx, cargas, cfg)
     mod_m = cfg.modulacao / 1000.0
 
-    # o king stud mais solicitado: metade do maior vao de abertura, de cada lado
-    maior_vao = max((ab["larg"] for ab in p.aberturas), default=0) / 1000.0
+    # o king stud mais solicitado: metade do maior vao de abertura, de cada lado.
+    # R82 — abertura cujas DUAS jambas caem sobre pilar declarado (PILARES_XY)
+    # nao carrega o king stud: a verga entrega no pilar, e e ele que se verifica
+    maior_vao = 0.0
+    for ab in p.aberturas:
+        x0 = ab["centro"] - ab["larg"] / 2; x1 = ab["centro"] + ab["larg"] / 2
+        jambas = [((p.x + x0, p.y), (p.x + x1, p.y)) if p.horizontal else ((p.x, p.y + x0), (p.x, p.y + x1))][0]
+        if PILARES_XY and all(any(abs(px - jx) <= 300 and abs(py - jy) <= 300 for px, py in PILARES_XY) for jx, jy in jambas):
+            continue
+        maior_vao = max(maior_vao, ab["larg"])
+    maior_vao /= 1000.0
     larg_king = mod_m / 2 + maior_vao / 2
 
     saida = {}

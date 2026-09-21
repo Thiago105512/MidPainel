@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="66" data-rev="R81">
+<g data-tipo="carimbo" data-cod="66" data-rev="R82">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,18 +26,18 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R81</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R82</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">66</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R81</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R82</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="492.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
 <text x="656.000" y="497.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- residencia unifamiliar: dispensada de projeto de prevencao (CBM-AM); o que esta aqui e boa pratica, nao exigencia — e por isso e declarado assim</text>
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 3 x extintor ABC 4 kg, a 1,60 m do piso, sinalizado: garagem, cozinha e hall superior — um por pavimento mais a garagem.</text>
-<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 10 detectores: fumaca em cada dormitorio e circulacao (detector de fumaca autonomo a bateria com interligacao sem fio); calor na cozinha.</text>
+<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 12 detectores: fumaca em cada dormitorio e circulacao (detector de fumaca autonomo a bateria com interligacao sem fio); calor na cozinha.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Manta antichamas na cozinha e no gourmet; detector de GLP junto ao cooktop com corte na central (PR-64).</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Simbolos: E extintor · F detector de fumaca · Q detector de calor.</text>
 </g>
@@ -245,12 +245,20 @@
 <text x="51.000" y="499.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:100</text>
 <line x1="40.000" y1="501.600" x2="86.700" y2="501.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <g data-tipo="ambiente" data-cod="S-S02" data-rot="SUITE 02">
-<polygon points="270.000,410.000 324.000,410.000 324.000,362.000 270.000,362.000" stroke="#bbb" stroke-width="0.18" fill="#fbfaf7" stroke-linejoin="miter"/>
-<text x="297.000" y="387.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">S-S02</text>
+<polygon points="270.000,470.000 324.000,470.000 324.000,422.000 270.000,422.000" stroke="#bbb" stroke-width="0.18" fill="#fbfaf7" stroke-linejoin="miter"/>
+<text x="297.000" y="447.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">S-S02</text>
 </g>
 <g data-tipo="ambiente" data-cod="S-S03" data-rot="SUITE 03">
-<polygon points="270.000,362.000 324.000,362.000 324.000,314.000 270.000,314.000" stroke="#bbb" stroke-width="0.18" fill="#fbfaf7" stroke-linejoin="miter"/>
-<text x="297.000" y="339.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">S-S03</text>
+<polygon points="324.000,470.000 378.000,470.000 378.000,422.000 324.000,422.000" stroke="#bbb" stroke-width="0.18" fill="#fbfaf7" stroke-linejoin="miter"/>
+<text x="351.000" y="447.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">S-S03</text>
+</g>
+<g data-tipo="ambiente" data-cod="S-CIR" data-rot="CIRCULACAO SUPERIOR">
+<polygon points="324.000,410.000 336.000,410.000 336.000,374.000 324.000,374.000" stroke="#bbb" stroke-width="0.18" fill="#fbfaf7" stroke-linejoin="miter"/>
+<text x="330.000" y="393.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">S-CIR</text>
+</g>
+<g data-tipo="ambiente" data-cod="S-CI2" data-rot="CORREDOR DAS SUITES">
+<polygon points="315.000,422.000 360.000,422.000 360.000,410.000 315.000,410.000" stroke="#bbb" stroke-width="0.18" fill="#fbfaf7" stroke-linejoin="miter"/>
+<text x="337.500" y="417.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">S-CI2</text>
 </g>
 <g data-tipo="ambiente" data-cod="S-HAL" data-rot="HALL E ROUPARIA">
 <polygon points="324.000,374.000 372.000,374.000 372.000,350.000 324.000,350.000" stroke="#bbb" stroke-width="0.18" fill="#fbfaf7" stroke-linejoin="miter"/>
@@ -265,63 +273,81 @@
 <text x="363.000" y="321.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#bbb" text-anchor="middle" dominant-baseline="middle">S-MAS</text>
 </g>
 <g data-tipo="parede" data-cod="PAR-001" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="269.250,410.000 270.750,410.000 270.750,383.000 269.250,383.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="269.250,365.000 270.750,365.000 270.750,360.000 269.250,360.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="269.250,352.000 270.750,352.000 270.750,335.000 269.250,335.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="269.250,317.000 270.750,317.000 270.750,314.000 269.250,314.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="269.250,470.000 270.750,470.000 270.750,443.000 269.250,443.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="269.250,425.000 270.750,425.000 270.750,422.000 269.250,422.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-002" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="323.250,410.000 324.750,410.000 324.750,374.000 323.250,374.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="311.250,422.000 312.750,422.000 312.750,410.000 311.250,410.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-003" data-esp="100" data-face="interna" data-familia="PD-1">
-<polygon points="323.500,374.000 324.500,374.000 324.500,372.500 323.500,372.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="323.500,363.500 324.500,363.500 324.500,360.500 323.500,360.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="323.500,351.500 324.500,351.500 324.500,314.000 323.500,314.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="323.500,470.000 324.500,470.000 324.500,422.000 323.500,422.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-004" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="323.250,314.000 324.750,314.000 324.750,311.000 323.250,311.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="323.250,410.000 324.750,410.000 324.750,311.000 323.250,311.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="323.250,293.000 324.750,293.000 324.750,290.000 323.250,290.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-005" data-esp="100" data-face="interna" data-familia="PD-1">
-<polygon points="371.500,365.000 372.500,365.000 372.500,350.000 371.500,350.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<g data-tipo="parede" data-cod="PAR-005" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="335.250,410.000 336.750,410.000 336.750,374.000 335.250,374.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="parede" data-cod="PAR-006" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="359.250,422.000 360.750,422.000 360.750,410.000 359.250,410.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="parede" data-cod="PAR-007" data-esp="100" data-face="interna" data-familia="PD-1">
+<polygon points="371.500,365.000 372.500,365.000 372.500,350.000 371.500,350.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="parede" data-cod="PAR-008" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="377.250,470.000 378.750,470.000 378.750,467.000 377.250,467.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="377.250,449.000 378.750,449.000 378.750,438.000 377.250,438.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="377.250,430.000 378.750,430.000 378.750,422.000 377.250,422.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="parede" data-cod="PAR-009" data-esp="150" data-face="externa" data-familia="PA-1">
 <polygon points="401.250,374.000 402.750,374.000 402.750,368.000 401.250,368.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="401.250,356.000 402.750,356.000 402.750,339.000 401.250,339.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="401.250,331.000 402.750,331.000 402.750,311.000 401.250,311.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="401.250,299.000 402.750,299.000 402.750,290.000 401.250,290.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-007" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="270.000,410.750 278.000,410.750 278.000,409.250 270.000,409.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="286.000,410.750 300.000,410.750 300.000,409.250 286.000,409.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<g data-tipo="parede" data-cod="PAR-010" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="270.000,470.750 282.000,470.750 282.000,469.250 270.000,469.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="294.000,470.750 311.000,470.750 311.000,469.250 294.000,469.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="319.000,470.750 354.000,470.750 354.000,469.250 319.000,469.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="366.000,470.750 378.000,470.750 378.000,469.250 366.000,469.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="parede" data-cod="PAR-011" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="270.000,422.750 312.000,422.750 312.000,421.250 270.000,421.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="parede" data-cod="PAR-012" data-esp="100" data-face="interna" data-familia="PD-1">
+<polygon points="312.000,422.500 315.000,422.500 315.000,421.500 312.000,421.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="324.000,422.500 349.500,422.500 349.500,421.500 324.000,421.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="358.500,422.500 360.000,422.500 360.000,421.500 358.500,421.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="parede" data-cod="PAR-013" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="360.000,422.750 378.000,422.750 378.000,421.250 360.000,421.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+</g>
+<g data-tipo="parede" data-cod="PAR-014" data-esp="150" data-face="externa" data-familia="PA-1">
 <polygon points="312.000,410.750 324.000,410.750 324.000,409.250 312.000,409.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-008" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="324.000,374.750 402.000,374.750 402.000,373.250 324.000,373.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<g data-tipo="parede" data-cod="PAR-015" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="336.000,410.750 360.000,410.750 360.000,409.250 336.000,409.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-009" data-esp="100" data-face="interna" data-familia="PD-1">
-<polygon points="270.000,362.500 324.000,362.500 324.000,361.500 270.000,361.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<g data-tipo="parede" data-cod="PAR-016" data-esp="150" data-face="externa" data-familia="PA-1">
+<polygon points="336.000,374.750 402.000,374.750 402.000,373.250 336.000,373.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-010" data-esp="100" data-face="interna" data-familia="PD-1">
+<g data-tipo="parede" data-cod="PAR-017" data-esp="100" data-face="interna" data-familia="PD-1">
 <polygon points="324.000,350.500 325.500,350.500 325.500,349.500 324.000,349.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="334.500,350.500 402.000,350.500 402.000,349.500 334.500,349.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="parede" data-cod="PAR-011" data-esp="150" data-face="externa" data-familia="PA-1">
-<polygon points="270.000,314.750 300.000,314.750 300.000,313.250 270.000,313.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="312.000,314.750 324.000,314.750 324.000,313.250 312.000,313.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="parede" data-cod="PAR-012" data-esp="150" data-face="externa" data-familia="PA-1">
+<g data-tipo="parede" data-cod="PAR-018" data-esp="150" data-face="externa" data-familia="PA-1">
 <polygon points="324.000,290.750 330.000,290.750 330.000,289.250 324.000,289.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="354.000,290.750 402.000,290.750 402.000,289.250 354.000,289.250" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 </g>
-<polygon points="287.500,410.000 288.500,410.000 288.500,402.000 287.500,402.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="287.500,394.000 288.500,394.000 288.500,386.000 287.500,386.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="270.000,386.500 288.000,386.500 288.000,385.500 270.000,385.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<text x="279.000" y="398.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
-<polygon points="287.500,362.000 288.500,362.000 288.500,354.000 287.500,354.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="287.500,346.000 288.500,346.000 288.500,338.000 287.500,338.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<polygon points="270.000,338.500 288.000,338.500 288.000,337.500 270.000,337.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
-<text x="279.000" y="350.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="305.500,470.000 306.500,470.000 306.500,446.000 305.500,446.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="306.000,446.500 311.000,446.500 311.000,445.500 306.000,445.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="319.000,446.500 324.000,446.500 324.000,445.500 319.000,445.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="315.000" y="458.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
+<polygon points="359.500,446.000 360.500,446.000 360.500,438.000 359.500,438.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="359.500,430.000 360.500,430.000 360.500,422.000 359.500,422.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<polygon points="360.000,446.500 378.000,446.500 378.000,445.500 360.000,445.500" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
+<text x="369.000" y="434.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">BANHO</text>
 <polygon points="335.500,350.000 336.500,350.000 336.500,320.000 335.500,320.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="371.500,350.000 372.500,350.000 372.500,330.000 371.500,330.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
 <polygon points="371.500,322.000 372.500,322.000 372.500,320.000 371.500,320.000" stroke="#000000" stroke-width="0.6" fill="url(#lsf)" stroke-linejoin="miter"/>
@@ -341,12 +367,20 @@
 <text x="351.200" y="363.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#c0392b" text-anchor="start" dominant-baseline="middle">EXT-03</text>
 </g>
 <g data-tipo="incendio" data-cod="DF-S-S02" data-amb="S-S02">
-<circle cx="297.000" cy="386.000" r="1.800" stroke="#d35400" stroke-width="0.3" fill="#fff"/>
-<text x="297.000" y="386.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#d35400" text-anchor="middle" dominant-baseline="middle">F</text>
+<circle cx="297.000" cy="446.000" r="1.800" stroke="#d35400" stroke-width="0.3" fill="#fff"/>
+<text x="297.000" y="446.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#d35400" text-anchor="middle" dominant-baseline="middle">F</text>
 </g>
 <g data-tipo="incendio" data-cod="DF-S-S03" data-amb="S-S03">
-<circle cx="297.000" cy="338.000" r="1.800" stroke="#d35400" stroke-width="0.3" fill="#fff"/>
-<text x="297.000" y="338.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#d35400" text-anchor="middle" dominant-baseline="middle">F</text>
+<circle cx="351.000" cy="446.000" r="1.800" stroke="#d35400" stroke-width="0.3" fill="#fff"/>
+<text x="351.000" y="446.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#d35400" text-anchor="middle" dominant-baseline="middle">F</text>
+</g>
+<g data-tipo="incendio" data-cod="DF-S-CIR" data-amb="S-CIR">
+<circle cx="330.000" cy="392.000" r="1.800" stroke="#d35400" stroke-width="0.3" fill="#fff"/>
+<text x="330.000" y="392.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#d35400" text-anchor="middle" dominant-baseline="middle">F</text>
+</g>
+<g data-tipo="incendio" data-cod="DF-S-CI2" data-amb="S-CI2">
+<circle cx="337.500" cy="416.000" r="1.800" stroke="#d35400" stroke-width="0.3" fill="#fff"/>
+<text x="337.500" y="416.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#d35400" text-anchor="middle" dominant-baseline="middle">F</text>
 </g>
 <g data-tipo="incendio" data-cod="DF-S-HAL" data-amb="S-HAL">
 <circle cx="348.000" cy="362.000" r="1.800" stroke="#d35400" stroke-width="0.3" fill="#fff"/>
@@ -407,30 +441,38 @@
 <text x="503.500" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
 <text x="521.500" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de fumaca autonomo a bateria com interligacao sem f</text>
 <polygon points="480.000,84.000 640.000,84.000 640.000,88.000 480.000,88.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DF-S-HAL</text>
-<text x="503.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-HAL</text>
+<text x="481.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DF-S-CIR</text>
+<text x="503.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CIR</text>
 <text x="521.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de fumaca autonomo a bateria com interligacao sem f</text>
 <polygon points="480.000,88.000 640.000,88.000 640.000,92.000 480.000,92.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DF-S-MAS</text>
-<text x="503.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
+<text x="481.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DF-S-CI2</text>
+<text x="503.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CI2</text>
 <text x="521.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de fumaca autonomo a bateria com interligacao sem f</text>
 <polygon points="480.000,92.000 640.000,92.000 640.000,96.000 480.000,96.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DC-T-COZ</text>
-<text x="503.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
-<text x="521.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de calor (a fumaca da coccao daria alarme falso)</text>
+<text x="481.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DF-S-HAL</text>
+<text x="503.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-HAL</text>
+<text x="521.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de fumaca autonomo a bateria com interligacao sem f</text>
 <polygon points="480.000,96.000 640.000,96.000 640.000,100.000 480.000,100.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MT-01</text>
-<text x="503.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
-<text x="521.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">manta antichamas 1,2 x 1,2 m</text>
+<text x="481.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DF-S-MAS</text>
+<text x="503.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
+<text x="521.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de fumaca autonomo a bateria com interligacao sem f</text>
 <polygon points="480.000,100.000 640.000,100.000 640.000,104.000 480.000,104.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="102.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MT-02</text>
-<text x="503.500" y="102.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GOU</text>
-<text x="521.500" y="102.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">manta antichamas 1,2 x 1,2 m</text>
+<text x="481.500" y="102.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DC-T-COZ</text>
+<text x="503.500" y="102.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
+<text x="521.500" y="102.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de calor (a fumaca da coccao daria alarme falso)</text>
 <polygon points="480.000,104.000 640.000,104.000 640.000,108.000 480.000,108.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="106.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">GAS</text>
+<text x="481.500" y="106.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MT-01</text>
 <text x="503.500" y="106.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
-<text x="521.500" y="106.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de GLP a 300 mm do piso, junto ao cooktop, com cort</text>
-<line x1="502.000" y1="40.000" x2="502.000" y2="108.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="520.000" y1="40.000" x2="520.000" y2="108.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="521.500" y="106.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">manta antichamas 1,2 x 1,2 m</text>
+<polygon points="480.000,108.000 640.000,108.000 640.000,112.000 480.000,112.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="110.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MT-02</text>
+<text x="503.500" y="110.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GOU</text>
+<text x="521.500" y="110.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">manta antichamas 1,2 x 1,2 m</text>
+<polygon points="480.000,112.000 640.000,112.000 640.000,116.000 480.000,116.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">GAS</text>
+<text x="503.500" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
+<text x="521.500" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">detector de GLP a 300 mm do piso, junto ao cooktop, com cort</text>
+<line x1="502.000" y1="40.000" x2="502.000" y2="116.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="520.000" y1="40.000" x2="520.000" y2="116.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 </g>
 </svg>

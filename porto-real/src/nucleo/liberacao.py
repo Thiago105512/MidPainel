@@ -73,6 +73,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # depois da primeira passada. Como acrescentar montante nao muda area de
     # influencia nenhuma, o ponto fixo se fecha aqui, em duas passadas.
     cat_perfis = list(pf.catalogo())
+    ds.PILARES_XY = {(q["x"], q["y"]) for q in getattr(pj, "PILARES", [])}
     dim = ds.dimensionar(paineis, aco, pj.CARGAS, cfg, cat_perfis)
     jambas, apertadas, ctx = dim["jambas"], dim["apertadas"], dim["ctx"]
 

@@ -95,7 +95,10 @@ def _codigo(familia: str, painel: str, x: float, z: float) -> str:
     """
     p = PREFIXO.get(familia, familia[:2].upper())
     chave = f"{painel}|{familia}|{int(x)}|{int(z)}"
-    h = hashlib.sha1(chave.encode()).hexdigest()[:3].upper()
+    # R82 — tres caracteres (4.096 valores) colidiram em 1.201 pecas
+    # (SP16-1-ST75A duas vezes); quatro (65.536) deixam a colisao improvavel,
+    # e a auditoria de unicidade continua conferindo em vez de supor
+    h = hashlib.sha1(chave.encode()).hexdigest()[:4].upper()
     return f"{painel}-{p}{h}"
 
 

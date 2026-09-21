@@ -329,9 +329,10 @@ def _lote() -> list[dict]:
                    (pt["pedestre_x"] - pt["pedestre_larg"] / 2,
                     pt["pedestre_x"] + pt["pedestre_larg"] / 2)])
     cur = 0
+    h_test = getattr(pj, "MURO_TESTADA_ALTURA", h)
     for a, b in vaos + [(L, L)]:
         if a > cur:
-            out.append(_box("muro", cur, 0, 0, a, e, h, CORES["muro"]))
+            out.append(_box("muro", cur, 0, 0, a, e, h_test, CORES["muro"]))
         cur = b
     # superficies do terreno que nao sao ambiente: acesso, passeio, faixa
     # tecnica e recuos. A cor diz a classe, e a classe e a mesma que entra no

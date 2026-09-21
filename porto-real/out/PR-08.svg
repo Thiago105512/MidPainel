@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="08" data-rev="R81">
+<g data-tipo="carimbo" data-cod="08" data-rev="R82">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R81</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R82</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">08</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R81</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R82</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -72,10 +72,6 @@
 <polygon points="333.500,373.100 351.167,362.900 351.167,338.250 333.500,348.450" stroke="#000000" stroke-width="0.3" fill="#a0abaf" stroke-linejoin="miter"/>
 <polygon points="333.500,348.450 351.167,338.250 306.999,312.750 289.332,322.950" stroke="#000000" stroke-width="0.3" fill="#b2bec3" stroke-linejoin="miter"/>
 <text x="320.249" y="330.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">CORE / ESCADA</text>
-<polygon points="245.165,355.250 209.831,334.850 209.831,310.200 245.165,330.600" stroke="#000000" stroke-width="0.3" fill="#817ccb" stroke-linejoin="miter"/>
-<polygon points="245.165,355.250 284.916,332.300 284.916,307.650 245.165,330.600" stroke="#000000" stroke-width="0.3" fill="#918be4" stroke-linejoin="miter"/>
-<polygon points="245.165,330.600 284.916,307.650 249.582,287.250 209.831,310.200" stroke="#000000" stroke-width="0.3" fill="#a29bfe" stroke-linejoin="miter"/>
-<text x="247.373" y="308.925" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">SUITE 03</text>
 <polygon points="302.583,390.950 258.415,365.450 258.415,340.800 302.583,366.300" stroke="#000000" stroke-width="0.3" fill="#c49c42" stroke-linejoin="miter"/>
 <polygon points="302.583,390.950 333.500,373.100 333.500,348.450 302.583,366.300" stroke="#000000" stroke-width="0.3" fill="#ddb04a" stroke-linejoin="miter"/>
 <polygon points="302.583,366.300 333.500,348.450 289.332,322.950 258.415,340.800" stroke="#000000" stroke-width="0.3" fill="#f6c453" stroke-linejoin="miter"/>
@@ -84,14 +80,22 @@
 <polygon points="395.334,388.400 417.417,375.650 417.417,351.000 395.334,363.750" stroke="#000000" stroke-width="0.3" fill="#918be4" stroke-linejoin="miter"/>
 <polygon points="395.334,363.750 417.417,351.000 373.250,325.500 351.167,338.250" stroke="#000000" stroke-width="0.3" fill="#a29bfe" stroke-linejoin="miter"/>
 <text x="384.292" y="344.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">QUARTO REVERSIVEL</text>
-<polygon points="280.499,375.650 245.165,355.250 245.165,330.600 280.499,351.000" stroke="#000000" stroke-width="0.3" fill="#817ccb" stroke-linejoin="miter"/>
-<polygon points="280.499,375.650 320.249,352.700 320.249,328.050 280.499,351.000" stroke="#000000" stroke-width="0.3" fill="#918be4" stroke-linejoin="miter"/>
-<polygon points="280.499,351.000 320.249,328.050 284.916,307.650 245.165,330.600" stroke="#000000" stroke-width="0.3" fill="#a29bfe" stroke-linejoin="miter"/>
-<text x="282.707" y="329.325" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>
+<polygon points="320.249,352.700 293.749,337.400 293.749,312.750 320.249,328.050" stroke="#000000" stroke-width="0.3" fill="#b2b8ba" stroke-linejoin="miter"/>
+<polygon points="320.249,352.700 329.083,347.600 329.083,322.950 320.249,328.050" stroke="#000000" stroke-width="0.3" fill="#c8cfd1" stroke-linejoin="miter"/>
+<polygon points="320.249,328.050 329.083,322.950 302.583,307.650 293.749,312.750" stroke="#000000" stroke-width="0.3" fill="#dfe6e9" stroke-linejoin="miter"/>
+<text x="311.416" y="317.850" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">CIRCULACAO SUPERIOR</text>
 <polygon points="351.167,378.200 337.916,370.550 337.916,345.900 351.167,353.550" stroke="#000000" stroke-width="0.3" fill="#b2b8ba" stroke-linejoin="miter"/>
 <polygon points="351.167,378.200 364.417,370.550 364.417,345.900 351.167,353.550" stroke="#000000" stroke-width="0.3" fill="#c8cfd1" stroke-linejoin="miter"/>
 <polygon points="351.167,353.550 364.417,345.900 351.167,338.250 337.916,345.900" stroke="#000000" stroke-width="0.3" fill="#dfe6e9" stroke-linejoin="miter"/>
 <text x="351.167" y="345.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">CIRCULACAO</text>
+<polygon points="364.417,378.200 329.083,357.800 329.083,333.150 364.417,353.550" stroke="#000000" stroke-width="0.3" fill="#817ccb" stroke-linejoin="miter"/>
+<polygon points="364.417,378.200 404.167,355.250 404.167,330.600 364.417,353.550" stroke="#000000" stroke-width="0.3" fill="#918be4" stroke-linejoin="miter"/>
+<polygon points="364.417,353.550 404.167,330.600 368.833,310.200 329.083,333.150" stroke="#000000" stroke-width="0.3" fill="#a29bfe" stroke-linejoin="miter"/>
+<text x="366.625" y="331.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">SUITE 03</text>
+<polygon points="322.458,361.625 313.624,356.525 313.624,331.875 322.458,336.975" stroke="#000000" stroke-width="0.3" fill="#b2b8ba" stroke-linejoin="miter"/>
+<polygon points="322.458,361.625 355.583,342.500 355.583,317.850 322.458,336.975" stroke="#000000" stroke-width="0.3" fill="#c8cfd1" stroke-linejoin="miter"/>
+<polygon points="322.458,336.975 355.583,317.850 346.750,312.750 313.624,331.875" stroke="#000000" stroke-width="0.3" fill="#dfe6e9" stroke-linejoin="miter"/>
+<text x="334.604" y="324.862" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">CORREDOR DAS SUITES</text>
 <polygon points="351.167,393.500 324.666,378.200 324.666,353.550 351.167,368.850" stroke="#000000" stroke-width="0.3" fill="#b2b8ba" stroke-linejoin="miter"/>
 <polygon points="351.167,393.500 364.417,385.850 364.417,361.200 351.167,368.850" stroke="#000000" stroke-width="0.3" fill="#c8cfd1" stroke-linejoin="miter"/>
 <polygon points="351.167,368.850 364.417,361.200 337.916,345.900 324.666,353.550" stroke="#000000" stroke-width="0.3" fill="#dfe6e9" stroke-linejoin="miter"/>
@@ -108,6 +112,10 @@
 <polygon points="280.499,403.700 302.583,390.950 302.583,366.300 280.499,379.050" stroke="#000000" stroke-width="0.3" fill="#68a6e5" stroke-linejoin="miter"/>
 <polygon points="280.499,379.050 302.583,366.300 280.499,353.550 258.415,366.300" stroke="#000000" stroke-width="0.3" fill="#74b9ff" stroke-linejoin="miter"/>
 <text x="280.499" y="366.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">OFICINA</text>
+<polygon points="324.666,401.150 289.332,380.750 289.332,356.100 324.666,376.500" stroke="#000000" stroke-width="0.3" fill="#817ccb" stroke-linejoin="miter"/>
+<polygon points="324.666,401.150 364.417,378.200 364.417,353.550 324.666,376.500" stroke="#000000" stroke-width="0.3" fill="#918be4" stroke-linejoin="miter"/>
+<polygon points="324.666,376.500 364.417,353.550 329.083,333.150 289.332,356.100" stroke="#000000" stroke-width="0.3" fill="#a29bfe" stroke-linejoin="miter"/>
+<text x="326.875" y="354.825" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#222" text-anchor="middle" dominant-baseline="middle">SUITE 02</text>
 <polygon points="170.081,319.550 209.831,296.600 185.539,282.575 145.789,305.525" stroke="#000000" stroke-width="0.3" fill="#aed6f1" stroke-linejoin="miter"/>
 <text x="177.810" y="301.062" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">PISCINA</text>
 <polygon points="360.000,470.000 507.224,385.000 212.776,215.000 65.551,300.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linejoin="miter"/>

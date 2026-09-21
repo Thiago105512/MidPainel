@@ -180,6 +180,10 @@ INTEGRADOS = {
     frozenset(("T-SOC", "T-COR")),   # core/escada aberto para o social (poco de luz)
     frozenset(("T-HAL", "T-CIR")),   # a circulacao e o proprio hall, em L
     frozenset(("T-REV", "T-ALC")),   # a alcova e parte do quarto, sem porta
+    # R82 — o hall do superior continua em L pelo corredor ao lado da escada
+    # ate o corredor das suites, sem porta: e uma circulacao so
+    frozenset(("S-HAL", "S-CIR")),
+    frozenset(("S-CIR", "S-CI2")),
 }
 
 TERREO: list[Amb] = [
@@ -216,9 +220,11 @@ TERREO: list[Amb] = [
 # areas externas cobertas / descobertas do terreo (nao computam area fechada)
 TERREO_ABERTO: list[Amb] = [
     Amb("T-VAR", "VARANDA DE ENTRADA",   8_400,  7_200, 1_800, 2_400, aberto=True, coberto=True),   # cobertura propria, continuacao do telhado frontal
-    Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 2_400, aberto=True),
+    Amb("T-JLE", "JARDIM LESTE",        10_200,  7_200, 1_800, 2_400, aberto=True, coberto=True),   # R82: sob a suite 03
     Amb("T-JNO", "JARDIM NORTE",        15_000,  7_200, 1_800, 6_000, aberto=True),
-    Amb("T-LOG", "LOGGIA SUL",           2_400, 16_200, 3_000, 3_000, aberto=True, coberto=True),   # sob as suites 02 e 03 (pilotis + viga V-01)
+    # R82 — as suites foram para a frente: a loggia deixa de ter o superior em
+    # cima e vira patio descoberto (o ventilador VT-04 sai com o teto)
+    Amb("T-LOG", "LOGGIA SUL",           2_400, 16_200, 3_000, 3_000, aberto=True, coberto=False),
     Amb("T-DKL", "DECK NORTE",          12_000, 13_200, 4_800, 3_600, aberto=True),
     # a laje do mini lounge avanca 600 mm para oeste e 1.200 para leste como
     # beiral, cobrindo a faixa inteira do deck: a porta PV01 do core passa a
@@ -283,8 +289,20 @@ SUPERIOR: list[Amb] = [
     # docs/DIVERGENCIAS.md). As suites 02 e 03 permanecem INTOCADAS como modulo
     # espelhado de 5.400 x 4.800; entram o mini lounge e a master
     # redimensionada de 28,80 para 46,80 m2.
-    Amb("S-S02", "SUITE 02",          2_400, 13_200, 5_400, 4_800, pav="S"),
-    Amb("S-S03", "SUITE 03",          2_400, 18_000, 5_400, 4_800, pav="S"),
+    # R82 — ALTERNATIVA A da fachada: o superior avanca ate a rua. As suites
+    # 02 e 03 vao para a FRENTE, lado a lado sobre a garagem, o hall e o
+    # reversivel, com a frente alinhada a da garagem (y = 7.200): o volume de
+    # 10,8 m de pedra sobre a garagem escura da imagem de referencia. A master
+    # fica atras, olhando a piscina (decisao do proprietario, R82). O modulo
+    # 5.400 x 4.800 das suites continua intacto; os banhos ficam costas com
+    # costas na parede x = 7.800, com um shaft so (PN-02).
+    Amb("S-S02", "SUITE 02",          2_400,  7_200, 5_400, 4_800, pav="S"),
+    Amb("S-S03", "SUITE 03",          7_800,  7_200, 5_400, 4_800, pav="S"),
+    # circulacao das suites: corredor ao lado da escada (sobre o estar) e o
+    # corredor curto atras das suites (sobre a garagem e o hall), sem porta
+    # para o hall — sao o mesmo espaco em L (INTEGRADOS)
+    Amb("S-CIR", "CIRCULACAO SUPERIOR", 7_800, 13_200, 1_200, 3_600, pav="S"),
+    Amb("S-CI2", "CORREDOR DAS SUITES", 6_900, 12_000, 4_500, 1_200, pav="S"),
     # o hall deixa de ser corredor: e chegada da escada, distribuicao para
     # quatro destinos e rouparia embutida
     # R46 — o hall vai ate 12.600, e nao ate 12.000. Entre ele e o mini lounge
@@ -341,10 +359,12 @@ SUBDIVISOES = [
     # a suite e um retangulo unico: por isso o modelo "nao tinha" banheiro no
     # superior. A geometria do banho SEMPRE esteve aqui, exata; faltava o
     # flag, e quem o le. Nenhuma area foi arbitrada.
-    dict(pai="S-S02", nome="BANHO",  x=2_400, y=13_200, w=1_800, h=2_400,
-         face="N", pos=14_400, vao=800, molhado=True),
-    dict(pai="S-S03", nome="BANHO",  x=2_400, y=18_000, w=1_800, h=2_400,
-         face="N", pos=19_200, vao=800, molhado=True),
+    dict(pai="S-S02", nome="BANHO",  x=6_000, y=7_200, w=1_800, h=2_400,
+         face="O", pos=6_900, vao=800, molhado=True),
+    # R82 — no fundo da suite, sobre a garagem e o hall (a frente esta sobre o
+    # portico de entrada, que e vazio); abre para o dormitorio pela face norte
+    dict(pai="S-S03", nome="BANHO",  x=11_400, y=9_600, w=1_800, h=2_400,
+         face="S", pos=10_800, vao=800, molhado=True),
     # ---- R08: a despensa volta, mas na PONTA DE SERVICO da cozinha, nao
     # atravessada entre ela e a piscina. Ganha a melhor adjacencia possivel: a
     # porta de servico da loggia abre DENTRO dela, e a compra desce do carro
@@ -448,10 +468,12 @@ LAYOUT = [
     dict(cod="LY-16", amb="T-SOC", tipo="tapete", x=6_300, y=14_200, w=2_100, h=2_200),
     dict(cod="LY-13", amb="T-ALC", tipo="rack",  x=10_350, y=9_750, w=1_500, h=600,
          obs="mesa de trabalho na alcova, sob a janela"),
-    dict(cod="LY-10", amb="S-S02", tipo="cama",  x=5_725, y=14_000, w=2_000,
-         h=1_600, cabeceira="+X"),
-    dict(cod="LY-11", amb="S-S03", tipo="cama",  x=5_725, y=20_400, w=2_000,
-         h=1_600, cabeceira="+X"),
+    # R82 — suites na frente: cabeceira da 02 contra a parede do fundo (o
+    # corredor), cabeceira da 03 contra a parede que divide as duas suites
+    dict(cod="LY-10", amb="S-S02", tipo="cama",  x=3_400, y=9_925, w=1_600,
+         h=2_000, cabeceira="+Y"),
+    dict(cod="LY-11", amb="S-S03", tipo="cama",  x=7_875, y=8_600, w=2_000,
+         h=1_600, cabeceira="-X"),
     # R56 — a cama estava FLUTUANDO: 600 mm da parede norte e 300 da sul, sem
     # cabeceira encostada em nada. Passa a king (1,93 x 2,03) com a cabeceira
     # no trecho cego da face sul, ao lado da porta-balcao — sai-se da cama
@@ -599,15 +621,17 @@ VAOS = [
     ("CV01",  6_000, 26_400, "H", "T"),   # cozinha + gourmet -> varanda e piscina
     ("PV02",  5_400, 17_700, "V", "T"),   # estar -> loggia sul (ventilacao cruzada)
     # ---- superior (R06)
-    ("P02",   7_800, 17_400, "V", "S"),   # hall -> suite 02
-    ("P02",   7_800, 18_600, "V", "S"),   # hall -> suite 03
+    # R82 — as suites abrem para o corredor curto (S-CI2) pela parede de fundo
+    # de correr (P05): o corredor tem 1,2 m e nao comporta a varredura de duas folhas
+    ("P05",   7_350, 12_000, "H", "S"),   # corredor -> suite 02
+    ("P05",  10_800, 12_000, "H", "S"),   # corredor -> suite 03
     ("P02",   8_400, 19_200, "H", "S"),   # hall -> master (corredor de entrada)
     ("P02",  12_600, 17_250, "V", "S"),   # hall -> mini lounge (na ponta da
                                           # parede, liberando 1.500 mm para o
                                           # painel de TV no restante dela)
     ("J01",  15_600, 18_000, "V", "S"),   # janela do lounge (norte), atras do sofa
-    ("J05",   2_400, 16_800, "V", "S"),   # janela ampla suite 02 (sul)
-    ("J01",   6_000, 13_200, "H", "S"),   # janela suite 02 (leste)
+    ("J05",   2_400, 10_800, "V", "S"),   # janela ampla suite 02 (sul)
+    ("J01",   4_200,  7_200, "H", "S"),   # janela suite 02 (leste, rua)
     # R47 — era J02 (600 x 600 = 0,36 m2) e passa a J04 (800 x 900 = 0,72 m2).
     # As suites 02 e 03 sao declaradas ESPELHADAS e intocadas desde R06, e os
     # banhos delas tinham esquadrias diferentes: 0,36 m2 num, 0,72 no outro. A
@@ -615,10 +639,10 @@ VAOS = [
     # 02 que ficava abaixo — 0,36 para 4,32 m2 de piso e 1/12, contra o minimo
     # (H) de 1/8 para area molhada. Uniformizar em J04 resolve norma e simetria
     # de uma vez, por ~R$ 300, e reduz o quadro de esquadrias em uma familia.
-    ("J04",   3_600, 13_200, "H", "S"),   # janela banho suite 02 (espelha a 03)
-    ("J05",   2_400, 21_600, "V", "S"),   # janela ampla suite 03 (sul)
-    ("J01",   6_000, 22_800, "H", "S"),   # janela suite 03 (oeste)
-    ("J04",   2_400, 18_600, "V", "S"),   # janela alta banho suite 03
+    ("J04",   6_900,  7_200, "H", "S"),   # janela alta banho suite 02 (leste)
+    ("J05",  13_200,  8_400, "V", "S"),   # janela ampla suite 03 (norte)
+    ("J01",  11_400,  7_200, "H", "S"),   # janela suite 03 (leste, rua)
+    ("J04",  13_200, 10_800, "V", "S"),   # janela alta do banho da suite 03 (norte)
     ("J05",   7_800, 24_000, "V", "S"),   # dormitorio master (sul)
     ("PV02",  9_600, 25_200, "H", "S"),   # dormitorio master -> varanda
     # R56 — ESTA JANELA SAIU. A master tinha TRES vaos na face sul (porta-balcao
@@ -722,6 +746,10 @@ PISO_EXTERNO = [
 # superficie do lote (acesso e passeio em piso drenante) e a cena 3D.
 # O portao de veiculos alinha com a garagem e o de pedestres com a porta
 # principal — quem entra a pe caminha reto ate a varanda, sem contornar carro.
+# R82 — a imagem de referencia nao tem muro: a casa e a fachada. A testada
+# desce para uma mureta de 1,0 m (o portao ripado continua); as tres divisas
+# ficam em 2,2 m (privacidade e seguranca com os vizinhos).
+MURO_TESTADA_ALTURA = 1_000
 PORTAO_TESTADA = dict(
     veiculo_x=5_400, veiculo_larg=5_400,      # centrado na garagem
     pedestre_x=9_300, pedestre_larg=1_200,    # alinhado com P01
@@ -928,12 +956,9 @@ BRISES = [
     # peitoril de 1.100: altura de olho de quem passa no recuo do vizinho. Brise
     # ripado vertical fixo resolve privacidade e sol rasante de uma vez, na mesma
     # familia de aluminio grafite do portao e da fachada.
-    dict(cod="BR-S2", face="S", x=2_400, y=15_900, w=1_800, h=150, pav="S",
+    dict(cod="BR-S2", face="S", x=2_400, y=9_900, w=1_800, h=150, pav="S",
          tipo="ripado vertical fixo", passo=80,
          desc="janela ampla da suite 02 — privacidade contra a divisa sul", z0=900, altura=1_500),
-    dict(cod="BR-S3", face="S", x=2_400, y=20_700, w=1_800, h=150, pav="S",
-         tipo="ripado vertical fixo", passo=80,
-         desc="janela ampla da suite 03 — privacidade contra a divisa sul", z0=900, altura=1_500),
     dict(cod="BR-OS", face="O", x=10_200, y=22_800, w=6_000, h=150, pav="S",
          tipo="ripado vertical movel", passo=150,
          desc="varanda master - pavimento superior", z0=900, altura=1_500),
@@ -941,9 +966,12 @@ BRISES = [
     # banho e J01 da suite 02) num pano cego: lidas da rua como dois olhos. Um
     # ripado continuo de 3,9 m as unifica numa faixa, corta o sol das 8 h e da
     # privacidade ao banho — o mesmo gesto do BR-L no terreo, uma linha acima.
-    dict(cod="BR-LS", face="L", x=3_000, y=13_200, w=3_900, h=150, pav="S",
+    # R82 — o volume superior agora esta SOBRE a rua: uma faixa ripada de
+    # 10,8 m unifica as quatro janelas da frente (J01 e J04 das duas suites),
+    # corta o sol das 8 h e e a madeira da imagem de referencia
+    dict(cod="BR-LS", face="L", x=2_400, y=7_200, w=10_800, h=150, pav="S",
          tipo="ripado vertical fixo", passo=80,
-         desc="volume superior sobre a rua — unifica J04 e J01 numa faixa", z0=900, altura=1_500),
+         desc="volume superior sobre a rua — faixa continua sobre as quatro janelas da frente", z0=900, altura=1_500),
 ]
 
 # R67 — FASCIA. O topo da platibanda lia como uma tampa fina e clara; o que
@@ -1071,7 +1099,9 @@ PLUVIAL = dict(
 # apoia-se em pilares metalicos, criando terraco coberto no terreo.
 # =========================================================================
 PE_DIREITO_DUPLO = ["T-SOC", "T-COR"]     # ambientes com vazio sobre parte da area
-LANTERNIM = dict(x=8_400, y=13_800, w=3_600, h=2_400,
+# R82 — o corredor do superior (S-CIR, x 7.800-9.600) passou por cima do
+# lanternim; ele vai para a metade sul do estar, ainda sobre o pe-direito duplo
+LANTERNIM = dict(x=5_400, y=13_800, w=2_400, h=3_600,
                  altura_peitoril=PISO_A_PISO + PE_DIREITO,    # 5.600 mm
                  veneziana_h=500, faces=2, frac_livre=0.50,
                  vidro="laminado leitoso 6 mm, voltado ao sul (sem sol direto)",
@@ -1217,6 +1247,9 @@ PERFIS_LAMINADOS = {
     "W250x22.3": dict(ix=2_939, h=254, bf=102, massa=22.3),
     "W310x23.8": dict(ix=4_346, h=305, bf=101, massa=23.8),
     "W310x28.3": dict(ix=5_410, h=309, bf=102, massa=28.3),
+    # R82 — a viga de 6 m da garagem passou de cobertura a piso + parede (V-03)
+    "W360x32.9": dict(ix=8_358, h=349, bf=127, massa=32.9),
+    "W410x38.8": dict(ix=12_777, h=399, bf=140, massa=38.8),
 }
 
 # perfis formados a frio do LSF (NBR 15253)
@@ -1289,7 +1322,16 @@ PILARES = [
     dict(cod="PL-05", x=12_600, y=22_200), dict(cod="PL-06", x=15_600, y=22_200),
     dict(cod="PL-07", x=12_600, y=25_200), dict(cod="PL-08", x=15_600, y=25_200),
     dict(cod="PL-09", x=12_600, y=27_000), dict(cod="PL-10", x=15_600, y=27_000),
+    # R82 — as suites sobre a garagem e o portico de entrada: as vigas V-02,
+    # V-03, V-12 e V-13 entregam em pilares, nao em montantes de LSF. Os das
+    # jambas do portao (PL-11, PL-12) e os dos cantos da garagem e do
+    # reversivel ficam DENTRO da parede (secao embutida).
+    dict(cod="PL-11", x=2_700, y=7_200, embutido=True), dict(cod="PL-12", x=8_100, y=7_200, embutido=True),
+    dict(cod="PL-13", x=8_400, y=7_200, embutido=True), dict(cod="PL-14", x=12_000, y=7_200, embutido=True),
+    dict(cod="PL-15", x=2_400, y=12_000, embutido=True), dict(cod="PL-16", x=8_400, y=12_000, embutido=True),
+    dict(cod="PL-17", x=13_200, y=12_000, embutido=True),
 ]
+PILAR_SECAO_EMBUTIDO = "tubo estrutural 140 x 100 x 6,3 mm dentro da parede de 150 (H)"
 PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
 
 
@@ -1298,15 +1340,23 @@ PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
 # trib = largura de influencia em mm. vedacao=True -> limite L/500 e slip track.
 # -------------------------------------------------------------------------
 VIGAS = [
-    dict(cod="V-01", sobre="T-LOG", vao=3_000, trib=2_700, apoio="biapoiada",
+    # R82 — V-01 saiu: a loggia deixou de ter o superior em cima. As suites
+    # agora estao SOBRE a garagem e o portico de entrada, e o que era verga de
+    # cobertura passa a carregar piso e parede.
+    dict(cod="V-02", sobre="T-GAR", vao=5_400, trib=2_400, apoio="biapoiada",
          carrega="piso", parede_h=2_600, vedacao=True,
-         desc="face aberta da loggia sul; sustenta a parede sul das suites 02 e 03"),
-    dict(cod="V-02", sobre="T-GAR", vao=5_400, trib=3_000, apoio="biapoiada",
-         carrega="cobertura", parede_h=0, vedacao=False,
-         desc="verga do portao PG01 de 5.400 mm"),
+         desc="verga do portao PG01 de 5.400 mm; sustenta a frente da suite 02"),
     dict(cod="V-03", sobre="T-GAR", vao=6_000, trib=3_000, apoio="biapoiada",
-         carrega="cobertura", parede_h=0, vedacao=False,
-         desc="vao livre da garagem sem pilar intermediario"),
+         carrega="piso", parede_h=2_600, vedacao=True,
+         desc="fundo das suites (y = 12.000) sobre o vao livre da garagem, sem pilar intermediario"),
+    dict(cod="V-12", sobre="T-VAR", vao=3_600, trib=2_400, apoio="biapoiada",
+         carrega="piso", parede_h=2_600, vedacao=True,
+         desc="portico de entrada: frente da suite 03 sobre a varanda e o jardim leste, "
+              "entre a parede da garagem (x = 8.400) e a do reversivel (x = 12.000)"),
+    dict(cod="V-13", sobre="T-HAL", vao=4_800, trib=3_000, apoio="biapoiada",
+         carrega="piso", parede_h=2_600, vedacao=True,
+         desc="fundo da suite 03 (y = 12.000) sobre hall, alcova e reversivel, "
+              "entre a parede da garagem (x = 8.400) e a do banho do reversivel (x = 13.200)"),
     dict(cod="V-04", sobre="T-DKL", vao=3_000, trib=1_200, apoio="biapoiada",
          carrega="piso", parede_h=2_600, vedacao=True,
          desc="portico sobre o deck norte; sustenta o mini lounge e cria o "
@@ -1437,8 +1487,14 @@ def furo_max(perfil: str) -> int:
 PRUMADAS = [
     dict(cod="PN-01", x=11_400, y=19_200, tipo="esgoto", dn=100,
          secao=(300, 300), onde="shaft do core"),
-    dict(cod="PN-02", x=2_400, y=18_000, tipo="esgoto", dn=100,
-         secao=(300, 300), onde="shaft da suite 02/03"),
+    # R82 — os banhos das suites ficam costas com costas em x = 7.800: um shaft
+    # so, no fundo dos dois, que desce pela garagem ate a caixa do terreo
+    dict(cod="PN-02", x=7_800, y=9_600, tipo="esgoto", dn=100,
+         secao=(300, 300), onde="shaft no canto do banho da suite 02, desce pela garagem"),
+    # R82 — o banho da suite 03 fica sobre o reversivel: o shaft desce na
+    # parede entre o reversivel e o seu banho, e junta-se aos ramais dele
+    dict(cod="PN-10", x=13_200, y=11_400, tipo="esgoto", dn=100,
+         secao=(300, 300), onde="shaft na parede do banho do reversivel, sob o banho da suite 03"),
     dict(cod="AF-01", x=11_700, y=19_200, tipo="agua fria", dn=32,
          secao=(150, 150), onde="junto ao shaft do core"),
 ]
@@ -1448,8 +1504,10 @@ PENETRACOES = [
     dict(cod="PN-01", tipo="esgoto DN100", dn=100, onde="shaft do core",
          de="S-MAS", para="TC-12", solucao="shaft vertical 300 x 300 mm",
          obs="DN100 nao cabe em montante de 90 mm: exige shaft, por definicao"),
-    dict(cod="PN-02", tipo="esgoto DN100", dn=100, onde="shaft da suite 02/03",
+    dict(cod="PN-02", tipo="esgoto DN100", dn=100, onde="shaft da suite 02",
          de="S-S02", para="TC-11", solucao="shaft vertical 300 x 300 mm"),
+    dict(cod="PN-10", tipo="esgoto DN100", dn=100, onde="shaft do banho do reversivel",
+         de="S-S03", para="CI-N", solucao="shaft vertical 300 x 300 mm na parede do banho do reversivel"),
     dict(cod="PN-03", tipo="agua fria DN25", dn=25, onde="montante",
          de="TC-02", para="CAIXA_DAGUA", solucao="furo centrado 45 mm"),
     dict(cod="PN-04", tipo="agua quente PEX DN20", dn=20, onde="montante",
@@ -1499,10 +1557,15 @@ ZONAS_PAGINACAO = [
              "recorte jogado para a parede sul da cozinha, atras da bancada"),
     dict(cod="ZP-2", peca="piso", origem=(7_800, 19_200), ambientes=["S-MAS"],
          obs="origem no eixo da porta da suite"),
-    dict(cod="ZP-3", peca="piso", origem=(2_400, 13_200),
-         ambientes=["S-S02", "S-S03"],
+    dict(cod="ZP-3", peca="piso", origem=(2_400, 7_200),
+         ambientes=["S-S02"],
          obs="suites 02 e 03 na mesma malha: a parede entre elas e divisoria, mas "
              "o hall as percorre e a junta aparece na soleira"),
+    # R82 — a suite 03 e os corredores paginam do proprio canto
+    dict(cod="ZP-5", peca="piso", origem=(7_800, 7_200), ambientes=["S-S03"],
+         obs="origem no canto da suite, junto ao banho"),
+    dict(cod="ZP-6", peca="piso", origem=(7_800, 13_200), ambientes=["S-CIR", "S-CI2"],
+         obs="corredores do superior: origem no eixo da escada"),
     # Zona de PAREDE nao compartilha origem: revestimento vertical e uma
     # superficie por parede, e a junta de uma parede nao continua na outra. Cada
     # ambiente pagina do proprio canto e joga o recorte para o canto menos visto.
@@ -1703,13 +1766,13 @@ LOUCAS = [
     dict(cod="LC-14", amb="T-REV", tipo="vaso",      x=13_350, y=12_475, w=400, h=650),
     dict(cod="LC-15", amb="T-REV", tipo="lavatorio", x=13_275, y=11_000, w=450, h=700),
     # suite 02 — banho (2.400, 13.200, 1.800 x 2.400)
-    dict(cod="LC-04", amb="S-S02", tipo="vaso",      x=2_600, y=13_350, w=400, h=650),
-    dict(cod="LC-05", amb="S-S02", tipo="lavatorio", x=3_250, y=13_350, w=700, h=450),
-    dict(cod="LC-06", amb="S-S02", tipo="box",       x=2_550, y=14_500, w=900, h=1_000),
+    dict(cod="LC-04", amb="S-S02", tipo="vaso",      x=6_200, y=7_350, w=400, h=650),
+    dict(cod="LC-05", amb="S-S02", tipo="lavatorio", x=6_850, y=7_350, w=700, h=450),
+    dict(cod="LC-06", amb="S-S02", tipo="box",       x=6_150, y=8_500, w=900, h=1_000),
     # suite 03 — banho (2.400, 18.000, 1.800 x 2.400)
-    dict(cod="LC-07", amb="S-S03", tipo="vaso",      x=2_600, y=18_150, w=400, h=650),
-    dict(cod="LC-08", amb="S-S03", tipo="lavatorio", x=3_250, y=18_150, w=700, h=450),
-    dict(cod="LC-09", amb="S-S03", tipo="box",       x=2_550, y=19_300, w=900, h=1_000),
+    dict(cod="LC-07", amb="S-S03", tipo="vaso",      x=11_600, y=9_750, w=400, h=650),
+    dict(cod="LC-08", amb="S-S03", tipo="lavatorio", x=12_250, y=9_750, w=700, h=450),
+    dict(cod="LC-09", amb="S-S03", tipo="box",       x=11_550, y=10_900, w=900, h=1_000),
     # suite master — banho (11.400, 19.200, 2.400 x 3.000)
     # R09 — seguem o banho, que passou a cair sobre a lavanderia
     # R55 — com 3.600 mm de frente, as tres pecas deixam de disputar parede.
@@ -1853,8 +1916,8 @@ ARMARIOS = [
     # guarda-roupas, nao closets. Como subdivisao, ganhavam porta propria (800)
     # num compartimento em que nao se entra. Viram armario de 600 no vao
     # inteiro, portas de correr: o mesmo movel, sem a parede e sem a porta.
-    dict(cod="AR-12", amb="S-S02", tipo="guarda-roupa", x=2_400, y=15_600, w=600, h=2_400),
-    dict(cod="AR-13", amb="S-S03", tipo="guarda-roupa", x=2_400, y=20_400, w=600, h=2_400),
+    dict(cod="AR-12", amb="S-S02", tipo="guarda-roupa", x=2_400, y=7_200, w=600, h=2_400),
+    dict(cod="AR-13", amb="S-S03", tipo="guarda-roupa", x=7_800, y=11_400, w=2_400, h=600),
     # R63 — gaveteiro central no closet da master: e o que faz closet virar
     # vestiario. 1.000 x 600 no centro, com 1.000 mm livres em volta.
     dict(cod="AR-14", amb="S-MAS", tipo="gaveteiro", x=13_600, y=20_400, w=1_000, h=600),
@@ -2343,7 +2406,6 @@ VENTILADORES = [
     dict(cod="VT-02", amb="T-COZ", diam=1_200, qtd=1, vazao_m3h=7_000),
     dict(cod="VT-03", amb="T-VAR", diam=  800, qtd=1, vazao_m3h=4_500,
          obs="varanda de 1.800 mm: pa de 800 mm e o maior que cabe com folga"),
-    dict(cod="VT-04", amb="T-LOG", diam=1_200, qtd=1, vazao_m3h=7_000),
     dict(cod="VT-05", amb="T-SOC", diam=1_400, qtd=1, vazao_m3h=9_000,
          obs="dentro da zona climatizada: e o que autoriza o setpoint de 25,5 C "
              "e o equipamento um degrau menor"),
@@ -2585,7 +2647,7 @@ CARGAS_ESPECIAIS = [
     # (nucleo/piscina.conferir).
     dict(cod="TUE-17", desc="Bomba, filtro e LEDs da piscina (TC-13)", va=700, v=220,
          grupo="motores", fd=0.80),
-    dict(cod="TUE-18", desc="Ventiladores de teto (10 un.)", va=1_000, v=127,
+    dict(cod="TUE-18", desc="Ventiladores de teto (9 un.)", va=900, v=127,
          grupo="ventilacao", fd=0.70),
     dict(cod="TUE-19", desc="Exaustores e coifas", va=450, v=127,
          grupo="ventilacao", fd=0.60),
@@ -2703,8 +2765,8 @@ def linhas_frigorigenas() -> list[dict]:
 RALOS = [
     dict(cod="RL-13", amb="T-DEP", tipo="ralo seco 100", x=11_800, y=23_250, dn=50),
     dict(cod="RL-01", amb="T-REV", tipo="ralo linear 600", x=14_025, y=13_025, dn=50),
-    dict(cod="RL-02", amb="S-S02", tipo="ralo linear 600", x=2_550, y=14_500, dn=50),
-    dict(cod="RL-03", amb="S-S03", tipo="ralo linear 600", x=2_550, y=19_300, dn=50),
+    dict(cod="RL-02", amb="S-S02", tipo="ralo linear 600", x=6_150, y=8_500, dn=50),
+    dict(cod="RL-03", amb="S-S03", tipo="ralo linear 600", x=11_550, y=10_900, dn=50),
     dict(cod="RL-04", amb="S-MAS", tipo="ralo linear 900", x=11_550, y=20_900, dn=50),
     dict(cod="RL-05", amb="T-LAV", tipo="ralo sifonado 150", x=10_800, y=20_400, dn=50),
     dict(cod="RL-06", amb="T-COZ", tipo="ralo sifonado 100", x=3_600, y=22_200, dn=50),
@@ -2977,6 +3039,7 @@ CATEGORIA = {
     "T-LAV": "servico", "T-DEP": "servico",
     "T-OFI": "oficina",
     "T-HAL": "circulacao", "T-CIR": "circulacao", "T-COR": "circulacao",
+    "S-CIR": "circulacao", "S-CI2": "circulacao",
     "S-HAL": "circulacao",
     "T-GAR": "apoio", "T-ALC": "intimo",
 }
@@ -3961,6 +4024,19 @@ REVISOES = [
      "valor fixado pelo caso e lido pelo modulo), 70 limites de norma ou "
      "catalogo, 33 hipoteses com o dono de quem confirma. O que nao esta na "
      "lista e derivado. PR-76, auditoria 151"),
+    ("R82", "FACHADA, ALTERNATIVA A: O SUPERIOR AVANCA ATE A RUA. As suites 02 e 03 "
+     "vao para a frente, lado a lado sobre a garagem, o hall e o reversivel, com "
+     "a frente alinhada a da garagem: o volume de 10,8 m sobre a garagem escura "
+     "da imagem de referencia, com a faixa ripada continua sobre as quatro "
+     "janelas. A master fica atras, olhando a piscina (decisao do proprietario). "
+     "Dois corredores novos (S-CIR ao lado da escada, S-CI2 atras das suites), "
+     "banhos sobre garagem e reversivel, shaft novo PN-10, vigas V-02/V-03 "
+     "passam a carregar piso e parede e ganham V-12 e V-13 sobre o portico de "
+     "entrada e o hall, com sete pilares embutidos (PL-11 a 17) nas jambas e "
+     "nos cantos; a loggia sul perde o teto; lanternim vai para a metade sul do "
+     "estar; muro da testada desce a 1,0 m (MURO_TESTADA_ALTURA). O codigo de "
+     "peca passa a 4 caracteres de hash (3 colidiram). Descida de carga: verga "
+     "entre pilares nao carrega king stud"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4155,7 +4231,9 @@ CADASTRO = cd.Cadastro(
     # absorveu. O numero e literal aqui e derivado na auditoria, que o confere
     # contra a soma dos ambientes a cada execucao — foi assim que a diferenca
     # apareceu no mesmo instante em que o hall cresceu.
-    area_m2=297.36,
+    # R82 — 307,08 m2: as suites foram para a frente e o superior ganhou os
+    # dois corredores (S-CIR 4,32 + S-CI2 5,40); a auditoria confere a soma
+    area_m2=307.08,
     pe_direito=2_600,
     sistema="Light Steel Frame sobre radier",
     normas=("NBR 15575", "NBR 15253", "NBR 14762", "NBR 6355", "NBR 6120",
@@ -4167,13 +4245,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R81",
+    revisao="R82",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R81", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R82", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

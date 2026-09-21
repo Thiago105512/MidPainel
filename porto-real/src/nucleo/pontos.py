@@ -271,7 +271,9 @@ def tomadas(pj) -> list[dict]:
                         livre = all(not (i0 <= coord <= i1) for i0, i1 in ocup[k]) and AFAST_CANTO <= t * comp <= comp - AFAST_CANTO
                         x, y = _ponto_no_lado(l, t)
                         ja = any(abs(q["x"] - x) + abs(q["y"] - y) < 300 for q in pts)
-                        if livre and not ja and not _ponto_em_subdivisao(pj, a.cod, x, y):
+                        # o lado pode ter parede so em parte (corredor integrado ao hall):
+                        # o ponto precisa de parede ONDE ele esta
+                        if livre and not ja and not _ponto_em_subdivisao(pj, a.cod, x, y) and parede_de(pj, pav, x, y) is not None:
                             pts.append(dict(x=x, y=y, z=Z_TUG, uso="geral", lado=l[0]))
                             colocados += 1
                             s += passo; andado += passo

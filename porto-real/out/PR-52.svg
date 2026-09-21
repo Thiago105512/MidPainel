@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="52" data-rev="R81">
+<g data-tipo="carimbo" data-cod="52" data-rev="R82">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R81</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R82</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">52</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R81</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R82</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -123,7 +123,7 @@
 <text x="218.750" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">porta principal, alta opaca</text>
 <text x="218.750" y="152.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">folha opaca</text>
 </g>
-<g data-tipo="esquadria" data-cod="P02" data-qtd="6">
+<g data-tipo="esquadria" data-cod="P02" data-qtd="4">
 <line x1="255.000" y1="130.000" x2="292.500" y2="130.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <polygon points="262.500,130.000 285.000,130.000 285.000,77.500 262.500,77.500" stroke="#000000" stroke-width="0.6" fill="#e5d3bd" stroke-linejoin="miter"/>
 <g data-tipo="cota" data-eixo="H" data-parciais="1">
@@ -142,7 +142,7 @@
 <line x1="292.300" y1="78.200" x2="293.700" y2="76.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="291.884" y="103.750" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 291.884 103.750)">2,10</text>
 </g>
-<text x="273.750" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">P02 — 6 un</text>
+<text x="273.750" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">P02 — 4 un</text>
 <text x="273.750" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">porta interna (familia unificada)</text>
 <text x="273.750" y="152.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">folha opaca</text>
 </g>
@@ -169,7 +169,7 @@
 <text x="326.250" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">porta de servico, resistente a umidade</text>
 <text x="326.250" y="152.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">folha opaca</text>
 </g>
-<g data-tipo="esquadria" data-cod="P06" data-qtd="1">
+<g data-tipo="esquadria" data-cod="P05" data-qtd="2">
 <line x1="360.000" y1="130.000" x2="397.500" y2="130.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <polygon points="367.500,130.000 390.000,130.000 390.000,77.500 367.500,77.500" stroke="#000000" stroke-width="0.6" fill="#e5d3bd" stroke-linejoin="miter"/>
 <g data-tipo="cota" data-eixo="H" data-parciais="1">
@@ -188,176 +188,199 @@
 <line x1="397.300" y1="78.200" x2="398.700" y2="76.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="396.884" y="103.750" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 396.884 103.750)">2,10</text>
 </g>
-<text x="378.750" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">P06 — 1 un</text>
-<text x="378.750" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">porta interna de folha SOLIDA com vedacao perime</text>
+<text x="378.750" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">P05 — 2 un</text>
+<text x="378.750" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">porta DE CORRER — sem area de varredura</text>
 <text x="378.750" y="152.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">folha opaca</text>
 </g>
-<g data-tipo="esquadria" data-cod="J01" data-qtd="8">
-<line x1="412.500" y1="130.000" x2="457.500" y2="130.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<polygon points="420.000,102.500 450.000,102.500 450.000,72.500 420.000,72.500" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
-<line x1="435.000" y1="102.500" x2="435.000" y2="72.500" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="420.000" y1="102.500" x2="435.000" y2="72.500" stroke="#999" stroke-width="0.13" fill="none" stroke-dasharray="2 2" stroke-linecap="round"/>
+<g data-tipo="esquadria" data-cod="P06" data-qtd="1">
+<line x1="412.500" y1="130.000" x2="450.000" y2="130.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="420.000,130.000 442.500,130.000 442.500,77.500 420.000,77.500" stroke="#000000" stroke-width="0.6" fill="#e5d3bd" stroke-linejoin="miter"/>
 <g data-tipo="cota" data-eixo="H" data-parciais="1">
-<line x1="420.000" y1="72.500" x2="420.000" y2="63.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="450.000" y1="72.500" x2="450.000" y2="63.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="420.000" y1="64.500" x2="450.000" y2="64.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="419.300" y1="65.200" x2="420.700" y2="63.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="449.300" y1="65.200" x2="450.700" y2="63.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="435.000" y="63.384" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">1,20</text>
-</g>
-<g data-tipo="cota" data-eixo="V" data-parciais="2">
-<line x1="450.000" y1="130.000" x2="459.200" y2="130.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="450.000" y1="102.500" x2="459.200" y2="102.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="450.000" y1="72.500" x2="459.200" y2="72.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="458.000" y1="130.000" x2="458.000" y2="72.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="457.300" y1="130.700" x2="458.700" y2="129.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="457.300" y1="103.200" x2="458.700" y2="101.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="456.884" y="116.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 456.884 116.250)">1,10</text>
-<line x1="457.300" y1="103.200" x2="458.700" y2="101.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="457.300" y1="73.200" x2="458.700" y2="71.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="456.884" y="87.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 456.884 87.500)">1,20</text>
-</g>
-<text x="435.000" y="55.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">J01 — 8 un</text>
-<text x="435.000" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">janela de dormitorio, aluminio</text>
-<text x="435.000" y="152.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: laminado 6+6 PVB acustico + controle solar</text>
-</g>
-<g data-tipo="esquadria" data-cod="J02" data-qtd="1">
-<line x1="472.500" y1="130.000" x2="502.500" y2="130.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<polygon points="480.000,92.500 495.000,92.500 495.000,77.500 480.000,77.500" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
-<line x1="480.000" y1="92.500" x2="495.000" y2="77.500" stroke="#999" stroke-width="0.13" fill="none" stroke-dasharray="2 2" stroke-linecap="round"/>
-<g data-tipo="cota" data-eixo="H" data-parciais="1">
-<line x1="480.000" y1="77.500" x2="480.000" y2="68.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="495.000" y1="77.500" x2="495.000" y2="68.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="480.000" y1="69.500" x2="495.000" y2="69.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="479.300" y1="70.200" x2="480.700" y2="68.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="494.300" y1="70.200" x2="495.700" y2="68.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="487.500" y="68.384" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
-</g>
-<g data-tipo="cota" data-eixo="V" data-parciais="2">
-<line x1="495.000" y1="130.000" x2="504.200" y2="130.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="495.000" y1="92.500" x2="504.200" y2="92.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="495.000" y1="77.500" x2="504.200" y2="77.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="503.000" y1="130.000" x2="503.000" y2="77.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="502.300" y1="130.700" x2="503.700" y2="129.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="502.300" y1="93.200" x2="503.700" y2="91.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="501.884" y="111.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 501.884 111.250)">1,50</text>
-<line x1="502.300" y1="93.200" x2="503.700" y2="91.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="502.300" y1="78.200" x2="503.700" y2="76.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="501.884" y="85.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 501.884 85.000)">0,60</text>
-</g>
-<text x="487.500" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">J02 — 1 un</text>
-<text x="487.500" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">janela de banheiro, alta translucida</text>
-<text x="487.500" y="152.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: temperado 6 mm translucido</text>
-</g>
-<g data-tipo="esquadria" data-cod="J04" data-qtd="5">
-<line x1="32.500" y1="250.000" x2="67.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<polygon points="40.000,212.500 60.000,212.500 60.000,190.000 40.000,190.000" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
-<g data-tipo="cota" data-eixo="H" data-parciais="1">
-<line x1="40.000" y1="190.000" x2="40.000" y2="180.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="60.000" y1="190.000" x2="60.000" y2="180.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="40.000" y1="182.000" x2="60.000" y2="182.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="39.300" y1="182.700" x2="40.700" y2="181.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="59.300" y1="182.700" x2="60.700" y2="181.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="50.000" y="180.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,80</text>
-</g>
-<g data-tipo="cota" data-eixo="V" data-parciais="2">
-<line x1="60.000" y1="250.000" x2="69.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="60.000" y1="212.500" x2="69.200" y2="212.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="60.000" y1="190.000" x2="69.200" y2="190.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="68.000" y1="250.000" x2="68.000" y2="190.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="67.300" y1="250.700" x2="68.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="67.300" y1="213.200" x2="68.700" y2="211.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="66.884" y="231.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 66.884 231.250)">1,50</text>
-<line x1="67.300" y1="213.200" x2="68.700" y2="211.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="67.300" y1="190.700" x2="68.700" y2="189.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="66.884" y="201.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 66.884 201.250)">0,90</text>
-</g>
-<text x="50.000" y="172.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">J04 — 5 un</text>
-<text x="50.000" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">janela alta de banheiro, basculante</text>
-<text x="50.000" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: temperado 6 mm translucido com controle sola</text>
-</g>
-<g data-tipo="esquadria" data-cod="J05" data-qtd="5">
-<line x1="82.500" y1="250.000" x2="142.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<polygon points="90.000,222.500 135.000,222.500 135.000,192.500 90.000,192.500" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
-<line x1="112.500" y1="222.500" x2="112.500" y2="192.500" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="90.000" y1="222.500" x2="112.500" y2="192.500" stroke="#999" stroke-width="0.13" fill="none" stroke-dasharray="2 2" stroke-linecap="round"/>
-<g data-tipo="cota" data-eixo="H" data-parciais="1">
-<line x1="90.000" y1="192.500" x2="90.000" y2="183.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="135.000" y1="192.500" x2="135.000" y2="183.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="90.000" y1="184.500" x2="135.000" y2="184.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="89.300" y1="185.200" x2="90.700" y2="183.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="134.300" y1="185.200" x2="135.700" y2="183.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="112.500" y="183.384" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">1,80</text>
-</g>
-<g data-tipo="cota" data-eixo="V" data-parciais="2">
-<line x1="135.000" y1="250.000" x2="144.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="135.000" y1="222.500" x2="144.200" y2="222.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="135.000" y1="192.500" x2="144.200" y2="192.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="143.000" y1="250.000" x2="143.000" y2="192.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="142.300" y1="250.700" x2="143.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="142.300" y1="223.200" x2="143.700" y2="221.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="141.884" y="236.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 141.884 236.250)">1,10</text>
-<line x1="142.300" y1="223.200" x2="143.700" y2="221.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="142.300" y1="193.200" x2="143.700" y2="191.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="141.884" y="207.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 141.884 207.500)">1,20</text>
-</g>
-<text x="112.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">J05 — 5 un</text>
-<text x="112.500" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">janela ampla de dormitorio, aluminio</text>
-<text x="112.500" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: laminado 6+6 PVB acustico + controle solar</text>
-</g>
-<g data-tipo="esquadria" data-cod="PV02" data-qtd="4">
-<line x1="157.500" y1="250.000" x2="232.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<polygon points="165.000,250.000 225.000,250.000 225.000,190.000 165.000,190.000" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
-<line x1="195.000" y1="250.000" x2="195.000" y2="190.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<g data-tipo="cota" data-eixo="H" data-parciais="1">
-<line x1="165.000" y1="190.000" x2="165.000" y2="180.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="225.000" y1="190.000" x2="225.000" y2="180.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="165.000" y1="182.000" x2="225.000" y2="182.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="164.300" y1="182.700" x2="165.700" y2="181.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="224.300" y1="182.700" x2="225.700" y2="181.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="195.000" y="180.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">2,40</text>
+<line x1="420.000" y1="77.500" x2="420.000" y2="68.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="442.500" y1="77.500" x2="442.500" y2="68.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="420.000" y1="69.500" x2="442.500" y2="69.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="419.300" y1="70.200" x2="420.700" y2="68.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="441.800" y1="70.200" x2="443.200" y2="68.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="431.250" y="68.384" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,90</text>
 </g>
 <g data-tipo="cota" data-eixo="V" data-parciais="1">
-<line x1="225.000" y1="250.000" x2="234.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="225.000" y1="190.000" x2="234.200" y2="190.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="233.000" y1="250.000" x2="233.000" y2="190.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="232.300" y1="250.700" x2="233.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="232.300" y1="190.700" x2="233.700" y2="189.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="231.884" y="220.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 231.884 220.000)">2,40</text>
+<line x1="442.500" y1="130.000" x2="451.700" y2="130.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="442.500" y1="77.500" x2="451.700" y2="77.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="450.500" y1="130.000" x2="450.500" y2="77.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="449.800" y1="130.700" x2="451.200" y2="129.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="449.800" y1="78.200" x2="451.200" y2="76.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="449.384" y="103.750" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 449.384 103.750)">2,10</text>
 </g>
-<text x="195.000" y="172.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">PV02 — 4 un</text>
-<text x="195.000" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">porta-balcao do estar (familia adicional — ver D</text>
-<text x="195.000" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: temperado 8 mm comum</text>
+<text x="431.250" y="60.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">P06 — 1 un</text>
+<text x="431.250" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">porta interna de folha SOLIDA com vedacao perime</text>
+<text x="431.250" y="152.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">folha opaca</text>
+</g>
+<g data-tipo="esquadria" data-cod="J01" data-qtd="8">
+<line x1="465.000" y1="130.000" x2="510.000" y2="130.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="472.500,102.500 502.500,102.500 502.500,72.500 472.500,72.500" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
+<line x1="487.500" y1="102.500" x2="487.500" y2="72.500" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="472.500" y1="102.500" x2="487.500" y2="72.500" stroke="#999" stroke-width="0.13" fill="none" stroke-dasharray="2 2" stroke-linecap="round"/>
+<g data-tipo="cota" data-eixo="H" data-parciais="1">
+<line x1="472.500" y1="72.500" x2="472.500" y2="63.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="502.500" y1="72.500" x2="502.500" y2="63.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="472.500" y1="64.500" x2="502.500" y2="64.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="471.800" y1="65.200" x2="473.200" y2="63.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="501.800" y1="65.200" x2="503.200" y2="63.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="487.500" y="63.384" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">1,20</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="2">
+<line x1="502.500" y1="130.000" x2="511.700" y2="130.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="502.500" y1="102.500" x2="511.700" y2="102.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="502.500" y1="72.500" x2="511.700" y2="72.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="510.500" y1="130.000" x2="510.500" y2="72.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="509.800" y1="130.700" x2="511.200" y2="129.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="509.800" y1="103.200" x2="511.200" y2="101.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="509.384" y="116.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 509.384 116.250)">1,10</text>
+<line x1="509.800" y1="103.200" x2="511.200" y2="101.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="509.800" y1="73.200" x2="511.200" y2="71.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="509.384" y="87.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 509.384 87.500)">1,20</text>
+</g>
+<text x="487.500" y="55.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">J01 — 8 un</text>
+<text x="487.500" y="142.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">janela de dormitorio, aluminio</text>
+<text x="487.500" y="152.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: laminado 6+6 PVB acustico + controle solar</text>
+</g>
+<g data-tipo="esquadria" data-cod="J02" data-qtd="1">
+<line x1="32.500" y1="250.000" x2="62.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="40.000,212.500 55.000,212.500 55.000,197.500 40.000,197.500" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
+<line x1="40.000" y1="212.500" x2="55.000" y2="197.500" stroke="#999" stroke-width="0.13" fill="none" stroke-dasharray="2 2" stroke-linecap="round"/>
+<g data-tipo="cota" data-eixo="H" data-parciais="1">
+<line x1="40.000" y1="197.500" x2="40.000" y2="188.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="55.000" y1="197.500" x2="55.000" y2="188.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="40.000" y1="189.500" x2="55.000" y2="189.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="39.300" y1="190.200" x2="40.700" y2="188.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="54.300" y1="190.200" x2="55.700" y2="188.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="47.500" y="188.384" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,60</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="2">
+<line x1="55.000" y1="250.000" x2="64.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="55.000" y1="212.500" x2="64.200" y2="212.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="55.000" y1="197.500" x2="64.200" y2="197.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="63.000" y1="250.000" x2="63.000" y2="197.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="62.300" y1="250.700" x2="63.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="62.300" y1="213.200" x2="63.700" y2="211.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="61.884" y="231.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 61.884 231.250)">1,50</text>
+<line x1="62.300" y1="213.200" x2="63.700" y2="211.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="62.300" y1="198.200" x2="63.700" y2="196.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="61.884" y="205.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 61.884 205.000)">0,60</text>
+</g>
+<text x="47.500" y="180.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">J02 — 1 un</text>
+<text x="47.500" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">janela de banheiro, alta translucida</text>
+<text x="47.500" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: temperado 6 mm translucido</text>
+</g>
+<g data-tipo="esquadria" data-cod="J04" data-qtd="5">
+<line x1="77.500" y1="250.000" x2="112.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="85.000,212.500 105.000,212.500 105.000,190.000 85.000,190.000" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
+<g data-tipo="cota" data-eixo="H" data-parciais="1">
+<line x1="85.000" y1="190.000" x2="85.000" y2="180.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="105.000" y1="190.000" x2="105.000" y2="180.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="85.000" y1="182.000" x2="105.000" y2="182.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="84.300" y1="182.700" x2="85.700" y2="181.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="104.300" y1="182.700" x2="105.700" y2="181.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="95.000" y="180.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,80</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="2">
+<line x1="105.000" y1="250.000" x2="114.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="105.000" y1="212.500" x2="114.200" y2="212.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="105.000" y1="190.000" x2="114.200" y2="190.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="113.000" y1="250.000" x2="113.000" y2="190.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="112.300" y1="250.700" x2="113.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="112.300" y1="213.200" x2="113.700" y2="211.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="111.884" y="231.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 111.884 231.250)">1,50</text>
+<line x1="112.300" y1="213.200" x2="113.700" y2="211.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="112.300" y1="190.700" x2="113.700" y2="189.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="111.884" y="201.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 111.884 201.250)">0,90</text>
+</g>
+<text x="95.000" y="172.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">J04 — 5 un</text>
+<text x="95.000" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">janela alta de banheiro, basculante</text>
+<text x="95.000" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: temperado 6 mm translucido com controle sola</text>
+</g>
+<g data-tipo="esquadria" data-cod="J05" data-qtd="5">
+<line x1="127.500" y1="250.000" x2="187.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="135.000,222.500 180.000,222.500 180.000,192.500 135.000,192.500" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
+<line x1="157.500" y1="222.500" x2="157.500" y2="192.500" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="135.000" y1="222.500" x2="157.500" y2="192.500" stroke="#999" stroke-width="0.13" fill="none" stroke-dasharray="2 2" stroke-linecap="round"/>
+<g data-tipo="cota" data-eixo="H" data-parciais="1">
+<line x1="135.000" y1="192.500" x2="135.000" y2="183.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="180.000" y1="192.500" x2="180.000" y2="183.300" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="135.000" y1="184.500" x2="180.000" y2="184.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="134.300" y1="185.200" x2="135.700" y2="183.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="179.300" y1="185.200" x2="180.700" y2="183.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="157.500" y="183.384" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">1,80</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="2">
+<line x1="180.000" y1="250.000" x2="189.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="180.000" y1="222.500" x2="189.200" y2="222.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="180.000" y1="192.500" x2="189.200" y2="192.500" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="188.000" y1="250.000" x2="188.000" y2="192.500" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="187.300" y1="250.700" x2="188.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="187.300" y1="223.200" x2="188.700" y2="221.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="186.884" y="236.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 186.884 236.250)">1,10</text>
+<line x1="187.300" y1="223.200" x2="188.700" y2="221.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="187.300" y1="193.200" x2="188.700" y2="191.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="186.884" y="207.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 186.884 207.500)">1,20</text>
+</g>
+<text x="157.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">J05 — 5 un</text>
+<text x="157.500" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">janela ampla de dormitorio, aluminio</text>
+<text x="157.500" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: laminado 6+6 PVB acustico + controle solar</text>
+</g>
+<g data-tipo="esquadria" data-cod="PV02" data-qtd="4">
+<line x1="202.500" y1="250.000" x2="277.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="210.000,250.000 270.000,250.000 270.000,190.000 210.000,190.000" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
+<line x1="240.000" y1="250.000" x2="240.000" y2="190.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<g data-tipo="cota" data-eixo="H" data-parciais="1">
+<line x1="210.000" y1="190.000" x2="210.000" y2="180.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="270.000" y1="190.000" x2="270.000" y2="180.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="210.000" y1="182.000" x2="270.000" y2="182.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="209.300" y1="182.700" x2="210.700" y2="181.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="269.300" y1="182.700" x2="270.700" y2="181.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="240.000" y="180.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">2,40</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="1">
+<line x1="270.000" y1="250.000" x2="279.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="270.000" y1="190.000" x2="279.200" y2="190.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="278.000" y1="250.000" x2="278.000" y2="190.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="277.300" y1="250.700" x2="278.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="277.300" y1="190.700" x2="278.700" y2="189.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="276.884" y="220.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 276.884 220.000)">2,40</text>
+</g>
+<text x="240.000" y="172.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">PV02 — 4 un</text>
+<text x="240.000" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">porta-balcao do estar (familia adicional — ver D</text>
+<text x="240.000" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: temperado 8 mm comum</text>
 </g>
 <g data-tipo="esquadria" data-cod="CV01" data-qtd="1">
-<line x1="247.500" y1="250.000" x2="442.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<polygon points="255.000,250.000 435.000,250.000 435.000,185.000 255.000,185.000" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
-<line x1="277.500" y1="250.000" x2="277.500" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="300.000" y1="250.000" x2="300.000" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="292.500" y1="250.000" x2="487.500" y2="250.000" stroke="#999" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="300.000,250.000 480.000,250.000 480.000,185.000 300.000,185.000" stroke="#000000" stroke-width="0.6" fill="#dfeef7" stroke-linejoin="miter"/>
 <line x1="322.500" y1="250.000" x2="322.500" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="345.000" y1="250.000" x2="345.000" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="367.500" y1="250.000" x2="367.500" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="390.000" y1="250.000" x2="390.000" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="412.500" y1="250.000" x2="412.500" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="435.000" y1="250.000" x2="435.000" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="457.500" y1="250.000" x2="457.500" y2="185.000" stroke="#666" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <g data-tipo="cota" data-eixo="H" data-parciais="1">
-<line x1="255.000" y1="185.000" x2="255.000" y2="175.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="435.000" y1="185.000" x2="435.000" y2="175.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="255.000" y1="177.000" x2="435.000" y2="177.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="254.300" y1="177.700" x2="255.700" y2="176.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="434.300" y1="177.700" x2="435.700" y2="176.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="345.000" y="175.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">7,20</text>
+<line x1="300.000" y1="185.000" x2="300.000" y2="175.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="480.000" y1="185.000" x2="480.000" y2="175.800" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="300.000" y1="177.000" x2="480.000" y2="177.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="299.300" y1="177.700" x2="300.700" y2="176.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="479.300" y1="177.700" x2="480.700" y2="176.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="390.000" y="175.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">7,20</text>
 </g>
 <g data-tipo="cota" data-eixo="V" data-parciais="1">
-<line x1="435.000" y1="250.000" x2="444.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="435.000" y1="185.000" x2="444.200" y2="185.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="443.000" y1="250.000" x2="443.000" y2="185.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="442.300" y1="250.700" x2="443.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="442.300" y1="185.700" x2="443.700" y2="184.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="441.884" y="217.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 441.884 217.500)">2,60</text>
+<line x1="480.000" y1="250.000" x2="489.200" y2="250.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="480.000" y1="185.000" x2="489.200" y2="185.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="488.000" y1="250.000" x2="488.000" y2="185.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="487.300" y1="250.700" x2="488.700" y2="249.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="487.300" y1="185.700" x2="488.700" y2="184.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="486.884" y="217.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 486.884 217.500)">2,60</text>
 </g>
-<text x="345.000" y="167.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CV01 — 1 un</text>
-<text x="345.000" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">CORTINA DE VIDRO retratil, 8 folhas de 900 mm de</text>
-<text x="345.000" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: laminado 6+6 low-e, 8 folhas de 900 mm, g &lt;=</text>
+<text x="390.000" y="167.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">CV01 — 1 un</text>
+<text x="390.000" y="262.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">CORTINA DE VIDRO retratil, 8 folhas de 900 mm de</text>
+<text x="390.000" y="272.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#2a7ab8" text-anchor="middle" dominant-baseline="middle">vidro: laminado 6+6 low-e, 8 folhas de 900 mm, g &lt;=</text>
 </g>
 <polygon points="40.000,500.000 70.000,500.000 70.000,488.000 40.000,488.000" stroke="#000000" stroke-width="0.6" fill="#f7f5f0" stroke-linejoin="miter"/>
 <text x="55.000" y="494.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">parede PE-1</text>

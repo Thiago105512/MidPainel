@@ -22,7 +22,7 @@ PROLONGADA = {"T-REV", "T-SOC", "T-COZ", "T-GOU", "T-OFI",
               "S-S02", "S-S03", "S-MAS"}
 # circulacao, garagem e depositos sao dispensados de iluminacao natural pelo
 # Codigo de Obras; a garagem ventila pelo proprio portao
-DISPENSADOS = {"T-HAL", "T-CIR", "S-HAL", "T-COR", "T-GAR", "T-DEP"}
+DISPENSADOS = {"T-HAL", "T-CIR", "S-HAL", "T-COR", "T-GAR", "T-DEP", "S-CIR", "S-CI2"}
 FRAC_PROLONGADA = 1 / 6
 FRAC_DEMAIS = 1 / 8
 VAO_LIVRE_MIN = 800          # NBR 9050: vao livre de porta
@@ -825,10 +825,15 @@ def checar_tecnicos() -> list[Achado]:
 
     # 16.3 zona INT: dentro do ambiente declarado, encostado em parede,
     #      e com a zona livre de manutencao a frente
-    pecas_t = list(_pecas_do_pav("T")) + list(_pecas_do_pav("S"))
+    # R82 — a zona de manutencao de um quadro do terreo nao pode ser ocupada por
+    # um box do SUPERIOR: com as suites sobre a garagem, TC-05 acusava LC-09.
+    # As pecas sao lidas do pavimento do proprio ambiente do quadro.
+    pecas_por_pav = {"T": list(_pecas_do_pav("T")), "S": list(_pecas_do_pav("S"))}
     for t in tecs:
         if t.get("zona") != "INT":
             continue
+        _amb_t = next((a for a in pj.TERREO + pj.SUPERIOR if a.cod == t.get("amb")), None)
+        pecas_t = pecas_por_pav[_amb_t.pav] if _amb_t is not None else pecas_por_pav["T"] + pecas_por_pav["S"]
         amb = amb_por_cod.get(t.get("amb", ""))
         if amb is None:
             out.append(Achado("ERRO", "Area tecnica sem ambiente",

@@ -1,5 +1,5 @@
 {
- "revisao": "R81",
+ "revisao": "R82",
  "olho": 1550,
  "recuo_porta": 700,
  "vistas": [
@@ -441,12 +441,12 @@
    "tipo": "interna",
    "origem": "canto",
    "pos": [
-    2900,
+    7900,
     12700,
     1550
    ],
    "alvo": [
-    6461,
+    4339,
     9139,
     1300
    ],
@@ -1200,13 +1200,13 @@
    "tipo": "interna",
    "origem": "porta",
    "pos": [
-    7100,
-    17400,
+    7350,
+    11300,
     4850
    ],
    "alvo": [
-    4208,
-    14797,
+    4143,
+    8877,
     4600
    ],
    "fov": 62,
@@ -1231,15 +1231,81 @@
    "amb": "S-S03",
    "pav": "S",
    "tipo": "interna",
-   "origem": "porta",
+   "origem": "canto",
    "pos": [
-    7100,
-    18600,
+    8300,
+    7700,
     4850
    ],
    "alvo": [
-    4208,
-    21203,
+    11408,
+    10384,
+    4600
+   ],
+   "fov": 62,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-CIR",
+   "titulo": "Circulacao Superior",
+   "grupo": "superior",
+   "amb": "S-CIR",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    8500,
+    13700,
+    4850
+   ],
+   "alvo": [
+    8377,
+    15299,
+    4600
+   ],
+   "fov": 62,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-CI2",
+   "titulo": "Corredor Das Suites",
+   "grupo": "superior",
+   "amb": "S-CI2",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    10800,
+    12700,
+    4850
+   ],
+   "alvo": [
+    8851,
+    12582,
     4600
    ],
    "fov": 62,
@@ -1266,13 +1332,13 @@
    "tipo": "interna",
    "origem": "porta",
    "pos": [
-    8500,
-    18600,
+    8400,
+    18500,
     4850
    ],
    "alvo": [
-    10766,
-    17800,
+    10778,
+    17839,
     4600
    ],
    "fov": 62,
@@ -1365,13 +1431,13 @@
    "tipo": "interna",
    "origem": "canto",
    "pos": [
-    3800,
-    15200,
+    7400,
+    8400,
     4850
    ],
    "alvo": [
-    3300,
-    14400,
+    6900,
+    8400,
     4600
    ],
    "fov": 70,

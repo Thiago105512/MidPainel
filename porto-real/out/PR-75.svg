@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="75" data-rev="R81">
+<g data-tipo="carimbo" data-cod="75" data-rev="R82">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,16 +26,16 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R81</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R82</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">75</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R81</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R82</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="500.400" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 7 linhas frigorigenas do nicho ao evaporador: sobem no nicho, correm pela fachada na cota do evaporador (2200 mm) e entram na parede do ambiente; 71.2 m no total contra 57.6 m declarados na PR-28 (o declarado nao contava a fachada). 36 abracadeiras; isolamento elastomerico 9 mm, dreno DN25 ao ralo mais proximo.</text>
+<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 7 linhas frigorigenas do nicho ao evaporador: sobem no nicho, correm pela fachada na cota do evaporador (2200 mm) e entram na parede do ambiente; 64.7 m no total contra 55.8 m declarados na PR-28 (o declarado nao contava a fachada). 35 abracadeiras; isolamento elastomerico 9 mm, dreno DN25 ao ralo mais proximo.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Mapa de testes: 15 testes em 15 sistemas, cada um com fase (PR-72), criterio (H, norma citada) e registro. O que fica escondido testa ANTES de esconder: esgoto do radier na fase 1, PEX com a parede aberta, N2 na linha antes do fechamento.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Pontos criticos: o que, se sair errado, nao se ve depois — e o que a inspecao fotografa.</text>
 </g>
@@ -52,10 +52,10 @@
 <line x1="351.769" y1="246.667" x2="351.769" y2="214.444" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="167.017" y1="140.000" x2="167.017" y2="107.778" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="40.000" y1="213.333" x2="40.000" y2="181.111" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<polygon points="167.017,250.000 294.034,176.667 178.564,110.000 51.547,183.333" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<polygon points="167.017,217.778 294.034,144.444 178.564,77.778 51.547,151.111" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
-<line x1="167.017" y1="250.000" x2="167.017" y2="217.778" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<line x1="294.034" y1="176.667" x2="294.034" y2="144.444" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<polygon points="224.752,283.333 351.769,210.000 178.564,110.000 51.547,183.333" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="224.752,251.111 351.769,177.778 178.564,77.778 51.547,151.111" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<line x1="224.752" y1="283.333" x2="224.752" y2="251.111" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="351.769" y1="210.000" x2="351.769" y2="177.778" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="178.564" y1="110.000" x2="178.564" y2="77.778" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <line x1="51.547" y1="183.333" x2="51.547" y2="151.111" stroke="#bbb" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="309.430,204.444 317.128,200.000 253.620,163.333 245.922,167.778" stroke="#b5651d" stroke-width="0.18" fill="#fff3d6" stroke-linejoin="miter"/>
@@ -83,15 +83,13 @@
 <polygon points="291.457,194.889 295.457,194.889 295.457,196.889 291.457,196.889" stroke="#1f4b8a" stroke-width="0.3" fill="#eef3fb" stroke-linejoin="miter"/>
 <text x="294.957" y="193.111" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#7a4fd0" text-anchor="start" dominant-baseline="middle">LF-T-REV -&gt; TUE-9 (T-REV)</text>
 <line x1="193.960" y1="297.778" x2="193.960" y2="243.333" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<line x1="193.960" y1="243.333" x2="201.081" y2="239.222" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<line x1="201.081" y1="239.222" x2="171.636" y2="222.222" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<polygon points="169.636,221.222 173.636,221.222 173.636,223.222 169.636,223.222" stroke="#1f4b8a" stroke-width="0.3" fill="#eef3fb" stroke-linejoin="miter"/>
-<text x="173.136" y="219.444" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#7a4fd0" text-anchor="start" dominant-baseline="middle">LF-S-S02 -&gt; TUE-7 (S-S02)</text>
+<line x1="193.960" y1="243.333" x2="196.462" y2="241.889" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<polygon points="194.462,240.889 198.462,240.889 198.462,242.889 194.462,242.889" stroke="#1f4b8a" stroke-width="0.3" fill="#eef3fb" stroke-linejoin="miter"/>
+<text x="197.962" y="239.111" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#7a4fd0" text-anchor="start" dominant-baseline="middle">LF-S-S02 -&gt; TUE-7 (S-S02)</text>
 <line x1="193.960" y1="297.778" x2="193.960" y2="243.333" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<line x1="193.960" y1="243.333" x2="201.081" y2="239.222" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<line x1="201.081" y1="239.222" x2="125.448" y2="195.556" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
-<polygon points="123.448,194.556 127.448,194.556 127.448,196.556 123.448,196.556" stroke="#1f4b8a" stroke-width="0.3" fill="#eef3fb" stroke-linejoin="miter"/>
-<text x="126.948" y="192.778" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#7a4fd0" text-anchor="start" dominant-baseline="middle">LF-S-S03 -&gt; TUE-8 (S-S03)</text>
+<line x1="193.960" y1="243.333" x2="248.423" y2="211.889" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<polygon points="246.423,210.889 250.423,210.889 250.423,212.889 246.423,212.889" stroke="#1f4b8a" stroke-width="0.3" fill="#eef3fb" stroke-linejoin="miter"/>
+<text x="249.923" y="209.111" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#7a4fd0" text-anchor="start" dominant-baseline="middle">LF-S-S03 -&gt; TUE-8 (S-S03)</text>
 <line x1="281.525" y1="177.222" x2="281.525" y2="155.000" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="281.525" y1="155.000" x2="184.338" y2="211.111" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
 <line x1="184.338" y1="211.111" x2="187.224" y2="212.778" stroke="#7a4fd0" stroke-width="0.3" fill="none" stroke-linecap="round"/>
@@ -151,10 +149,10 @@
 <text x="87.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TC-10</text>
 <text x="105.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUE-7</text>
 <text x="123.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4,9</text>
-<text x="141.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,7</text>
-<text x="163.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3,1</text>
-<text x="185.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8,7</text>
-<text x="205.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6,6</text>
+<text x="141.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,3</text>
+<text x="163.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,0</text>
+<text x="185.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5,2</text>
+<text x="205.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5,4</text>
 <text x="225.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1/4 / 1/2</text>
 <text x="251.500" y="347.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
 <polygon points="40.000,349.400 268.000,349.400 268.000,353.000 40.000,353.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
@@ -163,10 +161,10 @@
 <text x="87.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TC-10</text>
 <text x="105.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUE-8</text>
 <text x="123.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4,9</text>
-<text x="141.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,7</text>
-<text x="163.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7,9</text>
-<text x="185.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13,5</text>
-<text x="205.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11,4</text>
+<text x="141.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5,7</text>
+<text x="163.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,0</text>
+<text x="185.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10,6</text>
+<text x="205.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10,8</text>
 <text x="225.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1/4 / 1/2</text>
 <text x="251.500" y="351.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
 <polygon points="40.000,353.000 268.000,353.000 268.000,356.600 40.000,356.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
@@ -223,17 +221,17 @@
 <text x="245.500" y="371.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CONFERIR</text>
 <polygon points="40.000,374.000 348.000,374.000 348.000,378.200 40.000,378.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="41.500" y="376.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">radier</text>
-<text x="93.500" y="376.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">69.2 m de esgoto embutido</text>
+<text x="93.500" y="376.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">80.2 m de esgoto embutido</text>
 <text x="167.500" y="376.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fica invisivel depois da concretagem</text>
 <text x="245.500" y="376.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">teste de agua e caimento antes de concretar; foto com trena</text>
 <polygon points="40.000,378.200 348.000,378.200 348.000,382.400 40.000,382.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="41.500" y="380.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">21 paredes com agua</text>
+<text x="41.500" y="380.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">31 paredes com agua</text>
 <text x="93.500" y="380.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PEX a 400 mm por furos de 32 nos montantes</text>
 <text x="167.500" y="380.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">furo errado enfraquece o montante; parafuso de p</text>
 <text x="245.500" y="380.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">furo na cota de fabrica, bucha, e a placa parafusada fora das faixas 3</text>
 <polygon points="40.000,382.400 348.000,382.400 348.000,386.600 40.000,386.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="41.500" y="384.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">todas as paredes</text>
-<text x="93.500" y="384.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">eletroduto a 1.450 mm por 2580 montantes</text>
+<text x="93.500" y="384.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">eletroduto a 1.450 mm por 2929 montantes</text>
 <text x="167.500" y="384.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">parafuso de placa no eletroduto</text>
 <text x="245.500" y="384.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">parafusos das placas fora da faixa 1.400-1.500; mapa de ocultos (PR-74</text>
 <polygon points="40.000,386.600 348.000,386.600 348.000,390.800 40.000,390.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
@@ -242,7 +240,7 @@
 <text x="167.500" y="388.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">movel pendurado em placa</text>
 <text x="245.500" y="388.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">reforco fotografado antes de fechar</text>
 <polygon points="40.000,390.800 348.000,390.800 348.000,395.000 40.000,395.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="41.500" y="392.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">14 paineis com fita X</text>
+<text x="41.500" y="392.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">19 paineis com fita X</text>
 <text x="93.500" y="392.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">hold-down e chumbador (PR-67)</text>
 <text x="167.500" y="392.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fita solta ou hold-down sem chumbador</text>
 <text x="245.500" y="392.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">torque e tensao antes do fechamento</text>
@@ -275,7 +273,7 @@
 <polygon points="360.000,50.000 784.000,50.000 784.000,55.000 360.000,55.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="361.500" y="52.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Esgoto sob o radier</text>
 <text x="411.500" y="52.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="419.500" y="52.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">teste de estanqueidade com agua: 69.2 m de ramal e coletor</text>
+<text x="419.500" y="52.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">teste de estanqueidade com agua: 80.2 m de ramal e coletor</text>
 <text x="549.500" y="52.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">coluna de 3 m de agua por 15 min sem queda (H, NBR 8160 11.2); caimento conf</text>
 <text x="689.500" y="52.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">planta com os trechos testados assinada</text>
 <polygon points="360.000,55.000 784.000,55.000 784.000,60.000 360.000,60.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
@@ -299,7 +297,7 @@
 <polygon points="360.000,70.000 784.000,70.000 784.000,75.000 360.000,75.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="361.500" y="72.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Agua fria (PEX em parede)</text>
 <text x="411.500" y="72.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
-<text x="419.500" y="72.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">estanqueidade dos 121.5 m de PEX com a parede ABERTA</text>
+<text x="419.500" y="72.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">estanqueidade dos 124.2 m de PEX com a parede ABERTA</text>
 <text x="549.500" y="72.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,5 x pressao estatica maxima, minimo 263 kPa, 1 h sem queda (H, NBR 5626)</text>
 <text x="689.500" y="72.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">manometro fotografado em cada ramal; parede so f</text>
 <polygon points="360.000,75.000 784.000,75.000 784.000,80.000 360.000,80.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
@@ -311,7 +309,7 @@
 <polygon points="360.000,80.000 784.000,80.000 784.000,85.000 360.000,85.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="361.500" y="82.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Eletrica</text>
 <text x="411.500" y="82.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3-4</text>
-<text x="419.500" y="82.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">continuidade do PE, resistencia de isolamento dos 59 circuitos, DR, po</text>
+<text x="419.500" y="82.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">continuidade do PE, resistencia de isolamento dos 63 circuitos, DR, po</text>
 <text x="549.500" y="82.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">isolamento &gt;= 1 Mohm a 500 V; DR dispara a 30 mA; queda &lt;= 4.0 % no ponto ma</text>
 <text x="689.500" y="82.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">planilha por circuito com o megometro; laudo do </text>
 <polygon points="360.000,85.000 784.000,85.000 784.000,90.000 360.000,90.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>

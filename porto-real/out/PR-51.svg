@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="51" data-rev="R81">
+<g data-tipo="carimbo" data-cod="51" data-rev="R82">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R81</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R82</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">51</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R81</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R82</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -85,20 +85,24 @@
 <text x="79.500" y="65.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1. LAVANDERIA — parede sul (4 itens)</text>
 <text x="79.500" y="167.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">4 itens do caso nesta parede</text>
 <polygon points="304.000,150.000 439.000,150.000 439.000,77.500 304.000,77.500" stroke="#000000" stroke-width="0.6" fill="#fff" stroke-linejoin="miter"/>
+<g data-tipo="elevacao" data-cod="AR-12" data-amb="S-S02" data-face="L">
+<polygon points="304.000,150.000 319.000,150.000 319.000,95.000 304.000,95.000" stroke="#000000" stroke-width="0.3" fill="#f1ede4" stroke-linejoin="miter"/>
+<text x="311.500" y="122.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">AR-12 guarda-roupa</text>
+</g>
 <g data-tipo="elevacao" data-cod="J01" data-amb="S-S02" data-face="L">
-<polygon points="379.000,122.500 409.000,122.500 409.000,92.500 379.000,92.500" stroke="#000000" stroke-width="0.3" fill="#dfeef7" stroke-linejoin="miter"/>
-<text x="394.000" y="107.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">J01</text>
+<polygon points="334.000,122.500 364.000,122.500 364.000,92.500 334.000,92.500" stroke="#000000" stroke-width="0.3" fill="#dfeef7" stroke-linejoin="miter"/>
+<text x="349.000" y="107.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">J01</text>
 </g>
 <g data-tipo="elevacao" data-cod="LC-04" data-amb="S-S02" data-face="L">
-<polygon points="309.000,150.000 319.000,150.000 319.000,127.500 309.000,127.500" stroke="#000000" stroke-width="0.3" fill="#eeeeee" stroke-linejoin="miter"/>
+<polygon points="399.000,150.000 409.000,150.000 409.000,127.500 399.000,127.500" stroke="#000000" stroke-width="0.3" fill="#eeeeee" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="elevacao" data-cod="LC-05" data-amb="S-S02" data-face="L">
-<polygon points="325.250,150.000 342.750,150.000 342.750,127.500 325.250,127.500" stroke="#000000" stroke-width="0.3" fill="#eeeeee" stroke-linejoin="miter"/>
-<text x="334.000" y="138.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">LC-05 lavatorio</text>
+<polygon points="415.250,150.000 432.750,150.000 432.750,127.500 415.250,127.500" stroke="#000000" stroke-width="0.3" fill="#eeeeee" stroke-linejoin="miter"/>
+<text x="424.000" y="138.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">LC-05 lavatorio</text>
 </g>
 <g data-tipo="elevacao" data-cod="J04" data-amb="S-S02" data-face="L">
-<polygon points="324.000,112.500 344.000,112.500 344.000,90.000 324.000,90.000" stroke="#000000" stroke-width="0.3" fill="#dfeef7" stroke-linejoin="miter"/>
-<text x="334.000" y="101.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">J04</text>
+<polygon points="406.500,112.500 426.500,112.500 426.500,90.000 406.500,90.000" stroke="#000000" stroke-width="0.3" fill="#dfeef7" stroke-linejoin="miter"/>
+<text x="416.500" y="101.250" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">J04</text>
 </g>
 <g data-tipo="cota" data-eixo="H" data-parciais="1">
 <line x1="304.000" y1="150.000" x2="304.000" y2="161.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -124,15 +128,20 @@
 <line x1="293.300" y1="78.200" x2="294.700" y2="76.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="292.884" y="86.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 292.884 86.250)">0,70</text>
 </g>
-<text x="371.500" y="65.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">2. SUITE 02 — parede leste (2 itens)</text>
-<text x="371.500" y="167.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">4 itens do caso nesta parede</text>
+<text x="371.500" y="65.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">2. SUITE 02 — parede leste (3 itens)</text>
+<text x="371.500" y="167.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">5 itens do caso nesta parede</text>
 <polygon points="566.000,150.000 701.000,150.000 701.000,77.500 566.000,77.500" stroke="#000000" stroke-width="0.6" fill="#fff" stroke-linejoin="miter"/>
-<g data-tipo="elevacao" data-cod="LC-07" data-amb="S-S03" data-face="L">
-<polygon points="571.000,150.000 581.000,150.000 581.000,127.500 571.000,127.500" stroke="#000000" stroke-width="0.3" fill="#eeeeee" stroke-linejoin="miter"/>
+<g data-tipo="elevacao" data-cod="AR-13" data-amb="S-S03" data-face="O">
+<polygon points="566.000,150.000 626.000,150.000 626.000,95.000 566.000,95.000" stroke="#000000" stroke-width="0.3" fill="#f1ede4" stroke-linejoin="miter"/>
+<text x="596.000" y="122.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">AR-13 guarda-roupa</text>
 </g>
-<g data-tipo="elevacao" data-cod="LC-08" data-amb="S-S03" data-face="L">
-<polygon points="587.250,150.000 604.750,150.000 604.750,127.500 587.250,127.500" stroke="#000000" stroke-width="0.3" fill="#eeeeee" stroke-linejoin="miter"/>
-<text x="596.000" y="138.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">LC-08 lavatorio</text>
+<g data-tipo="elevacao" data-cod="P05" data-amb="S-S03" data-face="O">
+<polygon points="629.750,150.000 652.250,150.000 652.250,97.500 629.750,97.500" stroke="#000000" stroke-width="0.3" fill="#e5d3bd" stroke-linejoin="miter"/>
+<text x="641.000" y="123.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">P05</text>
+</g>
+<g data-tipo="elevacao" data-cod="LC-09" data-amb="S-S03" data-face="O">
+<polygon points="659.750,150.000 682.250,150.000 682.250,127.500 659.750,127.500" stroke="#000000" stroke-width="0.3" fill="#eeeeee" stroke-linejoin="miter"/>
+<text x="671.000" y="138.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">LC-09 box</text>
 </g>
 <g data-tipo="cota" data-eixo="H" data-parciais="1">
 <line x1="566.000" y1="150.000" x2="566.000" y2="161.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -158,8 +167,8 @@
 <line x1="555.300" y1="78.200" x2="556.700" y2="76.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="554.884" y="86.250" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 554.884 86.250)">0,70</text>
 </g>
-<text x="633.500" y="65.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">3. SUITE 03 — parede leste (2 itens)</text>
-<text x="633.500" y="167.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">2 itens do caso nesta parede</text>
+<text x="633.500" y="65.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">3. SUITE 03 — parede oeste (2 itens)</text>
+<text x="633.500" y="167.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">3 itens do caso nesta parede</text>
 <polygon points="42.000,310.000 237.000,310.000 237.000,237.500 42.000,237.500" stroke="#000000" stroke-width="0.6" fill="#fff" stroke-linejoin="miter"/>
 <g data-tipo="elevacao" data-cod="P02" data-amb="S-MAS" data-face="L">
 <polygon points="45.750,310.000 68.250,310.000 68.250,257.500 45.750,257.500" stroke="#000000" stroke-width="0.3" fill="#e5d3bd" stroke-linejoin="miter"/>

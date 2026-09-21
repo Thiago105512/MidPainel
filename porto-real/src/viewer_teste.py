@@ -834,11 +834,13 @@ def rodar(fotos: bool = False) -> int:
 
         # shaft: a decisao tem de chegar na tela com o PORQUE, nao so com a
         # coordenada — coordenada sem motivo e indistinguivel de arbitrada
-        ok(pag.evaluate("""() => {
+        import projeto as _pjs
+        ok(pag.evaluate("""(n) => {
              const S = ENG.instalacoes.shafts;
-             return S && S.prumadas.length === 3
-                    && S.prumadas.every(v => v.motivo && v.motivo.length > 40); }"""),
-           "cada prumada traz lado, afastamento e motivo por extenso")
+             return S && S.prumadas.length === n
+                    && S.prumadas.every(v => v.motivo && v.motivo.length > 40); }""",
+                        len(_pjs.PRUMADAS)),
+           "cada prumada do caso traz lado, afastamento e motivo por extenso")
         ok(pag.evaluate("""() => ENG.instalacoes.shafts.prumadas
              .filter(v => v.deslocado > 0)
              .every(v => v.declarada && (v.x !== v.declarada[0] ||
@@ -1195,8 +1197,10 @@ def rodar(fotos: bool = False) -> int:
         # ---- POR AMBIENTE: o eixo em que a verificacao nao existia
         pag.click("#vistasEng button[data-vista='ambientes']")
         pag.wait_for_timeout(500)
-        ok(pag.evaluate("() => ENG.ambientes.dossies.length") == 17,
-           "os 17 comodos tem dossie",
+        import projeto as _pjd
+        _n_com = len(_pjd.TERREO) + len(_pjd.SUPERIOR)
+        ok(pag.evaluate("() => ENG.ambientes.dossies.length") == _n_com,
+           f"os {_n_com} comodos do caso tem dossie",
            str(pag.evaluate("() => ENG.ambientes.dossies.length")))
         # a soma dos comodos e a area da casa: se nao fechar, falta comodo
         ok(pag.evaluate("""() => Math.abs(ENG.ambientes.area_total

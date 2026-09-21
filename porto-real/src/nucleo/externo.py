@@ -73,11 +73,14 @@ def muro(pj) -> dict:
     portao, acesso = pt["veiculo_larg"], pt["pedestre_larg"]
     # tres divisas fechadas mais a testada menos o portao e menos o acesso
     comp = (2 * P + L) + (L - portao - acesso)
-    area = comp * MURO["altura"] / 1e6
+    # R82 — a testada pode ter altura propria (mureta); as divisas ficam em MURO
+    h_test = getattr(pj, "MURO_TESTADA_ALTURA", MURO["altura"])
+    comp_test = L - portao - acesso
+    area = ((comp - comp_test) * MURO["altura"] + comp_test * h_test) / 1e6
     blocos = int(area * MURO["blocos_m2"])
     pilaretes = int(comp / MURO["pilarete_cada"]) + 1
     return dict(
-        comprimento_m=round(comp / 1000.0, 1), altura=MURO["altura"],
+        comprimento_m=round(comp / 1000.0, 1), altura=MURO["altura"], altura_testada=h_test,
         area=round(area, 1), blocos=blocos,
         graute_m3=round(area * MURO["graute_m3_m2"], 2),
         pilaretes=pilaretes, material=MURO["material"], norma=MURO["norma"],

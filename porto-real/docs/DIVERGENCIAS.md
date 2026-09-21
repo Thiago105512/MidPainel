@@ -6066,3 +6066,75 @@ agora são decisão sua, registrada, e não hipótese minha.
 **Estado em R81:** 151 auditorias, 0 erros; 224 verificações do visualizador,
 0 falhas; 76 pranchas. Matriz e BOM inalteradas (89,2 %, 8 FALTA;
 R$ 1.037.862,10).
+
+## R82 — Fachada, alternativa A: o superior avança até a rua
+
+O proprietário estranhou o recuo do pavimento superior na fachada de entrada
+("isso não a deixa feia, estranha?") e lembrou a imagem de referência das
+conversas anteriores: volume de dois pavimentos com a frente alinhada à da
+garagem, faixa ripada contínua sobre as janelas dos quartos. O recuo tinha
+uma causa registrada (R06: suítes sobre a fita social, escondendo o superior
+de quem chega) e essa causa não sobreviveu ao pedido. Foram apresentadas três
+alternativas e escolhida a **A: suítes 02 e 03 à frente, sobre a garagem, o
+hall e o reversível; a master fica atrás, olhando a piscina.**
+
+### O que mudou no modelo
+
+| Onde | Antes | R82 |
+|---|---|---|
+| Superior | suítes 02/03 a partir de y 12.000 (recuo de 4,8 m sobre a fita social) | suítes 02/03 em y 7.200, lado a lado (x 2.400–7.800 e 7.800–13.200), com a frente alinhada à da garagem |
+| Master | à frente, sobre o hall | atrás (y 19.200–25.200), olhando a piscina |
+| Circulação | um hall | S-CIR ao lado da escada + S-CI2 atrás das suítes (1.200 mm; portas de correr P05) |
+| Banhos das suítes | sobre a fita social | sobre a garagem e o reversível; banho da S-S03 movido para (11.400, 9.600) para não ficar sobre vazio |
+| Prumadas | PN-02 servia as duas suítes | PN-02 realinhada; **PN-10 nova** para o banho da S-S03 |
+| Vigas | V-02/V-03 só de cobertura | V-02/V-03 carregam piso e parede (perfis W360/W410 entram no catálogo); **V-12 e V-13** novas sobre o pórtico de entrada e o hall |
+| Pilares | PL-01 a PL-10 | **PL-11 a PL-17** embutidos nas jambas e nos cantos (PILAR_SECAO_EMBUTIDO) |
+| Loggia sul | coberta (T-LOG) | descoberta; a janela leste da suíte (T-JLE) passa a coberta |
+| Lanternim | sobre o estar, metade norte | metade sul (a norte agora tem laje de piso) |
+| Muro da testada | altura do muro geral | 1,0 m (MURO_TESTADA_ALTURA): a fachada da referência aparece por cima |
+| Paginação | ZP-3 | ZP-3, ZP-5, ZP-6 (o recorte do piso mudou) |
+| Área | CADASTRO 297,36 m² | 307,08 m² (a soma dos dossiês fecha com o cadastro) |
+| VT-04 | vitrô da suíte sobre a fita | removido (a parede é outra) |
+| TUE-18 | 8 un / 800 VA | 9 un / 900 VA (banho novo) |
+
+### O que a auditoria acusou na primeira rodada (18 erros) e o que respondeu
+
+| Achado | Causa | Resposta |
+|---|---|---|
+| banho sobre vazio | o banho da S-S03 caía sobre o pátio | banho movido para (11.400, 9.600), sobre a garagem |
+| zona de manutenção do quadro ocupada (TC-05 acusava LC-09) | a conferência lia peças dos DOIS pavimentos para um quadro do térreo | lê só as peças do pavimento do ambiente do quadro |
+| S-CIR/S-CI2 sem luminária de tarefa | corredor tratado como ambiente | corredores entram em DISPENSADOS |
+| lanternim sobre laje | a metade norte do estar ganhou piso em cima | lanternim para a metade sul |
+| V-03 com flecha acima de L/350 | viga de cobertura virou viga de piso | catálogo de perfis ganha W360 e W410; a seleção é derivada |
+| recorte do piso fora das zonas | ZP-3 não cobria os corredores | ZP-5 e ZP-6 |
+| **três códigos de peça colidiram** | hash de 3 caracteres, 1.400+ peças | hash passa a 4 caracteres (`peca._codigo`); unicidade continua auditada |
+| king stud sobrecarregado nas vergas de 5,4 m | a verga entre pilares descia no montante | `descida.PILARES_XY`: abertura com as duas jambas sobre pilar declarado não carrega king stud; a verga entrega no pilar, e é ele que se verifica |
+| PN-04/PN-07 duplicadas | copiadas | PN-10 |
+| soma das superfícies pluviais ≠ lote | loggia coberta virou descoberta | T-LOG descoberto, T-JLE coberto |
+| **corredor das suítes: 1.200 mm contra 1.800** | a regra somava toda porta como folha de abrir varrendo o corredor; as duas portas são de correr (P05) | `ocupacao._de_correr` lê a família do catálogo de esquadrias: porta de correr não varre e não conta; a regra da folha de 900 mm continua para portas de abrir |
+| dossiês não fecham a casa | área do cadastro antiga | CADASTRO 307,08 |
+| teste do visualizador com contagens digitadas (3 prumadas, 17 cômodos) | literais | passam a ler `len(pj.PRUMADAS)` e `len(TERREO + SUPERIOR)` |
+
+Dois defeitos de método vieram junto e ficam registrados: (1) a conferência
+do corredor só pôde estar errada porque **a família da porta estava no
+catálogo e a regra não a lia** — a mesma classe de erro (o modelo sabia, a
+conferência não perguntou) que já apareceu no hall do térreo em R53; (2) a
+colisão de códigos de peça só apareceu porque a casa ganhou peças: uma regra
+de unicidade que nunca disparou não estava provada, estava esperando.
+
+### O que ficou de fora, e por quê
+
+- **Sem balanço nem beiral.** A frente do superior está exatamente sobre a
+  frente da garagem. A referência tinha um leve avanço; em LSF ele custa uma
+  viga de borda em balanço (600 mm, sem pilar) ou um balanço metálico de 1,8 m
+  com os pilares recuados. Não foi feito porque nenhum dos dois estava no
+  pedido; ambos cabem numa revisão de uma tarde.
+- **Circulação a 14,8 % da área construída**, abaixo do limite de 15 % e
+  acima dos 11,9 % de R81: é o preço dos dois corredores.
+- **Exposição ao vizinho** (3 janelas a menos de 3 m da divisa, já em atenção
+  desde R71) não mudou com a fachada.
+
+**Estado em R82:** 151 auditorias, 0 erros; 224 verificações do visualizador,
+0 falhas; 76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada). BOM
+R$ 1.073.007,27 (+ R$ 35.145,17 sobre R81: vigas V-12/V-13, perfis W360/W410,
+sete pilares embutidos, prumada e banho novos).

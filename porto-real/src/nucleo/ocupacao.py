@@ -178,11 +178,22 @@ def _guarda_de(pj, cod) -> list:
             if a.get("amb") == cod or a.get("serve") == cod]
 
 
+def _de_correr(pj, tipo) -> bool:
+    """A folha corre no trilho: nao varre o corredor. Le da familia declarada
+    no catalogo de esquadrias do caso — nunca do nome do tipo."""
+    fam = pj.ESQUADRIAS.get(tipo, ("", "", "", ""))[3]
+    return "correr" in str(fam).lower()
+
+
 def _portas_de(pj, a) -> int:
-    """Quantas portas dao para este ambiente — define a largura que ele precisa."""
+    """Quantas portas de ABRIR dao para este ambiente — define a largura que ele
+    precisa. Porta de correr nao entra: a regra existe porque uma folha de
+    900 mm abre DENTRO da circulacao, e a de correr nao abre em lugar nenhum.
+    Foi ela que reprovou o corredor das suites (R82) por 1.200 mm contra 1.800,
+    quando as duas portas que davam para ele eram de correr."""
     n = 0
     for tipo, x, y, ori, pav in pj.VAOS:
-        if pav != a.pav or not tipo.startswith("P"):
+        if pav != a.pav or not tipo.startswith("P") or _de_correr(pj, tipo):
             continue
         if (a.x - 90 <= x <= a.x + a.w + 90 and a.y - 90 <= y <= a.y + a.h + 90):
             n += 1
