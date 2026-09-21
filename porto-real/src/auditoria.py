@@ -1860,8 +1860,9 @@ def checar_piscina() -> list[Achado]:
     """Piscina: faixa seca, recirculacao, drenos e casa de maquinas."""
     out = []
     p, ps, dk = pj.PISCINA, pj.PISCINA_SISTEMA, pj.DECK
-    folgas = {"oeste": p["x"] - dk["x"], "leste": (dk["x"] + dk["w"]) - (p["x"] + p["w"]),
-              "sul": p["y"] - dk["y"], "norte": (dk["y"] + dk["h"]) - (p["y"] + p["h"])}
+    # R78 — x cresce para o NORTE e y para o OESTE (testada em y = 0, leste)
+    folgas = {"sul": p["x"] - dk["x"], "norte": (dk["x"] + dk["w"]) - (p["x"] + p["w"]),
+              "leste": p["y"] - dk["y"], "oeste": (dk["y"] + dk["h"]) - (p["y"] + p["h"])}
     for lado, f in folgas.items():
         if f < p["faixa_seca_min"]:
             out.append(Achado("ERRO", "Faixa seca insuficiente",

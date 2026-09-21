@@ -1119,7 +1119,16 @@ function executivoInstalacoes() {
     <table class="tab"><thead><tr><th>item</th><th>amb</th><th>família</th><th>kg</th><th>parede</th><th>z mm</th><th>OSB m²</th></tr></thead><tbody>
     ${Lf.cargas_suspensas.map(c => `<tr><td>${esc2(c.cod)}</td><td>${esc2(c.amb)}</td><td>${esc2(c.familia)}</td><td class="num">${c.carga_kg}</td><td>${esc2(c.parede || "—")}</td><td class="num">${c.z0}–${c.z1}</td><td class="num">${c.osb_m2}</td></tr>`).join("")}
     </tbody></table>` : "";
-  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : []), ...(Lf ? Lf.conferencia : [])].filter(c => !c.ok)
+  const Pi = X.piscina;
+  const pisc = Pi ? `<h4 class="sub">Piscina — hidráulica, escada, borda e iluminação (R78)</h4>
+    <p class="desenho cap">${num(Pi.resumo.q_m3h, 2)} m³/h de recirculação; ${Pi.resumo.linhas} linhas DN50 (${num(Pi.resumo.tubo_m, 1)} m), velocidade máxima
+    ${num(Pi.resumo.v_max_succao, 2)} m/s; filtro a ${num(Pi.resumo.taxa_filtracao, 1)} m³/h/m²; bomba ${num(Pi.resumo.h_man_m, 2)} m.c.a. e ${Pi.resumo.bomba_va} VA;
+    escada de ${Pi.resumo.degraus} degraus de ${num(Pi.resumo.espelho, 1)} mm; ${Pi.resumo.leds} LEDs a ${num(Pi.resumo.w_m2, 2)} W/m²; ${Pi.resumo.pecas_borda} peças de borda ·
+    sistema R$ ${num(Pi.resumo.custo_sistema, 2)}.</p>
+    <table class="tab"><thead><tr><th>ponto</th><th>linha</th><th>Q m³/h</th><th>DN</th><th>v m/s</th><th>L m</th><th>hf m</th></tr></thead><tbody>
+    ${Pi.linhas.map(l => `<tr><td>${esc2(l.cod)}</td><td>${esc2(l.linha)}</td><td class="num">${num(l.q_m3h, 2)}</td><td class="num">${l.dn}</td><td class="num">${num(l.v_ms, 2)}</td><td class="num">${(l.comp_mm / 1000).toFixed(1)}</td><td class="num">${num(l.hf_m, 3)}</td></tr>`).join("")}
+    </tbody></table>` : "";
+  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : []), ...(Lf ? Lf.conferencia : []), ...(Pi ? Pi.conferencia : [])].filter(c => !c.ok)
     .map(c => `<li><b>${esc2(c.titulo)}</b> — ${esc2(c.detalhe)}</li>`).join("");
   return `<h4 class="sub">Executivo (R72) — circuito a circuito, peça a peça</h4>
     <div class="cartoes" style="margin-bottom:16px">
@@ -1143,6 +1152,7 @@ function executivoInstalacoes() {
       <tbody>${pec}</tbody></table>
     ${seg}
     ${lsf}
+    ${pisc}
     ${conf ? `<h4 class="sub">Conferências que não passam</h4><ul>${conf}</ul>` : "<p class='conta'>todas as conferências do executivo passam</p>"}`;
 }
 

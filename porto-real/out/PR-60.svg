@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="60" data-rev="R77">
+<g data-tipo="carimbo" data-cod="60" data-rev="R78">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,16 +26,16 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R77</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R78</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">60</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 69   REV R77</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 71   REV R78</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Entrada trifasico 220/127 V (estrela com neutro): 115.6 A de demanda, disjuntor geral 125 A, ramal 50 mm2 do medidor TC-08 ao QDG em 23.8 m (0.74 % de queda).</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Entrada trifasico 220/127 V (estrela com neutro): 116.1 A de demanda, disjuntor geral 125 A, ramal 50 mm2 do medidor TC-08 ao QDG em 23.8 m (0.75 % de queda).</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Iluminacao 1,5 mm2 / 10 A; TUG 2,5 mm2 / 20 A; TUE pela corrente (tabela 36 da NBR 5410, B1). Onde a queda passa de 4 %, a secao sobe — e a tabela diz qual.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- DR 30 mA para banhos, cozinha, lavanderia, garagem, area externa e chuveiros; DPS classe II no QDG.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Fases equilibradas por eletrica.equilibrar (R52): a cor da fase e a do condutor.</text>
@@ -95,11 +95,11 @@
 <text x="91.512" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="91.512" y1="115.000" x2="91.512" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="92.112" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 92.112 124.000)">TUG-T-DEP · 1800 VA · 127 V · B · 2.5 mm2 · 3.9 %</text>
-<line x1="104.683" y1="101.400" x2="104.683" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="104.683" y1="97.000" x2="104.683" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="103.483,111.000 105.883,111.000 105.883,115.000 103.483,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="104.683" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="104.683" y1="115.000" x2="104.683" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="105.283" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 105.283 124.000)">TUG-T-GAR · 500 VA · 127 V · C · 2.5 mm2 · 0.6 %</text>
+<text x="105.283" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 105.283 124.000)">TUG-T-GAR · 500 VA · 127 V · A · 2.5 mm2 · 0.6 %</text>
 <line x1="117.854" y1="97.000" x2="117.854" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="116.654,111.000 119.054,111.000 119.054,115.000 116.654,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="117.854" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">25</text>
@@ -110,31 +110,31 @@
 <text x="131.024" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="131.024" y1="115.000" x2="131.024" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="131.624" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 131.624 124.000)">TUG-T-LAV · 1900 VA · 127 V · A · 2.5 mm2 · 3.9 %</text>
-<line x1="144.195" y1="99.200" x2="144.195" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="144.195" y1="101.400" x2="144.195" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="142.995,111.000 145.395,111.000 145.395,115.000 142.995,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="144.195" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="144.195" y1="115.000" x2="144.195" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="144.795" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 144.795 124.000)">ILU-T-ALC · 100 VA · 127 V · B · 1.5 mm2 · 0.1 %</text>
-<line x1="157.366" y1="97.000" x2="157.366" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="144.795" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 144.795 124.000)">ILU-T-ALC · 100 VA · 127 V · C · 1.5 mm2 · 0.1 %</text>
+<line x1="157.366" y1="99.200" x2="157.366" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="156.166,111.000 158.566,111.000 158.566,115.000 156.166,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="157.366" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="157.366" y1="115.000" x2="157.366" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="157.966" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 157.966 124.000)">ILU-T-CIR · 100 VA · 127 V · A · 1.5 mm2 · 0.2 %</text>
-<line x1="170.537" y1="97.000" x2="170.537" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="157.966" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 157.966 124.000)">ILU-T-CIR · 100 VA · 127 V · B · 1.5 mm2 · 0.2 %</text>
+<line x1="170.537" y1="99.200" x2="170.537" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="169.337,111.000 171.737,111.000 171.737,115.000 169.337,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="170.537" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="170.537" y1="115.000" x2="170.537" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="171.137" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 171.137 124.000)">ILU-T-COR · 400 VA · 127 V · A · 1.5 mm2 · 1.1 %</text>
-<line x1="183.707" y1="99.200" x2="183.707" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="171.137" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 171.137 124.000)">ILU-T-COR · 400 VA · 127 V · B · 1.5 mm2 · 1.1 %</text>
+<line x1="183.707" y1="97.000" x2="183.707" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="182.507,111.000 184.907,111.000 184.907,115.000 182.507,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="183.707" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="183.707" y1="115.000" x2="183.707" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="184.307" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 184.307 124.000)">ILU-T-COZ · 500 VA · 127 V · B · 1.5 mm2 · 2.1 %</text>
-<line x1="196.878" y1="99.200" x2="196.878" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="184.307" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 184.307 124.000)">ILU-T-COZ · 500 VA · 127 V · A · 1.5 mm2 · 2.1 %</text>
+<line x1="196.878" y1="101.400" x2="196.878" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="195.678,111.000 198.078,111.000 198.078,115.000 195.678,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="196.878" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="196.878" y1="115.000" x2="196.878" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="197.478" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 197.478 124.000)">ILU-T-DEP · 100 VA · 127 V · B · 1.5 mm2 · 0.4 %</text>
+<text x="197.478" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 197.478 124.000)">ILU-T-DEP · 100 VA · 127 V · C · 1.5 mm2 · 0.4 %</text>
 <line x1="210.049" y1="99.200" x2="210.049" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="208.849,111.000 211.249,111.000 211.249,115.000 208.849,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="210.049" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
@@ -145,31 +145,31 @@
 <text x="223.220" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="223.220" y1="115.000" x2="223.220" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="223.820" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 223.820 124.000)">ILU-T-GOU · 800 VA · 127 V · C · 1.5 mm2 · 3.0 %</text>
-<line x1="236.390" y1="99.200" x2="236.390" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="236.390" y1="101.400" x2="236.390" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="235.190,111.000 237.590,111.000 237.590,115.000 235.190,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="236.390" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="236.390" y1="115.000" x2="236.390" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="236.990" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 236.990 124.000)">ILU-T-HAL · 200 VA · 127 V · B · 1.5 mm2 · 0.3 %</text>
-<line x1="249.561" y1="97.000" x2="249.561" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="236.990" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 236.990 124.000)">ILU-T-HAL · 200 VA · 127 V · C · 1.5 mm2 · 0.3 %</text>
+<line x1="249.561" y1="99.200" x2="249.561" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="248.361,111.000 250.761,111.000 250.761,115.000 248.361,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="249.561" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="249.561" y1="115.000" x2="249.561" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="250.161" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 250.161 124.000)">ILU-T-LAV · 200 VA · 127 V · A · 1.5 mm2 · 0.7 %</text>
-<line x1="262.732" y1="99.200" x2="262.732" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="250.161" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 250.161 124.000)">ILU-T-LAV · 200 VA · 127 V · B · 1.5 mm2 · 0.7 %</text>
+<line x1="262.732" y1="101.400" x2="262.732" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="261.532,111.000 263.932,111.000 263.932,115.000 261.532,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="262.732" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="262.732" y1="115.000" x2="262.732" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="263.332" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 263.332 124.000)">ILU-T-OFI · 200 VA · 127 V · B · 1.5 mm2 · 0.5 %</text>
-<line x1="275.902" y1="97.000" x2="275.902" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="263.332" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 263.332 124.000)">ILU-T-OFI · 200 VA · 127 V · C · 1.5 mm2 · 0.5 %</text>
+<line x1="275.902" y1="99.200" x2="275.902" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="274.702,111.000 277.102,111.000 277.102,115.000 274.702,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="275.902" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="275.902" y1="115.000" x2="275.902" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="276.502" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 276.502 124.000)">ILU-T-REV · 400 VA · 127 V · A · 1.5 mm2 · 0.9 %</text>
-<line x1="289.073" y1="97.000" x2="289.073" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="276.502" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 276.502 124.000)">ILU-T-REV · 400 VA · 127 V · B · 1.5 mm2 · 0.9 %</text>
+<line x1="289.073" y1="99.200" x2="289.073" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="287.873,111.000 290.273,111.000 290.273,115.000 287.873,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="289.073" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="289.073" y1="115.000" x2="289.073" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="289.673" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 289.673 124.000)">ILU-T-SOC · 600 VA · 127 V · A · 1.5 mm2 · 1.5 %</text>
+<text x="289.673" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 289.673 124.000)">ILU-T-SOC · 600 VA · 127 V · B · 1.5 mm2 · 1.5 %</text>
 <line x1="302.244" y1="99.200" x2="302.244" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="301.044,111.000 303.444,111.000 303.444,115.000 301.044,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="302.244" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">16</text>
@@ -199,37 +199,37 @@
 <polygon points="366.898,111.000 369.298,111.000 369.298,115.000 366.898,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="368.098" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="368.098" y1="115.000" x2="368.098" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="368.698" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 368.698 124.000)">TUE-15 · 500 VA · 220 V · A+B · 2.5 mm2 · 0.3 %</text>
+<text x="368.698" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 368.698 124.000)">TUE-15 · 500 VA · 220 V · A+C · 2.5 mm2 · 0.3 %</text>
 <line x1="381.268" y1="97.000" x2="381.268" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="380.068,111.000 382.468,111.000 382.468,115.000 380.068,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="381.268" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="381.268" y1="115.000" x2="381.268" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="381.868" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 381.868 124.000)">TUE-16 · 500 VA · 220 V · A+B · 2.5 mm2 · 0.3 %</text>
-<line x1="394.439" y1="99.200" x2="394.439" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="381.868" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 381.868 124.000)">TUE-16 · 500 VA · 220 V · A+C · 2.5 mm2 · 0.3 %</text>
+<line x1="394.439" y1="97.000" x2="394.439" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="393.239,111.000 395.639,111.000 395.639,115.000 393.239,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="394.439" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="394.439" y1="115.000" x2="394.439" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="395.039" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 395.039 124.000)">TUE-17 · 500 VA · 220 V · B+C · 2.5 mm2 · 0.3 %</text>
+<text x="395.039" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 395.039 124.000)">TUE-17 · 700 VA · 220 V · A+C · 2.5 mm2 · 0.4 %</text>
 <line x1="407.610" y1="97.000" x2="407.610" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="406.410,111.000 408.810,111.000 408.810,115.000 406.410,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="407.610" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="407.610" y1="115.000" x2="407.610" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="408.210" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 408.210 124.000)">TUE-18 · 1000 VA · 127 V · A · 2.5 mm2 · 1.5 %</text>
-<line x1="420.780" y1="99.200" x2="420.780" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="420.780" y1="101.400" x2="420.780" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="419.580,111.000 421.980,111.000 421.980,115.000 419.580,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="420.780" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="420.780" y1="115.000" x2="420.780" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="421.380" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 421.380 124.000)">TUE-19 · 450 VA · 127 V · B · 2.5 mm2 · 0.7 %</text>
+<text x="421.380" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 421.380 124.000)">TUE-19 · 450 VA · 127 V · C · 2.5 mm2 · 0.7 %</text>
 <line x1="433.951" y1="97.000" x2="433.951" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="432.751,111.000 435.151,111.000 435.151,115.000 432.751,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="433.951" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="433.951" y1="115.000" x2="433.951" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="434.551" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 434.551 124.000)">TUE-20 · 500 VA · 220 V · A+C · 2.5 mm2 · 0.2 %</text>
-<line x1="447.122" y1="101.400" x2="447.122" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="434.551" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 434.551 124.000)">TUE-20 · 500 VA · 220 V · A+B · 2.5 mm2 · 0.2 %</text>
+<line x1="447.122" y1="97.000" x2="447.122" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="445.922,111.000 448.322,111.000 448.322,115.000 445.922,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="447.122" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="447.122" y1="115.000" x2="447.122" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="447.722" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 447.722 124.000)">TUE-21 · 300 VA · 127 V · C · 2.5 mm2 · 0.4 %</text>
+<text x="447.722" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 447.722 124.000)">TUE-21 · 300 VA · 127 V · A · 2.5 mm2 · 0.4 %</text>
 <line x1="460.293" y1="97.000" x2="460.293" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="459.093,111.000 461.493,111.000 461.493,115.000 459.093,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="460.293" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">40</text>
@@ -250,36 +250,36 @@
 <text x="499.805" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">40</text>
 <line x1="499.805" y1="115.000" x2="499.805" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="500.405" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 500.405 124.000)">TUE-VE · 7400 VA · 220 V · A+B · 6 mm2 · 1.3 %</text>
-<line x1="512.976" y1="97.000" x2="512.976" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="512.976" y1="99.200" x2="512.976" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="511.776,111.000 514.176,111.000 514.176,115.000 511.776,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="512.976" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="512.976" y1="115.000" x2="512.976" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="513.576" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 513.576 124.000)">TUG-T-ALC · 200 VA · 127 V · A · 2.5 mm2 · 0.2 %</text>
-<line x1="526.146" y1="101.400" x2="526.146" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="513.576" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 513.576 124.000)">TUG-T-ALC · 200 VA · 127 V · B · 2.5 mm2 · 0.2 %</text>
+<line x1="526.146" y1="97.000" x2="526.146" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="524.946,111.000 527.346,111.000 527.346,115.000 524.946,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="526.146" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="526.146" y1="115.000" x2="526.146" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="526.746" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 526.746 124.000)">TUG-T-CIR · 200 VA · 127 V · C · 2.5 mm2 · 0.2 %</text>
-<line x1="539.317" y1="99.200" x2="539.317" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="526.746" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 526.746 124.000)">TUG-T-CIR · 200 VA · 127 V · A · 2.5 mm2 · 0.2 %</text>
+<line x1="539.317" y1="101.400" x2="539.317" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="538.117,111.000 540.517,111.000 540.517,115.000 538.117,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="539.317" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="539.317" y1="115.000" x2="539.317" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="539.917" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 539.917 124.000)">TUG-T-HAL · 300 VA · 127 V · B · 2.5 mm2 · 0.3 %</text>
-<line x1="552.488" y1="99.200" x2="552.488" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="539.917" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 539.917 124.000)">TUG-T-HAL · 300 VA · 127 V · C · 2.5 mm2 · 0.3 %</text>
+<line x1="552.488" y1="101.400" x2="552.488" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="551.288,111.000 553.688,111.000 553.688,115.000 551.288,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="552.488" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="552.488" y1="115.000" x2="552.488" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="553.088" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 553.088 124.000)">TUG-T-OFI · 500 VA · 127 V · B · 2.5 mm2 · 0.8 %</text>
-<line x1="565.659" y1="101.400" x2="565.659" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="553.088" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 553.088 124.000)">TUG-T-OFI · 500 VA · 127 V · C · 2.5 mm2 · 0.8 %</text>
+<line x1="565.659" y1="97.000" x2="565.659" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="564.459,111.000 566.859,111.000 566.859,115.000 564.459,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="565.659" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="565.659" y1="115.000" x2="565.659" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="566.259" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 566.259 124.000)">TUG-T-REV · 400 VA · 127 V · C · 2.5 mm2 · 0.5 %</text>
-<line x1="578.829" y1="101.400" x2="578.829" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="566.259" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 566.259 124.000)">TUG-T-REV · 400 VA · 127 V · A · 2.5 mm2 · 0.5 %</text>
+<line x1="578.829" y1="99.200" x2="578.829" y2="111.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="577.629,111.000 580.029,111.000 580.029,115.000 577.629,115.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="578.829" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="578.829" y1="115.000" x2="578.829" y2="123.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="579.429" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 579.429 124.000)">TUG-T-SOC · 500 VA · 127 V · C · 2.5 mm2 · 0.8 %</text>
+<text x="579.429" y="124.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 579.429 124.000)">TUG-T-SOC · 500 VA · 127 V · B · 2.5 mm2 · 0.8 %</text>
 <polygon points="49.000,107.500 134.024,107.500 134.024,110.000 49.000,110.000" stroke="#3f6fb5" stroke-width="0.18" fill="#e8f1fb" stroke-linejoin="miter"/>
 <text x="49.000" y="109.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#3f6fb5" text-anchor="start" dominant-baseline="middle">2 x DR 4P 40 A 30 mA — circuitos de area molhada</text>
 <text x="40.000" y="179.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">alimentador do QDS: do QDG, 3F+N+PE 16 mm2, disjuntor 63 A tripolar</text>
@@ -308,31 +308,31 @@
 <text x="85.333" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">25</text>
 <line x1="85.333" y1="227.000" x2="85.333" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="85.933" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 85.933 236.000)">TUE-3 · 4500 VA · 220 V · A+B · 4 mm2 · 1.3 %</text>
-<line x1="102.000" y1="213.400" x2="102.000" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="102.000" y1="209.000" x2="102.000" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="100.800,223.000 103.200,223.000 103.200,227.000 100.800,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="102.000" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="102.000" y1="227.000" x2="102.000" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="102.600" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 102.600 236.000)">ILU-S-HAL · 300 VA · 127 V · C · 1.5 mm2 · 0.3 %</text>
-<line x1="118.667" y1="213.400" x2="118.667" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="102.600" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 102.600 236.000)">ILU-S-HAL · 300 VA · 127 V · A · 1.5 mm2 · 0.3 %</text>
+<line x1="118.667" y1="209.000" x2="118.667" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="117.467,223.000 119.867,223.000 119.867,227.000 117.467,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="118.667" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="118.667" y1="227.000" x2="118.667" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="119.267" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 119.267 236.000)">ILU-S-LOU · 200 VA · 127 V · C · 1.5 mm2 · 0.3 %</text>
+<text x="119.267" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 119.267 236.000)">ILU-S-LOU · 200 VA · 127 V · A · 1.5 mm2 · 0.3 %</text>
 <line x1="135.333" y1="211.200" x2="135.333" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="134.133,223.000 136.533,223.000 136.533,227.000 134.133,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="135.333" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="135.333" y1="227.000" x2="135.333" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="135.933" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 135.933 236.000)">ILU-S-MAS · 1200 VA · 127 V · B · 1.5 mm2 · 3.0 %</text>
-<line x1="152.000" y1="213.400" x2="152.000" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="152.000" y1="209.000" x2="152.000" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="150.800,223.000 153.200,223.000 153.200,227.000 150.800,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="152.000" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="152.000" y1="227.000" x2="152.000" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="152.600" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 152.600 236.000)">ILU-S-S02 · 600 VA · 127 V · C · 1.5 mm2 · 1.5 %</text>
-<line x1="168.667" y1="211.200" x2="168.667" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="152.600" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 152.600 236.000)">ILU-S-S02 · 600 VA · 127 V · A · 1.5 mm2 · 1.5 %</text>
+<line x1="168.667" y1="213.400" x2="168.667" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="167.467,223.000 169.867,223.000 169.867,227.000 167.467,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="168.667" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="168.667" y1="227.000" x2="168.667" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="169.267" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 169.267 236.000)">ILU-S-S03 · 600 VA · 127 V · B · 1.5 mm2 · 1.4 %</text>
+<text x="169.267" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 169.267 236.000)">ILU-S-S03 · 600 VA · 127 V · C · 1.5 mm2 · 1.4 %</text>
 <line x1="185.333" y1="209.000" x2="185.333" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="184.133,223.000 186.533,223.000 186.533,227.000 184.133,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="185.333" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
@@ -358,31 +358,31 @@
 <text x="252.000" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">10</text>
 <line x1="252.000" y1="227.000" x2="252.000" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="252.600" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 252.600 236.000)">TUE-8 · 1400 VA · 220 V · A+B · 2.5 mm2 · 0.7 %</text>
-<line x1="268.667" y1="211.200" x2="268.667" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<line x1="268.667" y1="213.400" x2="268.667" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="267.467,223.000 269.867,223.000 269.867,227.000 267.467,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="268.667" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="268.667" y1="227.000" x2="268.667" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="269.267" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 269.267 236.000)">TUG-S-HAL · 300 VA · 127 V · B · 2.5 mm2 · 0.2 %</text>
-<line x1="285.333" y1="209.000" x2="285.333" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="269.267" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 269.267 236.000)">TUG-S-HAL · 300 VA · 127 V · C · 2.5 mm2 · 0.2 %</text>
+<line x1="285.333" y1="211.200" x2="285.333" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="284.133,223.000 286.533,223.000 286.533,227.000 284.133,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="285.333" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="285.333" y1="227.000" x2="285.333" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="285.933" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 285.933 236.000)">TUG-S-LOU · 300 VA · 127 V · A · 2.5 mm2 · 0.3 %</text>
-<line x1="302.000" y1="209.000" x2="302.000" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="285.933" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 285.933 236.000)">TUG-S-LOU · 300 VA · 127 V · B · 2.5 mm2 · 0.3 %</text>
+<line x1="302.000" y1="211.200" x2="302.000" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="300.800,223.000 303.200,223.000 303.200,227.000 300.800,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="302.000" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="302.000" y1="227.000" x2="302.000" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="302.600" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 302.600 236.000)">TUG-S-MAS · 600 VA · 127 V · A · 2.5 mm2 · 0.9 %</text>
-<line x1="318.667" y1="209.000" x2="318.667" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="302.600" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 302.600 236.000)">TUG-S-MAS · 600 VA · 127 V · B · 2.5 mm2 · 0.9 %</text>
+<line x1="318.667" y1="213.400" x2="318.667" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="317.467,223.000 319.867,223.000 319.867,227.000 317.467,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="318.667" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="318.667" y1="227.000" x2="318.667" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="319.267" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 319.267 236.000)">TUG-S-S02 · 500 VA · 127 V · A · 2.5 mm2 · 0.8 %</text>
-<line x1="335.333" y1="213.400" x2="335.333" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+<text x="319.267" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 319.267 236.000)">TUG-S-S02 · 500 VA · 127 V · C · 2.5 mm2 · 0.8 %</text>
+<line x1="335.333" y1="211.200" x2="335.333" y2="223.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <polygon points="334.133,223.000 336.533,223.000 336.533,227.000 334.133,227.000" stroke="#333" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <text x="335.333" y="226.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">20</text>
 <line x1="335.333" y1="227.000" x2="335.333" y2="235.000" stroke="#333" stroke-width="0.18" fill="none" stroke-linecap="round"/>
-<text x="335.933" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 335.933 236.000)">TUG-S-S03 · 500 VA · 127 V · C · 2.5 mm2 · 0.7 %</text>
+<text x="335.933" y="236.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle" transform="rotate(-90.00 335.933 236.000)">TUG-S-S03 · 500 VA · 127 V · B · 2.5 mm2 · 0.7 %</text>
 <polygon points="49.000,219.500 88.333,219.500 88.333,222.000 49.000,222.000" stroke="#3f6fb5" stroke-width="0.18" fill="#e8f1fb" stroke-linejoin="miter"/>
 <text x="49.000" y="221.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#3f6fb5" text-anchor="start" dominant-baseline="middle">1 x DR 4P 40 A 30 mA — circuitos de area molhada</text>
 <text x="620.000" y="37.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CIRCUITOS — 59 (* secao subiu pela queda de tensao)</text>
@@ -779,91 +779,91 @@
 <text x="755.500" y="139.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.40</text>
 <text x="765.500" y="139.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,140.800 770.000,140.800 770.000,144.400 620.000,144.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="621.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ILU-T-SOC</text>
+<text x="621.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUE-17</text>
 <text x="647.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
-<text x="657.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
-<text x="667.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">600</text>
-<text x="677.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
-<text x="695.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4.7</text>
-<text x="705.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
-<text x="723.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
+<text x="657.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tue</text>
+<text x="667.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">700</text>
+<text x="677.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">220</text>
+<text x="685.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A+C</text>
+<text x="695.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.2</text>
+<text x="705.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 2P</text>
+<text x="723.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
 <text x="733.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18.0</text>
-<text x="755.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.53</text>
+<text x="745.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20.5</text>
+<text x="755.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.41</text>
 <text x="765.500" y="142.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,144.400 770.000,144.400 770.000,148.000 620.000,148.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="621.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ILU-S-S02</text>
-<text x="647.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDS</text>
+<text x="621.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ILU-T-SOC</text>
+<text x="647.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
 <text x="657.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">600</text>
 <text x="677.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
+<text x="685.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
 <text x="695.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4.7</text>
 <text x="705.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
 <text x="733.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17.5</text>
-<text x="755.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.49</text>
+<text x="745.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18.0</text>
+<text x="755.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.53</text>
 <text x="765.500" y="146.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,148.000 770.000,148.000 770.000,151.600 620.000,151.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="621.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ILU-S-S03</text>
+<text x="621.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ILU-S-S02</text>
 <text x="647.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDS</text>
 <text x="657.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">600</text>
 <text x="677.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
 <text x="695.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4.7</text>
 <text x="705.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
 <text x="733.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">16.8</text>
-<text x="755.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.43</text>
+<text x="745.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17.5</text>
+<text x="755.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.49</text>
 <text x="765.500" y="149.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,151.600 770.000,151.600 770.000,155.200 620.000,155.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="621.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-S-MAS</text>
+<text x="621.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ILU-S-S03</text>
 <text x="647.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDS</text>
-<text x="657.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
+<text x="657.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">600</text>
 <text x="677.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
+<text x="685.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
 <text x="695.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4.7</text>
-<text x="705.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
-<text x="723.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
+<text x="705.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
+<text x="723.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
 <text x="733.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17.7</text>
-<text x="755.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.91</text>
+<text x="745.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">16.8</text>
+<text x="755.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.43</text>
 <text x="765.500" y="153.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,155.200 770.000,155.200 770.000,158.800 620.000,158.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="621.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-T-GAR</text>
-<text x="647.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
+<text x="621.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-S-MAS</text>
+<text x="647.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDS</text>
 <text x="657.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
-<text x="667.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
+<text x="667.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">600</text>
 <text x="677.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
-<text x="695.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.9</text>
+<text x="685.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="695.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4.7</text>
 <text x="705.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
 <text x="733.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">14.4</text>
-<text x="755.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.61</text>
-<text x="765.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DR</text>
+<text x="745.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17.7</text>
+<text x="755.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.91</text>
+<text x="765.500" y="157.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,158.800 770.000,158.800 770.000,162.400 620.000,162.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="621.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-T-OFI</text>
+<text x="621.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-T-GAR</text>
 <text x="647.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
 <text x="657.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
 <text x="677.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
 <text x="695.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.9</text>
 <text x="705.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
 <text x="733.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18.0</text>
-<text x="755.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.77</text>
-<text x="765.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
+<text x="745.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">14.4</text>
+<text x="755.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.61</text>
+<text x="765.500" y="160.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DR</text>
 <polygon points="620.000,162.400 770.000,162.400 770.000,166.000 620.000,166.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="621.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-T-SOC</text>
+<text x="621.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-T-OFI</text>
 <text x="647.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
 <text x="657.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
@@ -877,35 +877,35 @@
 <text x="755.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.77</text>
 <text x="765.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,166.000 770.000,166.000 770.000,169.600 620.000,169.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="621.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ILU-T-COZ</text>
+<text x="621.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-T-SOC</text>
 <text x="647.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
-<text x="657.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
+<text x="657.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
 <text x="677.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
 <text x="685.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
 <text x="695.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.9</text>
-<text x="705.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
-<text x="723.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
+<text x="705.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
+<text x="723.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
 <text x="733.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">30.2</text>
-<text x="755.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.15</text>
+<text x="745.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18.0</text>
+<text x="755.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.77</text>
 <text x="765.500" y="167.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,169.600 770.000,169.600 770.000,173.200 620.000,173.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="621.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-S-S02</text>
-<text x="647.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDS</text>
-<text x="657.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
+<text x="621.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ILU-T-COZ</text>
+<text x="647.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
+<text x="657.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
 <text x="677.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
 <text x="685.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
 <text x="695.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.9</text>
-<text x="705.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
-<text x="723.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
+<text x="705.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
+<text x="723.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
 <text x="733.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17.5</text>
-<text x="755.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.75</text>
+<text x="745.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">30.2</text>
+<text x="755.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.15</text>
 <text x="765.500" y="171.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,173.200 770.000,173.200 770.000,176.800 620.000,176.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="621.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-S-S03</text>
+<text x="621.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-S-S02</text>
 <text x="647.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDS</text>
 <text x="657.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
@@ -915,30 +915,30 @@
 <text x="705.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
 <text x="733.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">16.8</text>
-<text x="755.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.72</text>
+<text x="745.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17.5</text>
+<text x="755.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.75</text>
 <text x="765.500" y="175.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,176.800 770.000,176.800 770.000,180.400 620.000,180.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="621.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUE-15</text>
-<text x="647.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
-<text x="657.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tue</text>
+<text x="621.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUG-S-S03</text>
+<text x="647.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDS</text>
+<text x="657.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
-<text x="677.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">220</text>
-<text x="685.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A+B</text>
-<text x="695.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.3</text>
-<text x="705.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 2P</text>
+<text x="677.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
+<text x="685.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="695.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.9</text>
+<text x="705.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
 <text x="733.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN20</text>
-<text x="745.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20.5</text>
-<text x="755.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.29</text>
+<text x="745.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">16.8</text>
+<text x="755.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.72</text>
 <text x="765.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,180.400 770.000,180.400 770.000,184.000 620.000,184.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="621.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUE-16</text>
+<text x="621.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUE-15</text>
 <text x="647.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
 <text x="657.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tue</text>
 <text x="667.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
 <text x="677.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">220</text>
-<text x="685.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A+B</text>
+<text x="685.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A+C</text>
 <text x="695.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.3</text>
 <text x="705.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 2P</text>
 <text x="723.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -947,12 +947,12 @@
 <text x="755.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.29</text>
 <text x="765.500" y="182.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
 <polygon points="620.000,184.000 770.000,184.000 770.000,187.600 620.000,187.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="621.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUE-17</text>
+<text x="621.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TUE-16</text>
 <text x="647.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
 <text x="657.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tue</text>
 <text x="667.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
 <text x="677.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">220</text>
-<text x="685.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B+C</text>
+<text x="685.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A+C</text>
 <text x="695.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.3</text>
 <text x="705.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 2P</text>
 <text x="723.500" y="185.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -966,7 +966,7 @@
 <text x="657.500" y="189.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tue</text>
 <text x="667.500" y="189.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">500</text>
 <text x="677.500" y="189.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">220</text>
-<text x="685.500" y="189.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A+C</text>
+<text x="685.500" y="189.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A+B</text>
 <text x="695.500" y="189.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.3</text>
 <text x="705.500" y="189.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 2P</text>
 <text x="723.500" y="189.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -980,7 +980,7 @@
 <text x="657.500" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tue</text>
 <text x="667.500" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">450</text>
 <text x="677.500" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
 <text x="695.500" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.5</text>
 <text x="705.500" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="193.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -994,7 +994,7 @@
 <text x="657.500" y="196.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="196.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">400</text>
 <text x="677.500" y="196.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="196.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
+<text x="685.500" y="196.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
 <text x="695.500" y="196.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.1</text>
 <text x="705.500" y="196.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="196.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1008,7 +1008,7 @@
 <text x="657.500" y="200.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="200.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">400</text>
 <text x="677.500" y="200.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="200.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
+<text x="685.500" y="200.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
 <text x="695.500" y="200.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.1</text>
 <text x="705.500" y="200.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="200.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -1022,7 +1022,7 @@
 <text x="657.500" y="203.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="203.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">400</text>
 <text x="677.500" y="203.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="203.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
+<text x="685.500" y="203.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
 <text x="695.500" y="203.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3.1</text>
 <text x="705.500" y="203.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="203.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1036,7 +1036,7 @@
 <text x="657.500" y="207.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="207.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">300</text>
 <text x="677.500" y="207.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="207.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="207.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
 <text x="695.500" y="207.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.4</text>
 <text x="705.500" y="207.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="207.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -1050,7 +1050,7 @@
 <text x="657.500" y="211.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="211.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">300</text>
 <text x="677.500" y="211.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="211.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
+<text x="685.500" y="211.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
 <text x="695.500" y="211.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.4</text>
 <text x="705.500" y="211.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="211.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1064,7 +1064,7 @@
 <text x="657.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">300</text>
 <text x="677.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
 <text x="695.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.4</text>
 <text x="705.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="214.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -1078,7 +1078,7 @@
 <text x="657.500" y="218.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="218.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">300</text>
 <text x="677.500" y="218.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="218.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
+<text x="685.500" y="218.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
 <text x="695.500" y="218.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.4</text>
 <text x="705.500" y="218.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="218.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -1092,7 +1092,7 @@
 <text x="657.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tue</text>
 <text x="667.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">300</text>
 <text x="677.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
+<text x="685.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
 <text x="695.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.4</text>
 <text x="705.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="221.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -1106,7 +1106,7 @@
 <text x="657.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
 <text x="677.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
 <text x="695.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.6</text>
 <text x="705.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="225.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1120,7 +1120,7 @@
 <text x="657.500" y="229.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="229.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
 <text x="677.500" y="229.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="229.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
+<text x="685.500" y="229.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
 <text x="695.500" y="229.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.6</text>
 <text x="705.500" y="229.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="229.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -1134,7 +1134,7 @@
 <text x="657.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tug</text>
 <text x="667.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
 <text x="677.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
+<text x="685.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
 <text x="695.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.6</text>
 <text x="705.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20 A 1P</text>
 <text x="723.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.5</text>
@@ -1148,7 +1148,7 @@
 <text x="657.500" y="236.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="236.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
 <text x="677.500" y="236.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="236.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="236.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
 <text x="695.500" y="236.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.6</text>
 <text x="705.500" y="236.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="236.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1162,7 +1162,7 @@
 <text x="657.500" y="239.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="239.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
 <text x="677.500" y="239.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="239.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
+<text x="685.500" y="239.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
 <text x="695.500" y="239.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.6</text>
 <text x="705.500" y="239.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="239.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1176,7 +1176,7 @@
 <text x="657.500" y="243.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="243.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">200</text>
 <text x="677.500" y="243.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="243.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
+<text x="685.500" y="243.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
 <text x="695.500" y="243.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.6</text>
 <text x="705.500" y="243.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="243.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1190,7 +1190,7 @@
 <text x="657.500" y="247.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="247.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">100</text>
 <text x="677.500" y="247.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="247.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="247.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
 <text x="695.500" y="247.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.8</text>
 <text x="705.500" y="247.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="247.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1204,7 +1204,7 @@
 <text x="657.500" y="250.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="250.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">100</text>
 <text x="677.500" y="250.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="250.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A</text>
+<text x="685.500" y="250.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
 <text x="695.500" y="250.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.8</text>
 <text x="705.500" y="250.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="250.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1218,7 +1218,7 @@
 <text x="657.500" y="254.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ilum</text>
 <text x="667.500" y="254.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">100</text>
 <text x="677.500" y="254.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">127</text>
-<text x="685.500" y="254.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">B</text>
+<text x="685.500" y="254.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">C</text>
 <text x="695.500" y="254.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.8</text>
 <text x="705.500" y="254.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10 A 1P</text>
 <text x="723.500" y="254.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1.5</text>
@@ -1254,8 +1254,8 @@
 <text x="381.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QDG</text>
 <text x="393.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Quadro geral 84 modulos</text>
 <text x="443.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">41</text>
-<text x="455.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">54450</text>
-<text x="469.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">19750 / 16350 / 18350</text>
+<text x="455.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">54650</text>
+<text x="469.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20100 / 15900 / 18650</text>
 <text x="509.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <text x="519.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">67</text>
 <text x="531.500" y="336.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">81</text>
@@ -1266,7 +1266,7 @@
 <text x="393.500" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Quadro superior 48 modulos</text>
 <text x="443.500" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18</text>
 <text x="455.500" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">24400</text>
-<text x="469.500" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6550 / 9950 / 7900</text>
+<text x="469.500" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6250 / 10450 / 7700</text>
 <text x="509.500" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="519.500" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">33</text>
 <text x="531.500" y="341.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">40</text>

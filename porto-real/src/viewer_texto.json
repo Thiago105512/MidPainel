@@ -1655,5 +1655,47 @@
     "33 juntas de movimentação: a cada 6 m e em cada canto, por parede externa"
    ]
   ]
+ },
+ {
+  "n": "70",
+  "t": "Piscina: cortes, escada, borda e iluminação",
+  "esc": "1:25 · 1:10 · 1:5 · 1:50",
+  "etapa": "R78",
+  "d": "Corte longitudinal e transversal da piscina, a escada de praia entre a prainha e o fundo, a borda com pingadeira sobre a faixa seca, o nicho do LED e a planta da iluminação subaquática.",
+  "k": [
+   [
+    "escada",
+    "4 degraus de 212,5 x 300 mm na largura inteira: espelho abaixo de 250 (H, NBR 10339)"
+   ],
+   [
+    "borda",
+    "peça de 30 mm com balanço de 30 e pingadeira; o deck cai 1 % para fora da água"
+   ],
+   [
+    "LEDs",
+    "na parede leste, a da casa: quem está no gourmet vê a água acesa, não a lâmpada; SELV 12 V"
+   ]
+  ]
+ },
+ {
+  "n": "71",
+  "t": "Piscina: hidráulica e casa de máquinas",
+  "esc": "1:50 · 1:20",
+  "etapa": "R78",
+  "d": "Skimmer, drenos, retornos e aspiração com as linhas até a casa de máquinas, o diagrama hidráulico da bomba ao retorno, e a casa de máquinas em planta e corte.",
+  "k": [
+   [
+    "skimmer",
+    "na parede oeste, a sotavento do vento de E/NE; retornos na leste, opostos, varrendo a superfície"
+   ],
+   [
+    "linhas",
+    "DN pela velocidade (sucção ≤ 1,8 m/s), comprimento Manhattan sob a faixa seca, perda por Hazen-Williams"
+   ],
+   [
+    "bomba",
+    "altura manométrica com filtro sujo; 0,5 cv = 601 VA — o circuito TUE-17 sobe de 500 para 700 VA"
+   ]
+  ]
  }
 ]

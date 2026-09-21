@@ -680,7 +680,9 @@ CASA_MAQUINAS = dict(x=17_000, y=29_400, w=1_500, h=2_000,
                      nota="em pe na lateral tecnica: operacao sem agachar e sem "
                           "tampa no piso do deck")
 DECK = dict(x=3_600, y=29_400, w=7_800, h=5_400,           # envolve a piscina
-            faixa_seca={"sul": 1_200, "norte": 900, "oeste": 1_200, "leste": 1_200})
+            # R78 — os lados estavam no referencial errado (x como leste-oeste). No modelo
+            # x cresce para o NORTE e y para o OESTE: a faixa de 900 e a OESTE.
+            faixa_seca={"sul": 1_200, "norte": 1_200, "leste": 1_200, "oeste": 900})
 # YAML pede WPC predominante e manda VERIFICAR o aquecimento superficial. A
 # verificacao condena o WPC escuro justamente onde ele seria mais usado: com
 # albedo de 0,20 a superficie passa de 65 C sob sol de Manaus, contra ~45 C de
@@ -1935,7 +1937,8 @@ TECNICOS = [
     dict(cod="TC-13", casa_maquinas=True, nome="Casa de maquinas da piscina", zona="FT-N",
          x=17_000, y=29_400, w=1_500, h=2_000,
          obs="em pe na lateral tecnica (YAML): bomba de velocidade variavel, "
-             "filtro, quadro estanque e bypass de aquecimento; succao de 6,2 m"),
+             "filtro, quadro estanque e bypass de aquecimento; succao curta "
+             "(nucleo/piscina.succao, limite de 10 m)"),
     dict(cod="TC-15", nome="Deposito externo de apoio a piscina", zona="FT-N",
          x=17_000, y=26_400, w=1_500, h=2_000,
          obs="boias, materiais de limpeza, cadeiras e itens de manutencao — "
@@ -2577,7 +2580,10 @@ CARGAS_ESPECIAIS = [
          grupo="motores", fd=1.00),
     dict(cod="TUE-16", desc="Pressurizador do superior (TC-14)", va=500, v=220,
          grupo="motores", fd=1.00),
-    dict(cod="TUE-17", desc="Bomba e filtro da piscina (TC-13)", va=500, v=220,
+    # R78 — 0,5 cv sao 368 W no eixo; com rendimento 0,72 e fp 0,85 (H) sao
+    # 601 VA na tomada, mais a fonte 12 V dos tres LEDs: 500 VA nao cobria
+    # (nucleo/piscina.conferir).
+    dict(cod="TUE-17", desc="Bomba, filtro e LEDs da piscina (TC-13)", va=700, v=220,
          grupo="motores", fd=0.80),
     dict(cod="TUE-18", desc="Ventiladores de teto (10 un.)", va=1_000, v=127,
          grupo="ventilacao", fd=0.70),
@@ -3915,6 +3921,15 @@ REVISOES = [
      "O recorte e a caixa dos elementos data-cod/data-amb do ambiente no SVG "
      "da propria prancha: as plantas ganharam escopo por ambiente (pranchas "
      "6, 10 e 11). Endereco #comodo/COD. Seis verificacoes novas"),
+    ("R78", "PISCINA EXECUTIVA. nucleo/piscina deriva do caso a escada de praia "
+     "(4 x 212,5 mm), a borda com pingadeira e o deck caindo para fora, o "
+     "skimmer a sotavento e os retornos opostos, cada linha com DN pela "
+     "velocidade e perda por Hazen-Williams, a taxa do filtro, a altura "
+     "manometrica da bomba, os LEDs na parede da casa com queda a 12 V, e os "
+     "14 itens do sistema na BOM. PR-70 e 71; PR-34 e PR-10 passam a ler as "
+     "mesmas posicoes. Corrigidos: os lados da faixa seca do deck estavam no "
+     "referencial errado; TUE-17 sobe de 500 para 700 VA (0,5 cv = 601 VA + "
+     "fonte dos LEDs); a succao e de 6,8 m, nao 6,2. Auditoria 148"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4121,13 +4136,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R77",
+    revisao="R78",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R77", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R78", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

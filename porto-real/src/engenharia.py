@@ -35,6 +35,7 @@ import nucleo.agua as agu
 import nucleo.circuitos as cir
 import nucleo.gas as gas
 import nucleo.seguranca as seg
+import nucleo.piscina as psc
 import nucleo.detalhes_lsf as dlsf
 import nucleo.eletrica as elt
 import nucleo.mercado as mk
@@ -550,7 +551,11 @@ def montar() -> dict:
             seguranca=dict(resumo=seg.resumo(pj), dados=seg.pontos_dados(pj), aps=seg.access_points(pj),
                            cameras=seg.cameras(pj), alarme=seg.alarme(pj), automacao=seg.automacao(pj),
                            incendio=seg.incendio(pj), wifi=seg.cobertura_wifi(pj),
-                           conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in seg.conferir(pj)])),
+                           conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in seg.conferir(pj)]),
+            piscina=dict(resumo=psc.resumo(pj), geometria=psc.geometria(pj), escada=psc.escada(pj), bordas=psc.bordas(pj),
+                         pontos=psc.pontos(pj), linhas=psc.linhas(pj), filtro=psc.filtro(pj), bomba=psc.bomba(pj),
+                         diagrama=psc.diagrama(pj), iluminacao=psc.iluminacao(pj), itens=psc.itens_bom(pj),
+                         conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in psc.conferir(pj)])),
         marcenaria=dict(
             moveis=[{k: v for k, v in m.items() if k != "modulos"} | dict(
                 modulos=[dict(n=mo["n"], larg=mo["larg"], ferragens=mo["ferragens"],

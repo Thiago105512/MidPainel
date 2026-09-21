@@ -367,6 +367,8 @@ INDICE = [
     ("67", "Contraventamento em planta, ancoragem e tolerancias de montagem (R75)"),
     ("68", "Detalhes do LSF: encontros, carga suspensa, rodape e junta de fachada (R75)"),
     ("69", "Paginacao de fachada e vista explodida (R75)"),
+    ("70", "Piscina: cortes, escada de praia, borda e iluminacao subaquatica (R78)"),
+    ("71", "Piscina: planta hidraulica, diagrama e casa de maquinas (R78)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},
@@ -500,17 +502,14 @@ def piscina_deck_fachada() -> Canvas:
     cv.texto_p(vw.pt(P(p["x"] + p["w"] / 2, p["y"] + p["h"] / 2)),
                f"{p['lamina_m2']:.2f} m2  ·  prof. {p['prof_principal']} mm"
                .replace(".", ","), TXT["min"], "middle", cor="#06c")
-    # pontos hidraulicos
-    for i in range(ps["retornos"]):
-        x = p["x"] + p["w"] * (i + 0.5) / ps["retornos"]
-        _simb(cv, vw, x, p["y"] + 80, "R", "#06c")
-    for i in range(ps["drenos_fundo"]):
-        x = p["x"] + p["prainha_w"] + (p["w"] - p["prainha_w"]) * (0.3 + 0.4 * i)
-        _simb(cv, vw, x, p["y"] + p["h"] / 2, "D", "#039")
-    _simb(cv, vw, p["x"] + p["w"] - 200, p["y"] + p["h"] - 200, "S", "#06c")
-    for i in range(ps["leds"]):
-        y = p["y"] + p["h"] * (i + 0.5) / ps["leds"]
-        _simb(cv, vw, p["x"] + p["w"] - 80, y, "L", "#e0a")
+    # pontos hidraulicos e LEDs — R78: as posicoes vem de nucleo/piscina.pontos,
+    # as mesmas da PR-70/71; ate R77 o desenho as escolhia sozinho (LEDs na
+    # parede norte, skimmer no canto: nem o vento nem o observador entravam)
+    import nucleo.piscina as _psc
+    for q in _psc.pontos(pj):
+        letra, cor = {"skimmer": ("S", "#06c"), "dreno de fundo antiaprisionamento": ("D", "#039"),
+                      "dispositivo de retorno": ("R", "#06c"), "tomada de aspiracao": ("A", "#b5651d")}.get(q["tipo"], ("L", "#e0a"))
+        _simb(cv, vw, q["x"], q["y"], letra, cor)
     # faixa seca cotada
     an.cadeia(cv, vw, [dk["x"], p["x"], p["x"] + p["w"], dk["x"] + dk["w"]],
               dk["y"], "H", 12)
@@ -527,7 +526,7 @@ def piscina_deck_fachada() -> Canvas:
     cv.linha_p(vw.pt(P(p["x"] + p["w"], p["y"] + p["h"] / 2)),
                vw.pt(P(cm["x"], cm["y"] + cm["h"] / 2)), "cota", cor="#b5651d")
     meio = vw.pt(P((p["x"] + p["w"] + cm["x"]) / 2, p["y"] + p["h"] / 2 - 200))
-    cv.texto_p(meio, f"succao {(cm['x']-(p['x']+p['w']))/1000:.1f} m"
+    cv.texto_p(meio, f"succao {_psc.succao(pj)['comp_mm'] / 1000:.1f} m (PR-71)"
                .replace(".", ","), TXT["micro"], "middle", cor="#b5651d")
 
     _tabela(cv, (300, 44), "PISCINA — GEOMETRIA E SISTEMA",

@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="34" data-rev="R77">
+<g data-tipo="carimbo" data-cod="34" data-rev="R78">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R77</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R78</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">34</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 69   REV R77</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 71   REV R78</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -53,26 +53,28 @@
 <polygon points="180.000,124.000 189.000,124.000 189.000,58.000 180.000,58.000" stroke="#06c" stroke-width="0.2" fill="none" stroke-dasharray="3,2" stroke-linejoin="miter"/>
 <text x="184.500" y="91.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 184.500 91.000)">BANCO</text>
 <text x="135.000" y="91.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">17,82 m2  ·  prof, 1150 mm</text>
-<circle cx="94.500" cy="122.400" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<text x="94.500" y="123.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">R</text>
-<circle cx="121.500" cy="122.400" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<text x="121.500" y="123.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">R</text>
-<circle cx="148.500" cy="122.400" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<text x="148.500" y="123.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">R</text>
-<circle cx="175.500" cy="122.400" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<text x="175.500" y="123.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">R</text>
-<circle cx="130.200" cy="91.000" r="2.000" stroke="#039" stroke-width="0.3" fill="#fff"/>
-<text x="130.200" y="91.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#039" text-anchor="middle" dominant-baseline="middle">D</text>
-<circle cx="163.800" cy="91.000" r="2.000" stroke="#039" stroke-width="0.3" fill="#fff"/>
-<text x="163.800" y="91.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#039" text-anchor="middle" dominant-baseline="middle">D</text>
-<circle cx="185.000" cy="62.000" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
-<text x="185.000" y="62.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">S</text>
-<circle cx="187.400" cy="113.000" r="2.000" stroke="#e0a" stroke-width="0.3" fill="#fff"/>
-<text x="187.400" y="113.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#e0a" text-anchor="middle" dominant-baseline="middle">L</text>
-<circle cx="187.400" cy="91.000" r="2.000" stroke="#e0a" stroke-width="0.3" fill="#fff"/>
-<text x="187.400" y="91.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#e0a" text-anchor="middle" dominant-baseline="middle">L</text>
-<circle cx="187.400" cy="69.000" r="2.000" stroke="#e0a" stroke-width="0.3" fill="#fff"/>
-<text x="187.400" y="69.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#e0a" text-anchor="middle" dominant-baseline="middle">L</text>
+<circle cx="180.000" cy="58.000" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<text x="180.000" y="58.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">S</text>
+<circle cx="127.500" cy="91.000" r="2.000" stroke="#039" stroke-width="0.3" fill="#fff"/>
+<text x="127.500" y="91.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#039" text-anchor="middle" dominant-baseline="middle">D</text>
+<circle cx="157.500" cy="91.000" r="2.000" stroke="#039" stroke-width="0.3" fill="#fff"/>
+<text x="157.500" y="91.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#039" text-anchor="middle" dominant-baseline="middle">D</text>
+<circle cx="94.500" cy="124.000" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<text x="94.500" y="124.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">R</text>
+<circle cx="121.500" cy="124.000" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<text x="121.500" y="124.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">R</text>
+<circle cx="148.500" cy="124.000" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<text x="148.500" y="124.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">R</text>
+<circle cx="175.500" cy="124.000" r="2.000" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<text x="175.500" y="124.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">R</text>
+<circle cx="189.000" cy="91.000" r="2.000" stroke="#b5651d" stroke-width="0.3" fill="#fff"/>
+<text x="189.000" y="91.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">A</text>
+<circle cx="108.000" cy="124.000" r="2.000" stroke="#e0a" stroke-width="0.3" fill="#fff"/>
+<text x="108.000" y="124.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#e0a" text-anchor="middle" dominant-baseline="middle">L</text>
+<circle cx="135.000" cy="124.000" r="2.000" stroke="#e0a" stroke-width="0.3" fill="#fff"/>
+<text x="135.000" y="124.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#e0a" text-anchor="middle" dominant-baseline="middle">L</text>
+<circle cx="162.000" cy="124.000" r="2.000" stroke="#e0a" stroke-width="0.3" fill="#fff"/>
+<text x="162.000" y="124.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#e0a" text-anchor="middle" dominant-baseline="middle">L</text>
 <g data-tipo="cota" data-eixo="H" data-parciais="3">
 <line x1="57.000" y1="148.000" x2="57.000" y2="161.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="81.000" y1="148.000" x2="81.000" y2="161.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -108,7 +110,7 @@
 <polygon points="325.000,148.000 355.000,148.000 355.000,108.000 325.000,108.000" stroke="#b5651d" stroke-width="0.6" fill="#fff3d6" stroke-linejoin="miter"/>
 <text x="340.000" y="128.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 340.000 128.000)">TC-13</text>
 <line x1="189.000" y1="91.000" x2="325.000" y2="128.000" stroke="#b5651d" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="257.000" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">succao 6,8 m</text>
+<text x="257.000" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">succao 6,8 m (PR-71)</text>
 <text x="300.000" y="41.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PISCINA — GEOMETRIA E SISTEMA</text>
 <polygon points="300.000,44.000 566.000,44.000 566.000,49.200 300.000,49.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="301.500" y="46.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ITEM</text>

@@ -4629,6 +4629,24 @@ def checar_detalhes_lsf() -> list[Achado]:
     return out
 
 
+def checar_piscina_executiva() -> list[Achado]:
+    """Piscina peca a peca: escada, borda, linhas, filtro, bomba, LEDs (R78)."""
+    import projeto as pj
+    import nucleo.piscina as ps
+    out = []
+    conf = ps.conferir(pj)
+    for t, d, ok in conf:
+        if not ok:
+            out.append(Achado("ERRO", f"piscina: {t}", d))
+    r = ps.resumo(pj)
+    out.append(Achado("NOTA", "piscina", f"{sum(1 for c in conf if c[2])} de {len(conf)} conferencias passam; "
+                      f"{r['q_m3h']} m3/h em {r['linhas']} linhas DN50 ({r['tubo_m']} m), v max {r['v_max_succao']} m/s; "
+                      f"filtro {r['taxa_filtracao']} m3/h/m2; bomba {r['h_man_m']} m.c.a., {r['bomba_va']} VA; "
+                      f"escada {r['degraus']} x {r['espelho']} mm; {r['leds']} LEDs a {r['w_m2']} W/m2; "
+                      f"sistema R$ {r['custo_sistema']:,.2f}"))
+    return out
+
+
 def checar_moldes_de_defeito() -> list[Achado]:
     """Meta-auditoria (R65): literais do caso, alcance das entidades, funcoes duplicadas.
 

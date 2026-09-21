@@ -845,6 +845,17 @@ PROGRAMA = [
      "Encontros em T derivados das paredes; placa de fachada pelo nesting da "
      "casa inteira (contar por painel dava 228 e 44 % de perda; o nesting da "
      "122 a 79 %)."),
+    (148, "Piscina executiva: escada, borda, linhas, filtro, bomba e LEDs",
+     ["checar_piscina_executiva"], "AUTOMATIZADA",
+     "Secao 173. A piscina era um retangulo com um dicionario ao lado, e a PR-10 "
+     "ainda dizia 'renovacao 3 h, 2 retornos, casa 1.500 x 1.200' — numeros que o "
+     "caso nao tinha desde R06. nucleo/piscina deriva a escada de praia (espelho "
+     "<= 250), a borda com pingadeira e o deck caindo para fora, o skimmer a "
+     "sotavento e os retornos opostos, DN pela velocidade e perda por "
+     "Hazen-Williams em cada linha, a taxa do filtro, a altura manometrica da "
+     "bomba (0,5 cv = 601 VA: o TUE-17 de 500 VA nao cobria), os LEDs na parede "
+     "da casa com queda a 12 V conferida, e os itens do sistema na BOM. Os lados "
+     "da faixa seca estavam no referencial errado (x como leste-oeste)."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

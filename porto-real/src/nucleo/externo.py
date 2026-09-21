@@ -165,7 +165,10 @@ def paisagismo(pj) -> dict:
 
 def levantar(pj) -> dict:
     m, pi, pc, pa = muro(pj), pisos(pj), piscina(pj), paisagismo(pj)
-    return dict(muro=m, pisos=pi, piscina=pc, paisagismo=pa,
+    # R78 — bomba, filtro, tubos, LEDs e impermeabilizacao: o sistema que a
+    # PR-34 descrevia e a BOM nao pagava. Import local: piscina le externo.
+    import nucleo.piscina as _psc
+    return dict(muro=m, pisos=pi, piscina=pc, paisagismo=pa, piscina_sistema=_psc.itens_bom(pj),
                 area_externa=round(pi["total"] + pi["jardim"], 2),
                 metodo="area, perimetro e volume saem da geometria declarada; "
                        "material vem do que o projeto ja escolheu em "

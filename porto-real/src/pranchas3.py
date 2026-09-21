@@ -95,12 +95,17 @@ def detalhes() -> Canvas:
               "fino", fechado=True, preenche="#cfe7f5")
     cv.texto_p(vw3.pt(P(ps["w"] - 250, -prof + 700)), "BANCO 450 (H)", TXT["micro"], "middle")
     an.cadeia(cv, vw3, [0, prain, ps["w"]], 0, "H", 12)
+    # R78 — estes cinco textos eram literais de R00 ("renovacao 3 h, 2
+    # retornos, casa 1.500 x 1.200") e o caso ja dizia outra coisa desde R06.
+    # Agora leem nucleo/piscina; o detalhe executivo esta na PR-70/71.
+    import nucleo.piscina as _psc
+    _b, _f, _s, _cm = _psc.bomba(pj), _psc.filtro(pj), pj.PISCINA_SISTEMA, _psc._cm(pj)
     for i, t in enumerate([
-        "bomba 0,50 cv | vazao 3,60 m3/h | renovacao 3 h",
-        "filtro nominal 4,00 m3/h | succao/retorno DN50",
-        "1 skimmer | 2 ralos de fundo | 2 retornos | 1 aspiracao",
-        "deck antiderrapante min. 1.200 mm (lado principal)",
-        "casa de maquinas 1.500 x 1.200 mm",
+        f"bomba {_b['descricao']} | vazao {_b['q_m3h']:.2f} m3/h | renovacao {_s['renovacao_h']} h".replace(".", ","),
+        f"filtro {_f['tipo']} a {_f['taxa_m3h_m2']:.1f} m3/h/m2 | linhas DN50".replace(".", ","),
+        f"{_s['skimmers']} skimmer | {_s['drenos_fundo']} drenos de fundo | {_s['retornos']} retornos | {_s['aspiracao']} aspiracao",
+        f"faixa seca minima {ps['faixa_seca_min']} mm nos quatro lados",
+        f"casa de maquinas {_cm['cod']}: {_cm['w']} x {_cm['h']} mm na faixa tecnica (PR-71)",
     ]):
         cv.texto_p((460, 214 + i * 4.4), "- " + t, TXT["micro"], "start")
 

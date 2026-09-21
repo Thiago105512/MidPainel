@@ -485,6 +485,10 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
         itens.append(ItemBOM("EXT-BORDA", "Borda de piscina", "m",
                              pc["borda_m"], P["borda_m"], "externo",
                              fonte="perimetro da lamina"))
+        # R78 — o sistema da piscina (nucleo/piscina.itens_bom), peca a peca
+        for it in ext.get("piscina_sistema", []):
+            itens.append(ItemBOM(it["cod"], it["desc"], it["un"], it["qtd"],
+                                 it["preco"], "externo", fonte=it["fonte"]))
         pa = ext["paisagismo"]
         itens.append(ItemBOM("EXT-ARV", "Arvore de porte", "un", pa["arvores"],
                              P["arvore_un"], "externo", fonte="derivado"))

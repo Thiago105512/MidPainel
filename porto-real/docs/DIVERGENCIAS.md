@@ -5864,3 +5864,52 @@ mostra a suíte master.
 
 **Estado em R77:** 147 auditorias, 0 erros; 221 verificações do visualizador,
 0 falhas; 69 pranchas; matriz 86 %.
+
+## R78 — Piscina executiva: o que era um retângulo com um dicionário ao lado
+
+A piscina tinha lâmina, volume e um dicionário `PISCINA_SISTEMA` que contava
+"1 skimmer, 2 drenos, 4 retornos, 3 LEDs". A PR-34 punha os símbolos onde o
+desenho quis (LEDs na parede norte, skimmer num canto) e a PR-10 ainda dizia
+"renovação 3 h, 2 retornos, casa de máquinas 1.500 × 1.200" — números de R00
+que o caso não tinha desde R06. Quatro itens da matriz (350, 352, 362, 363)
+estavam em FALTA e nove em PARCIAL. `nucleo/piscina` deriva tudo do caso:
+
+| O que | Como sai do caso | Conferência |
+|---|---|---|
+| Escada de praia | desnível prainha→fundo (850 mm) / 250 → 4 degraus de 212,5 × 300 mm, na largura inteira | espelho ≤ 250, piso ≥ 300, cabe antes do banco |
+| Borda | 33 peças de 600 mm com balanço de 30 e pingadeira; deck cai 1 % **para fora** | perímetro = o da BOM (17,4 m) |
+| Pontos | skimmer na parede **oeste** (sotavento do vento de E/NE, H INMET); retornos na **leste**, opostos; 2 drenos afastados 1.500 mm; aspiração na norte, junto de TC-13 | retornos opostos ao skimmer; drenos ≥ 900 mm |
+| Linhas | 8 linhas, DN pela velocidade (sucção ≤ 1,8 m/s), comprimento Manhattan sob a faixa seca, perda por Hazen-Williams | v ≤ limite em cada uma; sucção 6,8 m ≤ 10 |
+| Filtro | areia DE 500: 0,196 m² → 14,5 m³/h/m² (máx. 36); retrolavagem 7,1 m³/h por 3 min | cabe no ralo DN75 (14 m³/h, H) |
+| Bomba | 9,87 m.c.a. com filtro sujo; 0,5 cv = 511 W = 601 VA (η 0,72, fp 0,85, H) | acima da lâmina; circuito cobre bomba + LEDs |
+| LEDs | parede **leste** (a da casa: o gourmet olha para oeste e vê a água acesa, não a lâmpada); 500 mm abaixo da água; SELV 12 V; 3,03 W/m² | queda ≤ 5 % a 12 V (3,7 % em 1,5 mm²) |
+| BOM | 14 itens do sistema (bomba, filtro, areia, skimmer, drenos, retornos, aspiração, tubo, registros, LEDs, fonte, caixas, cabo, impermeabilização): R$ 12.296,04 (H) | — |
+
+Três defeitos do caso apareceram na primeira execução, como sempre:
+
+1. **Os lados da faixa seca estavam no referencial errado.** `DECK.faixa_seca`
+   dizia "norte 900, oeste 1.200" e a auditoria 1866 chamava `p.x − dk.x`
+   de "oeste". No modelo x cresce para o **norte** e y para o **oeste** (a
+   testada é y = 0, leste): a faixa de 900 mm é a **oeste**. Os valores
+   estavam certos; os nomes, trocados — e uma conferência por lado teria
+   apontado o lado errado. Corrigidos o dicionário e os rótulos da auditoria.
+2. **TUE-17 de 500 VA não cobria a bomba.** 0,5 cv são 368 W no eixo; com
+   rendimento 0,72 e fator de potência 0,85 são 601 VA na tomada, mais a
+   fonte 12 V dos LEDs (70 VA). Sobe para 700 VA; a descrição passa a dizer
+   que alimenta também os LEDs.
+3. **"Sucção de 6,2 m" no TC-13 era texto morto.** A distância entre a
+   piscina e a casa de máquinas é 6,8 m desde que a casa foi para a faixa
+   técnica (R06); o texto ficou de uma posição anterior. O campo agora aponta
+   para `piscina.succao`, que confere o limite de 10 m.
+
+Duas pranchas novas (PR-70: cortes longitudinal e transversal 1:25, escada
+1:10, borda 1:5, nicho do LED 1:5, planta de iluminação 1:50; PR-71: planta
+hidráulica 1:50, diagrama, casa de máquinas em planta e corte 1:20, linhas,
+bomba, filtro, itens da BOM). A PR-34 e a PR-10 passam a ler as mesmas
+posições e os mesmos números. Auditoria 148; vista "executivo" do
+visualizador ganha o bloco da piscina.
+
+**Estado em R78:** 148 auditorias, 0 erros; 221 verificações do visualizador,
+0 falhas; 71 pranchas. Matriz: 461 distintos, 360 TEM + 45 NA = **87,9 %**,
+32 PARCIAL, **13 FALTA**, 11 EXTERNO. BOM R$ 1.032.616,55 (+ R$ 12.296,04 do
+sistema da piscina, que não estava em linha nenhuma).
