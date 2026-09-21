@@ -83,8 +83,12 @@ def faces(pj) -> list[dict]:
 
 def _opaco(familia: str) -> bool:
     f = (familia or "").lower()
-    return "opaca" in f or ("porta" in f and "balcao" not in f
-                            and "vidro" not in f and "correr" not in f)
+    # R64 — "portao de correr, aluminio ripado" passava por vidro porque tem
+    # "correr" na descricao: 12,96 m2 de aluminio contados como vidro na face
+    # leste. Ripado e portao sao opacos por definicao.
+    if "ripado" in f or "portao" in f or "opaca" in f:
+        return True
+    return "porta" in f and "balcao" not in f and "vidro" not in f and "correr" not in f
 
 
 def _face_do_vao(pj, v) -> str:
