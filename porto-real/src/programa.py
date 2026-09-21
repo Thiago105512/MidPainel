@@ -759,6 +759,29 @@ PROGRAMA = [
      "que todo comodo (e toda area aberta de 9 m2 ou mais) tem vista, e que as "
      "fotos sao da revisao corrente. Nao e render fotorrealista, e a prancha "
      "diz isso; o OBJ sai para quem quiser um."),
+    (140, "Sitio e terreno: a declividade vira plataforma, cota e rampa",
+     ["checar_terreno"], "AUTOMATIZADA",
+     "Secao 165. O proprietario confirmou nove itens do lote, e sete bateram "
+     "com o que o modelo ja assumia — inclusive a orientacao, que e a premissa "
+     "mais cara do projeto: low-e na oeste, brise, fator solar por face e "
+     "fotovoltaica pendem dela. A topografia (1 % a 2 % para a rua) deixou de "
+     "ser omissao e virou dado: nucleo/terreno poe a plataforma na cota media, "
+     "e o achado e que a regularizacao custa ZERO m3, porque a variacao cabe "
+     "dentro dos 600 mm de troca de solo que o SPT ja tinha obrigado. O que "
+     "muda e executivo: a reposicao passa a ter espessura variavel de 408 a "
+     "792 mm. Confere ainda rampa de garagem, folga do piso sobre a testada e "
+     "escoamento por gravidade, nas duas pontas da faixa de declividade."),
+    (141, "Vento: a estrutura aguenta a categoria de rugosidade mais severa",
+     ["checar_vento_categoria"], "AUTOMATIZADA",
+     "Secao 166. O caso declara Categoria IV, e o comentario dizia que quem "
+     "considerar o lote mais aberto usa III, com diferenca de ordem de 10 % em "
+     "S2. O comentario estava certo no S2 e incompleto na consequencia: a "
+     "pressao e quadratica na velocidade, entao 11 % em S2 viram 24 % de "
+     "carga. A descricao de sitio (sem edificacoes altas a Oeste nem a Norte) "
+     "reabriu a duvida. Em vez de escolher a letra no olho, verifica-se nas "
+     "duas: as fitas saem de 51 % para 64 % de uso e o chumbador de 5,0 para "
+     "6,4 kN contra 12,0 kN. Passa nas duas, com a mesma massa e o mesmo "
+     "custo. A duvida de categoria deixou de ser risco."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

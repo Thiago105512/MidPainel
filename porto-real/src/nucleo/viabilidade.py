@@ -160,6 +160,41 @@ def _exposicao(pj, r: dict, n: str) -> dict:
                               f"for o dobro, o risco dobra e a classe IV continua a decisao. "
                               f"Nenhum dos tres muda a casa: mudam {_brl(fv)} de FV e "
                               f"{_brl(sp)} de SPDA no retorno, nao na existencia")
+    if n == "16":      # convencao de lateral esquerda/direita nos recuos
+        ext = sum(i.total_compra for i in bom if i.familia == "externo")
+        return dict(valor=ext, fracao=ext / custo, grandeza="area externa",
+                    simulacao="a casa tem 2,40 m de recuo ao SUL e 4,40 m ao "
+                              "NORTE. Pela convencao do observador na rua, que "
+                              "e a do caso, o lado que precisa de 3,00 m e o "
+                              "norte e sobra folga. Se a certidao adotar a "
+                              "convencao oposta, o lado de 3,00 m passa a ser o "
+                              "sul, onde ha 2,40: faltam 600 mm. A casa nao "
+                              "muda de tamanho — muda de posicao, e o que se "
+                              "redesenha e a implantacao inteira e os "
+                              f"{_brl(ext)} de area externa que dependem dela: "
+                              "muro, deck, piscina, piso e paisagismo. Custa "
+                              "uma leitura do texto legal hoje e um "
+                              "reposicionamento depois da locacao")
+    if n == "17":      # levantamento planialtimetrico
+        t = r["camadas"].get("terreno", {})
+        p = t.get("plataforma", {})
+        p1 = t.get("plataforma_min", {})
+        terra = sum(i.total_compra for i in bom
+                    if i.sku in ("FUN-ESCAV", "FUN-BOTA", "FUN-SUBST",
+                                 "FUN-COMP", "FUN-ENSAIO"))
+        return dict(valor=terra, fracao=terra / custo, grandeza="movimento de terra",
+                    simulacao=f"a declividade entrou como FAIXA declarada, de 1 % a "
+                              f"2 % para a rua. Dentro dela nada muda de custo: a "
+                              f"variacao cabe nos 600 mm de troca que o SPT ja "
+                              f"obrigou, e o piso acabado so oscila entre "
+                              f"+{p1.get('cota_piso_acabado', 0):.0f} e "
+                              f"+{p.get('cota_piso_acabado', 0):.0f} mm sobre a "
+                              f"testada. Fora dela muda: acima de 3 % a plataforma "
+                              f"deixa de caber na troca e aparece corte e aterro de "
+                              f"verdade sobre os {_brl(terra)} de movimento de terra "
+                              f"ja previstos. O levantamento fecha as cotas de "
+                              f"locacao, o RN e a pendencia 16 junto, porque a "
+                              f"poligonal nomeia as divisas")
     return dict(valor=0.0, fracao=0.0, grandeza="", simulacao="")
 
 

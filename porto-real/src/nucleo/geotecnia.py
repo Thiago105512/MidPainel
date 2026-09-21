@@ -350,7 +350,17 @@ def terraplenagem(pj) -> dict:
     h = TRATAMENTO["remover_mm"] / 1000.0
     corte = area * h
     # o material solto empola: 1,25 e o fator usual para solo argiloso
+    # R68 — a reposicao nao tem mais espessura unica: com a declividade
+    # confirmada (1 % a 2 % para a rua) a plataforma fica na cota media e a
+    # camada varia em torno dos 600 mm. O VOLUME nao muda, porque a variacao e
+    # simetrica; o que muda e o numero de camadas de compactacao ponta a ponta,
+    # e portanto o numero de ensaios. Ver nucleo/terreno.plataforma().
+    import nucleo.terreno as _tr
+    plat = _tr.plataforma(pj)
     return dict(area_tratada=round(area, 1), profundidade=h,
+                reposicao_alto_mm=plat["reposicao_alto_mm"],
+                reposicao_baixo_mm=plat["reposicao_baixo_mm"],
+                cota_plataforma_mm=plat["cota_plataforma"],
                 corte_m3=round(corte, 1),
                 bota_fora_m3=round(corte * 1.25, 1),
                 substituicao_m3=round(area * (h - pj.RADIER["lastro"] / 1000.0), 1),

@@ -344,6 +344,7 @@ INDICE = [
     ("44", "Perspectivas internas — terreo (R66)"),
     ("45", "Perspectivas — areas abertas (R66)"),
     ("46", "Perspectivas internas — superior (R66)"),
+    ("47", "Terreno: perfil, plataforma e cotas (R68)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},

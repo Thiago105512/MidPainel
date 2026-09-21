@@ -3498,10 +3498,15 @@ def checar_radier() -> list[Achado]:
     grosso = _cp.copy(pj.RADIER)
     grosso["espessura"] = pj.RADIER["espessura"] * 2
 
-    class _Pj:
-        RADIER = grosso
-        TERREO = pj.TERREO
-        CADASTRO = pj.CADASTRO
+    # R68 — o dublê era uma classe com tres atributos escolhidos a mao, e
+    # quebrou assim que a terraplenagem passou a consultar a declividade do
+    # lote. Teste de sensibilidade varia UMA coisa e mantem o resto: o dublê
+    # passa a ser uma copia do caso com a espessura trocada, e nao uma casa
+    # inventada com tres campos.
+    import types as _types
+    _Pj = _types.SimpleNamespace(
+        **{k: getattr(pj, k) for k in dir(pj) if not k.startswith("_")})
+    _Pj.RADIER = grosso
     f2 = fd.levantar(_Pj)
     c = fd.contorno(pj)
     b = gt.BORDA
@@ -4389,6 +4394,61 @@ def checar_ocupacao_das_folhas() -> list[Achado]:
                   f"{len(baixas)} de {len(oc)} abaixo de {OCUPACAO_MIN * 100:.0f} % da folha: "
                   + ", ".join(f"PR-{k} ({v * 100:.0f} %)" for k, v in baixas) if baixas
                   else f"todas as {len(oc)} pranchas ocupam >= {OCUPACAO_MIN * 100:.0f} %")]
+    return out
+
+
+def checar_terreno() -> list[Achado]:
+    """Sitio e declividade (R68): plataforma, cota de piso, rampa e gravidade."""
+    import projeto as pj
+    import nucleo.terreno as tr
+    out = []
+    # o sitio confirmado bate com a orientacao que o projeto inteiro usa?
+    ori_ok = (pj.SITIO["frente"] == "Leste" and pj.SITIO["fundos"] == "Oeste"
+              and pj.AZIMUTE_TESTADA == 90)
+    out.append(Achado("NOTA" if ori_ok else "ERRO", "orientacao conferida",
+                      f"sitio declara frente {pj.SITIO['frente']} e fundos "
+                      f"{pj.SITIO['fundos']}; o caso usa azimute de testada "
+                      f"{pj.AZIMUTE_TESTADA} graus. Toda a decisao de vidro, "
+                      f"brise e fotovoltaica depende deste par"))
+    falhas = [(n, m) for n, m, ok in tr.conferir(pj) if not ok]
+    for nome, msg, ok in tr.conferir(pj):
+        out.append(Achado("NOTA" if ok else "ERRO", nome, msg))
+    p2 = tr.plataforma(pj, pj.DECLIVIDADE_MAX)
+    p1 = tr.plataforma(pj, pj.DECLIVIDADE_MIN)
+    out.append(Achado("NOTA", "faixa de declividade",
+                      f"a 1 % o piso fica +{p1['cota_piso_acabado']:.0f} mm e a "
+                      f"2 % +{p2['cota_piso_acabado']:.0f} mm sobre a testada; "
+                      f"a diferenca de {p2['cota_piso_acabado'] - p1['cota_piso_acabado']:.0f} mm "
+                      f"e o que um levantamento planialtimetrico fecha (pendencia 17)"))
+    out.append(Achado("ATENCAO" if not falhas else "ERRO", "terraplenagem de regularizacao",
+                      "zero m3 de corte e aterro alem da troca de solo: a "
+                      "declividade cabe dentro dos 600 mm que o SPT ja obrigou. "
+                      "ATENCAO porque a reposicao passa a ter espessura "
+                      "variavel, item de conferencia de obra e nao de orcamento")
+               if not falhas else Achado("ERRO", "terreno", f"{len(falhas)} falha(s)"))
+    return out
+
+
+def checar_vento_categoria() -> list[Achado]:
+    """A estrutura aguenta a categoria de rugosidade mais severa? (R68)"""
+    import projeto as pj
+    import nucleo.terreno as tr
+    v = tr.conferir_vento(pj)
+    out = [Achado("NOTA" if v["robusto"] else "ERRO", "robustez a rugosidade",
+                  f"verificado nas categorias IV (declarada) e III (lote mais "
+                  f"aberto): a passagem de IV para III custa "
+                  f"+{v['acrescimo_pressao'] * 100:.0f} % de pressao e as duas passam")]
+    for cat in ("IV", "III"):
+        d = v[cat]
+        usos = ", ".join(
+            f"{e} {100 * d['veredito'][e]['demanda'] / d['veredito'][e]['capacidade']:.0f} %"
+            for e in ("X", "Y"))
+        out.append(Achado("NOTA" if d["ok"] else "ERRO", f"contraventamento cat. {cat}",
+                          f"S2 {d['s2']:.3f}, Vk {d['vk']:.1f} m/s; uso das fitas: {usos}"))
+    out.append(Achado("NOTA", "sensibilidade do orcamento",
+                      "massa, pecas e custo nao mudam entre as duas categorias: "
+                      "o vento governa fita e chumbador, e os dois tem folga. "
+                      "A duvida de categoria nao custa dinheiro"))
     return out
 
 

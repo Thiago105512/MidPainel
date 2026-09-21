@@ -26,8 +26,22 @@ SUBGRID = 300
 # ------------------------------------------------------------- orientacao
 # A testada (Y = 0) recebe sol da MANHA -> a frente do lote esta a LESTE.
 # Consequencia do sistema de coordenadas: +Y aponta para OESTE (fundo),
-# +X aponta para NORTE (lateral direita / faixa tecnica),
-# X = 0 e a lateral SUL (recuo esquerdo).
+# +X aponta para NORTE (faixa tecnica), X = 0 e a lateral SUL (loggia).
+#
+# R68 — CONFERIDO. Ate aqui esta era a premissa mais cara do projeto e a menos
+# verificada: low-e na oeste, brise, limite de fator solar nas faces L e O,
+# carga termica de cada ambiente e a fotovoltaica inteira dependem dela. O
+# proprietario confirmou frente a LESTE, fundos a OESTE e laterais Norte e Sul
+# (ver SITIO). Bateu. Nenhuma prancha mudou por causa disso — e e justamente
+# por nao ter mudado nada que valeu a pena perguntar.
+#
+# ATENCAO A CONVENCAO DE LATERAL (pendencia 16): "esquerda" e "direita" de lote
+# dependem de onde esta o observador. Este projeto usa a convencao do
+# observador NA RUA, DE FRENTE PARA O LOTE — nela, direita = NORTE e esquerda =
+# SUL. A descricao do proprietario usa a convencao oposta (de dentro do lote,
+# olhando a rua), onde esquerda = NORTE. As duas concordam no cardinal, que e o
+# que o modelo usa; divergem so no rotulo. Mas o rotulo decide qual lateral
+# recebe o recuo menor, e a casa tem 2,40 m ao SUL contra 4,40 m ao NORTE.
 AZIMUTE_TESTADA = 90          # graus: 90 = leste
 NORTE_EM_PLANTA = -90         # rotacao do simbolo de norte (aponta para +X)
 LATITUDE = -3.10              # Manaus
@@ -46,6 +60,43 @@ SOL = {
 LOTE_L = 20_000
 LOTE_P = 40_000
 LOTE_AREA_M2 = (LOTE_L * LOTE_P) / 1e6          # 800,00 m2
+
+# ------------------------------------------------------------------ sitio
+# R68 — O LOTE DEIXOU DE SER DESCRICAO E VIROU DADO. Nove itens confirmados
+# pelo proprietario. Sete bateram com o que o modelo ja assumia; dois
+# obrigaram a conferir o que ninguem tinha conferido:
+#   - o entorno sem edificacoes altas pos em duvida a Categoria IV de rugosidade
+#     do vento (ver CATEGORIA_VENTO e nucleo/terreno.conferir_vento);
+#   - "lateral esquerda: Norte" abriu a questao de convencao (pendencia 16).
+# O item do solo e o unico em que a descricao e mais otimista que o dado: o
+# boletim de sondagem manda, e ele reprovou o primeiro metro por uniformidade.
+SITIO = dict(
+    dimensao="20,00 m de frente x 40,00 m de profundidade",
+    area_m2=LOTE_AREA_M2,
+    frente="Leste", fundos="Oeste", laterais="Norte e Sul",
+    rua="Leste, na testada",
+    topografia="praticamente plana, queda de 1 % a 2 % no sentido da rua",
+    solo="descrito como firme e bem drenado; o boletim SP-01/02/03 reprova o "
+         "primeiro metro por uniformidade (N 3 a 4) e PREVALECE",
+    vegetacao="sem arvores grandes interferindo na implantacao",
+    entorno="sem edificacoes altas imediatamente a Oeste ou Norte",
+    ventilacao="boa possibilidade de ventilacao cruzada Norte-Sul",
+    fonte="proprietario, 09/2026 — descricao de sitio, nao levantamento "
+          "planialtimetrico (pendencia 17)",
+)
+
+# DECLIVIDADE — a queda e no sentido da PROFUNDIDADE (eixo Y), do fundo (oeste,
+# Y grande) para a rua (leste, Y = 0). Entra como FAIXA porque o dado e faixa:
+# volume de terra usa o pior caso, caimento de tubo usa o melhor. O RN do
+# projeto e a testada: cota_natural(0) = 0 e o terreno sobe para o fundo.
+DECLIVIDADE_MIN = 0.01
+DECLIVIDADE_MAX = 0.02
+DECLIVIDADE_SENTIDO = "queda para a testada (leste); o fundo e o lado alto"
+
+
+def cota_natural(y: float, declividade: float = DECLIVIDADE_MAX) -> float:
+    """Cota do terreno natural em mm na profundidade y, RN = 0 na testada."""
+    return y * declividade
 
 RECUO_FRENTE = 7_200
 RECUO_ESQ = 2_400
@@ -3749,6 +3800,24 @@ REVISOES = [
      "mineral entram na cena e no OBJ; arvores do paisagismo e cameras ao "
      "nivel da rua entram no render. Base clara fica clara: alfa 0,30 e "
      "decisao termica (ZB8), a sofisticacao vem do relevo, nao da tinta escura"),
+    ("R68", "O LOTE VIROU DADO. O proprietario confirmou nove itens de sitio. "
+     "Sete bateram com o que o modelo ja assumia — inclusive a orientacao, que "
+     "e a premissa mais cara do projeto: low-e na oeste, brise, fator solar "
+     "por face e fotovoltaica pendem dela, e nenhuma prancha mudou por causa "
+     "disso. Confirmacao que nao muda nada e a unica prova de que a premissa "
+     "estava certa. O que mudou foi o que ninguem tinha conferido. A "
+     "topografia (1 % a 2 % para a rua) deixou de ser omissao: nucleo/terreno "
+     "poe a plataforma na cota media, e o achado e que a regularizacao custa "
+     "ZERO m3, porque a variacao cabe dentro dos 600 mm de troca de solo que o "
+     "SPT ja obrigou — o que muda e executivo, a reposicao passa a ter "
+     "espessura de 408 a 792 mm. Piso acabado +448 a +616 mm sobre a testada, "
+     "rampa de 6,2 % a 8,6 %, escoamento por gravidade no sentido da rede. O "
+     "entorno sem edificacao alta reabriu a categoria de rugosidade do vento: "
+     "verificada nas duas, IV e III, com +24 % de pressao e as duas passando, "
+     "sem mudar massa nem custo — a duvida deixou de ser risco. Defeito 106: a "
+     "convencao de lateral esquerda/direita nao estava escrita, e ela decide "
+     "qual lado recebe o recuo de 2,40 (pendencia 16). Pendencia 17: "
+     "levantamento planialtimetrico. PR-47 nova; auditorias 140 e 141"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3765,6 +3834,27 @@ REVISOES = [
 # impede fabricar — a certidao do SU16 condiciona a implantacao, nao o corte do
 # perfil — e tratar todos como iguais tornaria o campo inutil.
 PENDENCIAS = [
+    # R68 — as duas que o dado de sitio do proprietario ABRIU. Nenhuma das
+    # duas muda a casa; as duas mudam o que se assina embaixo dela.
+    dict(n="16", titulo="Convencao de lateral esquerda/direita para os recuos",
+         norma="Lei 1.838/2014 (SU16) — texto do recuo lateral",
+         impacto="A casa tem 2,40 m de recuo ao SUL e 4,40 m ao NORTE. O caso "
+                 "declara RECUO_ESQ = 2,40 (sul) e RECUO_DIR_MIN = 3,00 "
+                 "(norte) pela convencao do observador na rua. A descricao do "
+                 "proprietario usa a convencao oposta. Se a certidao adotar a "
+                 "segunda, o lado que precisa de 3,00 passa a ser o SUL, onde "
+                 "ha 2,40: infracao de 600 mm. Resolve-se lendo o texto legal, "
+                 "nao medindo nada",
+         status="ABERTA", bloqueia="aprovacao"),
+    dict(n="17", titulo="Levantamento planialtimetrico do lote",
+         norma="NBR 13133",
+         impacto="A topografia entrou como FAIXA declarada pelo proprietario "
+                 "(1 % a 2 % para a rua), nao como poligonal medida. O projeto "
+                 "usa o pior caso em volume de terra e o melhor caso em "
+                 "caimento, e nucleo/terreno mostra que a faixa inteira cabe "
+                 "dentro da troca de solo que o SPT ja obrigou. Um "
+                 "levantamento real fecha as cotas de locacao e o RN",
+         status="ABERTA", bloqueia=""),
     dict(n="1", titulo="Certidao oficial do SU16 (CAMT, taxa de ocupacao, "
                        "gabarito)", norma="Lei 1.838/2014",
          impacto="Condiciona toda a implantacao",
@@ -3934,13 +4024,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R67",
+    revisao="R68",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R67", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R68", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

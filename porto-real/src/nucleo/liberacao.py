@@ -141,6 +141,12 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     import nucleo.fachada as _fa
     camadas["brises"] = _fa.brises(pj)
     camadas["fascia"] = _fa.fascia(pj)
+    # R68 — a declividade do lote vira plataforma, cota de piso e rampa
+    import nucleo.terreno as _tr
+    camadas["terreno"] = dict(
+        plataforma=_tr.plataforma(pj), acessos=_tr.acessos(pj),
+        gravidade=_tr.gravidade(pj),
+        plataforma_min=_tr.plataforma(pj, pj.DECLIVIDADE_MIN))
     camadas["platibanda"] = _fa.platibanda(pj)
     camadas["faces"] = _fa.faces(pj)
     import nucleo.instalacoes as _ins

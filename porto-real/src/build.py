@@ -73,6 +73,8 @@ CADERNO = [
     ("44", "PERSPECTIVAS INTERNAS — TERREO",    lambda: p8.perspectivas("terreo")),
     ("45", "PERSPECTIVAS — AREAS ABERTAS",      lambda: p8.perspectivas("abertas")),
     ("46", "PERSPECTIVAS INTERNAS — SUPERIOR",  lambda: p8.perspectivas("superior")),
+    # R68 — a declividade confirmada do lote vira plataforma, cota e rampa
+    ("47", "TERRENO: PERFIL, PLATAFORMA E COTAS", lambda: p8.terreno()),
 ]
 
 

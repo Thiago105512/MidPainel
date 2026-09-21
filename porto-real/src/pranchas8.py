@@ -683,3 +683,255 @@ def perspectivas(grupo: str) -> Canvas:
     an.titulo_desenho(cv, (x_ini, y_ini + ((len(vistas) - 1) // cols + 1) * ch + 6), "1",
                       titulo.title(), "s/ escala")
     return cv
+
+
+# =========================================================================
+# PR-47 — TERRENO: PERFIL NATURAL, PLATAFORMA E COTAS (R68)
+# =========================================================================
+def terreno() -> Canvas:
+    """O perfil do lote com a plataforma, as cotas e o que a declividade custa.
+
+    Ate R67 o lote era plano por omissao e o RN da implantacao era um "+0,00"
+    desenhado. Com a declividade confirmada (1 % a 2 % para a rua), esta
+    prancha responde quatro perguntas que nenhuma outra respondia: em que cota
+    apoia o radier, quanto custa regularizar, se a rampa cabe, e se a agua sai
+    por gravidade. A resposta da segunda e a que surpreende: zero.
+
+    Exagero vertical DECLARADO, e moderado de proposito. A primeira versao usou
+    20x: o desnivel ficou legivel e a camada de reposicao de 600 mm virou um
+    bloco de 60 mm no papel, mais espesso que um terco do lote. Exagero que
+    distorce a peca que o desenho existe para mostrar nao e recurso, e erro.
+    5x mostra a queda e mantem a proporcao da camada.
+    """
+    import nucleo.terreno as tr
+    import nucleo.geotecnia as gt
+
+    EXAG = 5.0
+    ESC_H = 100.0
+    p2 = tr.plataforma(pj, pj.DECLIVIDADE_MAX)
+    p1 = tr.plataforma(pj, pj.DECLIVIDADE_MIN)
+    a2 = tr.acessos(pj, pj.DECLIVIDADE_MAX)
+    a1 = tr.acessos(pj, pj.DECLIVIDADE_MIN)
+    g = tr.gravidade(pj)
+    trat = gt.TRATAMENTO
+
+    cv = base("TERRENO — PERFIL NATURAL, PLATAFORMA E COTAS",
+              f"H 1:{ESC_H:.0f} · V 1:{ESC_H / EXAG:.0f}", "47", notas=[
+        "Perfil longitudinal do lote, da testada (leste, RN +0,00) ao fundo (oeste).",
+        f"Declividade confirmada pelo proprietario: {pj.DECLIVIDADE_MIN * 100:.0f} % a "
+        f"{pj.DECLIVIDADE_MAX * 100:.0f} % no sentido da rua. O desenho mostra o caso de "
+        f"{pj.DECLIVIDADE_MAX * 100:.0f} %, que e o pior para volume de terra.",
+        f"EXAGERO VERTICAL DE {EXAG:.0f}x — horizontal 1:{ESC_H:.0f}, vertical "
+        f"1:{ESC_H / EXAG:.0f}. Sem exagero, {g['queda_terreno_mm']:.0f} mm em "
+        f"{pj.LOTE_P / 1000:.0f} m nao se le no papel.",
+        "A plataforma fica na cota MEDIA sob a casa: corte e aterro se compensam, e os "
+        "dois cabem dentro da troca de 600 mm que o SPT ja obrigou.",
+    ])
+
+    ox, oy = 60.0, 116.0
+    kx = 1000.0 / ESC_H / 1000.0            # mm de modelo -> mm de papel
+    kz = kx * EXAG
+
+    def pt(y_mm, cota_mm):
+        return (ox + y_mm * kx, oy - cota_mm * kz)
+
+    ambs = pj.TERREO + pj.SUPERIOR
+    f_y0 = min(a.y for a in ambs)
+    f_y1 = max(a.y + a.h for a in ambs)
+    D = pj.DECLIVIDADE_MAX
+
+    # ---- macico de terra sob o natural de 2 %
+    cv.poli_p([pt(0, 0), pt(pj.LOTE_P, pj.cota_natural(pj.LOTE_P, D)),
+               pt(pj.LOTE_P, -1_200), pt(0, -1_200)], "fino", fechado=True,
+              preenche="#f2ece0", cor="#cbbfa6")
+    for i_ in range(0, int(pj.LOTE_P) + 1, 2_000):
+        cv.linha_p(pt(i_, pj.cota_natural(i_, D)), pt(i_, -1_200), "cota", cor="#ddd2ba")
+
+    # ---- terreno natural nas duas pontas da faixa declarada
+    for d, estilo, cor, rot in ((D, "corte", "#8a6d3b", f"natural {D * 100:.0f} %"),
+                                (pj.DECLIVIDADE_MIN, "vista", "#b8a078",
+                                 f"natural {pj.DECLIVIDADE_MIN * 100:.0f} %")):
+        cv.linha_p(pt(0, 0), pt(pj.LOTE_P, pj.cota_natural(pj.LOTE_P, d)), estilo, cor=cor)
+        c = pt(pj.LOTE_P, pj.cota_natural(pj.LOTE_P, d))
+        cv.texto_p((c[0] + 2, c[1] + 1), rot, TXT["micro"], "start", cor=cor)
+
+    # ---- RN da testada
+    cv.linha_p(pt(-2_500, 0), pt(pj.LOTE_P, 0), "cota", cor="#999", dash="4 2")
+    cv.texto_p((pt(-2_500, 0)[0], pt(0, 0)[1] - 2), "RN +0,00 = testada",
+               TXT["micro"], "start", cor="#666")
+
+    # ---- escavacao, reposicao e radier (caso de 2 %)
+    plat = p2["cota_plataforma"]
+    esc0 = pj.cota_natural(f_y0, D) - trat["remover_mm"]
+    esc1 = pj.cota_natural(f_y1, D) - trat["remover_mm"]
+    cv.poli_p([pt(f_y0, esc0), pt(f_y1, esc1), pt(f_y1, plat), pt(f_y0, plat)],
+              "fino", fechado=True, preenche="#e4efdd", cor="#5a8a4a")
+    cv.linha_p(pt(f_y0, esc0), pt(f_y1, esc1), "corte2", cor="#c0392b")
+    cv.poli_p([pt(f_y0, plat), pt(f_y1, plat),
+               pt(f_y1, p2["cota_piso_acabado"]), pt(f_y0, p2["cota_piso_acabado"])],
+              "corte", fechado=True, preenche="#cfcac1", cor="#333")
+
+    cv.texto_p(pt((f_y0 + f_y1) / 2, p2["cota_piso_acabado"] + 420),
+               f"PISO ACABADO +{p2['cota_piso_acabado'] / 1000:.3f}".replace(".", ","),
+               TXT["micro"], "middle", peso="bold")
+    cv.texto_p(pt((f_y0 + f_y1) / 2, (plat + esc0) / 2 - 120),
+               f"reposicao controlada {p2['reposicao_baixo_mm']:.0f} a "
+               f"{p2['reposicao_alto_mm']:.0f} mm", TXT["micro"], "middle", cor="#3d6b30")
+    cv.texto_p(pt(f_y1 + 900, esc1), "fundo da escavacao: 600 mm abaixo do natural",
+               TXT["micro"], "start", cor="#c0392b")
+
+    # ---- limites: casa, piscina e divisas
+    for y_, rot in ((f_y0, "frente da casa"), (f_y1, "fundo da casa"),
+                    (pj.PISCINA["y"], "piscina"), (pj.LOTE_P, "divisa de fundo")):
+        cv.linha_p(pt(y_, -1_200), pt(y_, 1_400), "cota", cor="#0b6", dash="2 2")
+        cv.texto_p((pt(y_, 1_400)[0], pt(y_, 1_400)[1] - 2.5), rot,
+                   TXT["micro"], "middle", cor="#0b6")
+
+    # ---- rampa de acesso
+    cv.linha_p(pt(0, 0), pt(f_y0, p2["cota_piso_acabado"]), "corte", cor="#c8651a")
+    cv.texto_p(pt(f_y0 / 2, p2["cota_piso_acabado"] / 2 + 320),
+               f"rampa {a2['rampa_pct']:.1f} %", TXT["micro"], "middle",
+               cor="#c8651a", peso="bold")
+
+    # ---- escala vertical
+    for c in (0, 250, 500, 750):
+        cv.linha_p((ox - 13, pt(0, c)[1]), (ox - 3, pt(0, c)[1]), "cota", cor="#aaa")
+        cv.texto_p((ox - 15, pt(0, c)[1]), f"+{c / 1000:.2f}".replace(".", ","),
+                   TXT["micro"], "end", cor="#666")
+    cv.texto_p((ox - 15, pt(0, -950)[1]), "cotas em m", TXT["micro"], "end", cor="#999")
+
+    # ---- cadeia horizontal de profundidade
+    for y_ in range(0, int(pj.LOTE_P) + 1, 10_000):
+        cv.linha_p(pt(y_, -1_200), (pt(y_, -1_200)[0], pt(0, -1_200)[1] + 4),
+                   "cota", cor="#bbb")
+        cv.texto_p((pt(y_, -1_200)[0], pt(0, -1_200)[1] + 7.5),
+                   f"{y_ / 1000:.0f}", TXT["micro"], "middle", cor="#777")
+    cv.texto_p((pt(20_000, 0)[0], pt(0, -1_200)[1] + 11.5),
+               "profundidade do lote, em metros a partir da testada",
+               TXT["micro"], "middle", cor="#999")
+
+    an.titulo_desenho(cv, (ox - 8, 196), "1",
+                      "Perfil longitudinal do terreno e plataforma",
+                      f"H 1:{ESC_H:.0f} · V 1:{ESC_H / EXAG:.0f}")
+
+    # ---- tabelas
+    y = _tabela(cv, (35, 210), "COTAS DO PROJETO — NAS DUAS PONTAS DA FAIXA DECLARADA",
+                ["", "A 1 %", "A 2 %", "ORIGEM"],
+                [["Natural na frente da casa", f"+{p1['cota_natural_frente']:.0f}",
+                  f"+{p2['cota_natural_frente']:.0f}", "cota_natural(y) do caso"],
+                 ["Natural no fundo da casa", f"+{p1['cota_natural_fundo']:.0f}",
+                  f"+{p2['cota_natural_fundo']:.0f}", "cota_natural(y) do caso"],
+                 ["Desnivel sob a casa", f"{p1['desnivel_mm']:.0f}",
+                  f"{p2['desnivel_mm']:.0f}", f"em {p2['prof_mm'] / 1000:.1f} m de profundidade"],
+                 ["Plataforma (topo da reposicao)", f"+{p1['cota_plataforma']:.0f}",
+                  f"+{p2['cota_plataforma']:.0f}", "cota media: compensa corte e aterro"],
+                 ["Piso acabado do terreo", f"+{p1['cota_piso_acabado']:.0f}",
+                  f"+{p2['cota_piso_acabado']:.0f}",
+                  f"plataforma + lastro {pj.RADIER['lastro']} + radier {pj.RADIER['espessura']}"],
+                 ["Folga sobre a testada", f"{p1['cota_piso_acabado']:.0f}",
+                  f"{p2['cota_piso_acabado']:.0f}", "protecao de enxurrada e saida por gravidade"]],
+                larguras=[60, 20, 20, 92]) + 9
+
+    y = _tabela(cv, (35, y), "REPOSICAO CONTROLADA — A ESPESSURA DEIXA DE SER UNICA",
+                ["", "A 1 %", "A 2 %", "NOTA"],
+                [["No fundo (lado alto)", f"{p1['reposicao_alto_mm']:.0f}",
+                  f"{p2['reposicao_alto_mm']:.0f}", f"minimo admitido {tr.REPOSICAO_MIN_MM} mm"],
+                 ["Na frente (lado baixo)", f"{p1['reposicao_baixo_mm']:.0f}",
+                  f"{p2['reposicao_baixo_mm']:.0f}", "a plataforma e uma so"],
+                 ["Media", f"{trat['remover_mm']}", f"{trat['remover_mm']}",
+                  "e por isso o VOLUME nao muda"],
+                 ["Camadas de 250 mm", f"{p1['camadas_alto']} a {p1['camadas_baixo']}",
+                  f"{p2['camadas_alto']} a {p2['camadas_baixo']}",
+                  "compactacao a 95 % do Proctor normal"],
+                 ["Corte de regularizacao", "0,0 m3", "0,0 m3",
+                  "cabe dentro da troca que o SPT obrigou"],
+                 ["Aterro de regularizacao", "0,0 m3", "0,0 m3", "idem"]],
+                larguras=[60, 20, 20, 92]) + 9
+
+    _tabela(cv, (35, y), "ACESSO E ESCOAMENTO",
+            ["", "A 1 %", "A 2 %", "CRITERIO"],
+            [["Rampa de veiculos", f"{a1['rampa_pct']:.1f} %", f"{a2['rampa_pct']:.1f} %",
+              f"confortavel ate {tr.RAMPA_CONFORTAVEL * 100:.0f} %, "
+              f"limite {tr.RAMPA_MAX * 100:.0f} %"],
+             ["Subida a vencer", f"{a1['subida_mm']:.0f} mm", f"{a2['subida_mm']:.0f} mm",
+              f"no recuo de frente de {a2['corrida_mm'] / 1000:.1f} m"],
+             ["Queda ate a rede publica",
+              f"{pj.cota_natural(pj.LOTE_P, pj.DECLIVIDADE_MIN):.0f} mm",
+              f"{g['queda_terreno_mm']:.0f} mm",
+              "no sentido da sarjeta: sem elevatoria de esgoto"]],
+            larguras=[60, 20, 20, 92])
+
+    # ---- caixa de texto: por que custa zero
+    cv.poli_p([(492, 40), (812, 40), (812, 122), (492, 122)], "fino",
+              fechado=True, preenche="#fbfaf7", cor="#ddd")
+    cv.texto_p((498, 48), "POR QUE A REGULARIZACAO CUSTA ZERO m3", TXT["peq"],
+               "start", peso="bold")
+    for i_, linha in enumerate([
+            "O SPT reprovou o primeiro metro por uniformidade (N de 3 a 4) e obrigou",
+            f"a remover {trat['remover_mm']} mm de solo em toda a area tratada, repondo",
+            "material controlado. Essa escavacao ja ia acontecer.",
+            "",
+            "A plataforma fica na cota MEDIA do terreno sob a casa. Acima dela a",
+            "reposicao afina, abaixo dela engrossa. Como a variacao e simetrica, o",
+            "volume medio nao muda: a declividade inteira cabe dentro da troca.",
+            "",
+            "O que muda e executivo, nao orcamentario. A camada deixa de ter",
+            "espessura unica, o numero de camadas de compactacao varia de ponta a",
+            "ponta, e o nivelamento do topo da reposicao passa a ser item de",
+            "conferencia de obra, com ensaio por camada e por area."]):
+        cv.texto_p((498, 55 + i_ * 5.4), linha, TXT["micro"], "start", cor=CINZA)
+
+    # ---- caixa de texto: o sitio confirmado
+    cv.poli_p([(492, 130), (812, 130), (812, 200), (492, 200)], "fino",
+              fechado=True, preenche="#fbfaf7", cor="#ddd")
+    cv.texto_p((498, 138), "SITIO CONFIRMADO PELO PROPRIETARIO", TXT["peq"],
+               "start", peso="bold")
+    for i_, (k, v) in enumerate([
+            ("Frente", pj.SITIO["frente"] + " (rua na testada)"),
+            ("Fundos", pj.SITIO["fundos"]),
+            ("Laterais", pj.SITIO["laterais"]),
+            ("Topografia", "plana, 1 % a 2 % para a rua"),
+            ("Vegetacao", "sem arvore grande na implantacao"),
+            ("Entorno", "sem edificacao alta a Oeste ou Norte"),
+            ("Ventilacao", "cruzada Norte-Sul"),
+            ("Solo", "boletim SP-01/02/03 prevalece sobre a descricao")]):
+        cv.texto_p((498, 146 + i_ * 5.4), k, TXT["micro"], "start", peso="bold")
+        cv.texto_p((532, 146 + i_ * 5.4), v, TXT["micro"], "start", cor=CINZA)
+    cv.texto_p((498, 146 + 8 * 5.4 + 2),
+               "Pendencia 16: convencao de lateral esquerda/direita nos recuos. "
+               "Pendencia 17: levantamento planialtimetrico fecha as cotas.",
+               TXT["micro"], "start", cor="#c00")
+
+    # ---- o vento que o sitio reabriu, e a resposta
+    import nucleo.vento as _ve
+    z = pj.TOPO_PLATIBANDA / 1000.0
+    q = {c: _ve.pressao(_ve.vk(pj.V0_VENTO, z, c, pj.CLASSE_VENTO))
+         for c in ("IV", "III")}
+    _tabela(cv, (520, 215),
+            "VENTO — ROBUSTEZ A CATEGORIA DE RUGOSIDADE (NBR 6123)",
+            ["", "CAT. IV (declarada)", "CAT. III (lote aberto)", "LEITURA"],
+            [["S2 no topo da platibanda", f"{_ve.s2(z, 'IV', pj.CLASSE_VENTO):.3f}",
+              f"{_ve.s2(z, 'III', pj.CLASSE_VENTO):.3f}",
+              f"z = {z:.2f} m, classe {pj.CLASSE_VENTO}"],
+             ["Velocidade caracteristica",
+              f"{_ve.vk(pj.V0_VENTO, z, 'IV', pj.CLASSE_VENTO):.1f} m/s",
+              f"{_ve.vk(pj.V0_VENTO, z, 'III', pj.CLASSE_VENTO):.1f} m/s",
+              f"V0 = {pj.V0_VENTO:.0f} m/s (isopleta de Manaus)"],
+             ["Pressao dinamica", "referencia",
+              f"+{(q['III'] / q['IV'] - 1) * 100:.0f} %",
+              "a pressao e quadratica na velocidade"],
+             ["Uso das fitas de contraventamento", "51 % (X) e 52 % (Y)",
+              "64 % (X) e 64 % (Y)", "as duas passam"],
+             ["Arrancamento no chumbador", "5,0 kN", "6,4 kN",
+              "contra 12,0 kN do M10 de expansao"],
+             ["Massa, pecas e custo", "identicos", "identicos",
+              "o vento governa fita e chumbador, e os dois tem folga"]],
+            larguras=[62, 40, 40, 78])
+    cv.texto_p((520, 262),
+               "O sitio diz que nao ha edificacao alta a Oeste nem a Norte, leitura que "
+               "puxa para a Categoria III.", TXT["micro"], "start", cor=CINZA)
+    cv.texto_p((520, 267),
+               "Em vez de escolher a letra no olho, o projeto foi verificado nas duas. "
+               "A duvida deixou de ser risco.", TXT["micro"], "start", cor=CINZA)
+
+    return cv

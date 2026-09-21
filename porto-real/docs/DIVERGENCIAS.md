@@ -5335,3 +5335,121 @@ BOM: 165 → 166 itens; R$ 939.573 → R$ 968.128.
 **Estado em R67:** 139 auditorias, 0 erros; 212 verificações do visualizador,
 0 falhas (o teste tinha "cinco brises" como literal: agora lê `len(BRISES)`);
 46 pranchas; 45 perspectivas; BOM de 166 itens, R$ 968.127,81.
+
+## R68 — O lote virou dado
+
+O proprietário confirmou nove itens de sítio. A pergunta que ele fez foi se
+isso melhora ou piora a situação do lote. A resposta é que melhora, e o modo
+como melhora é o que interessa: **sete dos nove confirmam o que o modelo já
+assumia**, e nenhuma prancha precisou mudar por causa deles. Confirmação que
+não muda nada não é trabalho perdido — é a única prova de que a premissa
+estava certa.
+
+| Dado confirmado | O que o modelo assumia | Resultado |
+|---|---|---|
+| 20 × 40 m, 800 m² | `LOTE_L` 20.000, `LOTE_P` 40.000 | exato |
+| Frente Leste, fundos Oeste | `AZIMUTE_TESTADA = 90` | confirma |
+| Laterais Norte e Sul | +X = Norte, x = 0 = Sul | confirma o cardinal, ver defeito 106 |
+| Rua a Leste | portão, pórtico e acesso na testada | confirma |
+| Plana, 1 a 2% para a rua | `S1_VENTO = 1,00`, terreno plano | confirma e ainda dá a direção |
+| Solo firme e bem drenado | SP-01/02/03 já entregues | o boletim é mais duro e prevalece |
+| Sem árvores grandes | paisagismo planta árvores novas | confirma |
+| Sem edificação alta a O e N | `CATEGORIA_VENTO = "IV"` | reabriu a categoria, ver abaixo |
+| Ventilação cruzada N–S | PV02 sul, 18 vãos nas faces N e S | confirma |
+
+A orientação é o item que importava. Toda a engenharia solar do projeto
+depende de a testada ser Leste, e ela nunca tinha sido conferida contra nada
+externo. Estava certa.
+
+### A declividade custa zero, e é contraintuitivo
+
+`nucleo/terreno.py` põe a plataforma na cota média do terreno sob a casa, que
+é o critério clássico de compensação. O que torna o resultado inesperado é a
+interação com o que já existia: o SPT reprovou o primeiro metro por
+uniformidade e obrigou a remover 600 mm de solo em toda a área tratada.
+
+| | A 1% | A 2% |
+|---|---|---|
+| Desnível sob a casa, em 19,2 m | 192 mm | 384 mm |
+| Plataforma sobre a testada | +168 mm | +336 mm |
+| Piso acabado sobre a testada | +448 mm | +616 mm |
+| Reposição no lado alto | 504 mm | 408 mm |
+| Reposição no lado baixo | 696 mm | 792 mm |
+| Corte e aterro de regularização | 0,0 m³ | 0,0 m³ |
+| Rampa de veículos | 6,2% | 8,6% |
+
+A plataforma na cota média faz a camada de reposição afinar de um lado e
+engrossar do outro. Como a variação é simétrica, o volume médio não muda: a
+declividade inteira cabe dentro de uma escavação que já ia acontecer. O que
+muda é executivo, não orçamentário. A camada deixa de ter espessura única, o
+número de camadas de compactação varia de ponta a ponta, e o nivelamento do
+topo da reposição passa a ser item de conferência de obra.
+
+O custo do orçamento não se mexeu: R$ 968.127,81, os mesmos 166 itens.
+
+### A categoria de vento deixou de ser risco
+
+O caso declara Categoria IV e o próprio comentário dizia que quem considerar o
+lote mais aberto usa III, "com diferença da ordem de 10% em S2". O comentário
+estava certo no S2 e incompleto na consequência: a pressão é quadrática na
+velocidade, então 11% em S2 viram **24% de carga**. A descrição de sítio, sem
+edificações altas a Oeste nem a Norte, reabriu a dúvida.
+
+Em vez de escolher a letra no olho, o projeto foi verificado nas duas:
+
+| | Cat. IV | Cat. III |
+|---|---|---|
+| S2 no topo da platibanda | 0,793 | 0,884 |
+| Velocidade característica | 23,8 m/s | 26,5 m/s |
+| Uso das fitas, eixo X | 51% | 64% |
+| Uso das fitas, eixo Y | 52% | 64% |
+| Arrancamento no chumbador | 5,0 kN | 6,4 kN, contra 12,0 kN do M10 |
+| Massa, peças e custo | referência | idênticos |
+
+As duas passam. O vento governa fita e chumbador, e os dois têm folga. A
+dúvida de categoria não custa dinheiro, o que só se soube porque se verificou
+em vez de argumentar.
+
+### Defeito 106 — a convenção de lateral não estava escrita
+
+O modelo registra "lateral direita = Norte". A descrição do proprietário diz
+"lateral esquerda = Norte". Não é conflito de geometria: os dois concordam que
+uma lateral é Norte e a outra Sul. É conflito de **convenção de observador**,
+na rua olhando o lote contra dentro do lote olhando a rua. Mas o rótulo decide
+qual lateral recebe o recuo menor:
+
+| Lado | Recuo real | Parâmetro |
+|---|---|---|
+| Sul | 2,40 m | `RECUO_ESQ` = 2,40 |
+| Norte | 4,40 m | `RECUO_DIR_MIN` = 3,00 |
+
+Pela convenção do modelo passa nos dois lados. Se a certidão adotar a outra, o
+lado que precisa de 3,00 passa a ser o Sul, onde há 2,40: infração de 600 mm.
+Vira pendência 16, que se resolve lendo o texto legal, não medindo nada. A
+convenção usada passou a estar escrita no caso, onde antes era silêncio.
+
+### Pendência 17 — o que ainda falta
+
+A topografia entrou como faixa declarada, não como poligonal medida. O projeto
+usa o pior caso em volume de terra e o melhor em caimento, e mostra que a
+faixa inteira cabe dentro da troca de solo. Um levantamento planialtimétrico
+fecha as cotas de locação e o RN. A diferença entre as duas pontas da faixa é
+de 168 mm na cota do piso, que é exatamente o que o levantamento resolve.
+
+**PR-47** desenha o perfil com a plataforma, as cotas, a reposição variável e o
+quadro do vento. O exagero vertical saiu de 20x para 5x depois da primeira
+tentativa: a 20x o desnível ficava legível e a camada de 600 mm virava um bloco
+mais espesso que um terço do lote. Exagero que distorce a peça que o desenho
+existe para mostrar não é recurso, é erro.
+
+### Defeito 107 — o dublê de teste do radier era uma casa inventada
+A auditoria de sensibilidade do radier montava um `_Pj` com três atributos
+escolhidos à mão, e quebrou assim que a terraplenagem passou a consultar a
+declividade. Teste de sensibilidade varia uma coisa e mantém o resto: o dublê
+passou a ser uma cópia do caso com a espessura trocada. E o detector de
+literais pegou de imediato um `40_000` na cadeia de cotas da PR-47, igual a
+`LOTE_P`, escrito enquanto eu desenhava a própria prancha que fala do lote.
+
+**Estado em R68:** 141 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; 47 pranchas; 45 perspectivas; 17 pendências, 9 abertas. BOM de 166
+itens, R$ 968.127,81, inalterado: a declividade não custou um centavo.
