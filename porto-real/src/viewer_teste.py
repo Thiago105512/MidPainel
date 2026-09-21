@@ -333,7 +333,7 @@ def rodar(fotos: bool = False) -> int:
         # rol escrito no teste envelhece na primeira camada nova e acusa falha
         # onde so houve crescimento
         esperados = pag.evaluate("""() => ['terreo','superior','lajes',
-          'platibandas','externo','mob','escada','lsf','luz']
+          'platibandas','externo','mob','escada','lsf','luz','inst']
           .reduce((s,k)=>s+(M3[k]?M3[k].length:0),0)""")
         ok(n == esperados, "todos os solidos exportados entraram na cena",
            f"{n} de {esperados}")
@@ -378,6 +378,19 @@ def rodar(fotos: bool = False) -> int:
              const g = R.grupos.lsf;
              return g && g.children.length === M3.lsf.length && !g.visible; }"""),
            "a camada da estrutura entra desligada, para nao brigar com a parede")
+        # R80 — as instalacoes na cena: eletroduto, PEX, esgoto e frigorigena
+        # como pecas de duas pontas, na cota em que correm; camada desligada
+        ok(pag.evaluate("() => (M3.inst || []).length") > 300,
+           "eletrodutos, tubos e linhas frigorigenas estao na cena 3D, trecho a trecho",
+           str(pag.evaluate("() => (M3.inst || []).length")))
+        ok(pag.evaluate("""() => {
+             const s = new Set((M3.inst || []).map(b => b.sis));
+             return ['eletrica', 'agua', 'esgoto', 'frigorigena'].every(k => s.has(k)); }"""),
+           "os quatro sistemas aparecem na camada de instalacoes")
+        ok(pag.evaluate("""() => {
+             const g = R.grupos.inst;
+             return g && g.children.length === (M3.inst || []).length && !g.visible; }"""),
+           "a camada de instalacoes entra desligada")
         ok(pag.evaluate("() => document.getElementById('stage3d')"
                         ".querySelectorAll('canvas').length") == 1,
            "um unico canvas no palco")

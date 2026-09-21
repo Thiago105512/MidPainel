@@ -867,6 +867,18 @@ PROGRAMA = [
      "e que a vala provisoria vence a chuva de projeto com a caixa de "
      "sedimentacao antes da sarjeta. A bomba da piscina entrou na conferencia "
      "de ruido (gas.ruido), que so ouvia condensadoras e a bomba de recalque."),
+    (150, "Instalacoes: cada ponto com coordenada, percurso parede a parede, fixadores e testes",
+     ["checar_percurso"], "AUTOMATIZADA",
+     "Secao 175. O circuito media a distancia Manhattan do quadro ao centro do "
+     "ambiente vezes 1,2 e a PR-27 espalhava tomadas para ilustrar. nucleo/pontos "
+     "da coordenada, altura e parede a cada tomada (bancada, TV, lavatorio fora "
+     "da zona do box, o resto pelo perimetro pulando vaos), interruptor (lado da "
+     "fechadura, paralelo na cabeceira), luminaria e TUE (no equipamento); "
+     "nucleo/percurso roteia pelo grafo das paredes — eletroduto a 1.450 pelos "
+     "furos dos montantes, PEX a 400 por furos de 32 que a fabricacao passa a "
+     "abrir, esgoto sob o piso — e conta buchas, clips, abracadeiras e caixas. "
+     "Queda e pressao recalculadas com o percurso real; mapa de ocultos por "
+     "parede; tubulacao na cena 3D; mapa de testes por sistema."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

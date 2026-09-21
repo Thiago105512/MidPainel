@@ -101,6 +101,15 @@ def circuitos(pj) -> list[dict]:
         else:
             comp = 15_000 * FATOR_PERCURSO
         comp += 2_500                                        # descida do quadro e subida ao ponto
+        # R80 — onde o percurso parede a parede existe, ele manda: o ponto mais
+        # longe do circuito para a queda, a arvore do circuito para o material
+        import nucleo.percurso as _pr
+        _real = _pr.comprimentos_eletrica(pj).get(c["cod"])
+        comp_manhattan = comp
+        arvore = None
+        if _real:
+            comp = _real["mais_longe_mm"]
+            arvore = _real["arvore_mm"]
         queda = 2 * RHO * (comp / 1000) * ib / (s * c["v"]) * 100
         # nos circuitos longos (cozinha e gourmet ficam a 30 m do quadro da
         # garagem) a queda de tensao manda mais que a corrente: sobe a secao
@@ -125,7 +134,7 @@ def circuitos(pj) -> list[dict]:
                         fases=list(c["fases"]), cores=[COR_FASE[f] for f in c["fases"]],
                         ib_a=round(ib, 1), disjuntor_a=disj, polos=polos, secao_mm2=s,
                         secao_por_corrente=secao_por_corrente, subiu_por_queda=s > secao_por_corrente,
-                        iz_a=IZ[s], eletroduto_mm=ELETRODUTO[s], comp_mm=round(comp),
+                        iz_a=IZ[s], eletroduto_mm=ELETRODUTO[s], comp_mm=round(comp), comp_manhattan_mm=round(comp_manhattan), arvore_mm=round(arvore) if arvore else None,
                         cabo_m=round(comp / 1000 * n_cond, 1), queda_pct=round(queda, 2),
                         queda_ok=queda <= QUEDA_MAX, dr=_molhado(pj, amb, c),
                         pontos_luz=pontos, interruptores=interruptores, tomadas=tomadas))
@@ -171,7 +180,9 @@ def materiais(pj) -> list[dict]:
     cs = circuitos(pj)
     cabo = {}
     for c in cs:
-        km = c["comp_mm"] / 1000
+        # R80 — o material sai da ARVORE do circuito (o eletroduto que serve o
+        # ambiente inteiro), nao do ponto mais longe
+        km = (c["arvore_mm"] or c["comp_mm"]) / 1000
         cabo[(c["secao_mm2"], "fase")] = cabo.get((c["secao_mm2"], "fase"), 0) + km * (2 if c["v"] == 220 else 1)
         if c["v"] == 127:
             cabo[(c["secao_mm2"], "neutro")] = cabo.get((c["secao_mm2"], "neutro"), 0) + km
@@ -180,7 +191,7 @@ def materiais(pj) -> list[dict]:
            for (s, cor), v in sorted(cabo.items())]
     eld = {}
     for c in cs:
-        eld[c["eletroduto_mm"]] = eld.get(c["eletroduto_mm"], 0) + c["comp_mm"] / 1000
+        eld[c["eletroduto_mm"]] = eld.get(c["eletroduto_mm"], 0) + (c["arvore_mm"] or c["comp_mm"]) / 1000
     out += [dict(item=f"eletroduto corrugado DN{d}", qtd=round(v, 1), un="m") for d, v in sorted(eld.items())]
     disj = {}
     for c in cs:

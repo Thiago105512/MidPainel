@@ -1718,5 +1718,68 @@
     "vala 300 × 300 a 1 % no pé da plataforma e caixa de 0,8 m³: 13,7 L/s de projeto com C 0,5 e 180 mm/h"
    ]
   ]
+ },
+ {
+  "n": "73",
+  "t": "Elétrica: pontos, percursos e fixadores",
+  "esc": "1:75",
+  "etapa": "R80",
+  "d": "Cada tomada, interruptor, luminária e TUE com coordenada e altura; o eletroduto de cada circuito parede a parede, pelos furos dos montantes; o ponto mais longe e a queda com o percurso real; buchas, clips, abraçadeiras e caixas contados.",
+  "k": [
+   [
+    "pontos",
+    "82 tomadas em 77 pontos (5 duplos onde a parede acabou), 36 interruptores, 107 luminárias, 40 pontos de TUE"
+   ],
+   [
+    "percurso",
+    "eletroduto dentro da parede a 1.450 mm, pelos furos que a fabricação já abre; ao forro para luminária; enterrado para bombas"
+   ],
+   [
+    "fixadores",
+    "bucha passa-fio em cada montante atravessado, clip a cada 1,2 m, abraçadeira a cada 1 m no forro, caixa por ponto"
+   ]
+  ]
+ },
+ {
+  "n": "74",
+  "t": "Água e esgoto: percurso oculto e furos",
+  "esc": "1:75",
+  "etapa": "R80",
+  "d": "O PEX de cada peça pela parede a 400 mm, o esgoto sob o piso, os painéis que ganham furo hidráulico de 32 mm na fabricação, e o que cada parede esconde com as faixas onde não furar.",
+  "k": [
+   [
+    "furos",
+    "32 mm a 400 mm só nos painéis das paredes por onde a água passa; esgoto nunca em montante"
+   ],
+   [
+    "ocultos",
+    "64 paredes com elétrica e/ou água: não furar entre 350-450 nem 1.400-1.500 mm"
+   ],
+   [
+    "pressão",
+    "sub-ramal com o percurso real: todas as peças atendidas (gravidade ou TC-14)"
+   ]
+  ]
+ },
+ {
+  "n": "75",
+  "t": "Climatização em isométrico e mapa de testes",
+  "esc": "1:90",
+  "etapa": "R80",
+  "d": "As linhas frigorígenas do nicho ao evaporador em isométrico, com os trechos de subida, fachada e parede; o teste de cada sistema com fase, critério e registro; os pontos críticos de execução.",
+  "k": [
+   [
+    "isométrico",
+    "cada linha sobe no nicho, corre pela fachada na cota do evaporador e entra na parede do ambiente"
+   ],
+   [
+    "testes",
+    "15 testes em 15 sistemas; o que fica escondido testa antes de esconder"
+   ],
+   [
+    "críticos",
+    "esgoto no radier, furos hidráulicos, eletroduto a 1.450, cargas suspensas, fita X, impermeabilização, shaft"
+   ]
+  ]
  }
 ]

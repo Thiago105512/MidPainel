@@ -557,6 +557,34 @@ CENAS = [
 ]
 
 
+def _instalacoes_3d() -> list[dict]:
+    """R80 — eletrodutos, PEX, esgoto e linhas frigorigenas como pecas de duas
+    pontas (o mesmo `de`/`ate` da fita do contraventamento), na cota em que
+    correm: eletrica a 1.450 na parede, agua a 400, esgoto sob o piso."""
+    import nucleo.percurso as pr
+    cor = {"eletrica": "#e08a1e", "agua": "#2f7fd6", "esgoto": "#8a5a2b", "frigorigena": "#7a4fd0"}
+    out = []
+    def seg(t, cod):
+        a, b = t["de"], t["para"]
+        if a == b:
+            return
+        out.append(dict(t="inst", de=[round(a[0]), round(a[1]), round(a[2])], ate=[round(b[0]), round(b[1]), round(b[2])],
+                        esp=max(int(t["diam"]), 18), c=cor[t["sistema"]], amb=cod, sis=t["sistema"], plano=t["plano"]))
+    for g in pr.arvores_eletrica(pj):
+        for t in g["trechos_parede"] + g["proprios"]:
+            seg(t, g["circuito"])
+    for g in pr.arvores_agua(pj):
+        for t in g["trechos_parede"] + g["proprios"]:
+            seg(t, f"AF {g['amb']}")
+    for r in pr.esgoto(pj):
+        for t in r["trechos"]:
+            seg(t, r["cod"])
+    for r in pr.frigorigena(pj):
+        for t in r["trechos"]:
+            seg(t, r["cod"])
+    return out
+
+
 def exportar(caminho: str | None = None) -> dict:
     dados = dict(
         meta=dict(lote=[pj.LOTE_L, pj.LOTE_P], norte=pj.NORTE_EM_PLANTA,
@@ -572,6 +600,7 @@ def exportar(caminho: str | None = None) -> dict:
         externo=_externos() + _lote(), mob=_mobiliario() + _ventiladores(), escada=_escada(),
         ambientes=_rotulos_ambientes(), cenas=CENAS, cores=CORES,
         luz=_luz(),
+        inst=_instalacoes_3d(),
         lsf=_estrutura_lsf(), cores_lsf=CORES_LSF)
     # separa o que e do superior para permitir ligar/desligar
     dados["superior"] = [b for b in dados["superior"]]

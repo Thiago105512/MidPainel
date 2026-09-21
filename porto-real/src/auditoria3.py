@@ -4663,6 +4663,26 @@ def checar_canteiro() -> list[Achado]:
     return out
 
 
+def checar_percurso() -> list[Achado]:
+    """Pontos com coordenada, percurso parede a parede, fixadores, furos e testes (R80)."""
+    import projeto as pj
+    import nucleo.pontos as po
+    import nucleo.percurso as pr
+    import nucleo.testes as te
+    out = []
+    conf = po.conferir(pj) + pr.conferir(pj) + te.conferir(pj)
+    for t, d, ok in conf:
+        if not ok:
+            out.append(Achado("ERRO", f"percurso: {t}", d))
+    r = pr.resumo(pj); q = po.resumo(pj)
+    out.append(Achado("NOTA", "percurso", f"{sum(1 for c in conf if c[2])} de {len(conf)} conferencias passam; {q['tomadas']} pontos de tomada "
+                      f"({q['duplas']} duplos), {q['interruptores']} interruptores, {q['luminarias']} luminarias, {q['tue']} TUE; "
+                      f"{r['eletroduto_m']} m de eletroduto em {r['circuitos']} arvores, {r['pex_m']} m de PEX em {r['paredes_com_agua']} paredes, "
+                      f"{r['esgoto_m']} m de esgoto sob o piso; {r['fixadores']} fixadores, {r['caixas']} caixas; ponto mais longe {r['mais_longo']} a {r['mais_longo_m']} m"))
+    out.append(Achado("NOTA", "testes", f"{te.resumo(pj)['testes']} testes em {te.resumo(pj)['sistemas']} sistemas; {te.resumo(pj)['pontos_criticos']} pontos criticos"))
+    return out
+
+
 def checar_moldes_de_defeito() -> list[Achado]:
     """Meta-auditoria (R65): literais do caso, alcance das entidades, funcoes duplicadas.
 

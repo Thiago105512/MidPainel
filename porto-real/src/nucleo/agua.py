@@ -132,6 +132,14 @@ def pecas(pj) -> list[dict]:
         cx = sum(pj.pecas_hidraulicas()[i]["x"] for i in range(len(pj.pecas_hidraulicas())) if pj.pecas_hidraulicas()[i]["amb"] == p["amb"]) / len(ram["pecas"])
         cy = sum(pj.pecas_hidraulicas()[i]["y"] for i in range(len(pj.pecas_hidraulicas())) if pj.pecas_hidraulicas()[i]["amb"] == p["amb"]) / len(ram["pecas"])
         comp_sub = (_manh((cx, cy), (p["x"], p["y"])) + abs(2_400 - Z_PECA[p["tipo"]])) * FATOR_PERCURSO + 300
+        # R80 — onde o percurso parede a parede existe, o sub-ramal e o trecho
+        # real da coluna ate a peca, sem o fator 1,2
+        import nucleo.percurso as _pr
+        _real = _pr.comprimentos_agua(pj).get(p["cod"])
+        if _real:
+            # o percurso vai da coluna a peca; o ramal do ambiente ja esta
+            # contado em ram["perda_kpa"], entao o sub-ramal e o que sobra
+            comp_sub = max(300, _real - ram["comp_mm"])
         estatica = 9.81 * (r["nivel_min"] - z) / 1000
         perdas = col["BAR"]["perda_kpa"] + col["COL-S"]["perda_kpa"] + (col["COL-T"]["perda_kpa"] if pav == "T" else 0) \
             + ram["perda_kpa"] + _j(q, dn) * comp_sub / 1000 * FATOR_LOCALIZADAS

@@ -5956,3 +5956,64 @@ pé saía do lote, e as placas pisavam o vestiário. Auditoria 149.
 **Estado em R79:** 149 auditorias, 0 erros; 221 verificações do visualizador,
 0 falhas; 72 pranchas. Matriz: 461 distintos, 362 TEM + 45 NA = **88,3 %**,
 32 PARCIAL, **11 FALTA**, 11 EXTERNO. BOM inalterada (R$ 1.032.616,55).
+
+## R80 — Por onde passam os fios e os tubos, e o que os segura
+
+O proprietário perguntou como estava a "estrutura elétrica e hidráulica,
+fiações etc." e pediu para não esquecer por onde os fios passam e os seus
+fixadores. A resposta honesta era: o modelo sabia *quantas* tomadas cada
+ambiente tem e *qual* seção cada circuito leva, mas media o circuito pela
+distância Manhattan do quadro ao centro do ambiente × 1,2 e deixava ao
+eletricista decidir onde fica cada ponto. Três módulos novos fecham isso.
+
+**`nucleo/pontos`** dá x, y, z e parede a cada ponto:
+
+| Ponto | Regra |
+|---|---|
+| tomada de bancada | uma a cada 1.200 mm, a 1.100, na parede atrás da bancada |
+| tomada de TV | atrás da TV do layout, a 1.300 |
+| tomada de lavatório | 350 mm ao lado da cuba, a 1.100, fora da zona 1 do box (≥ 600 mm) |
+| tomadas gerais | o que sobra da previsão NBR 5410, pelo perímetro a 300 mm, em passo igual, pulando vãos e subdivisões; só em lados que **têm** parede |
+| onde a parede acaba | a cozinha tem uma parede útil e o gourmet abre para o estar: os pontos de bancada viram **duplos** (a norma conta tomadas, não caixas): 82 tomadas em 77 pontos, 5 duplos |
+| interruptor | um por porta, do lado da fechadura, a 300 mm do batente e 1.100 do piso; parede curta demais (despensa de 1,2 m com porta de 0,9) manda para a parede adjacente; paralelo na cabeceira de todo dormitório |
+| TUE | no equipamento: chuveiro no box, split na parede voltada para o seu nicho, secadora ao lado da lavadora, forno e micro-ondas na torre da bancada de cocção, bombas nos TC, ventiladores no forro |
+
+**`nucleo/percurso`** roteia cada ponto pelo **grafo das paredes** do
+pavimento (Dijkstra) e devolve trechos com plano e parede:
+
+| Sistema | Por onde | Fixadores (H) |
+|---|---|---|
+| elétrica | dentro da parede a **1.450 mm**, pelos furos de serviço que a fabricação já abre nos montantes; sobe ao forro para luminária e ventilador; enterrada a 400 mm para bombas e portão | bucha passa-fio em cada montante atravessado (2.580), clip a cada 1,2 m, abraçadeira a cada 1,0 m no forro, caixa 4×2/4×4 por ponto, caixa de passagem a cada 15 m |
+| água fria | PEX DN20 da coluna AF-01 pela parede a **400 mm**, por furos de 32 mm que a fabricação **passa a abrir** em 26 dos 62 painéis (só onde a água passa); sobe até a peça | luva no furo (300), clip a cada 600 mm, barra de fixação entre montantes em cada peça |
+| esgoto | **nunca em montante** (DN50 já é furo maior que meia alma): sob o radier, envelopado; no entrepiso, entre as vigas; só a prumada é vertical | arame à tela a cada 1,5 m; abraçadeira isofônica a cada 1,0 m |
+| frigorígena | sobe no nicho, corre pela fachada na cota do evaporador, entra na parede | abraçadeira a cada 1,0 m |
+
+O que mudou nos números por causa do percurso real:
+
+- **Queda de tensão** agora usa o ponto mais longe de cada circuito, e o
+  material usa a **árvore** do circuito (um eletroduto serve o ambiente):
+  1.396 m de eletroduto (era 1.071 por Manhattan) e 2.474 m de cabo (era
+  3.213, porque o cabo era contado por ponto). Pior queda 3,82 % no gourmet;
+  a cozinha continua subindo de seção.
+- **Pressão** usa o sub-ramal real. Na primeira execução a pia da cozinha e
+  a ducha externa ficaram negativas: eu somava o percurso inteiro da coluna
+  à peça **e** a perda do ramal do ambiente, que já estava contada. Corrigido,
+  todas as peças atendem (pior do térreo 15,4 kPa).
+- **Caixas de passagem**: a primeira contagem dava 670 porque cada aresta
+  do grafo contava como curva. Curva é troca de parede; as caixas dos próprios
+  pontos absorvem as trocas. Ficam 130 (15 m ou derivação).
+- **BOM**: eletroduto, cabo e PEX pelo percurso; 15 linhas de fixadores
+  (R$ 5.245,55, H). Total R$ 1.037.862,10.
+
+Mais: **mapa de ocultos** por parede (64 paredes com elétrica e/ou água, com
+as cotas e a regra "não furar entre 350-450 nem 1.400-1.500 mm"); a camada
+**Instalações** na cena 3D (eletroduto, PEX, esgoto e frigorígena como peças
+de duas pontas, na cota real, desligada por padrão); **isométrico de
+climatização** (o declarado na PR-28 não contava a fachada: 56 m contra 71
+roteados); **mapa de testes** por sistema com fase, critério e registro,
+onde o que fica escondido testa antes de esconder; **pontos críticos**.
+Pranchas 73, 74 e 75; auditoria 150; 3 verificações novas do visualizador.
+
+**Estado em R80:** 150 auditorias, 0 erros; 224 verificações do visualizador,
+0 falhas; 75 pranchas. Matriz: 462 distintos, 367 TEM + 45 NA = **89,2 %**,
+31 PARCIAL, **8 FALTA**, 11 EXTERNO. BOM R$ 1.037.862,10.

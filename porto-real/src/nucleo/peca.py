@@ -107,8 +107,12 @@ def furos_de_servico(comp: float, alma: float, servicos: list) -> list[Furo]:
     passo = comp / (len(servicos) + 1)
     for i, s in enumerate(servicos, 1):
         d = min(s.get("d", 25.0), DIAM_MAX_ALMA * alma)
+        # R80 — o servico pode dizer a ALTURA do furo (eletrica a 1.450, agua a
+        # 400): e a cota em que o percurso corre na parede. Sem altura, divide
+        # o montante em partes iguais, como antes.
+        alvo = s["z"] if s.get("z") is not None else passo * i
         x = max(BORDA_FURO_MIN + d / 2,
-                min(comp - BORDA_FURO_MIN - d / 2, passo * i))
+                min(comp - BORDA_FURO_MIN - d / 2, alvo))
         out.append(Furo(x=x, d=d, servico=s.get("servico", ""),
                         obs="no eixo da alma, dentro da zona util"))
     return out

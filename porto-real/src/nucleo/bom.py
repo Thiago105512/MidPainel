@@ -92,6 +92,14 @@ PRECO_MEP = {            # (H)
     "tubo_agua_m": 18.00, "tubo_esgoto_m": 26.00, "conexao": 12.00,
     "eletroduto_m": 6.50, "cabo_m": 4.20, "caixa": 9.00, "disjuntor": 38.00,
     "linha_frigo_m": 62.00, "dreno_m": 9.00, "isolamento_m": 14.00,
+    "pex20_m": 9.80,
+}
+# R80 — fixadores (H): o que segura fio e tubo dentro da parede LSF
+PRECO_FIX = {
+    "bucha passa-fio": 1.20, "clip de eletroduto": 0.90, "abracadeira de eletroduto": 2.50, "caixa de passagem": 9.00,
+    "caixa 4x2": 4.80, "caixa 4x4": 6.20, "caixa 4x4 octogonal": 6.20, "eletroduto PEAD": 12.00,
+    "luva de protecao": 1.50, "clip de PEX": 0.80, "barra de fixacao": 28.00, "arame de amarracao": 0.30,
+    "abracadeira isofonica": 6.50, "abracadeira de linha frigorigena": 3.20,
 }
 PRECO_FUND = {           # (H)
     "concreto_m3": 520.00, "aco_kg": 9.80, "tela_m2": 28.00,
@@ -231,28 +239,47 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
     mep = (camadas or {}).get("instalacoes")
     if mep:
         h = mep["hidraulica"]
+        prc = mep.get("percurso")
         for i in h["itens"]:
             agua = "agua" in i["sistema"]
+            if agua and prc and i["sistema"] == "agua fria":
+                continue     # R80: a agua fria sai do percurso real, abaixo
             itens.append(ItemBOM(
                 f"MEP-{i['sistema'][:4].upper()}{i['dn']}",
                 f"Tubo {i['sistema']} DN{i['dn']}", "m", i["comp_m"],
                 PRECO_MEP["tubo_agua_m" if agua else "tubo_esgoto_m"],
                 "instalacao", fonte="derivado (percurso Manhattan x fator)"))
+        if prc:
+            itens.append(ItemBOM("MEP-PEX20", "Tubo PEX DN20 agua fria, pela parede a 400 mm", "m",
+                                 prc["resumo"]["pex_m"], PRECO_MEP["pex20_m"], "instalacao",
+                                 fonte="nucleo/percurso: coluna -> parede -> peca, arvore por ambiente"))
         itens.append(ItemBOM("MEP-CONEX", "Conexoes hidraulicas", "un",
                              h["conexoes"], PRECO_MEP["conexao"], "instalacao",
                              fonte="derivado"))
         e = mep["eletrica"]
-        for sku, desc, q, pr, un in (
-                ("MEP-ELET", "Eletroduto flexivel", e["eletroduto_m"],
-                 PRECO_MEP["eletroduto_m"], "m"),
-                ("MEP-CABO", "Cabo de cobre (fase, neutro e terra)",
-                 e["cabo_m"], PRECO_MEP["cabo_m"], "m"),
-                ("MEP-CAIXA", "Caixa de passagem e de tomada", e["caixas"],
-                 PRECO_MEP["caixa"], "un"),
-                ("MEP-DISJ", "Disjuntor", e["disjuntores"],
-                 PRECO_MEP["disjuntor"], "un")):
-            itens.append(ItemBOM(sku, desc, un, q, pr, "instalacao",
-                                 fonte="derivado"))
+        if prc:
+            # R80 — eletroduto pela arvore de cada circuito e cabo pelo circuito
+            # dimensionado (nucleo/circuitos.resumo); as caixas entram com os
+            # fixadores, uma a uma, abaixo
+            linhas_e = (("MEP-ELET", "Eletroduto flexivel (arvore dos circuitos, parede a parede)", prc["resumo"]["eletroduto_m"],
+                         PRECO_MEP["eletroduto_m"], "m", "nucleo/percurso.arvores_eletrica"),
+                        ("MEP-CABO", "Cabo de cobre (fase, neutro e terra), por circuito e secao",
+                         prc["cabo_m"], PRECO_MEP["cabo_m"], "m", "nucleo/circuitos.materiais"),
+                        ("MEP-DISJ", "Disjuntor", e["disjuntores"], PRECO_MEP["disjuntor"], "un", "derivado"))
+        else:
+            linhas_e = (("MEP-ELET", "Eletroduto flexivel", e["eletroduto_m"], PRECO_MEP["eletroduto_m"], "m", "derivado"),
+                        ("MEP-CABO", "Cabo de cobre (fase, neutro e terra)", e["cabo_m"], PRECO_MEP["cabo_m"], "m", "derivado"),
+                        ("MEP-CAIXA", "Caixa de passagem e de tomada", e["caixas"], PRECO_MEP["caixa"], "un", "derivado"),
+                        ("MEP-DISJ", "Disjuntor", e["disjuntores"], PRECO_MEP["disjuntor"], "un", "derivado"))
+        for sku, desc, q, pr, un, fonte in linhas_e:
+            itens.append(ItemBOM(sku, desc, un, q, pr, "instalacao", fonte=fonte))
+        if prc:
+            for k, (nome, v) in enumerate(sorted(prc["fixadores"].items()), 1):
+                chave = next((c for c in PRECO_FIX if nome.startswith(c)), None)
+                if chave is None:
+                    continue
+                itens.append(ItemBOM(f"FIX-{k:02d}", nome[0].upper() + nome[1:], v["un"], v["qtd"], PRECO_FIX[chave],
+                                     "instalacao", fonte="nucleo/percurso.fixadores: contado trecho a trecho"))
         c = mep["climatizacao"]
         for sku, desc, q, pr in (
                 ("MEP-FRIGO", "Linha frigorigena", c["linha_m"],

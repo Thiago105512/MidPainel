@@ -37,6 +37,9 @@ import nucleo.gas as gas
 import nucleo.seguranca as seg
 import nucleo.piscina as psc
 import nucleo.canteiro as cnt
+import nucleo.pontos as pto
+import nucleo.percurso as prc
+import nucleo.testes as tst
 import nucleo.detalhes_lsf as dlsf
 import nucleo.eletrica as elt
 import nucleo.mercado as mk
@@ -560,7 +563,14 @@ def montar() -> dict:
             canteiro=dict(resumo=cnt.resumo(pj), zonas=cnt.zonas(pj), movimentacao=cnt.movimentacao(pj),
                           drenagem={k: v for k, v in cnt.drenagem(pj).items() if k != "tracado"}, ligacoes=cnt.ligacoes(pj),
                           fases=[dict(n=a, nome=b, recuo=c) for a, b, c in cnt.FASES_OBRA],
-                          conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in cnt.conferir(pj)])),
+                          conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in cnt.conferir(pj)]),
+            percurso=dict(resumo=prc.resumo(pj), pontos=pto.resumo(pj), fixadores=prc.fixadores(pj), por_parede=prc.por_parede(pj),
+                          arvores=[{k: v for k, v in g.items() if k not in ("trechos_parede", "proprios")} for g in prc.arvores_eletrica(pj)],
+                          agua=[{k: v for k, v in g.items() if k not in ("trechos_parede", "proprios")} for g in prc.arvores_agua(pj)],
+                          frigorigena=[{k: v for k, v in r.items() if k != "trechos"} for r in prc.frigorigena(pj)],
+                          tomadas=pto.tomadas(pj), interruptores=pto.interruptores(pj), tue=pto.tue(pj),
+                          testes=tst.testes(pj), pontos_criticos=tst.pontos_criticos(pj),
+                          conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in pto.conferir(pj) + prc.conferir(pj) + tst.conferir(pj)])),
         marcenaria=dict(
             moveis=[{k: v for k, v in m.items() if k != "modulos"} | dict(
                 modulos=[dict(n=mo["n"], larg=mo["larg"], ferragens=mo["ferragens"],

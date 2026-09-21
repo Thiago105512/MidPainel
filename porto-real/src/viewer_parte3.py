@@ -16,6 +16,8 @@ const CAMADAS = [
   // R60 — luminarias (da luminotecnica, os mesmos pontos da PR-16) e rotulos
   // de ambiente entram desligados: sao leituras, nao volumetria.
   ["luz", "Luminárias", false], ["rotulos", "Rótulos", false],
+  // R80 — eletrodutos, PEX, esgoto e frigorigena, na cota em que correm
+  ["inst", "Instalações", false],
   // A estrutura entra DESLIGADA: ela e a mesma parede vista por dentro, e as
   // duas ligadas ao mesmo tempo dao uma sopa. Ligar a estrutura e desligar o
   // terreo e o superior e o gesto que mostra o esqueleto.
@@ -174,6 +176,7 @@ function montar3D(dados) {
   dados.escada.forEach(b => add("escada", b));
   (dados.lsf || []).forEach(b => add("lsf", b));
   (dados.luz || []).forEach(b => add("luz", b));
+  (dados.inst || []).forEach(b => add("inst", b));
 
   // R60 — ROTULOS: o nome de cada ambiente como sprite no centro dele, a
   // altura do olho. Sprite olha sempre para a camera; e o unico texto que

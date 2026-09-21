@@ -1135,7 +1135,18 @@ function executivoInstalacoes() {
     <table class="tab"><thead><tr><th>zona</th><th>nome</th><th>m × m</th><th>m²</th><th>fase</th></tr></thead><tbody>
     ${Ca.zonas.map(q => `<tr><td>${esc2(q.cod)}</td><td>${esc2(q.nome)}</td><td class="num">${(q.w / 1000).toFixed(1)} × ${(q.h / 1000).toFixed(1)}</td><td class="num">${num(q.area_m2, 1)}</td><td>${esc2(q.fase)}</td></tr>`).join("")}
     </tbody></table>` : "";
-  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : []), ...(Lf ? Lf.conferencia : []), ...(Pi ? Pi.conferencia : []), ...(Ca ? Ca.conferencia : [])].filter(c => !c.ok)
+  const Pr = X.percurso;
+  const perc = Pr ? `<h4 class="sub">Percurso das instalações e fixadores (R80)</h4>
+    <p class="desenho cap">${Pr.pontos.tomadas} pontos de tomada (${Pr.pontos.duplas} duplos), ${Pr.pontos.interruptores} interruptores, ${Pr.pontos.luminarias} luminárias, ${Pr.pontos.tue} pontos de TUE, todos com coordenada;
+    ${num(Pr.resumo.eletroduto_m, 1)} m de eletroduto em ${Pr.resumo.circuitos} árvores por ${Pr.resumo.montantes_eletrica} montantes; ${num(Pr.resumo.pex_m, 1)} m de PEX por ${Pr.resumo.montantes_agua} montantes em ${Pr.resumo.paredes_com_agua} paredes;
+    ${num(Pr.resumo.esgoto_m, 1)} m de esgoto sob o piso; ${Pr.resumo.fixadores} fixadores e ${Pr.resumo.caixas} caixas; ${Pr.resumo.paredes_ocupadas} paredes no mapa de ocultos; ${Pr.testes.length} testes.</p>
+    <table class="tab"><thead><tr><th>circuito</th><th>quadro</th><th>pontos</th><th>árvore m</th><th>+ longe m</th><th>montantes</th><th>cx pass.</th></tr></thead><tbody>
+    ${Pr.arvores.map(g => `<tr><td>${esc2(g.circuito)}</td><td>${esc2(g.quadro)}</td><td class="num">${g.pontos}</td><td class="num">${(g.arvore_mm / 1000).toFixed(1)}</td><td class="num">${(g.mais_longe_mm / 1000).toFixed(1)}</td><td class="num">${g.montantes}</td><td class="num">${g.caixas_passagem}</td></tr>`).join("")}
+    </tbody></table>
+    <table class="tab"><thead><tr><th>fixador</th><th>qtd</th></tr></thead><tbody>
+    ${Object.entries(Pr.fixadores).map(([k, v]) => `<tr><td>${esc2(k)}</td><td class="num">${num(v.qtd, v.un === "m" ? 1 : 0)} ${esc2(v.un)}</td></tr>`).join("")}
+    </tbody></table>` : "";
+  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : []), ...(Lf ? Lf.conferencia : []), ...(Pi ? Pi.conferencia : []), ...(Ca ? Ca.conferencia : []), ...(Pr ? Pr.conferencia : [])].filter(c => !c.ok)
     .map(c => `<li><b>${esc2(c.titulo)}</b> — ${esc2(c.detalhe)}</li>`).join("");
   return `<h4 class="sub">Executivo (R72) — circuito a circuito, peça a peça</h4>
     <div class="cartoes" style="margin-bottom:16px">
@@ -1161,6 +1172,7 @@ function executivoInstalacoes() {
     ${lsf}
     ${pisc}
     ${cant}
+    ${perc}
     ${conf ? `<h4 class="sub">Conferências que não passam</h4><ul>${conf}</ul>` : "<p class='conta'>todas as conferências do executivo passam</p>"}`;
 }
 

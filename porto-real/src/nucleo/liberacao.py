@@ -90,10 +90,12 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         n_parafusos += j["n_parafusos"]
 
     pecas = []
+    # R80 — eletrica em todo painel (furo de 25 a 1.450); hidraulica (32 a 400)
+    # so nos paineis das paredes por onde nucleo/percurso leva a agua
+    import nucleo.percurso as _pr
     for pav, pais in paineis.items():
         pecas += pe.detalhar(pais, cat, pav, pj.EMISSAO["revisao"],
-                             {p.cod: [dict(servico="eletrica", d=25)]
-                              for p in pais})
+                             _pr.servicos_por_painel(pj, pais))
 
     # ---- vigamento de entrepiso, cobertura e contraventamento. Sao aco: se
     # aparecem no 3D e somem do BOM, o desenho convence sem comprometer.
@@ -156,10 +158,17 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     # confere leem de prumadas_efetivas().
     shafts = _ins.resolver_shafts(pj, todos, _base)
     camadas["shafts"] = shafts
+    # R80 — o percurso parede a parede (nucleo/percurso) e o que a BOM compra:
+    # eletroduto pela arvore de cada circuito, cabo pelo circuito dimensionado,
+    # PEX pelo trecho real, e os fixadores contados montante a montante
+    import nucleo.percurso as _prc
+    import nucleo.circuitos as _cir
     camadas["instalacoes"] = dict(hidraulica=_ins.hidraulica(pj, shafts),
                                   eletrica=_ins.eletrica(pj),
                                   climatizacao=_ins.climatizacao(pj),
-                                  shafts=shafts)
+                                  shafts=shafts,
+                                  percurso=dict(resumo=_prc.resumo(pj), fixadores=_prc.fixadores(pj),
+                                                cabo_m=_cir.resumo(pj)["cabo_m"]))
     camadas["clash"] = _ins.conferir_clash(pj, todos, _base, shafts)
     # a decisao tem MATERIAL: enclausurar a caixa consome placa RU. Se a
     # decisao existisse so como coordenada, o orcamento nao saberia dela.

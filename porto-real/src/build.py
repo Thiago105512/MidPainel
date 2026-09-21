@@ -22,6 +22,7 @@ import pranchas11 as p11
 import pranchas12 as p12
 import pranchas13 as p13
 import pranchas14 as p14
+import pranchas15 as p15
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -108,6 +109,9 @@ CADERNO = [
     ("70", "PISCINA: CORTES, ESCADA, BORDA E LUZ", lambda: p14.cortes_escada_borda_iluminacao()),
     ("71", "PISCINA: HIDRAULICA E CASA DE MAQUINAS", lambda: p14.hidraulica_e_casa_de_maquinas()),
     ("72", "CANTEIRO DE OBRAS",                     lambda: p14.canteiro()),
+    ("73", "ELETRICA: PONTOS, PERCURSOS E FIXADORES", lambda: p15.eletrica_pontos_percursos()),
+    ("74", "AGUA E ESGOTO: PERCURSO OCULTO E FUROS", lambda: p15.agua_esgoto_ocultos()),
+    ("75", "CLIMATIZACAO ISOMETRICO E MAPA DE TESTES", lambda: p15.climatizacao_testes()),
 ]
 
 

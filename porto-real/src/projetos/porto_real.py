@@ -3945,6 +3945,16 @@ REVISOES = [
      "(TC-13) entra na conferencia de ruido, que so ouvia condensadoras e a bomba "
      "de recalque. As tres palmeiras de acai saem do jardim norte, a barlavento "
      "da piscina, para o canto noroeste do fundo"),
+    ("R80", "POR ONDE PASSAM OS FIOS E OS TUBOS. nucleo/pontos da coordenada, "
+     "altura e parede a cada tomada, interruptor, luminaria, TUE e peca; "
+     "nucleo/percurso roteia cada um pelo grafo das paredes (eletroduto a 1.450 "
+     "pelos furos dos montantes, PEX a 400 por furos de 32 que a fabricacao "
+     "passa a abrir, esgoto sob o piso, frigorigena pela fachada) e conta "
+     "buchas, clips, abracadeiras e caixas. Queda de tensao e pressao "
+     "recalculadas com o percurso real; material da eletrica pela arvore do "
+     "circuito. Mapa de ocultos por parede (onde nao furar), tubulacao na cena "
+     "3D, isometrico de climatizacao, mapa de testes por sistema e pontos "
+     "criticos. PR-73 a 75, auditoria 150"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4151,13 +4161,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R79",
+    revisao="R80",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R79", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R80", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

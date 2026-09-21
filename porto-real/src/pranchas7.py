@@ -370,6 +370,9 @@ INDICE = [
     ("70", "Piscina: cortes, escada de praia, borda e iluminacao subaquatica (R78)"),
     ("71", "Piscina: planta hidraulica, diagrama e casa de maquinas (R78)"),
     ("72", "Canteiro de obras: zonas, movimentacao, drenagem provisoria e fases (R79)"),
+    ("73", "Eletrica: cada ponto com coordenada, percurso parede a parede e fixadores (R80)"),
+    ("74", "Agua e esgoto: percurso oculto por parede, furos hidraulicos nos paineis e fixadores (R80)"),
+    ("75", "Climatizacao em isometrico, mapa de testes por sistema e pontos criticos (R80)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},
