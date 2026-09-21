@@ -175,7 +175,7 @@ def montar(bpy, obj_path: str):
             alt = 0.0
         if alt < 3.0:
             continue
-        alt = min(alt, 9.0)                                   # na entrega: arvore jovem
+        alt = min(alt, 5.0)                                   # na entrega: arvore jovem, muda de 3 anos
         x, y = p["x"] / 1000, p["y"] / 1000
         n = max(1, min(p.get("qtd", 1), 3))
         for k in range(n):
@@ -184,7 +184,7 @@ def montar(bpy, obj_path: str):
                                                 location=(x + dx, y, alt * 0.225))
             tr = bpy.context.active_object
             tr.data.materials.append(material(bpy, "tronco_6b4a2e", "6b4a2e"))
-            bpy.ops.mesh.primitive_uv_sphere_add(radius=alt * 0.28, location=(x + dx, y, alt * 0.7))
+            bpy.ops.mesh.primitive_uv_sphere_add(radius=alt * 0.22, location=(x + dx, y, alt * 0.72))
             cp = bpy.context.active_object
             cp.scale = (1.0, 1.0, 0.75 if "Palmeira" not in p["especie"] else 0.35)
             cp.data.materials.append(material(bpy, "copa_2f6b2a", "2f6b2a"))
