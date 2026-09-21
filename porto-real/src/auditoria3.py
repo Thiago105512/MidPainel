@@ -4564,6 +4564,37 @@ def checar_marcenaria() -> list[Achado]:
     return out
 
 
+def checar_instalacoes_executivo() -> list[Achado]:
+    """Esgoto, agua fria, circuitos e gas peca a peca (R72)."""
+    import projeto as pj
+    import nucleo.esgoto as es
+    import nucleo.agua as ag
+    import nucleo.circuitos as ci
+    import nucleo.gas as gs
+    out = []
+    for nome, mod in (("esgoto", es), ("agua fria", ag), ("circuitos", ci), ("gas e ar", gs)):
+        conf = mod.conferir(pj)
+        falhas = [c for c in conf if not c[2]]
+        for t, d, _ in falhas:
+            out.append(Achado("ERRO", f"{nome}: {t}", d))
+        out.append(Achado("NOTA", nome, f"{len(conf) - len(falhas)} de {len(conf)} conferencias passam"))
+    r = es.resumo(pj)
+    out.append(Achado("NOTA", "esgoto", f"{r['ramais']} ramais, {r['caixas']} caixas, fundo final a "
+                      f"{r['prof_final_mm']} mm na testada; {r['ventilacao_ramais']} ramais de ventilacao"))
+    a = ag.resumo(pj)
+    out.append(Achado("NOTA", "agua fria", f"{a['gravidade_ok']} de {a['pecas']} pecas por gravidade; pior do terreo "
+                      f"{a['pior_terreo']:.0f} kPa; pior do superior {a['pior_superior']:.0f} kPa -> TC-14"))
+    c = ci.resumo(pj)
+    vias = ", ".join(f"{q['quadro']} {q['vias_com_reserva']}/{q['vias_disponiveis']}" for q in c["quadros"])
+    out.append(Achado("NOTA", "circuitos", f"{c['circuitos']} circuitos, queda maxima {c['queda_max']:.2f} % "
+                      f"({c['pior']}); quadros {vias}"))
+    subiu = [x for x in ci.circuitos(pj) if x["subiu_por_queda"]]
+    out.append(Achado("NOTA" if subiu else "NOTA", "secao pela queda",
+                      f"{len(subiu)} circuito(s) com secao acima da corrente pela queda de tensao: "
+                      + ", ".join(f"{x['cod']} {x['secao_por_corrente']}->{x['secao_mm2']} mm2" for x in subiu)))
+    return out
+
+
 def checar_moldes_de_defeito() -> list[Achado]:
     """Meta-auditoria (R65): literais do caso, alcance das entidades, funcoes duplicadas.
 

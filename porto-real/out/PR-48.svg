@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="48" data-rev="R71">
+<g data-tipo="carimbo" data-cod="48" data-rev="R72">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,19 +26,19 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R71</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R72</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">48</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 59   REV R71</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 64   REV R72</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 621 itens pedidos pelo proprietario, 447 entregaveis distintos (sinonimos contam uma vez, no item que os resolve).</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- 621 itens pedidos pelo proprietario, 453 entregaveis distintos (sinonimos contam uma vez, no item que os resolve).</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- TEM: existe e a referencia foi conferida pela auditoria 142. PARCIAL: o dado existe, a prancha propria nao. FALTA: produz-se do modelo, ainda nao produzido.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- EXTERNO: depende de levantamento, certidao ou obra. NA: nao se aplica a esta casa, com a razao escrita.</text>
-<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Resolvido (TEM + NA): 79 % dos distintos. Backlog: 45 entregaveis.</text>
+<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Resolvido (TEM + NA): 82 % dos distintos. Backlog: 31 entregaveis.</text>
 </g>
 <g clip-path="url(#rec1)" data-tipo="recorte">
 <text x="30.000" y="37.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">RESUMO POR BLOCO — ENTREGAVEIS DISTINTOS</text>
@@ -116,58 +116,58 @@
 <text x="201.500" y="77.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <polygon points="30.000,79.600 212.000,79.600 212.000,84.000 30.000,84.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="31.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">I · Eletrica</text>
-<text x="127.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">19</text>
-<text x="141.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">12</text>
+<text x="127.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20</text>
+<text x="141.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">14</text>
 <text x="155.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="171.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="171.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="187.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="201.500" y="81.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
 <polygon points="30.000,84.000 212.000,84.000 212.000,88.400 30.000,88.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="31.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">J · Energia solar</text>
-<text x="127.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
-<text x="141.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
-<text x="155.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
-<text x="171.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="127.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="141.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="155.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
+<text x="171.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="187.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="201.500" y="86.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <polygon points="30.000,88.400 212.000,88.400 212.000,92.800 30.000,92.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="31.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">K · Hidraulica</text>
-<text x="127.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9</text>
-<text x="141.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
+<text x="127.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10</text>
+<text x="141.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7</text>
 <text x="155.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
-<text x="171.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="171.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="187.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="201.500" y="90.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
 <polygon points="30.000,92.800 212.000,92.800 212.000,97.200 30.000,97.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="31.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">L · Esgoto e ventilacao sanitaria</text>
-<text x="127.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
-<text x="141.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="127.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9</text>
+<text x="141.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8</text>
 <text x="155.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
-<text x="171.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
+<text x="171.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="187.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="201.500" y="95.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <polygon points="30.000,97.200 212.000,97.200 212.000,101.600 30.000,101.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="31.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">M · Aguas pluviais e drenagem</text>
 <text x="127.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11</text>
-<text x="141.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9</text>
+<text x="141.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10</text>
 <text x="155.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="171.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="171.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="187.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="201.500" y="99.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <polygon points="30.000,101.600 212.000,101.600 212.000,106.000 30.000,106.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="31.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">N · Gas</text>
-<text x="127.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
-<text x="141.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
-<text x="155.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
-<text x="171.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="127.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
+<text x="141.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
+<text x="155.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
+<text x="171.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="187.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="201.500" y="103.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <polygon points="30.000,106.000 212.000,106.000 212.000,110.400 30.000,110.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="31.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">O · Climatizacao, ventilacao e exausta</text>
 <text x="127.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">14</text>
-<text x="141.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11</text>
-<text x="155.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
-<text x="171.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
+<text x="141.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13</text>
+<text x="155.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="171.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="187.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <text x="201.500" y="108.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <polygon points="30.000,110.400 212.000,110.400 212.000,114.800 30.000,114.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
@@ -316,10 +316,10 @@
 <text x="201.500" y="187.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0</text>
 <polygon points="30.000,189.600 212.000,189.600 212.000,194.000 30.000,194.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="31.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TOTAL</text>
-<text x="127.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">447</text>
-<text x="141.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">308</text>
-<text x="155.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">40</text>
-<text x="171.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">45</text>
+<text x="127.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">453</text>
+<text x="141.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">330</text>
+<text x="155.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">38</text>
+<text x="171.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">31</text>
 <text x="187.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11</text>
 <text x="201.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">43</text>
 <line x1="126.000" y1="40.000" x2="126.000" y2="194.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -329,15 +329,15 @@
 <line x1="186.000" y1="40.000" x2="186.000" y2="194.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="200.000" y1="40.000" x2="200.000" y2="194.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="30.000" y="198.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COBERTURA DOS ENTREGAVEIS DISTINTOS</text>
-<polygon points="30.000,201.000 155.405,201.000 155.405,207.000 30.000,207.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
-<text x="92.702" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#fff" text-anchor="middle" dominant-baseline="middle">TEM 308</text>
-<polygon points="155.405,201.000 172.913,201.000 172.913,207.000 155.405,207.000" stroke="#757575" stroke-width="0.18" fill="#757575" stroke-linejoin="miter"/>
-<text x="164.159" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#fff" text-anchor="middle" dominant-baseline="middle">NA 43</text>
-<polygon points="172.913,201.000 189.199,201.000 189.199,207.000 172.913,207.000" stroke="#b26a00" stroke-width="0.18" fill="#b26a00" stroke-linejoin="miter"/>
-<text x="181.056" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#fff" text-anchor="middle" dominant-baseline="middle">PARCIAL 40</text>
-<polygon points="189.199,201.000 207.521,201.000 207.521,207.000 189.199,207.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
-<text x="198.360" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#fff" text-anchor="middle" dominant-baseline="middle">FALTA 45</text>
-<polygon points="207.521,201.000 212.000,201.000 212.000,207.000 207.521,207.000" stroke="#5c6bc0" stroke-width="0.18" fill="#5c6bc0" stroke-linejoin="miter"/>
+<polygon points="30.000,201.000 162.583,201.000 162.583,207.000 30.000,207.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
+<text x="96.291" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#fff" text-anchor="middle" dominant-baseline="middle">TEM 330</text>
+<polygon points="162.583,201.000 179.859,201.000 179.859,207.000 162.583,207.000" stroke="#757575" stroke-width="0.18" fill="#757575" stroke-linejoin="miter"/>
+<text x="171.221" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#fff" text-anchor="middle" dominant-baseline="middle">NA 43</text>
+<polygon points="179.859,201.000 195.126,201.000 195.126,207.000 179.859,207.000" stroke="#b26a00" stroke-width="0.18" fill="#b26a00" stroke-linejoin="miter"/>
+<text x="187.492" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#fff" text-anchor="middle" dominant-baseline="middle">PARCIAL 38</text>
+<polygon points="195.126,201.000 207.581,201.000 207.581,207.000 195.126,207.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<text x="201.353" y="204.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#fff" text-anchor="middle" dominant-baseline="middle">FALTA 31</text>
+<polygon points="207.581,201.000 212.000,201.000 212.000,207.000 207.581,207.000" stroke="#5c6bc0" stroke-width="0.18" fill="#5c6bc0" stroke-linejoin="miter"/>
 <g data-tipo="entregavel" data-cod="1" data-status="EXTERNO" data-ref="pendencia 17">
 <polygon points="232.000,39.000 234.200,39.000 234.200,41.000 232.000,41.000" stroke="#5c6bc0" stroke-width="0.18" fill="#5c6bc0" stroke-linejoin="miter"/>
 <text x="236.000" y="40.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">  1 Levantamento topografico</text>
@@ -1518,10 +1518,10 @@
 <text x="436.000" y="222.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">236 Planta de quadros eletricos</text>
 <text x="626.000" y="222.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-27</text>
 </g>
-<g data-tipo="entregavel" data-cod="237" data-status="FALTA">
-<polygon points="432.000,223.250 434.200,223.250 434.200,225.250 432.000,225.250" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="237" data-status="TEM" data-ref="PR-60">
+<polygon points="432.000,223.250 434.200,223.250 434.200,225.250 432.000,225.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="224.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">237 Diagrama unifilar</text>
-<text x="626.000" y="224.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="224.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-60</text>
 </g>
 <g data-tipo="entregavel" data-cod="238" data-status="NA" data-ref="PR-40">
 <polygon points="432.000,226.000 434.200,226.000 434.200,228.000 432.000,228.000" stroke="#757575" stroke-width="0.18" fill="#757575" stroke-linejoin="miter"/>
@@ -1533,10 +1533,10 @@
 <text x="436.000" y="230.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">239 Quadro de cargas</text>
 <text x="626.000" y="230.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-40</text>
 </g>
-<g data-tipo="entregavel" data-cod="240" data-status="FALTA">
-<polygon points="432.000,231.500 434.200,231.500 434.200,233.500 432.000,233.500" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="240" data-status="TEM" data-ref="PR-60">
+<polygon points="432.000,231.500 434.200,231.500 434.200,233.500 432.000,233.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="233.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">240 Mapa de circuitos</text>
-<text x="626.000" y="233.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=237</text>
+<text x="626.000" y="233.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-60</text>
 </g>
 <g data-tipo="entregavel" data-cod="241" data-status="TEM" data-ref="PR-41">
 <polygon points="432.000,234.250 434.200,234.250 434.200,236.250 432.000,236.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
@@ -1553,10 +1553,10 @@
 <text x="436.000" y="241.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">243 Planta de SPDA</text>
 <text x="626.000" y="241.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-41</text>
 </g>
-<g data-tipo="entregavel" data-cod="244" data-status="FALTA">
-<polygon points="432.000,242.500 434.200,242.500 434.200,244.500 432.000,244.500" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="244" data-status="TEM" data-ref="PR-60">
+<polygon points="432.000,242.500 434.200,242.500 434.200,244.500 432.000,244.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="244.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">244 Detalhamento de quadros eletricos</text>
-<text x="626.000" y="244.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=237</text>
+<text x="626.000" y="244.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-60</text>
 </g>
 <g data-tipo="entregavel" data-cod="245" data-status="TEM" data-ref="PR-27">
 <polygon points="432.000,245.250 434.200,245.250 434.200,247.250 432.000,247.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
@@ -1593,30 +1593,30 @@
 <text x="436.000" y="263.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">251 Layout de paineis solares</text>
 <text x="626.000" y="263.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-41</text>
 </g>
-<g data-tipo="entregavel" data-cod="252" data-status="FALTA">
-<polygon points="432.000,264.500 434.200,264.500 434.200,266.500 432.000,266.500" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="252" data-status="TEM" data-ref="PR-61">
+<polygon points="432.000,264.500 434.200,264.500 434.200,266.500 432.000,266.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="266.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">252 Diagrama eletrico do sistema fotovolta</text>
-<text x="626.000" y="266.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="266.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-61</text>
 </g>
-<g data-tipo="entregavel" data-cod="253" data-status="PARCIAL" data-ref="PR-41">
-<polygon points="432.000,267.250 434.200,267.250 434.200,269.250 432.000,269.250" stroke="#b26a00" stroke-width="0.18" fill="#b26a00" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="253" data-status="TEM" data-ref="PR-61">
+<polygon points="432.000,267.250 434.200,267.250 434.200,269.250 432.000,269.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="268.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">253 Detalhamento de inversores</text>
-<text x="626.000" y="268.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#b26a00" text-anchor="end" dominant-baseline="middle">PR-41</text>
+<text x="626.000" y="268.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-61</text>
 </g>
 <g data-tipo="entregavel" data-cod="254" data-status="NA" data-ref="PR-41">
 <polygon points="432.000,270.000 434.200,270.000 434.200,272.000 432.000,272.000" stroke="#757575" stroke-width="0.18" fill="#757575" stroke-linejoin="miter"/>
 <text x="436.000" y="271.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#888" text-anchor="start" dominant-baseline="middle">254 Detalhamento de baterias</text>
 <text x="626.000" y="271.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#757575" text-anchor="end" dominant-baseline="middle">PR-41</text>
 </g>
-<g data-tipo="entregavel" data-cod="255" data-status="FALTA">
-<polygon points="432.000,272.750 434.200,272.750 434.200,274.750 432.000,274.750" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="255" data-status="TEM" data-ref="PR-61">
+<polygon points="432.000,272.750 434.200,272.750 434.200,274.750 432.000,274.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="274.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">255 Planta de passagem de cabos solares</text>
-<text x="626.000" y="274.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=252</text>
+<text x="626.000" y="274.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-61</text>
 </g>
-<g data-tipo="entregavel" data-cod="256" data-status="PARCIAL" data-ref="BOM">
-<polygon points="432.000,275.500 434.200,275.500 434.200,277.500 432.000,277.500" stroke="#b26a00" stroke-width="0.18" fill="#b26a00" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="256" data-status="TEM" data-ref="PR-61">
+<polygon points="432.000,275.500 434.200,275.500 434.200,277.500 432.000,277.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="277.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">256 Detalhamento de estrutura de fixacao</text>
-<text x="626.000" y="277.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#b26a00" text-anchor="end" dominant-baseline="middle">BOM</text>
+<text x="626.000" y="277.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-61</text>
 </g>
 <g data-tipo="entregavel" data-cod="257" data-status="TEM" data-ref="PR-26">
 <polygon points="432.000,278.250 434.200,278.250 434.200,280.250 432.000,280.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
@@ -1663,30 +1663,30 @@
 <text x="436.000" y="301.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#888" text-anchor="start" dominant-baseline="middle">265 Planta de pressurizacao</text>
 <text x="626.000" y="301.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#757575" text-anchor="end" dominant-baseline="middle">PR-26</text>
 </g>
-<g data-tipo="entregavel" data-cod="266" data-status="FALTA">
-<polygon points="432.000,303.000 434.200,303.000 434.200,305.000 432.000,305.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="266" data-status="TEM" data-ref="PR-63">
+<polygon points="432.000,303.000 434.200,303.000 434.200,305.000 432.000,305.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="304.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">266 Diagrama vertical hidraulico</text>
-<text x="626.000" y="304.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="304.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-63</text>
 </g>
-<g data-tipo="entregavel" data-cod="267" data-status="FALTA">
-<polygon points="432.000,305.750 434.200,305.750 434.200,307.750 432.000,307.750" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="267" data-status="TEM" data-ref="PR-63">
+<polygon points="432.000,305.750 434.200,305.750 434.200,307.750 432.000,307.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="307.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">267 Isometrico de agua fria</text>
-<text x="626.000" y="307.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="307.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-63</text>
 </g>
 <g data-tipo="entregavel" data-cod="268" data-status="NA" data-ref="DOC:DECISOES">
 <polygon points="432.000,308.500 434.200,308.500 434.200,310.500 432.000,310.500" stroke="#757575" stroke-width="0.18" fill="#757575" stroke-linejoin="miter"/>
 <text x="436.000" y="310.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#888" text-anchor="start" dominant-baseline="middle">268 Isometrico de agua quente</text>
 <text x="626.000" y="310.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#757575" text-anchor="end" dominant-baseline="middle">DOC:DECISOES</text>
 </g>
-<g data-tipo="entregavel" data-cod="269" data-status="FALTA">
-<polygon points="432.000,311.250 434.200,311.250 434.200,313.250 432.000,313.250" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="269" data-status="TEM" data-ref="PR-63">
+<polygon points="432.000,311.250 434.200,311.250 434.200,313.250 432.000,313.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="312.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">269 Detalhamento de registros</text>
-<text x="626.000" y="312.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=266</text>
+<text x="626.000" y="312.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-63</text>
 </g>
-<g data-tipo="entregavel" data-cod="270" data-status="FALTA">
-<polygon points="432.000,314.000 434.200,314.000 434.200,316.000 432.000,316.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="270" data-status="TEM" data-ref="PR-63">
+<polygon points="432.000,314.000 434.200,314.000 434.200,316.000 432.000,316.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="315.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">270 Detalhamento de barriletes</text>
-<text x="626.000" y="315.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=266</text>
+<text x="626.000" y="315.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-63</text>
 </g>
 <g data-tipo="entregavel" data-cod="271" data-status="TEM" data-ref="PR-21">
 <polygon points="432.000,316.750 434.200,316.750 434.200,318.750 432.000,318.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
@@ -1703,50 +1703,50 @@
 <text x="436.000" y="323.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">273 Planta de esgoto</text>
 <text x="626.000" y="323.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-26</text>
 </g>
-<g data-tipo="entregavel" data-cod="274" data-status="FALTA">
-<polygon points="432.000,325.000 434.200,325.000 434.200,327.000 432.000,327.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="274" data-status="TEM" data-ref="PR-62">
+<polygon points="432.000,325.000 434.200,325.000 434.200,327.000 432.000,327.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="326.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">274 Planta de ventilacao sanitaria</text>
-<text x="626.000" y="326.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="326.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-62</text>
 </g>
-<g data-tipo="entregavel" data-cod="275" data-status="FALTA">
-<polygon points="432.000,327.750 434.200,327.750 434.200,329.750 432.000,329.750" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="275" data-status="TEM" data-ref="PR-62">
+<polygon points="432.000,327.750 434.200,327.750 434.200,329.750 432.000,329.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="329.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">275 Diagrama vertical de esgoto</text>
-<text x="626.000" y="329.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="329.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-62</text>
 </g>
-<g data-tipo="entregavel" data-cod="276" data-status="FALTA">
-<polygon points="432.000,330.500 434.200,330.500 434.200,332.500 432.000,332.500" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="276" data-status="TEM" data-ref="PR-62">
+<polygon points="432.000,330.500 434.200,330.500 434.200,332.500 432.000,332.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="332.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">276 Isometrico de esgoto</text>
-<text x="626.000" y="332.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="332.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-62</text>
 </g>
-<g data-tipo="entregavel" data-cod="277" data-status="FALTA">
-<polygon points="432.000,333.250 434.200,333.250 434.200,335.250 432.000,335.250" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="277" data-status="TEM" data-ref="PR-62">
+<polygon points="432.000,333.250 434.200,333.250 434.200,335.250 432.000,335.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="334.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">277 Isometrico de ventilacao</text>
-<text x="626.000" y="334.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=274</text>
+<text x="626.000" y="334.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-62</text>
 </g>
 <g data-tipo="entregavel" data-cod="278" data-status="TEM" data-ref="PR-26">
 <polygon points="432.000,336.000 434.200,336.000 434.200,338.000 432.000,338.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="337.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">278 Planta de caixas sifonadas</text>
 <text x="626.000" y="337.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-26</text>
 </g>
-<g data-tipo="entregavel" data-cod="279" data-status="FALTA">
-<polygon points="432.000,338.750 434.200,338.750 434.200,340.750 432.000,340.750" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="279" data-status="TEM" data-ref="PR-62">
+<polygon points="432.000,338.750 434.200,338.750 434.200,340.750 432.000,340.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="340.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">279 Planta de caixas de inspecao</text>
-<text x="626.000" y="340.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="340.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-62</text>
 </g>
-<g data-tipo="entregavel" data-cod="280" data-status="FALTA">
-<polygon points="432.000,341.500 434.200,341.500 434.200,343.500 432.000,343.500" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="280" data-status="TEM" data-ref="PR-62">
+<polygon points="432.000,341.500 434.200,341.500 434.200,343.500 432.000,343.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="343.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">280 Detalhamento de caixas de gordura</text>
-<text x="626.000" y="343.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="343.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-62</text>
 </g>
 <g data-tipo="entregavel" data-cod="281" data-status="NA" data-ref="PR-26">
 <polygon points="432.000,344.250 434.200,344.250 434.200,346.250 432.000,346.250" stroke="#757575" stroke-width="0.18" fill="#757575" stroke-linejoin="miter"/>
 <text x="436.000" y="345.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#888" text-anchor="start" dominant-baseline="middle">281 Detalhamento de fossas</text>
 <text x="626.000" y="345.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#757575" text-anchor="end" dominant-baseline="middle">PR-26</text>
 </g>
-<g data-tipo="entregavel" data-cod="282" data-status="FALTA">
-<polygon points="432.000,347.000 434.200,347.000 434.200,349.000 432.000,349.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="282" data-status="TEM" data-ref="PR-62">
+<polygon points="432.000,347.000 434.200,347.000 434.200,349.000 432.000,349.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="348.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">282 Detalhamento de conexoes sanitarias</text>
-<text x="626.000" y="348.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=276</text>
+<text x="626.000" y="348.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-62</text>
 </g>
 <g data-tipo="entregavel" data-cod="283" data-status="TEM" data-ref="PR-29">
 <polygon points="432.000,349.750 434.200,349.750 434.200,351.750 432.000,351.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
@@ -1803,40 +1803,40 @@
 <text x="436.000" y="378.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">293 Detalhamento de drenos</text>
 <text x="626.000" y="378.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-29</text>
 </g>
-<g data-tipo="entregavel" data-cod="294" data-status="FALTA">
-<polygon points="432.000,380.000 434.200,380.000 434.200,382.000 432.000,382.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="294" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,380.000 434.200,380.000 434.200,382.000 432.000,382.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="381.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">294 Isometrico de aguas pluviais</text>
-<text x="626.000" y="381.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="381.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
-<g data-tipo="entregavel" data-cod="295" data-status="FALTA">
-<polygon points="432.000,382.750 434.200,382.750 434.200,384.750 432.000,384.750" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="295" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,382.750 434.200,382.750 434.200,384.750 432.000,384.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="384.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">295 Planta de gas</text>
-<text x="626.000" y="384.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="384.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
-<g data-tipo="entregavel" data-cod="296" data-status="PARCIAL" data-ref="PR-28">
-<polygon points="432.000,385.500 434.200,385.500 434.200,387.500 432.000,387.500" stroke="#b26a00" stroke-width="0.18" fill="#b26a00" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="296" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,385.500 434.200,385.500 434.200,387.500 432.000,387.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="387.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">296 Planta de abrigo de gas</text>
-<text x="626.000" y="387.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#b26a00" text-anchor="end" dominant-baseline="middle">PR-28</text>
+<text x="626.000" y="387.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
-<g data-tipo="entregavel" data-cod="297" data-status="FALTA">
-<polygon points="432.000,388.250 434.200,388.250 434.200,390.250 432.000,390.250" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="297" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,388.250 434.200,388.250 434.200,390.250 432.000,390.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="389.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">297 Isometrico de gas</text>
-<text x="626.000" y="389.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=295</text>
+<text x="626.000" y="389.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
-<g data-tipo="entregavel" data-cod="298" data-status="FALTA">
-<polygon points="432.000,391.000 434.200,391.000 434.200,393.000 432.000,393.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="298" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,391.000 434.200,391.000 434.200,393.000 432.000,393.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="392.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">298 Detalhamento de registros de gas</text>
-<text x="626.000" y="392.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=295</text>
+<text x="626.000" y="392.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
-<g data-tipo="entregavel" data-cod="299" data-status="FALTA">
-<polygon points="432.000,393.750 434.200,393.750 434.200,395.750 432.000,395.750" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="299" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,393.750 434.200,393.750 434.200,395.750 432.000,395.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="395.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">299 Detalhamento de tubulacoes de gas</text>
-<text x="626.000" y="395.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=295</text>
+<text x="626.000" y="395.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
-<g data-tipo="entregavel" data-cod="300" data-status="FALTA">
-<polygon points="432.000,396.500 434.200,396.500 434.200,398.500 432.000,398.500" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="300" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,396.500 434.200,396.500 434.200,398.500 432.000,398.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="398.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">300 Detalhamento de ventilacao do abrigo</text>
-<text x="626.000" y="398.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle">=296</text>
+<text x="626.000" y="398.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
 <g data-tipo="entregavel" data-cod="301" data-status="TEM" data-ref="PR-28">
 <polygon points="432.000,399.250 434.200,399.250 434.200,401.250 432.000,401.250" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
@@ -1893,20 +1893,20 @@
 <text x="436.000" y="428.450" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">311 Planta de dutos</text>
 <text x="626.000" y="428.450" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-28</text>
 </g>
-<g data-tipo="entregavel" data-cod="312" data-status="FALTA">
-<polygon points="432.000,429.500 434.200,429.500 434.200,431.500 432.000,431.500" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="312" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,429.500 434.200,429.500 434.200,431.500 432.000,431.500" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="431.200" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">312 Planta de renovacao de ar</text>
-<text x="626.000" y="431.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="431.200" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
-<g data-tipo="entregavel" data-cod="313" data-status="FALTA">
-<polygon points="432.000,432.250 434.200,432.250 434.200,434.250 432.000,434.250" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="313" data-status="PARCIAL" data-ref="PR-28">
+<polygon points="432.000,432.250 434.200,432.250 434.200,434.250 432.000,434.250" stroke="#b26a00" stroke-width="0.18" fill="#b26a00" stroke-linejoin="miter"/>
 <text x="436.000" y="433.950" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">313 Isometrico de climatizacao</text>
-<text x="626.000" y="433.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="433.950" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#b26a00" text-anchor="end" dominant-baseline="middle">PR-28</text>
 </g>
-<g data-tipo="entregavel" data-cod="314" data-status="FALTA">
-<polygon points="432.000,435.000 434.200,435.000 434.200,437.000 432.000,437.000" stroke="#c62828" stroke-width="0.18" fill="#c62828" stroke-linejoin="miter"/>
+<g data-tipo="entregavel" data-cod="314" data-status="TEM" data-ref="PR-64">
+<polygon points="432.000,435.000 434.200,435.000 434.200,437.000 432.000,437.000" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>
 <text x="436.000" y="436.700" font-family="Helvetica, Arial, sans-serif" font-size="1.90" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">314 Detalhamento de suportes</text>
-<text x="626.000" y="436.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#c62828" text-anchor="end" dominant-baseline="middle"></text>
+<text x="626.000" y="436.700" font-family="Helvetica, Arial, sans-serif" font-size="1.70" font-weight="normal" fill="#2e7d32" text-anchor="end" dominant-baseline="middle">PR-64</text>
 </g>
 <g data-tipo="entregavel" data-cod="315" data-status="TEM" data-ref="PR-28">
 <polygon points="432.000,437.750 434.200,437.750 434.200,439.750 432.000,439.750" stroke="#2e7d32" stroke-width="0.18" fill="#2e7d32" stroke-linejoin="miter"/>

@@ -30,6 +30,10 @@ import nucleo.geotecnia as gt
 import nucleo.pluvial as pl
 import nucleo.acustica as ac
 import nucleo.marcenaria as mc
+import nucleo.esgoto as esg
+import nucleo.agua as agu
+import nucleo.circuitos as cir
+import nucleo.gas as gas
 import nucleo.eletrica as elt
 import nucleo.mercado as mk
 
@@ -525,6 +529,18 @@ def montar() -> dict:
             decisao=pj.PLUVIAL,
             conferencia=[dict(titulo=t, detalhe=d, ok=o)
                          for t, d, o in pl.conferir(pj)]),
+        executivo=dict(
+            esgoto=dict(ramais=esg.ramais(pj), desconectores=esg.desconectores(pj), caixas=esg.caixas(pj),
+                        coletor=esg.coletor(pj), ventilacao=esg.ventilacao(pj), resumo=esg.resumo(pj),
+                        conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in esg.conferir(pj)]),
+            agua=dict(pecas=agu.pecas(pj), ramais=agu.ramais(pj), coluna=agu.coluna(pj), registros=agu.registros(pj),
+                      resumo=agu.resumo(pj),
+                      conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in agu.conferir(pj)]),
+            circuitos=dict(circuitos=cir.circuitos(pj), quadros=cir.quadros(pj), entrada=cir.entrada(pj),
+                           materiais=cir.materiais(pj), resumo={k: v for k, v in cir.resumo(pj).items() if k != "quadros"},
+                           conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in cir.conferir(pj)]),
+            gas=dict(rede=gas.rede(pj), renovacao=gas.renovacao(pj), suportes=gas.suportes(pj),
+                     conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in gas.conferir(pj)])),
         marcenaria=dict(
             moveis=[{k: v for k, v in m.items() if k != "modulos"} | dict(
                 modulos=[dict(n=mo["n"], larg=mo["larg"], ferragens=mo["ferragens"],

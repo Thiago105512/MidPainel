@@ -813,6 +813,19 @@ PROGRAMA = [
      "orcamento de marcenaria passou a sair do mesmo inventario das pranchas "
      "55 a 59, e o material pelo plano e conferido contra o servico sob "
      "medida: tem de ficar entre 20 e 60 %."),
+    (145, "Instalacoes executivas: esgoto, agua, circuitos e gas, peca a peca",
+     ["checar_instalacoes_executivo"], "AUTOMATIZADA",
+     "Secao 170. O proprietario pediu eletrica peca a peca e hidraulica que nao "
+     "entupa. nucleo/esgoto da a cada peca DN pela UHC, caimento (2 % adotado "
+     "onde a norma permite 1 %), desconector, ventilacao pela distancia da "
+     "tabela 5 e caixas de inspecao a menos de 15 m ate a testada, com cota de "
+     "fundo; nucleo/agua percorre do reservatorio a cada peca e calcula a "
+     "pressao dinamica (o superior so passa pressurizado — a conta, nao a "
+     "frase); nucleo/circuitos da a cada um dos 59 circuitos disjuntor, secao, "
+     "eletroduto, fase, queda de tensao e vias no quadro. Dois defeitos na "
+     "primeira execucao: os quadros de 36 e 24 modulos nao cabiam 59 circuitos "
+     "(110) e o TUG da cozinha caia 6,4 % a 30 m do quadro em 2,5 mm2 — a "
+     "secao passa a subir pela queda, e a tabela diz onde."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

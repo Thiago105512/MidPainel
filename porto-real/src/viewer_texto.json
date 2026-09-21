@@ -1445,5 +1445,110 @@
     "984 peças; a lista inteira está na vista Marcenaria"
    ]
   ]
+ },
+ {
+  "n": "60",
+  "t": "Unifilar e quadros",
+  "esc": "s/ escala",
+  "etapa": "R72",
+  "d": "Entrada, QDG e QDS com cada um dos 59 circuitos: disjuntor, seção, fase, eletroduto e queda de tensão. Onde a queda passa de 4 %, a seção sobe e a tabela diz qual.",
+  "k": [
+   [
+    "defeito 110",
+    "os quadros eram de 36 e 24 módulos; 59 circuitos com DR, DPS e reserva pedem 81 e 40"
+   ],
+   [
+    "cozinha",
+    "a 30 m do quadro, o cabo do TUG vai a 6 mm² pela queda de tensão, não pela corrente"
+   ],
+   [
+    "DR",
+    "10 circuitos de área molhada sob 3 DR de 30 mA"
+   ]
+  ]
+ },
+ {
+  "n": "61",
+  "t": "Material elétrico e fotovoltaica",
+  "esc": "s/ escala",
+  "etapa": "R72",
+  "d": "O que se compra, somado circuito a circuito: cabo por seção e cor, eletroduto, disjuntores, DR, DPS, tomadas, interruptores e caixas. Diagrama do sistema fotovoltaico e a passagem dos cabos solares.",
+  "k": [
+   [
+    "cabo",
+    "3.214 m em 59 circuitos"
+   ],
+   [
+    "FV",
+    "módulos em strings, string box, inversor TC-17, disjuntor CA no QDG"
+   ],
+   [
+    "passagem",
+    "cobertura do superior → face norte → TC-17 a 1,5 m do piso, em eletroduto próprio"
+   ]
+  ]
+ },
+ {
+  "n": "62",
+  "t": "Esgoto e ventilação",
+  "esc": "1:75 · 1:150 · 1:10",
+  "etapa": "R72",
+  "d": "Isométrico de cada peça até a rua: DN pela UHC, caimento de 2 % em toda a rede predial, caixa sifonada por banho, ventilação onde o sifão fica longe, caixas de inspeção e o coletor com cotas de fundo até a testada.",
+  "k": [
+   [
+    "não entupir",
+    "DN da norma, 2 % em vez de 1 %, sifão ventilado, caixa a cada 15 m"
+   ],
+   [
+    "coletor",
+    "fundo final a 635 mm na testada; o lote desce junto e a profundidade não cresce"
+   ],
+   [
+    "defeito",
+    "a última caixa estava no fundo do lote, a 24 m da rua"
+   ]
+  ]
+ },
+ {
+  "n": "63",
+  "t": "Água fria",
+  "esc": "1:75",
+  "etapa": "R72",
+  "d": "Do reservatório a cada peça: barrilete, coluna, ramal por ambiente com registro, sub-ramal por peça, e a pressão dinâmica que sobra depois das perdas.",
+  "k": [
+   [
+    "pressão",
+    "térreo passa por gravidade (pior 15 kPa); superior não (negativa): o pressurizador TC-14 sai da conta"
+   ],
+   [
+    "Fair-Whipple-Hsiao",
+    "perda de carga em PVC com 30 % de localizadas"
+   ],
+   [
+    "registros",
+    "gaveta na entrada de cada ramal, pressão em cada chuveiro, geral com retenção"
+   ]
+  ]
+ },
+ {
+  "n": "64",
+  "t": "Pluvial, gás, ar novo e suportes",
+  "esc": "1:150",
+  "etapa": "R72",
+  "d": "Isométrico pluvial das descidas à sarjeta pela retenção; rede de gás da central aos dois pontos com abrigo e registros; vazão de ar novo por ambiente climatizado; suportes das condensadoras e linhas.",
+  "k": [
+   [
+    "gás",
+    "cobre DN15, regulador de 1º estágio, 38 dias de autonomia a 2 h/dia"
+   ],
+   [
+    "ar novo",
+    "7,5 L/s por pessoa + 0,3 L/s por m²; sem VMC, a vazão fica declarada"
+   ],
+   [
+    "suportes",
+    "7 condensadoras em mão-francesa; abraçadeira a cada 1,5 m horizontal e 2,0 m vertical"
+   ]
+  ]
  }
 ]

@@ -18,6 +18,7 @@ import pranchas7 as p7
 import pranchas8 as p8
 import pranchas9 as p9
 import pranchas10 as p10
+import pranchas11 as p11
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "out")
 
@@ -91,6 +92,11 @@ CADERNO = [
     ("57", "MARCENARIA II: DORMITORIOS",           lambda: p10.detalhamento_2()),
     ("58", "MARCENARIA: CORTE E FURACAO",          lambda: p10.plano_de_corte()),
     ("59", "MARCENARIA: FERRAGENS E PECAS",        lambda: p10.ferragens_e_pecas()),
+    ("60", "ELETRICA: UNIFILAR E QUADROS",        lambda: p11.unifilar()),
+    ("61", "ELETRICA: MATERIAL E FOTOVOLTAICA",    lambda: p11.material_eletrico()),
+    ("62", "ESGOTO E VENTILACAO: ISOMETRICO",      lambda: p11.esgoto()),
+    ("63", "AGUA FRIA: ISOMETRICO E PRESSOES",     lambda: p11.agua_fria()),
+    ("64", "PLUVIAL, GAS, AR NOVO E SUPORTES",     lambda: p11.complementares()),
 ]
 
 

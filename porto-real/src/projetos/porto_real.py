@@ -1893,11 +1893,16 @@ TECNICOS = [
          x=17_200, y=24_000, w=1_200, h=800,
          obs="NBR 13523: min 1,5 m de qualquer vao e 3,0 m de fonte de ignicao"),
     # ---- eletrica e dados
-    dict(cod="TC-05", nome="Quadro geral 36 modulos", zona="INT", amb="T-GAR",
-         x=8_100, y=9_000, w=300, h=800,
-         obs="parede da garagem junto ao hall; altura de 1.000 a 1.800 mm"),
-    dict(cod="TC-06", nome="Quadro superior 24 modulos", zona="INT", amb="S-HAL",
-         x=9_800, y=18_600, w=300, h=600, obs="hall do pavimento superior"),
+    # R72 — DEFEITO 110: os quadros eram de 36 e 24 modulos, escritos antes de
+    # alguem contar. Um circuito por ambiente (eletrica.circuitos, R52) sao 59
+    # circuitos; com DR de 4 modulos, DPS e geral, o terreo pede 81 vias com
+    # a reserva de 20 % da NBR 5410 e o superior 40. nucleo/circuitos conta
+    # e a auditoria 145 confere que cabe.
+    dict(cod="TC-05", nome="Quadro geral 84 modulos", zona="INT", amb="T-GAR",
+         x=8_100, y=9_000, w=300, h=1_200,
+         obs="parede da garagem junto ao hall; embutir, duas colunas de 42; altura de 800 a 1.800 mm"),
+    dict(cod="TC-06", nome="Quadro superior 48 modulos", zona="INT", amb="S-HAL",
+         x=9_800, y=18_300, w=300, h=800, obs="hall do pavimento superior; embutir"),
     dict(cod="TC-07", nome="Rack de dados e CFTV", zona="INT", amb="T-GAR",
          x=8_000, y=10_200, w=400, h=600,
          obs="8 cameras, 3 access points, 1 videoporteiro; ventilacao passiva"),
@@ -3860,6 +3865,18 @@ REVISOES = [
      "de marcenaria passou a sair do mesmo inventario das pranchas, e o "
      "material pelo plano e conferido contra o servico sob medida. 20 itens "
      "da matriz (124 a 145) saem do backlog"),
+    ("R72", "LOTE 3 DO BACKLOG: INSTALACOES PECA A PECA. nucleo/esgoto (DN pela "
+     "UHC, 2 % em toda a rede predial, caixa sifonada por banho, ventilacao pela "
+     "distancia, caixas de inspecao a menos de 15 m e coletor com cota de fundo "
+     "ate a testada), nucleo/agua (do reservatorio a cada peca com pressao "
+     "dinamica por Fair-Whipple-Hsiao: o superior so passa pressurizado), "
+     "nucleo/circuitos (59 circuitos com disjuntor, secao, eletroduto, fase, "
+     "queda e vias; unifilar; material somado) e nucleo/gas (rede, abrigo, ar "
+     "novo, suportes). PR-60 a 64, isometricos por uma projecao so, auditoria "
+     "145. Defeito 110: quadros de 36 e 24 modulos para 59 circuitos — passam "
+     "a 84 e 48. O TUG da cozinha vai a 6 mm2 pela queda de tensao. A PR-07 "
+     "ganhou as faces reais (defeito 109) e o visualizador virou arquivo unico. "
+     "27 itens da matriz saem do backlog"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4066,13 +4083,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R71",
+    revisao="R72",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R71", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R72", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

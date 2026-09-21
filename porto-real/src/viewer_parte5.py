@@ -1082,7 +1082,50 @@ function vistaInstalacoes() {
         <b>${num(conf.length)}</b> não.</p>
       ${grupos || `<div class="selo"><b>Sem conflito</b>
         <span>nenhuma prumada cai dentro de linha de parede e nenhum ramal
-        exige furo que o perfil não comporte</span></div>`}</div>`;
+        exige furo que o perfil não comporte</span></div>`}</div>
+    ${executivoInstalacoes()}`;
+}
+
+function executivoInstalacoes() {
+  const X = ENG.executivo;
+  if (!X) return "";
+  const E = X.esgoto, A = X.agua, C = X.circuitos, G = X.gas;
+  const circ = C.circuitos.map(c =>
+    `<tr><td>${esc2(c.cod)}</td><td>${c.quadro}</td><td class="num">${c.va}</td><td class="num">${c.v}</td>
+      <td>${c.fases.join("+")}</td><td class="num">${c.ib_a}</td><td class="num">${c.disjuntor_a} A ${c.polos}P</td>
+      <td class="num">${c.secao_mm2}${c.subiu_por_queda ? " *" : ""}</td><td class="num">${(c.comp_mm / 1000).toFixed(1)}</td>
+      <td class="num">${c.queda_pct.toFixed(2)}</td><td>${c.dr ? "DR" : ""}</td></tr>`).join("");
+  const ram = E.ramais.map(r =>
+    `<tr><td>${esc2(r.peca)}</td><td>${esc2(r.amb)}</td><td>${esc2(r.tipo)}</td><td class="num">DN${r.dn}</td>
+      <td class="num">${(r.caimento * 100).toFixed(0)} %</td><td class="num">${(r.comp_mm / 1000).toFixed(1)}</td>
+      <td>${esc2(r.destino)}</td><td>${r.ventilado ? "sim" : "ramal DN50"}</td></tr>`).join("");
+  const pec = A.pecas.map(p =>
+    `<tr><td>${esc2(p.cod)}</td><td>${esc2(p.amb)}</td><td>${esc2(p.tipo)}</td><td class="num">${p.z_mm}</td>
+      <td class="num">${p.estatica_kpa.toFixed(0)}</td><td class="num">${p.perdas_kpa.toFixed(0)}</td>
+      <td class="num">${p.dinamica_kpa.toFixed(0)}</td><td>${p.gravidade_ok ? "gravidade" : "TC-14"}</td></tr>`).join("");
+  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia].filter(c => !c.ok)
+    .map(c => `<li><b>${esc2(c.titulo)}</b> — ${esc2(c.detalhe)}</li>`).join("");
+  return `<h4 class="sub">Executivo (R72) — circuito a circuito, peça a peça</h4>
+    <div class="cartoes" style="margin-bottom:16px">
+      <div class="cartao"><span class="rot">Circuitos</span><span class="val">${C.circuitos.length}</span>
+        <span class="uni">queda máxima ${C.resumo.queda_max.toFixed(2)} % (${esc2(C.resumo.pior)})</span></div>
+      <div class="cartao"><span class="rot">Esgoto</span><span class="val">${E.ramais.length}</span>
+        <span class="uni">ramais · ${E.caixas.length} caixas · fundo final ${E.resumo.prof_final_mm} mm</span></div>
+      <div class="cartao"><span class="rot">Água fria</span><span class="val">${A.resumo.gravidade_ok}/${A.pecas.length}</span>
+        <span class="uni">peças por gravidade; ${A.resumo.pressurizadas} pelo TC-14</span></div>
+      <div class="cartao"><span class="rot">Gás</span><span class="val">${(G.rede.comp_total_mm / 1000).toFixed(1)}</span>
+        <span class="uni">m de cobre DN${G.rede.tubo.dn} · ${G.rede.autonomia_dias} dias</span></div>
+    </div>
+    <h4 class="sub">Circuitos (* seção subiu pela queda de tensão)</h4>
+    <table class="tab"><thead><tr><th>circuito</th><th>QD</th><th>VA</th><th>V</th><th>fase</th><th>Ib</th><th>disj</th>
+      <th>mm²</th><th>L m</th><th>dV %</th><th></th></tr></thead><tbody>${circ}</tbody></table>
+    <h4 class="sub">Esgoto — ramais</h4>
+    <table class="tab"><thead><tr><th>peça</th><th>amb</th><th>tipo</th><th>DN</th><th>i</th><th>L m</th><th>destino</th><th>vent.</th></tr></thead>
+      <tbody>${ram}</tbody></table>
+    <h4 class="sub">Água fria — pressão em cada peça (kPa)</h4>
+    <table class="tab"><thead><tr><th>peça</th><th>amb</th><th>tipo</th><th>z mm</th><th>estát.</th><th>perdas</th><th>dinâm.</th><th>como</th></tr></thead>
+      <tbody>${pec}</tbody></table>
+    ${conf ? `<h4 class="sub">Conferências que não passam</h4><ul>${conf}</ul>` : "<p class='conta'>todas as conferências do executivo passam</p>"}`;
 }
 
 // ------------------------------------------------------------ custo/cotacao

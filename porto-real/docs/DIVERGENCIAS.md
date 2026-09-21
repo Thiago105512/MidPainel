@@ -5659,3 +5659,70 @@ prancha saía com FRONTAL (SUL) numa casa cuja testada é LESTE. Agora lê
 frontal" também estava velha: há muro de 2,2 m na testada com dois portões
 (PORTAO_TESTADA) desde R49 — e esse muro é parte da resposta à pergunta
 sobre a fachada, tratada no R72.
+
+## R72 — Instalações peça a peça: elétrica que se compra, esgoto que não entope
+
+O proprietário pediu duas coisas com palavras simples: "elétrico, prevendo
+cada peça" e "hidráulico nos banheiros para não entupir", e "revise tudo". As
+pranchas 26 a 29 tinham as instalações como *pontos* e o BOM tinha os
+*comprimentos* (R51); faltava o executivo — o que o instalador executa e o
+que o comprador compra. Quatro núcleos novos, cinco pranchas, uma projeção
+isométrica só (`_Iso`) para as três redes.
+
+### Esgoto: "não entupir" são quatro regras da NBR 8160, e as quatro saem do modelo
+| Regra | O que o modelo faz |
+|---|---|
+| Diâmetro | ramal de descarga de cada peça pelo DN da tabela 3; ramal de esgoto pela UHC acumulada |
+| Caimento | **2 % em toda a rede predial, DN100 inclusive** — a norma permite 1 % em DN100; é a decisão "para não entupir", escrita, e a auditoria confere que nunca fica abaixo da norma |
+| Desconector e ventilação | lavatório, box e ralo de cada banho numa caixa sifonada 100 × 150 × 50; vaso direto ao tubo de queda ou à caixa de inspeção; onde o sifão fica além da distância da tabela 5, entra ramal de ventilação DN50 (14 na casa) |
+| Caixas | 8 caixas de inspeção 600 × 600: pé de cada tubo de queda, frente (banho do reversível e lavabo, que ficam a 10 m das prumadas do fundo), saída da caixa de gordura, encontros com o coletor e espaçamento de 15 m |
+
+O coletor desce a 1 % pelo recuo sul até a testada. Como o lote também
+desce 1 a 2 % no mesmo sentido (R68), a profundidade de fundo **não cresce
+ao longo do caminho**: 500 mm ao sair da casa, 635 mm na última caixa. É a
+frase do R68 ("esgoto por gravidade") virando cota.
+
+**Defeito achado pelo caminho:** a "caixa de inspeção antes da ligação à rede
+pública" (TC-12) estava a **y = 24.000 — no fundo do lote, a 24 m da rua**,
+sobra da convenção antiga em que a rua era "S". A caixa final agora é
+derivada (CI-FINAL, y = 1.200) e o TC-12 do caso fica como registro do erro.
+
+### Água fria: a pressão em cada peça, não a frase "superior pressurizado"
+Do reservatório (fundo a +6,20 m, lâmina mínima de 200 mm) ao barrilete
+DN32, coluna, ramal de cada ambiente com registro de gaveta e sub-ramal de
+cada peça, com perda de carga por Fair-Whipple-Hsiao para PVC e 30 % de
+localizadas. Resultado: **as 12 peças do térreo passam por gravidade (a pior
+com 15 kPa, mínimo 10)** e **as 9 do superior não passam de jeito nenhum
+(a pior com −19 kPa)** — o pressurizador TC-14, que estava no caso desde R41
+como equipamento, passou a ser uma consequência da conta.
+
+### Elétrica: 59 circuitos, cada um com o seu cabo, e dois defeitos
+Cada circuito de `eletrica.circuitos` (R52) ganhou corrente, disjuntor,
+seção pela tabela 36, eletroduto, fase (da mesma atribuição que equilibra as
+três fases), comprimento até o ambiente, queda de tensão e quadro. O
+unifilar (PR-60) é desenhado dessa lista; o material (PR-61) é somado dela.
+
+- **Defeito 110 — os quadros não cabiam os circuitos.** TC-05 dizia "36
+  módulos" e TC-06 "24", escritos antes de alguém contar. Um circuito por
+  ambiente são 59; com DR de 4 módulos, DPS, geral e a reserva de 20 % da
+  NBR 5410, o térreo pede 81 vias e o superior 40. Passam a 84 e 48.
+- **A cozinha fica a 30 m do quadro da garagem.** O TUG da cozinha em
+  2,5 mm² caía **6,4 %** (limite 4 %); o do gourmet 6,1 %. A seção passou a
+  subir pela queda de tensão onde a corrente sozinha não manda — cozinha em
+  6 mm², gourmet em 4 — e a tabela marca com asterisco quem subiu. Queda
+  máxima da casa: 3,87 %.
+
+### Complementares (PR-64)
+Pluvial em isométrico das quatro descidas à sarjeta pela retenção; rede de
+gás em cobre DN15 da central TC-04 (a 1,5 m de qualquer vão, conferido) ao
+cooktop e à churrasqueira, com regulador de dois estágios e registro de
+esfera em cada ponto, 38 dias de autonomia a 2 h/dia de uso pleno (H);
+vazão de ar novo por ambiente climatizado (7,5 L/s por pessoa + 0,3 L/s/m²,
+declarada, sem VMC); suportes das 7 condensadoras e 36 abraçadeiras.
+
+**Estado em R72:** 145 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; 64 pranchas; 21 vistas. Matriz: 621 linhas, 453 entregáveis
+distintos, 330 TEM + 43 NA = **82 % resolvido**, 38 PARCIAL, 31 FALTA,
+11 EXTERNO. BOM inalterado (R$ 1.020.320,51): este lote é de projeto, não de
+quantidade — o material elétrico e hidráulico já estava no BOM pelo percurso
+de R51; agora tem o desenho que o justifica.
