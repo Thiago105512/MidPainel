@@ -889,6 +889,17 @@ PROGRAMA = [
      "quem confirma). A auditoria cobra cobertura total, constante existente, "
      "valor aplicado, hipotese com dono e gemeos iguais (a altura da bancada em "
      "dois modulos). Constante nova sem classe e erro na primeira execucao."),
+    (152, "Briefing de imagens: a casa em codigo, lida do modelo",
+     ["checar_briefing"], "AUTOMATIZADA",
+     "Secao 177. O proprietario e casa de condominio — testada aberta, muro so nas "
+     "laterais e no fundo, portoes laterais da familia do portao da garagem, e o "
+     "da garagem e opcional e mantido por privacidade — e pediu a casa inteira em "
+     "codigo para gerar imagens fora. nucleo/briefing deriva lote, volumes, "
+     "materiais, cada face com seus vaos e brises, entrada, piscina, jardim, cada "
+     "comodo e as regras do que NAO desenhar. A auditoria cobra que o briefing "
+     "diga o que o modelo diz: frente aberta, um portao por passagem, todo vao "
+     "externo numa face, todo brise, todo comodo, familias dentro da regra, "
+     "superior alinhado com o terreo."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

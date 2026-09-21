@@ -258,7 +258,7 @@ def implantacao() -> Canvas:
         "Lote 20.000 x 40.000 mm = 800,00 m2.",
         "Recuos: frontal 7.200 / lateral esq. 2.400 / faixa tecnica dir. 3.200 / fundo 13.600 mm.",
         "Parametros do SU16 Tarumã/Tarumã-Açu sao hipoteses (H) — pendente certidao de uso do solo.",
-        "Sem muro frontal; muros laterais e de fundo h = 2.200 mm.",
+        "Casa de condominio: sem muro frontal; muros laterais e de fundo h = 2.200 mm; portoes laterais PG02/PG03 na linha da frente da casa.",
     ])
     vw = View(100, 150, 520, 0, 0)
 

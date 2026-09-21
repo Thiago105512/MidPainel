@@ -4683,6 +4683,23 @@ def checar_percurso() -> list[Achado]:
     return out
 
 
+def checar_briefing() -> list[Achado]:
+    """O briefing de imagens diz o que o modelo diz (R83)."""
+    import projeto as pj
+    import nucleo.briefing as br
+    out = []
+    conf = br.conferir(pj)
+    for t, d, ok in conf:
+        if not ok:
+            out.append(Achado("ERRO", f"briefing: {t}", d))
+    b = br.montar(pj)
+    out.append(Achado("NOTA", "briefing", f"{sum(1 for c in conf if c[2])} de {len(conf)} conferencias passam; "
+                      f"{len(b['fachadas'])} faces, {sum(len(f['vaos']) for f in b['fachadas'])} vaos, {len(b['interiores'])} comodos, "
+                      f"{len(b['regras_para_a_imagem'])} regras do que nao desenhar, {len(b['vistas_sugeridas'])} vistas sugeridas; "
+                      f"frente: {b['terreno']['fechamento']['frente'][:60]}"))
+    return out
+
+
 def checar_padroes() -> list[Achado]:
     """Toda constante tem classe e dono; o caso fixa os padroes e o modulo le (R81)."""
     import projeto as pj

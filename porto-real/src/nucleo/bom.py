@@ -488,6 +488,22 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                                            "aparente", "m2", m["area"],
                              P["hidrofugante_m2"], "externo",
                              fonte="derivado — substitui pintura e repintura"))
+        # R83 — portoes laterais: ripa e travessa da mesma familia do PG01 e
+        # dos brises (PRECO_BRISE), dobradica e fechadura da familia de
+        # esquadrias. Largura derivada da passagem, nao digitada.
+        for pg in m.get("portoes_laterais", []):
+            n_ripas = int(pg["larg"] / pg["passo"]) + 1
+            itens.append(ItemBOM(f"EXT-{pg['cod']}", f"Portao lateral {pg['cod']} ({pg['lado']}): ripa de aluminio grafite, "
+                                 f"{pg['larg']} x {pg['altura']} mm, {pg['abertura']}", "m",
+                                 round(n_ripas * pg["altura"] / 1000, 1), PRECO_BRISE["ripa_m"], "externo",
+                                 fonte="derivado da largura da passagem"))
+            itens.append(ItemBOM(f"EXT-{pg['cod']}-TRV", f"Portao {pg['cod']}: travessa e quadro", "m",
+                                 round(2 * (pg["larg"] + pg["altura"]) / 1000 * pg["folhas"], 1), PRECO_BRISE["travessa_m"],
+                                 "externo", fonte="derivado"))
+            itens.append(ItemBOM(f"EXT-{pg['cod']}-FER", f"Portao {pg['cod']}: dobradica reforcada", "un",
+                                 3 * pg["folhas"], PRECO_ESQ["dobradica"] * 2, "externo", fonte="3 por folha"))
+            itens.append(ItemBOM(f"EXT-{pg['cod']}-FEC", f"Portao {pg['cod']}: fechadura", "un", 1,
+                                 PRECO_ESQ["fechadura"], "externo", fonte="derivado"))
         preco_piso = {"porcelanato externo claro R11": P["piso_porcelanato_m2"],
                       "WPC coextrudado claro": P["piso_wpc_m2"],
                       "piso drenante intertravado claro": P["piso_drenante_m2"]}

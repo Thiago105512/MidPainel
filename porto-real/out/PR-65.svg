@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="65" data-rev="R82">
+<g data-tipo="carimbo" data-cod="65" data-rev="R83">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,17 +26,17 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R82</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R83</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">65</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R82</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R83</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Rack TC-07 na garagem: 13 pontos RJ45 Cat.6, 3 access points, 8 cameras IP PoE; 508 m de UTP por percurso Manhattan x 1.2 (maximo 90 m por lance). Wi-Fi: raio de 12 m em planta (H); 34 de 34 ambientes cobertos.</text>
-<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Alarme: 11 sensores magneticos (todo vao externo de porta), 11 IVP nos ambientes de passagem, sirene externa, central no rack; videoporteiro e fechadura eletrica no portao de pedestre, biometrica na P01.</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Rack TC-07 na garagem: 13 pontos RJ45 Cat.6, 3 access points, 8 cameras IP PoE; 502 m de UTP por percurso Manhattan x 1.2 (maximo 90 m por lance). Wi-Fi: raio de 12 m em planta (H); 34 de 34 ambientes cobertos.</text>
+<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Alarme: 13 sensores magneticos (todo vao externo de porta), 11 IVP nos ambientes de passagem, sirene externa, central no rack; videoporteiro no portico da P01, biometrica na P01, fechadura eletrica nos portoes laterais (testada aberta).</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Automacao (H): Zigbee 3.0 com hub local no rack; comandos por app e por interruptor de cena. 13 modulos nos circuitos de iluminacao social e externa, 4 cortinas blackout motorizadas, presenca nas circulacoes, 4 cenas.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Simbolos: D dados · W access point · C camera · M magnetico · P presenca · A modulo de automacao · K cortina.</text>
 </g>
@@ -226,10 +226,10 @@
 <text x="234.000" y="76.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#7b2d8e" text-anchor="middle" dominant-baseline="middle">C</text>
 <text x="237.000" y="77.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#7b2d8e" text-anchor="start" dominant-baseline="middle">CAM-04</text>
 </g>
-<g data-tipo="cftv" data-cod="CAM-05" data-onde="portao de veiculos, lado interno">
-<polygon points="91.800,455.800 96.200,455.800 96.200,460.200 91.800,460.200" stroke="#7b2d8e" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
-<text x="94.000" y="458.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#7b2d8e" text-anchor="middle" dominant-baseline="middle">C</text>
-<text x="97.000" y="459.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#7b2d8e" text-anchor="start" dominant-baseline="middle">CAM-05</text>
+<g data-tipo="cftv" data-cod="CAM-05" data-onde="frente da garagem, sobre o PG01">
+<polygon points="91.800,398.800 96.200,398.800 96.200,403.200 91.800,403.200" stroke="#7b2d8e" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="94.000" y="401.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#7b2d8e" text-anchor="middle" dominant-baseline="middle">C</text>
+<text x="97.000" y="402.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#7b2d8e" text-anchor="start" dominant-baseline="middle">CAM-05</text>
 </g>
 <g data-tipo="cftv" data-cod="CAM-06" data-onde="portico de entrada">
 <polygon points="130.800,383.800 135.200,383.800 135.200,388.200 130.800,388.200" stroke="#7b2d8e" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
@@ -246,12 +246,14 @@
 <text x="94.000" y="344.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#7b2d8e" text-anchor="middle" dominant-baseline="middle">C</text>
 <text x="97.000" y="345.000" font-family="Helvetica, Arial, sans-serif" font-size="1.50" font-weight="normal" fill="#7b2d8e" text-anchor="start" dominant-baseline="middle">CAM-08</text>
 </g>
-<circle cx="133.000" cy="466.000" r="2.000" stroke="#333" stroke-width="0.3" fill="#fff"/>
-<text x="133.000" y="466.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">VP</text>
-<circle cx="133.000" cy="466.000" r="2.000" stroke="#333" stroke-width="0.3" fill="#fff"/>
-<text x="133.000" y="466.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">FE</text>
+<circle cx="142.000" cy="371.500" r="2.000" stroke="#333" stroke-width="0.3" fill="#fff"/>
+<text x="142.000" y="372.200" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">VP</text>
 <circle cx="133.000" cy="370.000" r="2.000" stroke="#333" stroke-width="0.3" fill="#fff"/>
 <text x="133.000" y="370.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">FE</text>
+<circle cx="52.700" cy="394.000" r="2.000" stroke="#333" stroke-width="0.3" fill="#fff"/>
+<text x="52.700" y="394.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">FE</text>
+<circle cx="214.300" cy="394.000" r="2.000" stroke="#333" stroke-width="0.3" fill="#fff"/>
+<text x="214.300" y="394.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">FE</text>
 <circle cx="208.000" cy="376.000" r="2.000" stroke="#333" stroke-width="0.3" fill="#fff"/>
 <text x="208.000" y="376.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#333" text-anchor="middle" dominant-baseline="middle">SR</text>
 <g data-tipo="dados" data-cod="RJ-LY-03" data-uso="TV">
@@ -302,6 +304,10 @@
 <text x="100.000" y="206.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#c0392b" text-anchor="middle" dominant-baseline="middle">M</text>
 <circle cx="94.000" cy="293.000" r="1.600" stroke="#c0392b" stroke-width="0.3" fill="#fff"/>
 <text x="94.000" y="293.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#c0392b" text-anchor="middle" dominant-baseline="middle">M</text>
+<circle cx="52.700" cy="398.000" r="1.600" stroke="#c0392b" stroke-width="0.3" fill="#fff"/>
+<text x="52.700" y="398.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#c0392b" text-anchor="middle" dominant-baseline="middle">M</text>
+<circle cx="214.300" cy="398.000" r="1.600" stroke="#c0392b" stroke-width="0.3" fill="#fff"/>
+<text x="214.300" y="398.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#c0392b" text-anchor="middle" dominant-baseline="middle">M</text>
 <circle cx="100.000" cy="362.000" r="1.600" stroke="#e67e22" stroke-width="0.3" fill="#fff"/>
 <text x="100.000" y="362.700" font-family="Helvetica, Arial, sans-serif" font-size="1.60" font-weight="normal" fill="#e67e22" text-anchor="middle" dominant-baseline="middle">P</text>
 <circle cx="139.000" cy="350.000" r="1.600" stroke="#e67e22" stroke-width="0.3" fill="#fff"/>
@@ -637,9 +643,9 @@
 <text x="621.500" y="120.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">52.3</text>
 <polygon points="480.000,122.000 636.000,122.000 636.000,125.800 480.000,125.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="481.500" y="123.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CAM-05</text>
-<text x="501.500" y="123.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portao de veiculos, lado inter</text>
-<text x="561.500" y="123.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">acesso e rua</text>
-<text x="621.500" y="123.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17.5</text>
+<text x="501.500" y="123.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">frente da garagem, sobre o PG0</text>
+<text x="561.500" y="123.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">acesso, rua e testada aberta</text>
+<text x="621.500" y="123.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">10.7</text>
 <polygon points="480.000,125.800 636.000,125.800 636.000,129.600 480.000,129.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="481.500" y="127.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CAM-06</text>
 <text x="501.500" y="127.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portico de entrada</text>
@@ -658,135 +664,139 @@
 <line x1="500.000" y1="103.000" x2="500.000" y2="137.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="560.000" y1="103.000" x2="560.000" y2="137.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="620.000" y1="103.000" x2="620.000" y2="137.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="480.000" y="140.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ACESSO E ALARME — 22 zonas</text>
+<text x="480.000" y="140.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ACESSO E ALARME — 24 zonas</text>
 <polygon points="480.000,143.200 636.000,143.200 636.000,147.000 480.000,147.000" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="481.500" y="145.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COD</text>
 <text x="501.500" y="145.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ONDE</text>
 <text x="541.500" y="145.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ITEM</text>
 <polygon points="480.000,147.000 636.000,147.000 636.000,150.800 480.000,150.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="481.500" y="148.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">VP-01</text>
-<text x="501.500" y="148.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portao de pedestre</text>
+<text x="501.500" y="148.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portico da porta P01</text>
 <text x="541.500" y="148.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">videoporteiro IP com abertura remota</text>
 <polygon points="480.000,150.800 636.000,150.800 636.000,154.600 480.000,154.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="152.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FE-01</text>
-<text x="501.500" y="152.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portao de pedestre</text>
-<text x="541.500" y="152.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fechadura eletromagnetica 12 V, botoeira int</text>
+<text x="481.500" y="152.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FE-02</text>
+<text x="501.500" y="152.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porta de entrada P01</text>
+<text x="541.500" y="152.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fechadura eletronica biometrica + senha</text>
 <polygon points="480.000,154.600 636.000,154.600 636.000,158.400 480.000,158.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="156.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FE-02</text>
-<text x="501.500" y="156.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porta de entrada P01</text>
-<text x="541.500" y="156.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fechadura eletronica biometrica + senha</text>
+<text x="481.500" y="156.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FE-PG02</text>
+<text x="501.500" y="156.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portao lateral PG02</text>
+<text x="541.500" y="156.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fechadura eletromagnetica 12 V, botoeira int</text>
 <polygon points="480.000,158.400 636.000,158.400 636.000,162.200 480.000,162.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="160.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SR-01</text>
-<text x="501.500" y="160.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fachada norte, sob o beiral</text>
-<text x="541.500" y="160.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sirene externa 120 dB com bateria</text>
+<text x="481.500" y="160.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FE-PG03</text>
+<text x="501.500" y="160.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">portao lateral PG03</text>
+<text x="541.500" y="160.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fechadura eletromagnetica 12 V, botoeira int</text>
 <polygon points="480.000,162.200 636.000,162.200 636.000,166.000 480.000,166.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="164.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CENTRAL</text>
-<text x="501.500" y="164.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rack</text>
-<text x="541.500" y="164.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">central de alarme no rack TC-07, GPRS + Wi-F</text>
-<line x1="500.000" y1="143.200" x2="500.000" y2="166.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="540.000" y1="143.200" x2="540.000" y2="166.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="480.000" y="169.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AUTOMACAO — MODULOS, CORTINAS E SENSORES</text>
-<polygon points="480.000,172.000 636.000,172.000 636.000,175.600 480.000,175.600" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
-<text x="481.500" y="173.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COD</text>
-<text x="511.500" y="173.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AMB</text>
-<text x="529.500" y="173.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">TIPO</text>
-<polygon points="480.000,175.600 636.000,175.600 636.000,179.200 480.000,179.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="177.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-GAR</text>
-<text x="511.500" y="177.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GAR</text>
-<text x="529.500" y="177.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
-<polygon points="480.000,179.200 636.000,179.200 636.000,182.800 480.000,182.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="181.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-GOU</text>
-<text x="511.500" y="181.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GOU</text>
-<text x="529.500" y="181.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dimmer Zigbee 200 W</text>
-<polygon points="480.000,182.800 636.000,182.800 636.000,186.400 480.000,186.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="184.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-SOC</text>
-<text x="511.500" y="184.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-SOC</text>
-<text x="529.500" y="184.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dimmer Zigbee 200 W</text>
-<polygon points="480.000,186.400 636.000,186.400 636.000,190.000 480.000,190.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="188.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-COZ</text>
-<text x="511.500" y="188.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
-<text x="529.500" y="188.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dimmer Zigbee 200 W</text>
-<polygon points="480.000,190.000 636.000,190.000 636.000,193.600 480.000,193.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-COR</text>
-<text x="511.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COR</text>
-<text x="529.500" y="191.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
-<polygon points="480.000,193.600 636.000,193.600 636.000,197.200 480.000,197.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="195.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-S-HAL</text>
-<text x="511.500" y="195.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-HAL</text>
-<text x="529.500" y="195.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
-<polygon points="480.000,197.200 636.000,197.200 636.000,200.800 480.000,200.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="199.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-HAL</text>
-<text x="511.500" y="199.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-HAL</text>
-<text x="529.500" y="199.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
-<polygon points="480.000,200.800 636.000,200.800 636.000,204.400 480.000,204.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="202.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-S-LOU</text>
-<text x="511.500" y="202.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-LOU</text>
-<text x="529.500" y="202.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dimmer Zigbee 200 W</text>
-<polygon points="480.000,204.400 636.000,204.400 636.000,208.000 480.000,208.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-CIR</text>
-<text x="511.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-CIR</text>
-<text x="529.500" y="206.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
-<polygon points="480.000,208.000 636.000,208.000 636.000,211.600 480.000,211.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-S-CIR</text>
-<text x="511.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CIR</text>
-<text x="529.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
-<polygon points="480.000,211.600 636.000,211.600 636.000,215.200 480.000,215.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="213.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-S-CI2</text>
-<text x="511.500" y="213.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CI2</text>
-<text x="529.500" y="213.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
-<polygon points="480.000,215.200 636.000,215.200 636.000,218.800 480.000,218.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="217.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-IF</text>
-<text x="511.500" y="217.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">externo</text>
-<text x="529.500" y="217.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 16 A + relogio astronomico</text>
-<polygon points="480.000,218.800 636.000,218.800 636.000,222.400 480.000,222.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="220.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-PORTAO</text>
-<text x="511.500" y="220.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GAR</text>
-<text x="529.500" y="220.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">contato seco no motor do portao</text>
-<polygon points="480.000,222.400 636.000,222.400 636.000,226.000 480.000,226.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="224.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CORT-T-REV</text>
-<text x="511.500" y="224.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-REV</text>
-<text x="529.500" y="224.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">motor tubular Zigbee 1,2 N.m no trilho d</text>
-<polygon points="480.000,226.000 636.000,226.000 636.000,229.600 480.000,229.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="227.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CORT-S-S02</text>
-<text x="511.500" y="227.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
-<text x="529.500" y="227.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">motor tubular Zigbee 1,2 N.m no trilho d</text>
-<polygon points="480.000,229.600 636.000,229.600 636.000,233.200 480.000,233.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="231.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CORT-S-S03</text>
-<text x="511.500" y="231.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
-<text x="529.500" y="231.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">motor tubular Zigbee 1,2 N.m no trilho d</text>
-<polygon points="480.000,233.200 636.000,233.200 636.000,236.800 480.000,236.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="235.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CORT-S-MAS</text>
-<text x="511.500" y="235.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
-<text x="529.500" y="235.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">motor tubular Zigbee 1,2 N.m no trilho d</text>
-<polygon points="480.000,236.800 636.000,236.800 636.000,240.400 480.000,240.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="238.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-T-HAL</text>
-<text x="511.500" y="238.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-HAL</text>
-<text x="529.500" y="238.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
-<polygon points="480.000,240.400 636.000,240.400 636.000,244.000 480.000,244.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="242.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-T-CIR</text>
-<text x="511.500" y="242.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-CIR</text>
-<text x="529.500" y="242.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
-<polygon points="480.000,244.000 636.000,244.000 636.000,247.600 480.000,247.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="245.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-T-COR</text>
-<text x="511.500" y="245.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COR</text>
-<text x="529.500" y="245.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
-<polygon points="480.000,247.600 636.000,247.600 636.000,251.200 480.000,251.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="249.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-S-CIR</text>
-<text x="511.500" y="249.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CIR</text>
-<text x="529.500" y="249.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
-<polygon points="480.000,251.200 636.000,251.200 636.000,254.800 480.000,254.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="481.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-S-CI2</text>
-<text x="511.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CI2</text>
-<text x="529.500" y="253.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
-<polygon points="480.000,254.800 636.000,254.800 636.000,258.400 480.000,258.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="481.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-S-HAL</text>
-<text x="511.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-HAL</text>
-<text x="529.500" y="256.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
-<line x1="510.000" y1="172.000" x2="510.000" y2="258.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="528.000" y1="172.000" x2="528.000" y2="258.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<text x="480.000" y="266.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">cena 1: chegar (portao + garagem + hall + circulacao)</text>
-<text x="480.000" y="269.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">cena 2: dormir (tudo off, cortinas fechadas, alarme perimetral)</text>
-<text x="480.000" y="273.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">cena 3: cinema (estar a 20 %, cortina do estar fechada)</text>
-<text x="480.000" y="276.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">cena 4: fora (tudo off, cameras em gravacao por movimento)</text>
+<text x="481.500" y="164.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SR-01</text>
+<text x="501.500" y="164.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fachada norte, sob o beiral</text>
+<text x="541.500" y="164.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sirene externa 120 dB com bateria</text>
+<polygon points="480.000,166.000 636.000,166.000 636.000,169.800 480.000,169.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="167.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CENTRAL</text>
+<text x="501.500" y="167.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rack</text>
+<text x="541.500" y="167.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">central de alarme no rack TC-07, GPRS + Wi-F</text>
+<line x1="500.000" y1="143.200" x2="500.000" y2="169.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="540.000" y1="143.200" x2="540.000" y2="169.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="480.000" y="172.800" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AUTOMACAO — MODULOS, CORTINAS E SENSORES</text>
+<polygon points="480.000,175.800 636.000,175.800 636.000,179.400 480.000,179.400" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="481.500" y="177.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COD</text>
+<text x="511.500" y="177.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AMB</text>
+<text x="529.500" y="177.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">TIPO</text>
+<polygon points="480.000,179.400 636.000,179.400 636.000,183.000 480.000,183.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="181.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-GAR</text>
+<text x="511.500" y="181.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GAR</text>
+<text x="529.500" y="181.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
+<polygon points="480.000,183.000 636.000,183.000 636.000,186.600 480.000,186.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="184.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-GOU</text>
+<text x="511.500" y="184.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GOU</text>
+<text x="529.500" y="184.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dimmer Zigbee 200 W</text>
+<polygon points="480.000,186.600 636.000,186.600 636.000,190.200 480.000,190.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="188.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-SOC</text>
+<text x="511.500" y="188.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-SOC</text>
+<text x="529.500" y="188.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dimmer Zigbee 200 W</text>
+<polygon points="480.000,190.200 636.000,190.200 636.000,193.800 480.000,193.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="192.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-COZ</text>
+<text x="511.500" y="192.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
+<text x="529.500" y="192.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dimmer Zigbee 200 W</text>
+<polygon points="480.000,193.800 636.000,193.800 636.000,197.400 480.000,197.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="195.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-COR</text>
+<text x="511.500" y="195.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COR</text>
+<text x="529.500" y="195.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
+<polygon points="480.000,197.400 636.000,197.400 636.000,201.000 480.000,201.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="199.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-S-HAL</text>
+<text x="511.500" y="199.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-HAL</text>
+<text x="529.500" y="199.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
+<polygon points="480.000,201.000 636.000,201.000 636.000,204.600 480.000,204.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="202.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-HAL</text>
+<text x="511.500" y="202.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-HAL</text>
+<text x="529.500" y="202.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
+<polygon points="480.000,204.600 636.000,204.600 636.000,208.200 480.000,208.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="206.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-S-LOU</text>
+<text x="511.500" y="206.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-LOU</text>
+<text x="529.500" y="206.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">dimmer Zigbee 200 W</text>
+<polygon points="480.000,208.200 636.000,208.200 636.000,211.800 480.000,211.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="210.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-T-CIR</text>
+<text x="511.500" y="210.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-CIR</text>
+<text x="529.500" y="210.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
+<polygon points="480.000,211.800 636.000,211.800 636.000,215.400 480.000,215.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="213.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-S-CIR</text>
+<text x="511.500" y="213.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CIR</text>
+<text x="529.500" y="213.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
+<polygon points="480.000,215.400 636.000,215.400 636.000,219.000 480.000,219.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="217.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-ILU-S-CI2</text>
+<text x="511.500" y="217.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CI2</text>
+<text x="529.500" y="217.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 10 A</text>
+<polygon points="480.000,219.000 636.000,219.000 636.000,222.600 480.000,222.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="220.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-IF</text>
+<text x="511.500" y="220.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">externo</text>
+<text x="529.500" y="220.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">rele Zigbee 16 A + relogio astronomico</text>
+<polygon points="480.000,222.600 636.000,222.600 636.000,226.200 480.000,226.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="224.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">AUT-PORTAO</text>
+<text x="511.500" y="224.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GAR</text>
+<text x="529.500" y="224.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">contato seco no motor do portao</text>
+<polygon points="480.000,226.200 636.000,226.200 636.000,229.800 480.000,229.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="228.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CORT-T-REV</text>
+<text x="511.500" y="228.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-REV</text>
+<text x="529.500" y="228.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">motor tubular Zigbee 1,2 N.m no trilho d</text>
+<polygon points="480.000,229.800 636.000,229.800 636.000,233.400 480.000,233.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="231.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CORT-S-S02</text>
+<text x="511.500" y="231.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
+<text x="529.500" y="231.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">motor tubular Zigbee 1,2 N.m no trilho d</text>
+<polygon points="480.000,233.400 636.000,233.400 636.000,237.000 480.000,237.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="235.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CORT-S-S03</text>
+<text x="511.500" y="235.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
+<text x="529.500" y="235.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">motor tubular Zigbee 1,2 N.m no trilho d</text>
+<polygon points="480.000,237.000 636.000,237.000 636.000,240.600 480.000,240.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="238.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CORT-S-MAS</text>
+<text x="511.500" y="238.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
+<text x="529.500" y="238.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">motor tubular Zigbee 1,2 N.m no trilho d</text>
+<polygon points="480.000,240.600 636.000,240.600 636.000,244.200 480.000,244.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="242.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-T-HAL</text>
+<text x="511.500" y="242.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-HAL</text>
+<text x="529.500" y="242.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
+<polygon points="480.000,244.200 636.000,244.200 636.000,247.800 480.000,247.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="246.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-T-CIR</text>
+<text x="511.500" y="246.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-CIR</text>
+<text x="529.500" y="246.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
+<polygon points="480.000,247.800 636.000,247.800 636.000,251.400 480.000,251.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="249.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-T-COR</text>
+<text x="511.500" y="249.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COR</text>
+<text x="529.500" y="249.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
+<polygon points="480.000,251.400 636.000,251.400 636.000,255.000 480.000,255.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="253.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-S-CIR</text>
+<text x="511.500" y="253.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CIR</text>
+<text x="529.500" y="253.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
+<polygon points="480.000,255.000 636.000,255.000 636.000,258.600 480.000,258.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="481.500" y="256.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-S-CI2</text>
+<text x="511.500" y="256.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-CI2</text>
+<text x="529.500" y="256.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
+<polygon points="480.000,258.600 636.000,258.600 636.000,262.200 480.000,262.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="481.500" y="260.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">PRES-S-HAL</text>
+<text x="511.500" y="260.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-HAL</text>
+<text x="529.500" y="260.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">presenca + luminosidade Zigbee, acende a</text>
+<line x1="510.000" y1="175.800" x2="510.000" y2="262.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="528.000" y1="175.800" x2="528.000" y2="262.200" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="480.000" y="270.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">cena 1: chegar (portao + garagem + hall + circulacao)</text>
+<text x="480.000" y="273.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">cena 2: dormir (tudo off, cortinas fechadas, alarme perimetral)</text>
+<text x="480.000" y="277.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">cena 3: cinema (estar a 20 %, cortina do estar fechada)</text>
+<text x="480.000" y="280.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#333" text-anchor="start" dominant-baseline="middle">cena 4: fora (tudo off, cameras em gravacao por movimento)</text>
 </g>
 </svg>

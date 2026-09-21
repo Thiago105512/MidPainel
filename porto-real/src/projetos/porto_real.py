@@ -500,7 +500,7 @@ LAVABOS = {"T-COR/LAVABO"}
 # tipo: (largura, altura, peitoril, familia)
 # =========================================================================
 ESQUADRIAS = {
-    "PG01": (5_400, 2_400,     0, "portao de correr, aluminio ripado"),
+    "PG01": (5_400, 2_400,     0, "portao de correr, aluminio ripado (opcional, mantido: PG01_OPCIONAL)"),
     "P01":  (1_100, 2_800,     0, "porta principal, alta opaca"),
     "P02":  (  900, 2_100,     0, "porta interna (familia unificada)"),
     "P04":  (  900, 2_100,     0, "porta de servico, resistente a umidade"),
@@ -746,15 +746,39 @@ PISO_EXTERNO = [
 # superficie do lote (acesso e passeio em piso drenante) e a cena 3D.
 # O portao de veiculos alinha com a garagem e o de pedestres com a porta
 # principal — quem entra a pe caminha reto ate a varanda, sem contornar carro.
-# R82 — a imagem de referencia nao tem muro: a casa e a fachada. A testada
-# desce para uma mureta de 1,0 m (o portao ripado continua); as tres divisas
-# ficam em 2,2 m (privacidade e seguranca com os vizinhos).
-MURO_TESTADA_ALTURA = 1_000
-PORTAO_TESTADA = dict(
+# R83 — CASA DE CONDOMINIO: a testada e ABERTA. Nao ha muro nem portao na
+# rua; o lote fecha so nas duas laterais e no fundo (ALT_MURO). O que existe
+# na testada e o ACESSO: a faixa de veiculos, na linha da garagem, e o passeio
+# de pedestre, na linha da porta P01 — os dois em piso drenante. O nome mudou
+# de PORTAO_TESTADA para ACESSO_TESTADA porque nao ha portao ali; a
+# geometria e a mesma e continua sendo a unica fonte para o 3D, a retencao
+# pluvial, o canteiro e as cameras.
+MURO_TESTADA_ALTURA = 0
+ACESSO_TESTADA = dict(
     veiculo_x=5_400, veiculo_larg=5_400,      # centrado na garagem
     pedestre_x=9_300, pedestre_larg=1_200,    # alinhado com P01
     razao="o carro entra na linha da garagem e a pessoa na linha da porta",
 )
+# R83 — PORTOES LATERAIS. Cada passagem lateral (entre a casa e a divisa)
+# fecha na linha da frente da casa com um portao da MESMA familia do da
+# garagem (PG01: aluminio grafite ripado). A largura NAO se digita: e a da
+# propria passagem, derivada da casa e do lote (externo.portoes_laterais).
+# Pivotante, e nao de correr, porque a passagem e estreita demais para o
+# trilho de recolhimento; acima de FOLHA_MAX (H) vai em duas folhas.
+# passo do ripado = 80 mm, o do brise de privacidade BR-S2: portao lateral
+# e fechamento de privacidade, nao sombreamento.
+PORTOES_LATERAIS = [
+    dict(cod="PG02", lado="esq", y=RECUO_FRENTE, altura=ALT_MURO, familia="PG01", passo=80,
+         motivo="fecha o recuo lateral esquerdo (sul) na linha da frente da casa"),
+    dict(cod="PG03", lado="dir", y=RECUO_FRENTE, altura=ALT_MURO, familia="PG01", passo=80,
+         motivo="fecha o jardim norte e a faixa tecnica na linha da frente da casa"),
+]
+PORTAO_FOLHA_MAX = 2_600     # (H) fabricante — maior folha pivotante ripada, mm
+# R83 — o portao da garagem PG01 e OPCIONAL: num condominio a garagem pode
+# ficar aberta; o proprietario o mantem por privacidade. Fica no modelo, no
+# BOM e na cena; a decisao esta registrada aqui e sai na prancha.
+PG01_OPCIONAL = dict(opcional=True, mantido=True,
+                     motivo="privacidade do proprietario; a garagem aberta para a rua era a alternativa")
 
 FAIXA_TECNICA = dict(x=16_800, y=0, w=3_200, h=LOTE_P)     # lateral direita
 # A caixa estava sobre o VAZIO do core: 25 kN apoiados em uma plataforma de
@@ -4037,6 +4061,14 @@ REVISOES = [
      "estar; muro da testada desce a 1,0 m (MURO_TESTADA_ALTURA). O codigo de "
      "peca passa a 4 caracteres de hash (3 colidiram). Descida de carga: verga "
      "entre pilares nao carrega king stud"),
+    ("R83", "CASA DE CONDOMINIO: TESTADA ABERTA. Nao ha muro nem portao na rua; o "
+     "lote fecha nas laterais e no fundo (2,2 m). PORTAO_TESTADA vira "
+     "ACESSO_TESTADA (faixa de veiculos e passeio, sem portao). Portoes "
+     "laterais PG02/PG03 na linha da frente da casa, mesma familia do PG01, "
+     "largura derivada da passagem. PG01 (garagem) registrado como opcional e "
+     "mantido por privacidade. Videoporteiro e fechadura eletrica vao do portao "
+     "de pedestre (que nao existe mais) para a porta P01; camera do acesso "
+     "olha a rua da frente da garagem. Briefing de imagens gerado do modelo"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4245,13 +4277,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R82",
+    revisao="R83",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R82", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R83", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

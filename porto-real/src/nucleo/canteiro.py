@@ -103,7 +103,7 @@ def zonas(pj) -> list[dict]:
     """Cada zona com retangulo no referencial do modelo (x norte, y oeste)."""
     L = _lote_canteiro(pj)
     pl = _plataforma(pj)
-    pg = pj.PORTAO_TESTADA
+    pg = pj.ACESSO_TESTADA
     pn_ = paineis_para_canteiro(pj)
     pc = placas_para_canteiro(pj)
     rec = L["recuo"]

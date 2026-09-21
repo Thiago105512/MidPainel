@@ -1,0 +1,1505 @@
+{
+ "projeto": {
+  "nome": "Residencia Porto Real",
+  "local": "Condominio Porto Real, Taruma, Manaus/AM",
+  "tipologia": "sobrado contemporaneo em condominio fechado",
+  "sistema": "Light Steel Frame sobre radier",
+  "area_construida_m2": 307.08,
+  "revisao": "R83",
+  "estilo": "contemporaneo, volumes retos, poucos materiais, horizontalidade"
+ },
+ "orientacao": {
+  "rua": "leste",
+  "vista_da_rua": "quem esta na rua olha para oeste: NORTE a direita, SUL a esquerda",
+  "sol": "frente recebe o sol da manha; a piscina e o fundo recebem o sol da tarde"
+ },
+ "terreno": {
+  "lote_m": {
+   "frente": 20.0,
+   "profundidade": 40.0,
+   "area_m2": 800.0
+  },
+  "rua": "a LESTE; o terreno e plano, dentro de condominio fechado",
+  "fechamento": {
+   "frente": "ABERTA: nao ha muro, mureta, grade nem portao na rua — a casa e a fachada, com jardim e piso drenante ate a calcada",
+   "laterais_e_fundo": "muro de bloco de concreto aparente, 2.2 m, junta rebaixada, sem pintura",
+   "portoes_laterais": [
+    {
+     "cod": "PG02",
+     "onde": "lateral esquerda (sul)",
+     "largura_m": 2.26,
+     "altura_m": 2.2,
+     "abertura": "pivotante, uma folha",
+     "material": "aluminio grafite ripado, mesma familia de PG01",
+     "posicao": "na linha da frente da casa, fechando a passagem entre a casa e o muro"
+    },
+    {
+     "cod": "PG03",
+     "onde": "lateral direita (norte)",
+     "largura_m": 4.86,
+     "altura_m": 2.2,
+     "abertura": "pivotante, duas folhas",
+     "material": "aluminio grafite ripado, mesma familia de PG01",
+     "posicao": "na linha da frente da casa, fechando a passagem entre a casa e o muro"
+    }
+   ]
+  },
+  "acessos": {
+   "veiculos": "faixa de piso drenante claro de 5.4 m, reta, da calcada ao portao da garagem",
+   "pedestre": "passeio de piso drenante claro de 1.2 m, reto, da calcada a porta de entrada",
+   "resto_do_recuo": "grama e jardim (vasos com formio e agave no jardim leste)"
+  }
+ },
+ "volumetria": {
+  "pavimentos": 2,
+  "sistema": "Light Steel Frame sobre radier; aparencia externa lisa, sem textura de bloco",
+  "terreo": {
+   "largura_norte_sul_m": 12.6,
+   "profundidade_leste_oeste_m": 19.2,
+   "recuo_da_rua_m": 7.2,
+   "recuo_lateral_esquerda_m": 2.4,
+   "pe_direito_m": 2.9
+  },
+  "superior": {
+   "largura_norte_sul_m": 13.2,
+   "profundidade_leste_oeste_m": 18.0,
+   "recuo_da_rua_m": 7.2,
+   "recuo_lateral_esquerda_m": 2.4,
+   "pe_direito_m": 2.9,
+   "nivel_do_piso_m": 3.3,
+   "posicao": "ALINHADO com a frente da garagem: o volume superior fica SOBRE a garagem, o hall e o quarto da frente, sem recuo em relacao a rua"
+  },
+  "altura_total_m": 6.75,
+  "cobertura": {
+   "tipo": "plana, escondida por platibanda — de fora NAO se ve telha nem beiral inclinado",
+   "inclinacao": "5 % para as calhas internas",
+   "fascia": "linha escura continua de 450 mm de aluminio grafite dobrado, rufo integrado no topo de toda platibanda, terreo e superior"
+  },
+  "varanda_gourmet": {
+   "onde": "fundo (oeste), voltada para a piscina",
+   "profundidade_m": 3.0,
+   "largura_m": 7.2,
+   "cobertura": "laje em balanco de 3.000 mm (V-11 a cada 1.200 mm), sem pilar na frente — nenhuma coluna entre a mesa e a piscina",
+   "forro": "laminas de madeira composita ventiladas, continuas com o forro interno atravessando a linha da cortina"
+  },
+  "pe_direito_duplo": [
+   "T-SOC",
+   "T-COR"
+  ],
+  "lanternim": "sobre a metade sul do estar, veneziana de aluminio grafite em duas faces, vidro leitoso; visto so de longe ou de cima"
+ },
+ "materiais": {
+  "regra": "no maximo 3 familias de acabamento na fachada; controlado, concentrado na fachada posterior; nenhum sem funcao termica ou de composicao",
+  "familias": [
+   {
+    "nome": "Mineral claro de grande formato",
+    "onde": "placa cimenticia com revestimento mineral 1.200 x 2.400, junta seca de 6 mm"
+   },
+   {
+    "nome": "Aluminio grafite ripado",
+    "onde": "portao de correr, brises, guarda-corpo e fascia da platibanda"
+   },
+   {
+    "nome": "Madeira",
+    "onde": "folha da porta de entrada e forro do portico"
+   }
+  ],
+  "tratamento_das_paredes": {
+   "base_terreo": {
+    "desc": "pintura mineral clara, fosca, ate 2,6 m do chao (o que se alcanca do chao)",
+    "cor_ref": "#cfc8bc"
+   },
+   "volume_superior": {
+    "desc": "placa mineral clara de grande formato 1,2 x 2,4 m, junta seca de 6 mm em malha visivel",
+    "cor_ref": "#ebe7e0"
+   }
+  },
+  "aluminio_grafite": {
+   "desc": "ripas verticais tubulares 50 x 20 mm, grafite escuro fosco; mesma familia em portao, brises, guarda-corpo, fascia e caixilhos",
+   "cor_ref": "#4a4f55"
+  },
+  "madeira": {
+   "desc": "folha da porta de entrada e forro do portico, madeira natural de tom medio",
+   "cor_ref": "#9b7245"
+  },
+  "vidro": {
+   "desc": "incolor; low-e onde declarado; caixilho grafite",
+   "cor_ref": "#8fc4dd"
+  },
+  "piso_externo": [
+   {
+    "zona": "faixa seca da piscina",
+    "material": "porcelanato externo claro R11",
+    "porque": "e onde se anda descalco no pico do sol"
+   },
+   {
+    "zona": "lounge e circulacao do deck",
+    "material": "WPC coextrudado claro",
+    "porque": "area de permanencia com mobiliario e sombra"
+   },
+   {
+    "zona": "patio e deck descoberto",
+    "material": "porcelanato externo claro R11",
+    "porque": "sol pleno ou churrasqueira: superficie fria, lavavel e sem movimento termico — a mesma peca da faixa da piscina"
+   },
+   {
+    "zona": "passeio e acesso",
+    "material": "piso drenante intertravado claro",
+    "porque": "compensa a permeabilidade perdida pelo deck"
+   },
+   {
+    "zona": "varanda do pavimento superior",
+    "material": "porcelanato externo claro R11",
+    "porque": "mesma exigencia de piso molhado e descalco da faixa da piscina, sem acrescentar familia"
+   }
+  ],
+  "muro": {
+   "desc": "bloco de concreto aparente cinza claro, junta rebaixada",
+   "cor_ref": "#b4ada3"
+  },
+  "piscina": {
+   "desc": "agua azul clara sobre revestimento claro",
+   "cor_ref": "#5aa7c8"
+  }
+ },
+ "fachadas": [
+  {
+   "face": "frente (leste, rua)",
+   "largura_terreo_m": 13.2,
+   "largura_superior_m": 13.2,
+   "fracao_de_vidro": "9 %",
+   "vaos": [
+    {
+     "tipo": "PG01",
+     "pav": "terreo",
+     "largura_m": 5.4,
+     "altura_m": 2.4,
+     "peitoril_m": 0.0,
+     "familia": "portao de correr, aluminio ripado (opcional, mantido: PG01_OPCIONAL)",
+     "ambiente": "T-GAR"
+    },
+    {
+     "tipo": "P01",
+     "pav": "terreo",
+     "largura_m": 1.1,
+     "altura_m": 2.8,
+     "peitoril_m": 0.0,
+     "familia": "porta principal, alta opaca",
+     "ambiente": "T-HAL"
+    },
+    {
+     "tipo": "J05",
+     "pav": "terreo",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela ampla de dormitorio, aluminio",
+     "ambiente": "T-REV"
+    },
+    {
+     "tipo": "J01",
+     "pav": "terreo",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela de dormitorio, aluminio",
+     "ambiente": "T-ALC"
+    },
+    {
+     "tipo": "P04",
+     "pav": "terreo",
+     "largura_m": 0.9,
+     "altura_m": 2.1,
+     "peitoril_m": 0.0,
+     "familia": "porta de servico, resistente a umidade",
+     "ambiente": "T-COZ"
+    },
+    {
+     "tipo": "J01",
+     "pav": "superior",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela de dormitorio, aluminio",
+     "ambiente": "S-S02"
+    },
+    {
+     "tipo": "J04",
+     "pav": "superior",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "peitoril_m": 1.5,
+     "familia": "janela alta de banheiro, basculante",
+     "ambiente": "S-S02"
+    },
+    {
+     "tipo": "J01",
+     "pav": "superior",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela de dormitorio, aluminio",
+     "ambiente": "S-S03"
+    }
+   ],
+   "brises": [
+    {
+     "cod": "BR-L",
+     "pav": "terreo",
+     "comprimento_m": 3.0,
+     "altura_m": 1.5,
+     "tipo": "ripado vertical fixo",
+     "passo_mm": 150,
+     "o_que_faz": "quarto reversivel - testada leste"
+    },
+    {
+     "cod": "BR-LS",
+     "pav": "superior",
+     "comprimento_m": 10.8,
+     "altura_m": 1.5,
+     "tipo": "ripado vertical fixo",
+     "passo_mm": 80,
+     "o_que_faz": "volume superior sobre a rua — faixa continua sobre as quatro janelas da frente"
+    }
+   ],
+   "composicao": "terreo: portao da garagem ripado grafite a esquerda, portico de entrada recuado com porta alta de madeira e forro de madeira no centro, quarto da frente a direita. Superior: volume alinhado com a garagem, faixa continua de ripas grafite sobre as quatro janelas; fascia escura no topo. Sem muro na frente.",
+   "portao_da_garagem": {
+    "tipo": "de correr, aluminio grafite ripado",
+    "largura_m": 5.4,
+    "altura_m": 2.4,
+    "opcional": true,
+    "mantido": true,
+    "motivo": "privacidade do proprietario; a garagem aberta para a rua era a alternativa"
+   }
+  },
+  {
+   "face": "fundo (oeste, piscina)",
+   "largura_terreo_m": 13.2,
+   "largura_superior_m": 13.2,
+   "fracao_de_vidro": "33 %",
+   "vaos": [
+    {
+     "tipo": "P04",
+     "pav": "terreo",
+     "largura_m": 0.9,
+     "altura_m": 2.1,
+     "peitoril_m": 0.0,
+     "familia": "porta de servico, resistente a umidade",
+     "ambiente": "T-OFI"
+    },
+    {
+     "tipo": "J04",
+     "pav": "terreo",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "peitoril_m": 1.5,
+     "familia": "janela alta de banheiro, basculante",
+     "ambiente": "T-DEP"
+    },
+    {
+     "tipo": "CV01",
+     "pav": "terreo",
+     "largura_m": 7.2,
+     "altura_m": 2.6,
+     "peitoril_m": 0.0,
+     "familia": "CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro laminado 6+6 low-e (g <= 0,35), sem montante vertical",
+     "ambiente": "T-GOU"
+    },
+    {
+     "tipo": "PV02",
+     "pav": "superior",
+     "largura_m": 2.4,
+     "altura_m": 2.4,
+     "peitoril_m": 0.0,
+     "familia": "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)",
+     "ambiente": "S-MAS"
+    }
+   ],
+   "brises": [
+    {
+     "cod": "BR-O",
+     "pav": "terreo",
+     "comprimento_m": 4.2,
+     "altura_m": 1.5,
+     "tipo": "ripado vertical MOVEL, recolhivel",
+     "passo_mm": 150,
+     "o_que_faz": "alpendre do gourmet - recolhe totalmente para liberar a vista da piscina"
+    },
+    {
+     "cod": "BR-OS",
+     "pav": "superior",
+     "comprimento_m": 6.0,
+     "altura_m": 1.5,
+     "tipo": "ripado vertical movel",
+     "passo_mm": 150,
+     "o_que_faz": "varanda master - pavimento superior"
+    }
+   ],
+   "composicao": "terreo: cortina de vidro de 7.2 m (8 folhas de 0.9 m, aberta por padrao) abrindo cozinha e gourmet para a varanda coberta em balanco de 3.0 m e para a piscina. Superior: varanda da suite master com brise ripado movel e guarda-corpo grafite."
+  },
+  {
+   "face": "lateral esquerda vista da rua (sul)",
+   "largura_terreo_m": 19.2,
+   "largura_superior_m": 18.0,
+   "fracao_de_vidro": "13 %",
+   "vaos": [
+    {
+     "tipo": "J05",
+     "pav": "terreo",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela ampla de dormitorio, aluminio",
+     "ambiente": "T-OFI"
+    },
+    {
+     "tipo": "J01",
+     "pav": "terreo",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela de dormitorio, aluminio",
+     "ambiente": "T-COZ"
+    },
+    {
+     "tipo": "PV02",
+     "pav": "terreo",
+     "largura_m": 2.4,
+     "altura_m": 2.4,
+     "peitoril_m": 0.0,
+     "familia": "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)",
+     "ambiente": "T-SOC"
+    },
+    {
+     "tipo": "J05",
+     "pav": "superior",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela ampla de dormitorio, aluminio",
+     "ambiente": "S-S02"
+    },
+    {
+     "tipo": "J05",
+     "pav": "superior",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela ampla de dormitorio, aluminio",
+     "ambiente": "S-MAS"
+    }
+   ],
+   "brises": [
+    {
+     "cod": "BR-S2",
+     "pav": "superior",
+     "comprimento_m": 1.8,
+     "altura_m": 1.5,
+     "tipo": "ripado vertical fixo",
+     "passo_mm": 80,
+     "o_que_faz": "janela ampla da suite 02 — privacidade contra a divisa sul"
+    }
+   ]
+  },
+  {
+   "face": "lateral direita vista da rua (norte)",
+   "largura_terreo_m": 19.2,
+   "largura_superior_m": 18.0,
+   "fracao_de_vidro": "20 %",
+   "vaos": [
+    {
+     "tipo": "J04",
+     "pav": "terreo",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "peitoril_m": 1.5,
+     "familia": "janela alta de banheiro, basculante",
+     "ambiente": "T-REV"
+    },
+    {
+     "tipo": "J02",
+     "pav": "terreo",
+     "largura_m": 0.6,
+     "altura_m": 0.6,
+     "peitoril_m": 1.5,
+     "familia": "janela de banheiro, alta translucida",
+     "ambiente": "T-COR"
+    },
+    {
+     "tipo": "J01",
+     "pav": "terreo",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela de dormitorio, aluminio",
+     "ambiente": "T-REV"
+    },
+    {
+     "tipo": "P04",
+     "pav": "terreo",
+     "largura_m": 0.9,
+     "altura_m": 2.1,
+     "peitoril_m": 0.0,
+     "familia": "porta de servico, resistente a umidade",
+     "ambiente": "T-LAV"
+    },
+    {
+     "tipo": "J01",
+     "pav": "terreo",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela de dormitorio, aluminio",
+     "ambiente": "T-LAV"
+    },
+    {
+     "tipo": "P04",
+     "pav": "terreo",
+     "largura_m": 0.9,
+     "altura_m": 2.1,
+     "peitoril_m": 0.0,
+     "familia": "porta de servico, resistente a umidade",
+     "ambiente": "T-DEP"
+    },
+    {
+     "tipo": "PV02",
+     "pav": "terreo",
+     "largura_m": 2.4,
+     "altura_m": 2.4,
+     "peitoril_m": 0.0,
+     "familia": "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)",
+     "ambiente": "T-COR"
+    },
+    {
+     "tipo": "PV02",
+     "pav": "terreo",
+     "largura_m": 2.4,
+     "altura_m": 2.4,
+     "peitoril_m": 0.0,
+     "familia": "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)",
+     "ambiente": "T-GOU"
+    },
+    {
+     "tipo": "J01",
+     "pav": "superior",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela de dormitorio, aluminio",
+     "ambiente": "S-LOU"
+    },
+    {
+     "tipo": "J05",
+     "pav": "superior",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela ampla de dormitorio, aluminio",
+     "ambiente": "S-S03"
+    },
+    {
+     "tipo": "J04",
+     "pav": "superior",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "peitoril_m": 1.5,
+     "familia": "janela alta de banheiro, basculante",
+     "ambiente": "S-S03"
+    },
+    {
+     "tipo": "J04",
+     "pav": "superior",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "peitoril_m": 1.5,
+     "familia": "janela alta de banheiro, basculante",
+     "ambiente": "S-MAS"
+    },
+    {
+     "tipo": "J01",
+     "pav": "superior",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "peitoril_m": 1.1,
+     "familia": "janela de dormitorio, aluminio",
+     "ambiente": "S-MAS"
+    }
+   ],
+   "brises": []
+  }
+ ],
+ "entrada": {
+  "portico": {
+   "largura_m": 1.8,
+   "profundidade_m": 2.4,
+   "forro": "madeira",
+   "piso": "porcelanato externo claro"
+  },
+  "porta": {
+   "largura_m": 1.1,
+   "altura_m": 2.8,
+   "desc": "porta principal, alta opaca, madeira natural, sem vidro"
+  },
+  "iluminacao": [
+   {
+    "onde": "reentrancia do portico de entrada",
+    "tipo": "perfil linear LED IP65, 2.700 K, 8 W/m, embutido no forro",
+    "efeito": "lava a folha de madeira da porta e marca a profundidade do portico"
+   },
+   {
+    "onde": "sob o beiral do volume superior",
+    "tipo": "perfil linear LED IP65, 2.700 K, 8 W/m",
+    "efeito": "risco horizontal continuo: e ele que faz a casa parecer baixa e longa a noite"
+   },
+   {
+    "onde": "uplight nas palmeiras da entrada",
+    "tipo": "projetor de solo 7 W, 2.700 K, feixe 15 graus",
+    "efeito": "profundidade: a copa iluminada recua o plano de fundo"
+   }
+  ]
+ },
+ "area_externa": {
+  "piscina": {
+   "onde": "fundo do lote (oeste), no eixo da varanda gourmet",
+   "comprimento_m": 5.4,
+   "largura_m": 3.3,
+   "lamina_m2": 17.82,
+   "prainha": "1.2 m de prainha com 300 mm de agua",
+   "profundidade_m": 1.15,
+   "banco": "banco submerso em uma borda",
+   "borda": "porcelanato externo claro, faixa seca em volta",
+   "iluminacao": "3 LEDs submersos brancos quentes na parede leste"
+  },
+  "deck": {
+   "comprimento_m": 7.8,
+   "largura_m": 5.4,
+   "pisos": [
+    {
+     "zona": "faixa seca da piscina",
+     "material": "porcelanato externo claro R11",
+     "area_m2": 24.3
+    },
+    {
+     "zona": "lounge e circulacao do deck",
+     "material": "WPC coextrudado claro",
+     "area_m2": 33.12
+    },
+    {
+     "zona": "passeio e acesso",
+     "material": "piso drenante intertravado claro",
+     "area_m2": 30.96
+    },
+    {
+     "zona": "patio e deck descoberto",
+     "material": "porcelanato externo claro R11",
+     "area_m2": 43.2
+    },
+    {
+     "zona": "varanda do pavimento superior",
+     "material": "porcelanato externo claro R11",
+     "area_m2": 14.04
+    }
+   ]
+  },
+  "areas_abertas": [
+   {
+    "cod": "T-VAR",
+    "nome": "Varanda De Entrada",
+    "largura_m": 1.8,
+    "profundidade_m": 2.4,
+    "piso": "piso drenante intertravado claro"
+   },
+   {
+    "cod": "T-JLE",
+    "nome": "Jardim Leste",
+    "largura_m": 1.8,
+    "profundidade_m": 2.4,
+    "piso": "grama e canteiro"
+   },
+   {
+    "cod": "T-JNO",
+    "nome": "Jardim Norte",
+    "largura_m": 1.8,
+    "profundidade_m": 6.0,
+    "piso": "grama e canteiro"
+   },
+   {
+    "cod": "T-LOG",
+    "nome": "Loggia Sul",
+    "largura_m": 3.0,
+    "profundidade_m": 3.0,
+    "piso": "piso drenante intertravado claro"
+   },
+   {
+    "cod": "T-DKL",
+    "nome": "Deck Norte",
+    "largura_m": 4.8,
+    "profundidade_m": 3.6,
+    "piso": "porcelanato externo claro R11"
+   },
+   {
+    "cod": "T-DKC",
+    "nome": "Deck Norte Coberto",
+    "largura_m": 4.8,
+    "profundidade_m": 2.4,
+    "piso": "WPC coextrudado claro"
+   },
+   {
+    "cod": "T-VRL",
+    "nome": "Varal Coberto",
+    "largura_m": 4.2,
+    "profundidade_m": 4.2,
+    "piso": "piso drenante intertravado claro"
+   },
+   {
+    "cod": "T-PAT",
+    "nome": "Patio Coberto Do Gourmet",
+    "largura_m": 6.0,
+    "profundidade_m": 3.6,
+    "piso": "porcelanato externo claro R11"
+   },
+   {
+    "cod": "T-PT2",
+    "nome": "Patio Descoberto",
+    "largura_m": 1.2,
+    "profundidade_m": 3.6,
+    "piso": "porcelanato externo claro R11"
+   },
+   {
+    "cod": "T-ALP",
+    "nome": "Varanda Gourmet",
+    "largura_m": 7.2,
+    "profundidade_m": 3.0,
+    "piso": "WPC coextrudado claro"
+   },
+   {
+    "cod": "T-DKP",
+    "nome": "Deck Da Piscina",
+    "largura_m": 7.8,
+    "profundidade_m": 5.4,
+    "piso": "porcelanato externo claro R11"
+   },
+   {
+    "cod": "T-JS2",
+    "nome": "Jardim Sul",
+    "largura_m": 1.2,
+    "profundidade_m": 5.4,
+    "piso": "grama e canteiro"
+   },
+   {
+    "cod": "T-JN2",
+    "nome": "Jardim Norte",
+    "largura_m": 1.8,
+    "profundidade_m": 2.4,
+    "piso": "grama e canteiro"
+   },
+   {
+    "cod": "T-JN3",
+    "nome": "Jardim Norte",
+    "largura_m": 5.4,
+    "profundidade_m": 7.8,
+    "piso": "grama e canteiro"
+   },
+   {
+    "cod": "T-JFU",
+    "nome": "Jardim De Fundo",
+    "largura_m": 14.4,
+    "profundidade_m": 4.8,
+    "piso": "grama e canteiro"
+   },
+   {
+    "cod": "S-BAL",
+    "nome": "Varanda Master",
+    "largura_m": 7.8,
+    "profundidade_m": 1.8,
+    "piso": "porcelanato externo claro R11"
+   }
+  ],
+  "paisagismo": [
+   {
+    "cod": "PA-01",
+    "especie": "Ipe-amarelo (Handroanthus)",
+    "qtd": 1,
+    "porte": "8 a 12 m",
+    "onde": "T-JFU",
+    "funcao": "sombra alta no fundo e floracao de estacao"
+   },
+   {
+    "cod": "PA-02",
+    "especie": "Jabuticabeira (Plinia cauliflora)",
+    "qtd": 1,
+    "porte": "6 a 9 m",
+    "onde": "T-JFU",
+    "funcao": "sombra densa e fruto no proprio tronco"
+   },
+   {
+    "cod": "PA-03",
+    "especie": "Vasos com Sansevieria e Zamioculca",
+    "qtd": 9,
+    "porte": "0,8 a 1,2 m",
+    "onde": "T-JS2",
+    "funcao": "massa verde na faixa sul de 1.800 mm, sem canteiro corrido e sem raiz junto ao radier"
+   },
+   {
+    "cod": "PA-04",
+    "especie": "Palmeira-acai (Euterpe oleracea)",
+    "qtd": 3,
+    "porte": "10 a 15 m",
+    "onde": "T-JFU",
+    "funcao": "verticalidade no canto noroeste, a sotavento da piscina"
+   },
+   {
+    "cod": "PA-05",
+    "especie": "Vasos com Formio e Agave",
+    "qtd": 6,
+    "porte": "0,6 a 1,0 m",
+    "onde": "T-JLE",
+    "funcao": "jardim de inverno leste, visto do banho"
+   },
+   {
+    "cod": "PA-06",
+    "especie": "Horta aromatica em vasos elevados",
+    "qtd": 6,
+    "porte": "0,4 a 0,8 m",
+    "onde": "T-ALP",
+    "funcao": "alecrim, manjericao e capim-limao na varanda, a dois passos da bancada e sob cobertura"
+   },
+   {
+    "cod": "PA-07",
+    "especie": "Seixo rolado claro e vasos",
+    "qtd": 3,
+    "porte": "—",
+    "onde": "T-JN2",
+    "funcao": "acabamento permeavel sob a varanda, onde nao chega chuva nem sol suficiente para planta de solo"
+   },
+   {
+    "cod": "PA-08",
+    "especie": "Piso drenante claro",
+    "qtd": 0,
+    "porte": "rasteira",
+    "onde": "T-DKP",
+    "funcao": "permeabilidade e albedo alto no entorno do deck, no lugar do gramado"
+   }
+  ],
+  "resumo": "5 arvores e 24 vasos; nenhuma arvore na frente alem das palmeiras iluminadas; jabuticabeira e ipe no fundo, acai no canto noroeste"
+ },
+ "interiores": [
+  {
+   "cod": "T-GAR",
+   "nome": "Garagem",
+   "pavimento": "terreo",
+   "uso": "garagem",
+   "largura_m": 6.0,
+   "profundidade_m": 6.0,
+   "area_m2": 36.0,
+   "pe_direito": "2.9 m",
+   "piso": "cimenticio polido com endurecedor de superficie",
+   "forro": "sem forro (estrutura aparente)",
+   "luz": "4000 K",
+   "subdivisoes": [],
+   "mobiliario": [
+    "carro"
+   ],
+   "armarios": [],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "PG01",
+     "largura_m": 5.4,
+     "altura_m": 2.4,
+     "familia": "portao de correr, aluminio ripado (opcional, mantido: PG01_OPCIONAL)"
+    }
+   ]
+  },
+  {
+   "cod": "T-HAL",
+   "nome": "Hall",
+   "pavimento": "terreo",
+   "uso": "circulacao",
+   "largura_m": 1.8,
+   "profundidade_m": 3.6,
+   "area_m2": 6.48,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "3000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "P01",
+     "largura_m": 1.1,
+     "altura_m": 2.8,
+     "familia": "porta principal, alta opaca"
+    }
+   ]
+  },
+  {
+   "cod": "T-ALC",
+   "nome": "Alcova Do Reversivel",
+   "pavimento": "terreo",
+   "uso": "dormitorio",
+   "largura_m": 1.8,
+   "profundidade_m": 1.8,
+   "area_m2": 3.24,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "2700 K",
+   "subdivisoes": [],
+   "mobiliario": [
+    "rack"
+   ],
+   "armarios": [
+    "guarda-roupa 0.6 x 1.8 m"
+   ],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "J01",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "familia": "janela de dormitorio, aluminio"
+    }
+   ]
+  },
+  {
+   "cod": "T-CIR",
+   "nome": "Circulacao",
+   "pavimento": "terreo",
+   "uso": "circulacao",
+   "largura_m": 1.8,
+   "profundidade_m": 1.8,
+   "area_m2": 3.24,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "3000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [],
+   "bancadas": [],
+   "aberturas_externas": []
+  },
+  {
+   "cod": "T-REV",
+   "nome": "Quarto Reversivel",
+   "pavimento": "terreo",
+   "uso": "dormitorio",
+   "largura_m": 3.0,
+   "profundidade_m": 6.0,
+   "area_m2": 18.0,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "2700 K",
+   "subdivisoes": [
+    {
+     "nome": "Banho",
+     "largura_m": 1.8,
+     "profundidade_m": 2.4
+    }
+   ],
+   "mobiliario": [
+    "cama"
+   ],
+   "armarios": [],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "J04",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "familia": "janela alta de banheiro, basculante"
+    },
+    {
+     "tipo": "J05",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "familia": "janela ampla de dormitorio, aluminio"
+    },
+    {
+     "tipo": "J01",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "familia": "janela de dormitorio, aluminio"
+    }
+   ]
+  },
+  {
+   "cod": "T-OFI",
+   "nome": "Oficina",
+   "pavimento": "terreo",
+   "uso": "oficina",
+   "largura_m": 3.0,
+   "profundidade_m": 3.0,
+   "area_m2": 9.0,
+   "pe_direito": "2.9 m",
+   "piso": "cimenticio polido com endurecedor de superficie",
+   "forro": "gesso do entrepiso EP-1, sem forro suspenso",
+   "luz": "4000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [
+    "armario alto 0.6 x 2.4 m"
+   ],
+   "bancadas": [
+    "bancada de trabalho da oficina, sob a janela — granito em vez de MDF: a oficina e o ambiente de maior abrasao e umidade da casa, e unificar o material derruba uma familia do quadro de compras"
+   ],
+   "aberturas_externas": [
+    {
+     "tipo": "P04",
+     "largura_m": 0.9,
+     "altura_m": 2.1,
+     "familia": "porta de servico, resistente a umidade"
+    },
+    {
+     "tipo": "J05",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "familia": "janela ampla de dormitorio, aluminio"
+    }
+   ]
+  },
+  {
+   "cod": "T-SOC",
+   "nome": "Estar / Jantar",
+   "pavimento": "terreo",
+   "uso": "social",
+   "largura_m": 4.2,
+   "profundidade_m": 6.0,
+   "area_m2": 25.2,
+   "pe_direito": "duplo",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso + cortinas e tapetes",
+   "luz": "3000 K",
+   "subdivisoes": [],
+   "mobiliario": [
+    "poltrona",
+    "rack",
+    "sofa",
+    "tapete",
+    "tv"
+   ],
+   "armarios": [],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "PV02",
+     "largura_m": 2.4,
+     "altura_m": 2.4,
+     "familia": "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)"
+    }
+   ]
+  },
+  {
+   "cod": "T-COR",
+   "nome": "Core / Escada",
+   "pavimento": "terreo",
+   "uso": "circulacao",
+   "largura_m": 2.4,
+   "profundidade_m": 6.0,
+   "area_m2": 14.4,
+   "pe_direito": "duplo",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "3000 K",
+   "subdivisoes": [
+    {
+     "nome": "Lavabo",
+     "largura_m": 1.2,
+     "profundidade_m": 1.8
+    }
+   ],
+   "mobiliario": [],
+   "armarios": [
+    "prateleiras 1.2 x 0.6 m"
+   ],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "J02",
+     "largura_m": 0.6,
+     "altura_m": 0.6,
+     "familia": "janela de banheiro, alta translucida"
+    },
+    {
+     "tipo": "PV02",
+     "largura_m": 2.4,
+     "altura_m": 2.4,
+     "familia": "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)"
+    }
+   ]
+  },
+  {
+   "cod": "T-COZ",
+   "nome": "Cozinha",
+   "pavimento": "terreo",
+   "uso": "social",
+   "largura_m": 3.0,
+   "profundidade_m": 7.2,
+   "area_m2": 21.6,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso lavavel",
+   "luz": "3000 K",
+   "subdivisoes": [
+    {
+     "nome": "Despensa",
+     "largura_m": 1.8,
+     "profundidade_m": 2.1
+    }
+   ],
+   "mobiliario": [],
+   "armarios": [
+    "prateleiras 0.3 x 2.1 m",
+    "prateleiras 0.3 x 2.1 m",
+    "armario alto 0.75 x 1.2 m"
+   ],
+   "bancadas": [
+    "cuba e preparo, sob a janela e de frente para a cortina",
+    "coccao — cooktop e apoio, junto a despensa"
+   ],
+   "aberturas_externas": [
+    {
+     "tipo": "P04",
+     "largura_m": 0.9,
+     "altura_m": 2.1,
+     "familia": "porta de servico, resistente a umidade"
+    },
+    {
+     "tipo": "J01",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "familia": "janela de dormitorio, aluminio"
+    }
+   ]
+  },
+  {
+   "cod": "T-GOU",
+   "nome": "Gourmet",
+   "pavimento": "terreo",
+   "uso": "social",
+   "largura_m": 4.2,
+   "profundidade_m": 7.2,
+   "area_m2": 30.24,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "forro absorvente (la mineral aparente ou perfurado, alfa 0,70)",
+   "luz": "3000 K",
+   "subdivisoes": [],
+   "mobiliario": [
+    "mesa"
+   ],
+   "armarios": [],
+   "bancadas": [
+    "peninsula SECA: passa-pratos da cozinha, apoio de servico do gourmet e refeicao rapida — banquetas pelo lado do gourmet",
+    "churrasqueira e cuba de apoio (400 x 340) — o gourmet assa, nao cozinha; a coccao e uma so, na cozinha"
+   ],
+   "aberturas_externas": [
+    {
+     "tipo": "PV02",
+     "largura_m": 2.4,
+     "altura_m": 2.4,
+     "familia": "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)"
+    },
+    {
+     "tipo": "CV01",
+     "largura_m": 7.2,
+     "altura_m": 2.6,
+     "familia": "CORTINA DE VIDRO retratil, 8 folhas de 900 mm de vidro laminado 6+6 low-e (g <= 0,35), sem montante vertical"
+    }
+   ]
+  },
+  {
+   "cod": "T-LAV",
+   "nome": "Lavanderia",
+   "pavimento": "terreo",
+   "uso": "servico",
+   "largura_m": 3.0,
+   "profundidade_m": 3.0,
+   "area_m2": 9.0,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato 600 x 600 antiderrapante R11",
+   "forro": "gesso liso",
+   "luz": "4000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [],
+   "bancadas": [
+    "tanque de lavanderia"
+   ],
+   "aberturas_externas": [
+    {
+     "tipo": "P04",
+     "largura_m": 0.9,
+     "altura_m": 2.1,
+     "familia": "porta de servico, resistente a umidade"
+    },
+    {
+     "tipo": "J01",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "familia": "janela de dormitorio, aluminio"
+    }
+   ]
+  },
+  {
+   "cod": "T-DEP",
+   "nome": "Deposito / Dml",
+   "pavimento": "terreo",
+   "uso": "servico",
+   "largura_m": 3.0,
+   "profundidade_m": 1.2,
+   "area_m2": 3.6,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato 600 x 600 antiderrapante R11",
+   "forro": "gesso do entrepiso EP-1, sem forro suspenso",
+   "luz": "4000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [
+    "prateleiras 2.8 x 0.3 m"
+   ],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "P04",
+     "largura_m": 0.9,
+     "altura_m": 2.1,
+     "familia": "porta de servico, resistente a umidade"
+    },
+    {
+     "tipo": "J04",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "familia": "janela alta de banheiro, basculante"
+    }
+   ]
+  },
+  {
+   "cod": "S-S02",
+   "nome": "Suite 02",
+   "pavimento": "superior",
+   "uso": "dormitorio",
+   "largura_m": 5.4,
+   "profundidade_m": 4.8,
+   "area_m2": 25.92,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso + la mineral sobre o forro",
+   "luz": "2700 K",
+   "subdivisoes": [
+    {
+     "nome": "Banho",
+     "largura_m": 1.8,
+     "profundidade_m": 2.4
+    }
+   ],
+   "mobiliario": [
+    "cama"
+   ],
+   "armarios": [
+    "guarda-roupa 0.6 x 2.4 m"
+   ],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "J05",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "familia": "janela ampla de dormitorio, aluminio"
+    },
+    {
+     "tipo": "J01",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "familia": "janela de dormitorio, aluminio"
+    },
+    {
+     "tipo": "J04",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "familia": "janela alta de banheiro, basculante"
+    }
+   ]
+  },
+  {
+   "cod": "S-S03",
+   "nome": "Suite 03",
+   "pavimento": "superior",
+   "uso": "dormitorio",
+   "largura_m": 5.4,
+   "profundidade_m": 4.8,
+   "area_m2": 25.92,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso + la mineral sobre o forro",
+   "luz": "2700 K",
+   "subdivisoes": [
+    {
+     "nome": "Banho",
+     "largura_m": 1.8,
+     "profundidade_m": 2.4
+    }
+   ],
+   "mobiliario": [
+    "cama"
+   ],
+   "armarios": [
+    "guarda-roupa 2.4 x 0.6 m"
+   ],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "J05",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "familia": "janela ampla de dormitorio, aluminio"
+    },
+    {
+     "tipo": "J01",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "familia": "janela de dormitorio, aluminio"
+    },
+    {
+     "tipo": "J04",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "familia": "janela alta de banheiro, basculante"
+    }
+   ]
+  },
+  {
+   "cod": "S-CIR",
+   "nome": "Circulacao Superior",
+   "pavimento": "superior",
+   "uso": "circulacao",
+   "largura_m": 1.2,
+   "profundidade_m": 3.6,
+   "area_m2": 4.32,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "3000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [],
+   "bancadas": [],
+   "aberturas_externas": []
+  },
+  {
+   "cod": "S-CI2",
+   "nome": "Corredor Das Suites",
+   "pavimento": "superior",
+   "uso": "circulacao",
+   "largura_m": 4.5,
+   "profundidade_m": 1.2,
+   "area_m2": 5.4,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "3000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [],
+   "bancadas": [],
+   "aberturas_externas": []
+  },
+  {
+   "cod": "S-HAL",
+   "nome": "Hall E Rouparia",
+   "pavimento": "superior",
+   "uso": "circulacao",
+   "largura_m": 4.8,
+   "profundidade_m": 2.4,
+   "area_m2": 11.52,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "3000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [
+    "rouparia 4.2 x 0.6 m"
+   ],
+   "bancadas": [],
+   "aberturas_externas": []
+  },
+  {
+   "cod": "S-LOU",
+   "nome": "Mini Lounge / Tv",
+   "pavimento": "superior",
+   "uso": "social",
+   "largura_m": 3.0,
+   "profundidade_m": 2.4,
+   "area_m2": 7.2,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso",
+   "luz": "3000 K",
+   "subdivisoes": [],
+   "mobiliario": [],
+   "armarios": [],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "J01",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "familia": "janela de dormitorio, aluminio"
+    }
+   ]
+  },
+  {
+   "cod": "S-MAS",
+   "nome": "Suite Master",
+   "pavimento": "superior",
+   "uso": "dormitorio",
+   "largura_m": 7.8,
+   "profundidade_m": 6.0,
+   "area_m2": 46.8,
+   "pe_direito": "2.9 m",
+   "piso": "porcelanato retificado 900 x 900, acetinado",
+   "forro": "gesso liso + la mineral sobre o forro",
+   "luz": "2700 K",
+   "subdivisoes": [
+    {
+     "nome": "Banho",
+     "largura_m": 3.6,
+     "profundidade_m": 3.0
+    },
+    {
+     "nome": "Closet",
+     "largura_m": 3.0,
+     "profundidade_m": 3.0
+    },
+    {
+     "nome": "Office",
+     "largura_m": 1.8,
+     "profundidade_m": 3.0
+    }
+   ],
+   "mobiliario": [
+    "cama",
+    "rack",
+    "tv"
+   ],
+   "armarios": [
+    "gaveteiro 1.0 x 0.6 m"
+   ],
+   "bancadas": [],
+   "aberturas_externas": [
+    {
+     "tipo": "J05",
+     "largura_m": 1.8,
+     "altura_m": 1.2,
+     "familia": "janela ampla de dormitorio, aluminio"
+    },
+    {
+     "tipo": "PV02",
+     "largura_m": 2.4,
+     "altura_m": 2.4,
+     "familia": "porta-balcao do estar (familia adicional — ver DIVERGENCIAS)"
+    },
+    {
+     "tipo": "J04",
+     "largura_m": 0.8,
+     "altura_m": 0.9,
+     "familia": "janela alta de banheiro, basculante"
+    },
+    {
+     "tipo": "J01",
+     "largura_m": 1.2,
+     "altura_m": 1.2,
+     "familia": "janela de dormitorio, aluminio"
+    }
+   ]
+  }
+ ],
+ "regras_para_a_imagem": [
+  "NAO desenhar muro, grade, mureta ou portao de pedestre na frente: a testada e aberta, casa de condominio",
+  "muro de 2.2 m so nas laterais e no fundo, bloco aparente, sem pintura",
+  "NAO desenhar telhado aparente, telha, beiral inclinado ou cumeeira: cobertura plana atras de platibanda com fascia escura",
+  "o volume superior fica alinhado com a frente da garagem; nao ha recuo do superior em relacao a rua",
+  "ripas SEMPRE verticais, aluminio grafite; nunca madeira nas ripas — madeira so na porta de entrada e no forro do portico",
+  "pouco vidro na frente; o vidro grande esta atras, na cortina de vidro do gourmet voltada para a piscina",
+  "tres familias de material e nenhuma a mais: mineral claro, aluminio grafite, madeira",
+  "nao ha pilar na frente da varanda gourmet: a laje e em balanco",
+  "carros: dois, dentro da garagem; a faixa de acesso e reta e de piso drenante claro",
+  "clima: Manaus — vegetacao tropical densa no fundo, ceu claro, luz forte; nada de pinheiros ou gramado seco"
+ ],
+ "vistas_sugeridas": [
+  {
+   "id": "ext-000",
+   "titulo": "Vista do norte (faixa tecnica)"
+  },
+  {
+   "id": "ext-045",
+   "titulo": "Vista do noroeste"
+  },
+  {
+   "id": "ext-090",
+   "titulo": "Vista do oeste (piscina)"
+  },
+  {
+   "id": "ext-135",
+   "titulo": "Vista do sudoeste"
+  },
+  {
+   "id": "ext-180",
+   "titulo": "Vista do sul (loggia)"
+  },
+  {
+   "id": "ext-225",
+   "titulo": "Vista do sudeste"
+  },
+  {
+   "id": "ext-270",
+   "titulo": "Vista do leste (rua)"
+  },
+  {
+   "id": "ext-315",
+   "titulo": "Vista do nordeste"
+  },
+  {
+   "id": "rua-ne",
+   "titulo": "Da rua, esquina NE"
+  },
+  {
+   "id": "rua-se",
+   "titulo": "Da rua, esquina SE"
+  },
+  {
+   "id": "chegada",
+   "titulo": "Chegada — do acesso de veiculos"
+  },
+  {
+   "id": "aer-225",
+   "titulo": "Vista aerea do sudeste"
+  },
+  {
+   "id": "aer-045",
+   "titulo": "Vista aerea do noroeste"
+  },
+  {
+   "id": "int-social",
+   "titulo": "Estar com pe-direito duplo, escada e cozinha ao fundo, cortina de vidro aberta para a piscina"
+  },
+  {
+   "id": "int-gourmet",
+   "titulo": "Gourmet e varanda coberta em balanco, mesa de 8, piscina em segundo plano ao entardecer"
+  },
+  {
+   "id": "int-master",
+   "titulo": "Suite master olhando a piscina pela varanda com brise ripado movel"
+  },
+  {
+   "id": "int-suite",
+   "titulo": "Suite 02 sobre a garagem, janela da frente filtrada pela faixa de ripas grafite"
+  }
+ ]
+}

@@ -66,17 +66,39 @@ ZONA_DE_AREA = {
 JARDINS = ("T-JLE", "T-JNO", "T-JS2", "T-JN2", "T-JN3", "T-JFU")
 
 
+def portoes_laterais(pj) -> list[dict]:
+    """Portoes que fecham as passagens laterais na linha da frente da casa.
+
+    A largura e a da passagem: do muro ate a parede da casa, lida das
+    extremidades dos ambientes fechados do terreo. Uma folha ate
+    PORTAO_FOLHA_MAX; acima, duas. R83."""
+    xs = [a.x for a in pj.TERREO]; xe = [a.x + a.w for a in pj.TERREO]
+    x0, x1 = min(xs), max(xe)
+    L = pj.LOTE_L
+    e = MURO["espessura"]
+    out = []
+    for pg in getattr(pj, "PORTOES_LATERAIS", []):
+        a, b = (e, x0) if pg["lado"] == "esq" else (x1, L - e)
+        larg = b - a
+        folhas = 1 if larg <= pj.PORTAO_FOLHA_MAX else 2
+        out.append(dict(pg, x0=a, x1=b, larg=larg, folhas=folhas, folha_larg=round(larg / folhas),
+                        area_m2=round(larg * pg["altura"] / 1e6, 2),
+                        abertura="pivotante, " + ("uma folha" if folhas == 1 else "duas folhas"),
+                        material="aluminio grafite ripado, mesma familia de PG01"))
+    return out
+
+
 def muro(pj) -> dict:
-    """Comprimento a partir do lote, descontando a testada com portao."""
+    """Comprimento a partir do lote. Testada so entra se tiver altura (R83:
+    casa de condominio, testada aberta — MURO_TESTADA_ALTURA = 0)."""
     L, P = pj.LOTE_L, pj.LOTE_P
-    pt = pj.PORTAO_TESTADA
+    pt = pj.ACESSO_TESTADA
     portao, acesso = pt["veiculo_larg"], pt["pedestre_larg"]
-    # tres divisas fechadas mais a testada menos o portao e menos o acesso
-    comp = (2 * P + L) + (L - portao - acesso)
-    # R82 — a testada pode ter altura propria (mureta); as divisas ficam em MURO
     h_test = getattr(pj, "MURO_TESTADA_ALTURA", MURO["altura"])
-    comp_test = L - portao - acesso
-    area = ((comp - comp_test) * MURO["altura"] + comp_test * h_test) / 1e6
+    # tres divisas fechadas; a testada, so se tiver altura, e entao menos os acessos
+    comp_test = (L - portao - acesso) if h_test > 0 else 0
+    comp = (2 * P + L) + comp_test
+    area = ((2 * P + L) * MURO["altura"] + comp_test * h_test) / 1e6
     blocos = int(area * MURO["blocos_m2"])
     pilaretes = int(comp / MURO["pilarete_cada"]) + 1
     return dict(
@@ -84,8 +106,9 @@ def muro(pj) -> dict:
         area=round(area, 1), blocos=blocos,
         graute_m3=round(area * MURO["graute_m3_m2"], 2),
         pilaretes=pilaretes, material=MURO["material"], norma=MURO["norma"],
-        obs="testada descontada do portao de "
-            f"{portao} mm e de {acesso} mm de acesso de pedestre")
+        testada_aberta=h_test == 0, portoes_laterais=portoes_laterais(pj),
+        obs=("testada ABERTA (casa de condominio): so laterais e fundo"
+             if h_test == 0 else f"testada descontada do portao de {portao} mm e de {acesso} mm de acesso de pedestre"))
 
 
 def pisos(pj) -> dict:

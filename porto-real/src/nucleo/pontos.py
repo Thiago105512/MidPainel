@@ -463,8 +463,9 @@ def tue(pj) -> list[dict]:
                 px, py = (bc["x"] + bc["w"] / 2, bc["y"] + bc["h"] / 2) if bc else (a.x + a.w / 2, a.y + a.h / 2)
                 pts.append(na_parede(a, px, py, Z_EXAUSTOR) | dict(onde=f"{ex['cod']} {ex['fonte']}", amb=ex["amb"], sub=ex["cod"]))
         elif "portao" in d:
-            pg = pj.PORTAO_TESTADA
-            pts.append(dict(x=pg["veiculo_x"] + pg["veiculo_larg"] / 2 + 300, y=0, z=Z_TUE_PISO, lado=None, onde="pilar do portao", externo=True))
+            pg = pj.ACESSO_TESTADA
+            # R83: o portao motorizado e o PG01, na linha da frente da garagem
+            pts.append(dict(x=pg["veiculo_x"] + pg["veiculo_larg"] / 2 + 300, y=pj.RECUO_FRENTE + 300, z=Z_TUE_PISO, lado=None, onde="pilar do portao PG01, lado interno da garagem", externo=True))
             amb = "T-GAR"
         elif "rack" in d:
             x, y = centro_tc("TC-07"); pts.append(dict(x=x, y=y, z=Z_TUE_PISO, lado=None, onde="TC-07"))

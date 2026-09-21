@@ -2349,7 +2349,9 @@ function vistaFachada() {
       <p class="conta" style="display:block;margin-top:10px;line-height:1.55">
         <b>Muro:</b> ${num(F.externo.muro.comprimento_m, 1)} m a
         ${F.externo.muro.altura / 1000} m = ${num(F.externo.muro.area, 1)} m²,
-        ${num(F.externo.muro.blocos)} blocos · ${esc2(F.externo.muro.material)}.<br>
+        ${num(F.externo.muro.blocos)} blocos · ${esc2(F.externo.muro.material)}
+        · ${esc2(F.externo.muro.obs)}${(F.externo.muro.portoes_laterais || []).map(p =>
+          ` · <b>${p.cod}</b> ${p.lado} ${p.larg} × ${p.altura} mm, ${p.abertura}`).join("")}.<br>
         <b>Piscina:</b> ${F.externo.piscina.lamina} m² de lâmina,
         ${F.externo.piscina.volume} m³, ${num(F.externo.piscina.revestimento_m2, 1)} m²
         de revestimento e ${num(F.externo.piscina.concreto_m3, 2)} m³ de casca.<br>

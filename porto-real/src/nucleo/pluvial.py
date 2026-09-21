@@ -43,7 +43,7 @@ C_SUPERFICIE = {
 # complemento do lote: o que existe no terreno e nao estava em ambiente nenhum.
 # Cada faixa e geometria, nao estimativa — sai dos recuos ja declarados e do
 # portao que o muro ja descontava.
-# largura e posicao vem de pj.PORTAO_TESTADA: o mesmo dado que abre o muro na
+# largura e posicao vem de pj.ACESSO_TESTADA: o mesmo dado que abre o muro na
 # cena 3D e que o comprimento do muro desconta. Tres consumidores, uma fonte.
 
 # chuva de projeto: uma so fonte para todo o projeto. A mesma intensidade que
@@ -95,7 +95,7 @@ def superficies(pj) -> list[dict]:
     dir_ = (L - x1) * P / 1e6
     frente = (x1 - x0) * y0 / 1e6
     fundo = (x1 - x0) * (P - y1) / 1e6
-    pt = pj.PORTAO_TESTADA
+    pt = pj.ACESSO_TESTADA
     acesso = pt["veiculo_larg"] * y0 / 1e6
     passeio = pt["pedestre_larg"] * y0 / 1e6
 

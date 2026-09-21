@@ -524,8 +524,8 @@ def canteiro() -> Canvas:
                     cv.texto_p(vw.pt(P(q["x"] + q["w"] / 2, q["y"] + q["h"] / 2)), rot[:58], TXT["micro"], "middle",
                                rot=90 if q["h"] > q["w"] * 1.6 else 0)
         # portoes
-        pg = pj.PORTAO_TESTADA
-        for x0, w_, rot in ((pg["veiculo_x"] - pg["veiculo_larg"] / 2, pg["veiculo_larg"], "portao veicular"),
+        pg = pj.ACESSO_TESTADA
+        for x0, w_, rot in ((pg["veiculo_x"] - pg["veiculo_larg"] / 2, pg["veiculo_larg"], "acesso veicular (testada aberta)"),
                             (pg["pedestre_x"] - pg["pedestre_larg"] / 2, pg["pedestre_larg"], "pedestre")):
             cv.linha_p(vw.pt(P(x0, 0)), vw.pt(P(x0 + w_, 0)), "grosso", cor="#c90")
             cv.texto_p(vw.pt(P(x0 + w_ / 2, -500)), rot, TXT["micro"], "middle", cor="#c90")

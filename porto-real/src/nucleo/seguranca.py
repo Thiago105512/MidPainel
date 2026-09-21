@@ -90,7 +90,7 @@ def cobertura_wifi(pj) -> list[dict]:
 
 def cameras(pj) -> list[dict]:
     L, Pf = pj.LOTE_L, pj.LOTE_P
-    pt = pj.PORTAO_TESTADA
+    pt = pj.ACESSO_TESTADA
     p01 = next((x, y) for t, x, y, o, p in pj.VAOS if t == "P01")
     gar = next(a for a in pj.TERREO if a.cod == "T-GAR")
     ps = pj.PISCINA
@@ -98,7 +98,7 @@ def cameras(pj) -> list[dict]:
             dict(cod="CAM-02", onde="canto norte-leste do muro", x=L - 600, y=600, olha="testada e faixa tecnica"),
             dict(cod="CAM-03", onde="canto sul-oeste do muro", x=600, y=Pf - 600, olha="fundo e recuo sul"),
             dict(cod="CAM-04", onde="canto norte-oeste do muro", x=L - 600, y=Pf - 600, olha="fundo e faixa tecnica"),
-            dict(cod="CAM-05", onde="portao de veiculos, lado interno", x=pt["veiculo_x"], y=1_200, olha="acesso e rua"),
+            dict(cod="CAM-05", onde="frente da garagem, sobre o PG01", x=pt["veiculo_x"], y=pj.RECUO_FRENTE - 300, olha="acesso, rua e testada aberta"),
             dict(cod="CAM-06", onde="portico de entrada", x=p01[0], y=p01[1] - 1_200, olha="porta de entrada e varanda"),
             dict(cod="CAM-07", onde="deck da piscina", x=ps["x"] + ps["w"] / 2, y=ps["y"] - 1_500, olha="piscina (seguranca de criancas)"),
             dict(cod="CAM-08", onde="garagem", x=gar.x + gar.w / 2, y=gar.y + gar.h - 600, olha="veiculos e rack")]
@@ -114,11 +114,18 @@ def alarme(pj) -> dict:
            if pj.vao_externo(x, y, o, p) and not t.startswith("J")]
     ivp = [dict(cod=f"IVP-{a.cod}", amb=a.cod, x=a.cx, y=a.cy, pav=_pav(a.cod))
            for a in pj.TERREO + pj.SUPERIOR if pj.CATEGORIA.get(a.cod) in ("circulacao", "social", "apoio")]
-    pt = pj.PORTAO_TESTADA
-    acesso = [dict(cod="VP-01", onde="portao de pedestre", x=pt["pedestre_x"], y=0, item="videoporteiro IP com abertura remota"),
-              dict(cod="FE-01", onde="portao de pedestre", x=pt["pedestre_x"], y=0, item="fechadura eletromagnetica 12 V, botoeira interna"),
-              dict(cod="FE-02", onde="porta de entrada P01", x=9_300, y=9_600, item="fechadura eletronica biometrica + senha"),
+    import nucleo.externo as _ex
+    p01 = next((x, y) for t, x, y, o, p in pj.VAOS if t == "P01")
+    # R83 — testada aberta: nao ha portao de pedestre. O videoporteiro vai para
+    # o portico da P01 e as fechaduras eletricas para os portoes laterais.
+    acesso = [dict(cod="VP-01", onde="portico da porta P01", x=p01[0] + 900, y=p01[1] - 150, item="videoporteiro IP com abertura remota"),
+              dict(cod="FE-02", onde="porta de entrada P01", x=p01[0], y=p01[1], item="fechadura eletronica biometrica + senha")]
+    acesso += [dict(cod=f"FE-{pg['cod']}", onde=f"portao lateral {pg['cod']}", x=(pg["x0"] + pg["x1"]) / 2, y=pg["y"],
+                    item="fechadura eletromagnetica 12 V, botoeira interna") for pg in _ex.portoes_laterais(pj)]
+    acesso += [
               dict(cod="SR-01", onde="fachada norte, sob o beiral", x=16_800, y=9_000, item="sirene externa 120 dB com bateria")]
+    mag += [dict(cod=f"MG-{pg['cod']}", vao=pg["cod"], amb="externo", x=(pg["x0"] + pg["x1"]) / 2, y=pg["y"], pav="T")
+            for pg in _ex.portoes_laterais(pj)]
     return dict(magneticos=mag, ivp=ivp, acesso=acesso, central="central de alarme no rack TC-07, GPRS + Wi-Fi, 16 zonas",
                 zonas=len(mag) + len(ivp))
 
@@ -178,7 +185,8 @@ def conferir(pj) -> list[tuple[str, str, bool]]:
         out.append((f"cabo {p['cod']}", f"{p['cabo_mm'] / 1000:.1f} m ate o rack (maximo {CABO_MAX / 1000:.0f})", p["cabo_mm"] <= CABO_MAX))
     al = alarme(pj)
     n_ext = sum(1 for t, x, y, o, p in pj.VAOS if pj.vao_externo(x, y, o, p) and not t.startswith("J"))
-    out.append(("todo vao externo de porta com sensor", f"{len(al['magneticos'])} de {n_ext}", len(al["magneticos"]) == n_ext))
+    n_pg = len(getattr(pj, "PORTOES_LATERAIS", []))     # R83: portoes laterais tambem levam sensor
+    out.append(("todo vao externo de porta e portao lateral com sensor", f"{len(al['magneticos'])} de {n_ext + n_pg}", len(al["magneticos"]) == n_ext + n_pg))
     inc = incendio(pj)
     pavs = {e["pav"] for e in inc["extintores"]}
     out.append(("extintor por pavimento", f"{len(inc['extintores'])} extintores em {sorted(pavs)}", pavs == {"T", "S"}))

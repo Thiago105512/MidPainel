@@ -318,7 +318,7 @@ def _lote() -> list[dict]:
     import nucleo.externo as ex
     e = ex.MURO["espessura"]
     h = ex.MURO["altura"]
-    pt = pj.PORTAO_TESTADA
+    pt = pj.ACESSO_TESTADA
     # tres divisas fechadas
     for x0, y0, x1, y1 in ((0, 0, e, P), (L - e, 0, L, P), (0, P - e, L, P)):
         out.append(_box("muro", x0, y0, 0, x1, y1, h, CORES["muro"]))
@@ -331,9 +331,12 @@ def _lote() -> list[dict]:
     cur = 0
     h_test = getattr(pj, "MURO_TESTADA_ALTURA", h)
     for a, b in vaos + [(L, L)]:
-        if a > cur:
+        if a > cur and h_test > 0:       # R83: testada aberta nao tem caixa nenhuma
             out.append(_box("muro", cur, 0, 0, a, e, h_test, CORES["muro"]))
         cur = b
+    # R83 — portoes laterais, na linha da frente da casa, mesma cor do PG01
+    for pg in ex.portoes_laterais(pj):
+        out.append(_box("vao", pg["x0"], pg["y"] - 40, 0, pg["x1"], pg["y"] + 40, pg["altura"], _cor_vao("PG")))
     # superficies do terreno que nao sao ambiente: acesso, passeio, faixa
     # tecnica e recuos. A cor diz a classe, e a classe e a mesma que entra no
     # calculo da retencao.

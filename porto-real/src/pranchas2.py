@@ -233,7 +233,7 @@ def fachadas() -> Canvas:
         "Maximo de 3 familias de acabamento: mineral claro, aluminio grafite, aluminio amadeirado.",
         "Vidro reduzido na frente e concentrado no social posterior.",
         "Condensadoras concentradas na faixa tecnica lateral direita, ocultas por painel ventilado h=1.800 mm.",
-        "Muros laterais, de fundo e de testada h = 2.200 mm; portoes de veiculo e de pedestre na testada (PORTAO_TESTADA).",
+        "Casa de condominio: testada ABERTA, sem muro nem portao. Muros laterais e de fundo h = 2.200 mm; portoes laterais PG02/PG03 na linha da frente; PG01 opcional, mantido por privacidade.",
     ])
     x0, y0, x1, y1 = _extremos(pj.TERREO)
 

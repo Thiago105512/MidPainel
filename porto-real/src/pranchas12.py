@@ -38,7 +38,7 @@ def seguranca_eletronica() -> Canvas:
         f"(maximo {sg.CABO_MAX / 1000:.0f} m por lance). Wi-Fi: raio de {sg.RAIO_WIFI / 1000:.0f} m em planta (H); "
         f"{r['cobertos']} de {r['ambientes']} ambientes cobertos.",
         f"Alarme: {r['magneticos']} sensores magneticos (todo vao externo de porta), {r['ivp']} IVP nos ambientes de passagem, "
-        "sirene externa, central no rack; videoporteiro e fechadura eletrica no portao de pedestre, biometrica na P01.",
+        "sirene externa, central no rack; videoporteiro no portico da P01, biometrica na P01, fechadura eletrica nos portoes laterais (testada aberta).",
         f"Automacao (H): {sg.PROTOCOLO}. {r['modulos_automacao']} modulos nos circuitos de iluminacao social e externa, "
         f"{r['cortinas']} cortinas blackout motorizadas, presenca nas circulacoes, 4 cenas.",
         "Simbolos: D dados · W access point · C camera · M magnetico · P presenca · A modulo de automacao · K cortina.",

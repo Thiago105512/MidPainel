@@ -131,6 +131,10 @@ def main(png: bool = True, pdf: bool = True, so: set | None = None, persp: bool 
     import viewer
     modelo3d.exportar(os.path.join(OUT, "modelo3d.json"))
     modelo3d.exportar_obj(os.path.join(OUT, "porto-real.obj"))
+    # R83 — a casa em codigo para o gerador de imagens, lida do modelo
+    import projeto as _pj
+    import nucleo.briefing as _br
+    print(f"  briefing de imagens: {_br.escrever(_pj, os.path.join(OUT, 'briefing-imagens.json'))}")
     viewer.main()
     if persp and (not so or so & {"43", "44", "45", "46"}):
         try:

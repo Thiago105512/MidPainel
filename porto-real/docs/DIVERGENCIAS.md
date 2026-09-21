@@ -6138,3 +6138,47 @@ de unicidade que nunca disparou não estava provada, estava esperando.
 0 falhas; 76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada). BOM
 R$ 1.073.007,27 (+ R$ 35.145,17 sobre R81: vigas V-12/V-13, perfis W360/W410,
 sete pilares embutidos, prumada e banho novos).
+
+## R83 — Casa de condomínio: testada aberta, portões laterais, portão da garagem opcional; a casa em código
+
+O proprietário lembrou o que o modelo não sabia: é casa de condomínio. Não há
+muro na rua. O lote fecha só nas laterais e no fundo; cada passagem lateral
+tem um portão da mesma família do portão da garagem; e o portão da garagem é
+opcional, mantido por privacidade. Pediu ainda a casa inteira "em forma de
+código" para gerar imagens fora.
+
+### O que mudou no modelo
+
+| Onde | Antes | R83 |
+|---|---|---|
+| Testada | mureta de 1,0 m com portão de veículos e de pedestre (R82) | ABERTA: MURO_TESTADA_ALTURA = 0; PORTAO_TESTADA vira ACESSO_TESTADA (faixa de veículos e passeio em piso drenante, sem portão) |
+| Muro | 113 m (três divisas + testada) | 100,0 m, 220 m² (só laterais e fundo, 2,2 m, bloco aparente) |
+| Portões laterais | não existiam | PG02 (esq., 2.260 mm, uma folha) e PG03 (dir., 4.860 mm, duas folhas), pivotantes, ripado grafite a 80 mm; largura DERIVADA da passagem (`externo.portoes_laterais`), altura do muro |
+| Portão da garagem | PG01 | PG01_OPCIONAL: opcional=True, mantido=True, motivo=privacidade |
+| Segurança | videoporteiro e fechadura elétrica no portão de pedestre | videoporteiro no pórtico da P01; fechadura elétrica e sensor magnético em cada portão lateral; CAM-05 na frente da garagem olhando a rua |
+| Motor do portão | pilar do portão da testada | pilar do PG01, lado interno da garagem |
+| Cena 3D | testada com mureta | sem caixa na testada; portões laterais na cor do PG01 |
+| BOM | — | EXT-PG02/PG03 (ripa, travessa, dobradiça, fechadura); muro menor |
+| Briefing de imagens | — | `nucleo/briefing.py` → `out/briefing-imagens.json` (37 KB): lote, volumes, materiais, cada face com vãos e brises, entrada, piscina, jardim, 19 cômodos, regras do que NÃO desenhar, vistas sugeridas |
+| Auditoria | 151 | **152**: o briefing diz o que o modelo diz (frente aberta, um portão por passagem, todo vão externo numa face, todo brise, todo cômodo, famílias ≤ 3, superior alinhado ao térreo) |
+
+### O defeito de método
+
+O muro da testada esteve no modelo de R49 a R82 sem que ninguém perguntasse
+se ele existia. Existia no YAML de origem como comprimento ("113 m"), ganhou
+coordenada em R52, ganhou altura própria em R82, e só caiu quando o
+proprietário disse a palavra "condomínio". O modelo não tinha um campo para
+o regime do lote, e o que não está no modelo a auditoria não alcança: a
+auditoria conferia o muro contra o muro. Fica a lição registrada com o
+mesmo peso das outras: um dado de contexto (condomínio, esquina, aclive)
+vale mais que dez conferências internas sobre o elemento que ele elimina.
+
+O briefing de imagens é a resposta ao mesmo problema por outro lado: se o
+texto para o gerador fosse escrito à mão seria a quarta cópia da casa, e a
+única sem auditoria. Derivado, ele erra junto com o modelo e acerta junto
+com ele.
+
+**Estado em R83:** 152 auditorias, 0 erros; 224 verificações do visualizador,
+0 falhas; 76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada). BOM
+R$ 1.082.125,72 (+ R$ 9.118,45 sobre R82: dois portões laterais, menos 13 m
+de muro).
