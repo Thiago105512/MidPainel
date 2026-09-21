@@ -1040,5 +1040,105 @@
     "a conferência que gerou a prancha passa a rodar em cada revisão"
    ]
   ]
+ },
+ {
+  "n": "43",
+  "t": "Perspectivas externas",
+  "esc": "s/ escala",
+  "etapa": "R66",
+  "d": "A casa vista de fora em oito azimutes a 6,5 m de altura de olho e duas aéreas, com o sol de Manaus na hora que ilumina a face olhada. Cada foto traz a planta-chave com a câmera e o cone de visão. É a maquete eletrônica do modelo, não um render: sem textura nem material, mas com proporção, vão e sombra verdadeiros.",
+  "k": [
+   [
+    "8 + 2",
+    "azimutes em volta do envelope construído e duas aéreas"
+   ],
+   [
+    "6,5 m",
+    "altura da câmera externa: acima do muro, abaixo da platibanda"
+   ],
+   [
+    "derivada",
+    "nenhuma posição digitada — se a casa muda, a foto muda"
+   ],
+   [
+    "OBJ",
+    "o mesmo modelo sai em out/porto-real.obj para Blender ou Twinmotion"
+   ]
+  ]
+ },
+ {
+  "n": "44",
+  "t": "Perspectivas internas — térreo",
+  "esc": "s/ escala",
+  "etapa": "R66",
+  "d": "Cada cômodo do térreo visto de dentro, a 1.550 mm do piso. A câmera fica 700 mm para dentro da porta, ou no canto de onde o olhar vai mais longe sem bater em parede ou móvel: a regra testa um leque de 60° contra as mesmas caixas que a cena desenha. Nenhuma foto é escolhida à mão.",
+  "k": [
+   [
+    "1.550 mm",
+    "altura de olho, a mesma do visualizador"
+   ],
+   [
+    "porta ou canto",
+    "o ponto de onde o leque de 60° enxerga mais longe"
+   ],
+   [
+    "13 vistas",
+    "doze ambientes e o banho do reversível"
+   ],
+   [
+    "fov 62°",
+    "campo de visão: o olho dentro de um cômodo abrange mais que uma lente normal"
+   ]
+  ]
+ },
+ {
+  "n": "45",
+  "t": "Perspectivas — áreas abertas",
+  "esc": "s/ escala",
+  "etapa": "R66",
+  "d": "Loggia, decks, varal, pátio, varanda gourmet, deck da piscina e os jardins com mais de 9 m²: os lugares onde se vive em Manaus fora do ar-condicionado. A mesma regra de câmera dos cômodos fechados.",
+  "k": [
+   [
+    "≥ 9 m²",
+    "área aberta menor que isso não rende uma vista"
+   ],
+   [
+    "10 vistas",
+    "do deck norte ao jardim de fundo"
+   ],
+   [
+    "sol 10 h",
+    "manhã: a hora em que essas áreas são usadas"
+   ],
+   [
+    "pilares",
+    "o pórtico de 200 x 200 aparece onde a planta o declara"
+   ]
+  ]
+ },
+ {
+  "n": "46",
+  "t": "Perspectivas internas — superior",
+  "esc": "s/ escala",
+  "etapa": "R66",
+  "d": "As suítes, o hall com a rouparia, o mini lounge e a master com banho, closet e office. As suítes 02 e 03 são espelhadas; o banho da 03 não repete a foto da 02.",
+  "k": [
+   [
+    "9 vistas",
+    "cinco ambientes e quatro subdivisões"
+   ],
+   [
+    "sol 15 h",
+    "tarde: a face oeste da master iluminada"
+   ],
+   [
+    "banho da 02",
+    "representa o da 03, espelhado"
+   ],
+   [
+    "auditoria 139",
+    "toda câmera dentro do seu cômodo, todo cômodo com vista, fotos da revisão corrente"
+   ]
+  ]
  }
 ]

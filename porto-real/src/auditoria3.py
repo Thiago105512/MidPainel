@@ -4439,6 +4439,31 @@ def checar_moldes_de_defeito() -> list[Achado]:
     return out
 
 
+def checar_perspectivas() -> list[Achado]:
+    """Perspectivas (R66): toda camera no seu comodo, todo comodo com vista, fotos da revisao."""
+    import perspectivas as pp
+    import projeto as pj
+    m = pp.manifesto()
+    if m is None:
+        return [Achado("ATENCAO", "perspectivas", "perspectivas.json ausente: rode build.py")]
+    falhas = pp.conferir()
+    n_ext = sum(1 for v in m["vistas"] if v["tipo"] == "externa")
+    n_int = sum(1 for v in m["vistas"] if v["tipo"] == "interna")
+    out = [Achado("NOTA" if not falhas else "ERRO", "perspectivas",
+                  f"{len(m['vistas'])} vistas ({n_ext} externas, {n_int} internas) da revisao "
+                  f"{m['revisao']}; {len(falhas)} falha(s)"
+                  + (": " + "; ".join(f"{f['tipo']} {f['msg']}" for f in falhas[:8]) if falhas else ""))]
+    out.append(Achado("NOTA" if n_ext >= 8 else "ERRO", "azimutes",
+                      f"{n_ext} vistas externas (minimo 8: um por azimute a 45 graus)"))
+    # a camera de comodo fechado NAO pode estar dentro de parede nem de movel
+    dentro = [v["id"] for v in m["vistas"] if v["tipo"] == "interna"
+              and not pp._coluna_livre(v["pos"][0], v["pos"][1], pp._piso(v["pav"]), v["pos"][2])]
+    out.append(Achado("NOTA" if not dentro else "ERRO", "camera em coisa solida",
+                      f"{len(dentro)} camera(s) dentro de parede ou movel"
+                      + (": " + ", ".join(dentro) if dentro else "")))
+    return out
+
+
 def checar_ocupacao() -> list[Achado]:
     """Espaco morto: bolsao sem ambiente, largura sem uso, nome sem lastro (R58)."""
     import projeto as pj

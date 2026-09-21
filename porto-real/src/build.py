@@ -68,10 +68,15 @@ CADERNO = [
     # R65 — a meta-auditoria achou LY-10 a LY-15 em nenhuma prancha: o layout
     # do superior existia no modelo e nao existia no caderno.
     ("42", "PLANTA DE LAYOUT — SUPERIOR",       lambda: pr.planta("S", "42", layout=True)),
+    # R66 — a casa vista de fora em oito azimutes e cada comodo de dentro
+    ("43", "PERSPECTIVAS EXTERNAS",             lambda: p8.perspectivas("externa")),
+    ("44", "PERSPECTIVAS INTERNAS — TERREO",    lambda: p8.perspectivas("terreo")),
+    ("45", "PERSPECTIVAS — AREAS ABERTAS",      lambda: p8.perspectivas("abertas")),
+    ("46", "PERSPECTIVAS INTERNAS — SUPERIOR",  lambda: p8.perspectivas("superior")),
 ]
 
 
-def main(png: bool = True, pdf: bool = True, so: set | None = None) -> None:
+def main(png: bool = True, pdf: bool = True, so: set | None = None, persp: bool = True) -> None:
     """Gera o caderno inteiro, ou so as pranchas em `so` (R61: --so 16,41).
 
     Gerar as 41 pranchas leva minutos; corrigir UMA prancha exigia as 41.
@@ -79,6 +84,21 @@ def main(png: bool = True, pdf: bool = True, so: set | None = None) -> None:
     visualizador sao remontados a partir do que ha em out/.
     """
     os.makedirs(OUT, exist_ok=True)
+    # R66 — o visualizador nao depende das pranchas (le PR-xx.svg em tempo de
+    # execucao), e as perspectivas dependem do visualizador: cena e viewer
+    # saem primeiro, as fotos depois, e so entao as pranchas 43 a 46 as embutem.
+    import modelo3d
+    import viewer
+    modelo3d.exportar(os.path.join(OUT, "modelo3d.json"))
+    modelo3d.exportar_obj(os.path.join(OUT, "porto-real.obj"))
+    viewer.main()
+    if persp and (not so or so & {"43", "44", "45", "46"}):
+        try:
+            import perspectivas
+            m = perspectivas.renderizar()
+            print(f"  perspectivas: {len(m['vistas'])} vistas renderizadas")
+        except Exception as e:
+            print(f"  perspectivas NAO renderizadas: {e}")
     svgs = []
     ocup_path = os.path.join(OUT, "ocupacao.json")
     ocup = json.load(open(ocup_path)) if os.path.exists(ocup_path) else {}
@@ -113,12 +133,8 @@ def main(png: bool = True, pdf: bool = True, so: set | None = None) -> None:
             if pdf:
                 cairosvg.svg2pdf(url=c, write_to=c.replace(".svg", ".pdf"))
 
-    import modelo3d
     import engenharia
-    import viewer
-    modelo3d.exportar(os.path.join(OUT, "modelo3d.json"))
     engenharia.main()
-    viewer.main()
 
     # a planilha de cotacao sai do mesmo modelo que o caderno: quantidade que
     # muda na planta muda na planilha na proxima geracao, sem ninguem digitar
@@ -142,4 +158,5 @@ if __name__ == "__main__":
     for _a in sys.argv[1:]:
         if _a.startswith("--so="):
             _so = {x.strip().zfill(2) for x in _a[5:].split(",") if x.strip()}
-    main(png="--no-png" not in sys.argv, pdf="--no-pdf" not in sys.argv, so=_so)
+    main(png="--no-png" not in sys.argv, pdf="--no-pdf" not in sys.argv, so=_so,
+         persp="--no-persp" not in sys.argv)

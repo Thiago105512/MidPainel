@@ -340,6 +340,10 @@ INDICE = [
     ("40", "Cargas, equilibrio de fases e mercado (R52)"),
     ("41", "Energia: fotovoltaica, SPDA e vidro solar (R61)"),
     ("42", "Planta de layout — superior (R65)"),
+    ("43", "Perspectivas externas (R66)"),
+    ("44", "Perspectivas internas — terreo (R66)"),
+    ("45", "Perspectivas — areas abertas (R66)"),
+    ("46", "Perspectivas internas — superior (R66)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},

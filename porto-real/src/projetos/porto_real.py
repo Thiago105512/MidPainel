@@ -3702,6 +3702,17 @@ REVISOES = [
      "codigo (102); tres formatadores de R$, duas geometrias, duas faces "
      "(103); 14 literais 7.200/2.400 em desenho (104). Auditoria 138 no "
      "programa; mutacao na CI"),
+    ("R66", "PERSPECTIVAS. 'Um desenho real de como vai ficar, de todos os "
+     "angulos, dos comodos.' Quatro pranchas (43 a 46) com 42 fotos da maquete "
+     "eletronica — a cena do visualizador, sol de Manaus por hora, sombra, "
+     "vidro translucido — de cameras DERIVADAS do caso: olho a 1.550 mm, 700 "
+     "mm para dentro da porta ou no canto de onde um leque de 60 graus enxerga "
+     "mais longe contra as caixas da propria cena; de fora, oito azimutes a "
+     "6,5 m e duas aereas. Cada foto com planta-chave (camera e cone). Nao e "
+     "render fotorrealista e a prancha diz isso; o modelo sai em OBJ+MTL "
+     "(out/porto-real.obj) para Blender, SketchUp ou Twinmotion. Auditoria "
+     "139: toda camera no seu comodo e fora de parede ou movel, todo comodo "
+     "com vista, fotos da revisao corrente"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3887,13 +3898,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R65",
+    revisao="R66",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R65", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R66", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

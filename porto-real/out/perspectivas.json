@@ -1,0 +1,1393 @@
+{
+ "revisao": "R66",
+ "olho": 1550,
+ "recuo_porta": 700,
+ "vistas": [
+  {
+   "id": "ext-000",
+   "titulo": "Vista do norte (faixa tecnica)",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    35795,
+    16800,
+    6500
+   ],
+   "alvo": [
+    9000,
+    16800,
+    2500
+   ],
+   "fov": 46,
+   "hora": 12.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "ext-045",
+   "titulo": "Vista do noroeste",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    27947,
+    35747,
+    6500
+   ],
+   "alvo": [
+    9000,
+    16800,
+    2500
+   ],
+   "fov": 46,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "ext-090",
+   "titulo": "Vista do oeste (piscina)",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    9000,
+    43595,
+    6500
+   ],
+   "alvo": [
+    9000,
+    16800,
+    2500
+   ],
+   "fov": 46,
+   "hora": 16.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "ext-135",
+   "titulo": "Vista do sudoeste",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    -9947,
+    35747,
+    6500
+   ],
+   "alvo": [
+    9000,
+    16800,
+    2500
+   ],
+   "fov": 46,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "ext-180",
+   "titulo": "Vista do sul (loggia)",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    -17795,
+    16800,
+    6500
+   ],
+   "alvo": [
+    9000,
+    16800,
+    2500
+   ],
+   "fov": 46,
+   "hora": 12.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "ext-225",
+   "titulo": "Vista do sudeste",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    -9947,
+    -2147,
+    6500
+   ],
+   "alvo": [
+    9000,
+    16800,
+    2500
+   ],
+   "fov": 46,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "ext-270",
+   "titulo": "Vista do leste (rua)",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    9000,
+    -9995,
+    6500
+   ],
+   "alvo": [
+    9000,
+    16800,
+    2500
+   ],
+   "fov": 46,
+   "hora": 9.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "ext-315",
+   "titulo": "Vista do nordeste",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    27947,
+    -2147,
+    6500
+   ],
+   "alvo": [
+    9000,
+    16800,
+    2500
+   ],
+   "fov": 46,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "aer-225",
+   "titulo": "Vista aerea do sudeste",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    -11841,
+    -4041,
+    24115
+   ],
+   "alvo": [
+    9000,
+    16800,
+    1500
+   ],
+   "fov": 38,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "aer-045",
+   "titulo": "Vista aerea do noroeste",
+   "grupo": "externa",
+   "amb": "-",
+   "pav": "T",
+   "tipo": "externa",
+   "origem": "azimute",
+   "pos": [
+    29841,
+    37641,
+    24115
+   ],
+   "alvo": [
+    9000,
+    16800,
+    1500
+   ],
+   "fov": 38,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-GAR",
+   "titulo": "Garagem",
+   "grupo": "terreo",
+   "amb": "T-GAR",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    2900,
+    12700,
+    1550
+   ],
+   "alvo": [
+    6461,
+    9139,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-HAL",
+   "titulo": "Hall",
+   "grupo": "terreo",
+   "amb": "T-HAL",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    9300,
+    10100,
+    1550
+   ],
+   "alvo": [
+    9300,
+    11850,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-ALC",
+   "titulo": "Alcova Do Reversivel",
+   "grupo": "terreo",
+   "amb": "T-ALC",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    11100,
+    10900,
+    1550
+   ],
+   "alvo": [
+    11100,
+    10050,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-CIR",
+   "titulo": "Circulacao",
+   "grupo": "terreo",
+   "amb": "T-CIR",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    11500,
+    12300,
+    1550
+   ],
+   "alvo": [
+    10650,
+    12300,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-REV",
+   "titulo": "Quarto Reversivel",
+   "grupo": "terreo",
+   "amb": "T-REV",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    12500,
+    7700,
+    1550
+   ],
+   "alvo": [
+    13779,
+    10896,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-OFI",
+   "titulo": "Oficina",
+   "grupo": "terreo",
+   "amb": "T-OFI",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    3900,
+    15500,
+    1550
+   ],
+   "alvo": [
+    3900,
+    13950,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-SOC",
+   "titulo": "Estar / Jantar",
+   "grupo": "terreo",
+   "amb": "T-SOC",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    9000,
+    13900,
+    1550
+   ],
+   "alvo": [
+    6926,
+    17079,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-COR",
+   "titulo": "Core / Escada",
+   "grupo": "terreo",
+   "amb": "T-COR",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    10100,
+    18700,
+    1550
+   ],
+   "alvo": [
+    10962,
+    15622,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-COZ",
+   "titulo": "Cozinha",
+   "grupo": "terreo",
+   "amb": "T-COZ",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    2900,
+    25900,
+    1550
+   ],
+   "alvo": [
+    4130,
+    22086,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-GOU",
+   "titulo": "Gourmet",
+   "grupo": "terreo",
+   "amb": "T-GOU",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    9100,
+    19700,
+    1550
+   ],
+   "alvo": [
+    7018,
+    23733,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-LAV",
+   "titulo": "Lavanderia",
+   "grupo": "terreo",
+   "amb": "T-LAV",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    10800,
+    21500,
+    1550
+   ],
+   "alvo": [
+    11363,
+    19998,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-DEP",
+   "titulo": "Deposito / Dml",
+   "grupo": "terreo",
+   "amb": "T-DEP",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    11100,
+    22700,
+    1550
+   ],
+   "alvo": [
+    11100,
+    23100,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-REV-BANHO",
+   "titulo": "Banho — Quarto Reversivel",
+   "grupo": "terreo",
+   "amb": "T-REV/BANHO",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    13600,
+    12000,
+    1550
+   ],
+   "alvo": [
+    14100,
+    12000,
+    1300
+   ],
+   "fov": 70,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-JNO",
+   "titulo": "Jardim Norte",
+   "grupo": "abertas",
+   "amb": "T-JNO",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    16300,
+    12700,
+    1550
+   ],
+   "alvo": [
+    15829,
+    9756,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-LOG",
+   "titulo": "Loggia Sul",
+   "grupo": "abertas",
+   "amb": "T-LOG",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    2900,
+    18700,
+    1550
+   ],
+   "alvo": [
+    4430,
+    17170,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-DKL",
+   "titulo": "Deck Norte",
+   "grupo": "abertas",
+   "amb": "T-DKL",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    14400,
+    13700,
+    1550
+   ],
+   "alvo": [
+    14400,
+    15900,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-DKC",
+   "titulo": "Deck Norte Coberto",
+   "grupo": "abertas",
+   "amb": "T-DKC",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    16300,
+    17300,
+    1550
+   ],
+   "alvo": [
+    13837,
+    18207,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-VRL",
+   "titulo": "Varal Coberto",
+   "grupo": "abertas",
+   "amb": "T-VRL",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    13300,
+    22800,
+    1550
+   ],
+   "alvo": [
+    15416,
+    20532,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-PAT",
+   "titulo": "Patio Coberto Do Gourmet",
+   "grupo": "abertas",
+   "amb": "T-PAT",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    10300,
+    24600,
+    1550
+   ],
+   "alvo": [
+    13471,
+    25427,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-ALP",
+   "titulo": "Varanda Gourmet",
+   "grupo": "abertas",
+   "amb": "T-ALP",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    6000,
+    28900,
+    1550
+   ],
+   "alvo": [
+    6000,
+    27150,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-DKP",
+   "titulo": "Deck Da Piscina",
+   "grupo": "abertas",
+   "amb": "T-DKP",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    7500,
+    29900,
+    1550
+   ],
+   "alvo": [
+    7500,
+    33450,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-JN3",
+   "titulo": "Jardim Norte",
+   "grupo": "abertas",
+   "amb": "T-JN3",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    16300,
+    27500,
+    1550
+   ],
+   "alvo": [
+    13367,
+    32033,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "T-JFU",
+   "titulo": "Jardim De Fundo",
+   "grupo": "abertas",
+   "amb": "T-JFU",
+   "pav": "T",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    9600,
+    39100,
+    1550
+   ],
+   "alvo": [
+    9600,
+    36000,
+    1300
+   ],
+   "fov": 62,
+   "hora": 10.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-S02",
+   "titulo": "Suite 02",
+   "grupo": "superior",
+   "amb": "S-S02",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    7100,
+    17400,
+    4850
+   ],
+   "alvo": [
+    4208,
+    14797,
+    4600
+   ],
+   "fov": 62,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-S03",
+   "titulo": "Suite 03",
+   "grupo": "superior",
+   "amb": "S-S03",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    7100,
+    18600,
+    4850
+   ],
+   "alvo": [
+    4208,
+    21203,
+    4600
+   ],
+   "fov": 62,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-HAL",
+   "titulo": "Hall E Rouparia",
+   "grupo": "superior",
+   "amb": "S-HAL",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    8500,
+    18600,
+    4850
+   ],
+   "alvo": [
+    10766,
+    17800,
+    4600
+   ],
+   "fov": 62,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-LOU",
+   "titulo": "Mini Lounge / Tv",
+   "grupo": "superior",
+   "amb": "S-LOU",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "porta",
+   "pos": [
+    13300,
+    17250,
+    4850
+   ],
+   "alvo": [
+    14538,
+    18410,
+    4600
+   ],
+   "fov": 62,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-MAS",
+   "titulo": "Suite Master",
+   "grupo": "superior",
+   "amb": "S-MAS",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    8300,
+    24700,
+    4850
+   ],
+   "alvo": [
+    12908,
+    21311,
+    4600
+   ],
+   "fov": 62,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-S02-BANHO",
+   "titulo": "Banho — Suite 02",
+   "grupo": "superior",
+   "amb": "S-S02/BANHO",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    3800,
+    15200,
+    4850
+   ],
+   "alvo": [
+    3300,
+    14400,
+    4600
+   ],
+   "fov": 70,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-MAS-BANHO",
+   "titulo": "Banho — Suite Master",
+   "grupo": "superior",
+   "amb": "S-MAS/BANHO",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    10800,
+    19600,
+    4850
+   ],
+   "alvo": [
+    10800,
+    20700,
+    4600
+   ],
+   "fov": 70,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-MAS-CLOSET",
+   "titulo": "Closet — Suite Master",
+   "grupo": "superior",
+   "amb": "S-MAS/CLOSET",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    15200,
+    21800,
+    4850
+   ],
+   "alvo": [
+    14100,
+    20700,
+    4600
+   ],
+   "fov": 70,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  },
+  {
+   "id": "S-MAS-OFFICE",
+   "titulo": "Office — Suite Master",
+   "grupo": "superior",
+   "amb": "S-MAS/OFFICE",
+   "pav": "S",
+   "tipo": "interna",
+   "origem": "canto",
+   "pos": [
+    14200,
+    24800,
+    4850
+   ],
+   "alvo": [
+    14700,
+    23700,
+    4600
+   ],
+   "fov": 70,
+   "hora": 15.0,
+   "camadas": [
+    "terreo",
+    "superior",
+    "lajes",
+    "platibandas",
+    "cobertura",
+    "externo",
+    "tecnico",
+    "mob",
+    "escada",
+    "luz"
+   ]
+  }
+ ]
+}

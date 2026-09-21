@@ -747,6 +747,18 @@ PROGRAMA = [
      "termica surda a absortancia, os ventiladores e o layout do superior "
      "sem prancha, os pilares sem codigo. PARCIAL porque premissa errada so "
      "olho humano acha."),
+    (139, "Perspectivas: a casa de fora em oito azimutes e cada comodo de dentro",
+     ["checar_perspectivas"], "AUTOMATIZADA",
+     "Secao 164. O proprietario pediu 'um desenho real de como vai ficar, de "
+     "todos os angulos, dos comodos'. O que o modelo pode dar e a maquete "
+     "eletronica fotografada de posicoes DERIVADAS: olho a 1.550 mm, 700 mm "
+     "para dentro da porta ou no canto de onde um leque de 60 graus enxerga "
+     "mais longe contra as mesmas caixas que a cena desenha; de fora, oito "
+     "azimutes a 6,5 m e duas aereas, com o sol na hora que ilumina a face. "
+     "Confere-se que toda camera esta no seu comodo e fora de parede ou movel, "
+     "que todo comodo (e toda area aberta de 9 m2 ou mais) tem vista, e que as "
+     "fotos sao da revisao corrente. Nao e render fotorrealista, e a prancha "
+     "diz isso; o OBJ sai para quem quiser um."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

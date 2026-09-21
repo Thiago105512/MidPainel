@@ -533,6 +533,54 @@ def exportar(caminho: str | None = None) -> dict:
     return dados
 
 
+def exportar_obj(caminho: str) -> dict:
+    """A mesma cena, em OBJ + MTL — para Blender, SketchUp, Twinmotion (R66).
+
+    A cena do visualizador e sombreada, nao fotorrealista: nao tem textura,
+    nem material, nem iluminacao global. O que um renderizador precisa e a
+    geometria com o material por cor; e isso que sai daqui, das mesmas caixas
+    que o visualizador desenha — nao de um modelo refeito a mao.
+    """
+    d = exportar()
+    cores, verts, faces = {}, [], []          # faces: (mtl, [i1..i4])
+    n = 0
+    for grupo in ("terreo", "superior", "lajes", "platibandas", "externo", "mob", "escada"):
+        for b in d.get(grupo, []):
+            cx, cy, cz = b["p"]; sx, sy, sz = b["s"]
+            if min(sx, sy, sz) <= 0:
+                continue
+            mtl = f"{b['t']}_{b['c'].lstrip('#')}"
+            cores.setdefault(mtl, b["c"])
+            x0, x1 = (cx - sx / 2) / 1000, (cx + sx / 2) / 1000
+            y0, y1 = (cy - sy / 2) / 1000, (cy + sy / 2) / 1000
+            z0, z1 = (cz - sz / 2) / 1000, (cz + sz / 2) / 1000
+            # OBJ usa Y para cima: (x, y, z)_modelo -> (x, z, -y)
+            vs = [(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0),
+                  (x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)]
+            verts.extend(vs)
+            for q in ((1, 4, 3, 2), (5, 6, 7, 8), (1, 2, 6, 5), (2, 3, 7, 6), (3, 4, 8, 7), (4, 1, 5, 8)):
+                faces.append((mtl, [n + i for i in q]))
+            n += 8
+    mtl_path = caminho[:-4] + ".mtl"
+    with open(mtl_path, "w") as f:
+        for m, c in cores.items():
+            r, g, b_ = (int(c.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4))
+            f.write(f"newmtl {m}\nKd {r:.3f} {g:.3f} {b_:.3f}\n")
+            if m.startswith("vao_") or m.startswith("piscina_"):
+                f.write("d 0.45\n")
+    with open(caminho, "w") as f:
+        f.write(f"# Porto Real {pj.EMISSAO['revisao']} — metros, Y para cima\n")
+        f.write(f"mtllib {os.path.basename(mtl_path)}\n")
+        for x, y, z in verts:
+            f.write(f"v {x:.3f} {z:.3f} {-y:.3f}\n")
+        atual = None
+        for m, idx in faces:
+            if m != atual:
+                f.write(f"usemtl {m}\n"); atual = m
+            f.write("f " + " ".join(str(i) for i in idx) + "\n")
+    return dict(vertices=len(verts), faces=len(faces), materiais=len(cores))
+
+
 # ---------------------------------------------------------------------------
 # ESTRUTURA LSF — as 805 pecas, cada uma no seu lugar
 # ---------------------------------------------------------------------------

@@ -17,6 +17,7 @@ diz que o que esta no modelo tem de chegar ao caderno.
 from __future__ import annotations
 
 import math
+import os
 
 import projeto as pj
 import anotacao as an
@@ -578,4 +579,107 @@ def energia() -> Canvas:
     cv.texto_p((450, oy + 21), "Com g = 0,80 entram ~600 W/m2 x 0,80 = 480 W/m2; com low-e g = 0,35, "
                               "210 W/m2. Sao 18,7 m2: 5,0 kW contra 2,2 kW de calor no estar.",
                TXT["min"], "start")
+    return cv
+
+
+# =========================================================================
+# PR-43 a PR-46 — PERSPECTIVAS (R66)
+# =========================================================================
+GRUPOS_PERSP = {
+    "externa": ("PERSPECTIVAS EXTERNAS — OITO AZIMUTES E DUAS AEREAS", "43"),
+    "terreo": ("PERSPECTIVAS INTERNAS — TERREO", "44"),
+    "abertas": ("PERSPECTIVAS — AREAS ABERTAS DO TERREO", "45"),
+    "superior": ("PERSPECTIVAS INTERNAS — SUPERIOR", "46"),
+}
+
+
+def _planta_chave(cv, box, v, pav_ambs, extra=()):
+    """Mini planta com a camera e o cone de visao: onde a foto foi tirada."""
+    import perspectivas as pp
+    x0, y0, w, h = box
+    xs = [a.x for a in pav_ambs] + [a.x + a.w for a in pav_ambs] + [v["pos"][0]]
+    ys = [a.y for a in pav_ambs] + [a.y + a.h for a in pav_ambs] + [v["pos"][1]]
+    for (ex0, ey0, ex1, ey1) in extra:
+        xs += [ex0, ex1]; ys += [ey0, ey1]
+    mx0, mx1, my0, my1 = min(xs) - 500, max(xs) + 500, min(ys) - 500, max(ys) + 500
+    k = min(w / (my1 - my0), h / (mx1 - mx0))   # papel x <- modelo y; papel y <- modelo x
+    # modelo: +x = norte (para cima no papel), +y = oeste (para a esquerda)
+    def pt(px, py):
+        return (x0 + w / 2 - (py - (my0 + my1) / 2) * k, y0 + h / 2 - (px - (mx0 + mx1) / 2) * k)
+    cv.poli_p([(x0, y0), (x0 + w, y0), (x0 + w, y0 + h), (x0, y0 + h)], "fino",
+              fechado=True, preenche="#fcfcfb", cor="#ddd")
+    for (ex0, ey0, ex1, ey1) in extra:
+        cv.poli_p([pt(ex0, ey0), pt(ex1, ey0), pt(ex1, ey1), pt(ex0, ey1)], "fino",
+                  fechado=True, preenche="none", cor="#bbb")
+    for a in pav_ambs:
+        cv.poli_p([pt(a.x, a.y), pt(a.x + a.w, a.y), pt(a.x + a.w, a.y + a.h), pt(a.x, a.y + a.h)],
+                  "fino", fechado=True, preenche="#f2f0ec" if a.cod == v["amb"] else "none", cor="#999")
+    if v["amb"] != "-" and "/" in v["amb"]:
+        d = next(x for x in pj.SUBDIVISOES if f"{x['pai']}/{x['nome']}" == v["amb"])
+        cv.poli_p([pt(d["x"], d["y"]), pt(d["x"] + d["w"], d["y"]), pt(d["x"] + d["w"], d["y"] + d["h"]),
+                   pt(d["x"], d["y"] + d["h"])], "fino", fechado=True, preenche="#f2f0ec", cor="#666")
+    px, py = v["pos"][0], v["pos"][1]
+    tx, ty = v["alvo"][0], v["alvo"][1]
+    ang = math.atan2(ty - py, tx - px)
+    L = (mx1 - mx0 + my1 - my0) / 8
+    c = pt(px, py)
+    for da in (-v["fov"] / 2, v["fov"] / 2):
+        a = ang + math.radians(da)
+        cv.linha_p(c, pt(px + math.cos(a) * L, py + math.sin(a) * L), "fino", cor="#c00")
+    cv.circ_p(c, 0.7, "fino", preenche="#c00", cor="#c00")
+
+
+def perspectivas(grupo: str) -> Canvas:
+    """Fotos da maquete eletronica, cada uma com a planta-chave da camera.
+
+    As posicoes sao DERIVADAS (perspectivas.py): porta ou canto de onde o olhar
+    vai mais longe, olho a 1.550 mm. Nao e render fotorrealista — e a cena do
+    visualizador, com o sol de Manaus na hora indicada. O que se confere aqui e
+    proporcao, altura, vao e vista, nao acabamento.
+    """
+    import perspectivas as pp
+    titulo, num = GRUPOS_PERSP[grupo]
+    m = pp.manifesto()
+    cv = base(titulo, "s/ escala", num, notas=[
+        "Maquete eletronica do modelo: caixas com cor, sol de Manaus por hora, sombra e vidro "
+        "translucido. Nao e render fotorrealista: nao ha textura nem material.",
+        f"Camera derivada do caso: olho a {pp.OLHO} mm do piso; dentro do comodo, "
+        f"{pp.RECUO_PORTA} mm para dentro da porta ou no canto de onde o olhar vai mais longe.",
+        "Planta-chave ao lado de cada foto: ponto vermelho = camera, cone = campo de visao.",
+        "Para render com materiais: out/porto-real.obj (Blender, SketchUp, Twinmotion).",
+    ])
+    if m is None:
+        cv.texto_p((300, 250), "PERSPECTIVAS NAO RENDERIZADAS — rode build.py com o Chromium "
+                   "disponivel (playwright)", TXT["med"], "middle", cor="#c00")
+        return cv
+    vistas = [v for v in m["vistas"] if v["grupo"] == grupo]
+    cols, cw, ch = 5, 156.0, 148.0
+    img_w, img_h = cw - 6, (cw - 6) * 661 / 1130
+    x_ini, y_ini = 26.0, 24.0
+    lote = [(0, 0, pj.LOTE_L, pj.LOTE_P)]
+    for i, v in enumerate(vistas):
+        cx0 = x_ini + (i % cols) * cw
+        cy0 = y_ini + (i // cols) * ch
+        caminho = os.path.join(pp.OUT, f"persp-{v['id']}.png")
+        with cv.escopo("perspectiva", v["id"], amb=v["amb"], origem=v["origem"]):
+            ok = cv.imagem_p((cx0, cy0), img_w, img_h, caminho)
+            cv.poli_p([(cx0, cy0), (cx0 + img_w, cy0), (cx0 + img_w, cy0 + img_h), (cx0, cy0 + img_h)],
+                      "fino", fechado=True, preenche="none" if ok else "#f6f6f6", cor="#888")
+            if not ok:
+                cv.texto_p((cx0 + img_w / 2, cy0 + img_h / 2), "sem foto", TXT["peq"], "middle", cor="#c00")
+            ty = cy0 + img_h + 4
+            cv.texto_p((cx0, ty), f"{i + 1}. {v['titulo'].upper()}", TXT["micro"], "start", peso="bold")
+            hh = int(v["hora"]); mm = int(round((v["hora"] - hh) * 60))
+            cv.texto_p((cx0, ty + 3.2), f"{v['amb']} · {v['origem']} · sol {hh:02d}:{mm:02d} · "
+                       f"fov {v['fov']:.0f}°", TXT["micro"], "start", cor=CINZA)
+            cv.texto_p((cx0, ty + 6.4), f"camera ({v['pos'][0] / 1000:.1f}; {v['pos'][1] / 1000:.1f}; "
+                       f"+{v['pos'][2] / 1000:.2f}) m".replace(".", ","), TXT["micro"], "start", cor=CINZA)
+            if grupo == "externa":
+                ambs = pj.TERREO + pj.SUPERIOR
+                _planta_chave(cv, (cx0 + img_w - 46, ty + 9, 46, 40), v, ambs, extra=lote)
+            else:
+                ambs = (pj.TERREO + pj.TERREO_ABERTO) if v["pav"] == "T" else pj.SUPERIOR
+                _planta_chave(cv, (cx0 + img_w - 46, ty + 9, 46, 40), v, ambs)
+    an.titulo_desenho(cv, (x_ini, y_ini + ((len(vistas) - 1) // cols + 1) * ch + 6), "1",
+                      titulo.title(), "s/ escala")
     return cv

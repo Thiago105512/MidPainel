@@ -254,6 +254,24 @@ class Canvas:
             f'<line x1="{a[0]:.3f}" y1="{a[1]:.3f}" x2="{b[0]:.3f}" y2="{b[1]:.3f}" '
             f'{self._stroke(estilo, cor, dash)} stroke-linecap="round"/>')
 
+    def imagem_p(self, pos: tuple[float, float], w: float, h: float, caminho: str) -> bool:
+        """PNG embutido (base64) — perspectivas renderizadas do modelo (R66).
+
+        A imagem entra na caixa de desenho como qualquer traco: a ocupacao da
+        folha e a moldura a veem. Se o arquivo nao existe, devolve False e nao
+        desenha nada — a prancha decide como avisar.
+        """
+        import base64, os
+        if not os.path.exists(caminho):
+            return False
+        with open(caminho, "rb") as f:
+            b64 = base64.b64encode(f.read()).decode("ascii")
+        self._marcar(pos, (pos[0] + w, pos[1] + h))
+        self._el.append(
+            f'<image x="{pos[0]:.3f}" y="{pos[1]:.3f}" width="{w:.3f}" height="{h:.3f}" '
+            f'preserveAspectRatio="xMidYMid slice" xlink:href="data:image/png;base64,{b64}"/>')
+        return True
+
     def poli_p(self, pts: list[tuple[float, float]], estilo: str = "vista",
                fechado: bool = False, preenche: str = "none",
                cor: str | None = None, dash: str | None = None) -> None:
@@ -417,7 +435,7 @@ class Canvas:
         defs = f"<defs>{''.join(self._defs)}</defs>" if self._defs else ""
         return (
             f'<?xml version="1.0" encoding="UTF-8"?>\n'
-            f'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" '
+            f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" '
             f'width="{self.larg}mm" height="{self.alt}mm" '
             f'viewBox="0 0 {self.larg} {self.alt}">\n'
             f'<rect width="{self.larg}" height="{self.alt}" fill="{self.fundo}"/>\n'

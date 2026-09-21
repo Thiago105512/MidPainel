@@ -5214,3 +5214,53 @@ esperados em movimento, 0 literais do caso fora do caso, 131 entidades todas
 em prancha (e em cena onde são volume), 0 funções privadas repetidas. BOM de
 165 itens, R$ 939.573,41 — inalterado: nenhum dos oito defeitos era de
 quantidade, todos eram de fonte, alcance ou nome.
+
+## R66 — Perspectivas: a casa de fora em oito azimutes e cada cômodo de dentro
+
+O proprietário pediu "um desenho real de como vai ficar, de todos os ângulos
+possíveis da casa, dos cômodos". A resposta honesta tem duas partes.
+
+**O que o modelo dá:** a maquete eletrônica fotografada. A cena do
+visualizador (caixas com cor, sol de Manaus por hora e época, sombra
+projetada, vidro translúcido) é capturada em Chromium headless de posições
+**derivadas do caso** — nenhuma é digitada:
+
+| Vista | Regra da câmera |
+|---|---|
+| Cômodo fechado | olho a 1.550 mm; candidatos = 700 mm para dentro de cada porta, 4 cantos e 4 meios de parede (500 mm de recuo); vence o ponto de onde um leque de 60° enxerga mais longe contra as **mesmas caixas que a cena desenha** (parede, móvel, escada, pilar); porta ganha o empate |
+| Subdivisão ≥ 4 m² (banho, closet, office) | mesma regra no retângulo dela; a do banho da suíte 03 não repete a da 02, espelhada |
+| Área aberta ≥ 9 m² | mesma regra |
+| Externa | 8 azimutes a 45° em volta do envelope construído, a 1,15 × diagonal, olho a 6,5 m (acima do muro, abaixo da platibanda), sol na hora que ilumina a face olhada; mais 2 aéreas |
+
+Cada foto vai para a prancha com a **planta-chave** (câmera e cone de visão),
+o ambiente, a hora do sol e a coordenada da câmera. Quatro pranchas: 43
+externas, 44 térreo, 45 áreas abertas, 46 superior — 42 vistas.
+
+**O que o modelo não dá:** render fotorrealista. Não há textura, material nem
+iluminação global, e a prancha diz isso na primeira nota. Gerar uma "imagem
+bonita" por IA seria uma figura que não é esta casa — o contrário de tudo o
+que o método faz. O caminho para o fotorrealismo é a geometria sair para um
+renderizador: `modelo3d.exportar_obj()` grava `out/porto-real.obj` + `.mtl`
+(2.992 vértices, 29 materiais por cor, metros, Y para cima) das mesmas caixas
+da cena, para Blender, SketchUp ou Twinmotion.
+
+**Regra que nasceu no caminho.** A primeira regra de câmera ("700 mm para
+dentro da porta, olhando o centro") produzia a cozinha vista por uma fresta
+entre dois armários altos e a garagem vista de dentro do carro. O leque de
+60° e a coluna do joelho ao olho livre de qualquer caixa resolveram os dois:
+a câmera passou a ser escolhida pelo que ela **vê**, não por onde a porta está.
+
+**Auditoria 139:** toda câmera interna dentro do seu cômodo e fora de parede
+ou móvel; todo cômodo fechado e toda área aberta ≥ 9 m² com vista; ao menos 8
+externas; fotos da revisão corrente (o manifesto grava a revisão — uma foto
+de R65 numa prancha de R66 é ERRO, não descuido).
+
+**Ordem do build.** O visualizador não depende das pranchas (lê `PR-xx.svg`
+em tempo de execução) e as perspectivas dependem do visualizador: cena e
+viewer saem primeiro, as fotos depois, e só então as pranchas 43–46 as
+embutem (`Canvas.imagem_p`, PNG em base64 dentro do SVG; `--no-persp` pula).
+
+**Estado em R66:** 139 auditorias, 0 erros (a 138 acusou, na primeira
+execução, dois nomes privados do módulo novo repetidos — `_cam`, `_dentro` —
+renomeados: o detector pegou o próprio autor); 212 verificações do
+visualizador, 0 falhas; 46 pranchas; 42 perspectivas da revisão corrente.

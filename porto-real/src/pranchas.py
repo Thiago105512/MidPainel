@@ -9,7 +9,7 @@ import mobiliario as mob
 import anotacao as an
 from core import P, Canvas, View, TXT, CINZA, PRETO, MARGEM_ESQ
 
-TOTAL_PRANCHAS = "42"
+TOTAL_PRANCHAS = "46"
 
 
 def base(titulo: str, escala: str, prancha: str, formato: str = "A1",
