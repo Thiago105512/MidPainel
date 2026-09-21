@@ -1111,7 +1111,15 @@ function executivoInstalacoes() {
     <table class="tab"><thead><tr><th>câmera</th><th>onde</th><th>olha</th><th>cabo m</th></tr></thead><tbody>
     ${S.cameras.map(c => `<tr><td>${esc2(c.cod)}</td><td>${esc2(c.onde)}</td><td>${esc2(c.olha)}</td><td class="num">${(c.cabo_mm / 1000).toFixed(1)}</td></tr>`).join("")}
     </tbody></table>` : "";
-  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : [])].filter(c => !c.ok)
+  const Lf = X.lsf;
+  const lsf = Lf ? `<h4 class="sub">LSF — contraventamento, cargas suspensas e fachada</h4>
+    <p class="desenho cap">${Lf.resumo.paineis_contraventados} painéis com fita X, ${Lf.resumo.holddowns} hold-downs;
+    ${Lf.resumo.cargas_suspensas} cargas suspensas com reforço (${Lf.resumo.osb_m2} m² de OSB); ${Lf.resumo.encontros_t} encontros em T;
+    ${Lf.resumo.placas_fachada} placas cimentícias a ${(Lf.resumo.aproveitamento_fachada * 100).toFixed(0)} %.</p>
+    <table class="tab"><thead><tr><th>item</th><th>amb</th><th>família</th><th>kg</th><th>parede</th><th>z mm</th><th>OSB m²</th></tr></thead><tbody>
+    ${Lf.cargas_suspensas.map(c => `<tr><td>${esc2(c.cod)}</td><td>${esc2(c.amb)}</td><td>${esc2(c.familia)}</td><td class="num">${c.carga_kg}</td><td>${esc2(c.parede || "—")}</td><td class="num">${c.z0}–${c.z1}</td><td class="num">${c.osb_m2}</td></tr>`).join("")}
+    </tbody></table>` : "";
+  const conf = [...E.conferencia, ...A.conferencia, ...C.conferencia, ...G.conferencia, ...(S ? S.conferencia : []), ...(Lf ? Lf.conferencia : [])].filter(c => !c.ok)
     .map(c => `<li><b>${esc2(c.titulo)}</b> — ${esc2(c.detalhe)}</li>`).join("");
   return `<h4 class="sub">Executivo (R72) — circuito a circuito, peça a peça</h4>
     <div class="cartoes" style="margin-bottom:16px">
@@ -1134,6 +1142,7 @@ function executivoInstalacoes() {
     <table class="tab"><thead><tr><th>peça</th><th>amb</th><th>tipo</th><th>z mm</th><th>estát.</th><th>perdas</th><th>dinâm.</th><th>como</th></tr></thead>
       <tbody>${pec}</tbody></table>
     ${seg}
+    ${lsf}
     ${conf ? `<h4 class="sub">Conferências que não passam</h4><ul>${conf}</ul>` : "<p class='conta'>todas as conferências do executivo passam</p>"}`;
 }
 

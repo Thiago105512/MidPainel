@@ -4612,6 +4612,23 @@ def checar_seguranca() -> list[Achado]:
     return out
 
 
+def checar_detalhes_lsf() -> list[Achado]:
+    """Contraventamento em planta, cargas suspensas, encontros e fachada (R75)."""
+    import projeto as pj
+    import nucleo.detalhes_lsf as dl
+    out = []
+    conf = dl.conferir(pj)
+    for t, d, ok in conf:
+        if not ok:
+            out.append(Achado("ERRO", t, d))
+    r = dl.resumo(pj)
+    out.append(Achado("NOTA", "lsf", f"{sum(1 for c in conf if c[2])} de {len(conf)} conferencias passam; "
+                      f"{r['paineis_contraventados']} paineis com fita, {r['holddowns']} hold-downs, "
+                      f"{r['cargas_suspensas']} cargas suspensas com parede, {r['encontros_t']} encontros em T, "
+                      f"{r['placas_fachada']} placas de fachada a {r['aproveitamento_fachada'] * 100:.0f} %"))
+    return out
+
+
 def checar_moldes_de_defeito() -> list[Achado]:
     """Meta-auditoria (R65): literais do caso, alcance das entidades, funcoes duplicadas.
 

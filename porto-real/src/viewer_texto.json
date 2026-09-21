@@ -1592,5 +1592,68 @@
     "detector de GLP a 300 mm do piso com corte na central"
    ]
   ]
+ },
+ {
+  "n": "67",
+  "t": "Contraventamento e tolerâncias",
+  "esc": "1:100",
+  "etapa": "R75",
+  "d": "Os 14 painéis com fita X em planta, hold-down em cada extremidade, o chumbador que o arrancamento de cada um pede, o veredito por direção e a tabela de tolerâncias de montagem.",
+  "k": [
+   [
+    "veredito",
+    "X: 57 contra 29 kN; Y: 86 contra 45 kN — folga nas duas categorias de vento"
+   ],
+   [
+    "hold-down",
+    "28, um em cada extremidade de painel com fita; chumbador por ligacoes.ancoragem"
+   ],
+   [
+    "tolerâncias",
+    "o que se mede, quanto pode variar, com que instrumento e quando"
+   ]
+  ]
+ },
+ {
+  "n": "68",
+  "t": "Detalhes do LSF",
+  "esc": "1:5 · 1:20",
+  "etapa": "R75",
+  "d": "Encontro em T e canto em L em planta, reforço para carga suspensa com os 13 itens locados na parede que os recebe, rodapé e junta de movimentação de fachada.",
+  "k": [
+   [
+    "carga suspensa",
+    "parede de LSF não segura bucha: OSB 18 mm entre montantes na faixa de altura de cada item"
+   ],
+   [
+    "encontros",
+    "12 encontros em T derivados das paredes; um detalhe, uma quantidade"
+   ],
+   [
+    "junta",
+    "10 mm com selante PU sobre montante duplo, a cada 6 m e em cada canto"
+   ]
+  ]
+ },
+ {
+  "n": "69",
+  "t": "Paginação de fachada e explodida",
+  "esc": "1:150 · 1:200",
+  "etapa": "R75",
+  "d": "A grade de placas cimentícias de cada painel externo, as juntas de movimentação, e os painéis externos afastados da planta em isométrico.",
+  "k": [
+   [
+    "nesting",
+    "contar placa por painel dava 228 e 44 % de perda; o nesting da casa dá 122 a 79 %"
+   ],
+   [
+    "explodida",
+    "cada painel afastado 1,5 m da parede; o superior erguido 2 m; códigos de fabricação"
+   ],
+   [
+    "juntas",
+    "33 juntas de movimentação: a cada 6 m e em cada canto, por parede externa"
+   ]
+  ]
  }
 ]

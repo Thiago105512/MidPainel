@@ -835,6 +835,16 @@ PROGRAMA = [
      "automacao por circuito de iluminacao, extintor por pavimento e detector "
      "em todo dormitorio. Incendio em residencia unifamiliar nao e exigido: o "
      "que esta na PR-66 e boa pratica e diz que e."),
+    (147, "LSF: contraventamento em planta, cargas suspensas, encontros e fachada",
+     ["checar_detalhes_lsf"], "AUTOMATIZADA",
+     "Secao 172. piso.contraventar provava que a fita X da conta do vento e "
+     "parava; faltava a planta com cada painel, o hold-down em cada ponta e o "
+     "chumbador. A marcenaria (R71) pendurou 11 moveis e duas TVs em parede de "
+     "LSF, que nao segura bucha: cada item e locado na parede que o recebe "
+     "(inclusive as das subdivisoes) e ganha reforco de OSB na faixa de altura. "
+     "Encontros em T derivados das paredes; placa de fachada pelo nesting da "
+     "casa inteira (contar por painel dava 228 e 44 % de perda; o nesting da "
+     "122 a 79 %)."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]

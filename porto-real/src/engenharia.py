@@ -35,6 +35,7 @@ import nucleo.agua as agu
 import nucleo.circuitos as cir
 import nucleo.gas as gas
 import nucleo.seguranca as seg
+import nucleo.detalhes_lsf as dlsf
 import nucleo.eletrica as elt
 import nucleo.mercado as mk
 
@@ -542,6 +543,10 @@ def montar() -> dict:
                            conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in cir.conferir(pj)]),
             gas=dict(rede=gas.rede(pj), renovacao=gas.renovacao(pj), suportes=gas.suportes(pj), ruido=gas.ruido(pj),
                      conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in gas.conferir(pj)]),
+            lsf=dict(resumo=dlsf.resumo(pj), contraventamento=dlsf.contraventamento(pj),
+                     cargas_suspensas=dlsf.cargas_suspensas(pj), encontros_t=dlsf.encontros_t(pj),
+                     tolerancias=dlsf.TOLERANCIAS,
+                     conferencia=[dict(titulo=t, detalhe=d, ok=o) for t, d, o in dlsf.conferir(pj)]),
             seguranca=dict(resumo=seg.resumo(pj), dados=seg.pontos_dados(pj), aps=seg.access_points(pj),
                            cameras=seg.cameras(pj), alarme=seg.alarme(pj), automacao=seg.automacao(pj),
                            incendio=seg.incendio(pj), wifi=seg.cobertura_wifi(pj),

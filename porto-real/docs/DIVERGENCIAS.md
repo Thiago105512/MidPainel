@@ -5775,3 +5775,33 @@ manta e detector de GLP — é boa prática, e a prancha diz que é.
 **Estado em R74:** 146 auditorias, 0 erros; 212 verificações do visualizador,
 0 falhas; 66 pranchas. Matriz: 460 distintos, 341 TEM + 44 NA = **84 %**,
 37 PARCIAL, 27 FALTA, 11 EXTERNO. BOM inalterado.
+
+## R75 — Complementos do LSF: o que a estrutura sabia e não desenhava
+
+`piso.contraventar` provava desde R16 que a fita X dá conta do vento; a
+prova ficava numa tabela. `nucleo/detalhes_lsf` põe em planta os **14
+painéis com fita**, o **hold-down em cada extremidade (28)** e o chumbador
+que `ligacoes.ancoragem` escolhe pelo arrancamento de cada um (PR-67), com a
+tabela de tolerâncias de montagem — o que se mede, quanto pode variar, com
+que instrumento e quando (H, NBR 16970).
+
+**Carga suspensa.** A marcenaria (R71) pendurou 11 móveis e duas TVs em
+parede de light steel frame, que não segura bucha. Cada item é locado na
+parede que o recebe — inclusive as das subdivisões (banhos, closet, office),
+que `derivar_paredes` não vê e onde estão 4 dos 13 — e ganha reforço de OSB
+18 mm entre montantes na faixa de altura do item: 19,8 m² (PR-68, detalhe
+C). Os 12 encontros em T saem das paredes (ponta de uma dentro de outra);
+não há cruzamento em cruz no partido. Rodapé e junta de movimentação de
+fachada nos detalhes D e E.
+
+**Paginação de fachada.** Contar placa por painel externo dava 228 placas e
+44 % de perda — o número errado que uma prancha "por painel" produziria. O
+nesting da casa inteira (`camadas.paginar`), que reaproveita os retalhos
+entre painéis, dá **122 placas a 79 %**. A grade por painel fica desenhada
+(é o que o montador vê); os totais vêm do nesting. 33 juntas de
+movimentação, por parede externa, a cada 6 m e em cada canto. A explodida
+dos painéis externos (PR-69) usa a mesma projeção isométrica das redes.
+
+**Estado em R75:** 147 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; 69 pranchas. Matriz: 460 distintos, 350 TEM + 45 NA = **86 %**,
+37 PARCIAL, **17 FALTA**, 11 EXTERNO. BOM inalterado.

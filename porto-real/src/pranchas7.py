@@ -364,6 +364,9 @@ INDICE = [
     ("64", "Pluvial em isometrico, gas, renovacao de ar e suportes (R72)"),
     ("65", "Dados, Wi-Fi, CFTV, alarme e automacao (R74)"),
     ("66", "Prevencao contra incendio: extintores, detectores e gas (R74)"),
+    ("67", "Contraventamento em planta, ancoragem e tolerancias de montagem (R75)"),
+    ("68", "Detalhes do LSF: encontros, carga suspensa, rodape e junta de fachada (R75)"),
+    ("69", "Paginacao de fachada e vista explodida (R75)"),
 ]
 ETAPA_DE = {**{n: "estudo (R00)" for n, _ in INDICE[:19]},
             **{n: "Etapa 2 (R03)" for n, _ in INDICE[19:25]},

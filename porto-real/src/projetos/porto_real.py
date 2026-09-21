@@ -3894,6 +3894,13 @@ REVISOES = [
      "circuito de iluminacao social com cortinas motorizadas e 4 cenas, "
      "extintor por pavimento e detector em todo dormitorio. PR-65 e 66, "
      "auditoria 146. 25 itens da matriz saem do backlog"),
+    ("R75", "LOTE 5 DO BACKLOG: COMPLEMENTOS DO LSF. nucleo/detalhes_lsf poe em "
+     "planta os 14 paineis com fita X com hold-down e chumbador (PR-67, com as "
+     "tolerancias de montagem), loca os 13 itens pendurados da marcenaria na "
+     "parede que os recebe com reforco de OSB, deriva os 12 encontros em T, "
+     "detalha rodape e junta de movimentacao (PR-68), pagina a fachada pelo "
+     "nesting da casa inteira e desenha a explodida dos paineis externos "
+     "(PR-69). Auditoria 147. 13 itens da matriz saem do backlog"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4100,13 +4107,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R74",
+    revisao="R75",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R74", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R75", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
