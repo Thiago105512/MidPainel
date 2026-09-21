@@ -233,7 +233,8 @@ def renderizar(ids: list[str], amostras: int = 96, larg: int = 1280, alt: int = 
         sc.render.resolution_percentage = 100
         sc.view_settings.view_transform = "AgX" if "AgX" in [i.identifier for i in sc.view_settings.bl_rna.properties["view_transform"].enum_items] else "Filmic"
         sc.view_settings.look = "AgX - Medium High Contrast" if sc.view_settings.view_transform == "AgX" else "None"
-        sc.view_settings.exposure = EXPOSICAO
+        # dentro de casa so entra a luz das aberturas: +2,5 EV sobre a calibracao externa
+        sc.view_settings.exposure = EXPOSICAO + (2.5 if v["tipo"] == "interna" else 0.0)
         sc.render.image_settings.file_format = "PNG"
         alvo = os.path.join(OUT, f"render-{vid}.png")
         sc.render.filepath = alvo
