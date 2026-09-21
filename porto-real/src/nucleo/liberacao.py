@@ -30,7 +30,7 @@ import nucleo.perfis as pf
 import nucleo.combinacoes as cb
 
 
-def _documentos_ok(pj, pecas, plano, paineis, cat) -> bool:
+def _documentos_ok(pj, pecas, plano, paineis, cat, carga=None) -> bool:
     """Os documentos da E20 geram de verdade e trazem conteudo?
 
     Conferir que a funcao existe nao basta: um gerador que devolve cabecalho
@@ -45,7 +45,7 @@ def _documentos_ok(pj, pecas, plano, paineis, cat) -> bool:
     # e cara — manda procurar o defeito no lugar errado. Se um gerador quebra,
     # que quebre alto: e a unica forma de ser consertado.
     docs = (dc.lista_de_pecas(pecas), dc.plano_de_corte(plano),
-            dc.packing_list({}, todos, cat),
+            dc.packing_list(carga, todos, cat),
             dc.relatorio_inspecao(pecas))
     return all(d.count("\n") > 5 for d in docs)
 
@@ -203,7 +203,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
     horas = passos[-1]["acumulado_h"] if passos else 0.0
 
     vols = [lo.Volume3D(p.cod, p.comp, 120, p.altura, p.massa(cat)) for p in todos]
-    carga = lo.carregar_container(vols, "40HC")
+    carga = lo.plano_de_transporte(vols)     # R69: container se couber, senao carreta
     desvios = [abs(lo.cg_painel(p, cat)["desvio_rel"]) for p in todos]
 
     massa_util = sum(p.massa for p in pecas)
@@ -302,7 +302,7 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         # exatamente a fabricacao. Consistencia interna nao e autorizacao.
         "pendencias": not pendencias_bloqueantes,
         "revisao": pj.CADASTRO.revisao == pj.EMISSAO["revisao"],
-        "documentacao": _documentos_ok(pj, pecas, plano, paineis, cat),
+        "documentacao": _documentos_ok(pj, pecas, plano, paineis, cat, carga),
     }
     # As duas verificacoes de R32 rodam SOBRE o resultado, e por isso vem por
     # ultimo: completude pergunta "isto esta aqui?" e plausibilidade pergunta

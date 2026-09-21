@@ -18,6 +18,16 @@ CONTAINERS = {
     "40'": dict(comp=12_032, larg=2_352, alt=2_393, carga_kg=26_680, volume=67.7),
     "40HC": dict(comp=12_032, larg=2_352, alt=2_698, carga_kg=26_512, volume=76.3),
 }
+# (H) carretas: semirreboque de 12,4 m e caminhao toco. O que importa aqui e a
+# ALTURA UTIL de carga em pe: um painel de 2.900 mm nao entra em container
+# nenhum (40HC tem 2.698 internos) e por isso vai de carreta aberta, em pe,
+# dentro do limite rodoviario de 4.400 mm com o assoalho a 1.300 mm.
+CARRETAS = {
+    "carreta 12,4 m": dict(comp=12_400, larg=2_500, alt=3_100, carga_kg=25_000,
+                           assoalho=1_300, obs="semirreboque aberto, paineis em pe em cavalete"),
+    "toco 7 m": dict(comp=7_000, larg=2_400, alt=3_100, carga_kg=8_000,
+                     assoalho=1_300, obs="caminhao toco, paineis em pe"),
+}
 # (H) limites rodoviarios: variam por pais, estado e via
 LIMITES_RODOVIARIOS = dict(largura=2_600, altura=4_400, comprimento=18_600,
                            peso_kg=45_000,
@@ -139,6 +149,60 @@ def carregar_container(itens: list, tipo: str = "40HC") -> dict:
                 excede_peso=massa > c["carga_kg"],
                 limitante="peso" if massa / c["carga_kg"] > vol / c["volume"]
                           else "volume")
+
+
+def carregar_carreta(itens: list, tipo: str = "carreta 12,4 m") -> dict:
+    """Paineis em pe, lado a lado ao longo da carreta, em quantas viagens forem.
+
+    A geometria do container reprova o painel de 2.900 mm; a da carreta nao.
+    O que limita aqui e o COMPRIMENTO util: cada painel ocupa a propria largura
+    (a espessura) mais folga de cavalete, e o resto e contar viagens.
+    """
+    c = CARRETAS[tipo]
+    L = LIMITES_RODOVIARIOS
+    rejeitados, viagens, atual, x, massa = [], [], [], 0.0, 0.0
+    for it in sorted(itens, key=lambda i: -i.comp):
+        if it.comp > c["comp"] or it.alt > c["alt"] or it.alt + c["assoalho"] > L["altura"]:
+            rejeitados.append((it.cod, "nao cabe em pe na carreta"))
+            continue
+        folga = it.larg + 60                      # espessura mais cavalete
+        if x + folga > c["comp"] or massa + it.massa > c["carga_kg"]:
+            viagens.append(dict(itens=atual, massa=massa, ocupacao=x / c["comp"]))
+            atual, x, massa = [], 0.0, 0.0
+        atual.append(it.cod); x += folga; massa += it.massa
+    if atual:
+        viagens.append(dict(itens=atual, massa=massa, ocupacao=x / c["comp"]))
+    postos = [it for it in itens if not any(r[0] == it.cod for r in rejeitados)]
+    m = sum(i.massa for i in postos)
+    return dict(veiculo=tipo, n=len(postos), rejeitados=rejeitados, massa=m,
+                viagens=len(viagens), detalhe=viagens,
+                uso_peso=(m / len(viagens) / c["carga_kg"]) if viagens else 0.0,
+                uso_comprimento=(sum(v["ocupacao"] for v in viagens) / len(viagens)) if viagens else 0.0,
+                altura_total=max((i.alt for i in postos), default=0) + c["assoalho"],
+                limite_altura=L["altura"], obs=c["obs"])
+
+
+def plano_de_transporte(itens: list) -> dict:
+    """Container se couber; senao carreta. A escolha sai da geometria, nao do gosto.
+
+    R69 (defeito 108): desde que o pe-direito subiu para 2.900 mm (R61) o
+    plano de carga rejeitava os 62 paineis em silencio — 0 volumes, 0 kg — e a
+    auditoria de logistica so testava um item sintetico de 14 m. O visualizador
+    mostrava "40HC, 0 volumes, 62 rejeitados" e ninguem leu.
+    """
+    cont = carregar_container(itens, "40HC")
+    if not cont["rejeitados"]:
+        return dict(modo="container", container="40HC", motivo="todos os paineis cabem",
+                    **{k: v for k, v in cont.items() if k != "container"})
+    car = carregar_carreta(itens)
+    maior = max((i.alt for i in itens), default=0)
+    return dict(modo="carreta", container="—",
+                motivo=f"painel de {maior:.0f} mm nao entra em pe no 40HC "
+                       f"({CONTAINERS['40HC']['alt']} mm internos): {len(cont['rejeitados'])} "
+                       f"rejeitados; vai de carreta aberta",
+                volume=sum(i.volume for i in itens), pilhas=car["viagens"],
+                uso_volume=car["uso_comprimento"], limitante="comprimento da carreta",
+                excede_peso=False, cg=(0.0, 0.0, 0.0), **car)
 
 
 def dentro_do_limite(comp: float, larg: float, alt: float, peso: float) -> dict:

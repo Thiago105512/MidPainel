@@ -75,6 +75,9 @@ CADERNO = [
     ("46", "PERSPECTIVAS INTERNAS — SUPERIOR",  lambda: p8.perspectivas("superior")),
     # R68 — a declividade confirmada do lote vira plataforma, cota e rampa
     ("47", "TERRENO: PERFIL, PLATAFORMA E COTAS", lambda: p8.terreno()),
+    # R69 — a lista de 621 entregaveis medida, e dois estudos que ela pedia
+    ("48", "MATRIZ DE ENTREGAVEIS — PRANCHA MESTRE", lambda: p8.entregaveis()),
+    ("49", "VENTILACAO NATURAL E PRIVACIDADE",   lambda: p8.ventilacao()),
 ]
 
 

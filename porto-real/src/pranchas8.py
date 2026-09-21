@@ -935,3 +935,137 @@ def terreno() -> Canvas:
                "A duvida deixou de ser risco.", TXT["micro"], "start", cor=CINZA)
 
     return cv
+
+
+
+# =========================================================================
+# PR-48 — MATRIZ DE ENTREGAVEIS (a prancha mestre, item 621) (R69)
+# =========================================================================
+def entregaveis() -> Canvas:
+    import nucleo.entregaveis as en
+    r = en.resumo()
+    ps = r["por_status"]
+    cv = base("MATRIZ DE ENTREGAVEIS — PRANCHA MESTRE", "s/ escala", "48", notas=[
+        f"{r['linhas']} itens pedidos pelo proprietario, {r['distintos']} entregaveis distintos "
+        f"(sinonimos contam uma vez, no item que os resolve).",
+        "TEM: existe e a referencia foi conferida pela auditoria 142. PARCIAL: o dado existe, "
+        "a prancha propria nao. FALTA: produz-se do modelo, ainda nao produzido.",
+        "EXTERNO: depende de levantamento, certidao ou obra. NA: nao se aplica a esta casa, "
+        "com a razao escrita.",
+        f"Resolvido (TEM + NA): {r['cobertura'] * 100:.0f} % dos distintos. "
+        f"Backlog: {ps['FALTA']} entregaveis.",
+    ])
+    cor = {"TEM": "#2e7d32", "PARCIAL": "#b26a00", "FALTA": "#c62828",
+           "EXTERNO": "#5c6bc0", "NA": "#757575"}
+    # ---- resumo por bloco
+    linhas = [[f"{l} · {b['nome'][:34]}", str(b["n"]), str(b["TEM"]), str(b["PARCIAL"]),
+               str(b["FALTA"]), str(b["EXTERNO"]), str(b["NA"])]
+              for l, b in r["por_bloco"].items()]
+    linhas.append(["TOTAL", str(r["distintos"]), str(ps["TEM"]), str(ps["PARCIAL"]),
+                   str(ps["FALTA"]), str(ps["EXTERNO"]), str(ps["NA"])])
+    y = _tabela(cv, (30, 40), "RESUMO POR BLOCO — ENTREGAVEIS DISTINTOS",
+                ["BLOCO", "N", "TEM", "PARC.", "FALTA", "EXT.", "NA"], linhas,
+                larguras=[96, 14, 14, 16, 16, 14, 12], h_lin=4.4)
+    # ---- barra de cobertura
+    x0, w = 30, 182
+    yb = y + 4
+    cv.texto_p((x0, yb), "COBERTURA DOS ENTREGAVEIS DISTINTOS", TXT["micro"], "start", peso="bold")
+    xx = x0
+    for st in ("TEM", "NA", "PARCIAL", "FALTA", "EXTERNO"):
+        wf = w * ps[st] / max(1, r["distintos"])
+        cv.poli_p([(xx, yb + 3), (xx + wf, yb + 3), (xx + wf, yb + 9), (xx, yb + 9)],
+                  "fino", fechado=True, preenche=cor[st], cor=cor[st])
+        if wf > 9:
+            cv.texto_p((xx + wf / 2, yb + 6.2), f"{st} {ps[st]}", TXT["micro"], "middle", cor="#fff")
+        xx += wf
+    # ---- a lista inteira, em colunas
+    itens = en.itens()
+    col_x = [232, 432, 632]
+    col_w = 196
+    y0, y1 = 40, 505
+    h = 2.75
+    por_col = int((y1 - y0) / h)
+    for k, it in enumerate(itens):
+        c = k // por_col
+        if c >= len(col_x):
+            break
+        yy = y0 + (k % por_col) * h
+        x = col_x[c]
+        with cv.escopo("entregavel", str(it["n"]), status=it["status"], ref=it["ref"]):
+            cv.poli_p([(x, yy - 1.0), (x + 2.2, yy - 1.0), (x + 2.2, yy + 1.0), (x, yy + 1.0)],
+                      "fino", fechado=True, preenche=cor[it["status"]], cor=cor[it["status"]])
+            nome = it["nome"][:38]
+            ref = it["ref"] if it["ref"] else ("=" + str(it["sinonimo_de"]) if it["sinonimo_de"] else "")
+            cv.texto_p((x + 4, yy + 0.7), f"{it['n']:>3} {nome}", 1.9, "start",
+                       cor="#333" if it["status"] != "NA" else "#888")
+            cv.texto_p((x + col_w - 2, yy + 0.7), ref[:22], 1.7, "end", cor=cor[it["status"]])
+    for i_, st in enumerate(("TEM", "PARCIAL", "FALTA", "EXTERNO", "NA")):
+        xx = 232 + i_ * 40
+        cv.poli_p([(xx, 511), (xx + 3, 511), (xx + 3, 514), (xx, 514)], "fino",
+                  fechado=True, preenche=cor[st], cor=cor[st])
+        cv.texto_p((xx + 5, 513), st, TXT["micro"], "start", cor=cor[st])
+    an.titulo_desenho(cv, (232, 522), "1", "Os 621 itens, com status e referencia", "s/ escala")
+    return cv
+
+
+# =========================================================================
+# PR-49 — VENTILACAO NATURAL E PRIVACIDADE (R69)
+# =========================================================================
+def ventilacao() -> Canvas:
+    import nucleo.ventilacao as vn
+    amb = vn.por_ambiente(pj)
+    pr = vn.privacidade(pj)
+    cv = base("VENTILACAO NATURAL, CRUZADA E PRIVACIDADE", "1:100", "49", notas=[
+        f"Area que ABRE por ambiente contra a area de piso. NBR 15575-4 exige "
+        f"{vn.MINIMO_15575 * 100:.0f} % na regiao Norte; NBR 15220-3 recomenda "
+        f"{vn.GRANDE_15220 * 100:.0f} % na ZB8 (aberturas grandes).",
+        "Fracao que abre por familia (H): cortina e porta-balcao 100 %, janela de correr 50 %, "
+        "basculante 33 %, porta opaca 0 %.",
+        f"Privacidade pelo art. 1.301 do Codigo Civil: janela que olha a divisa a menos de "
+        f"{vn.DIVISA_FRONTAL / 1000:.2f} m e proibida. O brise que protege esta nomeado.",
+        "Seta em cada face com abertura; duas ou mais faces = ventilacao cruzada.",
+    ])
+    cor_face = {"L": "#c8651a", "O": "#2a7ab8", "N": "#2e7d32", "S": "#8e44ad"}
+
+    def pavimento(pav, vw, titulo, num):
+        ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
+        for a in ambs:
+            r = next(x for x in amb if x["cod"] == a.cod)
+            fill = ("#e8f5e9" if r["cruzada"] else "#fff8e1" if r["n_faces"] == 1 else "#f5f5f5")
+            cv.poli_p([vw.pt(P(a.x, a.y)), vw.pt(P(a.x + a.w, a.y)), vw.pt(P(a.x + a.w, a.y + a.h)),
+                       vw.pt(P(a.x, a.y + a.h))], "vista", fechado=True, preenche=fill, cor="#888")
+            c = vw.pt(P(a.cx, a.cy))
+            cv.texto_p((c[0], c[1] - 2.2), a.nome[:18], TXT["micro"], "middle", peso="bold")
+            cv.texto_p((c[0], c[1] + 0.6), f"{r['fracao'] * 100:.0f} % abre · "
+                       f"{'cruzada' if r['cruzada'] else 'unilateral' if r['n_faces'] else 'sem abertura'}",
+                       TXT["micro"], "middle", cor=CINZA)
+            for f in r["faces"]:
+                d = 700
+                if f == "L":   p0, p1 = (a.cx, a.y - d), (a.cx, a.y + d)
+                elif f == "O": p0, p1 = (a.cx, a.y + a.h + d), (a.cx, a.y + a.h - d)
+                elif f == "N": p0, p1 = (a.x + a.w + d, a.cy), (a.x + a.w - d, a.cy)
+                else:          p0, p1 = (a.x - d, a.cy), (a.x + d, a.cy)
+                cv.linha_p(vw.pt(P(*p0)), vw.pt(P(*p1)), "corte", cor=cor_face[f])
+                e = vw.pt(P(*p1))
+                cv.circ_p(e, 0.7, "fino", preenche=cor_face[f], cor=cor_face[f])
+        an.titulo_desenho(cv, (vw.ox, 258), num, titulo, "1:100")
+
+    pavimento("T", View(100, 30, 245, pj.RECUO_ESQ, pj.RECUO_FRENTE), "TERREO — faces que abrem", "1")
+    pavimento("S", View(100, 300, 245, pj.RECUO_ESQ, pj.RECUO_FRENTE), "SUPERIOR — faces que abrem", "2")
+
+    linhas = [[r["cod"], r["nome"][:22], r["categoria"], f"{r['piso_m2']:.1f}", f"{r['abre_m2']:.2f}",
+               f"{r['fracao'] * 100:.0f} %", ",".join(r["faces"]) or "—",
+               ("cruzada" if r["cruzada"] else "unilateral" if r["n_faces"] else "—"),
+               ("OK" if r["atende_15575"] else "FALHA" if r["atende_15575"] is False else "n/e")]
+              for r in amb]
+    y = _tabela(cv, (30, 272), "VENTILACAO POR AMBIENTE",
+                ["COD", "AMBIENTE", "CAT.", "PISO m2", "ABRE m2", "FRACAO", "FACES", "TIPO", "15575"],
+                linhas, larguras=[16, 46, 20, 18, 18, 16, 16, 22, 16], h_lin=4.6) + 8
+    linhas = [[p["tipo"], p["amb"], p["face"], f"{p['distancia_divisa'] / 1000:.2f}",
+               (f"{p['minimo_legal'] / 1000:.2f}" if p["vizinho"] else "—"),
+               f"{p['peitoril']}", p["brise"] or "—", p["leitura"], "OK" if p["legal"] else "ILEGAL"]
+              for p in pr]
+    _tabela(cv, (30, y), "PRIVACIDADE — CADA JANELA CONTRA A DIVISA QUE OLHA (art. 1.301 CC)",
+            ["VAO", "AMB", "FACE", "DIST. m", "MIN. m", "PEITORIL", "BRISE", "LEITURA", ""],
+            linhas, larguras=[16, 20, 14, 18, 16, 20, 18, 46, 16], h_lin=4.4)
+    return cv

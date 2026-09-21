@@ -100,9 +100,16 @@ def plano_de_corte(plano: dict) -> str:
 
 
 def packing_list(carga: dict, paineis: list, cat_massa: dict) -> str:
+    # R69 — o pack vem do plano de transporte real (viagem de carreta ou
+    # pilha de container), nao de "12 por pacote" inventado
+    viagem_de = {}
+    for k, v in enumerate((carga or {}).get("detalhe", []) or [], 1):
+        for cod in v["itens"]:
+            viagem_de[cod] = k
     linhas = []
     for i, p in enumerate(paineis, 1):
-        linhas.append(dict(pack=f"PACK-{(i-1)//12+1:03d}", painel=p.cod,
+        linhas.append(dict(pack=(f"VIAGEM-{viagem_de[p.cod]:02d}" if p.cod in viagem_de
+                                 else f"PACK-{(i-1)//12+1:03d}"), painel=p.cod,
                            comp=f"{p.comp:.0f}", altura=f"{p.altura:.0f}",
                            massa=f"{p.massa(cat_massa):.1f}",
                            pecas=len(p.pecas), ordem_descarga=len(paineis) - i + 1))

@@ -400,6 +400,10 @@ def montar() -> dict:
                                    painel=_painel_do_passo(p["cod"]))
                               for p in r["passos"]]),
         logistica=dict(container=r["carga"]["container"],
+                       modo=r["carga"].get("modo", "container"),
+                       veiculo=r["carga"].get("veiculo", r["carga"]["container"]),
+                       motivo=r["carga"].get("motivo", ""),
+                       viagens=r["carga"].get("viagens", r["carga"].get("pilhas", 0)),
                        volumes=r["carga"]["n"],
                        rejeitados=len(r["carga"]["rejeitados"]),
                        uso_peso=r["carga"]["uso_peso"],
@@ -479,7 +483,7 @@ def montar() -> dict:
         documentos=dict(
             lista_de_pecas=dc.lista_de_pecas(r["pecas"]),
             plano_de_corte=dc.plano_de_corte(r["plano"]),
-            packing_list=dc.packing_list({}, r["paineis"], cat),
+            packing_list=dc.packing_list(r["carga"], r["paineis"], cat),
             manual=dc.manual_de_montagem(r["passos"]),
             inspecao=dc.relatorio_inspecao(r["pecas"]),
             memorial=dc.memorial_descritivo(pj, r),

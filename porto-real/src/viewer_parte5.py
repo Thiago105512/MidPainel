@@ -774,9 +774,9 @@ function vistaLogistica() {
       <span style="text-align:right">${num(E[k])} kg</span></div>`).join("");
   return `${barraModos()}${leitura("logistica")}
     <div class="cartoes" style="margin-bottom:16px">
-      <div class="cartao"><span class="rot">Container</span>
-        <span class="val" style="font-size:15px">${esc2(L.container)}</span>
-        <span class="uni">${L.volumes} volumes</span></div>
+      <div class="cartao"><span class="rot">${L.modo === "carreta" ? "Carreta" : "Container"}</span>
+        <span class="val" style="font-size:15px">${esc2(L.veiculo || L.container)}</span>
+        <span class="uni">${L.volumes} painéis · ${L.viagens} ${L.modo === "carreta" ? "viagens" : "pilhas"}</span></div>
       <div class="cartao"><span class="rot">Massa embarcada</span>
         <span class="val">${num(L.massa)}</span><span class="uni">kg</span></div>
       <div class="cartao"><span class="rot">Limitante</span>
@@ -787,7 +787,8 @@ function vistaLogistica() {
       <div class="cartao"><span class="rot">Desmontabilidade</span>
         <span class="val">${D.indice.toFixed(2)}</span><span class="uni">${esc2(D.classe)}</span></div>
     </div>
-    <div class="eng-sec"><h3>Ocupação do container</h3>
+    ${L.motivo ? `<p style="font-size:12px;color:var(--ink-faint);margin:0 0 12px">${esc2(L.motivo)}</p>` : ""}
+    <div class="eng-sec"><h3>Ocupação do ${L.modo === "carreta" ? "veículo" : "container"}</h3>
       ${b("peso", L.uso_peso)}${b("volume", L.uso_volume)}</div>
     <div class="eng-sec"><h3>CO₂e incorporado — ${num(E.total)} kg no total (fatores H)</h3>
       ${linhas}</div>`;

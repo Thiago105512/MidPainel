@@ -1165,5 +1165,55 @@
     "de pressão de vento entre a categoria IV e a III, verificado nas duas, e as duas passam"
    ]
   ]
+ },
+ {
+  "n": "48",
+  "t": "Matriz de entregáveis",
+  "esc": "s/ escala",
+  "etapa": "R69",
+  "d": "O proprietário entregou uma lista de 621 desenhos, quadros, planos e modelos e pediu tudo, completo. Completo não se afirma: mede-se. Cada item tem um status e uma referência conferida pela auditoria; os sinônimos contam uma vez. É a prancha mestre que o item 621 da própria lista pedia, e é também o backlog: o que ainda falta produzir do modelo está em vermelho, com número.",
+  "k": [
+   [
+    "621 → 431",
+    "linhas pedidas e entregáveis distintos, depois de juntar sinônimos"
+   ],
+   [
+    "TEM + NA",
+    "o que existe com referência conferida, mais o que não se aplica com razão escrita"
+   ],
+   [
+    "FALTA",
+    "o backlog, contado: tudo que o modelo sabe fazer e ainda não fez"
+   ],
+   [
+    "EXTERNO",
+    "levantamento, certidão, fotografia, as-built: depende de fora"
+   ]
+  ]
+ },
+ {
+  "n": "49",
+  "t": "Ventilação e privacidade",
+  "esc": "1:100",
+  "etapa": "R69",
+  "d": "Dois estudos que a lista pedia e o modelo sabia fazer. A área que abre em cada ambiente contra o piso, com as faces em que abre: duas faces é ventilação cruzada. E cada janela externa medida contra a divisa que olha, pelo art. 1.301 do Código Civil, com o brise que a protege. É regra legal, e é a que muda de lado se a pendência 16 mudar o recuo.",
+  "k": [
+   [
+    "8 %",
+    "mínimo da NBR 15575-4 para a região Norte, em dormitório e sala"
+   ],
+   [
+    "40 %",
+    "aberturas grandes da NBR 15220-3 para a ZB8: só a fita social chega lá"
+   ],
+   [
+    "1,50 m",
+    "distância mínima de janela à divisa do vizinho, art. 1.301"
+   ],
+   [
+    "brise",
+    "BR-S2 e BR-S3 existem por isto: a suíte olha a divisa sul a 2,40 m"
+   ]
+  ]
  }
 ]

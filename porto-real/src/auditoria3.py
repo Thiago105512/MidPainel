@@ -2183,6 +2183,22 @@ def checar_logistica() -> list[Achado]:
                       f"{c['volume']:.1f} m3; limitante = {c['limitante']}; "
                       f"peca de 14 m recusada por dimensao"))
 
+    # R69 (defeito 108) — a carga REAL, nao so o item sintetico: com o pe-direito
+    # em 2.900 mm nenhum painel entra em pe no 40HC e o plano passava a rejeitar
+    # os 62 em silencio. Agora o plano escolhe o veiculo pela geometria.
+    reais = [lo.Volume3D(p.cod, p.comp, 120, p.altura, p.massa(cat)) for p in pais]
+    pl = lo.plano_de_transporte(reais)
+    out.append(Achado("NOTA" if not pl["rejeitados"] else "ERRO", "carga real",
+                      f"modo {pl['modo']} ({pl.get('veiculo', pl['container'])}): "
+                      f"{pl['n']} de {len(reais)} paineis embarcados em "
+                      f"{pl.get('viagens', pl.get('pilhas', 0))} "
+                      f"{'viagens' if pl['modo'] == 'carreta' else 'pilhas'}; {pl['motivo']}"))
+    if pl["modo"] == "carreta":
+        out.append(Achado("NOTA" if pl["altura_total"] <= pl["limite_altura"] else "ERRO",
+                          "altura rodoviaria",
+                          f"painel em pe sobre assoalho: {pl['altura_total']:.0f} mm contra "
+                          f"limite de {pl['limite_altura']} mm"))
+
     # limites rodoviarios
     r = lo.dentro_do_limite(7_200, 2_400, 2_800, 1_200)
     r2 = lo.dentro_do_limite(7_200, 3_200, 2_800, 1_200)
@@ -4449,6 +4465,70 @@ def checar_vento_categoria() -> list[Achado]:
                       "massa, pecas e custo nao mudam entre as duas categorias: "
                       "o vento governa fita e chumbador, e os dois tem folga. "
                       "A duvida de categoria nao custa dinheiro"))
+    return out
+
+
+def checar_entregaveis() -> list[Achado]:
+    """Matriz de entregaveis (R69): toda referencia existe, todo NA tem razao."""
+    import os
+    import projeto as pj
+    import nucleo.entregaveis as en
+    import build
+    caderno = {n for n, _, _ in build.CADERNO}
+    eng = {"painel", "paineis", "pecas", "corte", "montagem", "logistica", "documentos",
+           "materiais", "parafusos", "instalacoes", "cotacao", "ambientes", "catalogo",
+           "fachada", "viabilidade", "geotecnia", "pluvial", "acustica", "eletrica", "bloqueios"}
+    out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "out")
+    falhas = en.conferir(pj, caderno, eng, out_dir)
+    r = en.resumo()
+    ps = r["por_status"]
+    out = [Achado("NOTA" if not falhas else "ERRO", "referencias",
+                  f"{r['linhas']} linhas, {r['distintos']} entregaveis distintos; "
+                  f"{len(falhas)} referencia(s) quebrada(s)"
+                  + (": " + "; ".join(f"{a} {b}" for a, b, _ in falhas[:6]) if falhas else ""))]
+    out.append(Achado("NOTA", "cobertura",
+                      f"TEM {ps['TEM']} · NA {ps['NA']} · PARCIAL {ps['PARCIAL']} · "
+                      f"FALTA {ps['FALTA']} · EXTERNO {ps['EXTERNO']} — "
+                      f"{r['cobertura'] * 100:.0f} % resolvido (TEM + NA) dos distintos"))
+    out.append(Achado("ATENCAO" if ps["FALTA"] else "NOTA", "backlog",
+                      f"{ps['FALTA']} entregaveis distintos ainda por produzir do modelo"
+                      + (" — " + ", ".join(str(i["n"]) for i in r["backlog"][:24])
+                         + ("…" if len(r["backlog"]) > 24 else "") if ps["FALTA"] else "")))
+    out.append(Achado("NOTA", "fora do modelo",
+                      f"{ps['EXTERNO']} dependem de dado ou obra externos: levantamento, "
+                      f"fotografia, as-built e midia"))
+    return out
+
+
+def checar_ventilacao_privacidade() -> list[Achado]:
+    """Ventilacao natural por ambiente e privacidade legal por janela (R69)."""
+    import projeto as pj
+    import nucleo.ventilacao as vn
+    out = []
+    amb = vn.por_ambiente(pj)
+    exig = [r for r in amb if r["exige_minimo"]]
+    falha = [r for r in exig if not r["atende_15575"]]
+    out.append(Achado("NOTA" if not falha else "ERRO", "NBR 15575-4 (Norte, 8 %)",
+                      f"{len(exig) - len(falha)} de {len(exig)} ambientes de permanencia "
+                      f"atendem" + (": faltam " + ", ".join(r["cod"] for r in falha) if falha else "")))
+    cruz = [r for r in exig if r["cruzada"]]
+    out.append(Achado("NOTA", "ventilacao cruzada",
+                      f"{len(cruz)} de {len(exig)} ambientes de permanencia abrem em duas ou "
+                      f"mais faces: {', '.join(r['cod'] for r in cruz)}"))
+    grandes = [r for r in amb if r["grande_15220"]]
+    out.append(Achado("NOTA", "NBR 15220-3 ZB8 (aberturas grandes, 40 %)",
+                      f"{len(grandes)} ambientes passam de 40 %: "
+                      f"{', '.join(r['cod'] for r in grandes) or 'nenhum'}; o resto e climatizado"))
+    pr = vn.privacidade(pj)
+    ilegal = [p for p in pr if not p["legal"]]
+    out.append(Achado("NOTA" if not ilegal else "ERRO", "art. 1.301 CC",
+                      f"{sum(1 for p in pr if p['vizinho'])} janelas olham divisa de vizinho; "
+                      f"{len(ilegal)} a menos de 1,50 m"
+                      + (": " + ", ".join(f"{p['tipo']}/{p['amb']}" for p in ilegal) if ilegal else "")))
+    exp = [p for p in pr if p["exposta"]]
+    out.append(Achado("NOTA" if not exp else "ATENCAO", "exposicao ao vizinho",
+                      f"{len(exp)} janela(s) a menos de 3 m da divisa sem brise nem peitoril alto"
+                      + (": " + ", ".join(f"{p['tipo']}/{p['amb']} face {p['face']}" for p in exp) if exp else "")))
     return out
 
 

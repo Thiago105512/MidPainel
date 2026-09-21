@@ -2265,11 +2265,17 @@ def climatizados() -> list[tuple[str, int, int]]:
     return out
 
 
+# R69 — o volume continuo da fita social como DADO, nao so como comentario:
+# estar, core, cozinha e gourmet nao tem parede entre si. A ventilacao natural
+# (nucleo/ventilacao) avalia o conjunto como um ar so, porque e o que ele e;
+# a climatizacao continua a dividi-lo pela FRONTEIRA_CLIMATICA abaixo.
+VOLUME_CONTINUO_SOCIAL = ["T-SOC", "T-COR", "T-COZ", "T-GOU"]
+
 # =========================================================================
 # FRONTEIRA CLIMATICA — como a fita social recebe ar condicionado sem parede
 #
-# O problema: estar + core + gourmet + cozinha formam 87,84 m2 de volume
-# continuo. Climatizar o conjunto exigiria 71.700 BTU/h (2 x 36.000) para
+# O problema: estar + core + gourmet + cozinha formam um volume continuo
+# (VOLUME_CONTINUO_SOCIAL; a area sai do caso, nao deste comentario). Climatizar o conjunto exigiria 71.700 BTU/h (2 x 36.000) para
 # resfriar justamente os dois ambientes que PRODUZEM calor — churrasqueira e
 # cooktop — e cuja exaustao joga o ar tratado fora. E termodinamicamente
 # absurdo pagar para resfriar o que se esta aquecendo e expulsando.
@@ -3818,6 +3824,19 @@ REVISOES = [
      "convencao de lateral esquerda/direita nao estava escrita, e ela decide "
      "qual lado recebe o recuo de 2,40 (pendencia 16). Pendencia 17: "
      "levantamento planialtimetrico. PR-47 nova; auditorias 140 e 141"),
+    ("R69", "OS 621 ENTREGAVEIS, MEDIDOS. O proprietario pediu a lista inteira, "
+     "padronizada e completa. Completo se mede: nucleo/entregaveis da a cada "
+     "item um status e uma referencia que a auditoria 142 confere — 621 "
+     "linhas, 431 distintos depois dos sinonimos. Classificar achou o defeito "
+     "108: desde o pe-direito de 2.900 mm (R61) nenhum painel entrava em pe no "
+     "40HC e o plano de carga rejeitava os 62 em silencio — 0 volumes, 0 kg no "
+     "visualizador — enquanto a auditoria de logistica testava um item "
+     "sintetico de 14 m. O transporte passa a escolher o veiculo pela "
+     "geometria: carreta aberta, paineis em pe, e o packing list sai da "
+     "viagem real. Dois estudos que a lista pedia e o modelo sabia fazer: "
+     "ventilacao natural e cruzada por ambiente (15575-4 e 15220-3) e "
+     "privacidade janela a janela pelo art. 1.301 do Codigo Civil. PR-48 "
+     "(matriz, a prancha mestre do item 621) e PR-49; auditorias 142 e 143"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4024,13 +4043,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R68",
+    revisao="R69",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R68", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R69", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

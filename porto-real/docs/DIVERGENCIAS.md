@@ -5453,3 +5453,80 @@ literais pegou de imediato um `40_000` na cadeia de cotas da PR-47, igual a
 **Estado em R68:** 141 auditorias, 0 erros; 212 verificações do visualizador,
 0 falhas; 47 pranchas; 45 perspectivas; 17 pendências, 9 abertas. BOM de 166
 itens, R$ 968.127,81, inalterado: a declividade não custou um centavo.
+
+## R69 — Os 621 entregáveis, medidos
+
+O proprietário entregou uma lista de 621 desenhos, quadros, planos e modelos e
+pediu tudo, padronizado e completo. A única forma racional de executar isso é
+medir antes de produzir. `nucleo/entregaveis.py` dá a cada item um status e
+uma referência, e a auditoria 142 confere que toda prancha, vista ou arquivo
+citado existe e que todo "não se aplica" tem razão escrita.
+
+| Status | Significado |
+|---|---|
+| TEM | existe; referência conferida |
+| PARCIAL | o dado existe, a prancha própria não |
+| FALTA | produz-se do modelo, ainda não produzido: o backlog |
+| EXTERNO | depende de levantamento, certidão, fotografia ou obra |
+| NA | não se aplica a esta casa, com a razão |
+
+A lista tem sinônimos em série (planimétrico e altimétrico são partes do
+planialtimétrico; planta baixa, cotada e executiva são a mesma prancha). Cada
+sinônimo aponta para o item que o resolve e conta uma vez: **621 linhas, 431
+entregáveis distintos**. A PR-48 é a matriz inteira e é, ao mesmo tempo, a
+"prancha mestre" que o item 621 da própria lista pedia.
+
+### Defeito 108 — o plano de carga rejeitava os 62 painéis em silêncio
+Classificar o bloco de logística obrigou a olhar o que a vista de logística
+mostrava: "40HC, 0 volumes, 62 rejeitados, 0 kg". Desde que o pé-direito subiu
+para 2.900 mm (R61), nenhum painel entra em pé num container 40HC, que tem
+2.698 mm internos. O plano de carga passou a rejeitar tudo, o visualizador
+passou a mostrar zero, e ninguém leu, porque a auditoria de logística testava
+um item sintético de 14 m, não a carga real. O packing list, por sua vez, era
+gerado com um dicionário vazio e inventava "12 painéis por pacote".
+
+Três correções: `plano_de_transporte()` escolhe o veículo pela geometria,
+container se couber e carreta aberta se não; o packing list sai da viagem
+real; a auditoria confere a carga real, não o dublê. Resultado: os 62 painéis
+em uma viagem de carreta de 12,4 m, em pé, a 4.200 mm contra 4.400 de limite
+rodoviário. Cinco itens da lista (225, 226, 460, 461, 537) passaram de
+PARCIAL ou FALTA a TEM por conta disto, e outros nove (montagem e documentos
+gerados) já existiam e estavam mal classificados na primeira passagem da
+matriz. A matriz corrige a si mesma quando se olha o que ela cita.
+
+### Dois estudos que a lista pedia e o modelo sabia fazer
+**Ventilação natural** (itens 16 e 17): área que abre por ambiente contra a
+área útil de piso, com as faces em que abre. Duas normas de natureza
+diferente: a NBR 15575-4 exige 8% na região Norte em dormitório e sala; a
+NBR 15220-3 recomenda "aberturas grandes", mais de 40%, na ZB8. Onde não há
+parede entre ambientes o ar é um só, e o caso passa a declarar isso como dado
+(`VOLUME_CONTINUO_SOCIAL`). Resultado: todos os ambientes de permanência
+atendem os 8%, as suítes 02 e 03 por 8,3%, e a fita social chega a 42,6%,
+acima dos 40% da ZB8. A primeira passagem, com área modular em vez de útil,
+reprovava as suítes por 7,9%: a base de área é o que decide, e a norma fala
+em área de piso.
+
+**Privacidade** (item 25): cada janela externa medida contra a divisa que
+olha, pelo art. 1.301 do Código Civil (1,50 m). Regra legal, não gosto. Todas
+passam; cinco janelas ficam a 2,40 m da divisa sul sem brise nem peitoril
+alto (J05 da oficina, J01 da cozinha, J05 e J04 das suítes 02 e 03) e entram
+como ATENÇÃO. Os brises BR-S2 e BR-S3 existem exatamente por isto e cobrem
+as janelas amplas; as basculantes de banho ficam expostas. É a regra que
+muda de lado se a pendência 16 mudar o recuo.
+
+Um comentário do caso dizia que o volume social tinha "87,84 m²"; a soma
+modular dá 91,44 e a útil 86,7. O número saiu do comentário e o dado entrou
+no caso.
+
+A primeira execução da auditoria 142 acusou nove referências quebradas: seis
+eram sinônimo apontando para outro sinônimo e três eram EXTERNO sem dizer de
+quem depende. Erros meus de classificação, pegos pelo detector que eu tinha
+acabado de escrever, resolvidos até a raiz por programa. É o mesmo padrão de
+sempre: conferência nova que acusa na primeira execução está acusando o
+autor, e é para isso que ela existe.
+
+**Estado em R69:** 143 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; 49 pranchas; 45 perspectivas. Matriz: 621 linhas, 433 entregáveis
+distintos, 264 TEM + 42 NA = 71% resolvido, 44 PARCIAL, 72 FALTA, 11 EXTERNO.
+BOM de 166 itens, R$ 968.127,81. Transporte: 62 painéis em 1 viagem de
+carreta, 4.200 mm contra 4.400 de limite.

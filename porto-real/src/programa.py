@@ -782,6 +782,24 @@ PROGRAMA = [
      "duas: as fitas saem de 51 % para 64 % de uso e o chumbador de 5,0 para "
      "6,4 kN contra 12,0 kN. Passa nas duas, com a mesma massa e o mesmo "
      "custo. A duvida de categoria deixou de ser risco."),
+    (142, "Matriz de entregaveis: os 621 itens do proprietario, um a um",
+     ["checar_entregaveis"], "AUTOMATIZADA",
+     "Secao 167. O proprietario entregou 621 desenhos, quadros, planos e "
+     "modelos e pediu tudo, completo. 'Completo' nao se afirma: mede-se. "
+     "nucleo/entregaveis da a cada item um status e uma referencia; a "
+     "auditoria confere que toda prancha, vista ou arquivo citado existe, que "
+     "todo 'nao se aplica' tem razao escrita, e conta o que falta. A lista tem "
+     "sinonimos (planimetrico e altimetrico sao partes do planialtimetrico): "
+     "431 entregaveis distintos em 621 linhas. A matriz e a PR-48 — a 'prancha "
+     "mestre' que a propria lista pedia no item 621."),
+    (143, "Ventilacao natural e privacidade: janela a janela",
+     ["checar_ventilacao_privacidade"], "AUTOMATIZADA",
+     "Secao 168. Dois estudos que a lista pedia e o modelo sabia fazer: area "
+     "que ABRE por ambiente contra o piso (NBR 15575-4 pede 8 % na regiao "
+     "Norte; a 15220-3 recomenda 40 % na ZB8) e faces distintas para ventilacao "
+     "cruzada; e cada janela externa contra a divisa que olha, pelo art. 1.301 "
+     "do Codigo Civil (1,50 m), com o brise que a protege. Regra legal, nao "
+     "gosto — e a que muda de lado se a pendencia 16 mudar o recuo."),
     (63, "Congelamento final", ["*"], "PARCIAL",
      "todas as criticas passam; o congelamento depende das 8 pendencias abertas"),
 ]
