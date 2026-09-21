@@ -560,20 +560,63 @@ def partes() -> tuple[str, str]:
     return cabeca, corpo
 
 
-def html() -> str:
-    """Fragmento para publicar como artefato: o host injeta <head> e <body>."""
+RECURSOS_JS = r'''<script>
+// R72 — a pagina carrega folhas e modelos por fetch(); aberta do disco
+// (file://) ou mandada sozinha pelo celular, o fetch nao acha nada e nenhum
+// botao faz nada. Quando os recursos vem EMBUTIDOS, lerRecurso() os entrega
+// sem rede; senao, cai no fetch de sempre. Uma unica leitura para os dois.
+window.EMBUTIDO = window.EMBUTIDO || {};
+window.lerRecurso = async function (nome) {
+  if (nome in EMBUTIDO) return EMBUTIDO[nome];
+  const r = await fetch(nome);
+  if (!r.ok) throw new Error(r.status);
+  return await r.text();
+};
+window.urlRecurso = function (nome) {
+  if (!(nome in EMBUTIDO)) return nome;
+  const tipo = nome.endsWith(".svg") ? "image/svg+xml" : "application/json";
+  return URL.createObjectURL(new Blob([EMBUTIDO[nome]], {type: tipo}));
+};
+</script>
+'''
+
+
+def _embutidos() -> str:
+    """Os SVGs das pranchas e os dois modelos, como texto, num <script>."""
+    out = os.path.dirname(OUT)
+    rec = {}
+    for n, _t, _f in __import__("build").CADERNO:
+        cam = os.path.join(out, f"PR-{n}.svg")
+        if os.path.exists(cam):
+            rec[f"PR-{n}.svg"] = open(cam, encoding="utf-8").read()
+    for nome in ("modelo3d.json", "engenharia.json"):
+        cam = os.path.join(out, nome)
+        if os.path.exists(cam):
+            rec[nome] = open(cam, encoding="utf-8").read()
+    js = json.dumps(rec, ensure_ascii=False).replace("</", "<\\/")
+    return f"<script>window.EMBUTIDO = {js};</script>\n"
+
+
+def html(embutir: bool = False) -> str:
+    """Fragmento para publicar como artefato: o host injeta <head> e <body>.
+    O <title> fica no comeco (o host so le os primeiros 8 KB) e os recursos
+    embutidos vem depois da folha de estilo."""
     cabeca, corpo = partes()
-    return cabeca + corpo
+    return cabeca + RECURSOS_JS + (_embutidos() if embutir else "") + corpo
 
 
-def documento() -> str:
+def documento(embutir: bool = False) -> str:
     """Pagina completa, para abrir do disco. O fragmento do artefato nao traz
     charset nem viewport porque o host os injeta; aberto em file:// sem eles o
-    navegador assume windows-1252 e o acento vira lixo."""
+    navegador assume windows-1252 e o acento vira lixo.
+
+    embutir=True poe as 59 folhas e os dois modelos dentro do proprio arquivo:
+    e o que se manda por mensagem e abre em qualquer lugar sem servidor."""
     cabeca, corpo = partes()
     return ('<!doctype html>\n<html lang="pt-BR">\n<head>\n'
             '<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+            + (_embutidos() if embutir else "") + RECURSOS_JS
             + cabeca + '</head>\n<body>\n' + corpo + '\n</body>\n</html>\n')
 
 
@@ -585,9 +628,13 @@ def main(destino: str | None = None) -> str:
     print(f"  {alvo}  {len(texto) // 1024} KB  (pagina completa)")
 
     frag = os.path.join(os.path.dirname(alvo), "caderno-artefato.html")
-    t2 = html()
+    t2 = html(embutir=True)
     open(frag, "w", encoding="utf-8").write(t2)
     print(f"  {frag}  {len(t2) // 1024} KB  (fragmento para artefato)")
+    unico = os.path.join(os.path.dirname(alvo), "porto-real-caderno-unico.html")
+    t3 = documento(embutir=True)
+    open(unico, "w", encoding="utf-8").write(t3)
+    print(f"  {unico}  {len(t3) // 1024} KB  (arquivo unico, com as folhas dentro)")
     return alvo
 
 

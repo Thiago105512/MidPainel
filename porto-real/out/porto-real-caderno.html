@@ -3,6 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+// R72 — a pagina carrega folhas e modelos por fetch(); aberta do disco
+// (file://) ou mandada sozinha pelo celular, o fetch nao acha nada e nenhum
+// botao faz nada. Quando os recursos vem EMBUTIDOS, lerRecurso() os entrega
+// sem rede; senao, cai no fetch de sempre. Uma unica leitura para os dois.
+window.EMBUTIDO = window.EMBUTIDO || {};
+window.lerRecurso = async function (nome) {
+  if (nome in EMBUTIDO) return EMBUTIDO[nome];
+  const r = await fetch(nome);
+  if (!r.ok) throw new Error(r.status);
+  return await r.text();
+};
+window.urlRecurso = function (nome) {
+  if (!(nome in EMBUTIDO)) return nome;
+  const tipo = nome.endsWith(".svg") ? "image/svg+xml" : "application/json";
+  return URL.createObjectURL(new Blob([EMBUTIDO[nome]], {type: tipo}));
+};
+</script>
 <title>Caderno Porto Real</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -602,7 +620,7 @@
     <div class="fig"><dt>Taxa de ocupação</dt><dd>33,21 <span>% · máx 50</span></dd></div>
     <div class="fig"><dt>Climatização</dt><dd>120 <span>mil BTU/h</span></dd></div>
     <div class="fig"><dt>Demanda elétrica</dt><dd>44,1 <span>kVA · 125 A</span></dd></div>
-    <div class="fig"><dt>Auditoria</dt><dd>653 <span>condições · 1 erro</span></dd></div>
+    <div class="fig"><dt>Auditoria</dt><dd>653 <span>condições · 0 erro</span></dd></div>
     <div class="fig"><dt>Eixo social</dt><dd>20,7 <span>m contínuos</span></dd></div>
     <div class="fig"><dt>Pranchas</dt><dd>59 <span>· A1</span></dd></div>
   </dl>
@@ -926,9 +944,7 @@ function NS(tag) { return document.createElementNS("http://www.w3.org/2000/svg",
 // ---------------------------------------------------------------- carga
 async function carregarFolha(arquivo) {
   try {
-    const r = await fetch(arquivo);
-    if (!r.ok) throw new Error(r.status);
-    const txt = await r.text();
+    const txt = await lerRecurso(arquivo);
     folha.innerHTML = txt.replace(/<\?xml[^?]*\?>/, "");
     svg2d = folha.querySelector("svg");
     svg2d.removeAttribute("width");
@@ -943,7 +959,7 @@ async function carregarFolha(arquivo) {
     svg2d = null;
     nat = {w: 841, h: 594};
   }
-  miniImg.src = arquivo;
+  miniImg.src = urlRecurso(arquivo);
   ajustar();
 }
 
@@ -1727,7 +1743,7 @@ function modo(qual) {
   if (qual === "2d") { if (svg2d) ajustar(semMoldura ? caixaDesenho() : null); return; }
   if (!carregou3d) {
     carregou3d = true;
-    fetch("modelo3d.json").then(r => r.json()).then(d => {
+    lerRecurso("modelo3d.json").then(t => JSON.parse(t)).then(d => {
       montar3D(d);
       const ul = document.getElementById("cenas");
       d.cenas.forEach((c, i) => {
@@ -3127,7 +3143,7 @@ let _promessaENG = null;
 function garantirENG() {
   if (ENG) return Promise.resolve(ENG);
   if (!_promessaENG) {
-    _promessaENG = fetch("engenharia.json").then(r => r.json()).then(d => {
+    _promessaENG = lerRecurso("engenharia.json").then(t => JSON.parse(t)).then(d => {
       ENG = d;
       if (!painelSel && d.paineis && d.paineis.length) painelSel = d.paineis[0].cod;
       return d;

@@ -145,9 +145,7 @@ function NS(tag) { return document.createElementNS("http://www.w3.org/2000/svg",
 // ---------------------------------------------------------------- carga
 async function carregarFolha(arquivo) {
   try {
-    const r = await fetch(arquivo);
-    if (!r.ok) throw new Error(r.status);
-    const txt = await r.text();
+    const txt = await lerRecurso(arquivo);
     folha.innerHTML = txt.replace(/<\?xml[^?]*\?>/, "");
     svg2d = folha.querySelector("svg");
     svg2d.removeAttribute("width");
@@ -162,7 +160,7 @@ async function carregarFolha(arquivo) {
     svg2d = null;
     nat = {w: 841, h: 594};
   }
-  miniImg.src = arquivo;
+  miniImg.src = urlRecurso(arquivo);
   ajustar();
 }
 

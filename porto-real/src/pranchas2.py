@@ -164,16 +164,13 @@ def _skyline(eixo: str, ini: int, fim: int, fixo_min: bool):
 
 
 def _na_face(pav: str, x: int, y: int, ori: str, face_dir: str) -> bool:
-    """O vao esta numa parede externa voltada para a face pedida?"""
-    ambs = pj.TERREO if pav == "T" else pj.SUPERIOR
-    d = 300
-    if ori == "H":
-        sul, norte = _ponto_em_ambiente(ambs, x, y - d), _ponto_em_ambiente(ambs, x, y + d)
-        return (face_dir == "S" and norte and not sul) or \
-               (face_dir == "N" and sul and not norte)
-    oeste, leste = _ponto_em_ambiente(ambs, x - d, y), _ponto_em_ambiente(ambs, x + d, y)
-    return (face_dir == "O" and leste and not oeste) or \
-           (face_dir == "L" and oeste and not leste)
+    """O vao esta numa parede externa voltada para a face pedida?
+
+    R72 — ate aqui a funcao tinha a sua propria rosa dos ventos ("S" era o
+    lado da rua) e a PR-07 saia com FRONTAL (SUL) numa casa cuja testada e
+    LESTE desde R68. Agora le a mesma face que todo o resto do modelo
+    (projeto.face_do_vao): L = rua, O = fundos, S e N = laterais."""
+    return pj.face_do_vao(x, y, ori, pav) == face_dir
 
 
 def _fachada(cv: Canvas, vw: View, eixo: str, ini: int, fim: int,
@@ -236,16 +233,19 @@ def fachadas() -> Canvas:
         "Maximo de 3 familias de acabamento: mineral claro, aluminio grafite, aluminio amadeirado.",
         "Vidro reduzido na frente e concentrado no social posterior.",
         "Condensadoras concentradas na faixa tecnica lateral direita, ocultas por painel ventilado h=1.800 mm.",
-        "Muros laterais e de fundo h = 2.200 mm; sem muro frontal.",
+        "Muros laterais, de fundo e de testada h = 2.200 mm; portoes de veiculo e de pedestre na testada (PORTAO_TESTADA).",
     ])
     x0, y0, x1, y1 = _extremos(pj.TERREO)
 
-    _fachada(cv, View(80, 60, 160, x0, 0), "H", x0, x1, "FACHADA FRONTAL (SUL)", "frontal", "S")
-    _fachada(cv, View(80, 60, 330, x0, 0), "H", x0, x1, "FACHADA POSTERIOR (NORTE)", "posterior", "N")
+    # faces reais do caso: testada LESTE (y = 0), fundos OESTE; laterais SUL
+    # (x = 0) e NORTE. Esquerda/direita pela convencao do observador na rua
+    # olhando o lote (pendencia 16): direita = NORTE.
+    _fachada(cv, View(80, 60, 160, x0, 0), "H", x0, x1, "FACHADA FRONTAL (LESTE — RUA)", "frontal", "L")
+    _fachada(cv, View(80, 60, 330, x0, 0), "H", x0, x1, "FACHADA POSTERIOR (OESTE — PISCINA)", "posterior", "O")
     _fachada(cv, View(80, 60, 500, y0, 0), "V", y0, y1,
-             "FACHADA LATERAL ESQUERDA (OESTE)", "lateral", "O")
+             "FACHADA LATERAL ESQUERDA (SUL)", "lateral", "S")
     _fachada(cv, View(80, 400, 500, y0, 0), "V", y0, y1,
-             "FACHADA LATERAL DIREITA (LESTE)", "lateral", "L")
+             "FACHADA LATERAL DIREITA (NORTE)", "lateral", "N")
 
     an.titulo_desenho(cv, (400, 170), "1", "FACHADAS", "1:80")
     an.escala_grafica(cv, (400, 190), View(80, 0, 0), 2_000, 5)

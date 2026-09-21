@@ -1485,7 +1485,7 @@ let _promessaENG = null;
 function garantirENG() {
   if (ENG) return Promise.resolve(ENG);
   if (!_promessaENG) {
-    _promessaENG = fetch("engenharia.json").then(r => r.json()).then(d => {
+    _promessaENG = lerRecurso("engenharia.json").then(t => JSON.parse(t)).then(d => {
       ENG = d;
       if (!painelSel && d.paineis && d.paineis.length) painelSel = d.paineis[0].cod;
       return d;

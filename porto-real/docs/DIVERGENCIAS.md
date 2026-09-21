@@ -5637,3 +5637,25 @@ meu repetido entre módulos na primeira execução: renomeado.
 0 falhas; 59 pranchas; 21 vistas de engenharia. Matriz: 621 linhas, 447
 entregáveis distintos, 308 TEM + 43 NA = 79 % resolvido, 40 PARCIAL, 45
 FALTA, 11 EXTERNO. BOM de 167 itens, R$ 1.020.320,51.
+
+### R71 — adendo: o caderno que não abria e a prancha que apontava para o lado errado
+O proprietário abriu o HTML no celular, apertou a prancha 34 e nada apareceu.
+O visualizador carregava cada folha por `fetch("PR-34.svg")`: funciona
+servido por HTTP, e é exatamente isso que o teste fazia. Mandado sozinho por
+mensagem ou aberto do disco, o arquivo não tem as 59 folhas ao lado nem
+permissão para buscá-las (file:// bloqueia fetch). O teste passava porque
+testava o cenário em que o defeito não existe.
+
+Correção: uma leitura única (`lerRecurso`) que serve o recurso embutido se
+houver e cai no fetch se não; `porto-real-caderno-unico.html` carrega as 59
+folhas e os dois modelos dentro de si (11 MB) e abre de qualquer lugar; o
+artefato publicado é o mesmo arquivo. O teste passou a abrir o arquivo único
+por file:// e conferir que a prancha, a engenharia e o 3D carregam.
+
+**Defeito 109 — a PR-07 tinha a própria rosa dos ventos.** `_na_face` chamava
+de "S" o lado da rua e de "L" o lado norte, convenção de antes de R68; a
+prancha saía com FRONTAL (SUL) numa casa cuja testada é LESTE. Agora lê
+`projeto.face_do_vao`, a mesma face de todo o resto. A nota "sem muro
+frontal" também estava velha: há muro de 2,2 m na testada com dois portões
+(PORTAO_TESTADA) desde R49 — e esse muro é parte da resposta à pergunta
+sobre a fachada, tratada no R72.

@@ -38,7 +38,7 @@
 <text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Maximo de 3 familias de acabamento: mineral claro, aluminio grafite, aluminio amadeirado.</text>
 <text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Vidro reduzido na frente e concentrado no social posterior.</text>
 <text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Condensadoras concentradas na faixa tecnica lateral direita, ocultas por painel ventilado h=1.800 mm.</text>
-<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Muros laterais e de fundo h = 2.200 mm; sem muro frontal.</text>
+<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Muros laterais, de fundo e de testada h = 2.200 mm; portoes de veiculo e de pedestre na testada (PORTAO_TESTADA).</text>
 </g>
 <g clip-path="url(#rec1)" data-tipo="recorte">
 <polygon points="60.000,160.000 63.750,160.000 63.750,75.625 60.000,75.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
@@ -95,8 +95,16 @@
 <polygon points="161.250,146.250 176.250,146.250 176.250,131.250 161.250,131.250" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="161.250" y1="138.750" x2="176.250" y2="138.750" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="168.750" y="138.750" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J01</text>
+<polygon points="73.125,160.000 84.375,160.000 84.375,133.750 73.125,133.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="78.750" y="146.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P04</text>
 <polygon points="84.375,160.000 95.625,160.000 95.625,133.750 84.375,133.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <text x="90.000" y="146.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P04</text>
+<polygon points="159.375,160.000 170.625,160.000 170.625,133.750 159.375,133.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="165.000" y="146.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P04</text>
+<polygon points="136.875,160.000 148.125,160.000 148.125,133.750 136.875,133.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="142.500" y="146.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P02</text>
+<polygon points="129.375,118.750 140.625,118.750 140.625,92.500 129.375,92.500" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="135.000" y="105.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P02</text>
 <polygon points="97.500,105.000 112.500,105.000 112.500,90.000 97.500,90.000" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="97.500" y1="97.500" x2="112.500" y2="97.500" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="105.000" y="97.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J01</text>
@@ -123,7 +131,7 @@
 <line x1="228.800" y1="76.325" x2="230.200" y2="74.925" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="228.384" y="79.062" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 228.384 79.062)">0,55</text>
 </g>
-<text x="138.750" y="177.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA FRONTAL (SUL)</text>
+<text x="138.750" y="177.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA FRONTAL (LESTE — RUA)</text>
 <polygon points="60.000,330.000 63.750,330.000 63.750,245.625 60.000,245.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="63.750,330.000 67.500,330.000 67.500,245.625 63.750,245.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="67.500,330.000 71.250,330.000 71.250,245.625 67.500,245.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
@@ -202,7 +210,7 @@
 <line x1="228.800" y1="246.325" x2="230.200" y2="244.925" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="228.384" y="249.062" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 228.384 249.062)">0,55</text>
 </g>
-<text x="138.750" y="347.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA POSTERIOR (NORTE)</text>
+<text x="138.750" y="347.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA POSTERIOR (OESTE — PISCINA)</text>
 <polygon points="60.000,500.000 63.750,500.000 63.750,460.625 60.000,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="63.750,500.000 67.500,500.000 67.500,460.625 63.750,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="67.500,500.000 71.250,500.000 71.250,460.625 67.500,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
@@ -311,7 +319,7 @@
 <line x1="311.300" y1="416.325" x2="312.700" y2="414.925" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="310.884" y="419.062" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 310.884 419.062)">0,55</text>
 </g>
-<text x="180.000" y="517.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA LATERAL ESQUERDA (OESTE)</text>
+<text x="180.000" y="517.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA LATERAL ESQUERDA (SUL)</text>
 <polygon points="400.000,500.000 403.750,500.000 403.750,460.625 400.000,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="403.750,500.000 407.500,500.000 407.500,460.625 403.750,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polygon points="407.500,500.000 411.250,500.000 411.250,460.625 407.500,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
@@ -378,6 +386,10 @@
 <polygon points="636.250,500.000 640.000,500.000 640.000,460.625 636.250,460.625" stroke="#eee" stroke-width="0.1" fill="url(#fach)" stroke-linejoin="miter"/>
 <polyline points="400.000,500.000 400.000,460.625 403.750,460.625 407.500,460.625 411.250,460.625 415.000,460.625 418.750,460.625 422.500,460.625 426.250,460.625 430.000,460.625 433.750,460.625 437.500,460.625 441.250,460.625 445.000,460.625 448.750,460.625 452.500,460.625 456.250,460.625 460.000,460.625 463.750,460.625 467.500,460.625 471.250,460.625 475.000,460.625 475.000,460.625 475.000,415.625 478.750,415.625 482.500,415.625 486.250,415.625 490.000,415.625 493.750,415.625 497.500,415.625 501.250,415.625 505.000,415.625 508.750,415.625 512.500,415.625 516.250,415.625 520.000,415.625 523.750,415.625 527.500,415.625 531.250,415.625 535.000,415.625 538.750,415.625 542.500,415.625 546.250,415.625 550.000,415.625 553.750,415.625 557.500,415.625 561.250,415.625 565.000,415.625 568.750,415.625 572.500,415.625 576.250,415.625 580.000,415.625 583.750,415.625 587.500,415.625 591.250,415.625 595.000,415.625 598.750,415.625 602.500,415.625 606.250,415.625 610.000,415.625 613.750,415.625 617.500,415.625 621.250,415.625 625.000,415.625 625.000,415.625 625.000,460.625 628.750,460.625 632.500,460.625 636.250,460.625 640.000,460.625" stroke="#000000" stroke-width="0.3" fill="none" stroke-linejoin="miter"/>
 <line x1="385.000" y1="500.000" x2="655.000" y2="500.000" stroke="#000000" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+<polygon points="454.375,500.000 465.625,500.000 465.625,473.750 454.375,473.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="460.000" y="486.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P06</text>
+<polygon points="461.875,500.000 473.125,500.000 473.125,473.750 461.875,473.750" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="467.500" y="486.875" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P02</text>
 <polygon points="455.000,481.250 465.000,481.250 465.000,470.000 455.000,470.000" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="455.000" y1="475.625" x2="465.000" y2="475.625" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="460.000" y="475.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J04</text>
@@ -400,6 +412,12 @@
 <polygon points="602.500,500.000 632.500,500.000 632.500,470.000 602.500,470.000" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="602.500" y1="485.000" x2="632.500" y2="485.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="617.500" y="485.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">PV02</text>
+<polygon points="521.875,458.750 533.125,458.750 533.125,432.500 521.875,432.500" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="527.500" y="445.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P02</text>
+<polygon points="536.875,458.750 548.125,458.750 548.125,432.500 536.875,432.500" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="542.500" y="445.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P02</text>
+<polygon points="520.000,458.750 531.250,458.750 531.250,432.500 520.000,432.500" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
+<text x="525.625" y="445.625" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">P02</text>
 <polygon points="527.500,445.000 542.500,445.000 542.500,430.000 527.500,430.000" stroke="#000000" stroke-width="0.3" fill="#eaf2f8" stroke-linejoin="miter"/>
 <line x1="527.500" y1="437.500" x2="542.500" y2="437.500" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
 <text x="535.000" y="437.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">J01</text>
@@ -430,7 +448,7 @@
 <line x1="651.300" y1="416.325" x2="652.700" y2="414.925" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="650.884" y="419.062" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 650.884 419.062)">0,55</text>
 </g>
-<text x="520.000" y="517.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA LATERAL DIREITA (LESTE)</text>
+<text x="520.000" y="517.500" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">FACHADA LATERAL DIREITA (NORTE)</text>
 <circle cx="404.000" cy="166.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
 <text x="404.000" y="166.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
 <text x="411.000" y="164.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">FACHADAS</text>

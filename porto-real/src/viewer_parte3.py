@@ -427,7 +427,7 @@ function modo(qual) {
   if (qual === "2d") { if (svg2d) ajustar(semMoldura ? caixaDesenho() : null); return; }
   if (!carregou3d) {
     carregou3d = true;
-    fetch("modelo3d.json").then(r => r.json()).then(d => {
+    lerRecurso("modelo3d.json").then(t => JSON.parse(t)).then(d => {
       montar3D(d);
       const ul = document.getElementById("cenas");
       d.cenas.forEach((c, i) => {
