@@ -51,15 +51,18 @@ def faces(pj) -> list[dict]:
         return seg
 
     out = []
-    for face, larg_t, larg_s in (
-            ("L", y1 - y0, max((a.y + a.h) for a in pj.SUPERIOR)
-             - min(a.y for a in pj.SUPERIOR)),
-            ("O", y1 - y0, max((a.y + a.h) for a in pj.SUPERIOR)
-             - min(a.y for a in pj.SUPERIOR)),
-            ("S", x1 - x0, max((a.x + a.w) for a in pj.SUPERIOR)
-             - min(a.x for a in pj.SUPERIOR)),
-            ("N", x1 - x0, max((a.x + a.w) for a in pj.SUPERIOR)
-             - min(a.x for a in pj.SUPERIOR))):
+    # R64 — defeito 96: as larguras estavam TROCADAS. A face LESTE e a parede
+    # em y = y0 (a testada esta em y = 0), que corre ao longo de X: sua
+    # largura e x1 - x0 = 12,6 m, nao y1 - y0 = 19,2. O mesmo _face_do_vao
+    # abaixo ja classificava certo (H em y0 -> L); so a extensao da parede
+    # olhava o eixo errado. O total das quatro faces nao mudava — por isso
+    # passou — mas a fracao de vidro por face, que decide brise e vidro,
+    # estava atribuida a face errada.
+    sx_t, sy_t = x1 - x0, y1 - y0
+    sx_s = max((a.x + a.w) for a in pj.SUPERIOR) - min(a.x for a in pj.SUPERIOR)
+    sy_s = max((a.y + a.h) for a in pj.SUPERIOR) - min(a.y for a in pj.SUPERIOR)
+    for face, larg_t, larg_s in (("L", sx_t, sx_s), ("O", sx_t, sx_s),
+                                 ("S", sy_t, sy_s), ("N", sy_t, sy_s)):
         area = (larg_t * h_t + larg_s * h_s) / 1e6
         vaos = [v for v in pj.VAOS if _face_do_vao(pj, v) == face]
         a_vao = sum(pj.ESQUADRIAS[t][0] * pj.ESQUADRIAS[t][1]

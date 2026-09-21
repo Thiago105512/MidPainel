@@ -5107,3 +5107,14 @@ envelheceu. O teste lê `previsao_iluminacao_tug()`.
 
 **Estado em R63:** 137 auditorias, 0 erros; 212 verificações do visualizador,
 0 falhas; BOM de 165 itens, R$ 939.573,41.
+
+### Defeito 96 (R64) — as larguras das faces da fachada estavam trocadas
+`fachada.faces()` dava à face leste (testada, parede em y = 0, que corre ao
+longo de X) a largura y1 − y0 = 19,2 m, e às faces norte/sul a largura
+x1 − x0 = 12,6 m — o inverso. O classificador de vãos da mesma função estava
+certo, só a extensão da parede olhava o eixo errado. O total das quatro faces
+não mudava, por isso passou em toda auditoria de soma; a **fração de vidro por
+face** — o número que justifica brise e vidro — estava na face errada.
+Achado ao responder "quanto vidro tem a casa": três contadores de vidro
+(vãos, esquadrias líquidas de caixilho, faces) davam três números, e o
+terceiro não fechava por orientação.

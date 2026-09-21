@@ -3618,6 +3618,11 @@ REVISOES = [
      "Fachada: os balizadores de piso saem (agua e inseto); fica o risco "
      "horizontal sob o beiral. Ralos lineares ja existiam desde R45 — a "
      "sugestao estava atrasada em relacao ao proprio modelo"),
+    ("R64", "QUANTO VIDRO TEM A CASA. A pergunta tinha tres respostas no modelo "
+     "— 68,0 m2 de vao envidracado, 59,6 m2 de vidro liquido de caixilho, e "
+     "as faces da fachada — e a terceira nao fechava por orientacao: as "
+     "larguras das faces estavam trocadas (defeito 96). Corrigido; o vidro "
+     "e 22,9 % da area fechada, 39 % dele na face oeste"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3803,13 +3808,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R63",
+    revisao="R64",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R63", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R64", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",
