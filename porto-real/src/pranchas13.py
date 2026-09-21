@@ -74,7 +74,7 @@ def contraventamento() -> Canvas:
     return cv
 
 
-def _bloco(cv, vw, x, z, w, h, cor, preenche, rot=None, estilo="corte"):
+def _caixa_det(cv, vw, x, z, w, h, cor, preenche, rot=None, estilo="corte"):
     cv.poli_p([vw.pt(P(x, z)), vw.pt(P(x + w, z)), vw.pt(P(x + w, z + h)), vw.pt(P(x, z + h))], estilo, fechado=True, preenche=preenche, cor=cor)
     if rot:
         cv.texto_p(vw.pt(P(x + w / 2, z + h / 2)), rot, TXT["micro"], "middle")
@@ -103,58 +103,58 @@ def detalhes() -> Canvas:
     ])
     # ---- A: encontro em T, planta 1:5
     vw = View(5, 100, 200, 0, 0)
-    _bloco(cv, vw, -300, 0, 900, 12.5, "#888", "#f0eee8")                 # placa da parede continua (face)
-    _bloco(cv, vw, -300, 12.5 + 90, 900, 12.5, "#888", "#f0eee8")
+    _caixa_det(cv, vw, -300, 0, 900, 12.5, "#888", "#f0eee8")                 # placa da parede continua (face)
+    _caixa_det(cv, vw, -300, 12.5 + 90, 900, 12.5, "#888", "#f0eee8")
     for xx in (-300 + 20, -300 + 600 + 20):
         _ue(cv, vw, xx, 12.5)
     _ue(cv, vw, 150 - 45 - 100, 12.5)                                     # montante adicional
     _ue(cv, vw, 150 - 45 + 100, 12.5)
     # parede que chega (vertical no detalhe), com guia
-    _bloco(cv, vw, 150 - 45, 12.5 + 90 + 12.5, 90, 300, "#9bb7d4", "#dfe9f2", "guia U 92")
-    _bloco(cv, vw, 150 - 45 - 12.5, 12.5 + 90 + 12.5, 12.5, 300, "#888", "#f0eee8")
-    _bloco(cv, vw, 150 + 45, 12.5 + 90 + 12.5, 12.5, 300, "#888", "#f0eee8")
+    _caixa_det(cv, vw, 150 - 45, 12.5 + 90 + 12.5, 90, 300, "#9bb7d4", "#dfe9f2", "guia U 92")
+    _caixa_det(cv, vw, 150 - 45 - 12.5, 12.5 + 90 + 12.5, 12.5, 300, "#888", "#f0eee8")
+    _caixa_det(cv, vw, 150 + 45, 12.5 + 90 + 12.5, 12.5, 300, "#888", "#f0eee8")
     cv.texto_p(vw.pt(P(150, 12.5 + 90 + 12.5 + 340)), "parede que chega", TXT["micro"], "middle")
     cv.texto_p(vw.pt(P(-280, -40)), "montantes a 600 + 2 adicionais junto ao encontro; clip de guia 4,8 x 19", TXT["micro"], "start", cor=CINZA)
     an.titulo_desenho(cv, (40, 226), "A", "ENCONTRO EM T — PLANTA", "1:5")
     # ---- B: canto em L, 1:5
     vw = View(5, 300, 200, 0, 0)
-    _bloco(cv, vw, 0, 0, 12.5, 500, "#888", "#f0eee8")
-    _bloco(cv, vw, 0, 0, 500, 12.5, "#888", "#f0eee8")
+    _caixa_det(cv, vw, 0, 0, 12.5, 500, "#888", "#f0eee8")
+    _caixa_det(cv, vw, 0, 0, 500, 12.5, "#888", "#f0eee8")
     _ue(cv, vw, 12.5, 12.5)
     _ue(cv, vw, 12.5 + 90 + 4, 12.5)
     _ue(cv, vw, 12.5, 12.5 + 40 + 4, larg=40, alt=90)
-    _bloco(cv, vw, 12.5 + 200, 12.5 + 100, 12.5, 400, "#888", "#f0eee8")
-    _bloco(cv, vw, 12.5 + 100, 12.5 + 200, 400, 12.5, "#888", "#f0eee8")
+    _caixa_det(cv, vw, 12.5 + 200, 12.5 + 100, 12.5, 400, "#888", "#f0eee8")
+    _caixa_det(cv, vw, 12.5 + 100, 12.5 + 200, 400, 12.5, "#888", "#f0eee8")
     cv.texto_p(vw.pt(P(250, 350)), "canto com tres montantes: apoio de placa nas duas faces internas", TXT["micro"], "middle", cor=CINZA)
     an.titulo_desenho(cv, (280, 226), "B", "CANTO EM L — PLANTA", "1:5")
     # ---- C: reforco para carga suspensa, elevacao 1:10
     vw = View(20, 560, 250, 0, 0)
     for k in range(4):
-        _bloco(cv, vw, k * pj.MONTANTE_ESPACAMENTO, 0, 40, pj.PE_DIREITO, "#9bb7d4", "#dfe9f2")
-    _bloco(cv, vw, 0, 0, 1_840, 40, "#9bb7d4", "#dfe9f2"); _bloco(cv, vw, 0, pj.PE_DIREITO - 40, 1_840, 40, "#9bb7d4", "#dfe9f2")
+        _caixa_det(cv, vw, k * pj.MONTANTE_ESPACAMENTO, 0, 40, pj.PE_DIREITO, "#9bb7d4", "#dfe9f2")
+    _caixa_det(cv, vw, 0, 0, 1_840, 40, "#9bb7d4", "#dfe9f2"); _caixa_det(cv, vw, 0, pj.PE_DIREITO - 40, 1_840, 40, "#9bb7d4", "#dfe9f2")
     r = dl.REFORCO["gabinete banho"]
-    _bloco(cv, vw, 40, r["z0"], 1_760, r["z1"] - r["z0"], "#8a6d3b", "#e9dcc4", "OSB 18 mm entre montantes")
+    _caixa_det(cv, vw, 40, r["z0"], 1_760, r["z1"] - r["z0"], "#8a6d3b", "#e9dcc4", "OSB 18 mm entre montantes")
     r2 = dl.REFORCO["tv"]
-    _bloco(cv, vw, 40, 1_500, 1_760, 90, "#9bb7d4", "#dfe9f2", "travessa Ue 90 para TV a 1.500")
+    _caixa_det(cv, vw, 40, 1_500, 1_760, 90, "#9bb7d4", "#dfe9f2", "travessa Ue 90 para TV a 1.500")
     an.cadeia(cv, vw, [0, r["z0"], r["z1"], 1_500, pj.PE_DIREITO], 1_840, "V", 8)
     an.titulo_desenho(cv, (540, 276), "C", "REFORCO PARA CARGA SUSPENSA — ELEVACAO DA PAREDE", "1:20")
     # ---- D: rodape, 1:5
     vw = View(5, 60, 440, 0, 0)
-    _bloco(cv, vw, 0, -150, 400, 150, "#999", "#cfcac1", "radier + contrapiso")
-    _bloco(cv, vw, 0, 0, 400, 12, "#999", "#e9e6df", "porcelanato")
-    _bloco(cv, vw, -90, -150, 40, 600, "#9bb7d4", "#dfe9f2")
-    _bloco(cv, vw, -50, -150, 12.5, 600, "#888", "#f0eee8")
-    _bloco(cv, vw, -37.5, 17, 15, 100, "#555", "#fff", "rodape 100 x 15")
+    _caixa_det(cv, vw, 0, -150, 400, 150, "#999", "#cfcac1", "radier + contrapiso")
+    _caixa_det(cv, vw, 0, 0, 400, 12, "#999", "#e9e6df", "porcelanato")
+    _caixa_det(cv, vw, -90, -150, 40, 600, "#9bb7d4", "#dfe9f2")
+    _caixa_det(cv, vw, -50, -150, 12.5, 600, "#888", "#f0eee8")
+    _caixa_det(cv, vw, -37.5, 17, 15, 100, "#555", "#fff", "rodape 100 x 15")
     cv.texto_p(vw.pt(P(-30, 140)), "poliestireno colado, selante acrilico no topo; 5 mm acima do piso", TXT["micro"], "start", cor=CINZA)
     an.titulo_desenho(cv, (40, 466), "D", "RODAPE — SECAO", "1:5")
     # ---- E: junta de movimentacao, planta 1:5
     vw = View(5, 300, 440, 0, 0)
     _ue(cv, vw, -100, 12.5); _ue(cv, vw, 10, 12.5)
-    _bloco(cv, vw, -300, 0, 295, 10, "#888", "#d8d3c8", "placa cimenticia")
-    _bloco(cv, vw, 5, 0, 295, 10, "#888", "#d8d3c8", "placa cimenticia")
-    _bloco(cv, vw, -5, 0, 10, 10, "#c33", "#f6c9c9")
+    _caixa_det(cv, vw, -300, 0, 295, 10, "#888", "#d8d3c8", "placa cimenticia")
+    _caixa_det(cv, vw, 5, 0, 295, 10, "#888", "#d8d3c8", "placa cimenticia")
+    _caixa_det(cv, vw, -5, 0, 10, 10, "#c33", "#f6c9c9")
     cv.texto_p(vw.pt(P(0, -30)), "junta 10 mm: tarucel + selante PU; membrana continua por tras", TXT["micro"], "middle", cor=CINZA)
-    _bloco(cv, vw, -300, 12.5 + 90 + 2, 600, 3, "#2a9d6f", "#cdeedd", "membrana hidrofuga")
+    _caixa_det(cv, vw, -300, 12.5 + 90 + 2, 600, 3, "#2a9d6f", "#cdeedd", "membrana hidrofuga")
     an.titulo_desenho(cv, (280, 466), "E", "JUNTA DE MOVIMENTACAO DE FACHADA — PLANTA (montante duplo)", "1:5")
     # ---- tabelas
     lin = [[x["cod"], x["amb"], x["familia"], f"{x['carga_kg']}", x["parede"] or "—", f"{x['z0']}-{x['z1']}", str(x["montantes"]),
