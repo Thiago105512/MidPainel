@@ -601,8 +601,11 @@ def impermeabilizacao(pj) -> dict:
     # a janela que PERTENCE a um comodo molhado, que e o que a frase sempre
     # quis dizer — e o modelo passou a saber responder em R44.
     import nucleo.ambiente as _am
-    molhados_cod = set(pj.MOLHADOS) | {
-        d["pai"] for d in pj.SUBDIVISOES if d.get("molhado")}
+    # R63 — o DML virou molhado (tanque de limpeza) e a janela alta dele
+    # passou a contar como "janela de banheiro". Janela de banheiro conta
+    # BANHEIRO: comodo com subdivisao sanitaria, ou lavabo declarado.
+    molhados_cod = ({d["pai"] for d in pj.SUBDIVISOES if d.get("molhado")}
+                    | {c.split("/")[0] for c in getattr(pj, "LAVABOS", ())})
     jan_banho = 0
     for t, x, y, ori, pav in pj.VAOS:
         if t not in ("J02", "J04"):

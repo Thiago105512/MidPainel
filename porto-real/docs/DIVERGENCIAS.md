@@ -5071,3 +5071,39 @@ fração da folha que o **desenho** ocupa — medida depois do carimbo
 pranchas de tabela (09, 13, 14, 30, 37, 39, 40), onde ocupação é proxy fraco,
 e cinco de desenho (06, 20, 21, 34, 38) que merecem o mesmo tratamento numa
 próxima passada. PARCIAL, e declarado como tal.
+
+## R63 — cômodo a cômodo
+
+O proprietário pediu sugestões por ambiente e mandou aplicar, gosto incluído.
+Tudo entrou no modelo, não no desenho:
+
+- **Banheiros:** `REV-NICHO` (nicho 300 × 900 entre montantes, um por box),
+  `MET-DUCHA-TETO` (box ≥ 1.400), cuba dupla em LC-11 (`cubas=2` — metais e
+  louça contam a mais). Ralo linear já existia desde R45: a sugestão estava
+  atrasada em relação ao modelo.
+- **Quartos:** os "closets" de 600 × 2.400 das suítes 02/03 eram guarda-roupas
+  com parede e porta — viram `AR-12`/`AR-13`; `AR-14` gaveteiro no closet da
+  master; office com porta de correr (`tipo="P05"`); `MAR-CORT` blackout nas
+  janelas de dormitório.
+- **Vidro:** toda a face oeste leva low-e (varanda da master, J01 da suíte
+  03); J02/J04 em L/O levam translúcido com controle solar. `ESQ-VIDRO-LOWE`
+  18,7 → 25,9 m².
+- **Estar:** `LY-16` tapete — o quadro de forros já o pressupunha como
+  absorção; agora existe.
+- **Cozinha/gourmet:** `TUG_PASSO_BANCADA` = 1 tomada a cada 1,2 m de bancada
+  além da regra de perímetro (71 → 82 TUG).
+- **DML:** `LC-16` tanque de limpeza + `RL-13`; T-DEP entra em MOLHADOS.
+- **Garagem:** `TUE-VE` 7,4 kW — a entrada sobe para **125 A / 50 mm²**.
+- **Fachada:** `IF-03` (balizadores de piso) sai.
+
+### Defeito 94 — janela de DML contada como janela de banheiro
+Com T-DEP molhado, o cruzamento "janelas de banheiro × banhos
+impermeabilizados" contava a J04 do depósito. Janela de banheiro conta
+**banheiro**: cômodo com subdivisão sanitária ou lavabo declarado.
+
+### Defeito 95 — `t === 71` no teste do visualizador
+As tomadas eram comparadas a um literal; a primeira tomada de bancada o
+envelheceu. O teste lê `previsao_iluminacao_tug()`.
+
+**Estado em R63:** 137 auditorias, 0 erros; 212 verificações do visualizador,
+0 falhas; BOM de 165 itens, R$ 939.573,41.

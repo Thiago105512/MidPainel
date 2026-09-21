@@ -339,7 +339,8 @@ def _mobiliario() -> list[dict]:
     alturas = {"bancada": 900, "armario alto": 2_200, "prateleiras": 1_800,
                "geladeira": 1_900, "lavadora": 850, "secadora": 850,
                "lava-loucas": 850, "lixo": 600, "forno": 600, "micro-ondas": 400,
-               "box": 2_000, "tanque": 900, "vaso": 400, "lavatorio": 850}
+               "box": 2_000, "tanque": 900, "vaso": 400, "lavatorio": 850,
+               "guarda-roupa": 2_200, "gaveteiro": 900, "rouparia": 2_200}
     def pav_de(cod):
         return "S" if cod.startswith("S-") else "T"
     for b in pj.BANCADAS:
@@ -359,7 +360,7 @@ def _mobiliario() -> list[dict]:
     # onde a planta de layout a desenha. "Existe no modelo, o 3D desenha
     # outra coisa" — a mesma doenca que R31 achou na escada.
     alt_layout = {"cama": 550, "sofa": 750, "poltrona": 750, "mesa": 750,
-                  "rack": 450, "carro": 1_450}
+                  "rack": 450, "carro": 1_450, "tapete": 15}
     for l in pj.LAYOUT:
         pav = pav_de(l["amb"])
         z0 = Z[pav]["piso"]

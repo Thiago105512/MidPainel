@@ -292,12 +292,8 @@ SUBDIVISOES = [
     # flag, e quem o le. Nenhuma area foi arbitrada.
     dict(pai="S-S02", nome="BANHO",  x=2_400, y=13_200, w=1_800, h=2_400,
          face="N", pos=14_400, vao=800, molhado=True),
-    dict(pai="S-S02", nome="CLOSET", x=2_400, y=15_600, w=600,   h=2_400,
-         face="N", pos=16_800, vao=800),
     dict(pai="S-S03", nome="BANHO",  x=2_400, y=18_000, w=1_800, h=2_400,
          face="N", pos=19_200, vao=800, molhado=True),
-    dict(pai="S-S03", nome="CLOSET", x=2_400, y=20_400, w=600,   h=2_400,
-         face="N", pos=21_600, vao=800),
     # ---- R08: a despensa volta, mas na PONTA DE SERVICO da cozinha, nao
     # atravessada entre ela e a piscina. Ganha a melhor adjacencia possivel: a
     # porta de servico da loggia abre DENTRO dela, e a compra desce do carro
@@ -355,7 +351,7 @@ SUBDIVISOES = [
     dict(pai="S-MAS", nome="CLOSET", x=12_600, y=19_200, w=3_000, h=3_000,
          face="O", pos=13_200, vao=800),
     dict(pai="S-MAS", nome="OFFICE", x=13_800, y=22_200, w=1_800, h=3_000,
-         face="S", pos=23_700, vao=800),
+         face="S", pos=23_700, vao=800, tipo="P05"),
 ]
 
 # R53 — LAYOUT. O mobiliario solto vivia como coordenadas dentro do modulo de
@@ -395,6 +391,10 @@ LAYOUT = [
     # 1.200 mm de TODAS as quatro paredes — no meio do quarto.
     dict(cod="LY-09", amb="T-REV", tipo="cama",  x=12_075, y=8_000, w=2_000,
          h=1_600, cabeceira="-X"),
+    # R63 — o quadro de forros do estar diz "gesso liso + cortinas e tapetes":
+    # a absorcao vem do mobiliario. Entao o tapete e premissa acustica, nao
+    # decoracao, e entra no modelo como o sofa entrou.
+    dict(cod="LY-16", amb="T-SOC", tipo="tapete", x=6_300, y=14_200, w=2_100, h=2_200),
     dict(cod="LY-13", amb="T-ALC", tipo="rack",  x=10_350, y=9_750, w=1_500, h=600,
          obs="mesa de trabalho na alcova, sob a janela"),
     dict(cod="LY-10", amb="S-S02", tipo="cama",  x=5_725, y=14_000, w=2_000,
@@ -1640,10 +1640,13 @@ LOUCAS = [
     # x = 9.600 esta sobre o gourmet e por isso so recebe a bancada, cujo
     # esgoto e DN40 e corre no contrapiso.
     dict(cod="LC-10", amb="S-MAS", tipo="vaso",      x=9_900,  y=19_300, w=400, h=650),
-    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=9_400,  y=21_600, w=1_800, h=500),
+    dict(cod="LC-11", amb="S-MAS", tipo="lavatorio", x=9_400,  y=21_600, w=1_800, h=500, cubas=2),
     dict(cod="LC-12", amb="S-MAS", tipo="box",       x=11_100, y=19_300, w=1_400, h=1_400),
     # lavanderia
     dict(cod="LC-13", amb="T-LAV", tipo="tanque",    x=9_750, y=19_350, w=600, h=550),
+    # R63 — tanque de LIMPEZA no DML: e no deposito que se enche balde e se
+    # lava pano, nao na lavanderia de roupa. Ponto de agua e ralo proprios.
+    dict(cod="LC-16", amb="T-DEP", tipo="tanque", x=11_900, y=22_700, w=600, h=550),
 ]
 
 EQUIPAMENTOS = [
@@ -1768,6 +1771,15 @@ ARMARIOS = [
     # DECLARADA, nunca quando ela so pode ser deduzida do nome do comodo.
     dict(cod="AR-11", amb="T-ALC", serve="T-REV", tipo="guarda-roupa",
          x=11_400, y=9_600, w=600, h=1_800),
+    # R63 — os "closets" das suites 02 e 03 tinham 600 x 2.400: sao
+    # guarda-roupas, nao closets. Como subdivisao, ganhavam porta propria (800)
+    # num compartimento em que nao se entra. Viram armario de 600 no vao
+    # inteiro, portas de correr: o mesmo movel, sem a parede e sem a porta.
+    dict(cod="AR-12", amb="S-S02", tipo="guarda-roupa", x=2_400, y=15_600, w=600, h=2_400),
+    dict(cod="AR-13", amb="S-S03", tipo="guarda-roupa", x=2_400, y=20_400, w=600, h=2_400),
+    # R63 — gaveteiro central no closet da master: e o que faz closet virar
+    # vestiario. 1.000 x 600 no centro, com 1.000 mm livres em volta.
+    dict(cod="AR-14", amb="S-MAS", tipo="gaveteiro", x=13_600, y=20_400, w=1_000, h=600),
 ]
 
 # folgas minimas (NBR 9050 e pratica corrente)
@@ -1996,8 +2008,18 @@ def vidro_do_vao(tipo: str, face: str) -> tuple[str, str]:
         return ("laminado 6+6 low-e, 8 folhas de 900 mm, g <= 0,35",
                 "cortina retratil sem montante para OESTE: sem low-e, 18 m2 "
                 "de vidro entregam a maior carga termica da casa")
-    if tipo == "J02":
+    if tipo in ("J02", "J04"):
+        if face in ("L", "O"):
+            return ("temperado 6 mm translucido com controle solar",
+                    "janela alta de banheiro/servico para L ou O: translucido, com g limitado")
         return "temperado 6 mm translucido", "banheiro: sem exigencia"
+    # R63 — toda a face OESTE leva low-e, nao so a cortina: e o sol baixo de
+    # todo fim de tarde do ano, e a varanda da master (PV02, 5,76 m2) e o
+    # segundo maior vao da casa olhando para ele.
+    if face == "O":
+        return (("laminado 6+6 PVB acustico low-e, g <= 0,35" if crit_acustico
+                 else "laminado 6+6 low-e, g <= 0,35"),
+                "face oeste: sol baixo da tarde, todos os dias do ano")
     if crit_solar and crit_acustico:
         return ("laminado 6+6 PVB acustico + controle solar",
                 "face critica em sol E em ruido")
@@ -2364,11 +2386,17 @@ TUG_VA_SECA = 100
 TUG_VA_MOLHADA = 600        # primeiras 3 tomadas de area molhada
 TUG_PERIM_SECA = 5_000      # 1 tomada a cada 5 m de perimetro
 TUG_PERIM_MOLHADA = 3_500
+TUG_PASSO_BANCADA = 1_200     # R63: uma tomada a cada 1,2 m de bancada
 MOLHADAS_ELETRICA = {"T-COZ", "T-LAV", "T-COR", "T-DEP", "T-GOU", "T-REV/BANHO"}
 
 CARGAS_ESPECIAIS = [
     dict(cod="TUE-1", desc="Chuveiro eletrico suite master", va=4_500, v=220,
          grupo="aquecimento", fd=0.75),
+    # R63 — tomada de carregador de VE na garagem: R$ 300 agora, R$ 3.000
+    # depois. 7,4 kW em 220 V (32 A), fator de demanda 1,0 — carrega a noite,
+    # quando os splits tambem estao ligados, entao nao se desconta.
+    dict(cod="TUE-VE", desc="Carregador de veiculo eletrico (garagem)", va=7_400,
+         v=220, grupo="veiculo", fd=1.00),
     dict(cod="TUE-2", desc="Chuveiro eletrico suite 02", va=4_500, v=220,
          grupo="aquecimento", fd=0.75),
     dict(cod="TUE-3", desc="Chuveiro eletrico suite 03", va=4_500, v=220,
@@ -2439,6 +2467,12 @@ def previsao_iluminacao_tug() -> list[dict]:
         molhada = a.cod in MOLHADAS_ELETRICA
         passo = TUG_PERIM_MOLHADA if molhada else TUG_PERIM_SECA
         n = max(1, math.ceil(_perimetro(a) / passo))
+        # R63 — bancada de trabalho pede tomada a cada 1.200 mm alem da regra
+        # de perimetro: a NBR 5410 e o minimo; cozinha real liga tres coisas
+        # ao mesmo tempo no mesmo metro.
+        banc = sum(max(b["w"], b["h"]) for b in BANCADAS
+                   if b["amb"] == a.cod and b.get("tipo") != "tanque")
+        n += math.ceil(banc / TUG_PASSO_BANCADA) if banc else 0
         if molhada:
             va = min(n, 3) * TUG_VA_MOLHADA + max(0, n - 3) * TUG_VA_SECA
         else:
@@ -2513,6 +2547,7 @@ def linhas_frigorigenas() -> list[dict]:
 
 # ------------------------------------------------------ DRENAGEM E RALOS
 RALOS = [
+    dict(cod="RL-13", amb="T-DEP", tipo="ralo seco 100", x=11_800, y=23_250, dn=50),
     dict(cod="RL-01", amb="T-REV", tipo="ralo linear 600", x=14_025, y=13_025, dn=50),
     dict(cod="RL-02", amb="S-S02", tipo="ralo linear 600", x=2_550, y=14_500, dn=50),
     dict(cod="RL-03", amb="S-S03", tipo="ralo linear 600", x=2_550, y=19_300, dn=50),
@@ -2652,9 +2687,9 @@ ILUMINACAO_FACHADA = [
          tipo="perfil linear LED IP65, 2.700 K, 8 W/m",
          comprimento_m=14.4, efeito="risco horizontal continuo: e ele que faz a "
          "casa parecer baixa e longa a noite"),
-    dict(cod="IF-03", onde="base do muro e do portao ripado",
-         tipo="balizador embutido no piso, 3 W, feixe rasante",
-         comprimento_m=8.4, efeito="revela a textura do ripado por raspagem"),
+    # R63 — IF-03 (balizadores no piso) saiu: em Manaus balizador de piso
+    # enche de agua e de inseto; o risco horizontal sob o beiral (IF-02) faz o
+    # mesmo trabalho de composicao sem manutencao.
     dict(cod="IF-04", onde="uplight nas palmeiras da entrada",
          tipo="projetor de solo 7 W, 2.700 K, feixe 15 graus",
          comprimento_m=0, efeito="profundidade: a copa iluminada recua o plano "
@@ -2791,7 +2826,7 @@ CATEGORIA = {
     "S-HAL": "circulacao",
     "T-GAR": "apoio", "T-ALC": "intimo",
 }
-MOLHADOS = {"T-COZ", "T-LAV", "T-GOU", "T-REV/BANHO", "T-COR/LAVABO"}
+MOLHADOS = {"T-COZ", "T-LAV", "T-GOU", "T-DEP", "T-REV/BANHO", "T-COR/LAVABO"}
 # a oficina e fonte E receptor: quer silencio para dentro e para fora
 SILENCIO = {"T-OFI"}
 
@@ -3566,6 +3601,23 @@ REVISOES = [
      "medida: build.py grava a fracao da folha que cada prancha ocupa e a "
      "auditoria 137 lista as que ficam abaixo de 45 % — proxy, nao "
      "legibilidade, e por isso PARCIAL"),
+    ("R63", "COMODO A COMODO. O proprietario pediu sugestoes por ambiente e "
+     "mandou aplicar — inclusive o que e gosto. Banheiros: nicho de 300 x 900 "
+     "entre montantes em cada box (prateleira de vidro e o item mais quebrado "
+     "da casa), ducha de teto no box da master, cuba dupla no lavatorio de "
+     "1,8 m. Quartos: os 'closets' de 600 x 2.400 das suites 02 e 03 eram "
+     "guarda-roupas com parede e porta em volta — viram armarios no vao "
+     "inteiro; gaveteiro central no closet da master; office com porta de "
+     "correr; blackout nas janelas de dormitorio. Vidro: toda a face oeste "
+     "leva low-e, nao so a cortina — a varanda da master (5,76 m2) e o "
+     "segundo maior vao olhando para o sol da tarde. Estar: o tapete que o "
+     "quadro de forros ja pressupunha como absorcao entra no layout. Cozinha "
+     "e gourmet: uma tomada a cada 1,2 m de bancada alem da regra de "
+     "perimetro. DML: tanque de limpeza e ralo — e onde se enche balde. "
+     "Garagem: tomada de carregador de VE, 7,4 kW, no quadro desde ja. "
+     "Fachada: os balizadores de piso saem (agua e inseto); fica o risco "
+     "horizontal sob o beiral. Ralos lineares ja existiam desde R45 — a "
+     "sugestao estava atrasada em relacao ao proprio modelo"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -3751,13 +3803,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R62",
+    revisao="R63",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R62", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R63", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

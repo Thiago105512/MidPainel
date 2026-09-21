@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="34" data-rev="R62">
+<g data-tipo="carimbo" data-cod="34" data-rev="R63">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R62</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R63</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">34</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R62</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R63</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -221,15 +221,11 @@
 <text x="355.500" y="243.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">perfil linear LED IP65, 2.700 K, 8 W/m</text>
 <text x="433.500" y="243.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">risco horizontal continuo: e ele que faz a casa parecer baixa e longa a noite</text>
 <polygon points="300.000,246.200 566.000,246.200 566.000,251.400 300.000,251.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="301.500" y="248.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">IF-03 — base do muro e do portao ripado</text>
-<text x="355.500" y="248.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">balizador embutido no piso, 3 W, feixe rasante</text>
-<text x="433.500" y="248.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">revela a textura do ripado por raspagem</text>
-<polygon points="300.000,251.400 566.000,251.400 566.000,256.600 300.000,256.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="301.500" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">IF-04 — uplight nas palmeiras da entrada</text>
-<text x="355.500" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">projetor de solo 7 W, 2.700 K, feixe 15 graus</text>
-<text x="433.500" y="254.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">profundidade: a copa iluminada recua o plano de fundo</text>
-<line x1="354.000" y1="215.000" x2="354.000" y2="256.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="432.000" y1="215.000" x2="432.000" y2="256.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="301.500" y="248.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">IF-04 — uplight nas palmeiras da entrada</text>
+<text x="355.500" y="248.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">projetor de solo 7 W, 2.700 K, feixe 15 graus</text>
+<text x="433.500" y="248.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">profundidade: a copa iluminada recua o plano de fundo</text>
+<line x1="354.000" y1="215.000" x2="354.000" y2="251.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="432.000" y1="215.000" x2="432.000" y2="251.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="300.000" y="297.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">O QUE A REFERENCIA VISUAL CONFIRMOU E O QUE ACRESCENTOU</text>
 <polygon points="300.000,300.000 560.000,300.000 560.000,305.200 300.000,305.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="301.500" y="302.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">LEITURA</text>

@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="29" data-rev="R62">
+<g data-tipo="carimbo" data-cod="29" data-rev="R63">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R62</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R63</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">29</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R62</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R63</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -103,6 +103,8 @@
 <text x="107.000" y="212.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-GOU</text>
 <text x="143.000" y="233.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-LAV</text>
 <text x="143.000" y="212.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#aaa" text-anchor="middle" dominant-baseline="middle">T-DEP</text>
+<polygon points="148.200,205.700 151.800,205.700 151.800,209.300 148.200,209.300" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="153.000" y="208.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-13 DN50</text>
 <polygon points="170.450,307.950 174.050,307.950 174.050,311.550 170.450,311.550" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
 <text x="175.250" y="310.550" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="start" dominant-baseline="middle">RL-01 DN50</text>
 <polygon points="55.700,293.200 59.300,293.200 59.300,296.800 55.700,296.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
@@ -146,107 +148,115 @@
 <text x="443.500" y="152.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CAIMENTO</text>
 <text x="467.500" y="152.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">AREA (m2)</text>
 <polygon points="300.000,155.200 492.000,155.200 492.000,160.400 300.000,160.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="301.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-01</text>
-<text x="319.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-REV</text>
-<text x="337.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QUARTO REVERSIVEL</text>
-<text x="381.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 600</text>
+<text x="301.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-13</text>
+<text x="319.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-DEP</text>
+<text x="337.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DEPOSITO / DML</text>
+<text x="381.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo seco 100</text>
 <text x="425.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
-<text x="443.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,5%</text>
-<text x="467.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18,00</text>
+<text x="443.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,0%</text>
+<text x="467.500" y="157.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3,60</text>
 <polygon points="300.000,160.400 492.000,160.400 492.000,165.600 300.000,165.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="301.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-02</text>
-<text x="319.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
-<text x="337.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SUITE 02</text>
+<text x="301.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-01</text>
+<text x="319.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-REV</text>
+<text x="337.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">QUARTO REVERSIVEL</text>
 <text x="381.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 600</text>
 <text x="425.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
 <text x="443.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,5%</text>
-<text x="467.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">25,92</text>
+<text x="467.500" y="163.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">18,00</text>
 <polygon points="300.000,165.600 492.000,165.600 492.000,170.800 300.000,170.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="301.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-03</text>
-<text x="319.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
-<text x="337.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SUITE 03</text>
+<text x="301.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-02</text>
+<text x="319.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
+<text x="337.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SUITE 02</text>
 <text x="381.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 600</text>
 <text x="425.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
 <text x="443.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,5%</text>
 <text x="467.500" y="168.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">25,92</text>
 <polygon points="300.000,170.800 492.000,170.800 492.000,176.000 300.000,176.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="301.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-04</text>
-<text x="319.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
-<text x="337.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SUITE MASTER</text>
-<text x="381.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 900</text>
+<text x="301.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-03</text>
+<text x="319.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
+<text x="337.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SUITE 03</text>
+<text x="381.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 600</text>
 <text x="425.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
 <text x="443.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,5%</text>
-<text x="467.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">46,80</text>
+<text x="467.500" y="173.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">25,92</text>
 <polygon points="300.000,176.000 492.000,176.000 492.000,181.200 300.000,181.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="301.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-05</text>
-<text x="319.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LAV</text>
-<text x="337.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LAVANDERIA</text>
-<text x="381.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo sifonado 150</text>
+<text x="301.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-04</text>
+<text x="319.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
+<text x="337.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">SUITE MASTER</text>
+<text x="381.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 900</text>
 <text x="425.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
 <text x="443.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,5%</text>
-<text x="467.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9,00</text>
+<text x="467.500" y="178.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">46,80</text>
 <polygon points="300.000,181.200 492.000,181.200 492.000,186.400 300.000,186.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="301.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-06</text>
-<text x="319.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
-<text x="337.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">COZINHA</text>
-<text x="381.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo sifonado 100</text>
+<text x="301.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-05</text>
+<text x="319.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LAV</text>
+<text x="337.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LAVANDERIA</text>
+<text x="381.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo sifonado 150</text>
 <text x="425.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
 <text x="443.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,5%</text>
-<text x="467.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">21,60</text>
+<text x="467.500" y="183.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9,00</text>
 <polygon points="300.000,186.400 492.000,186.400 492.000,191.600 300.000,191.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="301.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-07</text>
-<text x="319.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GAR</text>
-<text x="337.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">GARAGEM</text>
-<text x="381.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 6.000</text>
-<text x="425.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN75</text>
-<text x="443.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,0%</text>
-<text x="467.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36,00</text>
+<text x="301.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-06</text>
+<text x="319.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-COZ</text>
+<text x="337.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">COZINHA</text>
+<text x="381.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo sifonado 100</text>
+<text x="425.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="443.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,5%</text>
+<text x="467.500" y="189.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">21,60</text>
 <polygon points="300.000,191.600 492.000,191.600 492.000,196.800 300.000,196.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="301.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-08</text>
-<text x="319.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-DKP</text>
-<text x="337.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DECK DA PISCINA</text>
-<text x="381.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">canaleta com grelha</text>
+<text x="301.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-07</text>
+<text x="319.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GAR</text>
+<text x="337.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">GARAGEM</text>
+<text x="381.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 6.000</text>
 <text x="425.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN75</text>
 <text x="443.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,0%</text>
-<text x="467.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">42,12</text>
+<text x="467.500" y="194.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36,00</text>
 <polygon points="300.000,196.800 492.000,196.800 492.000,202.000 300.000,202.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="301.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-11</text>
-<text x="319.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-ALP</text>
-<text x="337.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">VARANDA GOURMET</text>
-<text x="381.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 7.200 sob a cortina</text>
+<text x="301.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-08</text>
+<text x="319.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-DKP</text>
+<text x="337.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DECK DA PISCINA</text>
+<text x="381.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">canaleta com grelha</text>
 <text x="425.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN75</text>
 <text x="443.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,0%</text>
-<text x="467.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">21,60</text>
+<text x="467.500" y="199.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">42,12</text>
 <polygon points="300.000,202.000 492.000,202.000 492.000,207.200 300.000,207.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="301.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-12</text>
-<text x="319.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GOU</text>
-<text x="337.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">GOURMET</text>
-<text x="381.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo sifonado 150</text>
-<text x="425.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="301.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-11</text>
+<text x="319.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-ALP</text>
+<text x="337.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">VARANDA GOURMET</text>
+<text x="381.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo linear 7.200 sob a cortina</text>
+<text x="425.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN75</text>
 <text x="443.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,0%</text>
-<text x="467.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">30,24</text>
+<text x="467.500" y="204.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">21,60</text>
 <polygon points="300.000,207.200 492.000,207.200 492.000,212.400 300.000,212.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="301.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-09</text>
-<text x="319.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-VRL</text>
-<text x="337.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">VARAL COBERTO</text>
+<text x="301.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-12</text>
+<text x="319.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-GOU</text>
+<text x="337.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">GOURMET</text>
 <text x="381.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo sifonado 150</text>
 <text x="425.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
 <text x="443.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,0%</text>
-<text x="467.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17,64</text>
+<text x="467.500" y="209.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">30,24</text>
 <polygon points="300.000,212.400 492.000,212.400 492.000,217.600 300.000,217.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="301.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-10</text>
-<text x="319.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LOG</text>
-<text x="337.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LOGGIA SUL</text>
+<text x="301.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-09</text>
+<text x="319.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-VRL</text>
+<text x="337.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">VARAL COBERTO</text>
 <text x="381.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo sifonado 150</text>
 <text x="425.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
 <text x="443.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,0%</text>
-<text x="467.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9,00</text>
-<line x1="318.000" y1="150.000" x2="318.000" y2="217.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="336.000" y1="150.000" x2="336.000" y2="217.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="380.000" y1="150.000" x2="380.000" y2="217.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="424.000" y1="150.000" x2="424.000" y2="217.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="442.000" y1="150.000" x2="442.000" y2="217.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="466.000" y1="150.000" x2="466.000" y2="217.600" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="467.500" y="215.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">17,64</text>
+<polygon points="300.000,217.600 492.000,217.600 492.000,222.800 300.000,222.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="301.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RL-10</text>
+<text x="319.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LOG</text>
+<text x="337.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LOGGIA SUL</text>
+<text x="381.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ralo sifonado 150</text>
+<text x="425.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="443.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,0%</text>
+<text x="467.500" y="220.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">9,00</text>
+<line x1="318.000" y1="150.000" x2="318.000" y2="222.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="336.000" y1="150.000" x2="336.000" y2="222.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="380.000" y1="150.000" x2="380.000" y2="222.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="424.000" y1="150.000" x2="424.000" y2="222.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="442.000" y1="150.000" x2="442.000" y2="222.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="466.000" y1="150.000" x2="466.000" y2="222.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="300.000" y="227.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">BALANCO PLUVIAL</text>
 <polygon points="300.000,230.000 494.000,230.000 494.000,235.200 300.000,235.200" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="301.500" y="232.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ITEM</text>

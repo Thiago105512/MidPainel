@@ -41,6 +41,7 @@ PRECO = {
     "split_9000": 2100.0, "split_18000": 3200.0, "split_30000": 5400.0,
     "exaustor": 260.0, "bomba_piscina": 2800.0, "portao_automatico": 2400.0,
     "bancada_m2": 1250.0, "gabinete_m": 1450.0, "armario_m2": 980.0,
+    "nicho_box": 420.0, "ducha_teto": 890.0, "cortina_blackout_m": 380.0,
     "prateleira_m": 260.0, "cabideiro_m": 320.0,
     "tinta_l": 42.0, "selador_l": 28.0, "mao_pintura_m2": 26.0,
     "piso_m2": 118.0, "parede_ceramica_m2": 96.0, "rodape_m": 34.0,
@@ -401,6 +402,11 @@ def loucas_e_metais(pj) -> list[dict]:
     # a R$ 620/m2. So a face livre e a face de porta levam vidro.
     box_m2 = sum(_faces_livres_m(pj, p) * 1.90 for p in pj.LOUCAS if p["tipo"] == "box")
     molhados = len({p["amb"] for p in pj.LOUCAS})
+    # R63 — cuba dupla conta como duas pecas de metal e uma louca dupla
+    extra_cubas = sum(p.get("cubas", 1) - 1 for p in pj.LOUCAS if p["tipo"] == "lavatorio")
+    n["lavatorio"] += extra_cubas
+    boxes = [p for p in pj.LOUCAS if p["tipo"] == "box"]
+    duchas_teto = sum(1 for p in boxes if min(p["w"], p["h"]) >= 1_400)
     chuveiros = sum(1 for c in pj.CARGAS_ESPECIAIS
                     if "chuveiro" in c["desc"].lower())
     return [
@@ -422,6 +428,14 @@ def loucas_e_metais(pj) -> list[dict]:
         dict(sku="LOU-BOX", descricao="Box de vidro temperado 8 mm, 1.900 mm de altura",
              unidade="m2", quantidade=round(box_m2, 1), preco=PRECO["box_m2"],
              origem="perimetro de cada box x 1,90 m"),
+        # R63 — nicho no box: 300 x 900 entre montantes, chapa RU + azulejo.
+        # Prateleira de vidro no box e o item mais quebrado da casa.
+        dict(sku="REV-NICHO", descricao="Nicho de box 300 x 900 mm entre montantes (RU + ceramica)",
+             unidade="un", quantidade=len(boxes), preco=PRECO["nicho_box"],
+             origem="um por box locado"),
+        dict(sku="MET-DUCHA-TETO", descricao="Ducha de teto 250 mm com desviador (box >= 1.400)",
+             unidade="un", quantidade=duchas_teto, preco=PRECO["ducha_teto"],
+             origem="boxes com menor lado >= 1.400 mm"),
         dict(sku="MET-TORN", descricao="Torneira de bancada (lavatorio e cuba)",
              unidade="un", quantidade=n["lavatorio"] + cubas,
              preco=PRECO["torneira_bancada"], origem="uma por lavatorio e por cuba"),
@@ -545,6 +559,15 @@ def marcenaria(pj) -> list[dict]:
         dict(sku="MAR-PRAT", descricao="Prateleira e nicho",
              unidade="m", quantidade=round(prat, 2), preco=PRECO["prateleira_m"],
              origem="ARMARIOS do tipo prateleira"),
+        # R63 — blackout nos dormitorios: janela leste acorda as 6 h em Manaus
+        dict(sku="MAR-CORT", descricao="Cortina blackout com trilho, dormitorios",
+             unidade="m", quantidade=round(sum(
+                 pj.ESQUADRIAS[v["tipo"]][0] / 1000.0
+                 for v in pj.vaos_envidracados()
+                 if pj.CATEGORIA.get(v["amb"]) == "intimo" and v["tipo"].startswith("J")
+                 and v["tipo"] not in ("J02", "J04")), 1),
+             preco=PRECO["cortina_blackout_m"],
+             origem="largura das janelas de dormitorio (exceto banho)"),
         dict(sku="MAR-CAB", descricao="Cabideiro e gaveteiro de closet",
              unidade="m", quantidade=round(cab, 2), preco=PRECO["cabideiro_m"],
              origem="duas paredes de cada CLOSET declarado nas subdivisoes"),

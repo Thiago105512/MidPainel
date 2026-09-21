@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="04" data-rev="R62">
+<g data-tipo="carimbo" data-cod="04" data-rev="R63">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R62</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R63</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">04</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R62</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R63</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -437,6 +437,10 @@
 <polygon points="225.000,279.000 237.000,279.000 237.000,268.000 225.000,268.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
 <polygon points="226.200,277.800 235.800,277.800 235.800,269.200 226.200,269.200" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
 </g>
+<g data-tipo="louca" data-cod="LC-16" data-familia="tanque" data-amb="T-DEP" data-larg="600" data-prof="550">
+<polygon points="268.000,212.000 280.000,212.000 280.000,201.000 268.000,201.000" stroke="#000000" stroke-width="0.18" fill="#fff" stroke-linejoin="miter"/>
+<polygon points="269.200,210.800 278.800,210.800 278.800,202.200 269.200,202.200" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+</g>
 <g data-tipo="equipamento" data-cod="EQ-01" data-familia="geladeira" data-amb="T-COZ" data-larg="750" data-prof="900">
 <polygon points="123.000,216.000 138.000,216.000 138.000,198.000 123.000,198.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
 <line x1="130.500" y1="216.000" x2="130.500" y2="198.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
@@ -589,6 +593,8 @@
 <polygon points="271.500,506.000 311.500,506.000 311.500,474.000 271.500,474.000" stroke="#000000" stroke-width="0.18" fill="#fafafa" stroke-linejoin="miter"/>
 <polygon points="271.500,506.000 280.500,506.000 280.500,474.000 271.500,474.000" stroke="#000000" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
 <line x1="285.500" y1="506.000" x2="285.500" y2="474.000" stroke="#8a8a8a" stroke-width="0.18" fill="none" stroke-linecap="round"/>
+</g>
+<g data-tipo="layout" data-cod="LY-16" data-amb="T-SOC" data-peca="tapete" data-larg="2100" data-prof="2200">
 </g>
 <g data-tipo="layout" data-cod="LY-13" data-amb="T-ALC" data-peca="rack" data-larg="1500" data-prof="600">
 <polygon points="237.000,471.000 267.000,471.000 267.000,459.000 237.000,459.000" stroke="#000000" stroke-width="0.18" fill="#f4f1ea" stroke-linejoin="miter"/>

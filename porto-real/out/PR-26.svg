@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="26" data-rev="R62">
+<g data-tipo="carimbo" data-cod="26" data-rev="R63">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,18 +26,18 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R62</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R63</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">26</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R62</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 41   REV R63</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
-<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Agua fria por metodo dos pesos (NBR 5626): Q = 0,30 x raiz(soma dos pesos) = 0.827 L/s com 7.6 pesos.</text>
-<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Alimentador DN32 a 1.36 m/s — limitado pelo conforto (2.0 m/s), nao pela norma (3.0 m/s).</text>
-<text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Esgoto por UHC (NBR 8160): 60 UHC, tubo de queda DN100, ventilacao DN50.</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Agua fria por metodo dos pesos (NBR 5626): Q = 0,30 x raiz(soma dos pesos) = 0.864 L/s com 8.3 pesos.</text>
+<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Alimentador DN32 a 1.42 m/s — limitado pelo conforto (2.0 m/s), nao pela norma (3.0 m/s).</text>
+<text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Esgoto por UHC (NBR 8160): 63 UHC, tubo de queda DN100, ventilacao DN50.</text>
 <text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Chuveiro ELETRICO tem peso 0,10, nao 0,40: a decisao do aquecimento reaparece aqui como diametro menor em toda a casa.</text>
 </g>
 <g clip-path="url(#rec1)" data-tipo="recorte">
@@ -122,6 +122,9 @@
 <circle cx="146.000" cy="182.667" r="1.900" stroke="#06c" stroke-width="0.3" fill="#fff"/>
 <text x="146.000" y="183.467" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AF</text>
 <text x="146.000" y="189.333" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-13 p=0,70</text>
+<circle cx="174.667" cy="138.000" r="1.900" stroke="#06c" stroke-width="0.3" fill="#fff"/>
+<text x="174.667" y="138.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AF</text>
+<text x="174.667" y="144.667" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">LC-16 p=0,70</text>
 <circle cx="49.333" cy="132.667" r="1.900" stroke="#06c" stroke-width="0.3" fill="#fff"/>
 <text x="49.333" y="133.467" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AF</text>
 <text x="49.333" y="139.333" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">BC-01 p=0,70</text>
@@ -137,6 +140,8 @@
 <circle cx="68.000" cy="44.667" r="1.900" stroke="#06c" stroke-width="0.3" fill="#fff"/>
 <text x="68.000" y="45.467" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">AF</text>
 <text x="68.000" y="51.333" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">DX-01 p=0,40</text>
+<polygon points="171.533,128.867 175.133,128.867 175.133,132.467 171.533,132.467" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
+<text x="173.333" y="131.467" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">R</text>
 <polygon points="201.200,265.200 204.800,265.200 204.800,268.800 201.200,268.800" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
 <text x="203.000" y="267.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#0a6" text-anchor="middle" dominant-baseline="middle">R</text>
 <polygon points="158.200,166.867 161.800,166.867 161.800,170.467 158.200,170.467" stroke="#0a6" stroke-width="0.3" fill="#fff" stroke-linejoin="miter"/>
@@ -260,22 +265,22 @@
 <text x="220.500" y="507.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">pressurizado</text>
 <polygon points="35.000,510.400 253.000,510.400 253.000,515.600 35.000,515.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="36.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Terreo</text>
-<text x="66.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11</text>
-<text x="86.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5,50</text>
-<text x="106.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,704</text>
-<text x="130.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
-<text x="154.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,92</text>
-<text x="176.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">33</text>
+<text x="66.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">12</text>
+<text x="86.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6,20</text>
+<text x="106.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,747</text>
+<text x="130.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN32</text>
+<text x="154.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,23</text>
+<text x="176.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36</text>
 <text x="194.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN100</text>
 <text x="220.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gravidade</text>
 <polygon points="35.000,515.600 253.000,515.600 253.000,520.800 35.000,520.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="36.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">GERAL</text>
-<text x="66.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20</text>
-<text x="86.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7,60</text>
-<text x="106.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,827</text>
+<text x="66.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">21</text>
+<text x="86.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8,30</text>
+<text x="106.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,864</text>
 <text x="130.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN32</text>
-<text x="154.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,36</text>
-<text x="176.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">60</text>
+<text x="154.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,42</text>
+<text x="176.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">63</text>
 <text x="194.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN100</text>
 <text x="220.500" y="518.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">gravidade</text>
 <line x1="65.000" y1="500.000" x2="65.000" y2="520.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -341,13 +346,22 @@
 <text x="132.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
 <text x="152.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
 <text x="174.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
-<line x1="53.000" y1="545.000" x2="53.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="71.000" y1="545.000" x2="71.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="97.000" y1="545.000" x2="97.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="115.000" y1="545.000" x2="115.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="131.000" y1="545.000" x2="131.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="151.000" y1="545.000" x2="151.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
-<line x1="173.000" y1="545.000" x2="173.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<polygon points="35.000,565.400 193.000,565.400 193.000,568.800 35.000,568.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="36.500" y="567.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-04</text>
+<text x="54.500" y="567.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
+<text x="72.500" y="567.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vaso</text>
+<text x="98.500" y="567.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
+<text x="116.500" y="567.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="132.500" y="567.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
+<text x="152.500" y="567.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="174.500" y="567.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<line x1="53.000" y1="545.000" x2="53.000" y2="568.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="71.000" y1="545.000" x2="71.000" y2="568.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="97.000" y1="545.000" x2="97.000" y2="568.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="115.000" y1="545.000" x2="115.000" y2="568.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="131.000" y1="545.000" x2="131.000" y2="568.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="151.000" y1="545.000" x2="151.000" y2="568.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="173.000" y1="545.000" x2="173.000" y2="568.800" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <text x="203.000" y="542.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">(continuacao)</text>
 <polygon points="203.000,545.000 361.000,545.000 361.000,548.400 203.000,548.400" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
 <text x="204.500" y="546.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COD</text>
@@ -359,50 +373,50 @@
 <text x="320.500" y="546.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">DN ESG</text>
 <text x="342.500" y="546.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">QUENTE</text>
 <polygon points="203.000,548.400 361.000,548.400 361.000,551.800 203.000,551.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="204.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-04</text>
+<text x="204.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-05</text>
 <text x="222.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
-<text x="240.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vaso</text>
+<text x="240.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">lavatorio</text>
 <text x="266.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
-<text x="284.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="284.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="300.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
-<text x="320.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="320.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
 <text x="342.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
 <polygon points="203.000,551.800 361.000,551.800 361.000,555.200 203.000,555.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="204.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-05</text>
+<text x="204.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-06</text>
 <text x="222.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
-<text x="240.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">lavatorio</text>
-<text x="266.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
-<text x="284.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="240.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">box</text>
+<text x="266.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,10</text>
+<text x="284.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <text x="300.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
 <text x="320.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
-<text x="342.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="342.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sim</text>
 <polygon points="203.000,555.200 361.000,555.200 361.000,558.600 203.000,558.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="204.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-06</text>
-<text x="222.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S02</text>
-<text x="240.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">box</text>
-<text x="266.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,10</text>
-<text x="284.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="204.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-07</text>
+<text x="222.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
+<text x="240.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vaso</text>
+<text x="266.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
+<text x="284.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
 <text x="300.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
-<text x="320.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
-<text x="342.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sim</text>
+<text x="320.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="342.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
 <polygon points="203.000,558.600 361.000,558.600 361.000,562.000 203.000,562.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="204.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-07</text>
+<text x="204.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-08</text>
 <text x="222.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
-<text x="240.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vaso</text>
+<text x="240.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">lavatorio</text>
 <text x="266.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
-<text x="284.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="284.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="300.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
-<text x="320.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="320.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
 <text x="342.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
 <polygon points="203.000,562.000 361.000,562.000 361.000,565.400 203.000,565.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="204.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-08</text>
+<text x="204.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-09</text>
 <text x="222.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
-<text x="240.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">lavatorio</text>
-<text x="266.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
-<text x="284.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="240.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">box</text>
+<text x="266.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,10</text>
+<text x="284.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <text x="300.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
 <text x="320.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
-<text x="342.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="342.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sim</text>
 <line x1="221.000" y1="545.000" x2="221.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="239.000" y1="545.000" x2="239.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
 <line x1="265.000" y1="545.000" x2="265.000" y2="565.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
@@ -421,44 +435,44 @@
 <text x="320.500" y="546.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">DN ESG</text>
 <text x="342.500" y="546.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">QUENTE</text>
 <polygon points="203.000,548.400 361.000,548.400 361.000,551.800 203.000,551.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="204.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-09</text>
-<text x="222.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-S03</text>
-<text x="240.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">box</text>
-<text x="266.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,10</text>
-<text x="284.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="204.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-10</text>
+<text x="222.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
+<text x="240.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vaso</text>
+<text x="266.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
+<text x="284.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
 <text x="300.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
-<text x="320.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
-<text x="342.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sim</text>
+<text x="320.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="342.500" y="550.100" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
 <polygon points="203.000,551.800 361.000,551.800 361.000,555.200 203.000,555.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="204.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-10</text>
+<text x="204.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-11</text>
 <text x="222.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
-<text x="240.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vaso</text>
+<text x="240.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">lavatorio</text>
 <text x="266.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
-<text x="284.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">6</text>
+<text x="284.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
 <text x="300.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
-<text x="320.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN50</text>
+<text x="320.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
 <text x="342.500" y="553.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
 <polygon points="203.000,555.200 361.000,555.200 361.000,558.600 203.000,558.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="204.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-11</text>
+<text x="204.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-12</text>
 <text x="222.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
-<text x="240.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">lavatorio</text>
-<text x="266.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,30</text>
-<text x="284.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="240.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">box</text>
+<text x="266.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,10</text>
+<text x="284.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
 <text x="300.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
 <text x="320.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
-<text x="342.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
+<text x="342.500" y="556.900" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sim</text>
 <polygon points="203.000,558.600 361.000,558.600 361.000,562.000 203.000,562.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
-<text x="204.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-12</text>
-<text x="222.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">S-MAS</text>
-<text x="240.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">box</text>
-<text x="266.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,10</text>
-<text x="284.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="204.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-13</text>
+<text x="222.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LAV</text>
+<text x="240.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tanque</text>
+<text x="266.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,70</text>
+<text x="284.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
 <text x="300.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25</text>
 <text x="320.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN40</text>
-<text x="342.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sim</text>
+<text x="342.500" y="560.300" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">—</text>
 <polygon points="203.000,562.000 361.000,562.000 361.000,565.400 203.000,565.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
-<text x="204.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-13</text>
-<text x="222.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-LAV</text>
+<text x="204.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">LC-16</text>
+<text x="222.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">T-DEP</text>
 <text x="240.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">tanque</text>
 <text x="266.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0,70</text>
 <text x="284.500" y="563.700" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
@@ -540,7 +554,7 @@
 <text x="375.500" y="502.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CONSEQUENCIA HIDRAULICA</text>
 <polygon points="300.000,505.200 560.000,505.200 560.000,510.400 300.000,510.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
 <text x="301.500" y="507.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Chuveiro eletrico em vez de aquecimento central</text>
-<text x="375.500" y="507.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">peso 0,10 por chuveiro em vez de 0,40: a soma cai de 8,2 para 7.6 pesos e o alimentador de DN40 para DN32</text>
+<text x="375.500" y="507.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">peso 0,10 por chuveiro em vez de 0,40: a soma cai de 8,2 para 8.3 pesos e o alimentador de DN40 para DN32</text>
 <polygon points="300.000,510.400 560.000,510.400 560.000,515.600 300.000,515.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
 <text x="301.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Limite de velocidade por conforto, nao por norma</text>
 <text x="375.500" y="513.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">DN25 atenderia a norma a 2,17 m/s; a 2.0 m/s o tubo nao assobia. Custa alguns metros de tubo</text>

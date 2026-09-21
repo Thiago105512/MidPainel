@@ -1150,10 +1150,12 @@ def rodar(fotos: bool = False) -> int:
              d.piso && d.forro && d.tugs_norma > 0 && d.composicoes.length > 0)"""),
            "cada dossie reune acabamento, tomada e as paredes que o cercam")
         # a tomada tem de vir da previsao da norma, nao de uma segunda regra
-        ok(pag.evaluate("""() => {
+        # R63 — era `t === 71`, literal: envelheceu na primeira tomada de bancada
+        _tug_modelo = sum(q["tugs"] for q in _pj.previsao_iluminacao_tug())
+        ok(pag.evaluate("""(n) => {
              const t = ENG.ambientes.dossies.reduce((s, d) => s + d.tugs_norma, 0);
-             return t === 71; }"""),
-           "as tomadas somam o que a NBR 5410 preve por perimetro",
+             return t === n; }""", _tug_modelo),
+           "as tomadas somam o que a NBR 5410 preve por perimetro (e bancada)",
            str(pag.evaluate("""() => ENG.ambientes.dossies
              .reduce((s, d) => s + d.tugs_norma, 0)""")) + " TUG")
         ok(pag.evaluate("""() => {
