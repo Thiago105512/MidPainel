@@ -57,6 +57,16 @@ def _cx(x0, x1):
     return (x0 + x1) / 2
 
 
+def _cor_vao(tipo: str) -> str:
+    """Cor do vao pela familia declarada: portao ripado e aluminio grafite
+    (FACHADA_MATERIAIS), porta e madeira, o resto e vidro (R66)."""
+    if tipo.startswith("PG"):
+        return CORES["brise"]
+    if tipo.startswith("P") and not tipo.startswith("PV"):
+        return CORES["porta"]
+    return CORES["vidro"]
+
+
 def _box(t, x0, y0, z0, x1, y1, z1, cor, rot=None):
     return dict(t=t, p=[round(_cx(x0, x1)), round(_cx(y0, y1)), round(_cx(z0, z1))],
                 s=[round(abs(x1 - x0)), round(abs(y1 - y0)), round(abs(z1 - z0))],
@@ -100,8 +110,7 @@ def _paredes(pav: str) -> list[dict]:
                     out.append(_box("parede", vx0, y - e / 2, topo,
                                     vx1, y + e / 2, z1, cor))
                 out.append(_box("vao", vx0, y - 25, z0 + v["peitoril"], vx1, y + 25, topo,
-                                CORES["porta"] if v["tipo"].startswith("P")
-                                and not v["tipo"].startswith("PV") else CORES["vidro"]))
+                                _cor_vao(v["tipo"])))
         else:
             a, b = min(par.y1, par.y2), max(par.y1, par.y2)
             x = par.x1
@@ -126,8 +135,7 @@ def _paredes(pav: str) -> list[dict]:
                     out.append(_box("parede", x - e / 2, vy0, topo,
                                     x + e / 2, vy1, z1, cor))
                 out.append(_box("vao", x - 25, vy0, z0 + v["peitoril"], x + 25, vy1, topo,
-                                CORES["porta"] if v["tipo"].startswith("P")
-                                and not v["tipo"].startswith("PV") else CORES["vidro"]))
+                                _cor_vao(v["tipo"])))
     return out
 
 

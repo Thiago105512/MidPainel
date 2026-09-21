@@ -5264,3 +5264,27 @@ embutem (`Canvas.imagem_p`, PNG em base64 dentro do SVG; `--no-persp` pula).
 execução, dois nomes privados do módulo novo repetidos — `_cam`, `_dentro` —
 renomeados: o detector pegou o próprio autor); 212 verificações do
 visualizador, 0 falhas; 46 pranchas; 42 perspectivas da revisão corrente.
+
+### R66b — render aproximado com Blender (Cycles) e defeito 105
+O proprietário pediu "uma imagem real, ainda que aproximada". A geração de
+imagem por IA (Gamma) estava sem créditos, e de todo modo produziria uma casa
+parecida, não esta. O caminho consistente com o método: `render_blender.py`
+lê `out/porto-real.obj` (as caixas da cena), atribui material por **tipo**
+(reboco mineral, vidro com sombra transparente, água, deck com tábuas,
+alumínio grafite com ripas, grama), põe o céu físico de Manaus com o sol na
+hora da vista (vetor calculado por latitude e hora, no equinócio) e fotografa
+das mesmas câmeras de `perspectivas.json`. Cycles em CPU, 96 amostras,
+denoise; ~2,5 min por imagem em 4 núcleos. `pip install bpy` é opcional e
+pesado (300 MB), por isso fica fora de `requirements.txt` e da CI.
+
+**Defeito 105 — o portão era madeira na cena.** `FACHADA_MATERIAIS` declara
+"alumínio grafite ripado: portão de correr, brises e guarda-corpo"; a cena 3D
+pintava PG01 com a cor de porta de madeira porque a regra era "começa com P".
+Achado ao olhar o primeiro render: o desenho divergia do dado. `_cor_vao()`:
+PG → grafite, P → madeira, o resto → vidro.
+
+**Lição de calibração.** O céu físico do Blender 5 é fisicamente brilhante e
+o sol do céu obedece a `sun_direction`, não a `sun_rotation`: o primeiro render
+da tarde tinha a fachada oeste na sombra às 16 h. O vetor do sol passou a ser
+gravado diretamente, e a exposição vai para −5 EV. Imagem é medida também:
+três exposições lado a lado decidiram, não o olho numa só.
