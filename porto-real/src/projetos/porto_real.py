@@ -712,11 +712,23 @@ DECK = dict(x=3_600, y=29_400, w=7_800, h=5_400,           # envolve a piscina
 # albedo de 0,20 a superficie passa de 65 C sob sol de Manaus, contra ~45 C de
 # um porcelanato claro (albedo 0,60). O limiar de dor ao pe descalco e 50 C.
 # Solucao por zona, nao por material unico:
+# R84 — DECISAO DO PROPRIETARIO: o deck e TODO em WPC (faixa seca da piscina,
+# deck norte, deck coberto e varanda gourmet). A verificacao de R59 continua
+# valendo e continua no modelo: com o albedo do WPC coextrudado claro
+# (WPC_ALBEDO, hipotese do fabricante) a superficie ao sol do meio-dia passa
+# dos 50 C do pe descalco. Nao se apaga a conta para caber a decisao: a
+# auditoria emite ATENCAO com a temperatura estimada e o dono da decisao. O
+# que mitiga e a TONALIDADE (albedo >= 0,50 leva a ~50 C) e a chuveirada de
+# borda; o patio da churrasqueira fica em porcelanato (brasa e gordura).
+WPC_ALBEDO = 0.40       # (H) fabricante — WPC coextrudado tom claro (areia/cinza claro)
+DECISAO_DECK_WPC = dict(decidido_por="proprietario", revisao="R84",
+                        texto="a area do deck e toda em WPC",
+                        risco="superficie ao sol acima de 50 C no pico; exige tom claro e chuveirada de borda")
 PISO_EXTERNO = [
-    dict(zona="faixa seca da piscina", material="porcelanato externo claro R11",
-         area_m2=None, razao="e onde se anda descalco no pico do sol"),
+    dict(zona="faixa seca da piscina", material="WPC coextrudado claro",
+         area_m2=None, razao="decisao do proprietario (R84): deck todo em WPC; tom claro obrigatorio pela temperatura"),
     dict(zona="lounge e circulacao do deck", material="WPC coextrudado claro",
-         area_m2=None, razao="area de permanencia com mobiliario e sombra"),
+         area_m2=None, razao="area de permanencia com mobiliario e sombra; R84: inclui o deck norte descoberto"),
     # R59 — WPC so onde a razao dele vale. A zona "lounge e circulacao" punha
     # WPC coextrudado (R$ 320/m2, o piso mais caro da casa) em 76 m2, dos quais
     # 21,6 m2 sao DESCOBERTOS (deck norte, patio) e 21,6 m2 sao o patio da
@@ -724,9 +736,9 @@ PISO_EXTERNO = [
     # sombra". WPC ao sol de Manaus esquenta e trabalha; WPC sob brasa e
     # gordura mancha. Os dois vao para o porcelanato R11 claro que a casa ja
     # compra para a faixa da piscina: sem familia nova, R$ 172/m2 a menos.
-    dict(zona="patio e deck descoberto", material="porcelanato externo claro R11",
-         area_m2=None, razao="sol pleno ou churrasqueira: superficie fria, lavavel e "
-                             "sem movimento termico — a mesma peca da faixa da piscina"),
+    dict(zona="patio da churrasqueira", material="porcelanato externo claro R11",
+         area_m2=None, razao="brasa e gordura: superficie fria, lavavel e "
+                             "sem movimento termico — WPC mancha sob churrasqueira"),
     dict(zona="passeio e acesso", material="piso drenante intertravado claro",
          area_m2=None, razao="compensa a permeabilidade perdida pelo deck"),
     # R49 — a varanda da master era a unica area aberta sem zona de piso
@@ -4069,6 +4081,14 @@ REVISOES = [
      "mantido por privacidade. Videoporteiro e fechadura eletrica vao do portao "
      "de pedestre (que nao existe mais) para a porta P01; camera do acesso "
      "olha a rua da frente da garagem. Briefing de imagens gerado do modelo"),
+    ("R84", "DECK TODO EM WPC, decisao do proprietario. A faixa seca da piscina e "
+     "o deck norte descoberto saem do porcelanato R11 e vao para o WPC "
+     "coextrudado claro; o patio da churrasqueira fica em porcelanato. A conta "
+     "de temperatura de R59 entra no modelo (externo.temperatura_superficie) "
+     "com o albedo do WPC como hipotese do fabricante, e a auditoria passa a "
+     "avisar a temperatura estimada em vez de proibir. Borda da piscina "
+     "continua em porcelanato (pingadeira e boleado). Prainha confirmada: "
+     "1.200 mm de largura, 300 mm de lamina"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4277,13 +4297,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R83",
+    revisao="R84",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R83", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R84", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

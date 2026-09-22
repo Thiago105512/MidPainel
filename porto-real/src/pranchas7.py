@@ -14,6 +14,7 @@ import elementos as el
 import especificacao as ep
 import auditoria as au
 import anotacao as an
+import nucleo.externo as _ex
 from core import P, Canvas, View, TXT, CINZA, PRETO
 from pranchas import base, _tabela, TOTAL_PRANCHAS
 from pranchas6 import _fundo
@@ -566,9 +567,9 @@ def piscina_deck_fachada() -> Canvas:
             ["ZONA", "MATERIAL", "RAZAO"],
             [[z["zona"], z["material"], z["razao"]] for z in pj.PISO_EXTERNO] +
             [["Verificacao do YAML", "aquecimento superficial",
-              "WPC escuro passa de 65 C sob sol de Manaus (albedo 0,20); "
-              "porcelanato claro fica em ~45 C (albedo 0,60); a dor ao pe "
-              "descalco comeca em 50 C"]],
+              f"WPC claro (albedo {pj.WPC_ALBEDO:.2f}, H) chega a ~{_ex.temperatura_superficie(pj.WPC_ALBEDO):g} C ao "
+              f"sol de Manaus; escuro (0,20) a {_ex.TEMP_SUPERFICIE['escuro'][1]:g} C; dor ao pe descalco a partir de "
+              f"{_ex.TEMP_SUPERFICIE['limiar_pe_descalco']:g} C. R84: deck em WPC por decisao do proprietario — tom claro"]],
             larguras=[54, 62, 150])
 
     _tabela(cv, (300, 215), "FACHADA — TRES FAMILIAS E O RASGO DE LUZ",

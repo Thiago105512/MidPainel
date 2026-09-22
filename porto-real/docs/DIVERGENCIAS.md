@@ -6182,3 +6182,39 @@ com ele.
 0 falhas; 76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada). BOM
 R$ 1.082.125,72 (+ R$ 9.118,45 sobre R82: dois portões laterais, menos 13 m
 de muro).
+
+## R84 — Deck todo em WPC: decisão do proprietário, com a conta de temperatura dentro do modelo
+
+O proprietário confirmou a prainha (já no modelo: 1.200 mm de largura, 300 mm
+de lâmina) e decidiu que **a área do deck é toda em WPC**. Isso reverte R59,
+que tinha tirado o WPC das zonas ao sol porque WPC escuro passa de 65 °C sob o
+sol de Manaus e o pé descalço dói a partir de 50 °C.
+
+A decisão é do dono da casa e foi aplicada. O que não se faz é apagar a conta
+para caber a decisão. A conta de R59 vivia num texto de prancha; agora vive no
+modelo (`externo.temperatura_superficie`, dois pontos medidos (H) e
+interpolação linear no albedo), o albedo do WPC coextrudado claro é hipótese
+declarada do fabricante (`WPC_ALBEDO = 0,40`), e a auditoria deixou de
+proibir e passou a **avisar** a temperatura estimada de cada zona descalça,
+com o dono da decisão ao lado.
+
+| Zona | Antes (R59) | R84 | Temperatura estimada ao sol |
+|---|---|---|---|
+| Faixa seca da piscina (T-DKP, 24,3 m²) | porcelanato R11 claro | **WPC coextrudado claro** | ~55 °C (albedo 0,40) |
+| Deck norte descoberto (T-DKL) | porcelanato R11 claro | **WPC coextrudado claro** | ~55 °C |
+| Deck coberto e varanda gourmet (T-DKC, T-ALP) | WPC | WPC | sombra |
+| Pátio da churrasqueira (T-PAT, T-PT2, 25,9 m²) | porcelanato R11 claro | porcelanato R11 claro | ~45 °C |
+| Borda da piscina | porcelanato R11 com pingadeira e boleado | inalterada | — |
+
+Total de WPC: 74,7 m². Duas ATENÇÕES novas na auditoria, uma por zona
+descalça acima de 50 °C, e elas ficam até que uma de três coisas aconteça:
+o fabricante informar um albedo ≥ 0,50 para o tom escolhido (leva a ~50 °C),
+a chuveirada de borda entrar no modelo como mitigação declarada, ou o
+proprietário registrar que aceita o risco. O pátio da churrasqueira fica em
+porcelanato por outra razão, que a decisão não alcança: brasa e gordura
+mancham WPC.
+
+**Estado em R84:** 152 auditorias, 0 erros, 45 atenções; 224 verificações do
+visualizador, 0 falhas; 76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada).
+BOM R$ 1.089.277,48 (+ R$ 7.151,76 sobre R83: WPC a R$ 320/m² contra R$ 148/m² do
+porcelanato em 50,4 m² a mais).

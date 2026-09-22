@@ -126,7 +126,7 @@ def bordas(pj) -> dict:
     g = geometria(pj)
     per_mm = g["perimetro_m"] * 1000
     n = math.ceil(per_mm / BORDA_PECA) + 4          # 4 pecas de canto em L
-    return dict(perimetro_m=g["perimetro_m"], peca=f"{BORDA_PECA} x 300 x {BORDA_ESP} mm, porcelanato R11 da faixa seca, "
+    return dict(perimetro_m=g["perimetro_m"], peca=f"{BORDA_PECA} x 300 x {BORDA_ESP} mm, porcelanato R11 (borda; o deck e WPC), "
                 "bordo boleado e pingadeira", n_pecas=n, espessura=BORDA_ESP,
                 caimento_deck=CAIMENTO_DECK, sentido="para fora da piscina",
                 transicao="cantoneira de aluminio anodizado 25 x 25 entre o revestimento e a borda; junta de 5 mm "

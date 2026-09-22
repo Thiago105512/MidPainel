@@ -4299,10 +4299,20 @@ def checar_acabamento_auditado() -> list[Achado]:
                       f"({(box.quantidade / n_box) if box else 0:.1f} m2/box)"))
     ext = {i["zona"]: i for i in r["camadas"]["externo"]["pisos"]["itens"]} \
         if isinstance(r["camadas"]["externo"].get("pisos"), dict) else {}
-    wpc = next((i for i in ext.values() if "WPC" in i["material"]), None)
-    out.append(Achado("NOTA" if wpc and wpc["area"] < 40 else "ATENCAO",
-                      "WPC so em area coberta de permanencia",
-                      f"{wpc['area'] if wpc else 0} m2 de WPC em {wpc['areas'] if wpc else []}"))
+    # R84 — o deck e todo em WPC por decisao do proprietario; a conferencia
+    # deixa de proibir e passa a dizer a temperatura estimada de cada zona
+    import nucleo.externo as _ex
+    dec = getattr(pj, "DECISAO_DECK_WPC", {})
+    for tz in _ex.temperatura_por_zona(pj):
+        if tz["descalco"] and tz["acima_do_limiar"]:
+            out.append(Achado("ATENCAO", "piso descalco acima de 50 C",
+                              f"{tz['zona']}: {tz['material']} com albedo {tz['albedo']:.2f} (H) chega a ~{tz['temperatura_c']:g} C "
+                              f"ao sol do meio-dia, acima dos {_ex.TEMP_SUPERFICIE['limiar_pe_descalco']:g} C do pe descalco — "
+                              f"decisao de {dec.get('decidido_por', '?')} em {dec.get('revisao', '?')}: {dec.get('risco', '')}"))
+    wpc = [i for i in ext.values() if "WPC" in i["material"]]
+    out.append(Achado("NOTA", "deck em WPC (R84, proprietario)",
+                      f"{round(sum(i['area'] for i in wpc), 2)} m2 de WPC em {sorted(a for i in wpc for a in i['areas'])}; "
+                      f"patio da churrasqueira em porcelanato"))
     fam = [s for s in bom if s.startswith("FAC-")]
     out.append(Achado("NOTA" if "FAC-MINERAL" in bom and "FAC-TINTA" in bom else "ERRO",
                       "fachada: base pintada + volume mineral",

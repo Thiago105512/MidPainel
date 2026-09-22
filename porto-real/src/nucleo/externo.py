@@ -52,11 +52,11 @@ PRECO = {
 # faltava era dizer QUAIS areas caem em cada uma.
 ZONA_DE_AREA = {
     "T-DKP": "faixa seca da piscina",
-    "T-DKL": "patio e deck descoberto",       # R59: descoberto, sol pleno
+    "T-DKL": "lounge e circulacao do deck",   # R84: deck todo em WPC (era patio e deck descoberto)
     "T-DKC": "lounge e circulacao do deck",
     "T-ALP": "lounge e circulacao do deck",
-    "T-PAT": "patio e deck descoberto",       # R59: churrasqueira
-    "T-PT2": "patio e deck descoberto",       # R59: descoberto
+    "T-PAT": "patio da churrasqueira",        # R59: churrasqueira
+    "T-PT2": "patio da churrasqueira",        # R59: descoberto, ao lado da churrasqueira
     "T-VAR": "passeio e acesso",
     "T-LOG": "passeio e acesso",
     "T-VRL": "passeio e acesso",
@@ -64,6 +64,30 @@ ZONA_DE_AREA = {
 }
 # jardins nao levam piso: levam grama e canteiro
 JARDINS = ("T-JLE", "T-JNO", "T-JS2", "T-JN2", "T-JN3", "T-JFU")
+
+
+# R84 — a conta de R59 sai do texto e entra no modelo. Dois pontos medidos
+# (H) para sol de Manaus ao meio-dia: superficie escura (albedo 0,20) a 65 C e
+# clara (0,60) a 45 C; entre eles, linear. Dor ao pe descalco a partir de 50 C.
+TEMP_SUPERFICIE = dict(escuro=(0.20, 65.0), claro=(0.60, 45.0), limiar_pe_descalco=50.0)
+ALBEDO_MATERIAL = {"porcelanato externo claro R11": 0.60, "piso drenante intertravado claro": 0.55}
+
+
+def temperatura_superficie(albedo: float) -> float:
+    (a0, t0), (a1, t1) = TEMP_SUPERFICIE["escuro"], TEMP_SUPERFICIE["claro"]
+    return round(t0 + (albedo - a0) * (t1 - t0) / (a1 - a0), 1)
+
+
+def temperatura_por_zona(pj) -> list[dict]:
+    """Temperatura estimada do piso de cada zona externa ao sol, e se passa do limiar."""
+    out = []
+    for z in pisos(pj)["itens"]:
+        alb = pj.WPC_ALBEDO if "WPC" in z["material"] else ALBEDO_MATERIAL.get(z["material"], 0.5)
+        t = temperatura_superficie(alb)
+        out.append(dict(zona=z["zona"], material=z["material"], albedo=alb, temperatura_c=t, area=z["area"],
+                        descalco="piscina" in z["zona"] or "deck" in z["zona"],
+                        acima_do_limiar=t > TEMP_SUPERFICIE["limiar_pe_descalco"]))
+    return out
 
 
 def portoes_laterais(pj) -> list[dict]:
