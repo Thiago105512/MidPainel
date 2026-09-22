@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="841mm" height="594mm" viewBox="0 0 841 594">
+<rect width="841" height="594" fill="#ffffff"/>
+<defs><clipPath id="rec1"><rect x="25.00" y="10.00" width="806.00" height="574.00"/></clipPath><pattern id="casa72" patternUnits="userSpaceOnUse" width="2.0" height="2.0" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="2.0" stroke="#bbb" stroke-width="0.1"/></pattern><pattern id="circ72" patternUnits="userSpaceOnUse" width="1.6" height="1.6" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="1.6" stroke="#7c9" stroke-width="0.08"/></pattern><pattern id="terra72" patternUnits="userSpaceOnUse" width="2.0" height="2.0" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="2.0" stroke="#c9b79c" stroke-width="0.1"/></pattern></defs>
+<g data-tipo="moldura">
+<rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
+</g>
+<g data-tipo="carimbo" data-cod="72" data-rev="R86">
+<polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
+<text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
+<text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
+<line x1="656.000" y1="538.000" x2="831.000" y2="538.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<text x="659.000" y="544.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PROJETO ARQUITETONICO</text>
+<text x="659.000" y="550.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CANTEIRO DE OBRAS: LOGISTICA, ESTOQUE, CIRCULACAO E DRENAGEM PROVISORIA</text>
+<line x1="656.000" y1="555.000" x2="831.000" y2="555.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="702.000" y1="555.000" x2="702.000" y2="584.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="748.000" y1="555.000" x2="748.000" y2="584.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="789.000" y1="555.000" x2="789.000" y2="584.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="789.000" y1="555.000" x2="789.000" y2="584.000" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<text x="659.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">BASE GEOMETRICA</text>
+<text x="659.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Lista Consolidada</text>
+<text x="659.000" y="571.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">pos-R32 (prevalece)</text>
+<text x="659.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">UNIDADE MESTRE: mm</text>
+<text x="705.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">ESCALA</text>
+<text x="705.000" y="567.000" font-family="Helvetica, Arial, sans-serif" font-size="5.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">indicada</text>
+<text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
+<text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
+<text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R86</text>
+<text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
+<text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
+<text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
+<text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">72</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R86</text>
+</g>
+<g data-tipo="notas">
+<text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
+<text x="656.000" y="501.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Canteiro no recuo de frente e na faixa tecnica norte: 169.7 m2 em 14 zonas, equipe de pico de 8 pessoas (H). Os elementos tecnicos definitivos da faixa norte so entram na fase 5.</text>
+<text x="656.000" y="505.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Movimentacao: painel mais pesado 89.3 kg contra 100 kg a mao (4 montadores): a mao, 4 montadores. Munck: nao: do recuo nao alcanca o fundo da casa (26 m); descarga da carreta a mao, no cavalete.</text>
+<text x="656.000" y="509.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Drenagem provisoria: vala de 300 x 300 mm a 1 % no pe da plataforma (26 m), caixa de sedimentacao de 0.8 m3 antes da sarjeta; 13.7 L/s de projeto (C 0.5, 180 mm/h). queda para a testada (leste); o fundo e o lado alto.</text>
+<text x="656.000" y="513.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">- Ligacoes provisorias no ponto do medidor definitivo (TC-08): padrao provisorio trifasico 220/127 V, 63 A (H): serras, par; cavalete provisorio DN20 no mesmo ponto; caixa de .</text>
+</g>
+<g clip-path="url(#rec1)" data-tipo="recorte">
+<circle cx="44.000" cy="96.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
+<text x="44.000" y="96.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">1</text>
+<text x="51.000" y="94.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PLANTA DO CANTEIRO (fases 1 a 4)</text>
+<text x="51.000" y="99.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:100</text>
+<line x1="40.000" y1="101.600" x2="118.200" y2="101.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<g data-tipo="canteiro" data-cod="PLANTA">
+<polygon points="35.000,545.000 255.000,545.000 255.000,520.000 35.000,520.000" stroke="#999" stroke-width="0.18" fill="#f0f0f0" stroke-linejoin="miter"/>
+<text x="145.000" y="534.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#666" text-anchor="middle" dominant-baseline="middle">RUA — betoneira, bomba de concreto e carreta estacionam aqui; descarga pelo portao</text>
+<polygon points="45.000,520.000 245.000,520.000 245.000,120.000 45.000,120.000" stroke="#000" stroke-width="0.6" fill="#fff" stroke-linejoin="miter"/>
+<polygon points="69.000,448.000 201.000,448.000 201.000,256.000 69.000,256.000" stroke="#666" stroke-width="0.3" fill="url(#casa72)" stroke-linejoin="miter"/>
+<text x="135.000" y="352.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#555" text-anchor="middle" dominant-baseline="middle">CASA — plataforma e radier (fase 1), LSF (fase 2)</text>
+<polygon points="81.000,226.000 159.000,226.000 159.000,172.000 81.000,172.000" stroke="#8ab" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<text x="120.000" y="199.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8ab" text-anchor="middle" dominant-baseline="middle">deck (fase 5)</text>
+<polygon points="93.000,214.000 147.000,214.000 147.000,181.000 93.000,181.000" stroke="#8ab" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<text x="120.000" y="197.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8ab" text-anchor="middle" dominant-baseline="middle">piscina (fase 5)</text>
+<polygon points="215.000,440.000 235.000,440.000 235.000,425.000 215.000,425.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="215.000,422.000 225.000,422.000 225.000,414.000 215.000,414.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="81.000,490.000 108.000,490.000 108.000,463.000 81.000,463.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="217.000,280.000 229.000,280.000 229.000,272.000 217.000,272.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="215.000,514.000 223.000,514.000 223.000,508.000 215.000,508.000" stroke="#c36" stroke-width="0.3" fill="#fde" stroke-linejoin="miter"/>
+<text x="219.000" y="517.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c36" text-anchor="middle" dominant-baseline="middle">TC-08 ligacoes provisorias</text>
+<polygon points="217.000,388.000 225.000,388.000 225.000,322.000 217.000,322.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="65.000,436.000 69.000,436.000 69.000,400.000 65.000,400.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="57.000,310.000 65.000,310.000 65.000,302.000 57.000,302.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="57.000,280.000 63.000,280.000 63.000,274.000 57.000,274.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="215.000,226.000 230.000,226.000 230.000,206.000 215.000,206.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="215.000,256.000 230.000,256.000 230.000,236.000 215.000,236.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="213.000,202.000 221.000,202.000 221.000,192.000 213.000,192.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<polygon points="217.000,410.000 223.000,410.000 223.000,406.000 217.000,406.000" stroke="#aaa" stroke-width="0.18" fill="none" stroke-linejoin="miter"/>
+<g data-tipo="canteiro" data-cod="CT-PISTA" data-fase="1-5" data-area="38.9">
+<polygon points="72.000,520.000 126.000,520.000 126.000,448.000 72.000,448.000" stroke="#333" stroke-width="0.3" fill="#fff2b3" stroke-linejoin="miter"/>
+<text x="99.000" y="484.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">Pista de veiculos e descarga</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-PED" data-fase="1-5" data-area="13.0">
+<polygon points="129.000,520.000 147.000,520.000 147.000,448.000 129.000,448.000" stroke="#333" stroke-width="0.3" fill="#d9f2d9" stroke-linejoin="miter"/>
+<text x="138.000" y="484.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 138.000 484.000)">Entrada de pedestres</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-ESC" data-fase="1-5" data-area="13.9">
+<polygon points="47.000,514.000 70.520,514.000 70.520,455.020 47.000,455.020" stroke="#333" stroke-width="0.3" fill="#e0e0e0" stroke-linejoin="miter"/>
+<text x="58.760" y="484.510" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 58.760 484.510)">Conteiner 20': escritorio e almoxarifado</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-CAV" data-fase="2" data-area="34.4">
+<polygon points="150.000,490.000 232.000,490.000 232.000,448.000 150.000,448.000" stroke="#333" stroke-width="0.3" fill="#dbe7f7" stroke-linejoin="miter"/>
+<text x="191.000" y="469.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">Cavalete de paineis (71 em 2 lotes) (f. 2) / placas paleti</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-PLA" data-fase="3-4" data-area="34.4">
+</g>
+<g data-tipo="canteiro" data-cod="CT-VES" data-fase="1-5" data-area="13.9">
+<polygon points="153.020,517.000 212.000,517.000 212.000,493.480 153.020,493.480" stroke="#333" stroke-width="0.3" fill="#e0e0e0" stroke-linejoin="miter"/>
+<text x="182.510" y="505.240" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">Conteiner 20': vestiario e refeitorio</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-SAN" data-fase="1-5" data-area="1.2">
+<polygon points="231.000,418.000 242.000,418.000 242.000,407.000 231.000,407.000" stroke="#333" stroke-width="0.3" fill="#ffe0c2" stroke-linejoin="miter"/>
+<text x="236.500" y="412.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">Sanitario quimico</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-RES-A" data-fase="1-5" data-area="4.0">
+<polygon points="222.000,392.000 242.000,392.000 242.000,372.000 222.000,372.000" stroke="#b5651d" stroke-width="0.3" fill="#ffe0c2" stroke-linejoin="miter"/>
+<text x="232.000" y="382.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">RES A</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-RES-B" data-fase="1-5" data-area="4.0">
+<polygon points="222.000,369.000 242.000,369.000 242.000,349.000 222.000,349.000" stroke="#b5651d" stroke-width="0.3" fill="#ffe0c2" stroke-linejoin="miter"/>
+<text x="232.000" y="359.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">RES B</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-RES-C" data-fase="1-5" data-area="4.0">
+<polygon points="222.000,346.000 242.000,346.000 242.000,326.000 222.000,326.000" stroke="#b5651d" stroke-width="0.3" fill="#ffe0c2" stroke-linejoin="miter"/>
+<text x="232.000" y="336.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">RES C</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-RES-D" data-fase="1-5" data-area="4.0">
+<polygon points="222.000,323.000 242.000,323.000 242.000,303.000 222.000,303.000" stroke="#b5651d" stroke-width="0.3" fill="#ffe0c2" stroke-linejoin="miter"/>
+<text x="232.000" y="313.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#b5651d" text-anchor="middle" dominant-baseline="middle">RES D</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-CIRC-N" data-fase="1-5" data-area="59.0">
+<polygon points="201.000,448.000 219.000,448.000 219.000,120.000 201.000,120.000" stroke="#7c9" stroke-width="0.18" fill="url(#circ72)" stroke-linejoin="miter"/>
+<text x="210.000" y="284.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#396" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 210.000 284.000)">Circulacao de trabalhadores (norte)</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-CIRC-S" data-fase="1-5" data-area="78.7">
+<polygon points="45.000,448.000 69.000,448.000 69.000,120.000 45.000,120.000" stroke="#7c9" stroke-width="0.18" fill="url(#circ72)" stroke-linejoin="miter"/>
+<text x="57.000" y="284.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#396" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 57.000 284.000)">Circulacao de trabalhadores (sul)</text>
+</g>
+<g data-tipo="canteiro" data-cod="CT-TAP" data-fase="1-4" data-area="4.0">
+<polygon points="45.000,522.000 245.000,522.000 245.000,520.000 45.000,520.000" stroke="#333" stroke-width="0.25" fill="#333" stroke-linejoin="miter"/>
+</g>
+<line x1="72.000" y1="520.000" x2="126.000" y2="520.000" stroke="#c90" stroke-width="0.25" fill="none" stroke-linecap="round"/>
+<text x="99.000" y="525.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c90" text-anchor="middle" dominant-baseline="middle">acesso veicular (testada aberta)</text>
+<line x1="132.000" y1="520.000" x2="144.000" y2="520.000" stroke="#c90" stroke-width="0.25" fill="none" stroke-linecap="round"/>
+<text x="138.000" y="525.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c90" text-anchor="middle" dominant-baseline="middle">pedestre</text>
+<line x1="69.000" y1="445.000" x2="239.000" y2="445.000" stroke="#06c" stroke-width="0.3" fill="none" stroke-dasharray="2,1" stroke-linecap="round"/>
+<line x1="239.000" y1="445.000" x2="239.000" y2="511.000" stroke="#06c" stroke-width="0.3" fill="none" stroke-dasharray="2,1" stroke-linecap="round"/>
+<line x1="239.000" y1="511.000" x2="212.000" y2="511.000" stroke="#06c" stroke-width="0.3" fill="none" stroke-dasharray="2,1" stroke-linecap="round"/>
+<polygon points="202.000,517.000 212.000,517.000 212.000,507.000 202.000,507.000" stroke="#06c" stroke-width="0.3" fill="#dff0fa" stroke-linejoin="miter"/>
+<text x="207.000" y="521.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">caixa de sedimentacao -&gt; sarjeta</text>
+<text x="154.000" y="441.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">vala provisoria 300 x 300, 1 %</text>
+<text x="39.000" y="320.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 39.000 320.000)">SUL — divisa (recuo 2,40)</text>
+<text x="251.000" y="320.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 251.000 320.000)">NORTE — divisa (faixa tecnica 3,20)</text>
+<text x="145.000" y="114.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="middle" dominant-baseline="middle">FUNDO — lado alto do lote</text>
+<g data-tipo="cota" data-eixo="H" data-parciais="3">
+<line x1="45.000" y1="108.000" x2="45.000" y2="115.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="69.000" y1="108.000" x2="69.000" y2="115.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="201.000" y1="108.000" x2="201.000" y2="115.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="245.000" y1="108.000" x2="245.000" y2="115.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="45.000" y1="114.000" x2="245.000" y2="114.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="44.300" y1="114.700" x2="45.700" y2="113.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="68.300" y1="114.700" x2="69.700" y2="113.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="57.000" y="112.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">2,40</text>
+<line x1="68.300" y1="114.700" x2="69.700" y2="113.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="200.300" y1="114.700" x2="201.700" y2="113.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="135.000" y="112.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">13,20</text>
+<line x1="200.300" y1="114.700" x2="201.700" y2="113.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="244.300" y1="114.700" x2="245.700" y2="113.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="223.000" y="112.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">4,40</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="5">
+<line x1="35.000" y1="520.000" x2="25.800" y2="520.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="35.000" y1="448.000" x2="25.800" y2="448.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="35.000" y1="256.000" x2="25.800" y2="256.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="35.000" y1="226.000" x2="25.800" y2="226.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="35.000" y1="172.000" x2="25.800" y2="172.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="35.000" y1="120.000" x2="25.800" y2="120.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="27.000" y1="520.000" x2="27.000" y2="120.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="26.300" y1="520.700" x2="27.700" y2="519.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="26.300" y1="448.700" x2="27.700" y2="447.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="25.884" y="484.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 25.884 484.000)">7,20</text>
+<line x1="26.300" y1="448.700" x2="27.700" y2="447.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="26.300" y1="256.700" x2="27.700" y2="255.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="25.884" y="352.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 25.884 352.000)">19,20</text>
+<line x1="26.300" y1="256.700" x2="27.700" y2="255.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="26.300" y1="226.700" x2="27.700" y2="225.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="25.884" y="241.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 25.884 241.000)">3,00</text>
+<line x1="26.300" y1="226.700" x2="27.700" y2="225.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="26.300" y1="172.700" x2="27.700" y2="171.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="25.884" y="199.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 25.884 199.000)">5,40</text>
+<line x1="26.300" y1="172.700" x2="27.700" y2="171.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="26.300" y1="120.700" x2="27.700" y2="119.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="25.884" y="146.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 25.884 146.000)">5,20</text>
+</g>
+</g>
+<circle cx="262.000" cy="128.000" r="7.000" stroke="#8a8a8a" stroke-width="0.18" fill="none"/>
+<polygon points="269.000,128.000 260.245,129.608 262.000,128.000 260.245,126.392" stroke="#000000" stroke-width="0.3" fill="#000" stroke-linejoin="miter"/>
+<text x="273.000" y="128.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">N</text>
+<circle cx="294.000" cy="96.000" r="4.000" stroke="#000000" stroke-width="0.3" fill="none"/>
+<text x="294.000" y="96.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="middle" dominant-baseline="middle">2</text>
+<text x="301.000" y="94.400" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">VALA PROVISORIA E CAIXA DE SEDIMENTACAO</text>
+<text x="301.000" y="99.200" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESCALA 1:20</text>
+<line x1="290.000" y1="101.600" x2="382.900" y2="101.600" stroke="#000000" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<g data-tipo="canteiro" data-cod="VALA">
+<polygon points="260.000,175.000 385.000,175.000 385.000,215.000 260.000,215.000" stroke="#c9b79c" stroke-width="0.18" fill="url(#terra72)" stroke-linejoin="miter"/>
+<polygon points="300.000,175.000 315.000,190.000 330.000,190.000 345.000,175.000" stroke="#333" stroke-width="0.6" fill="#fff" stroke-linejoin="miter"/>
+<polygon points="305.000,180.000 315.000,190.000 330.000,190.000 340.000,180.000" stroke="#06c" stroke-width="0.18" fill="#dff0fa" stroke-linejoin="miter"/>
+<text x="322.500" y="225.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">vala 300 x 300, talude 1:1, 1 % — 209.3 L/s (projeto 13.7 L/s); brita no fundo onde a agua corre</text>
+<g data-tipo="cota" data-eixo="H" data-parciais="3">
+<line x1="300.000" y1="165.000" x2="300.000" y2="172.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="315.000" y1="165.000" x2="315.000" y2="172.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="330.000" y1="165.000" x2="330.000" y2="172.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="345.000" y1="165.000" x2="345.000" y2="172.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="300.000" y1="171.000" x2="345.000" y2="171.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="299.300" y1="171.700" x2="300.700" y2="170.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="314.300" y1="171.700" x2="315.700" y2="170.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="307.500" y="169.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,30</text>
+<line x1="314.300" y1="171.700" x2="315.700" y2="170.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="329.300" y1="171.700" x2="330.700" y2="170.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="322.500" y="169.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,30</text>
+<line x1="329.300" y1="171.700" x2="330.700" y2="170.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="344.300" y1="171.700" x2="345.700" y2="170.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="337.500" y="169.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">0,30</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="1">
+<line x1="360.000" y1="190.000" x2="369.200" y2="190.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="360.000" y1="175.000" x2="369.200" y2="175.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="368.000" y1="190.000" x2="368.000" y2="175.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="367.300" y1="190.700" x2="368.700" y2="189.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="367.300" y1="175.700" x2="368.700" y2="174.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="366.884" y="182.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 366.884 182.500)">0,30</text>
+</g>
+<polygon points="400.000,175.000 510.000,175.000 510.000,245.000 400.000,245.000" stroke="#c9b79c" stroke-width="0.18" fill="url(#terra72)" stroke-linejoin="miter"/>
+<polygon points="425.000,175.000 485.000,175.000 485.000,220.000 425.000,220.000" stroke="#333" stroke-width="0.6" fill="#ccc" stroke-linejoin="miter"/>
+<polygon points="430.000,175.000 480.000,175.000 480.000,215.000 430.000,215.000" stroke="#333" stroke-width="0.6" fill="#fff" stroke-linejoin="miter"/>
+<polygon points="430.000,200.000 480.000,200.000 480.000,215.000 430.000,215.000" stroke="#a98" stroke-width="0.18" fill="#c9b79c" stroke-linejoin="miter"/>
+<line x1="400.000" y1="182.500" x2="430.000" y2="182.500" stroke="#06c" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<line x1="480.000" y1="187.500" x2="510.000" y2="187.500" stroke="#06c" stroke-width="0.3" fill="none" stroke-linecap="round"/>
+<text x="410.000" y="170.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">entra (vala)</text>
+<text x="500.000" y="170.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#06c" text-anchor="middle" dominant-baseline="middle">sai (sarjeta)</text>
+<text x="455.000" y="207.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#765" text-anchor="middle" dominant-baseline="middle">sedimento: limpar apos chuva forte</text>
+<text x="455.000" y="255.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">caixa 1000 x 1000 x 800 mm em bloco, 0.8 m3, 59 s de retencao; saida 100 mm abaixo da entrada</text>
+<g data-tipo="cota" data-eixo="H" data-parciais="1">
+<line x1="430.000" y1="165.000" x2="430.000" y2="172.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="480.000" y1="165.000" x2="480.000" y2="172.200" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="430.000" y1="171.000" x2="480.000" y2="171.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="429.300" y1="171.700" x2="430.700" y2="170.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="479.300" y1="171.700" x2="480.700" y2="170.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="455.000" y="169.884" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle">1,00</text>
+</g>
+<g data-tipo="cota" data-eixo="V" data-parciais="2">
+<line x1="490.000" y1="215.000" x2="499.200" y2="215.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="490.000" y1="200.000" x2="499.200" y2="200.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="490.000" y1="175.000" x2="499.200" y2="175.000" stroke="#8a8a8a" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="498.000" y1="215.000" x2="498.000" y2="175.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="497.300" y1="215.700" x2="498.700" y2="214.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="497.300" y1="200.700" x2="498.700" y2="199.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="496.884" y="207.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 496.884 207.500)">0,30</text>
+<line x1="497.300" y1="200.700" x2="498.700" y2="199.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="497.300" y1="175.700" x2="498.700" y2="174.300" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="496.884" y="187.500" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90.00 496.884 187.500)">0,50</text>
+</g>
+</g>
+<text x="600.000" y="37.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ZONAS DO CANTEIRO</text>
+<polygon points="600.000,40.000 830.000,40.000 830.000,44.000 600.000,44.000" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="601.500" y="42.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COD</text>
+<text x="621.500" y="42.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ZONA</text>
+<text x="689.500" y="42.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">m x m</text>
+<text x="711.500" y="42.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">m2</text>
+<text x="725.500" y="42.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">FASE</text>
+<text x="739.500" y="42.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">OBS</text>
+<polygon points="600.000,44.000 830.000,44.000 830.000,48.000 600.000,48.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="46.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-PISTA</text>
+<text x="621.500" y="46.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Pista de veiculos e descarga</text>
+<text x="689.500" y="46.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5,4 x 7,2</text>
+<text x="711.500" y="46.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">38,9</text>
+<text x="725.500" y="46.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="46.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">na linha do portao veicular; betoneira, bomba e carreta </text>
+<polygon points="600.000,48.000 830.000,48.000 830.000,52.000 600.000,52.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="50.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-PED</text>
+<text x="621.500" y="50.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Entrada de pedestres</text>
+<text x="689.500" y="50.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,8 x 7,2</text>
+<text x="711.500" y="50.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13,0</text>
+<text x="725.500" y="50.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="50.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">na linha do portao de pedestre e da porta P01; separada </text>
+<polygon points="600.000,52.000 830.000,52.000 830.000,56.000 600.000,56.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="54.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-ESC</text>
+<text x="621.500" y="54.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Conteiner 20': escritorio e almoxarifado</text>
+<text x="689.500" y="54.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2,4 x 5,9</text>
+<text x="711.500" y="54.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13,9</text>
+<text x="725.500" y="54.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="54.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">porta para a pista; ferramenta eletrica e fixacao tranca</text>
+<polygon points="600.000,56.000 830.000,56.000 830.000,60.000 600.000,60.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="58.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-CAV</text>
+<text x="621.500" y="58.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Cavalete de paineis (71 em 2 lotes)</text>
+<text x="689.500" y="58.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8,2 x 4,2</text>
+<text x="711.500" y="58.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">34,4</text>
+<text x="725.500" y="58.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="739.500" y="58.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">paineis em pe, 100 mm cada, comprimento ao longo da test</text>
+<polygon points="600.000,60.000 830.000,60.000 830.000,64.000 600.000,64.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="62.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-PLA</text>
+<text x="621.500" y="62.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Placas paletizadas (24 paletes, 6 por vez)</text>
+<text x="689.500" y="62.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8,2 x 4,2</text>
+<text x="711.500" y="62.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">34,4</text>
+<text x="725.500" y="62.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3-4</text>
+<text x="739.500" y="62.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">no chao do cavalete; entregas em lotes de 6 paletes; OSB</text>
+<polygon points="600.000,64.000 830.000,64.000 830.000,68.000 600.000,68.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="66.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-VES</text>
+<text x="621.500" y="66.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Conteiner 20': vestiario e refeitorio</text>
+<text x="689.500" y="66.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5,9 x 2,4</text>
+<text x="711.500" y="66.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13,9</text>
+<text x="725.500" y="66.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="66.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8 pessoas: 8 m2 de refeitorio; armarios; ao lado do medi</text>
+<polygon points="600.000,68.000 830.000,68.000 830.000,72.000 600.000,72.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="70.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-SAN</text>
+<text x="621.500" y="70.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Sanitario quimico</text>
+<text x="689.500" y="70.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,1 x 1,1</text>
+<text x="711.500" y="70.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,2</text>
+<text x="725.500" y="70.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="70.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1 para 8 pessoas (1 por 20); lavatorio no vestiario</text>
+<polygon points="600.000,72.000 830.000,72.000 830.000,76.000 600.000,76.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="74.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-RES-A</text>
+<text x="621.500" y="74.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Baia de residuos classe A — solo, concreto, </text>
+<text x="689.500" y="74.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2,0 x 2,0</text>
+<text x="711.500" y="74.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4,0</text>
+<text x="725.500" y="74.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="74.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CONAMA 307; caçamba de 5 m3 na pista quando a baia enche</text>
+<polygon points="600.000,76.000 830.000,76.000 830.000,80.000 600.000,80.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-RES-B</text>
+<text x="621.500" y="78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Baia de residuos classe B — aco, madeira, ge</text>
+<text x="689.500" y="78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2,0 x 2,0</text>
+<text x="711.500" y="78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4,0</text>
+<text x="725.500" y="78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="78.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CONAMA 307; caçamba de 5 m3 na pista quando a baia enche</text>
+<polygon points="600.000,80.000 830.000,80.000 830.000,84.000 600.000,84.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-RES-C</text>
+<text x="621.500" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Baia de residuos classe C — la mineral e out</text>
+<text x="689.500" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2,0 x 2,0</text>
+<text x="711.500" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4,0</text>
+<text x="725.500" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="82.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CONAMA 307; caçamba de 5 m3 na pista quando a baia enche</text>
+<polygon points="600.000,84.000 830.000,84.000 830.000,88.000 600.000,88.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-RES-D</text>
+<text x="621.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Baia de residuos classe D — tintas, solvente</text>
+<text x="689.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2,0 x 2,0</text>
+<text x="711.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4,0</text>
+<text x="725.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="86.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CONAMA 307; caçamba de 5 m3 na pista quando a baia enche</text>
+<polygon points="600.000,88.000 830.000,88.000 830.000,92.000 600.000,92.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-CIRC-N</text>
+<text x="621.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circulacao de trabalhadores (norte)</text>
+<text x="689.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1,8 x 32,8</text>
+<text x="711.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">59,0</text>
+<text x="725.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="90.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">faixa tecnica; 1,20 m livres ao lado das baias</text>
+<polygon points="600.000,92.000 830.000,92.000 830.000,96.000 600.000,96.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-CIRC-S</text>
+<text x="621.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Circulacao de trabalhadores (sul)</text>
+<text x="689.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2,4 x 32,8</text>
+<text x="711.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">78,7</text>
+<text x="725.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-5</text>
+<text x="739.500" y="94.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">recuo sul de 2,40 m; acesso ao fundo e a piscina na fase</text>
+<polygon points="600.000,96.000 830.000,96.000 830.000,100.000 600.000,100.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">CT-TAP</text>
+<text x="621.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Tapume da testada</text>
+<text x="689.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">20,0 x 0,2</text>
+<text x="711.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4,0</text>
+<text x="725.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1-4</text>
+<text x="739.500" y="98.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.2 m (NR-18) ate o muro da fase 5; portoes provisorios </text>
+<line x1="620.000" y1="40.000" x2="620.000" y2="100.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="688.000" y1="40.000" x2="688.000" y2="100.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="710.000" y1="40.000" x2="710.000" y2="100.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="724.000" y1="40.000" x2="724.000" y2="100.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="738.000" y1="40.000" x2="738.000" y2="100.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="600.000" y="102.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">O RECUO POR FASE</text>
+<polygon points="600.000,105.000 830.000,105.000 830.000,110.000 600.000,110.000" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="601.500" y="107.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">F</text>
+<text x="609.500" y="107.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">FASE</text>
+<text x="679.500" y="107.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">O QUE OCUPA O RECUO</text>
+<polygon points="600.000,110.000 830.000,110.000 830.000,115.000 600.000,115.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="112.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1</text>
+<text x="609.500" y="112.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Terraplenagem, troca de solo e radier</text>
+<text x="679.500" y="112.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">pista para caminhao betoneira e bomba; estoque vazio; vala e caixa ja abertas</text>
+<polygon points="600.000,115.000 830.000,115.000 830.000,120.000 600.000,120.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="117.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2</text>
+<text x="609.500" y="117.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Montagem do LSF (62 paineis, 2 lotes)</text>
+<text x="679.500" y="117.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">cavalete do lote do terreo, depois do superior; carrinho sobre o radier; guincho de coluna</text>
+<polygon points="600.000,120.000 830.000,120.000 830.000,125.000 600.000,125.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="122.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">3</text>
+<text x="609.500" y="122.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Fechamentos e cobertura</text>
+<text x="679.500" y="122.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">placas paletizadas (OSB, cimenticia, gesso) no lugar do cavalete; telhas na pista</text>
+<polygon points="600.000,125.000 830.000,125.000 830.000,130.000 600.000,130.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="127.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4</text>
+<text x="609.500" y="127.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Instalacoes e acabamentos</text>
+<text x="679.500" y="127.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">almoxarifado cheio; palete de piso e louças; baias em uso pleno</text>
+<polygon points="600.000,130.000 830.000,130.000 830.000,135.000 600.000,135.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="132.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5</text>
+<text x="609.500" y="132.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Externas: piscina, deck, paisagismo, muro</text>
+<text x="679.500" y="132.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">escavacao da piscina pelo fundo; canteiro recua para o recuo; muro por ultimo, e o tapume sai</text>
+<line x1="608.000" y1="105.000" x2="608.000" y2="135.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="678.000" y1="105.000" x2="678.000" y2="135.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="600.000" y="137.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">EQUIPE, MOVIMENTACAO E LIGACOES</text>
+<polygon points="600.000,140.000 830.000,140.000 830.000,144.400 600.000,144.400" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="601.500" y="142.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">ITEM</text>
+<text x="637.500" y="142.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO</text>
+<polygon points="600.000,144.400 830.000,144.400 830.000,148.800 600.000,148.800" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="146.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Equipe de pico</text>
+<text x="637.500" y="146.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">8 pessoas (H)</text>
+<polygon points="600.000,148.800 830.000,148.800 830.000,153.200 600.000,153.200" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="151.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Sanitarios (NR-18)</text>
+<text x="637.500" y="151.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1 vaso por 20, lavatorio por 10; refeitorio 1 m2/pessoa</text>
+<polygon points="600.000,153.200 830.000,153.200 830.000,157.600 600.000,157.600" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="155.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Paineis</text>
+<text x="637.500" y="155.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">36 do terreo (1623 kg) e 35 do superior (1398 kg); maior 7.2 m, mais pesado 89.3 kg</text>
+<polygon points="600.000,157.600 830.000,157.600 830.000,162.000 600.000,162.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="159.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Movimentacao</text>
+<text x="637.500" y="159.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">a mao, 4 montadores</text>
+<polygon points="600.000,162.000 830.000,162.000 830.000,166.400 600.000,166.400" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Munck</text>
+<text x="637.500" y="164.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">nao: do recuo nao alcanca o fundo da casa (26 m); descarga da carreta </text>
+<polygon points="600.000,166.400 830.000,166.400 830.000,170.800 600.000,170.800" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="168.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Placas</text>
+<text x="637.500" y="168.600" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">944 placas em 24 paletes de 40</text>
+<polygon points="600.000,170.800 830.000,170.800 830.000,175.200 600.000,175.200" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="173.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Residuos</text>
+<text x="637.500" y="173.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">A — solo, concreto, ce; B — aco, madeira, gess; C — la mineral e outro; D — tintas, solventes,</text>
+<polygon points="600.000,175.200 830.000,175.200 830.000,179.600 600.000,179.600" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="177.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Tapume</text>
+<text x="637.500" y="177.400" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2.2 m na testada ate o muro (fase 5)</text>
+<polygon points="600.000,179.600 830.000,179.600 830.000,184.000 600.000,184.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="601.500" y="181.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Energia provisoria</text>
+<text x="637.500" y="181.800" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">padrao provisorio trifasico 220/127 V, 63 A (H): serras, parafusadeiras, g</text>
+<polygon points="600.000,184.000 830.000,184.000 830.000,188.400 600.000,188.400" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="601.500" y="186.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">Agua provisoria</text>
+<text x="637.500" y="186.200" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">cavalete provisorio DN20 no mesmo ponto; caixa de 1.000 L elevada no cante</text>
+<line x1="636.000" y1="140.000" x2="636.000" y2="188.400" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<text x="300.000" y="297.000" font-family="Helvetica, Arial, sans-serif" font-size="2.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">CONFERENCIAS DESTA PRANCHA</text>
+<polygon points="300.000,300.000 586.000,300.000 586.000,304.000 300.000,304.000" stroke="#000000" stroke-width="0.3" fill="#eee" stroke-linejoin="miter"/>
+<text x="301.500" y="302.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">O QUE</text>
+<text x="373.500" y="302.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">COMO</text>
+<text x="573.500" y="302.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle"></text>
+<polygon points="300.000,304.000 586.000,304.000 586.000,308.000 300.000,308.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="301.500" y="306.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">toda zona dentro do lote</text>
+<text x="373.500" y="306.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">13 zonas</text>
+<text x="573.500" y="306.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,308.000 586.000,308.000 586.000,312.000 300.000,312.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="301.500" y="310.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">zonas fixas nao se sobrepoem na mesma fase</text>
+<text x="373.500" y="310.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">11 zonas fixas</text>
+<text x="573.500" y="310.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,312.000 586.000,312.000 586.000,316.000 300.000,316.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="301.500" y="314.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">o medidor (ponto de ligacao) fica livre</text>
+<text x="373.500" y="314.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TC-08 livre</text>
+<text x="573.500" y="314.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,316.000 586.000,316.000 586.000,320.000 300.000,320.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="301.500" y="318.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">nenhuma zona sobre a plataforma da casa</text>
+<text x="373.500" y="318.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">recuo e faixa tecnica apenas</text>
+<text x="573.500" y="318.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,320.000 586.000,320.000 586.000,324.000 300.000,324.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="301.500" y="322.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">nenhuma zona sobre a piscina e o deck</text>
+<text x="373.500" y="322.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">fundo livre para a fase 5</text>
+<text x="573.500" y="322.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,324.000 586.000,324.000 586.000,328.000 300.000,328.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="301.500" y="326.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">pista de veiculos</text>
+<text x="373.500" y="326.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">5.4 m na linha do portao (min 3.5)</text>
+<text x="573.500" y="326.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,328.000 586.000,328.000 586.000,332.000 300.000,332.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="301.500" y="330.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">o painel mais longo cabe no cavalete</text>
+<text x="373.500" y="330.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">7.2 m em 8.2 m</text>
+<text x="573.500" y="330.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,332.000 586.000,332.000 586.000,336.000 300.000,336.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="301.500" y="334.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">movimentacao do painel mais pesado decidida</text>
+<text x="373.500" y="334.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">89.3 kg contra 100 kg a mao: a mao, 4 montadores</text>
+<text x="573.500" y="334.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,336.000 586.000,336.000 586.000,340.000 300.000,340.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="301.500" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">sanitarios pela NR-18</text>
+<text x="373.500" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">1 para 8 pessoas (1 por 20)</text>
+<text x="573.500" y="338.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,340.000 586.000,340.000 586.000,344.000 300.000,344.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="301.500" y="342.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">baias de residuos por classe</text>
+<text x="373.500" y="342.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">4 baias para 4 classes (CONAMA 307)</text>
+<text x="573.500" y="342.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,344.000 586.000,344.000 586.000,348.000 300.000,348.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="301.500" y="346.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">vala provisoria vence a chuva de projeto</text>
+<text x="373.500" y="346.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">209.3 L/s de capacidade contra 13.7 L/s (C 0.5, 180 mm/h, 546.6 m2 expostos)</text>
+<text x="573.500" y="346.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,348.000 586.000,348.000 586.000,352.000 300.000,352.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="301.500" y="350.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">caixa de sedimentacao antes da sarjeta</text>
+<text x="373.500" y="350.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">0.8 m3, 59 s de retencao na vazao de projeto</text>
+<text x="573.500" y="350.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,352.000 586.000,352.000 586.000,356.000 300.000,356.000" stroke="#000000" stroke-width="0.13" fill="#fafafa" stroke-linejoin="miter"/>
+<text x="301.500" y="354.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ligacoes provisorias no ponto do medidor def</text>
+<text x="373.500" y="354.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">TC-08 em (17000, 600)</text>
+<text x="573.500" y="354.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<polygon points="300.000,356.000 586.000,356.000 586.000,360.000 300.000,360.000" stroke="#000000" stroke-width="0.13" fill="#fff" stroke-linejoin="miter"/>
+<text x="301.500" y="358.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">circulacao de trabalhadores ate o fundo pelo</text>
+<text x="373.500" y="358.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">2 faixas, a mais estreita com 1.80 m</text>
+<text x="573.500" y="358.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ok</text>
+<line x1="372.000" y1="300.000" x2="372.000" y2="360.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+<line x1="572.000" y1="300.000" x2="572.000" y2="360.000" stroke="#000000" stroke-width="0.13" fill="none" stroke-linecap="round"/>
+</g>
+</svg>

@@ -1,0 +1,1806 @@
+[
+ {
+  "n": "01",
+  "t": "Implantação e situação",
+  "esc": "1:200",
+  "etapa": "Estudo",
+  "d": "O lote de 800 m² com a testada a leste, os recuos e a faixa técnica contínua de 3.200 mm na lateral norte, por onde passa toda a manutenção sem atravessar a casa. As 13 áreas técnicas aparecem locadas, com enterrado e rasante em tracejado.",
+  "k": [
+   [
+    "7.200 mm",
+    "recuo frontal, que é também a área de manobra dos dois carros"
+   ],
+   [
+    "13.600 mm",
+    "livres até o fundo — bem além do mínimo de 5.000"
+   ],
+   [
+    "31,14 %",
+    "taxa de ocupação pela projeção coberta, contra o limite de 50 %"
+   ],
+   [
+    "13 elementos",
+    "cisterna, bomba, GLP, nichos de ar, caixas e casa de máquinas"
+   ]
+  ]
+ },
+ {
+  "n": "02",
+  "t": "Planta baixa — térreo",
+  "esc": "1:50",
+  "etapa": "Estudo",
+  "d": "A peça central. Cozinha e gourmet são um volume só, com uma cocção só, abrindo por 7.200 mm de cortina de vidro sobre a varanda e a piscina. A despensa está na ponta de serviço, com a porta da loggia abrindo dentro dela.",
+  "k": [
+   [
+    "1 cooktop",
+    "havia dois na mesma sala, a 6,7 m um do outro"
+   ],
+   [
+    "6.600 de 7.200",
+    "de fronteira cozinha/gourmet aberta"
+   ],
+   [
+    "x = 5.400",
+    "a fila leste inteira alinha a frente nessa linha"
+   ],
+   [
+    "7,13 m",
+    "de triângulo de trabalho, dentro da faixa de 3,6 a 8,0"
+   ]
+  ]
+ },
+ {
+  "n": "03",
+  "t": "Planta baixa — superior",
+  "esc": "1:50",
+  "etapa": "Estudo",
+  "d": "Duas suítes espelhadas intocadas, o hall que virou chegada de escada e rouparia, o mini lounge dimensionado pela distância de visão do televisor, e a master de 46,80 m² com closet de ilha, banho, office fechável e varanda de 14,04 m² sobre a piscina.",
+  "k": [
+   [
+    "115,92 m²",
+    "o pavimento cresceu 29,52 m² com o programa do YAML MASTER"
+   ],
+   [
+    "46,80 m²",
+    "master: banho sobre a lavanderia, closet 10,80, office 5,40"
+   ],
+   [
+    "3,00 m",
+    "profundidade do lounge — 2,60 não comporta uma tela de 50 polegadas"
+   ],
+   [
+    "escada invertida",
+    "o segundo lance terminava no meio do vazio"
+   ]
+  ]
+ },
+ {
+  "n": "04",
+  "t": "Planta de layout — térreo",
+  "esc": "1:50",
+  "etapa": "Estudo",
+  "d": "O mesmo térreo com mobiliário solto, para verificar circulações reais. A península deixou de ser uma ilha atravessada na transição: encosta na geladeira e avança 1.500 mm para dentro do gourmet.",
+  "k": [
+   [
+    "1.500 mm",
+    "de península para dentro do gourmet, perpendicular à fronteira"
+   ],
+   [
+    "600 mm",
+    "de folga até o eixo visual da piscina"
+   ],
+   [
+    "1.700 mm",
+    "de corredor entre a bancada de trabalho e a fila leste"
+   ],
+   [
+    "AR-05",
+    "o triângulo sob o segundo lance da escada virou armário declarado"
+   ]
+  ]
+ },
+ {
+  "n": "05",
+  "t": "Planta de cobertura",
+  "esc": "1:100",
+  "etapa": "Estudo",
+  "d": "Painel sanduíche PIR de 75 mm com 5 % de caimento, calha externa acessível e quatro descidas. A área de contribuição deixou de ser um literal: é a projeção coberta mais os beirais.",
+  "k": [
+   [
+    "331,56 m²",
+    "contribuição real, contra 174,24 m² antes congelados"
+   ],
+   [
+    "15,75 L/s",
+    "total — 3,94 L/s por descida DN100"
+   ],
+   [
+    "6,92 L/s",
+    "capacidade da calha 150 × 100 a 0,5 % por Manning"
+   ],
+   [
+    "lanternim",
+    "4.200 × 1.200 mm sobre o vazio: saída da chaminé solar"
+   ]
+  ]
+ },
+ {
+  "n": "06",
+  "t": "Cortes AA e BB",
+  "esc": "1:60",
+  "etapa": "Estudo",
+  "d": "O corte AA atravessa a fita social; o BB corre no sentido longitudinal e mostra o volume superior emergindo sobre o térreo de um pavimento.",
+  "k": [
+   [
+    "2.600 mm",
+    "pé-direito acabado nos dois pavimentos"
+   ],
+   [
+    "3.000 mm",
+    "piso a piso — 18 espelhos de 166,67 mm"
+   ],
+   [
+    "22,32 m²",
+    "de pé-direito duplo sobre o estar e o core"
+   ],
+   [
+    "180 mm",
+    "radier em fck 30 MPa com aço CA-50 (H)"
+   ]
+  ]
+ },
+ {
+  "n": "07",
+  "t": "Fachadas",
+  "esc": "1:80",
+  "etapa": "Estudo",
+  "d": "As quatro faces, com os vãos filtrados por orientação — cada elevação mostra apenas as esquadrias que realmente pertencem àquela face.",
+  "k": [
+   [
+    "leste",
+    "testada: sol da manhã, ripado vertical no quarto reversível"
+   ],
+   [
+    "oeste",
+    "fundo: proteção passa a ser arbórea — nenhum brise resolve 30°"
+   ],
+   [
+    "norte e sul",
+    "fachadas longas, resolvidas por beiral de 1.200 mm"
+   ],
+   [
+    "3 famílias",
+    "mineral claro, alumínio grafite e alumínio amadeirado"
+   ]
+  ]
+ },
+ {
+  "n": "08",
+  "t": "Croqui axonométrico",
+  "esc": "s/ escala",
+  "etapa": "Estudo",
+  "d": "Leitura volumétrica do partido, com as zonas funcionais em cor. Mostra o bloco de serviço destacado ao fundo e a fita social atravessando a casa de leste a oeste.",
+  "k": [
+   [
+    "social",
+    "estar, jantar e gourmet em fita contínua de 13,20 m"
+   ],
+   [
+    "serviço",
+    "oficina ao sul; lavanderia e depósito ao norte, no pátio"
+   ],
+   [
+    "íntimo",
+    "quarto reversível no térreo e três suítes no superior"
+   ]
+  ]
+ },
+ {
+  "n": "09",
+  "t": "Quadros gerais e pendências",
+  "esc": "—",
+  "etapa": "Estudo",
+  "d": "Áreas, mapa completo de esquadrias, parâmetros dos sistemas prediais e as pendências. É a prancha de coordenação entre disciplinas.",
+  "k": [
+   [
+    "18,0 kW",
+    "chuveiros: 4 × 4.500 W em 220 V, contra 27,2 kW do briefing"
+   ],
+   [
+    "5.000 L",
+    "reserva total — caixa de 2.000 e cisterna de 3.000"
+   ],
+   [
+    "120.000 BTU/h",
+    "climatização instalada em 8 equipamentos, nenhum superdimensionado"
+   ],
+   [
+    "7 ventiladores",
+    "+ 3 nos dormitórios: o equipamento de maior retorno por real"
+   ]
+  ]
+ },
+ {
+  "n": "10",
+  "t": "Detalhes construtivos",
+  "esc": "1:5 a 1:25",
+  "etapa": "Estudo",
+  "d": "Os quatro pontos que decidem a execução: a parede em Light Steel Frame camada a camada, a escada, o corte da piscina e a seção da faixa técnica.",
+  "k": [
+   [
+    "150 mm",
+    "parede externa: cimentícia 10 + XPS 20 + montante 90 + gesso 12,5"
+   ],
+   [
+    "633,33 mm",
+    "Blondel da escada — 18 × 166,67 com piso de 300"
+   ],
+   [
+    "1.150 mm",
+    "profundidade constante da piscina, com prainha de 300"
+   ],
+   [
+    "semi-enterrada",
+    "a casa de máquinas: retrolavagem precisa drenar por gravidade"
+   ]
+  ]
+ },
+ {
+  "n": "11",
+  "t": "Desempenho térmico e acústico",
+  "esc": "—",
+  "etapa": "Estudo",
+  "d": "Nada aqui é estimado por analogia: transmitância, fator solar, ângulo de sombreamento, Rw composto e reverberação são calculados a partir das camadas declaradas.",
+  "k": [
+   [
+    "U = 0,615",
+    "parede externa, contra limite de 3,60 na ZB8"
+   ],
+   [
+    "U = 0,276",
+    "cobertura, contra limite de 2,30"
+   ],
+   [
+    "700 BTU/h·m²",
+    "carga térmica já considerando esse pacote — a praxe local é 800 a 900"
+   ],
+   [
+    "3,20 → 0,86 s",
+    "reverberação da fita social sem e com tratamento absorvente"
+   ]
+  ]
+ },
+ {
+  "n": "12",
+  "t": "Mapa de famílias de vedação",
+  "esc": "1:100",
+  "etapa": "Estudo",
+  "d": "Cada parede colorida pela exigência do local, não pela espessura. Duas famílias dimensionais e quatro composições — nenhum eixo, vão ou cota muda entre elas.",
+  "k": [
+   [
+    "312,00 m²",
+    "parede externa única, com ISO strip contínuo"
+   ],
+   [
+    "7,80 m²",
+    "a PA-2 existe para uma única parede: oficina contra estar"
+   ],
+   [
+    "18,4 anos",
+    "payback energético do ISO strip: não é ele o argumento"
+   ],
+   [
+    "condensação",
+    "o argumento real — o XPS é quebra térmica e barreira de vapor"
+   ]
+  ]
+ },
+ {
+  "n": "13",
+  "t": "Especificação por exigência",
+  "esc": "—",
+  "etapa": "Estudo",
+  "d": "Onde aplicar cada material, e sobretudo onde não aplicar. A hierarquia de investimento é ordenada por retorno decrescente, medido pelos cálculos da prancha 11.",
+  "k": [
+   [
+    "+10 dB",
+    "vedação de frestas: o item mais barato e o de maior ganho"
+   ],
+   [
+    "2 de 29",
+    "vãos que recebem laminado acústico com controle solar"
+   ],
+   [
+    "31,8 → 42,4 dB",
+    "Rw composto da fachada conforme a esquadria escolhida"
+   ],
+   [
+    "80 → 57 dB",
+    "ruído de impacto com manta resiliente e forro com lã"
+   ]
+  ]
+ },
+ {
+  "n": "14",
+  "t": "Auditoria do modelo",
+  "esc": "—",
+  "etapa": "Estudo",
+  "d": "A tabela é gerada das próprias funções de verificação, por inspeção do código-fonte. O programa de 63 auditorias pedido pelo proprietário está mapeado contra elas: 38 automatizadas, 17 parciais, 4 de análise, 4 bloqueadas.",
+  "k": [
+   [
+    "46 funções",
+    "e 231 condições distintas"
+   ],
+   [
+    "0 erros",
+    "0 atenções e 53 notas"
+   ],
+   [
+    "22 defeitos",
+    "encontrados e corrigidos ao longo de 22 revisões"
+   ],
+   [
+    "61,9 %",
+    "das 63 auditorias rodam sozinhas sobre o modelo"
+   ]
+  ]
+ },
+ {
+  "n": "15",
+  "t": "Elevações internas",
+  "esc": "1:25",
+  "etapa": "Estudo",
+  "d": "Vistas de parede da cozinha, gourmet, banhos, oficina e lavanderia. Marcenaria e revestimento não se resolvem em planta baixa — precisam da vista frontal.",
+  "k": [
+   [
+    "frente alinhada",
+    "a fila leste da cozinha termina toda em x = 5.400"
+   ],
+   [
+    "900 mm",
+    "altura de bancada; aéreos de 1.400 a 2.200 mm"
+   ],
+   [
+    "2.400 × 1.200",
+    "pegboard da oficina, com 6 tomadas de bancada"
+   ],
+   [
+    "base antivibratória",
+    "sob as máquinas: ruído estrutural, não aéreo"
+   ]
+  ]
+ },
+ {
+  "n": "16",
+  "t": "Forro e iluminação",
+  "esc": "1:75",
+  "etapa": "Estudo",
+  "d": "Planta refletida. Localiza o forro absorvente — que existe num único ambiente —, as luminárias e os alçapões técnicos de manutenção.",
+  "k": [
+   [
+    "só no gourmet",
+    "o forro absorvente derruba a reverberação de 3,20 para 0,86 s"
+   ],
+   [
+    "2.400 mm",
+    "forro de banho rebaixado: é por ali que passam dreno, exaustão e luminária"
+   ],
+   [
+    "300 mm",
+    "rebaixo na fronteira climática, que retém a camada fria sem parede"
+   ],
+   [
+    "3.000 K",
+    "temperatura de cor geral, IRC mínimo 90"
+   ]
+  ]
+ },
+ {
+  "n": "17",
+  "t": "Acessibilidade e fluxos",
+  "esc": "1:75",
+  "etapa": "Estudo",
+  "d": "Rota acessível do passeio ao quarto reversível, círculos de giro verificados e os circuitos de circulação separados por cor.",
+  "k": [
+   [
+    "1.500 mm",
+    "círculo de giro conferido no hall, no banho e no quarto"
+   ],
+   [
+    "840 mm",
+    "vão livre real das portas de 900 — acima do mínimo de 800"
+   ],
+   [
+    "nenhum",
+    "circuito de serviço que cruze a área social"
+   ],
+   [
+    "P05 de correr",
+    "banho compartilhado: resolve varredura e giro de uma vez"
+   ]
+  ]
+ },
+ {
+  "n": "18",
+  "t": "Paginação de painéis LSF",
+  "esc": "1:100",
+  "etapa": "Estudo",
+  "d": "Cada trecho de parede dividido em painéis codificados, com contagem de montantes. É a ponte entre o projeto e a fábrica.",
+  "k": [
+   [
+    "3.600 mm",
+    "limite de painel por manuseio e transporte"
+   ],
+   [
+    "600 mm",
+    "espaçamento de montante; 400 onde o cálculo exigir"
+   ],
+   [
+    "código por peça",
+    "exigência do briefing antes de qualquer nesting"
+   ]
+  ]
+ },
+ {
+  "n": "19",
+  "t": "Estudo de insolação",
+  "esc": "—",
+  "etapa": "Estudo",
+  "d": "Carta solar gerada por declinação e ângulo horário, não copiada de tabela. Em latitude 3°S o resultado é inequívoco.",
+  "k": [
+   [
+    "junho ao norte",
+    "dezembro ao sul; equinócio quase pelo zênite"
+   ],
+   [
+    "30°",
+    "altitude do sol às 8h e às 16h — rasante o ano inteiro"
+   ],
+   [
+    "3.120 mm",
+    "altura que um anteparo a 5.400 mm do vão precisaria ter"
+   ],
+   [
+    "1.197 mm",
+    "projeção suficiente a norte: por isso o beiral resolve lá"
+   ]
+  ]
+ },
+ {
+  "n": "20",
+  "t": "Interface LSF × perfil laminado",
+  "esc": "indicada",
+  "etapa": "Etapa 2",
+  "d": "O maior risco de patologia do projeto, e a razão é de rigidez, não de carga: o perfil laminado flete e a chapa de gesso acima fissura. Uma viga dimensionada pela resistência pode fletir L/300 sem risco estrutural nenhum e ainda assim abrir fissura horizontal no topo da parede — que o morador chama de recalque.",
+  "k": [
+   [
+    "L/500",
+    "limite de flecha onde a viga sustenta vedação frágil, contra L/350 geral"
+   ],
+   [
+    "31 a 61 %",
+    "de uso da resistência nas seis vigas: é a flecha que governa, por margem larga"
+   ],
+   [
+    "15 mm",
+    "de folga na junta de deslizamento da V-06 (W250x17.9) — 1,5 × flecha"
+   ],
+   [
+    "0,50 mca",
+    "a caixa no ático não dá pressão ao superior: isso é aritmética, não opção"
+   ]
+  ]
+ },
+ {
+  "n": "21",
+  "t": "Furação e penetrações",
+  "esc": "indicada",
+  "etapa": "Etapa 2",
+  "d": "Em alvenaria, furar parede se resolve na obra. Em LSF o montante é uma chapa de 0,95 mm trabalhando à compressão: furo fora de lugar reduz a carga crítica de flambagem, e o eletricista resolve cortando a aba — que é exatamente onde está a rigidez.",
+  "k": [
+   [
+    "45 mm",
+    "furo máximo admissível: 0,5 × alma do montante de 90 mm"
+   ],
+   [
+    "9 penetrações",
+    "declaradas e verificadas contra esse limite, uma por uma"
+   ],
+   [
+    "DN100 em shaft",
+    "esgoto vertical não cabe em montante por definição"
+   ],
+   [
+    "400 mm",
+    "entreforro: é por ali que passa o duto de 250 mm, nunca pelo montante"
+   ]
+  ]
+ },
+ {
+  "n": "22",
+  "t": "Ampliações molhadas — térreo",
+  "esc": "1:25",
+  "etapa": "Etapa 2",
+  "d": "Banho social, lavanderia, cozinha e depósito em 1:25, com a malha de paginação em linha fina e as peças de utilização codificadas.",
+  "k": [
+   [
+    "1,5 %",
+    "caimento em área molhada interna; 1 % em área externa"
+   ],
+   [
+    "1.800 mm",
+    "impermeabilização sobe no box — altura onde a água bate todo dia"
+   ],
+   [
+    "15 mm",
+    "soleira do box: contém sem virar tropeço"
+   ],
+   [
+    "72 h",
+    "teste de estanqueidade: em LSF o vazamento apodrece o OSB sem manchar"
+   ]
+  ]
+ },
+ {
+  "n": "23",
+  "t": "Ampliações molhadas — superior",
+  "esc": "1:25",
+  "etapa": "Etapa 2",
+  "d": "Os três banhos de suíte com closet, em 1:25. As subdivisões vêm do modelo, não de um desenho paralelo.",
+  "k": [
+   [
+    "2.400 mm",
+    "altura de revestimento: 3 fiadas inteiras e a do topo com 594 de 600"
+   ],
+   [
+    "ralo linear",
+    "caimento em uma direção só: menos recorte e menos erro de obra"
+   ],
+   [
+    "P05 de correr",
+    "porta que não varre sobre o box"
+   ],
+   [
+    "shaft 300 × 300",
+    "prumada de esgoto inspecionável a cada pavimento"
+   ]
+  ]
+ },
+ {
+  "n": "24",
+  "t": "Paginação de piso",
+  "esc": "1:75",
+  "etapa": "Etapa 2",
+  "d": "Paginar no projeto é decidir onde fica o corte. Não paginar é deixar o corte aparecer no lugar mais visível. Ambientes integrados recebem uma malha só: a junta desalinhada no meio da sala não tem parede para disfarçar.",
+  "k": [
+   [
+    "ZP-1",
+    "a fita social inteira em uma origem, no eixo da porta do hall"
+   ],
+   [
+    "1/3 e 1/5",
+    "recorte mínimo aceito e recorte reprovado por descolamento"
+   ],
+   [
+    "900 × 900",
+    "peça de piso retificada, junta de 2 mm"
+   ],
+   [
+    "atrás da bancada",
+    "para onde o recorte da cozinha foi deliberadamente jogado"
+   ]
+  ]
+ },
+ {
+  "n": "25",
+  "t": "Escada executiva",
+  "esc": "indicada",
+  "etapa": "Etapa 2",
+  "d": "A geometria da escada existia apenas no código de desenho — por isso nenhuma verificação de altura livre era possível. Trazida para o modelo, apareceu que o patamar terminava 100 mm dentro da projeção da laje do hall, com 1.500 mm de altura livre: uma quina na altura da cabeça.",
+  "k": [
+   [
+    "2.600 mm",
+    "altura livre mínima após a correção, contra 2.100 da NBR 9077"
+   ],
+   [
+    "633,3 mm",
+    "Blondel, dentro da faixa recomendada de 600 a 650"
+   ],
+   [
+    "920 e 700 mm",
+    "corrimão duplo: adulto e criança (NBR 9050)"
+   ],
+   [
+    "AR-05",
+    "o triângulo sob o segundo lance: armário, não espaço morto"
+   ]
+  ]
+ },
+ {
+  "n": "26",
+  "t": "Instalações hidrossanitárias",
+  "esc": "1:100",
+  "etapa": "Etapa 3",
+  "d": "Água fria pelo método dos pesos da NBR 5626 e esgoto por UHC. O chuveiro elétrico tem peso 0,10, não 0,40 — uma decisão tomada no aquecimento volta aqui como diâmetro menor em toda a casa.",
+  "k": [
+   [
+    "0,794 L/s",
+    "com 7,0 pesos nas 18 peças de utilização"
+   ],
+   [
+    "DN32",
+    "alimentador a 1,31 m/s — limitado pelo conforto, não pela norma"
+   ],
+   [
+    "53 UHC",
+    "tubo de queda DN100, ventilação DN50"
+   ],
+   [
+    "DN40 evitado",
+    "é o diâmetro que chuveiros de peso 0,40 exigiriam"
+   ]
+  ]
+ },
+ {
+  "n": "27",
+  "t": "Elétrica, iluminação e dados",
+  "esc": "1:100",
+  "etapa": "Etapa 3",
+  "d": "Previsão de carga pela NBR 5410, com um ponto lido com cabeça local: os fatores de demanda da norma vêm de média nacional, onde ar condicionado é carga intermitente. Em Manaus ele é contínuo — os cinco equipamentos funcionam juntos em todas as tardes do ano.",
+  "k": [
+   [
+    "70,3 kVA",
+    "instalados; 36,4 kVA de demanda"
+   ],
+   [
+    "95,5 A",
+    "padrão de 100 A com cabo de 35 mm²"
+   ],
+   [
+    "fd = 1,00",
+    "na climatização: a auditoria reprova qualquer fator menor"
+   ],
+   [
+    "o risco real",
+    "com fd 0,70 o proprietário trocaria o disjuntor, não o cabo"
+   ]
+  ]
+ },
+ {
+  "n": "28",
+  "t": "Climatização — linhas e dutos",
+  "esc": "1:100",
+  "etapa": "Etapa 3",
+  "d": "Dois nichos de condensadoras em vez de um, porque a linha única chegaria a 17,7 m até a suíte 02. E a fita social climatizada por zona, com fronteira aerodinâmica em lugar de parede.",
+  "k": [
+   [
+    "5,3 a 11,5 m",
+    "faixa das linhas frigorígenas, contra o limite de conforto de 15 m"
+   ],
+   [
+    "300 mm",
+    "rebaixo de forro que corta o retorno da camada quente pelo teto"
+   ],
+   [
+    "600 + 450 m³/h",
+    "exaustão que mantém o gourmet em depressão: fluxo numa direção só"
+   ],
+   [
+    "24 → 27,5 °C",
+    "gradiente estável entre estar e gourmet, com brisa de 0,8 m/s"
+   ]
+  ]
+ },
+ {
+  "n": "29",
+  "t": "Drenagem pluvial e de piso",
+  "esc": "1:100",
+  "etapa": "Etapa 3",
+  "d": "A vazão pluvial era calculada sobre 174,24 m² — o número do briefing para a área fechada do térreo, congelado como literal. A área de contribuição real é a projeção coberta mais os beirais.",
+  "k": [
+   [
+    "+66 %",
+    "de vazão a mais do que o modelo supunha"
+   ],
+   [
+    "3,94 L/s",
+    "por descida, contra 8.0 L/s de limite"
+   ],
+   [
+    "10 ralos",
+    "com caimento e diâmetro declarados por ambiente"
+   ],
+   [
+    "infiltração",
+    "como essa falha se manifesta: não como transbordo visível"
+   ]
+  ]
+ },
+ {
+  "n": "30",
+  "t": "Acabamentos por ambiente",
+  "esc": "—",
+  "etapa": "Etapa 4",
+  "d": "O quadro de acabamentos é a campeã de divergência em obra: é a última prancha a ser feita e a primeira a ser esquecida quando algo muda. Por isso aqui ele é função, derivada das decisões já tomadas em outras pranchas.",
+  "k": [
+   [
+    "zonas de paginação",
+    "dão o piso; FORROS dá o forro; alturas de revestimento dão a parede"
+   ],
+   [
+    "R10 e R11",
+    "antiderrapante em área molhada e em área de serviço"
+   ],
+   [
+    "porcelanato",
+    "o rodapé de área molhada: em LSF o rodapé de gesso não perdoa respingo"
+   ],
+   [
+    "verificado",
+    "a auditoria confere que nenhum acabamento divergiu da origem"
+   ]
+  ]
+ },
+ {
+  "n": "31",
+  "t": "Locação de obra e gabarito",
+  "esc": "1:100",
+  "etapa": "Etapa 4",
+  "d": "Locação é o único desenho em que o erro não tem conserto barato: a casa sai do lugar. Cada canto é cotado das duas divisas independentes, nunca em cadeia de cotas acumuladas — erro de cadeia soma, erro de referência independente não.",
+  "k": [
+   [
+    "24970,4 mm",
+    "diagonal A-C de conferência, tolerância de 10 mm"
+   ],
+   [
+    "8 + 8 eixos",
+    "malha de locação X (1 a 8) e Y (A a H), toda múltipla de 300 mm"
+   ],
+   [
+    "1.000 mm",
+    "afastamento do gabarito em relação ao contorno da obra"
+   ],
+   [
+    "3-4-5",
+    "esquadro conferido em cada canto antes de qualquer concretagem"
+   ]
+  ]
+ },
+ {
+  "n": "32",
+  "t": "Paisagismo e irrigação",
+  "esc": "1:100",
+  "etapa": "Etapa 4",
+  "d": "Paisagismo de mínima manutenção, como o YAML exige: caem a sebe de murta e a treliça com trepadeira que eu mesmo propus na Etapa 4, ambas com poda rotineira. Entram vasos, brise metálico para sombrear as condensadoras e piso claro de albedo alto — porque vegetação é o único elemento que sombreia antes de o sol chegar na parede, e tirá-la transfere calor para dentro da casa.",
+  "k": [
+   [
+    "nenhuma poda",
+    "critério absoluto do YAML, aplicado espécie por espécie"
+   ],
+   [
+    "brise, não treliça",
+    "mesma sombra sobre a condensadora, zero manutenção"
+   ],
+   [
+    "albedo 0,60",
+    "piso claro compensa a vegetação retirada"
+   ],
+   [
+    "10,5 dias",
+    "de autonomia do reuso"
+   ]
+  ]
+ },
+ {
+  "n": "33",
+  "t": "Emissão: índice e pendências",
+  "esc": "—",
+  "etapa": "Etapa 4",
+  "d": "Índice das 35 pranchas, histórico das onze revisões, as pendências com situação e a auditoria final verificação por verificação. Fecha o caderno dizendo com precisão o que ele é e o que ele não é.",
+  "k": [
+   [
+    "46 / 231",
+    "funções de verificação e condições"
+   ],
+   [
+    "8 abertas",
+    "pendências; 2 resolvidas ao longo das etapas"
+   ],
+   [
+    "R10",
+    "revisão de emissão — cocção única e península ancorada"
+   ],
+   [
+    "não libera obra",
+    "sem ART/RRT, sondagem e nesting codificado do fabricante"
+   ]
+  ]
+ },
+ {
+  "n": "34",
+  "t": "Piscina, deck e fachada",
+  "esc": "indicada",
+  "etapa": "R06",
+  "d": "A revisão R06 reunida numa prancha: a piscina de 17,82 m² com prainha, banco submerso e sistema completo; o deck resolvido por zona em vez de material único; e a fachada confirmada pela referência visual, com o rasgo de luz indireto que faltava.",
+  "k": [
+   [
+    "5,40 × 3,30 m",
+    "17,82 m² de lâmina, recuada e alinhada ao eixo do social"
+   ],
+   [
+    "2 drenos",
+    "com um só, o corpo veda a sucção: exigência antiaprisionamento"
+   ],
+   [
+    "65 °C",
+    "o WPC escuro sob sol de Manaus; a dor ao pé descalço começa em 50"
+   ],
+   [
+    "rasgo de luz",
+    "o que constrói a horizontalidade à noite, lido da referência"
+   ]
+  ]
+ },
+ {
+  "n": "35",
+  "t": "Eixo social e cortina de vidro",
+  "esc": "indicada",
+  "etapa": "R07",
+  "d": "O eixo que faltava explicar, em planta e em corte: estar → cozinha e gourmet integrados → cortina de vidro de 7.200 mm → varanda coberta de 3.000 em balanço → deck → piscina. Vinte metros e setenta em linha reta, sem um degrau.",
+  "k": [
+   [
+    "6.800 mm",
+    "de vão livre com a cortina aberta — nenhum montante na vista"
+   ],
+   [
+    "0 mm",
+    "de desnível na soleira e de desalinhamento entre os eixos"
+   ],
+   [
+    "3.000 mm",
+    "de varanda em balanço: nenhum pilar entre a mesa e a água"
+   ],
+   [
+    "L/700",
+    "limite de flecha da verga — quem manda é o trilho, não o gesso"
+   ]
+  ]
+ },
+ {
+  "n": "36",
+  "t": "Catalogo tecnico de pecas",
+  "esc": "1:4 / 1:2",
+  "etapa": "R51",
+  "d": "Toda peca que entra na obra desenhada a partir das proprias dimensoes: 9 secoes de perfil na mesma escala, 2 parafusos, 9 chapas e 7 diametros de tubo. Nenhuma imagem de catalogo de fabricante — a poligonal desenhada e a mesma que o solver da NBR 14762 integra para achar A, Ix e Wx, de modo que desenho e calculo nao tem como discordar.",
+  "k": [
+   [
+    "27 pecas",
+    "distintas desenhadas — perfil, parafuso, chapa e tubo, cada uma com norma citada"
+   ],
+   [
+    "1.004",
+    "pecas de perfil e 5.256 parafusos saem dessas 9 secoes e 2 bitolas"
+   ],
+   [
+    "1:4",
+    "unica para todas as secoes: comparacao lado a lado exige mesma escala"
+   ],
+   [
+    "0 fontes",
+    "externas: a designacao ja e a dimensao (Ue 90x40x12x0,95 = alma 90, aba 40, labio 12, esp 0,95)"
+   ]
+  ]
+ },
+ {
+  "n": "37",
+  "t": "Sondagem SPT e fundação",
+  "esc": "1:50 / 1:20",
+  "etapa": "R52",
+  "d": "O proprietário entregou três sondagens a percussão e o solo deixou de ser hipótese. A tensão admissível sai de três correlações e adota-se a menor — nenhuma delas nasceu deste solo. O veredito não foi sobre o radier: com N de 3 a 4 no primeiro metro, o que reprova não é capacidade (sobra fator 9) e sim uniformidade, e a resposta é trocar 600 mm de aterro com controle de compactação.",
+  "k": [
+   [
+    "fator 9,04",
+    "de segurança na pressão de contato: 11,79 kPa contra 106,6 admissíveis"
+   ],
+   [
+    "2,12 mm",
+    "de recalque total contra 25 mm de limite; distorção 60 vezes menor que 1/300"
+   ],
+   [
+    "8 m",
+    "investigados, e o acréscimo de tensão some aos 4 m — a sondagem foi funda o bastante"
+   ],
+   [
+    "R$ 30,4 mil",
+    "de terraplenagem que não existia: saber o solo encareceu a obra, e é assim mesmo"
+   ]
+  ]
+ },
+ {
+  "n": "38",
+  "t": "Retenção pluvial e superfícies do lote",
+  "esc": "1:200 / 1:25",
+  "etapa": "R52",
+  "d": "Sai o reuso, entra a retenção — sistemas de dimensionamento oposto: um quer o reservatório cheio antes da seca, o outro vazio antes da chuva. Para dimensionar qualquer um faltava o que nunca existiu no modelo: a superfície do lote inteiro. E quem faz o trabalho é o orifício, não o volume.",
+  "k": [
+   [
+    "800,00 m²",
+    "de superfícies declaradas contra 800,00 m² de lote: a soma fecha, e 42 % dela não existia"
+   ],
+   [
+    "329,40 m²",
+    "impermeabilizados contra os 500 m² do gatilho da Lei 1.192/2007 — não obriga"
+   ],
+   [
+    "8,38 m³",
+    "de retenção: só o excedente sobre o que o terreno natural já mandava para a rua"
+   ],
+   [
+    "58,7 mm",
+    "de orifício, calibrado na vazão de pré-ocupação; esvazia em 35 minutos"
+   ]
+  ]
+ },
+ {
+  "n": "39",
+  "t": "Desempenho acústico entre ambientes",
+  "esc": "s/ escala",
+  "etapa": "R52",
+  "d": "A prancha existe porque o proprietário perguntou o que 101 verificações não sabiam responder: quem entra na casa ouve o chuveiro? Ouvia — e a pior passagem não era essa. Em acústica o elo fraco domina: 44 dB de parede com 15 dB de porta de correr entregam 20.",
+  "k": [
+   [
+    "4 reprovações",
+    "na primeira execução do eixo novo, e a pior era o banho contra o dormitório"
+   ],
+   [
+    "20,2 dB",
+    "era o que a parede de 44 dB entregava com a porta de correr no meio dela"
+   ],
+   [
+    "44 dB",
+    "depois: duas portas removidas, a parede do hall e a do quarto ficaram cegas"
+   ],
+   [
+    "uma porta a menos",
+    "o conserto saiu mais barato que o defeito: sai uma de correr e uma oca, entra uma sólida"
+   ]
+  ]
+ },
+ {
+  "n": "40",
+  "t": "Cargas, fases e mercado",
+  "esc": "s/ escala",
+  "etapa": "R52",
+  "d": "Trifásico 220/127 confirmado pelo proprietário: 127 V para os eletrodomésticos correntes, 220 V para ar-condicionado e chuveiros. Confirmar abriu trabalho em vez de fechar — num 220/127 aparece o desequilíbrio entre fases, que instalação monofásica não tem. E a pesquisa de mercado devolveu fornecedor e índice público, não preço unitário.",
+  "k": [
+   [
+    "0,43 %",
+    "de desequilíbrio entre a fase mais e a menos carregada, contra 10 % admitidos"
+   ],
+   [
+    "100 A",
+    "de disjuntor e 35 mm² de ramal para 95,5 A de demanda — cabo escolhido pelo disjuntor"
+   ],
+   [
+    "51 fornecedores",
+    "em 10 famílias, cobrindo 100 % do custo, com praça local em nove delas"
+   ],
+   [
+    "9 escopos",
+    "declarados FORA do orçamento: louças, climatização, pintura, revestimento, marcenaria e mais"
+   ]
+  ]
+ },
+ {
+  "n": "41",
+  "t": "Energia: fotovoltaica, SPDA e vidro solar",
+  "esc": "s/ escala",
+  "etapa": "R61",
+  "d": "Três decisões que ficam caras depois da estrutura. A cortina de 7,2 m olha para oeste e o modelo não sabia o fator solar do vidro: com temperado comum entrariam 5 kW de calor no estar; com laminado low-e, 2,2. Manaus tem uma das maiores densidades de raios do país e a casa não tinha SPDA — a estrutura de aço é descida natural, o que falta custa captor, anel e conexão. E 184 m² de cobertura plana com 4,6 kWh/m²·dia: a fotovoltaica cobre a climatização e paga-se em poucos anos.",
+  "k": [
+   [
+    "g ≤ 0,35",
+    "na cortina oeste: o vidro passa a ter fator solar e a carga térmica escala com ele"
+   ],
+   [
+    "4 descidas",
+    "pela estrutura LSF (montante de 184 mm² ≥ 50), anel de cobre no radier, DPS classe I"
+   ],
+   [
+    "kWp",
+    "dimensionado do consumo estimado, com a área e a carga conferidas contra a cobertura"
+   ],
+   [
+    "pendência 15",
+    "Ng, irradiação e tarifa são dados de sítio (H): confirmar no mapa, no atlas e na fatura"
+   ]
+  ]
+ },
+ {
+  "n": "42",
+  "t": "Planta de layout — superior",
+  "esc": "1:50",
+  "etapa": "R65",
+  "d": "O pavimento superior com o mobiliário solto que o modelo já declarava (LY-10 a LY-15) e nunca tinha desenhado. A meta-auditoria de alcance — cada entidade do caso chega a alguma prancha? — apontou seis itens de layout sem prancha; esta é a prancha. Camas, cabeceiras e o estar do mini lounge contra as circulações reais, como a PR-04 faz no térreo.",
+  "k": [
+   [
+    "LY-10 a LY-15",
+    "itens de layout do superior que existiam só no modelo"
+   ],
+   [
+    "AR-11 a AR-14",
+    "guarda-roupas e gaveteiro desenhados com as camas"
+   ],
+   [
+    "1:50",
+    "mesma escala e mesma leitura da planta de layout do térreo"
+   ],
+   [
+    "alcance",
+    "a conferência que gerou a prancha passa a rodar em cada revisão"
+   ]
+  ]
+ },
+ {
+  "n": "43",
+  "t": "Perspectivas externas",
+  "esc": "s/ escala",
+  "etapa": "R66",
+  "d": "A casa vista de fora: oito azimutes a 6,5 m de altura de olho, duas aéreas, duas da calçada do outro lado da rua a 1,6 m e a chegada, de dentro do vão do portão. Cada foto traz a planta-chave com a câmera e o cone de visão. As de rua mostram a verdade do lote: o muro de 2,2 m esconde o térreo e o que se lê da calçada é a fascia grafite e o volume superior.",
+  "k": [
+   [
+    "8 + 2 + 3",
+    "azimutes, aéreas, e as três de quem chega pela rua"
+   ],
+   [
+    "1,6 m",
+    "olho de pedestre nas vistas de rua e na chegada"
+   ],
+   [
+    "derivada",
+    "nenhuma posição digitada — se a casa muda, a foto muda"
+   ],
+   [
+    "OBJ",
+    "o mesmo modelo sai em out/porto-real.obj para Blender ou Twinmotion"
+   ]
+  ]
+ },
+ {
+  "n": "44",
+  "t": "Perspectivas internas — térreo",
+  "esc": "s/ escala",
+  "etapa": "R66",
+  "d": "Cada cômodo do térreo visto de dentro, a 1.550 mm do piso. A câmera fica 700 mm para dentro da porta, ou no canto de onde o olhar vai mais longe sem bater em parede ou móvel: a regra testa um leque de 60° contra as mesmas caixas que a cena desenha. Nenhuma foto é escolhida à mão.",
+  "k": [
+   [
+    "1.550 mm",
+    "altura de olho, a mesma do visualizador"
+   ],
+   [
+    "porta ou canto",
+    "o ponto de onde o leque de 60° enxerga mais longe"
+   ],
+   [
+    "13 vistas",
+    "doze ambientes e o banho do reversível"
+   ],
+   [
+    "fov 62°",
+    "campo de visão: o olho dentro de um cômodo abrange mais que uma lente normal"
+   ]
+  ]
+ },
+ {
+  "n": "45",
+  "t": "Perspectivas — áreas abertas",
+  "esc": "s/ escala",
+  "etapa": "R66",
+  "d": "Loggia, decks, varal, pátio, varanda gourmet, deck da piscina e os jardins com mais de 9 m²: os lugares onde se vive em Manaus fora do ar-condicionado. A mesma regra de câmera dos cômodos fechados.",
+  "k": [
+   [
+    "≥ 9 m²",
+    "área aberta menor que isso não rende uma vista"
+   ],
+   [
+    "10 vistas",
+    "do deck norte ao jardim de fundo"
+   ],
+   [
+    "sol 10 h",
+    "manhã: a hora em que essas áreas são usadas"
+   ],
+   [
+    "pilares",
+    "o pórtico de 200 x 200 aparece onde a planta o declara"
+   ]
+  ]
+ },
+ {
+  "n": "46",
+  "t": "Perspectivas internas — superior",
+  "esc": "s/ escala",
+  "etapa": "R66",
+  "d": "As suítes, o hall com a rouparia, o mini lounge e a master com banho, closet e office. As suítes 02 e 03 são espelhadas; o banho da 03 não repete a foto da 02.",
+  "k": [
+   [
+    "9 vistas",
+    "cinco ambientes e quatro subdivisões"
+   ],
+   [
+    "sol 15 h",
+    "tarde: a face oeste da master iluminada"
+   ],
+   [
+    "banho da 02",
+    "representa o da 03, espelhado"
+   ],
+   [
+    "auditoria 139",
+    "toda câmera dentro do seu cômodo, todo cômodo com vista, fotos da revisão corrente"
+   ]
+  ]
+ },
+ {
+  "n": "47",
+  "t": "Terreno, plataforma e cotas",
+  "esc": "H 1:100 · V 1:20",
+  "etapa": "R68",
+  "d": "O lote deixou de ser plano por omissão. Com a declividade confirmada pelo proprietário, 1% a 2% no sentido da rua, a prancha responde em que cota o radier apoia, quanto custa regularizar, se a rampa cabe e se a água sai por gravidade. A resposta da segunda pergunta é a que surpreende: zero metro cúbico. O SPT já obrigava a remover 600 mm de solo reprovado em toda a área; a plataforma fica na cota média e a variação cabe inteira dentro dessa escavação. O que muda é executivo, não orçamentário.",
+  "k": [
+   [
+    "0 m³",
+    "de corte e aterro de regularização: a declividade cabe na troca de solo que o SPT já obrigou"
+   ],
+   [
+    "+616 mm",
+    "de piso acabado sobre a testada no caso de 2%, que é a folga contra enxurrada"
+   ],
+   [
+    "408 a 792 mm",
+    "de reposição controlada: a camada deixa de ter espessura única"
+   ],
+   [
+    "+24%",
+    "de pressão de vento entre a categoria IV e a III, verificado nas duas, e as duas passam"
+   ]
+  ]
+ },
+ {
+  "n": "48",
+  "t": "Matriz de entregáveis",
+  "esc": "s/ escala",
+  "etapa": "R69",
+  "d": "O proprietário entregou uma lista de 621 desenhos, quadros, planos e modelos e pediu tudo, completo. Completo não se afirma: mede-se. Cada item tem um status e uma referência conferida pela auditoria; os sinônimos contam uma vez. É a prancha mestre que o item 621 da própria lista pedia, e é também o backlog: o que ainda falta produzir do modelo está em vermelho, com número.",
+  "k": [
+   [
+    "621 → 431",
+    "linhas pedidas e entregáveis distintos, depois de juntar sinônimos"
+   ],
+   [
+    "TEM + NA",
+    "o que existe com referência conferida, mais o que não se aplica com razão escrita"
+   ],
+   [
+    "FALTA",
+    "o backlog, contado: tudo que o modelo sabe fazer e ainda não fez"
+   ],
+   [
+    "EXTERNO",
+    "levantamento, certidão, fotografia, as-built: depende de fora"
+   ]
+  ]
+ },
+ {
+  "n": "49",
+  "t": "Ventilação e privacidade",
+  "esc": "1:100",
+  "etapa": "R69",
+  "d": "Dois estudos que a lista pedia e o modelo sabia fazer. A área que abre em cada ambiente contra o piso, com as faces em que abre: duas faces é ventilação cruzada. E cada janela externa medida contra a divisa que olha, pelo art. 1.301 do Código Civil, com o brise que a protege. É regra legal, e é a que muda de lado se a pendência 16 mudar o recuo.",
+  "k": [
+   [
+    "8 %",
+    "mínimo da NBR 15575-4 para a região Norte, em dormitório e sala"
+   ],
+   [
+    "40 %",
+    "aberturas grandes da NBR 15220-3 para a ZB8: só a fita social chega lá"
+   ],
+   [
+    "1,50 m",
+    "distância mínima de janela à divisa do vizinho, art. 1.301"
+   ],
+   [
+    "brise",
+    "BR-S2 e BR-S3 existem por isto: a suíte olha a divisa sul a 2,40 m"
+   ]
+  ]
+ },
+ {
+  "n": "50",
+  "t": "Cortes por ambiente",
+  "esc": "1:50 · 1:25",
+  "etapa": "R70",
+  "d": "Cinco cortes, cada um pelo centro do ambiente que o nomeia, gerados pelo mesmo desenhador dos cortes AA e BB. E o corte construtivo de fachada, do radier à fáscia, com as camadas da PE-1 e a reposição de solo da PR-47. A planta-chave ao lado de cada título mostra onde o plano passa.",
+  "k": [
+   [
+    "5 cortes",
+    "garagem, cozinha, gourmet, master e banhos das suítes"
+   ],
+   [
+    "1:25",
+    "o corte de fachada, do lastro à fáscia grafite"
+   ],
+   [
+    "um desenhador",
+    "o mesmo código da PR-06: mudou a casa, mudam os seis"
+   ],
+   [
+    "planta-chave",
+    "o plano de corte em vermelho sobre o térreo"
+   ]
+  ]
+ },
+ {
+  "n": "51",
+  "t": "Elevações internas II",
+  "esc": "1:40",
+  "etapa": "R70",
+  "d": "Nove paredes desenhadas do modelo, não à mão: cada item vem de ARMARIOS, BANCADAS, LOUCAS, EQUIPAMENTOS ou LAYOUT pelo código, e a parede escolhida de cada ambiente é a que tem mais itens. A PR-15 tem módulos digitados; esta não tem nenhum.",
+  "k": [
+   [
+    "9 paredes",
+    "lavanderia, suítes, master, gourmet, estar, lounge, reversível e cozinha"
+   ],
+   [
+    "150 mm",
+    "um item está na parede quando encosta nela a menos disso"
+   ],
+   [
+    "por código",
+    "cada retângulo carrega o código do caso e a auditoria de alcance o vê"
+   ],
+   [
+    "parede automática",
+    "a com mais itens, não a que eu escolhi"
+   ]
+  ]
+ },
+ {
+  "n": "52",
+  "t": "Esquadrias",
+  "esc": "1:25 · 1:5",
+  "etapa": "R70",
+  "d": "Cada família em uso desenhada em elevação com largura, altura, peitoril, quantidade e o vidro que a regra de fator solar atribui. Famílias declaradas sem uso ficam de fora: esquadria que não está em VAOS não é comprada. Quatro detalhes decidem a estanqueidade: peitoril com pingadeira, soleira, trilho de correr e o portão ripado.",
+  "k": [
+   [
+    "11 famílias",
+    "em uso, de 39 vãos"
+   ],
+   [
+    "8 folhas",
+    "de 900 mm na cortina de vidro low-e"
+   ],
+   [
+    "4 detalhes",
+    "os encontros onde a água entra ou não"
+   ],
+   [
+    "alumínio grafite",
+    "todas: sem PVC, sem veneziana"
+   ]
+  ]
+ },
+ {
+  "n": "53",
+  "t": "Mapa de cores e peitoris",
+  "esc": "s/ escala",
+  "etapa": "R70",
+  "d": "A paleta de fachada é a mesma da cena 3D e do render: a amostra impressa e o pixel na tela saem do mesmo dicionário. Rodapé por ambiente, soleira por porta externa e peitoril por janela, derivados de acabamentos, VAOS e ESQUADRIAS.",
+  "k": [
+   [
+    "8 famílias",
+    "de material e cor, cada uma com onde vai"
+   ],
+   [
+    "3 texturas",
+    "junta seca de 6 mm, ripa a cada 150, régua de 100"
+   ],
+   [
+    "19 soleiras e peitoris",
+    "um por vão externo, com material"
+   ],
+   [
+    "mesma fonte",
+    "modelo3d.CORES alimenta a prancha, o visualizador e o Blender"
+   ]
+  ]
+ },
+ {
+  "n": "54",
+  "t": "Planta humanizada",
+  "esc": "1:100",
+  "etapa": "R70",
+  "d": "Os dois pavimentos com o piso de cada ambiente na cor do acabamento declarado e o mobiliário do caso. Sem cota: a leitura é de uso, não de execução.",
+  "k": [
+   [
+    "cor do piso",
+    "vem da descrição do acabamento, não de uma paleta separada"
+   ],
+   [
+    "mobiliário",
+    "LAYOUT, ARMARIOS, BANCADAS e LOUCAS, pelo código"
+   ],
+   [
+    "áreas abertas",
+    "deck, grama e seixo com o piso externo declarado"
+   ],
+   [
+    "sem cota",
+    "cotas ficam na PR-02 e PR-03"
+   ]
+  ]
+ },
+ {
+  "n": "55",
+  "t": "Planta de marcenaria",
+  "esc": "1:75",
+  "etapa": "R71",
+  "d": "Os dois pavimentos com cada móvel de marcenaria hachurado e codificado, e o quadro de móveis: 31 móveis derivados de ARMARIOS, BANCADAS, LOUCAS, LAYOUT e do CLOSET.",
+  "k": [
+   [
+    "inventário",
+    "o BOM contava só ARMARIOS e BANCADAS; agora conta o closet, os gabinetes de banho, os painéis, as cabeceiras e a mesa"
+   ],
+   [
+    "módulo",
+    "até 600 mm — a folha de porta máxima"
+   ],
+   [
+    "quadro",
+    "frente, profundidade, altura, módulos, portas, gavetas e m² de frente"
+   ]
+  ]
+ },
+ {
+  "n": "56",
+  "t": "Marcenaria I — gabinetes",
+  "esc": "1:40 · 1:10",
+  "etapa": "R71",
+  "d": "Gabinetes sob granito da cozinha, gourmet e oficina, gabinetes suspensos dos lavatórios, torre e estantes, módulo a módulo, com a seção do apoio.",
+  "k": [
+   [
+    "seção A",
+    "sapata, rodapé recuado 50, caixa de 770, granito 30: topo a 900"
+   ],
+   [
+    "cuba",
+    "módulo da cuba sem prateleira; módulo do cooktop com uma"
+   ],
+   [
+    "lavatório",
+    "gabinete suspenso de 500 mm com uma gaveta por módulo"
+   ]
+  ]
+ },
+ {
+  "n": "57",
+  "t": "Marcenaria II — dormitórios",
+  "esc": "1:40 · 1:10",
+  "etapa": "R71",
+  "d": "Guarda-roupas, rouparia, closet, gaveteiro, cabeceiras, painéis de TV, rack e mesa de trabalho, cada um em módulos derivados; seção do módulo de guarda-roupa.",
+  "k": [
+   [
+    "guarda-roupa",
+    "cabideiro a 400 do topo, prateleira sobre ele, duas gavetas internas de 200"
+   ],
+   [
+    "closet",
+    "os mesmos módulos sem porta nas duas paredes declaradas"
+   ],
+   [
+    "painel de TV",
+    "ripas de 40 a cada 80 sobre fundo de 15, na largura do rack"
+   ]
+  ]
+ },
+ {
+  "n": "58",
+  "t": "Marcenaria — corte e furação",
+  "esc": "1:25 · 1:10",
+  "etapa": "R71",
+  "d": "Plano de corte das chapas de MDF 15 e 6 mm pelo mesmo nesting das placas de fechamento, e a furação sistema 32 da lateral típica.",
+  "k": [
+   [
+    "nesting",
+    "corte guilhotinado em faixas, chapa 2.750 x 1.850, serra 4 mm"
+   ],
+   [
+    "aproveitamento",
+    "89 % nas chapas de 15 mm"
+   ],
+   [
+    "sistema 32",
+    "fileiras a 37 da borda, furos de 5 mm a cada 32; canecos de 35 na porta"
+   ]
+  ]
+ },
+ {
+  "n": "59",
+  "t": "Marcenaria — ferragens e peças",
+  "esc": "s/ escala",
+  "etapa": "R71",
+  "d": "Ferragens contadas, puxador por móvel, material pelo plano contra o serviço sob medida do BOM, e a lista de peças.",
+  "k": [
+   [
+    "razão",
+    "material = 43 % do serviço: dentro da faixa de 20 a 60 %"
+   ],
+   [
+    "puxador",
+    "gola grafite nas áreas sociais e de serviço, cava a 45° nos dormitórios"
+   ],
+   [
+    "lista",
+    "984 peças; a lista inteira está na vista Marcenaria"
+   ]
+  ]
+ },
+ {
+  "n": "60",
+  "t": "Unifilar e quadros",
+  "esc": "s/ escala",
+  "etapa": "R72",
+  "d": "Entrada, QDG e QDS com cada um dos 59 circuitos: disjuntor, seção, fase, eletroduto e queda de tensão. Onde a queda passa de 4 %, a seção sobe e a tabela diz qual.",
+  "k": [
+   [
+    "defeito 110",
+    "os quadros eram de 36 e 24 módulos; 59 circuitos com DR, DPS e reserva pedem 81 e 40"
+   ],
+   [
+    "cozinha",
+    "a 30 m do quadro, o cabo do TUG vai a 6 mm² pela queda de tensão, não pela corrente"
+   ],
+   [
+    "DR",
+    "10 circuitos de área molhada sob 3 DR de 30 mA"
+   ]
+  ]
+ },
+ {
+  "n": "61",
+  "t": "Material elétrico e fotovoltaica",
+  "esc": "s/ escala",
+  "etapa": "R72",
+  "d": "O que se compra, somado circuito a circuito: cabo por seção e cor, eletroduto, disjuntores, DR, DPS, tomadas, interruptores e caixas. Diagrama do sistema fotovoltaico e a passagem dos cabos solares.",
+  "k": [
+   [
+    "cabo",
+    "3.214 m em 59 circuitos"
+   ],
+   [
+    "FV",
+    "módulos em strings, string box, inversor TC-17, disjuntor CA no QDG"
+   ],
+   [
+    "passagem",
+    "cobertura do superior → face norte → TC-17 a 1,5 m do piso, em eletroduto próprio"
+   ]
+  ]
+ },
+ {
+  "n": "62",
+  "t": "Esgoto e ventilação",
+  "esc": "1:75 · 1:150 · 1:10",
+  "etapa": "R72",
+  "d": "Isométrico de cada peça até a rua: DN pela UHC, caimento de 2 % em toda a rede predial, caixa sifonada por banho, ventilação onde o sifão fica longe, caixas de inspeção e o coletor com cotas de fundo até a testada.",
+  "k": [
+   [
+    "não entupir",
+    "DN da norma, 2 % em vez de 1 %, sifão ventilado, caixa a cada 15 m"
+   ],
+   [
+    "coletor",
+    "fundo final a 635 mm na testada; o lote desce junto e a profundidade não cresce"
+   ],
+   [
+    "defeito",
+    "a última caixa estava no fundo do lote, a 24 m da rua"
+   ]
+  ]
+ },
+ {
+  "n": "63",
+  "t": "Água fria",
+  "esc": "1:75",
+  "etapa": "R72",
+  "d": "Do reservatório a cada peça: barrilete, coluna, ramal por ambiente com registro, sub-ramal por peça, e a pressão dinâmica que sobra depois das perdas.",
+  "k": [
+   [
+    "pressão",
+    "térreo passa por gravidade (pior 15 kPa); superior não (negativa): o pressurizador TC-14 sai da conta"
+   ],
+   [
+    "Fair-Whipple-Hsiao",
+    "perda de carga em PVC com 30 % de localizadas"
+   ],
+   [
+    "registros",
+    "gaveta na entrada de cada ramal, pressão em cada chuveiro, geral com retenção"
+   ]
+  ]
+ },
+ {
+  "n": "64",
+  "t": "Pluvial, gás, ar novo e suportes",
+  "esc": "1:150",
+  "etapa": "R72",
+  "d": "Isométrico pluvial das descidas à sarjeta pela retenção; rede de gás da central aos dois pontos com abrigo e registros; vazão de ar novo por ambiente climatizado; suportes das condensadoras e linhas.",
+  "k": [
+   [
+    "gás",
+    "cobre DN15, regulador de 1º estágio, 38 dias de autonomia a 2 h/dia"
+   ],
+   [
+    "ar novo",
+    "7,5 L/s por pessoa + 0,3 L/s por m²; sem VMC, a vazão fica declarada"
+   ],
+   [
+    "suportes",
+    "7 condensadoras em mão-francesa; abraçadeira a cada 1,5 m horizontal e 2,0 m vertical"
+   ]
+  ]
+ },
+ {
+  "n": "65",
+  "t": "Dados, CFTV, alarme e automação",
+  "esc": "1:100",
+  "etapa": "R74",
+  "d": "Cada ponto de rede, access point, câmera, sensor magnético, IVP, módulo de automação e cortina motorizada, com o cabo até o rack e a cobertura Wi-Fi conferida.",
+  "k": [
+   [
+    "rack",
+    "o texto do TC-07 dizia '8 câmeras, 3 APs'; agora cada uma tem coordenada, cabo e o que olha"
+   ],
+   [
+    "alarme",
+    "sensor em todo vão externo de porta; IVP nas passagens; 20 zonas"
+   ],
+   [
+    "automação",
+    "Zigbee com hub local: cabeado dedicado custa mais do que automatiza numa casa unifamiliar"
+   ]
+  ]
+ },
+ {
+  "n": "66",
+  "t": "Prevenção contra incêndio",
+  "esc": "1:100",
+  "etapa": "R74",
+  "d": "Extintor por pavimento mais garagem, detector de fumaça em cada dormitório e circulação, calor na cozinha, manta e detector de GLP — declarado como boa prática, não exigência.",
+  "k": [
+   [
+    "exigência",
+    "residência unifamiliar é dispensada de projeto pelo CBM-AM; o que está aqui é escolha, e diz que é"
+   ],
+   [
+    "cozinha",
+    "detector de calor, não de fumaça: a fumaça da cocção daria alarme falso"
+   ],
+   [
+    "gás",
+    "detector de GLP a 300 mm do piso com corte na central"
+   ]
+  ]
+ },
+ {
+  "n": "67",
+  "t": "Contraventamento e tolerâncias",
+  "esc": "1:100",
+  "etapa": "R75",
+  "d": "Os 14 painéis com fita X em planta, hold-down em cada extremidade, o chumbador que o arrancamento de cada um pede, o veredito por direção e a tabela de tolerâncias de montagem.",
+  "k": [
+   [
+    "veredito",
+    "X: 57 contra 29 kN; Y: 86 contra 45 kN — folga nas duas categorias de vento"
+   ],
+   [
+    "hold-down",
+    "28, um em cada extremidade de painel com fita; chumbador por ligacoes.ancoragem"
+   ],
+   [
+    "tolerâncias",
+    "o que se mede, quanto pode variar, com que instrumento e quando"
+   ]
+  ]
+ },
+ {
+  "n": "68",
+  "t": "Detalhes do LSF",
+  "esc": "1:5 · 1:20",
+  "etapa": "R75",
+  "d": "Encontro em T e canto em L em planta, reforço para carga suspensa com os 13 itens locados na parede que os recebe, rodapé e junta de movimentação de fachada.",
+  "k": [
+   [
+    "carga suspensa",
+    "parede de LSF não segura bucha: OSB 18 mm entre montantes na faixa de altura de cada item"
+   ],
+   [
+    "encontros",
+    "12 encontros em T derivados das paredes; um detalhe, uma quantidade"
+   ],
+   [
+    "junta",
+    "10 mm com selante PU sobre montante duplo, a cada 6 m e em cada canto"
+   ]
+  ]
+ },
+ {
+  "n": "69",
+  "t": "Paginação de fachada e explodida",
+  "esc": "1:150 · 1:200",
+  "etapa": "R75",
+  "d": "A grade de placas cimentícias de cada painel externo, as juntas de movimentação, e os painéis externos afastados da planta em isométrico.",
+  "k": [
+   [
+    "nesting",
+    "contar placa por painel dava 228 e 44 % de perda; o nesting da casa dá 122 a 79 %"
+   ],
+   [
+    "explodida",
+    "cada painel afastado 1,5 m da parede; o superior erguido 2 m; códigos de fabricação"
+   ],
+   [
+    "juntas",
+    "33 juntas de movimentação: a cada 6 m e em cada canto, por parede externa"
+   ]
+  ]
+ },
+ {
+  "n": "70",
+  "t": "Piscina: cortes, escada, borda e iluminação",
+  "esc": "1:25 · 1:10 · 1:5 · 1:50",
+  "etapa": "R78",
+  "d": "Corte longitudinal e transversal da piscina, a escada de praia entre a prainha e o fundo, a borda com pingadeira sobre a faixa seca, o nicho do LED e a planta da iluminação subaquática.",
+  "k": [
+   [
+    "escada",
+    "4 degraus de 212,5 x 300 mm na largura inteira: espelho abaixo de 250 (H, NBR 10339)"
+   ],
+   [
+    "borda",
+    "peça de 30 mm com balanço de 30 e pingadeira; o deck cai 1 % para fora da água"
+   ],
+   [
+    "LEDs",
+    "na parede leste, a da casa: quem está no gourmet vê a água acesa, não a lâmpada; SELV 12 V"
+   ]
+  ]
+ },
+ {
+  "n": "71",
+  "t": "Piscina: hidráulica e casa de máquinas",
+  "esc": "1:50 · 1:20",
+  "etapa": "R78",
+  "d": "Skimmer, drenos, retornos e aspiração com as linhas até a casa de máquinas, o diagrama hidráulico da bomba ao retorno, e a casa de máquinas em planta e corte.",
+  "k": [
+   [
+    "skimmer",
+    "na parede oeste, a sotavento do vento de E/NE; retornos na leste, opostos, varrendo a superfície"
+   ],
+   [
+    "linhas",
+    "DN pela velocidade (sucção ≤ 1,8 m/s), comprimento Manhattan sob a faixa seca, perda por Hazen-Williams"
+   ],
+   [
+    "bomba",
+    "altura manométrica com filtro sujo; 0,5 cv = 601 VA — o circuito TUE-17 sobe de 500 para 700 VA"
+   ]
+  ]
+ },
+ {
+  "n": "72",
+  "t": "Canteiro de obras",
+  "esc": "1:100 · 1:20",
+  "etapa": "R79",
+  "d": "O canteiro no recuo de frente e na faixa técnica norte: pista e entrada de pedestres nas linhas dos portões, contêineres, cavalete de painéis, paletes, sanitário, baias por classe de resíduo, circulação, tapume, vala e caixa de sedimentação, e o que o recuo recebe em cada fase.",
+  "k": [
+   [
+    "zonas",
+    "14 zonas derivadas do lote, dos portões, dos 62 painéis e das 837 placas; nenhuma sobre a plataforma nem sobre o deck"
+   ],
+   [
+    "movimentação",
+    "painel mais pesado 89 kg: a mão com 4 montadores (limite 100 kg, H); munck do recuo não alcança o fundo"
+   ],
+   [
+    "drenagem",
+    "vala 300 × 300 a 1 % no pé da plataforma e caixa de 0,8 m³: 13,7 L/s de projeto com C 0,5 e 180 mm/h"
+   ]
+  ]
+ },
+ {
+  "n": "73",
+  "t": "Elétrica: pontos, percursos e fixadores",
+  "esc": "1:75",
+  "etapa": "R80",
+  "d": "Cada tomada, interruptor, luminária e TUE com coordenada e altura; o eletroduto de cada circuito parede a parede, pelos furos dos montantes; o ponto mais longe e a queda com o percurso real; buchas, clips, abraçadeiras e caixas contados.",
+  "k": [
+   [
+    "pontos",
+    "82 tomadas em 77 pontos (5 duplos onde a parede acabou), 36 interruptores, 107 luminárias, 40 pontos de TUE"
+   ],
+   [
+    "percurso",
+    "eletroduto dentro da parede a 1.450 mm, pelos furos que a fabricação já abre; ao forro para luminária; enterrado para bombas"
+   ],
+   [
+    "fixadores",
+    "bucha passa-fio em cada montante atravessado, clip a cada 1,2 m, abraçadeira a cada 1 m no forro, caixa por ponto"
+   ]
+  ]
+ },
+ {
+  "n": "74",
+  "t": "Água e esgoto: percurso oculto e furos",
+  "esc": "1:75",
+  "etapa": "R80",
+  "d": "O PEX de cada peça pela parede a 400 mm, o esgoto sob o piso, os painéis que ganham furo hidráulico de 32 mm na fabricação, e o que cada parede esconde com as faixas onde não furar.",
+  "k": [
+   [
+    "furos",
+    "32 mm a 400 mm só nos painéis das paredes por onde a água passa; esgoto nunca em montante"
+   ],
+   [
+    "ocultos",
+    "64 paredes com elétrica e/ou água: não furar entre 350-450 nem 1.400-1.500 mm"
+   ],
+   [
+    "pressão",
+    "sub-ramal com o percurso real: todas as peças atendidas (gravidade ou TC-14)"
+   ]
+  ]
+ },
+ {
+  "n": "75",
+  "t": "Climatização em isométrico e mapa de testes",
+  "esc": "1:90",
+  "etapa": "R80",
+  "d": "As linhas frigorígenas do nicho ao evaporador em isométrico, com os trechos de subida, fachada e parede; o teste de cada sistema com fase, critério e registro; os pontos críticos de execução.",
+  "k": [
+   [
+    "isométrico",
+    "cada linha sobe no nicho, corre pela fachada na cota do evaporador e entra na parede do ambiente"
+   ],
+   [
+    "testes",
+    "15 testes em 15 sistemas; o que fica escondido testa antes de esconder"
+   ],
+   [
+    "críticos",
+    "esgoto no radier, furos hidráulicos, eletroduto a 1.450, cargas suspensas, fita X, impermeabilização, shaft"
+   ]
+  ]
+ },
+ {
+  "n": "76",
+  "t": "Padrões da casa, normas e hipóteses",
+  "esc": "s/ escala",
+  "etapa": "R81",
+  "d": "Toda constante dos módulos de instalações, piscina, canteiro, luz, marcenaria e acabamento com classe e dono: padrões decididos pela casa, limites de norma ou catálogo, hipóteses com quem as confirma, e o que é derivado e nunca se digita.",
+  "k": [
+   [
+    "padrão",
+    "85 decisões da casa com o valor fixado pelo caso: altura de tomada, cota do furo, cor da luz por zona, passo do clip"
+   ],
+   [
+    "norma",
+    "70 limites que ninguém aqui decide: queda de 4 %, zona do box, caimento, diâmetro interno de tubo"
+   ],
+   [
+    "hipótese",
+    "33 números que esperam fabricante, concessionária ou obra, cada um com dono; hipótese sem dono é erro"
+   ]
+  ]
+ }
+]

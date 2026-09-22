@@ -1,0 +1,24 @@
+# R61 — "0 erros" deixa de ser afirmacao e passa a ser fato verificavel por
+# qualquer um. A CI roda exatamente o que um contribuidor roda.
+name: verificar
+on: [push, pull_request]
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: porto-real } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: caderno (sem PNG)
+        run: python3 src/build.py --no-png
+      - name: programa de auditorias
+        run: python3 src/programa.py | tee programa.log; grep -q "0 erro(s)" programa.log
+      - name: visualizador
+        run: python3 src/viewer_teste.py | tee viewer.log; ! grep -q FALHA viewer.log
+      # R65 — a meta-auditoria de mutacao: muda um valor do caso, mede quem se
+      # mexe. Um consumidor parado e uma segunda fonte esperando para divergir.
+      - name: meta-auditoria (mutacao)
+        run: python3 src/meta_auditoria.py --mutacao | tee meta.log; ! grep -q "!!\|ERRO" meta.log
