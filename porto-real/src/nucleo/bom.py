@@ -17,6 +17,10 @@ from dataclasses import dataclass, field
 # (H) precos de referencia, BRL. Estrutura real, valores a confirmar.
 PRECOS = {
     "aco_perfil_kg": 11.50,
+    # R86 — aco LAMINADO (pilar e viga): perfil, fabricacao, pintura anticorrosiva
+    # e montagem. Nao e o mesmo preco do formado a frio do LSF: outro fornecedor,
+    # outro processo e montagem com equipamento. (H)
+    "aco_laminado_kg": 18.50,
     "aco_bobina_kg": 8.90,
     "osb_11mm_m2": 78.00,
     "osb_15mm_m2": 105.00,
@@ -148,7 +152,7 @@ NOME_CAMADA = {
 def montar(pecas: list, plano_corte: dict, area_m2: float,
            n_parafusos: int = None, area_placa_m2: float = None,
            precos: dict = None, camadas: dict = None,
-           acabamento: dict = None) -> list[ItemBOM]:
+           acabamento: dict = None, laminados: dict = None) -> list[ItemBOM]:
     """BOM completo a partir das pecas e do plano de corte."""
     p = dict(PRECOS)
     p.update(precos or {})
@@ -174,6 +178,20 @@ def montar(pecas: list, plano_corte: dict, area_m2: float,
                              p["aco_perfil_kg"] * m / n, "estrutura",
                              "producao: o aco ja esta em ACO-PERF, em kg",
                              compra=False))
+
+    # R86 — PILAR E VIGA LAMINADA. Existiam no desenho, no 3D, na verificacao de
+    # flecha e na cena, e em NENHUMA linha de custo: remover quatro colunas da
+    # colunata nao mexia um centavo no orcamento, o que torna a economia
+    # invisivel e a decisao incomparavel. Massa derivada da secao declarada
+    # (PILAR_MASSA_KG_M) e do perfil que o proprio modelo escolheu por flecha.
+    for g in (laminados or {}).get("pilares", []):
+        itens.append(ItemBOM(g["sku"], f"Pilar {g['rot']}: {g['secao'][:46]}", "kg",
+                             round(g["kg"], 1), p["aco_laminado_kg"], "estrutura",
+                             fonte=g["fonte"]))
+    for g in (laminados or {}).get("vigas", []):
+        itens.append(ItemBOM(f"EST-VIGA-{g['perfil']}", f"Viga laminada {g['perfil']}", "kg",
+                             round(g["kg"], 1), p["aco_laminado_kg"], "estrutura",
+                             fonte=g["fonte"]))
 
     if n_parafusos is None:
         n_parafusos = int(len(pecas) * 8)

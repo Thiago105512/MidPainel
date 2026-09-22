@@ -5,7 +5,7 @@
 <g data-tipo="moldura">
 <rect x="25.0" y="10" width="806.00" height="574.00" fill="none" stroke="#000" stroke-width="0.7"/>
 </g>
-<g data-tipo="carimbo" data-cod="01" data-rev="R85">
+<g data-tipo="carimbo" data-cod="01" data-rev="R86">
 <polygon points="656.000,522.000 831.000,522.000 831.000,584.000 656.000,584.000" stroke="#000000" stroke-width="0.7" fill="#fff" stroke-linejoin="miter"/>
 <text x="659.000" y="528.000" font-family="Helvetica, Arial, sans-serif" font-size="3.50" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">PROJETO PORTO REAL</text>
 <text x="659.000" y="534.500" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">RESIDENCIA UNIFAMILIAR  |  MANAUS - AM  |  SU16 TARUMA (H)</text>
@@ -26,12 +26,12 @@
 <text x="705.000" y="575.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">FORMATO A1</text>
 <text x="705.000" y="580.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">MALHA 600/300/150</text>
 <text x="751.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">EMISSAO</text>
-<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R85</text>
+<text x="751.000" y="566.000" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">ESTUDO PRELIMINAR  R86</text>
 <text x="751.000" y="572.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">NAO LIBERADO PARA OBRA</text>
 <text x="751.000" y="578.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#c00" text-anchor="start" dominant-baseline="middle">SEM ART / RRT</text>
 <text x="792.000" y="560.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#8a8a8a" text-anchor="start" dominant-baseline="middle">PRANCHA</text>
 <text x="792.000" y="570.000" font-family="Helvetica, Arial, sans-serif" font-size="7.00" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">01</text>
-<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R85</text>
+<text x="792.000" y="579.000" font-family="Helvetica, Arial, sans-serif" font-size="1.40" font-weight="normal" fill="#000000" text-anchor="start" dominant-baseline="middle">de 76   REV R86</text>
 </g>
 <g data-tipo="notas">
 <text x="656.000" y="496.200" font-family="Helvetica, Arial, sans-serif" font-size="1.80" font-weight="bold" fill="#000000" text-anchor="start" dominant-baseline="middle">NOTAS</text>
@@ -111,48 +111,36 @@
 <polygon points="304.400,350.400 307.600,350.400 307.600,353.600 304.400,353.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="pilar" data-cod="PL-03">
-<polygon points="274.400,326.400 277.600,326.400 277.600,329.600 274.400,329.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="274.400,299.400 277.600,299.400 277.600,302.600 274.400,302.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="pilar" data-cod="PL-04">
-<polygon points="304.400,326.400 307.600,326.400 307.600,329.600 304.400,329.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
+<polygon points="304.400,299.400 307.600,299.400 307.600,302.600 304.400,302.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="pilar" data-cod="PL-05">
-<polygon points="274.400,296.400 277.600,296.400 277.600,299.600 274.400,299.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="pilar" data-cod="PL-06">
-<polygon points="304.400,296.400 307.600,296.400 307.600,299.600 304.400,299.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="pilar" data-cod="PL-07">
-<polygon points="274.400,266.400 277.600,266.400 277.600,269.600 274.400,269.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="pilar" data-cod="PL-08">
-<polygon points="304.400,266.400 307.600,266.400 307.600,269.600 304.400,269.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
-</g>
-<g data-tipo="pilar" data-cod="PL-09">
 <polygon points="274.400,248.400 277.600,248.400 277.600,251.600 274.400,251.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="pilar" data-cod="PL-10">
+<g data-tipo="pilar" data-cod="PL-06">
 <polygon points="304.400,248.400 307.600,248.400 307.600,251.600 304.400,251.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="pilar" data-cod="PL-11">
+<g data-tipo="pilar" data-cod="PL-07">
 <polygon points="175.400,446.400 178.600,446.400 178.600,449.600 175.400,449.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="pilar" data-cod="PL-12">
+<g data-tipo="pilar" data-cod="PL-08">
 <polygon points="229.400,446.400 232.600,446.400 232.600,449.600 229.400,449.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="pilar" data-cod="PL-13">
+<g data-tipo="pilar" data-cod="PL-09">
 <polygon points="232.400,446.400 235.600,446.400 235.600,449.600 232.400,449.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="pilar" data-cod="PL-14">
+<g data-tipo="pilar" data-cod="PL-10">
 <polygon points="268.400,446.400 271.600,446.400 271.600,449.600 268.400,449.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="pilar" data-cod="PL-15">
+<g data-tipo="pilar" data-cod="PL-11">
 <polygon points="172.400,398.400 175.600,398.400 175.600,401.600 172.400,401.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="pilar" data-cod="PL-16">
+<g data-tipo="pilar" data-cod="PL-12">
 <polygon points="232.400,398.400 235.600,398.400 235.600,401.600 232.400,401.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
-<g data-tipo="pilar" data-cod="PL-17">
+<g data-tipo="pilar" data-cod="PL-13">
 <polygon points="280.400,398.400 283.600,398.400 283.600,401.600 280.400,401.600" stroke="#444" stroke-width="0.6" fill="#444" stroke-linejoin="miter"/>
 </g>
 <g data-tipo="cota" data-eixo="H" data-parciais="4">

@@ -1349,23 +1349,42 @@ def escolher_perfil(w_kn_m: float, vao_mm: int, limite: int,
 # R65 — cada pilar tem codigo: era a unica lista de pecas do caso sem `cod`,
 # e por isso a meta-auditoria nao conseguia dizer se ele chegava a cena e a
 # prancha. O que nao tem nome nao se confere.
+# R86 — RITMO. Ate R85 eram DEZ pilares expostos, cinco por fileira, com vaos
+# de 2.400 / 3.000 / 3.000 / 1.800 mm: nenhum vao igual ao vizinho. O ritmo nao
+# era escolhido, era HERDADO — cada pilar caiu sob uma parede do pavimento de
+# cima (lounge, banho e dormitorio da master), e a sequencia no terreo virou
+# consequencia da planta do superior. Colunata de vao desigual le como acidente;
+# de vao igual, como intencao. E a propria casa ja dizia isso do outro lado: a
+# varanda do gourmet avanca 3.000 mm em balanco, sem uma coluna sequer, porque
+# ali estava a vista que importava.
+# A correcao nao e tirar pilar: e trocar apoio PONTUAL por apoio CONTINUO. Duas
+# vigas longitudinais (V-14 e V-15) correm os 10.200 mm de cada fileira em dois
+# tramos IGUAIS de 5.100 mm; as vigas transversais que antes exigiam pilar
+# passam a pousar nelas. Sobram tres pilares por fileira, e o do meio da fileira
+# interna cai exatamente sobre a parede leste da lavanderia — vai EMBUTIDO, como
+# os da garagem em R82. Dez expostos viram CINCO, todos em vaos iguais.
 PILARES = [
     dict(cod="PL-01", x=12_600, y=16_800), dict(cod="PL-02", x=15_600, y=16_800),
-    dict(cod="PL-03", x=12_600, y=19_200), dict(cod="PL-04", x=15_600, y=19_200),
-    dict(cod="PL-05", x=12_600, y=22_200), dict(cod="PL-06", x=15_600, y=22_200),
-    dict(cod="PL-07", x=12_600, y=25_200), dict(cod="PL-08", x=15_600, y=25_200),
-    dict(cod="PL-09", x=12_600, y=27_000), dict(cod="PL-10", x=15_600, y=27_000),
+    dict(cod="PL-03", x=12_600, y=21_900, embutido=True),   # sobre a parede leste de T-LAV
+    dict(cod="PL-04", x=15_600, y=21_900),
+    dict(cod="PL-05", x=12_600, y=27_000), dict(cod="PL-06", x=15_600, y=27_000),
     # R82 — as suites sobre a garagem e o portico de entrada: as vigas V-02,
     # V-03, V-12 e V-13 entregam em pilares, nao em montantes de LSF. Os das
-    # jambas do portao (PL-11, PL-12) e os dos cantos da garagem e do
+    # jambas do portao (PL-07, PL-08) e os dos cantos da garagem e do
     # reversivel ficam DENTRO da parede (secao embutida).
-    dict(cod="PL-11", x=2_700, y=7_200, embutido=True), dict(cod="PL-12", x=8_100, y=7_200, embutido=True),
-    dict(cod="PL-13", x=8_400, y=7_200, embutido=True), dict(cod="PL-14", x=12_000, y=7_200, embutido=True),
-    dict(cod="PL-15", x=2_400, y=12_000, embutido=True), dict(cod="PL-16", x=8_400, y=12_000, embutido=True),
-    dict(cod="PL-17", x=13_200, y=12_000, embutido=True),
+    dict(cod="PL-07", x=2_700, y=7_200, embutido=True), dict(cod="PL-08", x=8_100, y=7_200, embutido=True),
+    dict(cod="PL-09", x=8_400, y=7_200, embutido=True), dict(cod="PL-10", x=12_000, y=7_200, embutido=True),
+    dict(cod="PL-11", x=2_400, y=12_000, embutido=True), dict(cod="PL-12", x=8_400, y=12_000, embutido=True),
+    dict(cod="PL-13", x=13_200, y=12_000, embutido=True),
 ]
 PILAR_SECAO_EMBUTIDO = "tubo estrutural 140 x 100 x 6,3 mm dentro da parede de 150 (H)"
 PILAR_SECAO = "perfil metalico 200 x 200 mm (H)"
+# R86 — massa de cada secao (H, tabela do fabricante de tubo estrutural). Sem
+# ela o pilar existia no desenho, no 3D e na verificacao, e NAO existia no
+# orcamento: tirar quatro colunas nao mexia um centavo no custo. E o defeito
+# que este projeto mais catalogou, desta vez no proprio elemento estrutural.
+PILAR_MASSA_KG_M = {PILAR_SECAO: 47.7, PILAR_SECAO_EMBUTIDO: 22.5}
+PILAR_ALTURA = NIVEL_SUPERIOR      # da laje do terreo ao piso do superior
 
 
 # -------------------------------------------------------------------------
@@ -1390,6 +1409,21 @@ VIGAS = [
          carrega="piso", parede_h=2_600, vedacao=True,
          desc="fundo da suite 03 (y = 12.000) sobre hall, alcova e reversivel, "
               "entre a parede da garagem (x = 8.400) e a do banho do reversivel (x = 13.200)"),
+    # R86 — as duas vigas longitudinais da colunata. Correm no eixo de cada
+    # fileira, em dois tramos iguais de 5.100 mm, e recebem as transversais que
+    # antes exigiam pilar. `pontuais` traz a reacao de cada viga de parede que
+    # pousa no tramo: parede LSF de 2.600 mm sobre vao de 3.000 mm da
+    # 0,5 x 2,6 x 3,0 / 2 = 1,95 kN por apoio.
+    dict(cod="V-14", grupo="colunata", tramos=2, sobre="T-VRL", vao=5_100, trib=1_500, apoio="biapoiada",
+         carrega="piso", parede_h=2_600, vedacao=True, pontuais=(1.95,),
+         desc="longitudinal da fileira externa (x = 15.600), de y = 16.800 a 27.000 em "
+              "dois tramos de 5.100; carrega a parede leste continua do lounge, da master "
+              "e da varanda, e recebe as transversais de y = 19.200 e 25.200"),
+    dict(cod="V-15", grupo="colunata", tramos=2, sobre="T-PAT", vao=5_100, trib=3_000, apoio="biapoiada",
+         carrega="piso", parede_h=0, vedacao=True, pontuais=(1.95, 1.95),
+         desc="longitudinal da fileira interna (x = 12.600), de y = 16.800 a 27.000 em "
+              "dois tramos de 5.100; carrega piso dos dois lados e recebe a viga de parede "
+              "de y = 25.200 pelos dois vaos (x = 9.600 e 15.600)"),
     dict(cod="V-04", sobre="T-DKL", vao=3_000, trib=1_200, apoio="biapoiada",
          carrega="piso", parede_h=2_600, vedacao=True,
          desc="portico sobre o deck norte; sustenta o mini lounge e cria o "
@@ -1439,6 +1473,15 @@ def carga_viga(v: dict) -> float:
     w = q * trib_m
     if v.get("parede_h"):
         w += CARGAS["parede_lsf_m"] * (v["parede_h"] / 1_000)
+    # R86 — CARGA CONCENTRADA. Viga longitudinal nao recebe so faixa de piso:
+    # recebe a REACAO das vigas transversais que pousam nela. Somar essa reacao
+    # como se fosse distribuida subestimaria a flecha, que e o que governa aqui.
+    # A conversao e derivada, nao arbitrada: a uniforme equivalente e a que
+    # produz a MESMA flecha de meio de vao que a carga pontual —
+    #   5 w L^4 / 384 EI  =  P L^3 / 48 EI   ->   w = 384 P / (5 x 48 L) = 1,6 P / L
+    # Conservador porque trata cada reacao como se estivesse no meio do vao.
+    for p_kn in v.get("pontuais", ()):
+        w += 1.6 * p_kn / (v["vao"] / 1_000)
     return round(w, 2)
 
 
@@ -1449,6 +1492,33 @@ def tensao_mpa(w_kn_m: float, vao_mm: int, perfil: str,
     wx = (p["ix"] * 1e4) / (p["h"] / 2)                      # mm3
     m = (GAMA_F * w_kn_m * (vao_mm / 1_000) ** 2 / (2 if apoio == "balanco" else 8))
     return (m * 1e6) / wx                                    # N/mm2
+
+
+def colunata() -> list[dict]:
+    """Cada fileira de pilares EXPOSTOS e o ritmo dos vaos entre eles (R86).
+
+    O que se ve de uma area aberta nao e a carga de cada pilar: e a SEQUENCIA
+    deles. Ate R85 o modelo sabia a posicao de todos e nenhuma conferencia
+    perguntava se os vaos entre eles eram iguais — e nao eram (2,4 / 3,0 / 3,0 /
+    1,8 m), porque cada pilar tinha nascido debaixo de uma parede do pavimento
+    de cima. Ritmo e propriedade da fileira, nao do pilar; por isso vive aqui,
+    derivado, e nao numa nota de prancha.
+    """
+    from collections import defaultdict
+    por_fileira = defaultdict(list)
+    for p in PILARES:
+        if not p.get("embutido"):
+            por_fileira[p["x"]].append(p)
+    out = []
+    for x, ps in sorted(por_fileira.items()):
+        ps = sorted(ps, key=lambda q: q["y"])
+        vaos = [b["y"] - a["y"] for a, b in zip(ps, ps[1:])]
+        out.append(dict(x=x, n=len(ps), cods=[p["cod"] for p in ps],
+                        y0=ps[0]["y"], y1=ps[-1]["y"], vaos=vaos,
+                        regular=len(set(vaos)) <= 1,
+                        embutidos=[p["cod"] for p in PILARES
+                                   if p.get("embutido") and p["x"] == x]))
+    return out
 
 
 def dimensionar_vigas() -> list[dict]:
@@ -1473,6 +1543,27 @@ def dimensionar_vigas() -> list[dict]:
                         uso=round(sig / (FY_ACO / GAMA_M) * 100, 1),
                         slip=slip,
                         slip_exec=max(10, int(math.ceil(slip / 5.0) * 5)) if slip else 0))
+    # R86 — CONSOLIDACAO POR GRUPO. Vigas que sao o MESMO elemento visto de
+    # fora — as duas longitudinais da colunata, paralelas e a 3 m uma da outra
+    # — nao podem ter alturas diferentes: 254 contra 305 mm le como erro, e
+    # ainda abre uma familia a mais na compra (a conferencia de padronizacao
+    # cobra isso). O perfil do grupo e o da viga MAIS EXIGENTE; as demais
+    # herdam e sao reverificadas com ele. Continua derivado: ninguem digita
+    # qual perfil, so se declara quem anda junto.
+    grupos = {v["grupo"] for v in out if v.get("grupo")}
+    for g in grupos:
+        membros = [v for v in out if v.get("grupo") == g]
+        reg = max(membros, key=lambda v: v["ix"])
+        for v in membros:
+            if v["perfil"] == reg["perfil"]:
+                continue
+            fl = flecha_mm(v["w"], v["vao"], reg["ix"], v["apoio"])
+            sig = tensao_mpa(v["w"], v["vao"], reg["perfil"], v["apoio"])
+            slip = int(math.ceil(fl * FOLGA_SLIP)) if v["vedacao"] else 0
+            v.update(perfil=reg["perfil"], ix=reg["ix"], flecha=round(fl, 2),
+                     tensao=round(sig, 1), uso=round(sig / (FY_ACO / GAMA_M) * 100, 1),
+                     slip=slip, herdado_de=reg["cod"],
+                     slip_exec=max(10, int(math.ceil(slip / 5.0) * 5)) if slip else 0)
     return out
 
 
@@ -4093,6 +4184,15 @@ REVISOES = [
      "introduzida em R84 PERMANECE e melhora: 'ao sol' deixa de ser palavra no "
      "nome da zona e passa a ser derivado de Amb.coberto, de modo que a regra "
      "de R59 (WPC so onde nao bate sol) agora e conferida, nao afirmada"),
+    ("R86", "COLUNATA COM RITMO. Os dez pilares expostos das areas abertas do norte "
+     "tinham vaos de 2,4 / 3,0 / 3,0 / 1,8 m — nenhum igual ao vizinho, porque cada "
+     "um caiu sob uma parede do superior. Entram duas vigas longitudinais (V-14 e "
+     "V-15) em dois tramos IGUAIS de 5.100 mm por fileira; as transversais pousam "
+     "nelas em vez de exigir pilar. Sobram tres pilares por fileira e o do meio da "
+     "interna vai embutido na parede da lavanderia: CINCO expostos no lugar de dez, "
+     "todos em vao igual. A carga concentrada entra no modelo (VIGAS.pontuais, com "
+     "a uniforme equivalente derivada da flecha) e a auditoria passa a conferir o "
+     "RITMO da colunata, que nenhuma conferia"),
 ]
 # --------------------------------------------------------- pendencias (R39)
 # Ate R38 esta lista vivia dentro de pranchas7.py — modulo de DESENHO — e em
@@ -4301,13 +4401,13 @@ CADASTRO = cd.Cadastro(
     engenheiro="(H) sem ART emitida",
     arquiteto="(H) sem RRT emitida",
     status="ESTUDO",
-    revisao="R85",
+    revisao="R86",
     data_emissao="2026-09-13",
     observacoes="Itens marcados (H) sao hipoteses tecnicas, nao levantamento.",
 )
 
 EMISSAO = dict(
-    revisao="R85", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
+    revisao="R86", finalidade="COORDENACAO E APROVACAO PRELIMINAR",
     nao_serve_para=("execucao de fundacao sem sondagem", "fabricacao de painel "
                     "sem nesting codificado", "aprovacao legal sem ART/RRT"),
     unidade="milimetro", origem="canto frontal esquerdo do lote",

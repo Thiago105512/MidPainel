@@ -87,9 +87,11 @@ PROGRAMA = [
      "PARCIAL", "adjacencias criticas e famílias de parede sao automaticas; "
      "Rw composto e calculo, na prancha 11"),
     (23, "Estrutura", ["checar_estrutura", "checar_projecao_superior",
-                       "checar_altura_livre"], "PARCIAL",
-     "flecha, tensao, vao, apoio e junta de deslizamento; flambagem lateral e "
-     "fundacao dependem de calculo com ART"),
+                       "checar_altura_livre", "checar_ritmo_da_colunata"], "PARCIAL",
+     "flecha, tensao, vao, apoio e junta de deslizamento; e o RITMO da colunata "
+     "das areas abertas (R86), que ninguem conferia: vao desigual entre pilares "
+     "expostos e defeito visivel da rua antes de ser qualquer outra coisa; "
+     "flambagem lateral e fundacao dependem de calculo com ART"),
     (24, "Modulacao", ["checar_malha", "checar_paginacao", "checar_padronizacao"],
      "AUTOMATIZADA", "toda coordenada multipla de 300, recorte minimo e SKUs"),
     (25, "Hidraulica", ["checar_hidraulica", "checar_prumadas", "checar_penetracoes"],

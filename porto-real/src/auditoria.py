@@ -1044,6 +1044,36 @@ def _sup_de(cod: str):
     return next(a for a in pj.SUPERIOR + pj.SUPERIOR_ABERTO if a.cod == cod)
 
 
+def checar_ritmo_da_colunata() -> list[Achado]:
+    """Os vaos entre pilares expostos da mesma fileira sao iguais? (R86)
+
+    A conferencia que faltava. As outras perguntavam se o pilar aguenta, se ha
+    apoio sob cada trecho do superior, se o perfil cabe na parede. Nenhuma
+    perguntava o que qualquer pessoa ve primeiro de uma area aberta: se a
+    sequencia de colunas tem ritmo. Vao desigual num alinhamento le como
+    acidente, e era acidente mesmo — cada pilar herdava a posicao de uma parede
+    do andar de cima.
+    """
+    out = []
+    for f in pj.colunata():
+        if f["n"] < 3:
+            out.append(Achado("NOTA", "ritmo da colunata",
+                              f"fileira x = {f['x']}: {f['n']} pilar(es) exposto(s), "
+                              f"sem sequencia a avaliar"))
+            continue
+        vaos = ", ".join(f"{v / 1000:.2f}".replace(".", ",") for v in f["vaos"])
+        emb = (f"; {len(f['embutidos'])} embutido(s) na parede ({', '.join(f['embutidos'])})"
+               if f["embutidos"] else "")
+        out.append(Achado("NOTA" if f["regular"] else "ATENCAO", "ritmo da colunata",
+                          f"fileira x = {f['x']}: {f['n']} pilares expostos "
+                          f"({', '.join(f['cods'])}) em {(f['y1'] - f['y0']) / 1000:.2f} m, "
+                          f"vaos de {vaos} m — "
+                          + ("ritmo regular" if f["regular"] else
+                             "VAOS DESIGUAIS: a sequencia le como acidente, nao como intencao")
+                          + emb))
+    return out
+
+
 def checar_projecao_superior() -> list[Achado]:
     """Todo trecho do superior precisa de apoio e cobre o que esta embaixo.
 

@@ -6263,3 +6263,106 @@ ninguém lê.
 desapareceram com o porcelanato); 224 verificações do visualizador, 0 falhas;
 76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada). BOM R$ 1.082.125,72 —
 exatamente o valor de R83, o que confirma que a reversao e completa.
+
+## R86 — A colunata ganha ritmo: dez colunas viram cinco, em vãos iguais
+
+O proprietário olhou as perspectivas e perguntou se não havia colunas demais
+nas áreas abertas, e se aquilo não ficava feio. Havia, e ficava — mas o
+defeito não era a quantidade.
+
+**O diagnóstico.** Eram dez colunas expostas de 200 × 200 mm, cinco por
+fileira, ao longo de 10,2 m da lateral norte, com vãos de **2,4 / 3,0 / 3,0 /
+1,8 m**. Nenhum vão igual ao vizinho. E a razão estava no modelo: cada coluna
+tinha nascido debaixo de uma parede do pavimento superior (parede norte do
+lounge, divisa lounge–master, divisa quarto–varanda, borda da varanda). O
+ritmo do térreo não era escolhido, era **herdado** da planta de cima. Uma
+colunata de vãos desiguais lê como acidente porque é acidente.
+
+A própria casa já dizia o contrário do outro lado: a varanda do gourmet avança
+3.000 mm em balanço, **sem uma coluna sequer**, porque ali estava a vista que
+importava. O projeto tinha duas linguagens estruturais na mesma casa.
+
+**A correção não foi tirar coluna: foi trocar apoio pontual por apoio
+contínuo.** Entram duas vigas longitudinais no eixo de cada fileira, cada uma
+percorrendo os 10.200 mm em dois tramos **iguais** de 5.100 mm. As vigas
+transversais que antes exigiam uma coluna sob cada parede do superior agora
+pousam nas longitudinais. O que sobra:
+
+| | R85 | R86 |
+|---|---|---|
+| Colunas expostas | 10 | **5** |
+| Vãos | 2,4 / 3,0 / 3,0 / 1,8 m | **5,10 m, todos iguais** |
+| Fileira externa (x = 15.600) | 5 colunas | 3 colunas |
+| Fileira interna (x = 12.600) | 5 colunas | 2 expostas + 1 embutida na parede da lavanderia |
+| Vigas longitudinais | — | V-14 e V-15, W310x23,8 |
+| Pé-direito livre sob a viga | — | 2.595 mm |
+
+A coluna do meio da fileira interna cai exatamente sobre a face leste da
+lavanderia e vai **embutida na parede**, como já se fez com as da garagem em
+R82. Ela sustenta e não aparece.
+
+**Três coisas novas no modelo, todas derivadas.**
+
+1. **Carga concentrada** (`VIGAS.pontuais`). Viga longitudinal não recebe só
+   faixa de piso: recebe a reação das transversais que pousam nela. Somá-la
+   como distribuída subestimaria a flecha, que é o que governa. A conversão
+   sai da própria flecha, não de tabela: igualando `5wL⁴/384EI = PL³/48EI`
+   resulta `w = 1,6 P / L`. Conservador, porque trata cada reação como se
+   estivesse no meio do vão.
+2. **Consolidação por grupo** (`VIGAS.grupo`). As duas longitudinais são o
+   mesmo elemento visto de fora, paralelas e a 3 m uma da outra. Dimensionadas
+   isoladamente dariam 254 e 305 mm de altura — o que lê como erro e ainda
+   abriria uma quinta família de perfil, que a conferência de padronização
+   acusou na primeira execução. O grupo adota o perfil da viga mais exigente e
+   a outra é reverificada com ele. Ninguém digita qual perfil: declara-se
+   apenas quem anda junto.
+3. **Conferência de ritmo** (`colunata()` + `checar_ritmo_da_colunata`). As
+   auditorias perguntavam se o pilar aguenta, se há apoio sob cada trecho do
+   superior, se o perfil cabe na parede. Nenhuma perguntava o que qualquer
+   pessoa vê primeiro numa área aberta: se a sequência tem ritmo. Agora vão
+   desigual entre pilares expostos da mesma fileira é ATENÇÃO.
+
+**O defeito de método.** Este é o terceiro da mesma família em cinco revisões:
+o modelo tinha o dado (a posição de cada pilar), a auditoria conferia o
+elemento (carga, flecha, apoio) e ninguém conferia a **relação entre os
+elementos**. Foi assim com a família da porta em R82, com a cobertura da zona
+de piso em R85 e agora com o vão entre colunas. A lição repetida: conferir
+peça por peça não alcança o que só existe no conjunto.
+
+**Verificação estrutural** (flecha limite L/500, vedação frágil acima):
+
+| Viga | Vão | Carga | Perfil | Flecha / admissível | Uso da resistência |
+|---|---|---|---|---|---|
+| V-14 (externa) | 5.100 mm | 5,96 kN/m | W310x23,8 | 6,04 / 10,20 mm | 42 % |
+| V-15 (interna) | 5.100 mm | 9,32 kN/m | W310x23,8 | 9,45 / 10,20 mm | 66 % |
+
+Só os cantos não era possível: 10,2 m de vão dá 29,5 mm de flecha contra
+20,4 admissíveis, e nenhum perfil do catálogo vence. Esse caminho ficou
+fechado por cálculo, não por gosto.
+
+**O que a mudança descobriu: o aço nunca esteve no orçamento.** Ao remover
+quatro colunas, o BOM não se moveu um centavo. Pilar e viga laminada existiam
+no desenho, no 3D, na verificação de flecha e na cena, e em nenhuma linha de
+custo — o mesmo defeito que este projeto catalogou na área externa em R52 e
+nas esquadrias em R61, desta vez no próprio elemento estrutural. Enquanto
+durou, nenhuma decisão sobre estrutura era comparável: tirar coluna não
+aparecia, e pôr coluna também não. Entram agora quatro linhas derivadas da
+seção declarada e do perfil que o próprio modelo escolhe por flecha:
+
+| Item | Quantidade | Custo |
+|---|---|---|
+| Pilar aparente (5 un, 200 × 200) | 787,1 kg | R$ 14.561,35 |
+| Pilar embutido (8 un, tubo 140 × 100) | 594,0 kg | R$ 10.989,00 |
+| Viga W310x23,8 (a colunata) | 899,6 kg | R$ 16.642,60 |
+| Demais vigas laminadas | 536,4 kg | R$ 9.923,40 |
+| **Total de aço laminado** | **2.817 kg** | **R$ 52.116,35** |
+
+A separação entre motor e caso segurou: `nucleo/bom` não pode importar
+`projeto`, e a auditoria acusou na primeira execução quando tentei o atalho.
+A massa passou a ser derivada em `nucleo/liberacao`, onde o caso está
+disponível, e entregue ao motor como dado.
+
+**Estado em R86:** 152 auditorias, 0 erros, 43 atenções; 224 verificações do
+visualizador, 0 falhas; 76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada). BOM
+R$ 1.134.242,07 — a diferença de R$ 52.116,35 sobre R85 não é custo novo, é
+custo que existia e não estava escrito.

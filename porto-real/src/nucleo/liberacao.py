@@ -199,9 +199,30 @@ def rodar(pj, el, cfg: pn.Config = None) -> dict:
         sum(i["area"] for i in camadas["itens"]), 1)
     import nucleo.acabamento as ab
     acab = ab.levantar(pj, camadas)
+    # R86 — pilar e viga laminada entram no custo. A massa e derivada aqui,
+    # onde o caso esta disponivel, e vai ao motor como dado: nucleo nao importa
+    # projeto (a auditoria cobra essa separacao, e cobrou na primeira execucao).
+    _h = pj.PILAR_ALTURA / 1_000
+    _lam = dict(pilares=[], vigas=[])
+    for sku, lista, secao, rot in (
+            ("EST-PILAR", [q for q in pj.PILARES if not q.get("embutido")], pj.PILAR_SECAO, "aparente"),
+            ("EST-PILAR-EMB", [q for q in pj.PILARES if q.get("embutido")], pj.PILAR_SECAO_EMBUTIDO, "embutido na parede")):
+        if lista:
+            _lam["pilares"].append(dict(
+                sku=sku, secao=secao, rot=rot,
+                kg=len(lista) * _h * pj.PILAR_MASSA_KG_M[secao],
+                fonte=f"derivado: {len(lista)} pilares x {_h:g} m x {pj.PILAR_MASSA_KG_M[secao]:g} kg/m"))
+    _por_w: dict = {}
+    for v in pj.dimensionar_vigas():
+        comp = v["vao"] * v.get("tramos", 1) / 1_000
+        d = _por_w.setdefault(v["perfil"], [0, 0.0, []])
+        d[0] += 1; d[1] += comp * pj.PERFIS_LAMINADOS[v["perfil"]]["massa"]; d[2].append(v["cod"])
+    for perfil, (n_v, kg, cods) in sorted(_por_w.items(), key=lambda kv: -kv[1][1]):
+        _lam["vigas"].append(dict(perfil=perfil, kg=kg,
+                                  fonte=f"derivado do vao e da flecha: {n_v} viga(s) — {', '.join(sorted(cods))}"))
     itens = bo.montar(pecas, plano, pj.CADASTRO.area_m2,
                       n_parafusos=n_parafusos, camadas=camadas,
-                      acabamento=acab)
+                      acabamento=acab, laminados=_lam)
     # o custo e o que se COMPRA. A regra mora no BOM: quando morava aqui, na
     # forma de sum(i.total), esta linha somava o aco duas vezes — em kg e em pc.
     custo = bo.total(itens)

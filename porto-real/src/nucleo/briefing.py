@@ -197,6 +197,11 @@ def regras_para_a_imagem(pj) -> list[str]:
         "pouco vidro na frente; o vidro grande esta atras, na cortina de vidro do gourmet voltada para a piscina",
         "tres familias de material e nenhuma a mais: mineral claro, aluminio grafite, madeira",
         "nao ha pilar na frente da varanda gourmet: a laje e em balanco",
+        "colunata da lateral norte: "
+        + "; ".join(f"fileira de {f['n']} colunas metalicas grafite de secao quadrada, "
+                    f"vaos IGUAIS de {f['vaos'][0] / 1000:.2f} m" if f["vaos"] and f["regular"]
+                    else f"fileira de {f['n']} colunas" for f in pj.colunata())
+        + " — desenhar sempre com espacamento regular, nunca colunas amontoadas ou desalinhadas",
         f"piso em volta da piscina e nos patios descobertos: {next((z['material'] for z in _ex.pisos(pj)['itens'] if 'T-DKP' in z['areas']), '')}, claro e fosco; "
         f"reguas de WPC so sob cobertura ({', '.join(sorted(a for z in _ex.pisos(pj)['itens'] if 'WPC' in z['material'] for a in z['areas']))})",
         "carros: dois, dentro da garagem; a faixa de acesso e reta e de piso drenante claro",
