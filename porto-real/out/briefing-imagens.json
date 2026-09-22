@@ -5,7 +5,7 @@
   "tipologia": "sobrado contemporaneo em condominio fechado",
   "sistema": "Light Steel Frame sobre radier",
   "area_construida_m2": 307.08,
-  "revisao": "R84",
+  "revisao": "R85",
   "estilo": "contemporaneo, volumes retos, poucos materiais, horizontalidade"
  },
  "orientacao": {
@@ -129,18 +129,18 @@
   "piso_externo": [
    {
     "zona": "faixa seca da piscina",
-    "material": "WPC coextrudado claro",
-    "porque": "decisao do proprietario (R84): deck todo em WPC; tom claro obrigatorio pela temperatura"
+    "material": "porcelanato externo claro R11",
+    "porque": "e onde se anda descalco no pico do sol"
    },
    {
     "zona": "lounge e circulacao do deck",
     "material": "WPC coextrudado claro",
-    "porque": "area de permanencia com mobiliario e sombra; R84: inclui o deck norte descoberto"
+    "porque": "area de permanencia com mobiliario e sombra — e COBERTA: e a cobertura que permite o WPC aqui (ver temperatura_por_zona)"
    },
    {
-    "zona": "patio da churrasqueira",
+    "zona": "patio e deck descoberto",
     "material": "porcelanato externo claro R11",
-    "porque": "brasa e gordura: superficie fria, lavavel e sem movimento termico — WPC mancha sob churrasqueira"
+    "porque": "sol pleno ou churrasqueira: superficie fria, lavavel e sem movimento termico — a mesma peca da faixa da piscina"
    },
    {
     "zona": "passeio e acesso",
@@ -567,7 +567,7 @@
    "prainha": "1.2 m de prainha com 300 mm de agua",
    "profundidade_m": 1.15,
    "banco": "banco submerso em uma borda",
-   "borda": "borda de porcelanato claro com pingadeira; deck em volta em WPC coextrudado claro",
+   "borda": "borda de porcelanato claro com pingadeira; piso em volta em porcelanato externo claro R11",
    "iluminacao": "3 LEDs submersos brancos quentes na parede leste"
   },
   "deck": {
@@ -576,13 +576,13 @@
    "pisos": [
     {
      "zona": "faixa seca da piscina",
-     "material": "WPC coextrudado claro",
+     "material": "porcelanato externo claro R11",
      "area_m2": 24.3
     },
     {
      "zona": "lounge e circulacao do deck",
      "material": "WPC coextrudado claro",
-     "area_m2": 50.4
+     "area_m2": 33.12
     },
     {
      "zona": "passeio e acesso",
@@ -590,9 +590,9 @@
      "area_m2": 30.96
     },
     {
-     "zona": "patio da churrasqueira",
+     "zona": "patio e deck descoberto",
      "material": "porcelanato externo claro R11",
-     "area_m2": 25.92
+     "area_m2": 43.2
     },
     {
      "zona": "varanda do pavimento superior",
@@ -635,7 +635,7 @@
     "nome": "Deck Norte",
     "largura_m": 4.8,
     "profundidade_m": 3.6,
-    "piso": "WPC coextrudado claro"
+    "piso": "porcelanato externo claro R11"
    },
    {
     "cod": "T-DKC",
@@ -677,7 +677,7 @@
     "nome": "Deck Da Piscina",
     "largura_m": 7.8,
     "profundidade_m": 5.4,
-    "piso": "WPC coextrudado claro"
+    "piso": "porcelanato externo claro R11"
    },
    {
     "cod": "T-JS2",
@@ -1429,7 +1429,7 @@
   "pouco vidro na frente; o vidro grande esta atras, na cortina de vidro do gourmet voltada para a piscina",
   "tres familias de material e nenhuma a mais: mineral claro, aluminio grafite, madeira",
   "nao ha pilar na frente da varanda gourmet: a laje e em balanco",
-  "deck da piscina, deck norte e varanda gourmet em WPC de tom claro (areia), reguas corridas; so o patio da churrasqueira e porcelanato",
+  "piso em volta da piscina e nos patios descobertos: porcelanato externo claro R11, claro e fosco; reguas de WPC so sob cobertura (T-ALP, T-DKC)",
   "carros: dois, dentro da garagem; a faixa de acesso e reta e de piso drenante claro",
   "clima: Manaus — vegetacao tropical densa no fundo, ceu claro, luz forte; nada de pinheiros ou gramado seco"
  ],

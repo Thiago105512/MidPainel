@@ -154,7 +154,7 @@ def area_externa(pj) -> dict:
         piscina=dict(onde="fundo do lote (oeste), no eixo da varanda gourmet", comprimento_m=_m(ps["w"]), largura_m=_m(ps["h"]),
                      lamina_m2=ps["lamina_m2"], prainha=f"{_m(ps['prainha_w'])} m de prainha com {ps['prof_prainha']} mm de agua",
                      profundidade_m=_m(ps["prof_principal"]), banco="banco submerso em uma borda",
-                     borda=f"borda de porcelanato claro com pingadeira; deck em volta em {next((z['material'] for z in ex.pisos(pj)['itens'] if 'T-DKP' in z['areas']), '')}", iluminacao=f"{len(il.get('leds', []))} LEDs submersos brancos quentes na parede leste"),
+                     borda=f"borda de porcelanato claro com pingadeira; piso em volta em {next((z['material'] for z in ex.pisos(pj)['itens'] if 'T-DKP' in z['areas']), '')}", iluminacao=f"{len(il.get('leds', []))} LEDs submersos brancos quentes na parede leste"),
         deck=dict(comprimento_m=_m(dk["w"]), largura_m=_m(dk["h"]), pisos=[dict(zona=z["zona"], material=z["material"], area_m2=z["area"]) for z in ex.pisos(pj)["itens"]]),
         areas_abertas=[dict(cod=a.cod, nome=a.nome.title(), largura_m=_m(a.w), profundidade_m=_m(a.h),
                             piso=next((z["material"] for z in ex.pisos(pj)["itens"] if a.cod in z["areas"]), "grama e canteiro"))
@@ -186,8 +186,8 @@ def interiores(pj) -> list[dict]:
 
 
 def regras_para_a_imagem(pj) -> list[str]:
-    import nucleo.externo as ex
-    m = ex.muro(pj)
+    import nucleo.externo as _ex
+    m = _ex.muro(pj)
     return [
         "NAO desenhar muro, grade, mureta ou portao de pedestre na frente: a testada e aberta, casa de condominio",
         f"muro de {m['altura'] / 1000:g} m so nas laterais e no fundo, bloco aparente, sem pintura",
@@ -197,7 +197,8 @@ def regras_para_a_imagem(pj) -> list[str]:
         "pouco vidro na frente; o vidro grande esta atras, na cortina de vidro do gourmet voltada para a piscina",
         "tres familias de material e nenhuma a mais: mineral claro, aluminio grafite, madeira",
         "nao ha pilar na frente da varanda gourmet: a laje e em balanco",
-        "deck da piscina, deck norte e varanda gourmet em WPC de tom claro (areia), reguas corridas; so o patio da churrasqueira e porcelanato",
+        f"piso em volta da piscina e nos patios descobertos: {next((z['material'] for z in _ex.pisos(pj)['itens'] if 'T-DKP' in z['areas']), '')}, claro e fosco; "
+        f"reguas de WPC so sob cobertura ({', '.join(sorted(a for z in _ex.pisos(pj)['itens'] if 'WPC' in z['material'] for a in z['areas']))})",
         "carros: dois, dentro da garagem; a faixa de acesso e reta e de piso drenante claro",
         "clima: Manaus — vegetacao tropical densa no fundo, ceu claro, luz forte; nada de pinheiros ou gramado seco",
     ]

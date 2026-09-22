@@ -6218,3 +6218,48 @@ mancham WPC.
 visualizador, 0 falhas; 76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada).
 BOM R$ 1.089.277,48 (+ R$ 7.151,76 sobre R83: WPC a R$ 320/m² contra R$ 148/m² do
 porcelanato em 50,4 m² a mais).
+
+## R85 — Decisão desfeita: o deck volta ao porcelanato, e a conta fica
+
+O proprietário desfez R84 e mandou voltar ao porcelanato. Feito. O deck ao sol
+volta ao porcelanato claro R11 e o WPC recua para onde estava antes de R84.
+
+| Zona | R84 | R85 |
+|---|---|---|
+| Faixa seca da piscina (T-DKP, 24,3 m²) | WPC | **porcelanato claro R11** |
+| Deck norte descoberto (T-DKL) | WPC | **porcelanato claro R11** |
+| Pátio do gourmet e pátio descoberto (T-PAT, T-PT2) | porcelanato | porcelanato |
+| Deck coberto e varanda gourmet (T-DKC, T-ALP, 33,12 m²) | WPC | WPC |
+| Borda da piscina | porcelanato | porcelanato |
+
+**O que R84 deixou, e que fica.** A decisão foi desfeita; a conta que ela
+trouxe para dentro do modelo, não. Antes de R84, "WPC esquenta ao sol" era uma
+frase num texto de prancha: uma afirmação que nenhuma conferência lia. R84
+transformou essa frase em `externo.temperatura_superficie`, e R85 fecha o
+trabalho tirando a última palavra solta que restava.
+
+Em R84 a conferência perguntava se o nome da zona continha "deck" ou
+"piscina" para decidir se ali se anda ao sol. Nome de zona é declarado no
+caso; cobertura, não — ela é atributo de cada área. Em R85 "ao sol" passa a
+ser derivado de `Amb.coberto`: uma zona está ao sol se **qualquer** área dela
+for descoberta. A regra de R59 — WPC só onde não bate sol — deixou de ser um
+comentário e virou conferência.
+
+O resultado é que hoje ela não acusa nada, e é esse o ponto. Ela volta a
+disparar sozinha no dia em que alguém trocar o material de uma zona
+descoberta, ou mover uma área descoberta para a zona do WPC. É o mesmo
+princípio do vazio geométrico em `ocupacao`, que também devolve zero: uma
+conferência instalada e silenciosa vale mais que uma frase correta que
+ninguém lê.
+
+| Superfície | Albedo | Temperatura estimada ao sol |
+|---|---|---|
+| WPC coextrudado claro | 0,40 (H, fabricante) | ~55 °C |
+| Porcelanato externo claro R11 | 0,60 | ~45 °C |
+| Piso drenante intertravado claro | 0,55 | ~47,5 °C |
+| Limiar de dor ao pé descalço | — | 50 °C |
+
+**Estado em R85:** 152 auditorias, 0 erros, 43 atenções (as duas de R84
+desapareceram com o porcelanato); 224 verificações do visualizador, 0 falhas;
+76 pranchas. Matriz 89,2 %, 8 FALTA (inalterada). BOM R$ 1.082.125,72 —
+exatamente o valor de R83, o que confirma que a reversao e completa.
