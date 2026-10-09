@@ -32,15 +32,17 @@
       </a>
       <form class="busca" role="search" action="/busca">
         <label class="sr" for="campo-busca">Buscar produtos</label>
-        <input id="campo-busca" name="q" type="search" placeholder="O que você procura hoje?" autocomplete="off">
+        <input id="campo-busca" name="q" type="search" placeholder="O que você procura hoje?" autocomplete="off" enterkeyhint="search">
         <button type="submit" aria-label="Buscar">🔍</button>
       </form>
       <a href="/carrinho" class="botao-carrinho" aria-label="Carrinho">
-        🛒 <span class="so-desktop">Carrinho</span> <span id="contador-carrinho" class="contador">0</span>
+        <span aria-hidden="true">🛒</span> <span class="so-desktop">Carrinho</span> <span id="contador-carrinho" class="contador">0</span>
       </a>
     </div>
-    <nav class="menu-categorias" id="menu-categorias" aria-label="Categorias"></nav>
   </header>
+  <nav class="faixa-categorias" aria-label="Categorias">
+    <div class="menu-categorias" id="menu-categorias"></div>
+  </nav>
 
   <main id="conteudo" tabindex="-1">
     <noscript><p class="aviso">Ative o JavaScript para comprar na Tipiti.</p></noscript>
