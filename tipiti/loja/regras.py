@@ -74,6 +74,15 @@ def cep_digitos(cep):
 
 # ---------------------------------------------------------------- catálogo
 
+def url_imagem(slug, foto=""):
+    return f"/fotos/{foto}" if foto else f"/img/produto/{slug}.svg"
+
+
+def gerar_slug(texto):
+    slug = re.sub(r"[^a-z0-9]+", "-", normaliza(texto)).strip("-")
+    return slug[:80].strip("-") or "produto"
+
+
 def _produto(row):
     return {
         "id": row["id"],
@@ -86,7 +95,7 @@ def _produto(row):
         "icone": row["icone"],
         "destaque": bool(row["destaque"]),
         "ativo": bool(row["ativo"]),
-        "imagem": f"/img/produto/{row['slug']}.svg",
+        "imagem": url_imagem(row["slug"], row["foto"]),
         "categoria": {"slug": row["categoria_slug"], "nome": row["categoria_nome"]},
     }
 
@@ -195,7 +204,7 @@ def _normalizar_itens(itens):
 def _linhas(conn, quantidades):
     marcadores = ",".join("?" * len(quantidades))
     rows = conn.execute(
-        f"SELECT id, slug, nome, icone, preco_centavos, estoque FROM produtos WHERE ativo = 1 AND slug IN ({marcadores})",
+        f"SELECT id, slug, nome, icone, foto, preco_centavos, estoque FROM produtos WHERE ativo = 1 AND slug IN ({marcadores})",
         list(quantidades),
     ).fetchall()
     por_slug = {r["slug"]: r for r in rows}
@@ -210,7 +219,7 @@ def _linhas(conn, quantidades):
             "slug": slug,
             "nome": r["nome"],
             "icone": r["icone"],
-            "imagem": f"/img/produto/{slug}.svg",
+            "imagem": url_imagem(slug, r["foto"]),
             "preco_unit_centavos": r["preco_centavos"],
             "quantidade": qtd,
             "estoque": r["estoque"],
@@ -360,12 +369,17 @@ def criar_pedido(conn, dados):
 
 def _itens_do_pedido(conn, pedido_id):
     rows = conn.execute(
-        """SELECT i.nome, i.preco_unit_centavos, i.quantidade, p.slug
+        """SELECT i.nome, i.preco_unit_centavos, i.quantidade, p.slug, p.foto
            FROM itens_pedido i JOIN produtos p ON p.id = i.produto_id
            WHERE i.pedido_id = ? ORDER BY i.id""",
         (pedido_id,),
     ).fetchall()
-    return [dict(r, imagem=f"/img/produto/{r['slug']}.svg") for r in rows]
+    itens = []
+    for r in rows:
+        item = dict(r, imagem=url_imagem(r["slug"], r["foto"]))
+        del item["foto"]
+        itens.append(item)
+    return itens
 
 
 def _resumo_pedido(conn, row):
@@ -478,11 +492,64 @@ def atualizar_produto(conn, slug, dados):
                 continue
             sets.append(f"{campo} = ?")
             params.append(valor[:2000])
+    if "categoria" in dados:
+        cat = conn.execute("SELECT id FROM categorias WHERE slug = ?", (str(dados["categoria"]),)).fetchone()
+        if cat:
+            sets.append("categoria_id = ?")
+            params.append(cat["id"])
+        else:
+            erros["categoria"] = "Categoria inválida."
     if erros:
         raise ErroValidacao(erros)
     if not sets:
         raise ErroValidacao({"geral": "Nada para atualizar."})
     cur = conn.execute(f"UPDATE produtos SET {', '.join(sets)} WHERE slug = ?", (*params, slug))
+    if cur.rowcount == 0:
+        raise NaoEncontrado("Produto não encontrado.")
+    return obter_produto(conn, slug, incluir_inativos=True)
+
+
+def criar_produto(conn, dados):
+    """Cadastro pelo painel. O endereço (slug) é gerado a partir do nome."""
+    if not isinstance(dados, dict):
+        raise ErroValidacao({"geral": "Dados inválidos."})
+    erros = {}
+    nome = str(dados.get("nome") or "").strip()
+    if not 3 <= len(nome) <= 120:
+        erros["nome"] = "O nome deve ter entre 3 e 120 caracteres."
+    cat = conn.execute("SELECT id FROM categorias WHERE slug = ?", (str(dados.get("categoria") or ""),)).fetchone()
+    if not cat:
+        erros["categoria"] = "Escolha a categoria."
+    numeros = {}
+    for campo, obrigatorio in (("preco_centavos", True), ("preco_de_centavos", False), ("estoque", True)):
+        valor = dados.get(campo)
+        if valor in (None, "") and not obrigatorio:
+            numeros[campo] = None
+        elif isinstance(valor, bool) or not isinstance(valor, int) or valor < 0:
+            erros[campo] = "Use um número inteiro maior ou igual a zero."
+        else:
+            numeros[campo] = valor
+    if numeros.get("preco_centavos") == 0:
+        erros["preco_centavos"] = "Informe o preço."
+    if erros:
+        raise ErroValidacao(erros)
+
+    base = gerar_slug(nome)
+    slug, n = base, 2
+    while conn.execute("SELECT 1 FROM produtos WHERE slug = ?", (slug,)).fetchone():
+        slug, n = f"{base}-{n}", n + 1
+    conn.execute(
+        """INSERT INTO produtos (slug, nome, descricao, categoria_id, preco_centavos, preco_de_centavos,
+               estoque, icone, destaque, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (slug, nome, str(dados.get("descricao") or "").strip()[:2000], cat["id"], numeros["preco_centavos"],
+         numeros["preco_de_centavos"], numeros["estoque"], str(dados.get("icone") or "📦")[:8],
+         1 if dados.get("destaque") else 0, 0 if dados.get("ativo") is False else 1),
+    )
+    return obter_produto(conn, slug, incluir_inativos=True)
+
+
+def definir_foto(conn, slug, arquivo):
+    cur = conn.execute("UPDATE produtos SET foto = ? WHERE slug = ?", (arquivo, slug))
     if cur.rowcount == 0:
         raise NaoEncontrado("Produto não encontrado.")
     return obter_produto(conn, slug, incluir_inativos=True)

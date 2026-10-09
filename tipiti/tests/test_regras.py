@@ -144,5 +144,17 @@ class TestCarrinhoEPedido(unittest.TestCase):
             regras.atualizar_produto(self.conn, "fita-led-rgb-5m", {"estoque": -1})
 
 
+    def test_criar_produto(self):
+        p = regras.criar_produto(self.conn, {"nome": "Fone Bluetooth TWS com estojo", "categoria": "eletronicos",
+                                             "preco_centavos": 4990, "estoque": 10})
+        self.assertEqual(p["slug"], "fone-bluetooth-tws-com-estojo")
+        repetido = regras.criar_produto(self.conn, {"nome": "Fone Bluetooth TWS com estojo", "categoria": "eletronicos",
+                                                    "preco_centavos": 4990, "estoque": 10})
+        self.assertEqual(repetido["slug"], "fone-bluetooth-tws-com-estojo-2")
+        with self.assertRaises(regras.ErroValidacao) as ctx:
+            regras.criar_produto(self.conn, {"nome": "x", "categoria": "nao-existe", "preco_centavos": -1, "estoque": "a"})
+        self.assertEqual(set(ctx.exception.campos), {"nome", "categoria", "preco_centavos", "estoque"})
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,9 +1,12 @@
-"""Catálogo de partida da Tipiti: produtos diversos importados.
+"""Catálogo de partida da Tipiti: produtos diversos importados da China.
 
 Preços em centavos. Itens e valores são de demonstração e devem ser substituídos pelo catálogo real.
 """
 
 CATEGORIAS = [
+    {"slug": "achadinhos", "nome": "Achadinhos",
+     "descricao": "Os importados que estão bombando: gadgets, luminárias, mini ventiladores e utilidades criativas.",
+     "icone": "✨", "cor": "#b8860b"},
     {"slug": "eletronicos", "nome": "Eletrônicos",
      "descricao": "Fones, caixas de som, relógios inteligentes e gadgets para o dia a dia.",
      "icone": "🎧", "cor": "#1f5c45"},
@@ -34,6 +37,19 @@ def _p(slug, nome, categoria, preco, estoque, icone, descricao, preco_de=None, d
 
 
 PRODUTOS = [
+    # Achadinhos
+    _p("mini-ventilador-portatil-de-mao", "Mini ventilador portátil de mão", "achadinhos", 2990, 80, "🌬️",
+       "Recarregável por USB, 3 velocidades e base para usar na mesa. Salva no calor do Norte.", 3990, True),
+    _p("luminaria-lua-3d", "Luminária lua 3D com controle", "achadinhos", 4990, 30, "🌕",
+       "Impressão 3D com textura de lua real, 16 cores e controle remoto. Base de madeira inclusa."),
+    _p("projetor-galaxia-estrelas", "Projetor de galáxia e estrelas", "achadinhos", 8990, 20, "🌌",
+       "Projeta nebulosas e estrelas no teto, com timer e caixa de som Bluetooth.", 11990, True),
+    _p("umidificador-aromatizador-usb", "Umidificador aromatizador USB", "achadinhos", 3990, 40, "💨",
+       "Névoa fria com luz LED ambiente. Pode usar com essências."),
+    _p("mini-impressora-termica-bolso", "Mini impressora térmica de bolso", "achadinhos", 11990, 15, "🖨️",
+       "Imprime fotos, etiquetas e anotações pelo celular, sem tinta."),
+    _p("garrafa-termica-display-led", "Garrafa térmica com display de temperatura", "achadinhos", 4490, 45, "🥤",
+       "Inox 500 ml; toque na tampa para ver a temperatura da bebida."),
     # Eletrônicos
     _p("fone-bluetooth-tws", "Fone Bluetooth TWS com estojo", "eletronicos", 8990, 40, "🎧",
        "Fone sem fio com cancelamento de ruído passivo, estojo carregador e até 20 h de bateria.", 12990, True),
@@ -61,6 +77,10 @@ PRODUTOS = [
        "Três velocidades, oscilação automática e motor de baixo ruído."),
     _p("fita-led-rgb-5m", "Fita LED RGB 5 m com controle", "casa-e-cozinha", 4990, 50, "💡",
        "16 cores, efeitos dinâmicos e controle pelo aplicativo. Adesivo 3M."),
+    _p("kit-utensilios-silicone-12", "Kit utensílios de silicone — 12 peças", "casa-e-cozinha", 5990, 35, "🥄",
+       "Espátulas, conchas e pegadores com cabo de madeira e suporte. Não riscam panelas antiaderentes."),
+    _p("mini-processador-eletrico-usb", "Mini processador elétrico USB", "casa-e-cozinha", 4990, 30, "🧄",
+       "Pica alho, cebola e temperos em segundos. Recarregável."),
     _p("organizador-de-gaveta-kit-6", "Organizadores de gaveta — kit com 6", "casa-e-cozinha", 3490, 70, "🗂️",
        "Caixas modulares em plástico resistente para cozinha, banheiro e escritório."),
 
@@ -71,6 +91,10 @@ PRODUTOS = [
        "Seca, alisa e modela em uma só etapa. Cerdas mistas.", 19990, True),
     _p("kit-pinceis-maquiagem-12", "Kit 12 pincéis de maquiagem", "beleza-e-cuidados", 4490, 40, "🖌️",
        "Cerdas sintéticas macias com estojo de viagem."),
+    _p("ring-light-26cm-tripe", "Ring light 26 cm com tripé", "beleza-e-cuidados", 7990, 25, "💡",
+       "Três tons de luz, 10 intensidades, suporte para celular e tripé de até 2 m."),
+    _p("kit-unhas-posticas-24", "Kit 24 unhas postiças com cola", "beleza-e-cuidados", 1990, 90, "💅",
+       "Formato amendoado, vários tamanhos e lixa inclusa."),
     _p("massageador-eletrico-pescoco", "Massageador elétrico para pescoço", "beleza-e-cuidados", 9990, 14, "💆",
        "Seis modos de massagem, aquecimento suave e recarga USB."),
 
@@ -91,6 +115,8 @@ PRODUTOS = [
        "Tração nas quatro rodas, bateria recarregável e controle de 2,4 GHz.", 18990, True),
     _p("pelucia-gigante-urso-80cm", "Urso de pelúcia gigante 80 cm", "brinquedos-e-infantil", 11990, 10, "🧸",
        "Pelúcia antialérgica, macia e lavável."),
+    _p("pop-it-fidget-kit-3", "Pop it antiestresse — kit com 3", "brinquedos-e-infantil", 2490, 100, "🫧",
+       "Silicone colorido e lavável. Diversão para crianças e adultos."),
     _p("lousa-magica-lcd-10", "Lousa mágica LCD 10\"", "brinquedos-e-infantil", 3990, 50, "✏️",
        "Escreva e apague com um botão. Sem tinta e sem bagunça."),
 

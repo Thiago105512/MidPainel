@@ -6,17 +6,19 @@ import mimetypes
 import re
 import secrets
 from html import escape
+from pathlib import Path
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import config, db, frete, regras
+from . import config, db, fotos, frete, regras
 from .imagens import svg_produto
 
 TAMANHO_MAX_CORPO = 64 * 1024
+TAMANHO_MAX_UPLOAD = fotos.TAMANHO_MAX_FOTO * 4 // 3 + 4096  # base64 + folga
 
 CSP = (
-    "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; "
+    "default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; "
     "connect-src 'self' https://viacep.com.br; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
 )
 
@@ -31,8 +33,9 @@ class ErroHttp(Exception):
 ROTAS = []
 
 
-def rota(metodo, padrao, admin=False):
+def rota(metodo, padrao, admin=False, corpo_max=TAMANHO_MAX_CORPO):
     def registrar(func):
+        func.corpo_max = corpo_max
         ROTAS.append((metodo, re.compile(f"^{padrao}$"), admin, func))
         return func
     return registrar
@@ -136,6 +139,18 @@ def api_admin_produto(conn, req, slug):
     return regras.atualizar_produto(conn, slug, req.json())
 
 
+@rota("POST", r"/api/admin/produtos", admin=True)
+def api_admin_criar_produto(conn, req):
+    return HTTPStatus.CREATED, regras.criar_produto(conn, req.json())
+
+
+@rota("POST", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/foto", admin=True, corpo_max=TAMANHO_MAX_UPLOAD)
+def api_admin_foto(conn, req, slug):
+    regras.obter_produto(conn, slug, incluir_inativos=True)  # 404 antes de gravar arquivo
+    arquivo = fotos.salvar(req.handler.server.fotos_dir, slug, req.json().get("dados"))
+    return regras.definir_foto(conn, slug, arquivo)
+
+
 # ---------------------------------------------------------------- servidor
 
 PAGINAS_SPA = re.compile(
@@ -145,15 +160,16 @@ PAGINAS_SPA = re.compile(
 
 
 class Requisicao:
-    def __init__(self, handler, query):
+    def __init__(self, handler, query, corpo_max=TAMANHO_MAX_CORPO):
         self.handler = handler
         self.query = query
+        self.corpo_max = corpo_max
         self._json = None
 
     def json(self):
         if self._json is None:
             tamanho = int(self.handler.headers.get("Content-Length") or 0)
-            if tamanho > TAMANHO_MAX_CORPO:
+            if tamanho > self.corpo_max:
                 raise ErroHttp(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "Requisição grande demais.")
             bruto = self.handler.rfile.read(tamanho) if tamanho else b"{}"
             try:
@@ -223,6 +239,8 @@ class TipitiHandler(BaseHTTPRequestHandler):
                 self._estatico(caminho[len("/static/"):])
             elif caminho.startswith("/img/produto/") and caminho.endswith(".svg"):
                 self._imagem(caminho[len("/img/produto/"):-4])
+            elif caminho.startswith("/fotos/"):
+                self._foto(caminho[len("/fotos/"):])
             elif caminho == "/favicon.ico":
                 self._estatico("img/favicon.svg")
             elif caminho == "/robots.txt":
@@ -260,7 +278,7 @@ class TipitiHandler(BaseHTTPRequestHandler):
                 raise ErroHttp(HTTPStatus.UNAUTHORIZED, "Acesso restrito.")
             conn = db.conectar(self.server.db_path)
             try:
-                resultado = func(conn, Requisicao(self, query), **achou.groupdict())
+                resultado = func(conn, Requisicao(self, query, func.corpo_max), **achou.groupdict())
             except regras.ErroValidacao as e:
                 return self._json(HTTPStatus.UNPROCESSABLE_ENTITY, {"erro": e.mensagem, "campos": e.campos})
             except regras.NaoEncontrado as e:
@@ -284,6 +302,15 @@ class TipitiHandler(BaseHTTPRequestHandler):
         if tipo.startswith("text/") or tipo in ("application/javascript", "image/svg+xml"):
             tipo += "; charset=utf-8"
         self._enviar(200, alvo.read_bytes(), tipo, {"Cache-Control": "public, max-age=300"})
+
+    def _foto(self, nome):
+        if not re.fullmatch(r"[a-z0-9-]+\.(jpg|png|webp)", nome):
+            raise ErroHttp(HTTPStatus.NOT_FOUND, "Foto não encontrada.")
+        alvo = self.server.fotos_dir / nome
+        if not alvo.is_file():
+            raise ErroHttp(HTTPStatus.NOT_FOUND, "Foto não encontrada.")
+        self._enviar(200, alvo.read_bytes(), fotos.TIPOS[nome.rsplit(".", 1)[1]],
+                     {"Cache-Control": "public, max-age=86400"})
 
     def _imagem(self, slug):
         conn = db.conectar(self.server.db_path)
@@ -311,8 +338,8 @@ class TipitiHandler(BaseHTTPRequestHandler):
 
     def _pagina(self, caminho, status=HTTPStatus.OK):
         """Entrega o index.html com título/descrição da página, para buscadores e compartilhamento."""
-        titulo = f"{config.NOME_LOJA} — produtos diversos com entrega rápida no Norte"
-        descricao = ("Eletrônicos, casa, beleza, moda e muito mais com entrega para Manaus, Parintins, "
+        titulo = f"{config.NOME_LOJA} — importados com entrega rápida no Norte"
+        descricao = ("Achadinhos, eletrônicos, casa, beleza e muito mais importados, com entrega para Manaus, Parintins, "
                      "Boa Vista, Santarém, Macapá e toda a Região Norte. Frete grátis acima de R$ 199.")
         conn = db.conectar(self.server.db_path)
         try:
@@ -343,6 +370,7 @@ def criar_servidor(host=None, porta=None, db_path=None, admin_token=None, silenc
         conn.close()
     servidor = ThreadingHTTPServer((host or config.HOST, config.PORT if porta is None else porta), TipitiHandler)
     servidor.db_path = caminho_db
+    servidor.fotos_dir = Path(caminho_db).parent / "fotos"
     servidor.admin_token = admin_token or config.ADMIN_TOKEN or secrets.token_urlsafe(18)
     servidor.silencioso = silencioso
     return servidor

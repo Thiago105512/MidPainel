@@ -1,3 +1,4 @@
+import base64
 import json
 import tempfile
 import threading
@@ -91,6 +92,26 @@ class TestApi(unittest.TestCase):
 
         status, atualizado = self.json(f"/api/admin/pedidos/{pedido['codigo']}", "PATCH", {"status": "pago"}, token=TOKEN)
         self.assertEqual(atualizado["status"], "pago")
+
+    def test_cadastro_de_produto_com_foto(self):
+        novo = {"nome": "Luminária de mesa dobrável", "categoria": "achadinhos", "preco_centavos": 5990, "estoque": 5}
+        self.assertEqual(self.chamar("/api/admin/produtos", "POST", novo)[0], 401)
+        status, produto = self.json("/api/admin/produtos", "POST", novo, token=TOKEN)
+        self.assertEqual(status, 201)
+        slug = produto["slug"]
+
+        png = b"\x89PNG\r\n\x1a\n" + b"\x00" * 64
+        status, com_foto = self.json(f"/api/admin/produtos/{slug}/foto", "POST",
+                                     {"dados": base64.b64encode(png).decode()}, token=TOKEN)
+        self.assertEqual(status, 200)
+        self.assertRegex(com_foto["imagem"], r"^/fotos/luminaria-de-mesa-dobravel-[0-9a-f]{8}\.png$")
+        status, corpo, headers = self.chamar(com_foto["imagem"])
+        self.assertEqual((status, corpo, headers["Content-Type"]), (200, png, "image/png"))
+
+        falso = base64.b64encode(b"<svg onload=alert(1)>").decode()
+        status, erro = self.json(f"/api/admin/produtos/{slug}/foto", "POST", {"dados": falso}, token=TOKEN)
+        self.assertEqual(status, 422)
+        self.assertEqual(self.chamar("/fotos/../teste.db")[0], 404)
 
     def test_erros_de_entrada(self):
         status, corpo = self.json("/api/pedidos", "POST", {"itens": []})

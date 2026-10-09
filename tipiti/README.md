@@ -1,6 +1,6 @@
 # Tipiti — tipiti.com.br
 
-Loja virtual de produtos diversos (importados), com atendimento e logística focados na
+Loja virtual de produtos importados da China (achadinhos, eletrônicos, casa, beleza, moda…), com atendimento e logística focados na
 **Região Norte**: Manaus, Parintins, Boa Vista, Santarém, Macapá, Belém, Rio Branco, Porto Velho
 e interior dos estados do Norte. Também entrega no restante do Brasil.
 
@@ -15,7 +15,16 @@ python3 -m loja                # http://127.0.0.1:8000
 python3 -m unittest discover -s tests -t .
 ```
 
-Na primeira execução o banco SQLite é criado em `data/tipiti.db` com um catálogo de demonstração.
+Na primeira execução o banco SQLite é criado em `data/tipiti.db` com um catálogo de demonstração
+(as fotos enviadas pelo painel ficam em `data/fotos/`). Para recomeçar do catálogo inicial, apague a pasta `data/`.
+
+## Como cadastrar seus produtos
+
+1. Rode a loja e abra `http://127.0.0.1:8000/admin`; entre com o token mostrado no terminal.
+2. Aba **+ Novo produto**: nome, categoria, preço de venda (e opcionalmente o preço "de"), estoque,
+   descrição e foto (JPG/PNG/WEBP até 3 MB). O produto aparece na loja na hora.
+3. Na aba **Produtos** você ajusta preço/estoque, tira do ar (desmarcando "Ativo") e troca fotos.
+   Os produtos de demonstração podem ser desativados ali mesmo.
 O token do painel `/admin` é impresso no terminal (ou defina `TIPITI_ADMIN_TOKEN`).
 
 | Variável | Padrão | Para quê |
@@ -34,7 +43,8 @@ O token do painel `/admin` é impresso no terminal (ou defina `TIPITI_ADMIN_TOKE
   CPF/CEP/telefone, validação de CPF, endereço preenchido pelo ViaCEP, Pix/cartão/boleto.
 - **Pedidos**: baixa de estoque em transação (não vende o que não tem), código `TPT-XXXXXXXX`,
   página de confirmação sem expor dados pessoais; cancelamento devolve o estoque.
-- **Painel `/admin`**: pedidos com mudança de status; produtos com preço, estoque, ativo e destaque.
+- **Painel `/admin`**: pedidos com mudança de status; produtos com preço, estoque, ativo e destaque;
+  **cadastro de produtos novos com foto** (aba "+ Novo produto") e troca de foto dos existentes.
 - **SEO**: título/descrição por página de produto e categoria, `sitemap.xml`, `robots.txt`.
 
 ## Regras comerciais (em `loja/config.py` e `loja/frete.py`)
@@ -63,7 +73,7 @@ tests/                 testes de regras e da API
 
 1. **Gateway de pagamento** (Mercado Pago, Pagar.me, Asaas…): hoje o pedido fica "Aguardando
    pagamento" e não há cobrança real.
-2. **Fotos reais** dos produtos e cadastro do catálogo definitivo.
+2. Cadastro do catálogo definitivo (já é possível pelo painel).
 3. **Cotação de frete real** (Correios/transportadoras) e cálculo por peso/volume.
 4. E-mails transacionais (confirmação, envio, rastreio) e conta de cliente.
 5. Hospedagem com HTTPS para `tipiti.com.br` (proxy reverso na frente do servidor) e backup do banco.

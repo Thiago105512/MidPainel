@@ -57,7 +57,7 @@ main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; min-height: 6
 .beneficio .ico { font-size: 1.6rem; }
 .secao { margin: 32px 0; }
 .secao-cabecalho { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.grade-categorias { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.grade-categorias { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 12px; }
 .cartao-categoria { background: var(--branco); border-radius: var(--raio); padding: 18px 14px; text-decoration: none; color: var(--tinta); box-shadow: var(--sombra); display: flex; flex-direction: column; gap: 6px; border-top: 4px solid var(--cor, var(--verde)); transition: transform .15s; }
 .cartao-categoria:hover { transform: translateY(-2px); }
 .cartao-categoria .ico { font-size: 1.8rem; }
@@ -148,11 +148,16 @@ legend { font-weight: 800; font-size: 1.1rem; margin-bottom: 12px; }
 .tabela-frete th { background: var(--verde-claro); }
 
 /* Admin */
+.miniatura { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+.produto-admin { display: flex; gap: 10px; align-items: flex-start; }
+.previa-foto { width: 160px; height: 160px; object-fit: cover; border-radius: 12px; margin-top: 8px; }
+.campo-texto { padding: 10px 12px; border: 1px solid #c9d3cc; border-radius: 10px; font: inherit; resize: vertical; width: 100%; }
+.selo-importado { background: var(--verde-claro); color: var(--verde-escuro); border-radius: 10px; padding: 8px 12px; font-size: .88rem; font-weight: 600; }
 .tabela-admin { width: 100%; border-collapse: collapse; font-size: .9rem; background: #fff; }
 .tabela-admin th, .tabela-admin td { padding: 8px; border-bottom: 1px solid var(--linha); text-align: left; vertical-align: top; }
 .tabela-admin input[type=number] { width: 110px; padding: 6px 8px; }
 .abas { display: flex; gap: 8px; margin-bottom: 16px; }
-.abas button[aria-selected=true] { background: var(--verde); color: #fff; }
+.abas .botao[aria-selected=true], .abas .botao[aria-selected=true]:hover { background: var(--verde); color: #fff; }
 .rolagem { overflow-x: auto; }
 
 /* Rodapé */

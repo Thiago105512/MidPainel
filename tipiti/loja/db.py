@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS produtos (
     preco_de_centavos INTEGER CHECK (preco_de_centavos IS NULL OR preco_de_centavos >= 0),
     estoque INTEGER NOT NULL DEFAULT 0 CHECK (estoque >= 0),
     icone TEXT NOT NULL DEFAULT '',
+    foto TEXT NOT NULL DEFAULT '',
     destaque INTEGER NOT NULL DEFAULT 0,
     ativo INTEGER NOT NULL DEFAULT 1,
     criado_em TEXT NOT NULL DEFAULT (datetime('now'))
@@ -93,6 +94,9 @@ def conectar(caminho):
 
 def inicializar(conn, carregar_catalogo=True):
     conn.executescript(ESQUEMA)
+    colunas = {r["name"] for r in conn.execute("PRAGMA table_info(produtos)")}
+    if "foto" not in colunas:  # bancos criados antes do envio de fotos
+        conn.execute("ALTER TABLE produtos ADD COLUMN foto TEXT NOT NULL DEFAULT ''")
     vazio = conn.execute("SELECT COUNT(*) FROM categorias").fetchone()[0] == 0
     if carregar_catalogo and vazio:
         _carregar_catalogo(conn)

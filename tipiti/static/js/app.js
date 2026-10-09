@@ -193,11 +193,11 @@ function simuladorFrete(obterSubtotal) {
 
 async function paginaInicial(main) {
   const l = estado.loja;
-  document.title = "Tipiti — produtos diversos com entrega rápida no Norte";
+  document.title = "Tipiti — importados com entrega rápida no Norte";
   trocar(main, h("section", { class: "hero" },
       h("div", {},
-        h("h1", {}, "Tudo o que você precisa, entregue no Norte."),
-        h("p", {}, "Eletrônicos, casa, beleza, moda e muito mais, com envio rápido de Manaus para toda a região."),
+        h("h1", {}, "Importados com preço baixo, entregues rápido no Norte."),
+        h("p", {}, "Achadinhos, eletrônicos, casa, beleza e muito mais direto da China — sem esperar semanas: enviamos de Manaus para toda a região."),
         h("a", { class: "botao", href: "#destaques" }, "Ver ofertas"),
       ),
       h("div", { class: "hero-cidades", "aria-label": "Cidades atendidas" },
@@ -295,6 +295,7 @@ async function paginaProduto(main, slug) {
               h("button", { class: "botao secundario", onclick: () => { adicionarAoCarrinho(p.slug, qtd); navegar("/carrinho"); } }, "Comprar agora"))
           : h("p", { class: "esgotado" }, "Produto esgotado no momento."),
         p.estoque > 0 && p.estoque <= 5 ? h("p", { class: "esgotado" }, `Últimas ${p.estoque} unidades!`) : null,
+        h("p", { class: "selo-importado" }, "📦 Produto importado · em estoque no Brasil · garantia de 90 dias"),
         h("p", { class: "descricao" }, p.descricao),
         simuladorFrete(() => p.preco_centavos * qtd),
       ),
@@ -572,7 +573,7 @@ function paginaSobre(main) {
   trocar(main, h("div", { class: "texto" },
     h("h1", {}, "Sobre a Tipiti"),
     h("p", {}, "A Tipiti nasceu para resolver um problema conhecido de quem mora no Norte: comprar online e esperar semanas, pagando um frete que às vezes custa mais que o produto."),
-    h("p", {}, "Trazemos uma seleção variada de produtos — eletrônicos, casa, beleza, moda, brinquedos e ferramentas — e despachamos de perto, para que chegue rápido em Manaus, Parintins, Boa Vista, Santarém, Macapá, Belém e em toda a região."),
+    h("p", {}, "Importamos da China uma seleção variada de produtos — achadinhos, eletrônicos, casa, beleza, moda, brinquedos e ferramentas —, deixamos tudo em estoque no Brasil e despachamos de perto, para que chegue rápido em Manaus, Parintins, Boa Vista, Santarém, Macapá, Belém e em toda a região."),
     h("p", {}, "O nome vem do tipiti, o trançado indígena que faz parte do dia a dia da região: um objeto simples, resistente e feito para durar. É assim que queremos atender."),
   ));
 }
@@ -608,12 +609,14 @@ async function paginaAdmin(main) {
     onclick: () => { gravar("tipiti:admin-aba", id, sessionStorage); rotear(); } }, rotulo);
 
   trocar(main, h("div", { class: "secao-cabecalho" }, h("h1", {}, "Painel da loja"), h("button", { class: "link-botao", onclick: sair }, "Sair")),
-    h("div", { class: "abas", role: "tablist" }, botaoAba("pedidos", "Pedidos"), botaoAba("produtos", "Produtos")),
+    h("div", { class: "abas", role: "tablist" }, botaoAba("pedidos", "Pedidos"), botaoAba("produtos", "Produtos"), botaoAba("novo", "+ Novo produto")),
     conteudo,
   );
 
   try {
-    if (aba === "produtos") {
+    if (aba === "novo") {
+      trocar(conteudo, formularioNovoProduto(auth));
+    } else if (aba === "produtos") {
       const produtos = await api("/api/admin/produtos", { headers: auth });
       trocar(conteudo, h("table", { class: "tabela-admin" },
         h("thead", {}, h("tr", {}, ["Produto", "Preço (centavos)", "De (centavos)", "Estoque", "Ativo", "Destaque", ""].map((t) => h("th", {}, t)))),
@@ -631,7 +634,10 @@ async function paginaAdmin(main) {
               avisar("Produto atualizado ✔");
             } catch (err) { avisar(err.message); }
           };
-          return h("tr", {}, h("td", {}, h("a", { href: `/produto/${p.slug}` }, p.nome), h("div", { class: "parcelado" }, p.categoria.nome)),
+          const miniatura = h("img", { src: p.imagem, alt: "", class: "miniatura" });
+          const foto = seletorFoto(auth, p.slug, (atualizado) => { miniatura.src = atualizado.imagem; });
+          return h("tr", {}, h("td", {}, h("div", { class: "produto-admin" }, miniatura,
+              h("div", {}, h("a", { href: `/produto/${p.slug}` }, p.nome), h("div", { class: "parcelado" }, p.categoria.nome), foto))),
             h("td", {}, preco), h("td", {}, de), h("td", {}, estoque), h("td", {}, ativo), h("td", {}, destaque),
             h("td", {}, h("button", { class: "botao secundario", onclick: salvar }, "Salvar")));
         }))));
@@ -658,6 +664,101 @@ async function paginaAdmin(main) {
     if (err.status === 401) return sair();
     trocar(conteudo, h("div", { class: "alerta" }, err.message));
   }
+}
+
+function lerArquivoBase64(arquivo) {
+  return new Promise((resolver, rejeitar) => {
+    const leitor = new FileReader();
+    leitor.onload = () => resolver(String(leitor.result).split(",")[1] || "");
+    leitor.onerror = () => rejeitar(new Error("Não foi possível ler o arquivo."));
+    leitor.readAsDataURL(arquivo);
+  });
+}
+
+async function enviarFoto(auth, slug, arquivo) {
+  if (arquivo.size > 3 * 1024 * 1024) throw new Error("A foto deve ter no máximo 3 MB.");
+  const dados = await lerArquivoBase64(arquivo);
+  return api(`/api/admin/produtos/${slug}/foto`, { method: "POST", headers: auth, body: JSON.stringify({ dados }) });
+}
+
+function seletorFoto(auth, slug, aoEnviar) {
+  const input = h("input", { type: "file", accept: "image/jpeg,image/png,image/webp", class: "sr",
+    onchange: async (e) => {
+      const arquivo = e.target.files[0];
+      if (!arquivo) return;
+      try { aoEnviar(await enviarFoto(auth, slug, arquivo)); avisar("Foto atualizada ✔"); }
+      catch (err) { avisar(err.message); }
+      e.target.value = "";
+    } });
+  return h("label", { class: "link-botao" }, input, "Trocar foto");
+}
+
+function formularioNovoProduto(auth) {
+  const previa = h("img", { class: "previa-foto", alt: "", hidden: true });
+  const inputFoto = h("input", { type: "file", name: "foto", id: "campo-foto", accept: "image/jpeg,image/png,image/webp",
+    onchange: (e) => {
+      const arquivo = e.target.files[0];
+      if (!arquivo) { previa.hidden = true; return; }
+      previa.src = URL.createObjectURL(arquivo);
+      previa.hidden = false;
+    } });
+  const reais = (v) => {
+    const n = Math.round(parseFloat(String(v).replace(/\./g, "").replace(",", ".")) * 100);
+    return Number.isFinite(n) ? n : null;
+  };
+  const form = h("form", { class: "painel", novalidate: true },
+    h("h2", {}, "Cadastrar produto"),
+    h("p", { class: "parcelado" }, "Preencha os dados do produto que você importou. Os preços são em reais (ex.: 49,90)."),
+    h("div", { class: "grade-form" },
+      campo("nome", "Nome do produto", { required: true, maxlength: 120, placeholder: "Ex.: Fone Bluetooth com estojo" }, "c6"),
+      h("div", { class: "campo c3", "data-campo": "categoria" },
+        h("label", { for: "campo-categoria" }, "Categoria"),
+        h("select", { id: "campo-categoria", name: "categoria", class: "campo-select" },
+          h("option", { value: "" }, "Escolha…"), estado.categorias.map((c) => h("option", { value: c.slug }, `${c.icone} ${c.nome}`))),
+        h("span", { class: "msg-erro" })),
+      campo("icone", "Ícone (opcional, usado se não houver foto)", { maxlength: 8, placeholder: "📦" }, "c3"),
+      campo("preco_centavos", "Preço de venda (R$)", { inputmode: "decimal", placeholder: "49,90", required: true }, "c2"),
+      campo("preco_de_centavos", "Preço \"de\" (R$, opcional)", { inputmode: "decimal", placeholder: "69,90" }, "c2"),
+      campo("estoque", "Estoque (unidades)", { type: "number", min: 0, value: 0, required: true }, "c2"),
+      h("div", { class: "campo c6", "data-campo": "descricao" },
+        h("label", { for: "campo-descricao" }, "Descrição"),
+        h("textarea", { id: "campo-descricao", name: "descricao", rows: 4, maxlength: 2000, class: "campo-texto",
+          placeholder: "Principais características, medidas, voltagem, o que vem na caixa…" }),
+        h("span", { class: "msg-erro" })),
+      h("div", { class: "campo c6", "data-campo": "foto" },
+        h("label", { for: "campo-foto" }, "Foto (JPG, PNG ou WEBP, até 3 MB)"), inputFoto, previa, h("span", { class: "msg-erro" })),
+      h("label", { class: "c6" }, h("input", { type: "checkbox", name: "destaque" }), " Mostrar nos destaques da página inicial"),
+    ),
+    h("div", { class: "alerta", hidden: true, id: "erro-novo" }),
+    h("button", { class: "botao grande", type: "submit", style: "margin-top:16px" }, "Cadastrar produto"),
+  );
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = form.elements;
+    const erro = $("#erro-novo", form);
+    const botao = form.querySelector("button[type=submit]");
+    erro.hidden = true;
+    botao.disabled = true;
+    try {
+      const produto = await api("/api/admin/produtos", { method: "POST", headers: auth, body: JSON.stringify({
+        nome: f.nome.value, categoria: f.categoria.value, icone: f.icone.value || "📦", descricao: f.descricao.value,
+        preco_centavos: reais(f.preco_centavos.value), preco_de_centavos: f.preco_de_centavos.value ? reais(f.preco_de_centavos.value) : null,
+        estoque: parseInt(f.estoque.value, 10), destaque: f.destaque.checked }) });
+      if (inputFoto.files[0]) {
+        try { await enviarFoto(auth, produto.slug, inputFoto.files[0]); }
+        catch (err) { avisar(`Produto criado, mas a foto falhou: ${err.message}`); }
+      }
+      avisar("Produto cadastrado ✔");
+      navegar(`/produto/${produto.slug}`);
+    } catch (err) {
+      mostrarErros(form, err.campos);
+      erro.textContent = err.message;
+      erro.hidden = false;
+    } finally {
+      botao.disabled = false;
+    }
+  });
+  return form;
 }
 
 // ------------------------------------------------------------- roteador
