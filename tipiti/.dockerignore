@@ -1,0 +1,46 @@
+# O que NÃO entra no contexto de build da imagem (o Dockerfile copia só loja/, static/ e 3 arquivos de deploy/;
+# esta lista evita mandar dados, segredos e lixo para o Docker e garante que nada disso vá parar na imagem).
+
+# dados locais de desenvolvimento (banco e fotos) e backups
+data/
+**/*.db
+**/*.db-wal
+**/*.db-shm
+**/*.db-journal
+deploy/backups/
+backups/
+**/*.tar.gz
+
+# segredos
+.env
+**/.env
+!deploy/.env.exemplo
+
+# git, caches e ferramentas
+.git
+.gitignore
+.github
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+node_modules/
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# testes e arquivos de deploy não são necessários dentro da imagem
+tests/
+Dockerfile
+.dockerignore
+deploy/docker-compose.yml
+deploy/Caddyfile*
+deploy/*.service
+deploy/*.timer
+deploy/LEIA-ME.md

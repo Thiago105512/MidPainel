@@ -1,0 +1,48 @@
+# Backup da loja Tipiti (banco + fotos), disparado todo dia pelo tipiti-backup.timer.
+# Usa as mesmas configurações da loja (/etc/tipiti/tipiti.env: TIPITI_DB, TIPITI_BACKUP_DIR, TIPITI_BACKUP_MANTER).
+#
+# Antes de ativar, crie a pasta dos backups:
+#   sudo install -d -o tipiti -g tipiti -m 700 /var/backups/tipiti
+# Instalar:  sudo cp deploy/tipiti-backup.service deploy/tipiti-backup.timer /etc/systemd/system/
+#            sudo systemctl daemon-reload && sudo systemctl enable --now tipiti-backup.timer
+# Rodar já:  sudo systemctl start tipiti-backup.service
+# Conferir:  systemctl list-timers tipiti-backup.timer ; journalctl -u tipiti-backup
+
+[Unit]
+Description=Backup da loja Tipiti
+Documentation=file:/opt/tipiti/repo/tipiti/deploy/LEIA-ME.md
+
+[Service]
+Type=oneshot
+# mesmo usuário da loja: os arquivos -wal/-shm do banco continuam com o dono certo
+User=tipiti
+Group=tipiti
+WorkingDirectory=/opt/tipiti/repo/tipiti
+EnvironmentFile=/etc/tipiti/tipiti.env
+ExecStart=/bin/sh /opt/tipiti/repo/tipiti/deploy/backup.sh
+Nice=10
+IOSchedulingClass=idle
+UMask=0077
+
+NoNewPrivileges=yes
+ProtectSystem=strict
+# se mudar TIPITI_DB ou TIPITI_BACKUP_DIR no tipiti.env, mude aqui também
+ReadWritePaths=/var/lib/tipiti /var/backups/tipiti
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictAddressFamilies=AF_UNIX
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+CapabilityBoundingSet=
+AmbientCapabilities=
