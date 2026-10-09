@@ -13,19 +13,28 @@ function textoParcelas(centavos) {
   return n > 1 ? `ou ${n}x de ${brl(Math.ceil(centavos / n))} sem juros` : "";
 }
 
-function cartaoProduto(p, prioritario = false) {
-  const off = p.preco_de_centavos && p.preco_de_centavos > p.preco_centavos
-    ? Math.round((1 - p.preco_centavos / p.preco_de_centavos) * 100) : 0;
+/** `contagem`: mostra a contagem regressiva da oferta (seção "Ofertas relâmpago"). */
+function cartaoProduto(p, prioritario = false, { contagem = false } = {}) {
+  const final = precoFinal(p);
+  const ancora = precoAncora(p);
+  const off = pctDesconto(final, ancora);
+  const selos = selosProduto(p, { semOferta: off > 0 });
+  const n = vendidos(p);
   return h("a", { class: "cartao-produto", href: `/produto/${p.slug}` },
-    off ? h("span", { class: "selo" }, `-${off}%`) : null,
+    off || selos.length ? h("span", { class: "selos" },
+      off ? h("span", { class: "selo selo-desconto" }, `-${off}%`) : null,
+      selos.map((s) => h("span", { class: `selo selo-${s.replace("_", "-")}` }, SELOS[s]))) : null,
     h("img", { src: imagemProduto(p, true), alt: "", loading: prioritario ? null : "lazy", decoding: "async", width: 400, height: 400 }),
     h("div", { class: "info" },
       h("span", { class: "nome" }, p.nome),
-      off ? h("span", { class: "preco-de" }, brl(p.preco_de_centavos)) : null,
-      h("span", { class: "preco" }, brl(p.preco_centavos)),
-      h("span", { class: "preco-pix" }, `${brl(precoPix(p.preco_centavos))} no Pix`),
-      p.estoque > 0 ? h("span", { class: "parcelado" }, textoParcelas(p.preco_centavos))
+      resumoNota(p, { curto: true }),
+      ancora ? h("span", { class: "preco-de" }, h("span", { class: "sr" }, "De "), brl(ancora)) : null,
+      h("span", { class: "preco" }, ancora ? h("span", { class: "sr" }, "por ") : null, brl(final)),
+      h("span", { class: "preco-pix" }, `${brl(precoPix(final))} no Pix`),
+      p.estoque > 0 ? h("span", { class: "parcelado" }, textoParcelas(final))
         : h("span", { class: "esgotado" }, "Esgotado"),
+      n ? h("span", { class: "vendidos" }, h("span", { "aria-hidden": "true" }, "🔥 "), `${n} vendidos`) : null,
+      contagem && p.promo ? contagemOferta(p.promo.fim, { prefixo: "Termina em ", classe: "contagem contagem-cartao" }) : null,
     ),
   );
 }

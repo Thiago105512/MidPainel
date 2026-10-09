@@ -4,14 +4,20 @@ function blocoResumo(c, { carrinho = false } = {}) {
   const linha = (rotulo, valor, classe = "") => h("div", { class: `linha-total ${classe}` }, h("span", {}, rotulo), h("span", {}, valor));
   const valorFrete = c.frete ? c.frete.valor_centavos : 0;
   const linhas = [linha("Subtotal", brl(c.subtotal_centavos))];
-  const descontoPix = carrinho ? Math.floor((c.subtotal_centavos * l.desconto_pix_pct) / 100) : c.desconto_centavos;
+  if (c.desconto_cupom_centavos > 0) {
+    linhas.push(linha(`Cupom${c.cupom && c.cupom.codigo ? ` ${c.cupom.codigo}` : ""}`, `− ${brl(c.desconto_cupom_centavos)}`, "desconto"));
+  }
+  // o carrinho é cotado no Pix: o servidor já devolve o desconto (e o total) do Pix, com o cupom
+  const cotadoNoPix = c.pagamento === "pix";
+  const descontoPix = carrinho && !cotadoNoPix ? Math.floor((c.subtotal_centavos * l.desconto_pix_pct) / 100) : c.desconto_centavos;
   if (descontoPix) linhas.push(linha(`Desconto no Pix (${l.desconto_pix_pct}%)`, `− ${brl(descontoPix)}`, "desconto"));
   linhas.push(linha("Frete", c.frete ? (c.frete.gratis ? "Grátis" : brl(c.frete.valor_centavos)) : "Informe o CEP"));
   if (c.frete) linhas.push(h("div", { class: "parcelado" }, `${c.frete.zona_nome} · até ${c.frete.prazo_dias} dias úteis`));
   if (carrinho) {
-    const noCartao = c.subtotal_centavos + valorFrete;
+    const totalPix = cotadoNoPix ? c.total_centavos : c.subtotal_centavos + valorFrete - descontoPix;
+    const noCartao = totalPix + descontoPix;
     const n = numeroParcelas(noCartao);
-    linhas.push(linha("Total no Pix", brl(noCartao - descontoPix), "total"));
+    linhas.push(linha("Total no Pix", brl(totalPix), "total"));
     linhas.push(h("p", { class: "parcelado alinhado-direita" }, n > 1
       ? `ou ${brl(noCartao)} em até ${n}x de ${brl(Math.ceil(noCartao / n))} sem juros no cartão`
       : `ou ${brl(noCartao)} no cartão ou boleto`));
@@ -21,6 +27,12 @@ function blocoResumo(c, { carrinho = false } = {}) {
 
   const faltam = c.falta_para_frete_gratis;
   const pct = Math.min(100, Math.round((c.subtotal_centavos / l.frete_gratis_a_partir) * 100));
+  if (c.economia_centavos > 0) {
+    linhas.push(h("p", { class: "economia-total" }, h("span", { "aria-hidden": "true" }, "💰 "), "Você está economizando ", h("b", {}, brl(c.economia_centavos))));
+  }
+  if (c.cupom && c.cupom.frete_gratis) {
+    return [h("div", { class: "barra-frete" }, `🎉 Frete grátis com o cupom ${c.cupom.codigo}!`), ...linhas];
+  }
   const barra = (!c.frete || c.frete.regiao_norte) ? h("div", { class: "barra-frete" },
     faltam > 0 ? [`Faltam `, h("b", {}, brl(faltam)), ` para frete grátis na Região Norte`] : "🎉 Você ganhou frete grátis na Região Norte!",
     h("div", { class: "barra-progresso" }, h("span", { style: `width:${pct}%` }))) : null;
@@ -48,7 +60,10 @@ async function paginaCarrinho(main) {
     h("a", { class: "botao", href: "/" }, "Continuar comprando")));
   if (!estado.carrinho.length) return vazio();
   let cep = lerArmazenado("tipiti:cep", "");
-  let { cotacao, erroCep } = await cotarCarrinho(cep);
+  let cupom = cupomGuardado();
+  let erroCupom = "";
+  const extra = () => (cupom ? { cupom } : {});
+  let { cotacao, erroCep } = await cotarCarrinho(cep, extra());
   if (!ativo()) return;
 
   // produto que saiu do catálogo: remove sozinho e avisa; os demais problemas ficam visíveis
@@ -60,7 +75,7 @@ async function paginaCarrinho(main) {
     avisar(sumiram.length === 1 ? "Um produto saiu do catálogo e foi tirado do seu carrinho."
       : `${sumiram.length} produtos saíram do catálogo e foram tirados do seu carrinho.`);
     if (!estado.carrinho.length) return vazio();
-    ({ cotacao, erroCep } = await cotarCarrinho(cep));
+    ({ cotacao, erroCep } = await cotarCarrinho(cep, extra()));
     if (!ativo()) return;
   }
 
@@ -76,7 +91,7 @@ async function paginaCarrinho(main) {
     espera = setTimeout(async () => {
       const n = ++sequencia;
       try {
-        const r = await cotarCarrinho(cep);
+        const r = await cotarCarrinho(cep, extra());
         if (!ativo() || n !== sequencia) return;
         ({ cotacao, erroCep } = r);
         if (erroCep) cep = "";
@@ -156,7 +171,8 @@ async function paginaCarrinho(main) {
       h("div", {},
         h("a", { class: "nome", href: `/produto/${i.slug}` }, i.nome),
         i.variacao_nome ? h("div", {}, "Opção: ", h("b", {}, i.variacao_nome)) : null,
-        h("div", { class: "parcelado" }, `${brl(i.preco_unit_centavos)} cada`),
+        h("div", { class: "parcelado" }, i.preco_ancora_unit_centavos > i.preco_unit_centavos
+          ? [h("s", {}, h("span", { class: "sr" }, "De "), brl(i.preco_ancora_unit_centavos)), " "] : null, `${brl(i.preco_unit_centavos)} cada`),
         erro,
         h("div", { class: "acoes" }, h("div", { class: "quantidade" }, menos, input, mais), botaoRemover(i))),
       total);
@@ -176,21 +192,74 @@ async function paginaCarrinho(main) {
   h("div", { class: "linha-cep" }, inputCep, h("button", { class: "botao secundario", type: "submit" }, "Calcular frete")),
   linkNaoSeiCep());
   const topoResumo = h("div", {});
+
+  // cupom: só aparece se o servidor souber cotar com cupom
+  const suportaCupom = "cupom" in cotacao || "cupom_erro" in cotacao;
+  const inputCupom = h("input", { id: "carrinho-cupom", type: "text", autocomplete: "off", autocapitalize: "characters", spellcheck: "false",
+    maxlength: 40, value: cupom, "aria-describedby": "msg-cupom", oninput: () => { erroCupom = ""; msgCupom.textContent = ""; inputCupom.removeAttribute("aria-invalid"); } });
+  const msgCupom = h("p", { class: "msg-erro", id: "msg-cupom", "aria-live": "polite" });
+  const botaoCupom = h("button", { class: "botao secundario", type: "submit" }, "Aplicar");
+  const detalhesCupom = h("details", { class: "cupom" },
+    h("summary", {}, "🎟️ Tem cupom?"),
+    h("form", { class: "form-cupom", onsubmit: (e) => {
+      e.preventDefault();
+      const codigo = inputCupom.value.trim().toUpperCase();
+      if (!codigo) { erroCupom = "Digite o código do cupom."; desenharCupom(); inputCupom.focus(); return; }
+      cupom = codigo;
+      erroCupom = "";
+      msgCupom.textContent = "";
+      recotar(0);
+    } },
+    h("label", { for: "carrinho-cupom", class: "sr" }, "Código do cupom"),
+    h("div", { class: "linha-cep" }, inputCupom, botaoCupom), msgCupom));
+  const cupomAplicado = h("div", { class: "cupom-aplicado", "aria-live": "polite" });
+  const blocoCupom = suportaCupom ? h("div", { class: "bloco-cupom" }, cupomAplicado, detalhesCupom) : null;
+
+  function desenharCupom() {
+    if (!suportaCupom) return;
+    if (cotacao.cupom && cupom) {
+      guardarCupom(cotacao.cupom.codigo);
+      erroCupom = "";
+      detalhesCupom.hidden = true;
+      trocar(cupomAplicado, h("div", {},
+        h("b", {}, `🎟️ Cupom ${cotacao.cupom.codigo} aplicado`),
+        cotacao.cupom.descricao ? h("div", { class: "parcelado" }, cotacao.cupom.descricao) : null),
+      h("button", { class: "link-botao", type: "button", "aria-label": `Remover cupom ${cotacao.cupom.codigo}`, onclick: () => {
+        cupom = "";
+        guardarCupom("");
+        inputCupom.value = "";
+        detalhesCupom.hidden = false;
+        detalhesCupom.open = true;
+        recotar(0);
+        inputCupom.focus({ preventScroll: true });
+      } }, "Remover"));
+      cupomAplicado.hidden = false;
+      return;
+    }
+    if (cupom && cotacao.cupom_erro) erroCupom = cotacao.cupom_erro;
+    if (erroCupom) guardarCupom("");
+    cupomAplicado.hidden = true;
+    detalhesCupom.hidden = false;
+    if (erroCupom) detalhesCupom.open = true;
+    msgCupom.textContent = erroCupom;
+    if (erroCupom) inputCupom.setAttribute("aria-invalid", "true"); else inputCupom.removeAttribute("aria-invalid");
+  }
   const totais = h("div", { "aria-live": "polite" });
   const acoes = h("div", {});
 
   function desenharResumo() {
     const validos = cotacao.itens.filter((i) => i.produto_id);
-    const textoZap = () => `Olá! Quero finalizar este pedido na Tipiti:\n${validos.map((i) => `• ${i.quantidade}× ${nomeComOpcao(i)} — ${brl(i.total_centavos)}`).join("\n")}\nSubtotal: ${brl(cotacao.subtotal_centavos)}${cotacao.frete ? `\nCEP: ${cotacao.frete.cep}` : ""}`;
+    const textoZap = () => `Olá! Quero finalizar este pedido na Tipiti:\n${validos.map((i) => `• ${i.quantidade}× ${nomeComOpcao(i)} — ${brl(i.total_centavos)}`).join("\n")}\nSubtotal: ${brl(cotacao.subtotal_centavos)}${cotacao.cupom ? `\nCupom: ${cotacao.cupom.codigo}` : ""}${cotacao.frete ? `\nCEP: ${cotacao.frete.cep}` : ""}`;
     trocar(topoResumo, erroCep ? h("div", { class: "alerta" }, erroCep) : null);
     trocar(totais, blocoResumo(cotacao, { carrinho: true }));
+    desenharCupom();
     trocar(acoes,
       !cotacao.valido ? h("div", { class: "alerta" }, "Ajuste os itens marcados em vermelho para continuar.") : null,
       h("button", { class: "botao grande", type: "button", disabled: !cotacao.valido, onclick: () => navegar("/checkout") }, "Finalizar compra"),
       botaoWhatsApp(textoZap, "Prefiro finalizar pelo WhatsApp", "botao whatsapp grande espaco-topo"),
       h("a", { href: "/", class: "link-continuar" }, "Continuar comprando"));
   }
-  trocar(resumo, h("h2", {}, "Resumo"), topoResumo, formCep, totais, acoes);
+  trocar(resumo, h("h2", {}, "Resumo"), topoResumo, formCep, blocoCupom, totais, acoes);
   desenharResumo();
 
   trocar(main, titulo,
@@ -203,7 +272,7 @@ async function paginaCarrinho(main) {
 
 const UFS = ["AM", "PA", "RR", "AP", "AC", "RO", "TO", "AL", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PB", "PE", "PI", "PR", "RJ", "RN", "RS", "SC", "SE", "SP"];
 const ROTULOS_CHECKOUT = { nome: "Nome", email: "E-mail", telefone: "Celular", cpf: "CPF", cep: "CEP", endereco: "Rua", numero: "Número",
-  bairro: "Bairro", cidade: "Cidade", uf: "UF", pagamento: "Pagamento", parcelas: "Parcelas" };
+  bairro: "Bairro", cidade: "Cidade", uf: "UF", pagamento: "Pagamento", parcelas: "Parcelas", cupom: "Cupom" };
 const OBRIGATORIOS_CHECKOUT = ["nome", "email", "telefone", "cpf", "cep", "endereco", "numero", "bairro", "cidade", "uf"];
 
 function validarCampoCheckout(nome, valor) {
@@ -248,6 +317,9 @@ async function paginaCheckout(main) {
     h("label", { for: "campo-parcelas" }, "Parcelas"), selParcelas, h("span", { class: "msg-erro", id: "erro-parcelas" }));
   const dicaCepFixa = h("span", {}, "Preencha o CEP e completamos o endereço. ");
   const dicaCep = h("span", { "aria-live": "polite" });
+  const dicaCupom = h("span", { "aria-live": "polite" });
+  const blocoCupom = h("div", { class: "grade-form bloco-cupom-checkout", hidden: true },
+    campo("cupom", "Cupom de desconto (opcional)", { autocomplete: "off", autocapitalize: "characters", spellcheck: "false", maxlength: 40 }, "c6", dicaCupom));
 
   const form = h("form", { class: "painel", novalidate: true },
     h("fieldset", {}, h("legend", {}, "1. Seus dados"),
@@ -281,9 +353,11 @@ async function paginaCheckout(main) {
             h("span", {}, h("b", {}, t), h("small", {}, s)))),
         h("span", { class: "msg-erro" }),
         blocoParcelas)),
+    blocoCupom,
     h("div", { class: "alerta", id: "erro-geral", role: "alert", hidden: true }),
     totalConfirmar,
     h("button", { class: "botao grande", type: "submit" }, "Confirmar pedido"),
+    blocoConfianca("confianca-checkout"),
     h("p", { class: "parcelado centro" }, "Ao confirmar, você concorda com a política de trocas da Tipiti."),
   );
 
@@ -292,6 +366,7 @@ async function paginaCheckout(main) {
     if (el && nome !== "pagamento" && nome !== "parcelas") el.value = valor;
   }
   if (!form.elements.cep.value) form.elements.cep.value = lerArmazenado("tipiti:cep", "");
+  if (!form.elements.cupom.value) form.elements.cupom.value = cupomGuardado();
 
   const mascaras = { cep: mascaraCep, cpf: mascaraCpf, telefone: mascaraTelefone };
   for (const [nome, fn] of Object.entries(mascaras)) {
@@ -301,7 +376,7 @@ async function paginaCheckout(main) {
   const dadosForm = () => Object.fromEntries(new FormData(form).entries());
   const erroGeral = $("#erro-geral", form);
   form.addEventListener("input", (e) => {
-    gravar("tipiti:checkout", { ...dadosForm(), cpf: "" }, sessionStorage);
+    gravar("tipiti:checkout", { ...dadosForm(), cpf: "", cupom: "" }, sessionStorage);
     const c = e.target.closest("[data-campo]");
     if (c && c.classList.contains("com-erro")) marcarErro(c, "");
     if (!form.querySelector(".com-erro")) erroGeral.hidden = true;
@@ -319,9 +394,11 @@ async function paginaCheckout(main) {
     const d = dadosForm();
     const cepValido = (d.cep || "").replace(/\D/g, "").length === 8;
     const n = ++sequencia;
+    const cupom = (d.cupom || "").trim().toUpperCase();
     try {
       ultimaCotacao = await api("/api/carrinho/cotacao", { method: "POST",
-        body: JSON.stringify({ itens: estado.carrinho, cep: cepValido ? d.cep : null, pagamento: d.pagamento }) });
+        body: JSON.stringify({ itens: estado.carrinho, cep: cepValido ? d.cep : null, pagamento: d.pagamento,
+          ...(cupom ? { cupom } : {}), ...(cpfValido(d.cpf) ? { cpf: d.cpf } : {}) }) });
     } catch (err) {
       if (!ativo() || n !== sequencia) return;
       trocar(resumo, h("h2", {}, "Resumo do pedido"), h("div", { class: "alerta" }, err.message));
@@ -330,6 +407,16 @@ async function paginaCheckout(main) {
     }
     if (!ativo() || n !== sequencia) return;
     const c = ultimaCotacao;
+    if ("cupom" in c || "cupom_erro" in c) {
+      blocoCupom.hidden = false;
+      const campoCupom = form.querySelector('[data-campo="cupom"]');
+      if (cupom && c.cupom_erro) { marcarErro(campoCupom, c.cupom_erro); dicaCupom.textContent = ""; guardarCupom(""); }
+      else {
+        marcarErro(campoCupom, "");
+        dicaCupom.textContent = c.cupom ? `✔ Cupom ${c.cupom.codigo} aplicado${c.cupom.descricao ? `: ${c.cupom.descricao}` : ""}.` : "";
+        if (c.cupom) guardarCupom(c.cupom.codigo);
+      }
+    }
     const conteudo = () => [
       c.itens.filter((i) => i.produto_id).map((i) => h("div", { class: "linha-total" },
         h("span", {}, `${i.quantidade}× ${nomeComOpcao(i)}`), h("span", {}, brl(i.total_centavos)))),
@@ -371,7 +458,7 @@ async function paginaCheckout(main) {
       if (e.uf) form.elements.uf.value = e.uf;
       ["endereco", "bairro", "cidade", "uf"].forEach((n) => { if (form.elements[n].value) marcarErro(form.elements[n].closest("[data-campo]"), ""); });
       dicaCep.textContent = "Endereço preenchido — confira e informe o número.";
-      gravar("tipiti:checkout", { ...dadosForm(), cpf: "" }, sessionStorage);
+      gravar("tipiti:checkout", { ...dadosForm(), cpf: "", cupom: "" }, sessionStorage);
       if (document.activeElement === form.elements.cep || document.activeElement === document.body) form.elements.numero.focus();
     } catch (_) {
       if (ativo()) dicaCep.textContent = "Não encontramos o CEP — preencha o endereço.";
@@ -382,12 +469,27 @@ async function paginaCheckout(main) {
   form.elements.cep.addEventListener("change", buscarCep);
   form.elements.cep.addEventListener("keyup", () => { if (form.elements.cep.value.length === 9) buscarCep(); });
   form.querySelectorAll("input[name=pagamento]").forEach((r) => r.addEventListener("change", atualizarResumo));
+  form.elements.cupom.addEventListener("change", () => {
+    form.elements.cupom.value = form.elements.cupom.value.trim().toUpperCase();
+    if (!form.elements.cupom.value) guardarCupom("");
+    atualizarResumo();
+  });
+  // com o CPF válido, a cotação confere cupons de primeira compra
+  let ultimoCpf = "";
+  form.elements.cpf.addEventListener("input", () => {
+    const d = form.elements.cpf.value.replace(/\D/g, "");
+    if (d === ultimoCpf || !cpfValido(d)) return;
+    ultimoCpf = d;
+    if (form.elements.cupom.value.trim()) atualizarResumo();
+  });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const botao = form.querySelector("button[type=submit]");
     erroGeral.hidden = true;
     const dados = dadosForm();
+    dados.cupom = (dados.cupom || "").trim().toUpperCase();
+    if (!dados.cupom) delete dados.cupom;
     const erros = {};
     for (const nome of OBRIGATORIOS_CHECKOUT) {
       const msg = validarCampoCheckout(nome, dados[nome]);

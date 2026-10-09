@@ -29,13 +29,35 @@ function autenticacaoAdmin(main) {
   return null;
 }
 
+/** Cupons e avaliações só existem no servidor novo, que também traz os ajustes de gatilhos. null = ainda não sabe. */
+let painelNovo = null;
+async function detectarPainelNovo(auth) {
+  if (painelNovo !== null) return painelNovo;
+  try {
+    const aj = await api("/api/admin/ajustes", { headers: auth });
+    painelNovo = "horario_corte" in aj || "prova_social" in aj;
+  } catch (err) {
+    if (err.status === 401) throw err;
+    return false;  // tenta de novo na próxima vez
+  }
+  return painelNovo;
+}
+
 function cabecalhoAdmin(abaAtual) {
-  const abas = [["pedidos", "Pedidos"], ["produtos", "Produtos"], ["novo", "+ Novo produto"], ["calculadora", "Calculadora"], ["configuracoes", "Configurações"]];
+  const abas = [["pedidos", "Pedidos"], ["produtos", "Produtos"], ["novo", "+ Novo produto"],
+    ...(painelNovo ? [["cupons", "Cupons"], ["avaliacoes", "Avaliações"]] : []),
+    ["calculadora", "Calculadora"], ["configuracoes", "Configurações"]];
+  const lista = h("div", { class: "abas", role: "tablist" }, abas.map(([id, rotulo]) =>
+    h("button", { class: "botao secundario", role: "tab", type: "button", "aria-selected": String(abaAtual === id),
+      onclick: () => { gravar("tipiti:admin-aba", id, sessionStorage); navegar("/admin"); } }, rotulo)));
+  // no celular a lista de abas rola: deixa a aba atual à vista
+  requestAnimationFrame(() => {
+    const atual = lista.querySelector('[aria-selected="true"]');
+    if (atual && lista.isConnected) lista.scrollLeft = Math.max(0, atual.offsetLeft - (lista.clientWidth - atual.offsetWidth) / 2);
+  });
   return [
     h("div", { class: "secao-cabecalho" }, h("h1", {}, "Painel da loja"), h("button", { class: "link-botao", type: "button", onclick: () => sairDoPainel() }, "Sair")),
-    h("div", { class: "abas", role: "tablist" }, abas.map(([id, rotulo]) =>
-      h("button", { class: "botao secundario", role: "tab", type: "button", "aria-selected": String(abaAtual === id),
-        onclick: () => { gravar("tipiti:admin-aba", id, sessionStorage); navegar("/admin"); } }, rotulo))),
+    lista,
   ];
 }
 
@@ -52,8 +74,11 @@ async function paginaAdmin(main) {
   document.title = "Painel | Tipiti";
   const auth = autenticacaoAdmin(main);
   if (!auth) return;
-  const aba = lerArmazenado("tipiti:admin-aba", "pedidos", sessionStorage);
+  let aba = lerArmazenado("tipiti:admin-aba", "pedidos", sessionStorage);
   const conteudo = h("div", {}, h("div", { class: "carregando" }, "Carregando…"));
+  try { await detectarPainelNovo(auth); } catch (err) { if (ativo()) sairDoPainel(true); return; }
+  if (!ativo()) return;
+  if (!painelNovo && (aba === "cupons" || aba === "avaliacoes")) aba = "pedidos";
   trocar(main, cabecalhoAdmin(aba), conteudo);
   await comTratamento(conteudo, ativo, async () => {
     let novo;
@@ -65,6 +90,8 @@ async function paginaAdmin(main) {
         h("p", { class: "parcelado" }, "Descubra o custo real de cada unidade no Brasil e o preço de venda para a margem que você quer."),
         calculadora(auth, aj));
     } else if (aba === "configuracoes") novo = await formularioAjustes(auth);
+    else if (aba === "cupons") novo = await painelCupons(auth);
+    else if (aba === "avaliacoes") novo = await painelAvaliacoes(auth);
     else novo = await painelPedidos(auth);
     if (ativo()) trocar(conteudo, novo);
   });
@@ -107,7 +134,8 @@ async function painelPedidos(auth) {
             h("div", { class: "parcelado" }, `${p.entrega.bairro} · ${p.entrega.cidade}/${p.entrega.uf} · ${mascaraCep(p.entrega.cep)}`),
             h("div", { class: "parcelado" }, p.zona_frete)),
           celula("Itens", {}, p.itens.map((i) => h("div", {}, nomeItem(i)))),
-          celula("Total", {}, brl(p.total_centavos), h("div", { class: "parcelado" }, `${p.pagamento_nome}${p.parcelas > 1 ? ` ${p.parcelas}x` : ""}`)),
+          celula("Total", {}, brl(p.total_centavos), h("div", { class: "parcelado" }, `${p.pagamento_nome}${p.parcelas > 1 ? ` ${p.parcelas}x` : ""}`),
+            p.cupom_codigo ? h("div", { class: "parcelado" }, `🎟️ ${p.cupom_codigo}${p.desconto_cupom_centavos ? ` (−${brl(p.desconto_cupom_centavos)})` : ""}`) : null),
           celula("Lucro", {}, p.lucro_centavos === null ? h("span", { class: "parcelado" }, "sem custo") : brl(p.lucro_centavos)),
           celula("", { class: "celula-status" },
             h("select", { class: "campo-select", disabled: travado, "aria-label": `Status do pedido ${p.codigo}`,
@@ -135,7 +163,8 @@ async function listaProdutosAdmin(auth) {
       celula("Custo", {}, p.custo_centavos ? brl(p.custo_centavos) : h("span", { class: "parcelado" }, "—")),
       celula("Margem bruta (lucro ÷ preço)", {}, margem(p)),
       celula("Estoque", { class: p.estoque <= 3 ? "esgotado" : "" }, p.estoque),
-      celula("Situação", {}, p.ativo ? "No ar" : "Fora do ar", p.destaque ? " · ⭐" : ""),
+      celula("Situação", {}, p.ativo ? "No ar" : "Fora do ar", p.destaque ? " · ⭐" : "",
+        p.promo_pct && msAte(p.promo_fim) > 0 ? h("div", { class: "parcelado" }, `⚡ −${p.promo_pct}% até ${textoManaus(p.promo_fim)}`) : null),
       celula("", { class: "celula-acao" }, h("a", { class: "botao secundario", href: `/admin/produto/${p.slug}` }, "Editar")))))));
 }
 
@@ -145,6 +174,8 @@ async function paginaEditorProduto(main, slug) {
   const auth = autenticacaoAdmin(main);
   if (!auth) return;
   const conteudo = h("div", {}, h("div", { class: "carregando" }, "Carregando…"));
+  try { await detectarPainelNovo(auth); } catch (err) { if (ativo()) sairDoPainel(true); return; }
+  if (!ativo()) return;
   trocar(main, cabecalhoAdmin("produtos"), conteudo);
   await comTratamento(conteudo, ativo, async () => {
     const [p, aj] = await Promise.all([api(`/api/admin/produtos/${slug}`, { headers: auth }), api("/api/admin/ajustes", { headers: auth })]);
@@ -153,7 +184,7 @@ async function paginaEditorProduto(main, slug) {
     trocar(conteudo,
       h("p", {}, h("a", { href: "/admin" }, "← Voltar aos produtos"), " · ", h("a", { href: `/produto/${p.slug}`, target: "_blank", rel: "noopener" }, "Ver na loja ↗")),
       h("div", { class: "editor" },
-        secaoDadosProduto(auth, p),
+        h("div", {}, secaoDadosProduto(auth, p), secaoOfertaRelampago(auth, p)),
         h("div", {},
           secaoFotos(auth, p),
           secaoVariacoes(auth, p),
@@ -471,11 +502,13 @@ async function formularioAjustes(auth) {
       campo("impostos_pct", "Impostos e taxas de importação (%)", { inputmode: "decimal", value: aj.impostos_pct }, "c2"),
       campo("taxa_pagamento_pct", "Taxa do meio de pagamento (%)", { inputmode: "decimal", value: aj.taxa_pagamento_pct }, "c2"),
       campo("margem_pct", "Margem desejada (%)", { inputmode: "decimal", value: aj.margem_pct }, "c2")),
+    camposGatilhosAjustes(aj),
     h("button", { class: "botao grande espaco-topo", type: "submit" }, "Salvar configurações"));
   form.elements.whatsapp.addEventListener("input", (e) => (e.target.value = mascaraTelefone(e.target.value)));
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const dados = Object.fromEntries(new FormData(form).entries());
+    if (form.elements.prova_social) dados.prova_social = form.elements.prova_social.checked ? "1" : "0";
     for (const nome of ["cambio_usd", "cambio_cny", "impostos_pct", "taxa_pagamento_pct", "margem_pct"]) {
       const n = lerNumero(dados[nome], { pontoDecimal: true });
       if (n !== null && !Number.isNaN(n)) dados[nome] = String(n);  // inválido segue como está e o servidor aponta o erro
@@ -486,6 +519,7 @@ async function formularioAjustes(auth) {
       estado.loja.whatsapp = salvo.whatsapp;
       estado.loja.whatsapp_mensagem = salvo.whatsapp_mensagem;
       if (typeof salvo.chave_pix === "string") estado.loja.chave_pix = salvo.chave_pix;
+      if (typeof salvo.prova_social === "string") estado.loja.prova_social = salvo.prova_social === "1";
       atualizarWhatsAppFlutuante();
       avisar("Configurações salvas ✔");
     } catch (err) {
