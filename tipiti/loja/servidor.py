@@ -14,10 +14,11 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import config, db, fotos, regras
+from . import config, db, feeds, fotos, pwa, regras, vitrine_seo
 from .imagens import svg_produto
 from .limites import MSG_LIMITE, LimiteTaxa, limites_padrao  # noqa: F401 — LimiteTaxa: importável daqui também
 from .rotas import ROTAS, TAMANHO_MAX_CORPO, TAMANHO_MAX_UPLOAD, ErroHttp, api_loja, rota  # noqa: F401
+from .rotas_extras import RespostaBruta  # importar registra as rotas de Pix, encomendas e feeds
 
 THREADS_MAX = 128
 HOSTS_LOCAIS = ("127.0.0.1", "localhost", "::1")
@@ -34,7 +35,8 @@ CSP = (
 
 PAGINAS_SPA = re.compile(
     r"^/(|categoria/[a-z0-9-]+|produto/[a-z0-9-]+|busca|carrinho|checkout|pedido/[A-Za-z0-9-]+|"
-    r"entregas|sobre|trocas|admin|admin/produto/[a-z0-9-]+|revenda|seja-revendedora|barcos)/?$"
+    r"entregas|sobre|trocas|admin|admin/produto/[a-z0-9-]+|revenda|seja-revendedora|barcos|"
+    r"encomenda|encomenda/[A-Za-z0-9-]+)/?$"
 )
 
 # Arquivos que o index.html referencia com ?v=<hash do conteúdo>, para o navegador guardar por um ano.
@@ -115,10 +117,34 @@ def _versao(relativo):
     return versao
 
 
+def _url_versionada(relativo):
+    versao = _versao(relativo)
+    return f"/static/{relativo}?v={versao}" if versao else f"/static/{relativo}"
+
+
 def _json_no_html(dados):
     """JSON seguro dentro de <script>: sem <, > nem & literais, nada fecha a tag antes da hora."""
     texto = json.dumps(dados, ensure_ascii=False)
     return texto.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
+
+
+def _cabecalho_seo(caminho, status, produto, categoria):
+    """og:type, og:image e JSON-LD (Product, BreadcrumbList, Organization/WebSite) para o <head> da página.
+
+    O JSON-LD passa por _json_no_html: nenhum <, > ou & literal, então um nome de produto não fecha o <script>.
+    """
+    if status != HTTPStatus.OK:
+        produto = categoria = None
+        caminho = "/404"
+    seo = vitrine_seo.cabecalho(caminho, produto=produto, categoria=categoria)
+    partes = [f'<meta property="og:type" content="{escape(seo["og_tipo"])}">',
+              f'<meta property="og:image" content="{escape(seo["og_imagem"])}">']
+    if seo["og_imagem"].endswith(pwa.IMAGEM_COMPARTILHAR):
+        partes += ['<meta property="og:image:width" content="1200">',
+                   '<meta property="og:image:height" content="630">']
+    if seo["json_ld"]:
+        partes.append(f'<script type="application/ld+json">{_json_no_html(seo["json_ld"])}</script>')
+    return "  " + "\n  ".join(partes) + "\n"
 
 
 class Requisicao:
@@ -311,6 +337,8 @@ class TipitiHandler(BaseHTTPRequestHandler):
                                   f"Sitemap: {config.SITE_URL}/sitemap.xml\n", "text/plain; charset=utf-8")
             elif caminho == "/sitemap.xml":
                 self._sitemap()
+            elif caminho in ("/manifest.webmanifest", "/sw.js", "/feeds/google.xml", "/feeds/meta.csv"):
+                self._arquivo_gerado(caminho)
             elif PAGINAS_SPA.match(caminho):
                 self._pagina(caminho)
             else:
@@ -361,6 +389,8 @@ class TipitiHandler(BaseHTTPRequestHandler):
             status = HTTPStatus.OK
             if isinstance(resultado, tuple):
                 status, resultado = resultado
+            if isinstance(resultado, RespostaBruta):
+                return self._enviar(status, resultado.corpo, resultado.tipo, resultado.cabecalhos)
             return self._json(status, resultado)
         if metodo_errado:
             raise ErroHttp(HTTPStatus.METHOD_NOT_ALLOWED, "Método não permitido.")
@@ -414,6 +444,29 @@ class TipitiHandler(BaseHTTPRequestHandler):
                           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{corpo}</urlset>',
                      "application/xml; charset=utf-8")
 
+    def _arquivo_gerado(self, caminho):
+        """Manifesto do app, service worker e feeds de produtos (gerados a cada pedido, com ETag)."""
+        if caminho == "/manifest.webmanifest":
+            corpo = json.dumps(pwa.manifesto(), ensure_ascii=False, indent=1)
+            tipo, extras = "application/manifest+json; charset=utf-8", {"Cache-Control": "public, max-age=3600"}
+        elif caminho == "/sw.js":
+            corpo = pwa.service_worker(*(_url_versionada(r) for r in ASSETS_VERSIONADOS))
+            # sempre conferido com o servidor: é assim que o navegador descobre uma versão nova da loja
+            tipo, extras = "application/javascript; charset=utf-8", {"Cache-Control": "no-cache",
+                                                                     "Service-Worker-Allowed": "/"}
+        else:
+            conn = db.conectar(self.server.db_path)
+            try:
+                if caminho.endswith(".xml"):
+                    corpo, tipo = feeds.google_xml(conn), "application/xml; charset=utf-8"
+                else:
+                    corpo, tipo = feeds.meta_csv(conn), "text/csv; charset=utf-8"
+            finally:
+                conn.close()
+            extras = {"Cache-Control": "public, max-age=900"}
+        corpo = corpo.encode("utf-8")
+        self._enviar(200, corpo, tipo, extras, etag=hashlib.sha256(corpo).hexdigest()[:16])
+
     def _pagina(self, caminho, status=HTTPStatus.OK):
         """Entrega o index.html com título/descrição da página, para buscadores e compartilhamento.
 
@@ -422,14 +475,15 @@ class TipitiHandler(BaseHTTPRequestHandler):
         titulo = f"{config.NOME_LOJA} — importados com entrega rápida no Norte"
         descricao = ("Achadinhos, eletrônicos, casa, beleza e muito mais importados, com entrega para Manaus, Parintins, "
                      "Boa Vista, Santarém, Macapá e toda a Região Norte. Frete grátis acima de R$ 199.")
+        produto = categoria = None
         conn = db.conectar(self.server.db_path)
         try:
             dados_iniciais = {"loja": api_loja(conn, None), "categorias": regras.listar_categorias(conn)}
             if caminho.startswith("/produto/"):
-                p = regras.obter_produto(conn, caminho.split("/")[2])
+                p = produto = regras.obter_produto(conn, caminho.split("/")[2])
                 titulo, descricao = f"{p['nome']} | {config.NOME_LOJA}", p["descricao"]
             elif caminho.startswith("/categoria/"):
-                c = regras.obter_categoria(conn, caminho.split("/")[2])
+                c = categoria = regras.obter_categoria(conn, caminho.split("/")[2])
                 titulo, descricao = f"{c['nome']} | {config.NOME_LOJA}", c["descricao"]
         except regras.NaoEncontrado:
             status = HTTPStatus.NOT_FOUND
@@ -449,6 +503,7 @@ class TipitiHandler(BaseHTTPRequestHandler):
             versao = _versao(relativo)
             if versao:
                 html = html.replace(f'"/static/{relativo}"', f'"/static/{relativo}?v={versao}"')
+        html = html.replace("</head>", _cabecalho_seo(caminho, status, produto, categoria) + "</head>", 1)
         self._enviar(status, html, "text/html; charset=utf-8", {"Cache-Control": "no-cache"})
 
 

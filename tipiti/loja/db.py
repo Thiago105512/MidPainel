@@ -119,6 +119,25 @@ CREATE TABLE IF NOT EXISTS avaliacoes (
     UNIQUE (pedido_id, produto_id)
 );
 
+-- "Encomenda pra mim" (loja/encomendas.py)
+CREATE TABLE IF NOT EXISTS encomendas (
+    id INTEGER PRIMARY KEY,
+    codigo TEXT UNIQUE NOT NULL,
+    status TEXT NOT NULL DEFAULT 'nova',
+    nome TEXT NOT NULL,
+    whatsapp TEXT NOT NULL,
+    cidade TEXT NOT NULL,
+    uf TEXT NOT NULL,
+    link TEXT NOT NULL DEFAULT '',
+    descricao TEXT NOT NULL DEFAULT '',
+    quantidade INTEGER NOT NULL CHECK (quantidade BETWEEN 1 AND 50),
+    cotacao_centavos INTEGER CHECK (cotacao_centavos IS NULL OR cotacao_centavos > 0),
+    prazo_dias INTEGER CHECK (prazo_dias IS NULL OR prazo_dias > 0),
+    observacao TEXT NOT NULL DEFAULT '',
+    criado_em TEXT NOT NULL DEFAULT (datetime('now')),
+    atualizado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 CREATE INDEX IF NOT EXISTS idx_produtos_categoria ON produtos(categoria_id);
 CREATE INDEX IF NOT EXISTS idx_itens_pedido ON itens_pedido(pedido_id);
 CREATE INDEX IF NOT EXISTS idx_variacoes_produto ON variacoes(produto_id);
@@ -171,6 +190,7 @@ CREATE TABLE IF NOT EXISTS revendedoras (
     criado_em TEXT NOT NULL DEFAULT (datetime('now')),
     ativada_em TEXT
 );
+CREATE INDEX IF NOT EXISTS idx_encomendas_status ON encomendas(status, id);
 """
 
 # Colunas acrescentadas depois da primeira versão: (tabela, coluna, definição)
@@ -196,6 +216,9 @@ MIGRACOES = [
     ("pedidos", "comissao_centavos", "INTEGER NOT NULL DEFAULT 0"),
     ("pedidos", "comissao_paga_em", "TEXT"),
     ("cupons", "revendedora_id", "INTEGER REFERENCES revendedoras(id)"),
+    # pré-venda: data de chegada do lote ('AAAA-MM-DD', horário de Manaus); o pedido guarda a previsão de envio
+    ("produtos", "prevenda_chegada", "TEXT"),
+    ("pedidos", "previsao_envio", "TEXT"),
 ]
 
 # Índices de colunas que vêm das MIGRACOES (só podem ser criados depois delas).

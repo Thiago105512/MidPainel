@@ -1,6 +1,6 @@
 """Carrinho: itens, preços recalculados no servidor (com ofertas), cupom, frete, desconto no Pix e parcelas."""
 
-from . import config, cupons, frete
+from . import config, cupons, frete, prevenda
 from .imagens import url_imagem
 from .promocoes import SQL_PROMO_ATIVA, preco_ancora, preco_com_desconto
 from .reservas import expirar_pendentes
@@ -45,7 +45,7 @@ def _linhas(conn, quantidades):
     produtos = {
         r["slug"]: r for r in conn.execute(
             f"""SELECT id, slug, nome, icone, foto, preco_centavos, preco_de_centavos, custo_centavos, estoque,
-                       {SQL_PROMO_ATIVA} AS promo_ativa,
+                       {SQL_PROMO_ATIVA} AS promo_ativa, {prevenda.SQL_PREVENDA_ATIVA} AS prevenda_ativa,
                        (SELECT COUNT(*) FROM variacoes v WHERE v.produto_id = p.id AND v.ativo = 1) AS n_variacoes
                 FROM produtos p WHERE ativo = 1 AND slug IN ({",".join("?" * len(slugs))})""",
             slugs,
@@ -63,7 +63,8 @@ def _linhas(conn, quantidades):
     linhas = []
     for (slug, vid), qtd in quantidades.items():
         r = produtos.get(slug)
-        base = {"slug": slug, "variacao_id": vid, "chave": chave_item(slug, vid), "quantidade": qtd}
+        base = {"slug": slug, "variacao_id": vid, "chave": chave_item(slug, vid), "quantidade": qtd,
+                "prevenda_chegada": r["prevenda_ativa"] if r is not None else None}
         if r is None:
             linhas.append({**base, "disponivel": False, "erro": "Produto indisponível."})
             continue
@@ -94,7 +95,9 @@ def _linhas(conn, quantidades):
             "total_centavos": preco * qtd,
             "disponivel": qtd <= estoque,
         }
-        if not linha["disponivel"]:
+        if not linha["disponivel"] and r["prevenda_ativa"]:  # na pré-venda, o estoque são as vagas do lote
+            linha["erro"] = "Vagas da pré-venda esgotadas." if estoque == 0 else f"Restam apenas {estoque} vaga(s)."
+        elif not linha["disponivel"]:
             linha["erro"] = "Sem estoque." if estoque == 0 else f"Restam apenas {estoque} unidade(s)."
         linhas.append(linha)
     return linhas
@@ -141,6 +144,10 @@ def _cotar(conn, itens, cep, pagamento, cupom=None, cpf=None):
     cotacao_frete = frete.cotar(cep_digitos(cep), subtotal) if cep else None
     if cotacao_frete and frete_gratis_cupom:
         cotacao_frete = {**cotacao_frete, "valor_centavos": 0, "gratis": True}
+    # pré-venda: o pedido sai na chegada do lote + manuseio, e o prazo do frete conta a partir daí
+    previsao_envio = prevenda.previsao_envio(l["prevenda_chegada"] for l in validas)
+    if cotacao_frete and previsao_envio:
+        cotacao_frete = {**cotacao_frete, "prazo_dias": cotacao_frete["prazo_dias"] - config.PRAZO_MANUSEIO_DIAS}
     valor_frete = cotacao_frete["valor_centavos"] if cotacao_frete else 0
     total = subtotal - desconto_cupom - desconto + valor_frete
     economia_ofertas = sum((l["preco_ancora_unit_centavos"] - l["preco_unit_centavos"]) * l["quantidade"]
@@ -166,4 +173,5 @@ def _cotar(conn, itens, cep, pagamento, cupom=None, cpf=None):
         "economia_centavos": economia_ofertas + desconto_cupom + desconto,
         "parcelas_max": parcelas_maximas(total) if pagamento == "cartao" else 1,
         "falta_para_frete_gratis": 0 if frete_gratis_cupom else max(0, config.FRETE_GRATIS_A_PARTIR - subtotal),
+        "previsao_envio": previsao_envio,
     }

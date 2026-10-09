@@ -1,4 +1,4 @@
-"""Limites de tentativas por IP (pedidos, consultas de pedido, avaliações e token do painel)."""
+"""Limites de tentativas por IP (pedidos, consultas de pedido, avaliações, encomendas e token do painel)."""
 
 import threading
 import time
@@ -48,4 +48,5 @@ def limites_padrao():
         "cpf_cupom": LimiteTaxa(30, 3600),
         "revendedoras": LimiteTaxa(3, 3600),       # cadastros de revendedora
         "revenda": LimiteTaxa(10, 15 * 60),         # token errado do painel da revendedora (igual ao admin)
+        "encomendas": LimiteTaxa(5, 3600),
     }

@@ -6,6 +6,8 @@ from . import horario
 from .avaliacoes import SQL_NOTAS, nota_media
 from .db import normaliza
 from .imagens import url_imagem
+from .prevenda import SQL_PREVENDA_ATIVA
+from .prevenda import resumo as resumo_prevenda
 from .promocoes import SQL_PROMO_ATIVA, preco_ancora, preco_com_desconto, sql_preco_final
 from .prova_social import SQL_COMPRADOS_JUNTOS, SQL_NOVIDADE, SQL_VENDAS_30D, selos
 from .validacao import NaoEncontrado
@@ -64,7 +66,8 @@ def _produto(row, vendas, admin=False, com_descricao=True):
         "categoria": {"slug": row["categoria_slug"], "nome": row["categoria_nome"]},
         "vendidos_30d": vendidos,
         "selos": selos(oferta=ancora is not None, vendidos_30d=vendidos, posicao_vendas=posicao, ativo=row["ativo"],
-                       novidade=row["novidade"], estoque=row["estoque"]),
+                       novidade=row["novidade"], estoque=row["estoque"], prevenda=bool(row["prevenda_ativa"])),
+        "prevenda": resumo_prevenda(row["prevenda_ativa"]),
         "nota_media": nota_media(row["soma_notas"], row["avaliacoes_total"]),
         "avaliacoes_total": row["avaliacoes_total"],
     }
@@ -74,6 +77,7 @@ def _produto(row, vendas, admin=False, com_descricao=True):
         produto["custo_centavos"] = row["custo_centavos"]
         produto["promo_pct"] = row["promo_pct"]
         produto["promo_fim"] = horario.iso_z(row["promo_fim"])
+        produto["prevenda_chegada"] = row["prevenda_chegada"]
     return produto
 
 
@@ -88,6 +92,7 @@ _SELECT_PRODUTO = f"""
            {SQL_PROMO_ATIVA} AS promo_ativa,
            {sql_preco_final()} AS preco_final,
            {SQL_NOVIDADE} AS novidade,
+           {SQL_PREVENDA_ATIVA} AS prevenda_ativa,
            av.soma_notas, COALESCE(av.total, 0) AS avaliacoes_total
     FROM produtos p JOIN categorias c ON c.id = p.categoria_id
     LEFT JOIN ({SQL_NOTAS}) av ON av.produto_id = p.id

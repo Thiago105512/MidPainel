@@ -1,6 +1,6 @@
 """Administração de produtos pelo painel: cadastro, edição, variações e galeria de fotos."""
 
-from . import config, promocoes
+from . import config, prevenda, promocoes
 from .catalogo import _SELECT_PRODUTO, _sincronizar_estoque, _variacoes, gerar_slug, obter_produto
 from .db import atualizar_busca, normaliza
 from .validacao import ErroValidacao, NaoEncontrado
@@ -56,6 +56,14 @@ def atualizar_produto(conn, slug, dados):
         if promo is not None:
             sets += ["promo_pct = ?", "promo_fim = ?"]
             params += list(promo)
+    try:
+        chegada = prevenda.validar(dados, row["prevenda_chegada"])
+    except ErroValidacao as e:
+        erros.update(e.campos)
+    else:
+        if chegada is not None:
+            sets.append("prevenda_chegada = ?")
+            params.append(chegada[0])
     if "categoria" in dados:
         cat = conn.execute("SELECT id FROM categorias WHERE slug = ?", (str(dados["categoria"]),)).fetchone()
         if cat:
