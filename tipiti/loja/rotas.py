@@ -4,7 +4,7 @@ import re
 import time
 from http import HTTPStatus
 
-from . import ajustes, config, fotos, frete, precificacao, regras
+from . import ajustes, config, fotos, frete, legal, precificacao, regras
 from .limites import MSG_LIMITE
 
 TAMANHO_MAX_CORPO = 64 * 1024
@@ -31,9 +31,11 @@ def _registrar(req, nome):
 ROTAS = []
 
 
-def rota(metodo, padrao, admin=False, corpo_max=TAMANHO_MAX_CORPO):
+def rota(metodo, padrao, admin=False, corpo_max=TAMANHO_MAX_CORPO, papel=None):
+    """papel (só rotas admin): None segue usuarios.OPERADOR_PODE; "operador" libera o operador; "dono" só o dono."""
     def registrar(func):
         func.corpo_max = corpo_max
+        func.papel = papel
         ROTAS.append((metodo, re.compile(f"^{padrao}$"), admin, func))
         return func
     return registrar
@@ -59,6 +61,8 @@ def api_loja(conn, req):
         "prova_social": a["prova_social"] == "1",
         "envio_hoje": ajustes.envio_hoje(a),
         "cupom_destaque": regras.cupom_destaque(conn),
+        "empresa": legal.empresa(a),
+        "pendencias_legais": legal.pendencias(a),
         "zonas_frete": [
             {"nome": nome, "valor_centavos": valor, "prazo_dias": prazo + config.PRAZO_MANUSEIO_DIAS}
             for nome, valor, prazo in dict.fromkeys((z[3], z[4], z[5]) for z in frete.ZONAS)
@@ -188,7 +192,12 @@ def api_admin_status(conn, req, codigo):
 
 @rota("GET", r"/api/admin/resumo", admin=True)
 def api_admin_resumo(conn, req):
-    return regras.resumo_vendas(conn)
+    from . import emails
+    resumo = regras.resumo_vendas(conn)
+    resumo["pendencias_legais"] = legal.pendencias(ajustes.obter(conn))
+    resumo["email_configurado"] = emails.configurado()
+    resumo["emails_pendentes"] = emails.pendentes(conn)
+    return resumo
 
 
 @rota("GET", r"/api/admin/produtos", admin=True)
@@ -198,7 +207,10 @@ def api_admin_produtos(conn, req):
 
 @rota("GET", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)", admin=True)
 def api_admin_obter_produto(conn, req, slug):
-    return regras.obter_produto(conn, slug, incluir_inativos=True, admin=True)
+    from . import avise_me
+    produto = regras.obter_produto(conn, slug, incluir_inativos=True, admin=True)
+    produto["avise_me_total"] = avise_me.total_produto(conn, produto["id"])
+    return produto
 
 
 @rota("PATCH", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)", admin=True)

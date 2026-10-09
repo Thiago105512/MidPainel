@@ -7,6 +7,7 @@ CLIENTE = {
     "telefone": "(92) 99123-4567", "cep": "69005-000", "endereco": "Av. Eduardo Ribeiro",
     "numero": "100", "complemento": "", "bairro": "Centro", "cidade": "Manaus", "uf": "AM",
     "pagamento": "pix", "parcelas": 1,
+    "aceite_termos": True,  # obrigatório desde a rodada 3 (LGPD / Decreto 7.962)
 }
 
 

@@ -153,3 +153,49 @@ início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o nú
 3. **Cotação de frete real** (Correios/transportadoras) e cálculo por peso/volume.
 4. E-mails transacionais (confirmação, envio, rastreio) e conta de cliente.
 5. Hospedagem com HTTPS para `tipiti.com.br` (proxy reverso na frente do servidor) e backup do banco.
+
+## E-mail (SMTP)
+
+Os e-mails (confirmação do pedido, mudança de status/rastreio, link da "Minha conta", avise-me e resposta LGPD)
+entram numa fila no banco e são enviados por uma thread em segundo plano, com até 5 tentativas e espera crescente.
+Sem SMTP configurado eles ficam "pendentes" (painel: `GET /api/admin/emails`, reenvio em
+`POST /api/admin/emails/<id>/reenviar`). A configuração é só por variáveis de ambiente:
+
+| Variável | Padrão | Para quê |
+|---|---|---|
+| `TIPITI_SMTP_HOST` | vazio (e-mail desligado) | Servidor SMTP (ex.: do seu provedor de e-mail transacional) |
+| `TIPITI_SMTP_PORTA` | `587` | Porta |
+| `TIPITI_SMTP_USUARIO` / `TIPITI_SMTP_SENHA` | vazio | Login no SMTP (a senha nunca aparece no painel nem no log) |
+| `TIPITI_SMTP_REMETENTE` | `Tipiti <contato@tipiti.com.br>` | Remetente (configure SPF/DKIM do domínio no provedor) |
+| `TIPITI_SMTP_TLS` | `starttls` | `starttls`, `ssl` (porta 465) ou `nenhum` |
+
+## Usuários do painel, papéis e verificação em duas etapas
+
+- Entre no `/admin` com o `TIPITI_ADMIN_TOKEN` e crie o primeiro usuário **dono** (`POST /api/admin/usuarios`).
+  Depois disso, use login (e-mail) e senha; o token continua valendo como **acesso de emergência** (papel dono) —
+  guarde-o fora do dia a dia.
+- Papéis: **dono** vê tudo; **operador** cuida de pedidos, separação/etiquetas, produtos (sem custo), avaliações,
+  avise-me, carrinhos abandonados, encomendas e viagens. O operador recebe 403 em calculadora, cupons,
+  configurações, usuários, revendedoras, privacidade, e-mails, feeds e histórico, e os campos de custo, lucro, margem
+  e comissão são retirados de todas as respostas para ele (regra central em `loja/usuarios.py`, `OPERADOR_PODE`;
+  rotas novas podem declarar `papel="operador"` ou `papel="dono"` na `@rota`).
+- Senhas com PBKDF2-SHA256 (600 000 iterações, sal aleatório); sessões de 12 h renovadas a cada uso, guardadas só
+  como hash; trocar a senha ou desativar o usuário encerra as sessões.
+- 2FA (TOTP, compatível com Google Authenticator, Authy etc.): `POST /api/admin/eu/2fa/iniciar` → cadastre o segredo
+  no aplicativo → `POST /api/admin/eu/2fa/confirmar`. Celular perdido: o dono desativa com
+  `PATCH /api/admin/usuarios/<id>` `{"desativar_2fa": true}`.
+- Toda escrita no painel (e login, falhas de login e exportação de dados pessoais) fica em `GET /api/admin/historico`.
+
+## LGPD e identificação da loja
+
+- Em Configurações, preencha razão social, CNPJ/CPF, endereço completo, cidade/UF/CEP, e-mail e telefone
+  (Decreto 7.962/2013). Enquanto faltar algo, `/api/loja` e o resumo do painel listam as `pendencias_legais`.
+- `/privacidade` e `/termos` são gerados com esses dados. **São modelos**: revise com um advogado antes de abrir a loja.
+- O checkout exige aceite dos termos (`aceite_termos: true`) e guarda o aceite opcional de contato por WhatsApp,
+  com data e hora.
+- Pedidos do titular em `/meus-dados` (`POST /api/privacidade/solicitacoes`, protocolo `LGPD-XXXXXXXX`, prazo de
+  resposta de 15 dias). No painel (só dono): exportar tudo o que a loja tem do CPF/e-mail e anonimizar — os valores,
+  itens, datas, cidade e UF dos pedidos ficam (obrigação fiscal); nome, e-mail, CPF, telefone e endereço são trocados.
+  Confirme a identidade do titular antes de enviar a cópia dos dados.
+- Prazos de guarda aplicados automaticamente: carrinhos abandonados 30 dias, links de acesso 30 minutos (apagados em
+  1 dia), sessões da Minha conta 30 dias, avise-me 180 dias após o aviso, e-mails enviados 180 dias.

@@ -50,6 +50,7 @@ def atualizar_status(conn, codigo, novo_status, somente_se=None):
         if not row:
             raise NaoEncontrado("Pedido não encontrado.")
         atual = row["status"]
+        mudou = False
         if atual != novo_status and (somente_se is None or atual == somente_se):
             if novo_status not in TRANSICOES[atual]:
                 raise ErroValidacao({"status": f"Um pedido “{STATUS_PEDIDO[atual]}” não pode passar para "
@@ -58,10 +59,14 @@ def atualizar_status(conn, codigo, novo_status, somente_se=None):
                 _devolver_estoque(conn, row["id"])
                 cupons.devolver_uso(conn, row["cupom_codigo"])
             conn.execute("UPDATE pedidos SET status = ? WHERE id = ?", (novo_status, row["id"]))
+            mudou = True
         conn.execute("COMMIT")
     except Exception:
         conn.execute("ROLLBACK")
         raise
+    if mudou:  # e-mail ao cliente, depois do COMMIT
+        from . import notificacoes
+        notificacoes.status_mudou(conn, codigo, novo_status)
 
 
 def expirar_pendentes(conn):

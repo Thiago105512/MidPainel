@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 
 from . import config, horario
+from .legal import PADROES_EMPRESA, validar_campo as validar_campo_empresa
 from .validacao import ErroValidacao, so_digitos
 
 PADROES = {
@@ -18,6 +19,7 @@ PADROES = {
     "horario_corte": "",   # "HH:MM" (horário de Manaus): pedidos até essa hora, em dia útil, saem no mesmo dia
     "prova_social": "1",   # "1" mostra compras recentes reais na loja; "0" desliga
 }
+PADROES.update(PADROES_EMPRESA)  # identificação da loja e encarregado LGPD (legal.py)
 
 
 def obter(conn):
@@ -47,7 +49,9 @@ def salvar(conn, dados):
         if chave not in PADROES:
             continue
         texto = str(valor if valor is not None else "").strip()
-        if chave == "whatsapp":
+        if chave in PADROES_EMPRESA:
+            texto = validar_campo_empresa(chave, valor, erros)
+        elif chave == "whatsapp":
             try:
                 texto = normalizar_whatsapp(texto)
             except ErroValidacao as e:

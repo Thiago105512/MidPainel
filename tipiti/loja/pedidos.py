@@ -1,8 +1,9 @@
 """Pedidos: criação (com baixa de estoque), consulta, listagem do painel e resumo de vendas."""
 
+import logging
 import secrets
 
-from . import config, cupons
+from . import config, cupons, horario
 from .avaliacoes import produtos_avaliados
 from .carrinho import FORMAS_PAGAMENTO, _cotar, _linhas, _normalizar_itens
 from .catalogo import _sincronizar_estoque
@@ -59,6 +60,10 @@ def _validar_cliente(dados):
     except (TypeError, ValueError):
         erros["parcelas"] = "Parcelamento inválido."
     c["cupom"] = dados.get("cupom")
+    # LGPD / Decreto 7.962: aceite expresso dos termos e da política; WhatsApp é opcional
+    if dados.get("aceite_termos") is not True:
+        erros["aceite_termos"] = "Para finalizar, aceite os termos de uso e a política de privacidade."
+    c["aceite_whatsapp"] = dados.get("aceite_whatsapp") is True
     if c["cupom"] is not None and not isinstance(c["cupom"], str):
         erros["cupom"] = "Cupom inválido. Confira o código."
     if erros:
@@ -126,6 +131,9 @@ def criar_pedido(conn, dados):
             ),
         )
         pedido_id = cur.lastrowid
+        conn.execute("UPDATE pedidos SET aceite_termos_em = datetime('now'), aceite_whatsapp = ?, "
+                     "aceite_whatsapp_em = CASE WHEN ? THEN datetime('now') END WHERE id = ?",
+                     (int(cliente["aceite_whatsapp"]), cliente["aceite_whatsapp"], pedido_id))
         conn.executemany(
             """INSERT INTO itens_pedido (pedido_id, produto_id, variacao_id, nome, variacao_nome,
                    preco_unit_centavos, preco_ancora_unit_centavos, custo_unit_centavos, quantidade)
@@ -137,7 +145,18 @@ def criar_pedido(conn, dados):
     except Exception:
         conn.execute("ROLLBACK")
         raise
+    _apos_criar_pedido(conn, codigo, pedido_id, cliente, dados)
     return codigo
+
+
+def _apos_criar_pedido(conn, codigo, pedido_id, cliente, dados):
+    """Depois do COMMIT: carrinho abandonado vira "convertido" e o e-mail de confirmação entra na fila."""
+    from . import carrinhos, notificacoes
+    try:
+        carrinhos.converter(conn, pedido_id, dados.get("carrinho"), cliente["telefone"])
+    except Exception:  # noqa: BLE001 — o pedido já foi gravado; o carrinho é só acompanhamento
+        logging.getLogger("tipiti.pedidos").exception("Falha ao marcar o carrinho do pedido %s", codigo)
+    notificacoes.pedido_criado(conn, codigo)
 
 
 def _itens_dos_pedidos(conn, pedido_ids, admin=False, pode_avaliar=None):
@@ -232,6 +251,11 @@ def listar_pedidos(conn, status=None):
             "nome": row["cliente_nome"], "email": row["cliente_email"], "cpf": row["cliente_cpf"],
             "telefone": row["cliente_telefone"],
         }
+        resumo["aceites"] = {
+            "termos_em": horario.iso_z(row["aceite_termos_em"]), "whatsapp": bool(row["aceite_whatsapp"]),
+            "whatsapp_em": horario.iso_z(row["aceite_whatsapp_em"]),
+        }
+        resumo["separado_em"] = horario.iso_z(row["separado_em"])
         resumo["entrega"] = {
             "cep": row["cep"], "endereco": row["endereco"], "numero": row["numero"],
             "complemento": row["complemento"], "bairro": row["bairro"], "cidade": row["cidade"], "uf": row["uf"],

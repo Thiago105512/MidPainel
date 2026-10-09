@@ -44,3 +44,22 @@ def cep_digitos(cep):
     if len(d) != 8:
         raise ErroValidacao({"cep": "Informe um CEP com 8 dígitos."})
     return d
+
+
+def cnpj_valido(cnpj):
+    d = so_digitos(cnpj)
+    if len(d) != 14 or d == d[0] * 14:
+        return False
+    for n in (12, 13):
+        pesos = list(range(n - 7, 1, -1)) + list(range(9, 1, -1))
+        soma = sum(int(d[i]) * pesos[i] for i in range(n))
+        resto = soma % 11
+        if (0 if resto < 2 else 11 - resto) != int(d[n]):
+            return False
+    return True
+
+
+def sem_quebras(texto, maximo=200):
+    """Texto de uma linha só (sem CR/LF nem outros controles), aparado e cortado — seguro para cabeçalhos."""
+    limpo = re.sub(r"[\x00-\x1f\x7f]+", " ", str(texto or "")).strip()
+    return limpo[:maximo]

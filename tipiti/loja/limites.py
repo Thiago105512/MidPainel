@@ -46,4 +46,13 @@ def limites_padrao():
         "consulta": LimiteTaxa(30, 3600),
         "avaliacoes": LimiteTaxa(20, 3600),
         "cpf_cupom": LimiteTaxa(30, 3600),
+        # rodada 3 (as chaves de "login", "conta_email" e "dois_fatores" são o login/e-mail/usuário, não o IP)
+        "login": LimiteTaxa(10, 15 * 60),
+        "dois_fatores": LimiteTaxa(10, 15 * 60),
+        "conta_acesso": LimiteTaxa(5, 3600),
+        "conta_email": LimiteTaxa(5, 3600),
+        "conta_sessao": LimiteTaxa(20, 15 * 60),
+        "avise_me": LimiteTaxa(10, 3600),
+        "privacidade": LimiteTaxa(3, 3600),
+        "carrinhos": LimiteTaxa(30, 3600),
     }
