@@ -6,6 +6,7 @@ from .regras import ErroValidacao, so_digitos
 PADROES = {
     "whatsapp": "",
     "whatsapp_mensagem": "Olá! Vim pelo site da Tipiti.",
+    "chave_pix": "",
     "cambio_usd": "5.50",
     "cambio_cny": "0.76",
     "impostos_pct": "60",
@@ -48,6 +49,9 @@ def salvar(conn, dados):
                 erros.update(e.campos)
         elif chave == "whatsapp_mensagem":
             texto = texto[:300]
+        elif chave == "chave_pix":
+            if len(texto) > 120:  # cortar geraria uma chave errada; melhor recusar
+                erros[chave] = "A chave Pix deve ter no máximo 120 caracteres."
         else:
             try:
                 numero = float(texto.replace(",", "."))

@@ -95,6 +95,8 @@ CREATE INDEX IF NOT EXISTS idx_produtos_categoria ON produtos(categoria_id);
 CREATE INDEX IF NOT EXISTS idx_itens_pedido ON itens_pedido(pedido_id);
 CREATE INDEX IF NOT EXISTS idx_variacoes_produto ON variacoes(produto_id);
 CREATE INDEX IF NOT EXISTS idx_fotos_produto ON fotos_produto(produto_id);
+CREATE INDEX IF NOT EXISTS idx_pedidos_status ON pedidos(status, id);
+CREATE INDEX IF NOT EXISTS idx_produtos_vitrine ON produtos(ativo, destaque, nome);
 """
 
 # Colunas acrescentadas depois da primeira versão: (tabela, coluna, definição)
@@ -104,7 +106,13 @@ MIGRACOES = [
     ("itens_pedido", "variacao_id", "INTEGER REFERENCES variacoes(id)"),
     ("itens_pedido", "variacao_nome", "TEXT NOT NULL DEFAULT ''"),
     ("itens_pedido", "custo_unit_centavos", "INTEGER"),
+    ("produtos", "busca", "TEXT NOT NULL DEFAULT ''"),
+    ("fotos_produto", "miniatura", "TEXT NOT NULL DEFAULT ''"),
 ]
+
+# Texto pesquisável já normalizado, gravado junto com o produto para a busca não processar linha a linha.
+_SQL_BUSCA = """UPDATE produtos SET busca = normaliza(
+                    nome || ' ' || descricao || ' ' || (SELECT c.nome FROM categorias c WHERE c.id = categoria_id))"""
 
 
 def normaliza(texto):
@@ -122,11 +130,21 @@ def conectar(caminho):
     conn = sqlite3.connect(str(caminho), isolation_level=None, timeout=10)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
+    conn.execute("PRAGMA synchronous = NORMAL")
+    conn.execute("PRAGMA busy_timeout = 5000")
     conn.create_function("normaliza", 1, normaliza, deterministic=True)
     return conn
 
 
+def atualizar_busca(conn, produto_id=None):
+    if produto_id is None:
+        conn.execute(_SQL_BUSCA)
+    else:
+        conn.execute(_SQL_BUSCA + " WHERE id = ?", (produto_id,))
+
+
 def inicializar(conn, carregar_catalogo=True):
+    conn.execute("PRAGMA journal_mode = WAL")  # leitores não esperam pela escrita de um pedido
     conn.executescript(ESQUEMA)
     for tabela, coluna, definicao in MIGRACOES:
         colunas = {r["name"] for r in conn.execute(f"PRAGMA table_info({tabela})")}
@@ -138,6 +156,7 @@ def inicializar(conn, carregar_catalogo=True):
            SELECT id, foto, 0 FROM produtos p
            WHERE foto != '' AND NOT EXISTS (SELECT 1 FROM fotos_produto f WHERE f.produto_id = p.id)"""
     )
+    conn.execute(_SQL_BUSCA + " WHERE busca = ''")
     vazio = conn.execute("SELECT COUNT(*) FROM categorias").fetchone()[0] == 0
     if carregar_catalogo and vazio:
         _carregar_catalogo(conn)
@@ -171,6 +190,7 @@ def _carregar_catalogo(conn):
                     "INSERT INTO variacoes (produto_id, nome, preco_centavos, estoque, ordem) VALUES (?, ?, ?, ?, ?)",
                     (cur.lastrowid, nome, preco, est, ordem),
                 )
+        atualizar_busca(conn)
         conn.execute("COMMIT")
     except Exception:
         conn.execute("ROLLBACK")

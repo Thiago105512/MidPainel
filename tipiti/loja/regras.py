@@ -4,7 +4,7 @@ import re
 import secrets
 
 from . import config, frete
-from .db import normaliza
+from .db import atualizar_busca, normaliza
 
 
 class ErroValidacao(Exception):
@@ -41,7 +41,18 @@ ORDENACOES = {
     "nome": "p.nome",
 }
 
+# Mudanças de status permitidas no painel. Cancelar devolve as unidades ao estoque.
+TRANSICOES = {
+    "aguardando_pagamento": ("pago", "cancelado"),
+    "pago": ("enviado", "cancelado", "aguardando_pagamento"),
+    "enviado": ("entregue",),
+    "entregue": (),
+    "cancelado": (),
+}
+
 _ALFABETO_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+_TAMANHO_CODIGO = 12
+INTEIRO_MAX = 10 ** 9
 
 
 # ---------------------------------------------------------------- validações
@@ -83,7 +94,14 @@ def gerar_slug(texto):
     return slug[:80].strip("-") or "produto"
 
 
-def _produto(row, admin=False):
+def url_miniatura(row):
+    """Miniatura da capa; fotos antigas, sem miniatura própria, usam o arquivo principal."""
+    if not row["foto"]:
+        return None
+    return f"/fotos/{row['foto_miniatura'] or row['foto']}"
+
+
+def _produto(row, admin=False, com_descricao=True):
     produto = {
         "id": row["id"],
         "slug": row["slug"],
@@ -96,9 +114,13 @@ def _produto(row, admin=False):
         "destaque": bool(row["destaque"]),
         "ativo": bool(row["ativo"]),
         "imagem": url_imagem(row["slug"], row["foto"]),
+        "imagem_miniatura": url_miniatura(row),
+        "cor": row["categoria_cor"],
         "tem_variacoes": row["n_variacoes"] > 0,
         "categoria": {"slug": row["categoria_slug"], "nome": row["categoria_nome"]},
     }
+    if not com_descricao:
+        del produto["descricao"]
     if admin:
         produto["custo_centavos"] = row["custo_centavos"]
     return produto
@@ -106,7 +128,10 @@ def _produto(row, admin=False):
 
 _SELECT_PRODUTO = """
     SELECT p.*, c.slug AS categoria_slug, c.nome AS categoria_nome, c.cor AS categoria_cor,
-           (SELECT COUNT(*) FROM variacoes v WHERE v.produto_id = p.id AND v.ativo = 1) AS n_variacoes
+           (SELECT COUNT(*) FROM variacoes v WHERE v.produto_id = p.id AND v.ativo = 1) AS n_variacoes,
+           (SELECT COUNT(*) FROM variacoes v WHERE v.produto_id = p.id) AS n_variacoes_total,
+           (SELECT f.miniatura FROM fotos_produto f WHERE f.produto_id = p.id ORDER BY f.ordem, f.id LIMIT 1)
+               AS foto_miniatura
     FROM produtos p JOIN categorias c ON c.id = p.categoria_id
 """
 
@@ -130,7 +155,8 @@ def obter_categoria(conn, slug):
 
 
 def listar_produtos(conn, categoria=None, busca=None, ordem="relevancia", destaque=False,
-                    limite=None, incluir_inativos=False, admin=False):
+                    limite=None, offset=0, incluir_inativos=False, admin=False):
+    """Listagens públicas não trazem a descrição (só a página do produto precisa dela)."""
     where, params = [], []
     if not incluir_inativos:
         where.append("p.ativo = 1")
@@ -141,18 +167,16 @@ def listar_produtos(conn, categoria=None, busca=None, ordem="relevancia", destaq
         where.append("p.destaque = 1")
     for termo in normaliza(busca or "").split()[:8]:
         termo = termo.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
-        where.append(
-            "normaliza(p.nome || ' ' || p.descricao || ' ' || c.nome) LIKE ? ESCAPE '\\'"
-        )
+        where.append("p.busca LIKE ? ESCAPE '\\'")
         params.append(f"%{termo}%")
     sql = _SELECT_PRODUTO
     if where:
         sql += " WHERE " + " AND ".join(where)
     sql += " ORDER BY " + ORDENACOES.get(ordem, ORDENACOES["relevancia"])
-    if limite:
-        sql += " LIMIT ?"
-        params.append(int(limite))
-    return [_produto(r, admin) for r in conn.execute(sql, params).fetchall()]
+    if limite or offset:
+        sql += " LIMIT ? OFFSET ?"
+        params += [int(limite) if limite else -1, int(offset or 0)]
+    return [_produto(r, admin, com_descricao=admin) for r in conn.execute(sql, params).fetchall()]
 
 
 def _variacoes(conn, produto_id, incluir_inativas=False):
@@ -165,9 +189,10 @@ def _variacoes(conn, produto_id, incluir_inativas=False):
 
 def _fotos(conn, produto_id):
     rows = conn.execute(
-        "SELECT id, arquivo FROM fotos_produto WHERE produto_id = ? ORDER BY ordem, id", (produto_id,)
+        "SELECT id, arquivo, miniatura FROM fotos_produto WHERE produto_id = ? ORDER BY ordem, id", (produto_id,)
     ).fetchall()
-    return [{"id": r["id"], "url": f"/fotos/{r['arquivo']}"} for r in rows]
+    return [{"id": r["id"], "url": f"/fotos/{r['arquivo']}", "miniatura": f"/fotos/{r['miniatura'] or r['arquivo']}"}
+            for r in rows]
 
 
 def obter_produto(conn, slug, incluir_inativos=False, admin=False):
@@ -187,13 +212,14 @@ def obter_produto(conn, slug, incluir_inativos=False, admin=False):
         _SELECT_PRODUTO + " WHERE c.slug = ? AND p.slug != ? AND p.ativo = 1 ORDER BY p.destaque DESC, RANDOM() LIMIT 4",
         (row["categoria_slug"], slug),
     ).fetchall()
-    produto["relacionados"] = [_produto(r) for r in relacionados]
+    produto["relacionados"] = [_produto(r, com_descricao=False) for r in relacionados]
     return produto
 
 
 def cor_e_icone(conn, slug):
     row = conn.execute(
-        "SELECT p.nome, p.icone, c.cor FROM produtos p JOIN categorias c ON c.id = p.categoria_id WHERE p.slug = ?",
+        """SELECT p.nome, p.icone, c.cor FROM produtos p JOIN categorias c ON c.id = p.categoria_id
+           WHERE p.slug = ? AND p.ativo = 1""",
         (slug,),
     ).fetchone()
     if not row:
@@ -202,11 +228,14 @@ def cor_e_icone(conn, slug):
 
 
 def _sincronizar_estoque(conn, produto_id):
-    """Produto com variações: o estoque do produto é a soma do estoque das variações ativas."""
+    """Produto com variações: o estoque do produto é a soma do estoque das variações ativas.
+
+    Se todas as variações foram desativadas, o estoque zera — o estoque antigo do produto não volta a ser vendido.
+    """
     conn.execute(
         """UPDATE produtos SET estoque = (
                SELECT COALESCE(SUM(estoque), 0) FROM variacoes WHERE produto_id = ? AND ativo = 1)
-           WHERE id = ? AND EXISTS (SELECT 1 FROM variacoes WHERE produto_id = ? AND ativo = 1)""",
+           WHERE id = ? AND EXISTS (SELECT 1 FROM variacoes WHERE produto_id = ?)""",
         (produto_id, produto_id, produto_id),
     )
 
@@ -228,9 +257,9 @@ def _normalizar_itens(itens):
         try:
             qtd = int(item.get("quantidade", 1))
             variacao = int(variacao) if variacao not in (None, "") else None
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):  # OverflowError: 1e400 vira float infinito
             raise ErroValidacao({"itens": "Item inválido."})
-        if not slug or qtd < 1:
+        if not slug or qtd < 1 or (variacao is not None and not 0 < variacao <= 2 ** 62):
             raise ErroValidacao({"itens": "Item inválido."})
         chave = (slug, variacao)
         quantidades[chave] = quantidades.get(chave, 0) + qtd
@@ -303,6 +332,11 @@ def parcelas_maximas(total_centavos):
 
 def cotar_carrinho(conn, itens, cep=None, pagamento="pix"):
     """Recalcula o carrinho com os preços do banco — o navegador nunca define preço."""
+    expirar_pendentes(conn)
+    return _cotar(conn, itens, cep, pagamento)
+
+
+def _cotar(conn, itens, cep, pagamento):
     quantidades = _normalizar_itens(itens)
     if pagamento not in FORMAS_PAGAMENTO:
         pagamento = "pix"
@@ -380,7 +414,7 @@ def _validar_cliente(dados):
 
 def _gerar_codigo(conn):
     while True:
-        codigo = "TPT-" + "".join(secrets.choice(_ALFABETO_CODIGO) for _ in range(8))
+        codigo = "TPT-" + "".join(secrets.choice(_ALFABETO_CODIGO) for _ in range(_TAMANHO_CODIGO))
         if not conn.execute("SELECT 1 FROM pedidos WHERE codigo = ?", (codigo,)).fetchone():
             return codigo
 
@@ -388,11 +422,12 @@ def _gerar_codigo(conn):
 def criar_pedido(conn, dados):
     cliente = _validar_cliente(dados)
     quantidades = _normalizar_itens(dados.get("itens"))
+    expirar_pendentes(conn)
 
     conn.execute("BEGIN IMMEDIATE")
     try:
-        cotacao = cotar_carrinho(conn, [{"slug": s, "variacao": v, "quantidade": q} for (s, v), q in quantidades.items()],
-                                 cep=cliente["cep"], pagamento=cliente["pagamento"])
+        cotacao = _cotar(conn, [{"slug": s, "variacao": v, "quantidade": q} for (s, v), q in quantidades.items()],
+                         cep=cliente["cep"], pagamento=cliente["pagamento"])
         if not cotacao["valido"]:
             problemas = {l["chave"]: l["erro"] for l in cotacao["itens"] if not l["disponivel"]}
             raise ErroValidacao({"itens": problemas}, "Alguns itens do carrinho não estão mais disponíveis.")
@@ -441,24 +476,28 @@ def criar_pedido(conn, dados):
     return codigo
 
 
-def _itens_do_pedido(conn, pedido_id, admin=False):
+def _itens_dos_pedidos(conn, pedido_ids, admin=False):
+    """Itens de vários pedidos numa consulta só: {pedido_id: [itens]}."""
+    itens = {pid: [] for pid in pedido_ids}
+    if not itens:
+        return itens
     rows = conn.execute(
-        """SELECT i.nome, i.variacao_nome, i.preco_unit_centavos, i.custo_unit_centavos, i.quantidade, p.slug, p.foto
-           FROM itens_pedido i JOIN produtos p ON p.id = i.produto_id
-           WHERE i.pedido_id = ? ORDER BY i.id""",
-        (pedido_id,),
+        f"""SELECT i.pedido_id, i.nome, i.variacao_nome, i.preco_unit_centavos, i.custo_unit_centavos, i.quantidade,
+                   p.slug, p.foto
+            FROM itens_pedido i JOIN produtos p ON p.id = i.produto_id
+            WHERE i.pedido_id IN ({",".join("?" * len(itens))}) ORDER BY i.id""",
+        list(itens),
     ).fetchall()
-    itens = []
     for r in rows:
         item = dict(r, imagem=url_imagem(r["slug"], r["foto"]))
-        del item["foto"]
+        del item["foto"], item["pedido_id"]
         if not admin:
             del item["custo_unit_centavos"]
-        itens.append(item)
+        itens[r["pedido_id"]].append(item)
     return itens
 
 
-def _resumo_pedido(conn, row, admin=False):
+def _resumo_pedido(row, itens, admin=False):
     resumo = {
         "codigo": row["codigo"],
         "status": row["status"],
@@ -473,10 +512,11 @@ def _resumo_pedido(conn, row, admin=False):
         "zona_frete": row["zona_frete"],
         "prazo_dias": row["prazo_dias"],
         "criado_em": row["criado_em"],
-        "itens": _itens_do_pedido(conn, row["id"], admin),
+        "itens": itens,
     }
     if admin:
         resumo["lucro_centavos"] = lucro_do_pedido(resumo)
+        resumo["proximos_status"] = list(TRANSICOES[row["status"]])
     return resumo
 
 
@@ -496,21 +536,24 @@ def obter_pedido_publico(conn, codigo):
     row = conn.execute("SELECT * FROM pedidos WHERE codigo = ?", (str(codigo).upper(),)).fetchone()
     if not row:
         raise NaoEncontrado("Pedido não encontrado.")
-    resumo = _resumo_pedido(conn, row)
+    resumo = _resumo_pedido(row, _itens_dos_pedidos(conn, [row["id"]])[row["id"]])
     resumo["primeiro_nome"] = row["cliente_nome"].split()[0]
     resumo["destino"] = f"{row['cidade']} - {row['uf']}"
     return resumo
 
 
 def listar_pedidos(conn, status=None):
+    expirar_pendentes(conn)
     sql, params = "SELECT * FROM pedidos", []
     if status:
         sql += " WHERE status = ?"
         params.append(status)
     sql += " ORDER BY id DESC LIMIT 500"
+    rows = conn.execute(sql, params).fetchall()
+    itens = _itens_dos_pedidos(conn, [r["id"] for r in rows], admin=True)
     pedidos = []
-    for row in conn.execute(sql, params).fetchall():
-        resumo = _resumo_pedido(conn, row, admin=True)
+    for row in rows:
+        resumo = _resumo_pedido(row, itens[row["id"]], admin=True)
         resumo["cliente"] = {
             "nome": row["cliente_nome"], "email": row["cliente_email"], "cpf": row["cliente_cpf"],
             "telefone": row["cliente_telefone"],
@@ -524,52 +567,84 @@ def listar_pedidos(conn, status=None):
 
 
 def resumo_vendas(conn):
-    pedidos = [p for p in listar_pedidos(conn) if p["status"] != "cancelado"]
-    lucros = [p["lucro_centavos"] for p in pedidos if p["lucro_centavos"] is not None]
-    faturamento = sum(p["total_centavos"] for p in pedidos)
+    """Totais de todos os pedidos não cancelados. O lucro só soma pedidos em que todo item tem custo."""
+    expirar_pendentes(conn)
+    totais = conn.execute(
+        """SELECT COUNT(*) AS pedidos,
+                  COALESCE(SUM(p.total_centavos), 0) AS faturamento,
+                  COALESCE(SUM(CASE WHEN COALESCE(i.sem_custo, 0) = 0
+                               THEN p.subtotal_centavos - p.desconto_centavos - COALESCE(i.custo, 0) END), 0) AS lucro,
+                  COALESCE(SUM(COALESCE(i.sem_custo, 0) > 0), 0) AS sem_custo
+           FROM pedidos p
+           LEFT JOIN (SELECT pedido_id, SUM(custo_unit_centavos * quantidade) AS custo,
+                             SUM(custo_unit_centavos IS NULL) AS sem_custo
+                      FROM itens_pedido GROUP BY pedido_id) i ON i.pedido_id = p.id
+           WHERE p.status != 'cancelado'"""
+    ).fetchone()
     baixo = conn.execute(
         "SELECT slug, nome, estoque FROM produtos WHERE ativo = 1 AND estoque <= ? ORDER BY estoque, nome",
         (config.ESTOQUE_BAIXO,),
     ).fetchall()
     return {
-        "pedidos": len(pedidos),
-        "faturamento_centavos": faturamento,
-        "ticket_medio_centavos": faturamento // len(pedidos) if pedidos else 0,
-        "lucro_centavos": sum(lucros),
-        "pedidos_sem_custo": len(pedidos) - len(lucros),
+        "pedidos": totais["pedidos"],
+        "faturamento_centavos": totais["faturamento"],
+        "ticket_medio_centavos": totais["faturamento"] // totais["pedidos"] if totais["pedidos"] else 0,
+        "lucro_centavos": totais["lucro"],
+        "pedidos_sem_custo": totais["sem_custo"],
         "estoque_baixo": [dict(r) for r in baixo],
     }
 
 
-def atualizar_status(conn, codigo, novo_status):
-    if novo_status not in STATUS_PEDIDO:
+def _devolver_estoque(conn, pedido_id):
+    itens = conn.execute(
+        "SELECT produto_id, variacao_id, quantidade FROM itens_pedido WHERE pedido_id = ?", (pedido_id,)
+    ).fetchall()
+    for item in itens:
+        if item["variacao_id"]:
+            conn.execute("UPDATE variacoes SET estoque = estoque + ? WHERE id = ?",
+                         (item["quantidade"], item["variacao_id"]))
+        else:
+            conn.execute("UPDATE produtos SET estoque = estoque + ? WHERE id = ?",
+                         (item["quantidade"], item["produto_id"]))
+    # também cobre pedidos antigos, sem variação, de produtos que depois ganharam variações
+    for produto_id in {i["produto_id"] for i in itens}:
+        _sincronizar_estoque(conn, produto_id)
+
+
+def atualizar_status(conn, codigo, novo_status, somente_se=None):
+    """Muda o status respeitando TRANSICOES. Com somente_se, só age se o pedido ainda estiver nesse status."""
+    if not isinstance(novo_status, str) or novo_status not in STATUS_PEDIDO:
         raise ErroValidacao({"status": "Status inválido."})
     conn.execute("BEGIN IMMEDIATE")
     try:
         row = conn.execute("SELECT id, status FROM pedidos WHERE codigo = ?", (codigo,)).fetchone()
         if not row:
             raise NaoEncontrado("Pedido não encontrado.")
-        if row["status"] == "cancelado" and novo_status != "cancelado":
-            raise ErroValidacao({"status": "Pedido cancelado não pode ser reaberto."})
-        if novo_status == "cancelado" and row["status"] != "cancelado":
-            # devolve as unidades ao estoque
-            itens = conn.execute(
-                "SELECT produto_id, variacao_id, quantidade FROM itens_pedido WHERE pedido_id = ?", (row["id"],)
-            ).fetchall()
-            for item in itens:
-                if item["variacao_id"]:
-                    conn.execute("UPDATE variacoes SET estoque = estoque + ? WHERE id = ?",
-                                 (item["quantidade"], item["variacao_id"]))
-                else:
-                    conn.execute("UPDATE produtos SET estoque = estoque + ? WHERE id = ?",
-                                 (item["quantidade"], item["produto_id"]))
-            for produto_id in {i["produto_id"] for i in itens if i["variacao_id"]}:
-                _sincronizar_estoque(conn, produto_id)
-        conn.execute("UPDATE pedidos SET status = ? WHERE id = ?", (novo_status, row["id"]))
+        atual = row["status"]
+        if atual != novo_status and (somente_se is None or atual == somente_se):
+            if novo_status not in TRANSICOES[atual]:
+                raise ErroValidacao({"status": f"Um pedido “{STATUS_PEDIDO[atual]}” não pode passar para "
+                                               f"“{STATUS_PEDIDO[novo_status]}”."})
+            if novo_status == "cancelado":
+                _devolver_estoque(conn, row["id"])
+            conn.execute("UPDATE pedidos SET status = ? WHERE id = ?", (novo_status, row["id"]))
         conn.execute("COMMIT")
     except Exception:
         conn.execute("ROLLBACK")
         raise
+
+
+def expirar_pendentes(conn):
+    """Cancela pedidos não pagos dentro do prazo de reserva, devolvendo as unidades ao estoque.
+
+    Sem isso, pedidos abandonados (ou feitos de má-fé) prenderiam o estoque para sempre.
+    """
+    vencidos = conn.execute(
+        "SELECT codigo FROM pedidos WHERE status = 'aguardando_pagamento' AND criado_em < datetime('now', ?)",
+        (f"-{int(config.PRAZO_RESERVA_HORAS)} hours",),
+    ).fetchall()
+    for row in vencidos:
+        atualizar_status(conn, row["codigo"], "cancelado", somente_se="aguardando_pagamento")
 
 
 # ---------------------------------------------------------------- administração de produtos
@@ -577,8 +652,8 @@ def atualizar_status(conn, codigo, novo_status):
 def _inteiro_ou_nulo(valor, erros, campo, aceita_nulo):
     if valor in (None, "") and aceita_nulo:
         return None
-    if isinstance(valor, bool) or not isinstance(valor, int) or valor < 0:
-        erros[campo] = "Use um número inteiro maior ou igual a zero."
+    if isinstance(valor, bool) or not isinstance(valor, int) or not 0 <= valor <= INTEIRO_MAX:
+        erros[campo] = "Use um número inteiro entre 0 e 1.000.000.000."
         return None
     return valor
 
@@ -593,9 +668,11 @@ def atualizar_produto(conn, slug, dados):
     for campo, aceita_nulo in (("preco_centavos", False), ("preco_de_centavos", True),
                                ("custo_centavos", True), ("estoque", False)):
         if campo in dados:
-            if campo == "estoque" and row["n_variacoes"]:
-                continue  # controlado pelas variações
+            if campo == "estoque" and row["n_variacoes_total"]:
+                continue  # controlado pelas variações, mesmo que todas estejam desativadas
             valor = _inteiro_ou_nulo(dados[campo], erros, campo, aceita_nulo)
+            if campo == "preco_centavos" and valor == 0:
+                erros[campo] = "Informe o preço."
             if campo not in erros:
                 sets.append(f"{campo} = ?")
                 params.append(valor)
@@ -623,6 +700,7 @@ def atualizar_produto(conn, slug, dados):
     if not sets:
         raise ErroValidacao({"geral": "Nada para atualizar."})
     conn.execute(f"UPDATE produtos SET {', '.join(sets)} WHERE id = ?", (*params, row["id"]))
+    atualizar_busca(conn, row["id"])
     return obter_produto(conn, slug, incluir_inativos=True, admin=True)
 
 
@@ -651,7 +729,7 @@ def criar_produto(conn, dados):
     slug, n = base, 2
     while conn.execute("SELECT 1 FROM produtos WHERE slug = ?", (slug,)).fetchone():
         slug, n = f"{base}-{n}", n + 1
-    conn.execute(
+    cur = conn.execute(
         """INSERT INTO produtos (slug, nome, descricao, categoria_id, preco_centavos, preco_de_centavos,
                custo_centavos, estoque, icone, destaque, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (slug, nome, str(dados.get("descricao") or "").strip()[:2000], cat["id"], numeros["preco_centavos"],
@@ -659,6 +737,7 @@ def criar_produto(conn, dados):
          str(dados.get("icone") or "📦")[:8], 1 if dados.get("destaque") else 0,
          0 if dados.get("ativo") is False else 1),
     )
+    atualizar_busca(conn, cur.lastrowid)
     return obter_produto(conn, slug, incluir_inativos=True, admin=True)
 
 
@@ -693,8 +772,10 @@ def salvar_variacoes(conn, slug, lista):
         estoque = _inteiro_ou_nulo(v.get("estoque", 0), e, "estoque", False)
         if e:
             erros[f"variacao_{i}"] = "Preço e estoque devem ser números inteiros maiores ou iguais a zero."
+        elif preco == 0:
+            erros[f"variacao_{i}"] = "Deixe o preço da opção vazio para usar o do produto, ou informe um valor."
         vid = v.get("id")
-        if vid is not None and vid not in existentes:
+        if vid is not None and (isinstance(vid, bool) or not isinstance(vid, int) or vid not in existentes):
             erros[f"variacao_{i}"] = "Variação de outro produto."
         limpas.append((vid, nome, str(v.get("sku") or "").strip()[:60], preco, estoque or 0,
                        0 if v.get("ativo") is False else 1, i))
@@ -735,28 +816,37 @@ def _atualizar_capa(conn, produto_id):
     conn.execute("UPDATE produtos SET foto = ? WHERE id = ?", (primeira["arquivo"] if primeira else "", produto_id))
 
 
-def adicionar_foto(conn, slug, arquivo):
+def adicionar_foto(conn, slug, arquivo, miniatura=""):
     produto_id = _id_produto(conn, slug)
-    total = conn.execute("SELECT COUNT(*) FROM fotos_produto WHERE produto_id = ?", (produto_id,)).fetchone()[0]
-    if total >= config.FOTOS_POR_PRODUTO:
-        raise ErroValidacao({"foto": f"Máximo de {config.FOTOS_POR_PRODUTO} fotos por produto."})
-    ordem = conn.execute("SELECT COALESCE(MAX(ordem), -1) + 1 FROM fotos_produto WHERE produto_id = ?",
-                         (produto_id,)).fetchone()[0]
-    conn.execute("INSERT INTO fotos_produto (produto_id, arquivo, ordem) VALUES (?, ?, ?)", (produto_id, arquivo, ordem))
-    _atualizar_capa(conn, produto_id)
+    # contagem e inserção na mesma transação: dois envios simultâneos não passam do limite
+    conn.execute("BEGIN IMMEDIATE")
+    try:
+        total = conn.execute("SELECT COUNT(*) FROM fotos_produto WHERE produto_id = ?", (produto_id,)).fetchone()[0]
+        if total >= config.FOTOS_POR_PRODUTO:
+            raise ErroValidacao({"foto": f"Máximo de {config.FOTOS_POR_PRODUTO} fotos por produto."})
+        ordem = conn.execute("SELECT COALESCE(MAX(ordem), -1) + 1 FROM fotos_produto WHERE produto_id = ?",
+                             (produto_id,)).fetchone()[0]
+        conn.execute("INSERT INTO fotos_produto (produto_id, arquivo, miniatura, ordem) VALUES (?, ?, ?, ?)",
+                     (produto_id, arquivo, miniatura, ordem))
+        _atualizar_capa(conn, produto_id)
+        conn.execute("COMMIT")
+    except Exception:
+        conn.execute("ROLLBACK")
+        raise
     return obter_produto(conn, slug, incluir_inativos=True, admin=True)
 
 
 def remover_foto(conn, slug, foto_id):
-    """Remove a foto do produto e devolve o nome do arquivo para ser apagado do disco."""
+    """Remove a foto do produto e devolve os nomes dos arquivos (foto e miniatura) para apagar do disco."""
     produto_id = _id_produto(conn, slug)
-    row = conn.execute("SELECT arquivo FROM fotos_produto WHERE id = ? AND produto_id = ?",
+    row = conn.execute("SELECT arquivo, miniatura FROM fotos_produto WHERE id = ? AND produto_id = ?",
                        (foto_id, produto_id)).fetchone()
     if not row:
         raise NaoEncontrado("Foto não encontrada.")
     conn.execute("DELETE FROM fotos_produto WHERE id = ?", (foto_id,))
     _atualizar_capa(conn, produto_id)
-    return row["arquivo"], obter_produto(conn, slug, incluir_inativos=True, admin=True)
+    arquivos = [a for a in (row["arquivo"], row["miniatura"]) if a]
+    return arquivos, obter_produto(conn, slug, incluir_inativos=True, admin=True)
 
 
 def definir_capa(conn, slug, foto_id):

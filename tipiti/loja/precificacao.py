@@ -11,7 +11,7 @@ from .regras import ErroValidacao
 MOEDAS = ("BRL", "USD", "CNY")
 
 
-def _decimal(dados, campo, erros, padrao=None, minimo=Decimal(0), maximo=None):
+def _decimal(dados, campo, erros, padrao=None, minimo=Decimal(0), maximo=Decimal(10 ** 9)):
     valor = dados.get(campo, padrao)
     if valor in (None, ""):
         valor = padrao
