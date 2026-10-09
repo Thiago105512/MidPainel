@@ -310,7 +310,7 @@ legend { font-weight: 800; font-size: 1.1rem; margin-bottom: 12px; }
   .whatsapp-flutuante { padding: 0; width: 56px; height: 56px; justify-content: center; font-size: 1.5rem; bottom: calc(16px + env(safe-area-inset-bottom)); }
   /* página de produto: barra fixa de compra; o WhatsApp flutuante sobe para não cobri-la */
   .pagina-produto main { padding-bottom: 170px; }
-  .pagina-produto .whatsapp-flutuante { bottom: calc(88px + env(safe-area-inset-bottom)); }
+  .pagina-produto .whatsapp-flutuante { display: none; } /* a barra de compra já tem o WhatsApp */
   .pagina-produto .toast { bottom: 100px; }
   .barra-compra { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: #fff; box-shadow: 0 -4px 18px rgba(0,0,0,.14); padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); gap: 10px; align-items: center; }
   .barra-compra-preco { display: flex; flex-direction: column; flex: 1; min-width: 0; line-height: 1.25; }
