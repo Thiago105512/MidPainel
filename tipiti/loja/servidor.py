@@ -21,7 +21,7 @@ from .imagens import svg_produto
 TAMANHO_MAX_CORPO = 64 * 1024
 TAMANHO_MAX_UPLOAD = (fotos.TAMANHO_MAX_FOTO + fotos.TAMANHO_MAX_MINIATURA) * 4 // 3 + 8192  # base64 + folga
 
-THREADS_MAX = 64
+THREADS_MAX = 128
 HOSTS_LOCAIS = ("127.0.0.1", "localhost", "::1")
 MSG_LIMITE = "Muitas tentativas. Aguarde alguns minutos."
 CACHE_LONGO = "public, max-age=31536000, immutable"
@@ -394,7 +394,17 @@ class TipitiHandler(BaseHTTPRequestHandler):
     server_version = "Tipiti/1.0"
     sys_version = ""
     protocol_version = "HTTP/1.1"
-    timeout = 15  # conexões lentas ou ociosas não prendem uma thread para sempre
+    timeout = 15  # tempo máximo para receber uma requisição já iniciada (corpo lento, upload pelo 4G)
+    ocioso = 5  # tempo que uma conexão keep-alive pode ficar parada ocupando uma vaga
+
+    def handle_one_request(self):
+        # espera curta pela próxima requisição; ao chegar a primeira linha, volta ao prazo normal em parse_request
+        self.connection.settimeout(self.ocioso)
+        super().handle_one_request()
+
+    def parse_request(self):
+        self.connection.settimeout(self.timeout)
+        return super().parse_request()
 
     corpo_pendente = False
     _cabecalho_apenas = False
