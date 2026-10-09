@@ -1,63 +1,122 @@
 // ------------------------------------------------------------- administração
 
 const STATUS_PEDIDO = { aguardando_pagamento: "Aguardando pagamento", pago: "Pago", enviado: "Enviado", entregue: "Entregue", cancelado: "Cancelado" };
+const CHAVE_ADMIN_ABA = "tipiti:admin-aba";
 
-let tokenRecusado = false;
+/** Quem está no painel (GET /api/admin/eu): {nome, papel, totp_ativo, via_token, login?, primeiro_usuario?}. */
+let painelEu = null;
+/** Mensagem mostrada na próxima tela de login (sessão expirada, token incorreto…). */
+let avisoLogin = null;
+/** "token" logo depois de tentar entrar com o token de emergência: um 401 em seguida é token incorreto. */
+let tentativaLogin = null;
+
+const ehDono = () => Boolean(painelEu && painelEu.papel === "dono");
+const NOME_PAPEL = { dono: "Dono", operador: "Operador" };
 
 function sairDoPainel(recusado = false) {
   try { sessionStorage.removeItem(CHAVE_ADMIN); } catch (_) { /* ignora */ }
-  tokenRecusado = recusado;
+  painelEu = null;
+  if (recusado) {
+    avisoLogin = tentativaLogin === "token" ? "Token incorreto. Confira e tente de novo."
+      : "Sua sessão terminou (expirou ou o acesso foi encerrado). Entre de novo.";
+  }
+  tentativaLogin = null;
   navegar("/admin", true);
 }
 
-/** Mostra o login se não houver token; senão devolve o cabeçalho de autorização. */
+/** Botão "Sair": encerra a sessão no servidor e volta ao login. */
+async function sairDaConta() {
+  try { await api("/api/admin/logout", { method: "POST", headers: autenticacaoSilenciosa() }); } catch (_) { /* sai do mesmo jeito */ }
+  avisoLogin = null;
+  sairDoPainel(false);
+  avisar("Você saiu do painel.");
+}
+
+/** Erros das ações do painel: 401 volta ao login; o resto vira aviso. */
+function erroAdmin(err) {
+  if (err && err.status === 401) return sairDoPainel(true);
+  avisar(err && err.status === 403 ? "Seu usuário não tem permissão para isso." : (err && err.message) || "Não foi possível completar a ação.");
+}
+
+/** Mostra o login se não houver sessão; senão devolve o cabeçalho de autorização. */
 function autenticacaoAdmin(main) {
   const token = lerArmazenado(CHAVE_ADMIN, "", sessionStorage);
   if (token) return { Authorization: `Bearer ${token}` };
-  const recusado = tokenRecusado;
-  tokenRecusado = false;
-  const input = h("input", { id: "token-admin", type: "password", autocomplete: "current-password", "aria-describedby": recusado ? "erro-token" : null,
-    "aria-invalid": recusado ? "true" : null });
-  trocar(main, h("div", { class: "painel login-admin" },
-    h("h1", {}, "Painel da loja"),
-    h("form", { onsubmit: (e) => { e.preventDefault(); gravar(CHAVE_ADMIN, input.value.trim(), sessionStorage); rotear(); } },
-      h("div", { class: "campo" + (recusado ? " com-erro" : "") },
-        h("label", { for: "token-admin" }, "Token de acesso"), input,
-        recusado ? h("span", { class: "msg-erro", id: "erro-token", role: "alert" }, "Token incorreto. Confira e tente de novo.") : null),
-      h("button", { class: "botao grande espaco-topo" }, "Entrar"))));
-  if (recusado) input.focus();
+  telaLoginAdmin(main);
   return null;
 }
 
-/** Cupons e avaliações só existem no servidor novo, que também traz os ajustes de gatilhos. null = ainda não sabe. */
-let painelNovo = null;
-async function detectarPainelNovo(auth) {
-  if (painelNovo !== null) return painelNovo;
-  try {
-    const aj = await api("/api/admin/ajustes", { headers: auth });
-    painelNovo = "horario_corte" in aj || "prova_social" in aj;
-  } catch (err) {
-    if (err.status === 401) throw err;
-    return false;  // tenta de novo na próxima vez
-  }
-  return painelNovo;
+/** Cabeçalho de autorização sem desenhar o login (para ações em páginas já abertas). */
+function autenticacaoSilenciosa() {
+  const token = lerArmazenado(CHAVE_ADMIN, "", sessionStorage);
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+async function carregarEu(auth) {
+  painelEu = await api("/api/admin/eu", { headers: auth });
+  tentativaLogin = null;
+  return painelEu;
+}
+
+// -- menu do painel: seções em grupos; o operador não vê as do dono
+
+const MENU_ADMIN = [
+  ["Vendas", [["pedidos", "Pedidos"], ["separacao", "Separação"], ["encomendas", "Encomendas"], ["carrinhos", "Carrinhos"], ["avise-me", "Avise-me"]]],
+  ["Catálogo", [["produtos", "Produtos"], ["novo", "+ Novo produto"], ["avaliacoes", "Avaliações"], ["feeds", "Feeds", true]]],
+  ["Logística", [["barcos", "Barcos"]]],
+  ["Parcerias", [["revendedoras", "Revendedoras", true], ["cupons", "Cupons", true]]],
+  ["Loja", [["configuracoes", "Configurações", true], ["usuarios", "Usuários", true], ["privacidade", "Privacidade", true],
+    ["emails", "E-mails", true], ["historico", "Histórico", true], ["calculadora", "Calculadora", true]]],
+];
+const ABAS_EXTRAS = { conta: "Minha conta" };
+
+function menuVisivel() {
+  return MENU_ADMIN.map(([grupo, abas]) => [grupo, abas.filter(([, , soDono]) => !soDono || ehDono())]).filter(([, abas]) => abas.length);
+}
+
+function rotuloAba(id) {
+  for (const [, abas] of MENU_ADMIN) for (const [aid, rotulo] of abas) if (aid === id) return rotulo;
+  return ABAS_EXTRAS[id] || id;
+}
+
+function abaPermitida(id) {
+  if (id in ABAS_EXTRAS) return true;
+  return menuVisivel().some(([, abas]) => abas.some(([aid]) => aid === id));
+}
+
+function abaGuardada() {
+  const aba = lerArmazenado(CHAVE_ADMIN_ABA, "pedidos");
+  return typeof aba === "string" && abaPermitida(aba) ? aba : "pedidos";
+}
+
+function irParaAba(id) {
+  gravar(CHAVE_ADMIN_ABA, id);
+  if (location.pathname === "/admin") rotear({ navegacao: true, rolar: true });
+  else navegar("/admin");
 }
 
 function cabecalhoAdmin(abaAtual) {
-  const abas = [["pedidos", "Pedidos"], ["produtos", "Produtos"], ["novo", "+ Novo produto"],
-    ...(painelNovo ? [["cupons", "Cupons"], ["avaliacoes", "Avaliações"]] : []),
-    ["calculadora", "Calculadora"], ["configuracoes", "Configurações"]];
-  const lista = h("div", { class: "abas", role: "tablist" }, abas.map(([id, rotulo]) =>
-    h("button", { class: "botao secundario", role: "tab", type: "button", "aria-selected": String(abaAtual === id),
-      onclick: () => { gravar("tipiti:admin-aba", id, sessionStorage); navegar("/admin"); } }, rotulo)));
-  // no celular a lista de abas rola: deixa a aba atual à vista
-  requestAnimationFrame(() => {
-    const atual = lista.querySelector('[aria-selected="true"]');
-    if (atual && lista.isConnected) lista.scrollLeft = Math.max(0, atual.offsetLeft - (lista.clientWidth - atual.offsetWidth) / 2);
-  });
+  const grupos = menuVisivel();
+  const seletor = h("select", { id: "menu-admin-celular", class: "campo-select", onchange: (e) => irParaAba(e.target.value) },
+    grupos.map(([grupo, abas]) => h("optgroup", { label: grupo },
+      abas.map(([id, rotulo]) => h("option", { value: id, selected: id === abaAtual }, rotulo)))),
+    h("optgroup", { label: "Você" }, h("option", { value: "conta", selected: abaAtual === "conta" }, "Minha conta")));
+  const eu = painelEu || {};
   return [
-    h("div", { class: "secao-cabecalho" }, h("h1", {}, "Painel da loja"), h("button", { class: "link-botao", type: "button", onclick: () => sairDoPainel() }, "Sair")),
-    lista,
+    h("div", { class: "admin-topo" },
+      h("h1", {}, "Painel da loja"),
+      h("div", { class: "admin-usuario" },
+        h("span", { class: "admin-quem" }, h("span", { "aria-hidden": "true" }, "👤 "), h("b", {}, eu.nome || "—"), " ",
+          h("span", { class: `etiqueta papel-${eu.papel || "x"}` }, eu.via_token ? "Dono (token)" : NOME_PAPEL[eu.papel] || "")),
+        h("button", { class: "botao secundario", type: "button", "aria-current": abaAtual === "conta" ? "page" : null,
+          onclick: () => irParaAba("conta") }, "Minha conta"),
+        h("button", { class: "botao secundario", type: "button", onclick: () => sairDaConta() }, "Sair"))),
+    h("nav", { class: "menu-admin", "aria-label": "Seções do painel" },
+      h("div", { class: "menu-admin-celular" }, h("label", { for: "menu-admin-celular" }, "Seção do painel"), seletor),
+      h("div", { class: "menu-admin-grupos" }, grupos.map(([grupo, abas]) => h("div", { class: "grupo-menu", role: "group", "aria-label": grupo },
+        h("span", { class: "grupo-titulo", "aria-hidden": "true" }, grupo),
+        h("div", { class: "grupo-abas" }, abas.map(([id, rotulo]) => h("button", { class: "botao secundario", type: "button",
+          "aria-current": abaAtual === id ? "page" : null, onclick: () => irParaAba(id) }, rotulo))))))),
   ];
 }
 
@@ -65,8 +124,53 @@ async function comTratamento(conteudo, ativo, fn) {
   try { await fn(); } catch (err) {
     if (!ativo()) return;
     if (err.status === 401) return sairDoPainel(true);
-    trocar(conteudo, h("div", { class: "alerta" }, err.message));
+    trocar(conteudo, h("div", { class: "alerta" }, err.status === 403 ? "Seu usuário não tem permissão para ver esta seção." : err.message));
   }
+}
+
+/** Conteúdo de cada seção (funções declaradas nas partes 08*). */
+async function renderizarAba(aba, auth) {
+  switch (aba) {
+    case "novo": return formularioNovoProduto(auth);
+    case "produtos": return listaProdutosAdmin(auth);
+    case "calculadora": {
+      const aj = await api("/api/admin/ajustes", { headers: auth });
+      return h("div", { class: "painel" }, h("h2", {}, "Calculadora de preço do importado"),
+        h("p", { class: "parcelado" }, "Descubra o custo real de cada unidade no Brasil e o preço de venda para a margem que você quer."),
+        calculadora(auth, aj));
+    }
+    case "configuracoes": return formularioAjustes(auth);
+    case "cupons": return painelCupons(auth);
+    case "avaliacoes": return painelAvaliacoes(auth);
+    case "separacao": return painelSeparacao(auth);
+    case "encomendas": return painelEncomendas(auth);
+    case "carrinhos": return painelCarrinhos(auth);
+    case "avise-me": return painelAviseMe(auth);
+    case "feeds": return painelFeeds(auth);
+    case "barcos": return painelViagens(auth);
+    case "revendedoras": return painelRevendedoras(auth);
+    case "usuarios": return painelUsuarios(auth);
+    case "privacidade": return painelPrivacidade(auth);
+    case "emails": return painelEmails(auth);
+    case "historico": return painelHistorico(auth);
+    case "conta": return painelMinhaConta(auth);
+    default: return painelPedidos(auth);
+  }
+}
+
+/** Seção aberta agora: `atualizarAba()` redesenha só o conteúdo dela, sem voltar ao topo. */
+let abaEmTela = null;
+
+async function atualizarAba() {
+  const e = abaEmTela;
+  if (!e || !e.ativo() || !e.conteudo.isConnected) return rotear();
+  const y = window.scrollY;
+  try {
+    const novo = await renderizarAba(e.aba, e.auth);
+    if (!e.ativo()) return;
+    trocar(e.conteudo, novo);
+    window.scrollTo(0, y);
+  } catch (err) { erroAdmin(err); }
 }
 
 async function paginaAdmin(main) {
@@ -74,96 +178,53 @@ async function paginaAdmin(main) {
   document.title = "Painel | Tipiti";
   const auth = autenticacaoAdmin(main);
   if (!auth) return;
-  let aba = lerArmazenado("tipiti:admin-aba", "pedidos", sessionStorage);
-  const conteudo = h("div", {}, h("div", { class: "carregando" }, "Carregando…"));
-  try { await detectarPainelNovo(auth); } catch (err) { if (ativo()) sairDoPainel(true); return; }
+  try { await carregarEu(auth); } catch (err) {
+    if (!ativo()) return;
+    if (err.status === 401) return sairDoPainel(true);
+    tentativaLogin = null;
+    trocar(main, h("div", { class: "painel login-admin" }, h("h1", {}, "Painel da loja"), h("div", { class: "alerta", role: "alert" }, err.message),
+      h("button", { class: "botao", type: "button", onclick: () => rotear() }, "Tentar novamente")));
+    return;
+  }
   if (!ativo()) return;
-  if (!painelNovo && (aba === "cupons" || aba === "avaliacoes")) aba = "pedidos";
-  trocar(main, cabecalhoAdmin(aba), conteudo);
+  const aba = abaGuardada();
+  document.title = `${rotuloAba(aba)} | Painel Tipiti`;
+  const conteudo = h("div", { class: "conteudo-admin" }, h("div", { class: "carregando" }, "Carregando…"));
+  trocar(main, cabecalhoAdmin(aba), avisosDeAcesso(auth), conteudo);
+  abaEmTela = { aba, auth, conteudo, ativo };
   await comTratamento(conteudo, ativo, async () => {
-    let novo;
-    if (aba === "novo") novo = formularioNovoProduto(auth);
-    else if (aba === "produtos") novo = await listaProdutosAdmin(auth);
-    else if (aba === "calculadora") {
-      const aj = await api("/api/admin/ajustes", { headers: auth });
-      novo = h("div", { class: "painel" }, h("h2", {}, "Calculadora de preço do importado"),
-        h("p", { class: "parcelado" }, "Descubra o custo real de cada unidade no Brasil e o preço de venda para a margem que você quer."),
-        calculadora(auth, aj));
-    } else if (aba === "configuracoes") novo = await formularioAjustes(auth);
-    else if (aba === "cupons") novo = await painelCupons(auth);
-    else if (aba === "avaliacoes") novo = await painelAvaliacoes(auth);
-    else novo = await painelPedidos(auth);
+    const novo = await renderizarAba(aba, auth);
     if (ativo()) trocar(conteudo, novo);
   });
 }
 
-function cartaoNumero(rotulo, valor, detalhe) {
-  return h("div", { class: "cartao-numero" }, h("small", {}, rotulo), h("b", {}, valor), detalhe ? h("small", {}, detalhe) : null);
+function cartaoNumero(rotulo, valor, detalhe, aba = null) {
+  const filhos = [h("small", {}, rotulo), h("b", {}, valor), detalhe ? h("small", {}, detalhe) : null];
+  return aba ? h("button", { class: "cartao-numero cartao-link", type: "button", onclick: () => irParaAba(aba) }, filhos)
+    : h("div", { class: "cartao-numero" }, filhos);
 }
 
 /** Célula com rótulo para a tabela virar cartão no celular. */
 const celula = (rotulo, attrs, ...filhos) => h("td", { "data-rotulo": rotulo, ...attrs }, h("div", { class: "celula-conteudo" }, ...filhos));
 
-async function painelPedidos(auth) {
-  const [pedidos, resumo] = await Promise.all([api("/api/admin/pedidos", { headers: auth }), api("/api/admin/resumo", { headers: auth })]);
-  const nomeItem = (i) => `${i.quantidade}× ${i.nome}${i.variacao_nome ? ` (${i.variacao_nome})` : ""}`;
-  return h("div", {},
-    h("div", { class: "cartoes-numeros" },
-      cartaoNumero("Pedidos", resumo.pedidos, "sem contar cancelados"),
-      cartaoNumero("Faturamento", brl(resumo.faturamento_centavos), "com frete"),
-      cartaoNumero("Lucro estimado", brl(resumo.lucro_centavos),
-        resumo.pedidos_sem_custo ? `${resumo.pedidos_sem_custo} pedido(s) sem custo cadastrado` : "produtos − custo, sem o frete"),
-      cartaoNumero("Ticket médio", brl(resumo.ticket_medio_centavos))),
-    resumo.estoque_baixo.length ? h("div", { class: "info-box espaco-baixo" },
-      h("b", {}, "⚠️ Estoque baixo: "),
-      resumo.estoque_baixo.map((p, k) => [k ? ", " : "", h("a", { href: `/admin/produto/${p.slug}` }, p.nome), ` (${p.estoque})`])) : null,
-    pedidos.length ? h("div", { class: "rolagem" }, h("table", { class: "tabela-admin tabela-cartoes tabela-pedidos" },
-      h("thead", {}, h("tr", {}, ["Pedido", "Cliente", "Entrega", "Itens", "Total", "Lucro", "Status"].map((t) => h("th", {}, t)))),
-      h("tbody", {}, pedidos.map((p) => {
-        const primeiroNome = p.cliente.nome.split(" ")[0];
-        const zap = `https://wa.me/55${p.cliente.telefone}?text=${encodeURIComponent(`Olá, ${primeiroNome}! Aqui é da Tipiti, sobre o seu pedido ${p.codigo}.`)}`;
-        // com `proximos_status`, só oferece o status atual e os próximos permitidos
-        const possiveis = Array.isArray(p.proximos_status)
-          ? [p.status, ...p.proximos_status.filter((s) => s !== p.status)] : Object.keys(STATUS_PEDIDO);
-        const travado = p.status === "cancelado" || possiveis.length < 2;
-        return h("tr", {},
-          celula("Pedido", {}, h("b", {}, p.codigo), h("div", { class: "parcelado" }, p.criado_em)),
-          celula("Cliente", {}, p.cliente.nome, h("div", { class: "parcelado" }, p.cliente.email),
-            h("div", { class: "parcelado" }, mascaraTelefone(p.cliente.telefone))),
-          celula("Entrega", {}, `${p.entrega.endereco}, ${p.entrega.numero} ${p.entrega.complemento}`,
-            h("div", { class: "parcelado" }, `${p.entrega.bairro} · ${p.entrega.cidade}/${p.entrega.uf} · ${mascaraCep(p.entrega.cep)}`),
-            h("div", { class: "parcelado" }, p.zona_frete)),
-          celula("Itens", {}, p.itens.map((i) => h("div", {}, nomeItem(i)))),
-          celula("Total", {}, brl(p.total_centavos), h("div", { class: "parcelado" }, `${p.pagamento_nome}${p.parcelas > 1 ? ` ${p.parcelas}x` : ""}`),
-            p.cupom_codigo ? h("div", { class: "parcelado" }, `🎟️ ${p.cupom_codigo}${p.desconto_cupom_centavos ? ` (−${brl(p.desconto_cupom_centavos)})` : ""}`) : null),
-          celula("Lucro", {}, p.lucro_centavos === null ? h("span", { class: "parcelado" }, "sem custo") : brl(p.lucro_centavos)),
-          celula("", { class: "celula-status" },
-            h("select", { class: "campo-select", disabled: travado, "aria-label": `Status do pedido ${p.codigo}`,
-              onchange: async (e) => {
-                if (e.target.value === "cancelado" && !confirm("Cancelar o pedido e devolver os itens ao estoque?")) { e.target.value = p.status; return; }
-                try { await api(`/api/admin/pedidos/${p.codigo}`, { method: "PATCH", headers: auth, body: JSON.stringify({ status: e.target.value }) }); avisar("Status atualizado ✔"); rotear(); }
-                catch (err) { if (err.status === 401) return sairDoPainel(true); avisar(err.message); e.target.value = p.status; }
-              } }, possiveis.map((v) => h("option", { value: v, selected: v === p.status }, STATUS_PEDIDO[v] || v))),
-            h("a", { class: "botao whatsapp", href: zap, target: "_blank", rel: "noopener" }, h("span", { "aria-hidden": "true" }, "💬"), ` WhatsApp de ${primeiroNome}`)));
-      }))))
-      : h("p", {}, "Nenhum pedido ainda."));
-}
-
 async function listaProdutosAdmin(auth) {
   const produtos = await api("/api/admin/produtos", { headers: auth });
   const margem = (p) => (p.custo_centavos ? `${Math.round(((p.preco_centavos - p.custo_centavos) / p.preco_centavos) * 100)}%` : "—");
+  const dono = ehDono();  // operador não recebe custo nem margem: as colunas nem aparecem
+  if (!produtos.length) return h("p", { class: "painel" }, "Nenhum produto ainda. Use “+ Novo produto”.");
   return h("div", { class: "rolagem" }, h("table", { class: "tabela-admin tabela-cartoes tabela-produtos" },
-    h("thead", {}, h("tr", {}, h("th", {}, "Produto"), h("th", {}, "Preço"), h("th", {}, "Custo"),
-      h("th", {}, "Margem bruta", h("small", { class: "dica-coluna" }, "lucro ÷ preço")), h("th", {}, "Estoque"), h("th", {}, "Situação"), h("th", {}, h("span", { class: "sr" }, "Ações")))),
+    h("thead", {}, h("tr", {}, h("th", {}, "Produto"), h("th", {}, "Preço"), dono ? h("th", {}, "Custo") : null,
+      dono ? h("th", {}, "Margem bruta", h("small", { class: "dica-coluna" }, "lucro ÷ preço")) : null, h("th", {}, "Estoque"), h("th", {}, "Situação"), h("th", {}, h("span", { class: "sr" }, "Ações")))),
     h("tbody", {}, produtos.map((p) => h("tr", {},
       celula("", { class: "celula-produto" }, h("div", { class: "produto-admin" }, h("img", { src: imagemProduto(p, true), alt: "", class: "miniatura", width: 48, height: 48, loading: "lazy" }),
         h("div", {}, h("a", { href: `/admin/produto/${p.slug}` }, p.nome),
           h("div", { class: "parcelado" }, p.categoria.nome, p.tem_variacoes ? " · com opções" : "")))),
       celula("Preço", {}, brl(p.preco_centavos)),
-      celula("Custo", {}, p.custo_centavos ? brl(p.custo_centavos) : h("span", { class: "parcelado" }, "—")),
-      celula("Margem bruta (lucro ÷ preço)", {}, margem(p)),
+      dono ? celula("Custo", {}, p.custo_centavos ? brl(p.custo_centavos) : h("span", { class: "parcelado" }, "—")) : null,
+      dono ? celula("Margem bruta (lucro ÷ preço)", {}, margem(p)) : null,
       celula("Estoque", { class: p.estoque <= 3 ? "esgotado" : "" }, p.estoque),
       celula("Situação", {}, p.ativo ? "No ar" : "Fora do ar", p.destaque ? " · ⭐" : "",
+        p.prevenda ? h("div", { class: "parcelado" }, `📦 Pré-venda: chega em ${dataBrAdm(p.prevenda.chegada)}`) : null,
         p.promo_pct && msAte(p.promo_fim) > 0 ? h("div", { class: "parcelado" }, `⚡ −${p.promo_pct}% até ${textoManaus(p.promo_fim)}`) : null),
       celula("", { class: "celula-acao" }, h("a", { class: "botao secundario", href: `/admin/produto/${p.slug}` }, "Editar")))))));
 }
@@ -173,30 +234,35 @@ async function paginaEditorProduto(main, slug) {
   document.title = "Editar produto | Tipiti";
   const auth = autenticacaoAdmin(main);
   if (!auth) return;
-  const conteudo = h("div", {}, h("div", { class: "carregando" }, "Carregando…"));
-  try { await detectarPainelNovo(auth); } catch (err) { if (ativo()) sairDoPainel(true); return; }
+  const conteudo = h("div", { class: "conteudo-admin" }, h("div", { class: "carregando" }, "Carregando…"));
+  try { await carregarEu(auth); } catch (err) { if (ativo()) erroAdmin(err); return; }
   if (!ativo()) return;
+  gravar(CHAVE_ADMIN_ABA, "produtos");
   trocar(main, cabecalhoAdmin("produtos"), conteudo);
   await comTratamento(conteudo, ativo, async () => {
-    const [p, aj] = await Promise.all([api(`/api/admin/produtos/${slug}`, { headers: auth }), api("/api/admin/ajustes", { headers: auth })]);
+    const dono = ehDono();  // operador: sem custo, oferta relâmpago e calculadora (o servidor recusaria)
+    const [p, aj] = await Promise.all([api(`/api/admin/produtos/${slug}`, { headers: auth }),
+      dono ? api("/api/admin/ajustes", { headers: auth }) : null]);
     if (!ativo()) return;
     document.title = `${p.nome} | Painel Tipiti`;
     trocar(conteudo,
       h("p", {}, h("a", { href: "/admin" }, "← Voltar aos produtos"), " · ", h("a", { href: `/produto/${p.slug}`, target: "_blank", rel: "noopener" }, "Ver na loja ↗")),
+      p.avise_me_total ? h("p", { class: "info-box" }, `🔔 ${p.avise_me_total} ${p.avise_me_total === 1 ? "pessoa pediu" : "pessoas pediram"} para ser avisada quando chegar. `,
+        h("button", { class: "link-botao", type: "button", onclick: () => irParaAba("avise-me") }, "Ver avise-me")) : null,
       h("div", { class: "editor" },
-        h("div", {}, secaoDadosProduto(auth, p), secaoOfertaRelampago(auth, p)),
+        h("div", {}, secaoDadosProduto(auth, p), secaoPrevenda(auth, p), dono ? secaoOfertaRelampago(auth, p) : null),
         h("div", {},
           secaoFotos(auth, p),
           secaoVariacoes(auth, p),
-          h("section", { class: "painel" }, h("h2", {}, "Calculadora de preço"),
+          dono ? h("section", { class: "painel" }, h("h2", {}, "Calculadora de preço"),
             h("p", { class: "parcelado" }, "Calcule o custo real deste produto e aplique o preço sugerido."),
             calculadora(auth, aj, { precoAtual: p.preco_centavos, aoAplicar: async (preco, custo) => {
               try {
                 await api(`/api/admin/produtos/${p.slug}`, { method: "PATCH", headers: auth, body: JSON.stringify({ preco_centavos: preco, custo_centavos: custo }) });
                 avisar("Preço e custo aplicados ✔");
                 rotear();
-              } catch (err) { avisar(err.message); }
-            } })))));
+              } catch (err) { erroAdmin(err); }
+            } })) : null)));
   });
 }
 
@@ -208,16 +274,18 @@ function seletorCategoria(atual) {
     h("span", { class: "msg-erro", id: "erro-categoria" }));
 }
 
+/** O custo só aparece para o dono (o servidor não o mostra nem grava para o operador). */
 function camposPreco(p = {}) {
   return [
     campo("preco_centavos", "Preço de venda (R$)", { inputmode: "decimal", placeholder: "49,90", value: textoReais(p.preco_centavos) }, "c2"),
     campo("preco_de_centavos", "Preço antigo (riscado, opcional)", { inputmode: "decimal", placeholder: "69,90", value: textoReais(p.preco_de_centavos) }, "c2"),
-    campo("custo_centavos", "Custo por unidade (R$, só você vê)", { inputmode: "decimal", placeholder: "22,50", value: textoReais(p.custo_centavos) }, "c2"),
+    ehDono() ? campo("custo_centavos", "Custo por unidade (R$, só você vê)", { inputmode: "decimal", placeholder: "22,50", value: textoReais(p.custo_centavos) }, "c2") : null,
   ];
 }
 
 function valoresPreco(f) {
-  const dados = { preco_centavos: reais(f.preco_centavos.value), preco_de_centavos: reais(f.preco_de_centavos.value), custo_centavos: reais(f.custo_centavos.value) };
+  const dados = { preco_centavos: reais(f.preco_centavos.value), preco_de_centavos: reais(f.preco_de_centavos.value) };
+  if (f.custo_centavos) dados.custo_centavos = reais(f.custo_centavos.value);
   const erros = {};
   for (const [k, v] of Object.entries(dados)) if (Number.isNaN(v)) erros[k] = "Valor inválido. Use o formato 49,90.";
   if (dados.preco_centavos === null) erros.preco_centavos = "Informe o preço.";
@@ -259,6 +327,7 @@ function secaoDadosProduto(auth, p) {
       avisar("Produto salvo ✔");
     } catch (err) {
       mostrarErros(form, err.campos);
+      if (err.status === 401) return sairDoPainel(true);
       alerta.textContent = err.message;
       alerta.hidden = false;
     }
@@ -482,8 +551,43 @@ function calculadora(auth, aj, { precoAtual = null, aoAplicar = null } = {}) {
   return h("div", { class: "calculadora" }, form, resultado);
 }
 
+const UFS_ADMIN = ["AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO"];
+
+/** CNPJ (14) ou CPF (11) só com dígitos -> formatado; outro tamanho fica como veio. */
+function documentoAdm(d) {
+  const n = String(d || "").replace(/\D/g, "");
+  if (n.length === 14) return `${n.slice(0, 2)}.${n.slice(2, 5)}.${n.slice(5, 8)}/${n.slice(8, 12)}-${n.slice(12)}`;
+  if (n.length === 11) return mascaraCpf(n);
+  return String(d || "");
+}
+
+/** Faixa vermelha "Antes de abrir a loja, preencha: …" (dados obrigatórios da empresa que faltam). */
+function faixaPendenciasLegais(pendencias, comLink = true) {
+  if (!Array.isArray(pendencias) || !pendencias.length) return null;
+  return h("div", { class: "faixa-pendencias", role: "alert" },
+    h("b", {}, "Antes de abrir a loja, preencha: "), pendencias.join(", "), ".",
+    h("span", { class: "parcelado-claro" }, " São exigidos por lei (Decreto 7.962/2013) e aparecem na Política de Privacidade e nos Termos."),
+    comLink ? h("button", { class: "botao", type: "button", onclick: () => irParaAba("configuracoes") }, "Preencher agora") : null);
+}
+
+/** Situação do envio de e-mails (o SMTP é configurado no servidor, não no painel). */
+function caixaEmail(resumo) {
+  if (!resumo || !("email_configurado" in resumo)) return null;
+  const pendentes = resumo.emails_pendentes || 0;
+  return h("div", { class: `caixa-email ${resumo.email_configurado ? "ok" : "desligado"}` },
+    h("b", {}, resumo.email_configurado ? "✉️ E-mail ligado" : "✉️ E-mail desligado"),
+    h("p", {}, resumo.email_configurado
+      ? `Os e-mails aos clientes estão saindo pelo servidor. ${pendentes ? `${pendentes} na fila agora.` : "Nenhum na fila."}`
+      : `Sem servidor de e-mail, as mensagens ficam guardadas na fila (${pendentes} pendente${pendentes === 1 ? "" : "s"}) e saem quando ele for configurado.`),
+    h("p", { class: "parcelado" }, "O e-mail é configurado no servidor da loja (variáveis TIPITI_SMTP_HOST, TIPITI_SMTP_USUARIO, TIPITI_SMTP_SENHA…), não aqui. Peça a quem cuida do servidor; veja o LEIA-ME."),
+    ehDono() ? h("button", { class: "link-botao", type: "button", onclick: () => irParaAba("emails") }, "Ver a fila de e-mails") : null);
+}
+
 async function formularioAjustes(auth) {
-  const aj = await api("/api/admin/ajustes", { headers: auth });
+  const [aj, resumo] = await Promise.all([api("/api/admin/ajustes", { headers: auth }),
+    api("/api/admin/resumo", { headers: auth }).catch(() => null)]);
+  const faixa = h("div", {}, faixaPendenciasLegais(resumo && resumo.pendencias_legais, false));
+  const alerta = h("div", { class: "alerta", hidden: true, role: "alert" });
   const form = h("form", { class: "painel", novalidate: true },
     h("h2", {}, "WhatsApp da loja"),
     h("p", { class: "parcelado" }, "Com o número preenchido, aparecem o botão flutuante de atendimento e as opções “Pedir pelo WhatsApp” no produto, no carrinho e na confirmação do pedido."),
@@ -491,10 +595,36 @@ async function formularioAjustes(auth) {
       campo("whatsapp", "Número com DDD", { type: "tel", inputmode: "numeric", placeholder: "(92) 99123-4567",
         value: aj.whatsapp ? mascaraTelefone(aj.whatsapp.slice(2)) : "" }, "c2"),
       campo("whatsapp_mensagem", "Mensagem inicial do botão de atendimento", { maxlength: 300, value: aj.whatsapp_mensagem }, "c4")),
+
     h("h2", { class: "espaco-topo-grande" }, "Pagamento por Pix"),
+    h("p", { class: "parcelado" }, "Com a chave e o nome do recebedor preenchidos, cada pedido no Pix ganha o “copia e cola” e o QR Code com o valor certo."),
     h("div", { class: "grade-form" },
-      campo("chave_pix", "Chave Pix", { maxlength: 140, autocomplete: "off", placeholder: "CNPJ, e-mail, telefone ou chave aleatória", value: aj.chave_pix ?? "" }, "c6",
-        "Aparece para o cliente na confirmação do pedido, com o valor e o botão “Copiar chave Pix”. Deixe vazio para mandar as instruções pelo WhatsApp.")),
+      campo("chave_pix", "Chave Pix", { maxlength: 120, autocomplete: "off", spellcheck: "false", placeholder: "e-mail, CPF, CNPJ, celular ou chave aleatória", value: aj.chave_pix ?? "" }, "c6",
+        "Celular com DDD entre parênteses — (92) 99123-4567 —, CPF com pontos e traço, CNPJ, e-mail ou chave aleatória."),
+      campo("pix_nome", "Nome do recebedor (como no banco)", { maxlength: 25, autocomplete: "off", placeholder: "TIPITI IMPORTADOS", value: aj.pix_nome ?? "" }, "c4",
+        "Até 25 letras. Gravamos sem acentos e em maiúsculas."),
+      campo("pix_cidade", "Cidade do recebedor", { maxlength: 15, placeholder: "MANAUS", value: aj.pix_cidade ?? "" }, "c2", "Até 15 letras.")),
+
+    h("h2", { class: "espaco-topo-grande" }, "Identificação da loja"),
+    h("p", { class: "parcelado" }, "Obrigatório para vender pela internet: aparece no rodapé, na Política de Privacidade, nos Termos e como remetente das etiquetas."),
+    h("div", { class: "grade-form" },
+      campo("empresa_razao_social", "Razão social (ou seu nome, se for CPF)", { maxlength: 200, value: aj.empresa_razao_social ?? "" }, "c4"),
+      campo("empresa_nome_fantasia", "Nome fantasia", { maxlength: 200, value: aj.empresa_nome_fantasia ?? "" }, "c2"),
+      campo("empresa_documento", "CNPJ ou CPF", { inputmode: "numeric", maxlength: 18, value: documentoAdm(aj.empresa_documento) }, "c2"),
+      campo("empresa_endereco", "Endereço (rua, número, complemento, bairro)", { maxlength: 200, autocomplete: "street-address", value: aj.empresa_endereco ?? "" }, "c4"),
+      campo("empresa_cidade", "Cidade", { maxlength: 200, value: aj.empresa_cidade ?? "" }, "c2"),
+      h("div", { class: "campo c2", "data-campo": "empresa_uf" },
+        h("label", { for: "campo-empresa_uf" }, "UF"),
+        h("select", { id: "campo-empresa_uf", name: "empresa_uf", class: "campo-select", "aria-describedby": "erro-empresa_uf" },
+          h("option", { value: "" }, "Escolha…"), UFS_ADMIN.map((uf) => h("option", { value: uf, selected: uf === aj.empresa_uf }, uf))),
+        h("span", { class: "msg-erro", id: "erro-empresa_uf" })),
+      campo("empresa_cep", "CEP", { inputmode: "numeric", maxlength: 9, value: aj.empresa_cep ? mascaraCep(aj.empresa_cep) : "" }, "c2"),
+      campo("empresa_email", "E-mail de atendimento", { type: "email", maxlength: 200, value: aj.empresa_email ?? "" }, "c3"),
+      campo("empresa_telefone", "Telefone", { type: "tel", inputmode: "numeric", value: aj.empresa_telefone ? mascaraTelefone(aj.empresa_telefone.replace(/^55(?=\d{10,11}$)/, "")) : "" }, "c3"),
+      campo("encarregado_dados", "Encarregado de dados (LGPD): nome e e-mail", { maxlength: 200, value: aj.encarregado_dados ?? "",
+        placeholder: aj.empresa_email || "Maria Silva — privacidade@tipiti.com.br" }, "c6",
+        "Quem responde aos pedidos dos clientes sobre os dados pessoais. Vazio: usamos o e-mail de atendimento.")),
+
     h("h2", { class: "espaco-topo-grande" }, "Padrões da calculadora"),
     h("div", { class: "grade-form" },
       campo("cambio_usd", "Câmbio do dólar (R$)", { inputmode: "decimal", value: aj.cambio_usd }, "c2"),
@@ -503,16 +633,23 @@ async function formularioAjustes(auth) {
       campo("taxa_pagamento_pct", "Taxa do meio de pagamento (%)", { inputmode: "decimal", value: aj.taxa_pagamento_pct }, "c2"),
       campo("margem_pct", "Margem desejada (%)", { inputmode: "decimal", value: aj.margem_pct }, "c2")),
     camposGatilhosAjustes(aj),
+    alerta,
     h("button", { class: "botao grande espaco-topo", type: "submit" }, "Salvar configurações"));
-  form.elements.whatsapp.addEventListener("input", (e) => (e.target.value = mascaraTelefone(e.target.value)));
+  const f = form.elements;
+  f.whatsapp.addEventListener("input", (e) => (e.target.value = mascaraTelefone(e.target.value)));
+  f.empresa_telefone.addEventListener("input", (e) => (e.target.value = mascaraTelefone(e.target.value)));
+  f.empresa_cep.addEventListener("input", (e) => (e.target.value = mascaraCep(e.target.value)));
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    alerta.hidden = true;
     const dados = Object.fromEntries(new FormData(form).entries());
-    if (form.elements.prova_social) dados.prova_social = form.elements.prova_social.checked ? "1" : "0";
+    if (f.prova_social) dados.prova_social = f.prova_social.checked ? "1" : "0";
     for (const nome of ["cambio_usd", "cambio_cny", "impostos_pct", "taxa_pagamento_pct", "margem_pct"]) {
       const n = lerNumero(dados[nome], { pontoDecimal: true });
       if (n !== null && !Number.isNaN(n)) dados[nome] = String(n);  // inválido segue como está e o servidor aponta o erro
     }
+    const botao = form.querySelector("button[type=submit]");
+    botao.disabled = true;
     try {
       const salvo = await api("/api/admin/ajustes", { method: "PUT", headers: auth, body: JSON.stringify(dados) });
       mostrarErros(form, {});
@@ -521,14 +658,25 @@ async function formularioAjustes(auth) {
       if (typeof salvo.chave_pix === "string") estado.loja.chave_pix = salvo.chave_pix;
       if (typeof salvo.prova_social === "string") estado.loja.prova_social = salvo.prova_social === "1";
       atualizarWhatsAppFlutuante();
+      // o servidor normaliza (nome do Pix em maiúsculas, documento só com dígitos): mostra como ficou gravado
+      if (typeof salvo.pix_nome === "string") f.pix_nome.value = salvo.pix_nome;
+      if (typeof salvo.pix_cidade === "string") f.pix_cidade.value = salvo.pix_cidade;
+      if (typeof salvo.empresa_documento === "string") f.empresa_documento.value = documentoAdm(salvo.empresa_documento);
+      const novoResumo = await api("/api/admin/resumo", { headers: auth }).catch(() => null);
+      if (novoResumo) trocar(faixa, faixaPendenciasLegais(novoResumo.pendencias_legais, false));
       avisar("Configurações salvas ✔");
     } catch (err) {
       if (err.status === 401) return sairDoPainel(true);
       mostrarErros(form, err.campos);
+      const msgs = Object.values(err.campos || {}).filter((m) => typeof m === "string");
+      alerta.replaceChildren(h("b", {}, err.message), ...msgs.map((m) => h("div", {}, m)));
+      alerta.hidden = false;
       avisar(err.message);
+    } finally {
+      botao.disabled = false;
     }
   });
-  return form;
+  return h("div", { class: "pilha" }, faixa, caixaEmail(resumo), form);
 }
 
 function formularioNovoProduto(auth) {

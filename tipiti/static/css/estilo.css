@@ -537,3 +537,206 @@ legend { font-weight: 800; font-size: 1.1rem; margin-bottom: 12px; }
 .aceites { border: 0; padding: 0; margin: 12px 0; display: grid; gap: 10px; }
 .aceite { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; line-height: 1.4; cursor: pointer; }
 .aceite input { width: 22px; height: 22px; flex: 0 0 auto; margin-top: 1px; accent-color: var(--verde); }
+
+/* ==================================================================== PAINEL (admin) — início
+   Login com usuário/2FA, menu em grupos, pedidos com rastreio, separação/etiquetas (impressão), barcos,
+   encomendas, revendedoras, LGPD, e-mails e histórico. Tudo escopado em .em-admin ou em classes só do painel. */
+.em-admin input[type=date], .em-admin input[type=email], .em-admin input[type=search] { padding: 10px 12px; border: 1px solid #c9d3cc; border-radius: 10px; background: #fff; width: 100%; min-height: 44px; }
+.em-admin .link-botao { min-height: 44px; }
+.em-admin .botao { min-height: 44px; }
+.em-admin .campo-select, .em-admin input[type=text], .em-admin input[type=number], .em-admin input[type=password], .em-admin input[type=tel], .em-admin input[type=datetime-local], .em-admin input[type=time] { min-height: 44px; }
+.em-admin details > summary { cursor: pointer; }
+
+/* topo do painel e menu */
+.admin-topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-bottom: 12px; }
+.admin-topo h1 { margin: 0; }
+.admin-usuario { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.admin-quem { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-right: 4px; min-width: 0; overflow-wrap: anywhere; }
+.admin-usuario .botao { padding: 8px 14px; font-size: .9rem; }
+.admin-usuario .botao[aria-current=page] { background: var(--verde); color: #fff; }
+.etiqueta.papel-dono { background: #fff3d6; color: #7a4b00; }
+.etiqueta.papel-operador { background: var(--verde-claro); color: var(--verde-escuro); }
+.menu-admin { margin-bottom: 18px; }
+.menu-admin-celular { display: none; }
+.menu-admin-celular label { font-size: .85rem; font-weight: 600; color: #39433e; display: block; margin-bottom: 4px; }
+.menu-admin-grupos { display: flex; flex-wrap: wrap; gap: 10px 22px; background: #fff; border-radius: var(--raio); box-shadow: var(--sombra); padding: 12px 14px; }
+.grupo-menu { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.grupo-titulo { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--cinza); }
+.grupo-abas { display: flex; flex-wrap: wrap; gap: 6px; }
+.grupo-abas .botao { padding: 8px 12px; font-size: .9rem; white-space: nowrap; }
+.grupo-abas .botao[aria-current=page], .grupo-abas .botao[aria-current=page]:hover { background: var(--verde); color: #fff; }
+@media (max-width: 760px) {
+  .menu-admin-celular { display: block; }
+  .menu-admin-grupos { display: none; }
+  .menu-admin-celular select { font-weight: 700; background: var(--verde-claro); }
+  .admin-topo h1 { font-size: 1.4rem; }
+}
+
+/* login */
+.login-admin .pilha-form { margin-top: 8px; }
+.login-token { margin-top: 18px; border-top: 1px solid var(--linha); padding-top: 8px; }
+.login-token summary { min-height: 44px; display: flex; align-items: center; color: var(--cinza); font-weight: 600; }
+.pilha-form { display: grid; gap: 12px; }
+.linha-campo { display: flex; gap: 8px; align-items: stretch; }
+.linha-campo input { flex: 1; min-width: 0; }
+.linha-campo .botao { flex-shrink: 0; padding: 8px 14px; }
+.destaque-primeiro { border: 2px solid var(--amarelo); margin-bottom: 18px; }
+.destaque-primeiro h2 { color: var(--verde-escuro); }
+
+/* Minha conta e usuários */
+.dados-conta { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 0; }
+.dados-conta dt { font-weight: 600; color: var(--cinza); }
+.dados-conta dd { margin: 0; overflow-wrap: anywhere; }
+.estado-2fa { font-weight: 600; }
+.estado-2fa.ativo { color: var(--verde); }
+.passos-2fa { padding-left: 20px; display: grid; gap: 8px; }
+.segredo-2fa { font-family: ui-monospace, Menlo, Consolas, monospace; background: var(--verde-claro); padding: 4px 8px; border-radius: 8px; overflow-wrap: anywhere; display: inline-block; margin: 4px 0; }
+.qr-2fa { width: 220px; height: 220px; max-width: 100%; background: #fff; border: 1px solid var(--linha); border-radius: 12px; padding: 6px; margin: 8px 0 14px; }
+.form-usuario { display: grid; gap: 10px; margin-top: 10px; }
+.detalhes-admin { margin-top: 10px; }
+.detalhes-admin > summary { min-height: 44px; display: flex; align-items: center; font-weight: 700; color: var(--verde-escuro); }
+.tabela-usuarios .celula-acao { min-width: 220px; }
+
+/* avisos e caixas */
+.faixa-pendencias { background: #fdecea; color: #7d1a14; border-left: 5px solid var(--erro); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.faixa-pendencias .botao { margin-left: auto; background: var(--erro); color: #fff; }
+.parcelado-claro { color: #7d1a14; font-size: .85rem; flex-basis: 100%; }
+.caixa-email { border-radius: var(--raio); padding: 12px 14px; }
+.caixa-email p { margin: 4px 0; }
+.caixa-email.ok { background: var(--verde-claro); }
+.caixa-email.desligado { background: #fff7e3; border: 1px solid #f3dca0; }
+.cartao-link { border: 0; text-align: left; cursor: pointer; font: inherit; color: inherit; min-height: 44px; }
+@media (hover: hover) { .cartao-link:hover { box-shadow: 0 0 0 2px var(--verde) inset, var(--sombra); } }
+.barra-admin { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 16px; margin-bottom: 14px; }
+.barra-admin > .botao { margin-left: auto; }
+.filtro-admin { display: flex; flex-direction: column; gap: 4px; min-width: 220px; }
+.filtro-admin label { font-size: .85rem; font-weight: 600; color: #39433e; }
+.botao.perigo { color: var(--erro); }
+.etiqueta.erro { background: #fdecea; color: var(--erro); }
+.etiqueta.st-aguardando_pagamento { background: #fff3d6; color: #7a4b00; }
+.etiqueta.st-pago { background: #dcecff; color: #123f73; }
+.etiqueta.st-enviado { background: #e8e1fb; color: #3c2a7a; }
+.etiqueta.st-entregue { background: var(--verde-claro); color: var(--verde-escuro); }
+.etiqueta.st-cancelado { background: #eceeec; color: var(--cinza); }
+.quebra, .link-externo, .texto-cliente, .linha-copiar code, .url-feed { overflow-wrap: anywhere; word-break: break-word; }
+.texto-cliente { white-space: pre-wrap; margin: 6px 0; }
+
+/* cartões de pedido, encomenda, revendedora e solicitação */
+.lista-pedidos-admin { display: grid; gap: 14px; }
+.pedido-admin, .cartao-admin { background: #fff; border-radius: var(--raio); box-shadow: var(--sombra); padding: 14px 16px; border-left: 5px solid var(--linha); min-width: 0; }
+.cartao-admin + .cartao-admin { margin-top: 0; }
+.pedido-admin.status-aguardando_pagamento { border-left-color: var(--amarelo); }
+.pedido-admin.status-pago { border-left-color: #2f74c0; }
+.pedido-admin.status-enviado { border-left-color: #6a4fc4; }
+.pedido-admin.status-entregue { border-left-color: var(--verde); }
+.enc-nova, .rev-pendente { border-left-color: var(--amarelo); }
+.enc-cotada, .rev-ativa, .enc-aceita { border-left-color: var(--verde); }
+.cartao-admin.vencida { border-left-color: var(--erro); }
+.atrasado { color: var(--erro); }
+.pedido-cabeca { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 14px; align-items: flex-start; }
+.codigo-pedido { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 1.05rem; }
+.pedido-total { text-align: right; display: flex; flex-direction: column; }
+.pedido-total b { font-size: 1.15rem; color: var(--verde-escuro); }
+.pedido-corpo { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px 18px; margin: 12px 0; font-size: .92rem; }
+.pedido-corpo > * { min-width: 0; overflow-wrap: anywhere; }
+.pedido-corpo h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--cinza); margin: 0 0 4px; }
+.pedido-corpo .largo { grid-column: span 2; }
+.pedido-acoes { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: flex-end; border-top: 1px solid var(--linha); padding-top: 12px; }
+.pedido-acoes .campo { min-width: 200px; }
+.aviso-pronto { margin: 8px 0 0; color: var(--cinza); font-size: .85rem; overflow-wrap: anywhere; }
+.cotacao-admin { background: var(--verde-claro); border-radius: 10px; padding: 8px 10px; margin: 8px 0 0; }
+.rastreio-admin { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px 24px; padding-top: 6px; }
+.rastreio-admin h3 { font-size: .95rem; }
+.linha-tempo { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.linha-tempo li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 8px; padding: 0 0 12px; position: relative; font-size: .9rem; }
+.linha-tempo li::before { content: ""; position: absolute; left: 14px; top: 26px; bottom: 0; border-left: 2px solid var(--linha); }
+.linha-tempo li:last-child::before { display: none; }
+.linha-tempo .ponto { width: 30px; height: 30px; border-radius: 50%; background: var(--verde-claro); display: grid; place-items: center; font-size: .95rem; }
+.form-linha { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: flex-end; }
+.form-linha .campo { min-width: 140px; }
+.form-linha .cresce { flex: 1 1 220px; }
+.form-linha .botao { flex-shrink: 0; }
+.linha-copiar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; align-items: center; margin: 6px 0; }
+.linha-copiar small { grid-column: 1 / -1; color: var(--cinza); }
+.linha-copiar code { background: var(--verde-claro); border-radius: 8px; padding: 6px 8px; font-size: .85rem; }
+.resultado-pagamento { background: var(--verde-claro); color: var(--verde-escuro); font-weight: 600; border-radius: 10px; padding: 8px 12px; margin: 0; }
+.tabela-viagens tr.passada { opacity: .7; }
+.tabela-admin tr.pendente { background: #fffaf0; }
+.paginacao { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.detalhes-json { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; background: #f3f4f2; border-radius: 8px; padding: 8px; margin: 6px 0 0; max-width: 100%; }
+.tabela-historico code { font-size: .82rem; }
+.tabela-historico summary, .tabela-historico code, .tabela-historico td { overflow-wrap: anywhere; word-break: break-word; min-width: 0; }
+.tabela-historico details { min-width: 0; max-width: 100%; }
+.feed-linha { border-top: 1px solid var(--linha); padding-top: 12px; margin-top: 12px; }
+.url-feed { display: block; background: var(--verde-claro); border-radius: 8px; padding: 8px 10px; margin: 4px 0 8px; font-size: .88rem; }
+.lista-links li { margin: 6px 0; }
+.grade-conta { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
+
+/* separação e etiquetas (tela) */
+.tabela-separacao td, .tabela-separacao th { vertical-align: middle; }
+.tabela-separacao .num { text-align: right; font-size: 1.05rem; }
+.tabela-separacao .sku { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .85rem; overflow-wrap: anywhere; }
+.tabela-separacao input[type=checkbox], .pedido-sep input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--verde); }
+.tabela-separacao label { display: block; min-height: 32px; cursor: pointer; overflow-wrap: anywhere; }
+.lista-separacao { display: grid; gap: 0; }
+.pedido-sep { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--linha); cursor: pointer; min-height: 44px; overflow-wrap: anywhere; }
+.pedido-sep small { display: block; }
+.formato-etiqueta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 8px 0; }
+.area-impressao-etiquetas h2 { margin-top: 4px; }
+.area-etiquetas { display: grid; gap: 14px; }
+.area-etiquetas.formato-a4 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); }
+.area-etiquetas.formato-10x15 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 378px)); }
+.etiqueta-envio { background: #fff; color: #000; border: 1.5px dashed #8a948e; border-radius: 6px; padding: 12px; display: grid; gap: 10px; align-content: start; font-size: .9rem; line-height: 1.35; min-width: 0; overflow-wrap: anywhere; }
+.formato-10x15 .etiqueta-envio { aspect-ratio: 2 / 3; }
+.etiqueta-envio small { font-size: .7rem; font-weight: 700; letter-spacing: .08em; color: #333; display: block; }
+.etq-remetente { font-size: .8rem; border-bottom: 1px solid #000; padding-bottom: 8px; }
+.etq-destinatario { font-size: 1.02rem; }
+.etq-nome { font-size: 1.2rem; display: block; }
+.etq-cidade { font-size: 1.08rem; margin-top: 2px; }
+.etq-pedido { border-top: 1px solid #000; padding-top: 8px; }
+.codigo-barras { display: block; width: 100%; height: 70px; }
+.etq-codigo { text-align: center; font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700; letter-spacing: .12em; font-size: .95rem; }
+.etq-info { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; font-size: .8rem; margin-top: 4px; }
+
+@media (max-width: 900px) {
+  .rastreio-admin { grid-template-columns: minmax(0, 1fr); }
+  .pedido-corpo .largo { grid-column: auto; }
+}
+@media (max-width: 520px) {
+  .pedido-admin, .cartao-admin { padding: 12px; }
+  .pedido-acoes > *, .pedido-acoes .campo, .form-linha .campo, .form-linha .botao, .barra-admin > *, .filtro-admin { flex: 1 1 100%; min-width: 0; margin-left: 0; }
+  .pedido-total { text-align: left; }
+  .faixa-pendencias .botao { margin-left: 0; width: 100%; }
+  .dados-conta { grid-template-columns: minmax(0, 1fr); }
+  .dados-conta dd { margin-bottom: 6px; }
+  .linha-copiar { grid-template-columns: minmax(0, 1fr); }
+  .admin-usuario { width: 100%; }
+  .admin-usuario .botao { flex: 1 1 auto; }
+  .admin-quem { flex-basis: 100%; }
+  .grade-conta { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* impressão: lista de separação e etiquetas (A4 com 4 por folha, ou 10 × 15 cm uma por página) */
+@page etiqueta10x15 { size: 100mm 150mm; margin: 0; }
+@media print {
+  @page { size: A4; margin: 10mm; }
+  body.em-admin { background: #fff; }
+  .em-admin .faixa-topo, .em-admin .topo, .em-admin .faixa-categorias, .em-admin .rodape, .em-admin .toast, .em-admin .whatsapp-flutuante,
+  .em-admin .prova-social, .em-admin .admin-topo, .em-admin .menu-admin, .em-admin .nao-imprimir, .em-admin .info-box, .em-admin .destaque-primeiro,
+  .em-admin .alerta, .em-admin .pular { display: none !important; }
+  .em-admin main { padding: 0; margin: 0; max-width: none; min-height: 0; }
+  .em-admin .painel { box-shadow: none; padding: 0; border-radius: 0; }
+  .em-admin .pilha { gap: 8mm; }
+  .imprimir-etiquetas .area-lista { display: none !important; }
+  .imprimir-lista .area-impressao-etiquetas { display: none !important; }
+  .tabela-separacao { font-size: 11pt; }
+  .tabela-separacao th, .tabela-separacao td { border-bottom: 1px solid #999; padding: 2mm; }
+  .area-etiquetas.formato-a4 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .formato-a4 .etiqueta-envio { height: 132mm; break-inside: avoid; border-color: #555; font-size: 10.5pt; }
+  .area-etiquetas.formato-10x15 { display: block; }
+  .formato-10x15 .etiqueta-envio { page: etiqueta10x15; width: 100mm; height: 150mm; box-sizing: border-box; margin: 0; padding: 6mm; border: 0; border-radius: 0; break-after: page; aspect-ratio: auto; font-size: 11pt; }
+  .formato-10x15 .etiqueta-envio:last-child { break-after: auto; }
+  .codigo-barras { height: 18mm; }
+  .etiqueta-envio, .etiqueta-envio * { color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+/* ==================================================================== PAINEL (admin) — fim */
