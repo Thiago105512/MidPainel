@@ -532,3 +532,8 @@ legend { font-weight: 800; font-size: 1.1rem; margin-bottom: 12px; }
   .pagina-produto .prova-social, .sem-whatsapp-flutuante .prova-social, .em-admin .prova-social { right: calc(12px + env(safe-area-inset-right)); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* Aceite dos termos no checkout */
+.aceites { border: 0; padding: 0; margin: 12px 0; display: grid; gap: 10px; }
+.aceite { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; line-height: 1.4; cursor: pointer; }
+.aceite input { width: 22px; height: 22px; flex: 0 0 auto; margin-top: 1px; accent-color: var(--verde); }

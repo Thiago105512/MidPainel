@@ -354,11 +354,21 @@ async function paginaCheckout(main) {
         h("span", { class: "msg-erro" }),
         blocoParcelas)),
     blocoCupom,
+    h("fieldset", { class: "aceites" },
+      h("legend", { class: "sr" }, "Termos e autorizações"),
+      h("div", { class: "campo", "data-campo": "aceite_termos" },
+        h("label", { class: "aceite" },
+          h("input", { type: "checkbox", name: "aceite_termos", id: "campo-aceite_termos", "aria-describedby": "erro-aceite_termos" }),
+          h("span", {}, "Li e aceito os ", h("a", { href: "/termos", target: "_blank", rel: "noopener" }, "Termos de Uso"),
+            " e a ", h("a", { href: "/privacidade", target: "_blank", rel: "noopener" }, "Política de Privacidade"), ".")),
+        h("span", { class: "msg-erro", id: "erro-aceite_termos" })),
+      h("label", { class: "aceite" },
+        h("input", { type: "checkbox", name: "aceite_whatsapp" }),
+        h("span", {}, "Quero receber pelo WhatsApp as atualizações do pedido e ofertas da Tipiti (opcional)."))),
     h("div", { class: "alerta", id: "erro-geral", role: "alert", hidden: true }),
     totalConfirmar,
     h("button", { class: "botao grande", type: "submit" }, "Confirmar pedido"),
     blocoConfianca("confianca-checkout"),
-    h("p", { class: "parcelado centro" }, "Ao confirmar, você concorda com a política de trocas da Tipiti."),
   );
 
   for (const [nome, valor] of Object.entries(rascunho)) {
@@ -495,9 +505,18 @@ async function paginaCheckout(main) {
       const msg = validarCampoCheckout(nome, dados[nome]);
       if (msg) erros[nome] = msg;
     }
+    dados.aceite_termos = form.elements.aceite_termos.checked;
+    dados.aceite_whatsapp = form.elements.aceite_whatsapp.checked;
     if (Object.keys(erros).length) {
+      if (!dados.aceite_termos) erros.aceite_termos = "Para concluir, aceite os Termos de Uso e a Política de Privacidade.";
       mostrarErros(form, erros);
       erroGeral.textContent = textoErrosCheckout(erros, dados);
+      erroGeral.hidden = false;
+      return;
+    }
+    if (!dados.aceite_termos) {
+      mostrarErros(form, { aceite_termos: "Para concluir, aceite os Termos de Uso e a Política de Privacidade." });
+      erroGeral.textContent = "Falta aceitar os Termos de Uso e a Política de Privacidade.";
       erroGeral.hidden = false;
       return;
     }
