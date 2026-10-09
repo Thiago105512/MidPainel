@@ -12,6 +12,7 @@ function salvarCarrinho() {
     void contador.offsetWidth;  // reinicia a animação
     contador.classList.add("pulsar");
   }
+  sincronizarCarrinhoSalvo();  // carrinho guardado no servidor (WhatsApp autorizado no checkout)
 }
 
 /** Mesma chave que o servidor devolve em cada linha do carrinho. */

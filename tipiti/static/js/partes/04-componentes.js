@@ -31,8 +31,9 @@ function cartaoProduto(p, prioritario = false, { contagem = false } = {}) {
       ancora ? h("span", { class: "preco-de" }, h("span", { class: "sr" }, "De "), brl(ancora)) : null,
       h("span", { class: "preco" }, ancora ? h("span", { class: "sr" }, "por ") : null, brl(final)),
       h("span", { class: "preco-pix" }, `${brl(precoPix(final))} no Pix`),
+      prevendaDe(p) ? h("span", { class: "chega-prevenda" }, `Chega em ${diaMes(p.prevenda.chegada)} — reserve agora`) : null,
       p.estoque > 0 ? h("span", { class: "parcelado" }, textoParcelas(final))
-        : h("span", { class: "esgotado" }, "Esgotado"),
+        : h("span", { class: "esgotado" }, prevendaDe(p) ? "Vagas esgotadas" : "Esgotado"),
       n ? h("span", { class: "vendidos" }, h("span", { "aria-hidden": "true" }, "🔥 "), `${n} vendidos`) : null,
       contagem && p.promo ? contagemOferta(p.promo.fim, { prefixo: "Termina em ", classe: "contagem contagem-cartao" }) : null,
     ),
@@ -94,7 +95,8 @@ function linkNaoSeiCep() {
   return h("a", { href: "https://buscacepinter.correios.com.br/", target: "_blank", rel: "noopener", class: "parcelado link-cep" }, "Não sei meu CEP");
 }
 
-function simuladorFrete(obterSubtotal) {
+/** `itemPrevenda()` (produto em pré-venda): o item do carrinho a cotar, para o prazo e o barco contarem da previsão de envio. */
+function simuladorFrete(obterSubtotal, itemPrevenda = null) {
   const saida = h("div", { class: "resultado-frete", "aria-live": "polite" });
   const input = h("input", { id: "simulador-cep", type: "text", inputmode: "numeric", autocomplete: "postal-code", placeholder: "00000-000",
     value: lerArmazenado("tipiti:cep", "") || "", oninput: (e) => (e.target.value = mascaraCep(e.target.value)) });
@@ -103,11 +105,19 @@ function simuladorFrete(obterSubtotal) {
       e.preventDefault();
       saida.textContent = "Calculando…";
       try {
-        const f = await api(`/api/frete?cep=${encodeURIComponent(input.value)}&subtotal=${obterSubtotal()}`);
+        const item = itemPrevenda && itemPrevenda();
+        let f;
+        let previsao = null;
+        if (item) {
+          const c = await api("/api/carrinho/cotacao", { method: "POST", body: JSON.stringify({ itens: [item], cep: input.value }) });
+          ({ frete: f, previsao_envio: previsao } = c);
+        } else f = await api(`/api/frete?cep=${encodeURIComponent(input.value)}&subtotal=${obterSubtotal()}`);
         gravar("tipiti:cep", f.cep);
         trocar(saida, h("b", {}, f.zona_nome), " — ",
           f.gratis ? h("span", { class: "desconto" }, "Frete grátis") : brl(f.valor_centavos),
-          `, chega em até ${f.prazo_dias} dias úteis.`,
+          `, ${textoPrazoFrete(f, previsao)}.`,
+          linhaPrevisaoEnvio(previsao),
+          linhaProximoBarco(f),
           !f.regiao_norte ? h("div", { class: "parcelado" }, "Entregamos em todo o Brasil, com prioridade para a Região Norte.") : null,
         );
       } catch (err) {

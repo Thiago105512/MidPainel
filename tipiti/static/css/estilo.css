@@ -537,3 +537,197 @@ legend { font-weight: 800; font-size: 1.1rem; margin-bottom: 12px; }
 .aceites { border: 0; padding: 0; margin: 12px 0; display: grid; gap: 10px; }
 .aceite { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; line-height: 1.4; cursor: pointer; }
 .aceite input { width: 22px; height: 22px; flex: 0 0 auto; margin-top: 1px; accent-color: var(--verde); }
+
+/* ==========================================================================
+   LOJA (cliente): Pix, rastreio, barcos, pré-venda, encomendas, revenda,
+   Minha conta, avise-me, LGPD, rodapé e app instalável
+   ========================================================================== */
+
+/* Pré-venda */
+.selo-prevenda { background: #4b2a85; color: #fff; }
+.chega-prevenda, .tag-prevenda { color: #4b2a85; font-weight: 700; font-size: .82rem; }
+.info-prevenda { background: #f1ecfa; border: 1px solid #d9cdf0; border-radius: 12px; padding: 10px 14px; margin: 10px 0; }
+.info-prevenda p { margin: 0; }
+.info-prevenda p + p { margin-top: 4px; }
+
+/* Frete: barco, previsão e revendedora */
+.proximo-barco, .previsao-envio, .linha-revendedora { margin: 6px 0 0; font-size: .9rem; line-height: 1.4; overflow-wrap: anywhere; }
+.proximo-barco { background: #e8f3f8; color: #12455c; border-radius: 10px; padding: 8px 10px; }
+.proximo-barco a { color: #12455c; font-weight: 600; white-space: nowrap; }
+.previsao-envio { color: #4b2a85; }
+.linha-revendedora { background: #fff7e3; border-radius: 10px; padding: 8px 10px; margin: 0 0 10px; }
+.resumo .proximo-barco, .resumo-movel .proximo-barco { font-size: .85rem; }
+
+/* Faixas do app (sem internet, versão nova) dentro do topo fixo */
+.faixa-app { background: #fff3d6; color: var(--tinta); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 12px;
+  padding: 6px var(--margem-dir) 6px var(--margem-esq); font-size: .9rem; text-align: center; }
+#faixa-versao { background: var(--verde-claro); }
+.botao-faixa { min-height: 40px; padding: 6px 16px; }
+.faixa-instalar { max-width: 1200px; margin: 12px auto 0; display: flex; align-items: center; gap: 12px; background: #fff; border-radius: var(--raio);
+  box-shadow: var(--sombra); padding: 10px 52px 10px 12px; position: relative; width: calc(100% - var(--margem-esq) - var(--margem-dir)); }
+.faixa-instalar img { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; }
+.faixa-instalar p { margin: 0; flex: 1; min-width: 0; line-height: 1.3; }
+.faixa-instalar small { display: block; color: var(--cinza); }
+.faixa-instalar .botao { min-height: 44px; flex-shrink: 0; }
+.foco-compra .faixa-instalar, .em-admin .faixa-instalar { display: none; }
+.folha-instalar .passos-instalar { margin: 0 0 16px; padding-left: 22px; display: grid; gap: 6px; }
+.folha-instalar > .botao { width: 100%; min-height: 48px; }
+
+/* Pix copia e cola + QR Code */
+.pix-pedido { display: flex; flex-direction: column; gap: 8px; }
+.pix-pedido h2 { margin: 0; }
+.pix-valor { margin: 0; font-size: 1.1rem; }
+.pix-valor b { font-size: 1.5rem; color: var(--verde-escuro); }
+.rotulo-pix { font-weight: 700; font-size: .9rem; }
+.pix-codigo { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: max(16px, .85rem); line-height: 1.35; word-break: break-all; background: #fff; resize: none; }
+.pix-copiar { min-height: 52px; }
+.pix-estado { margin: 0; font-weight: 600; color: var(--verde-escuro); }
+.pix-estado:empty { display: none; }
+.pix-qr { text-align: center; margin: 4px 0; }
+.pix-qr img { display: block; margin: 0 auto 4px; width: min(280px, 100%); height: auto; aspect-ratio: 1; background: #fff; padding: 8px; border-radius: 12px; border: 1px solid var(--linha); }
+.pix-pedido ol { margin: 4px 0 0; }
+
+/* Rastreio */
+.rastreio { text-align: left; margin: 16px 0; }
+.rastreio h2 { font-size: 1.15rem; }
+.codigo-rastreio { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin: 10px 0; padding: 10px 0; border-top: 1px solid var(--linha); border-bottom: 1px solid var(--linha); }
+.acoes-rastreio { display: flex; flex-wrap: wrap; gap: 8px; }
+.acoes-rastreio .botao { min-height: 44px; padding: 8px 14px; }
+.linha-tempo { list-style: none; margin: 12px 0 0; padding: 0; }
+.linha-tempo li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; position: relative; padding-bottom: 14px; }
+.linha-tempo li:not(:last-child)::before { content: ""; position: absolute; left: 17px; top: 34px; bottom: 0; width: 2px; background: var(--linha); }
+.linha-tempo .ico-evento { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--verde-claro); font-size: 1.05rem; }
+.linha-tempo li.atual .ico-evento { background: var(--verde); box-shadow: 0 0 0 3px #cfe3d7; }
+.linha-tempo p { margin: 6px 0 0; overflow-wrap: anywhere; }
+.linha-tempo li.atual p { font-weight: 700; }
+.linha-tempo time { color: var(--cinza); font-size: .82rem; }
+
+/* Páginas do cliente */
+.pagina-estreita { max-width: 760px; margin: 0 auto; }
+.lead { font-size: 1.05rem; color: #39433e; }
+.sucesso-form { text-align: center; margin-bottom: 16px; }
+.sucesso-form .codigo { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 1.3rem; background: var(--verde-claro); padding: 6px 14px; border-radius: 10px; overflow-wrap: anywhere; }
+.cabecalho-pagina { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; }
+.cabecalho-pagina h1 { margin: 0; }
+.cabecalho-pagina .link-botao { min-height: 44px; }
+.como-funciona { counter-reset: passo; list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); }
+.como-funciona li { counter-increment: passo; background: #fff; border-radius: var(--raio); box-shadow: var(--sombra); padding: 12px 14px 12px 50px; position: relative; font-size: .92rem; }
+.como-funciona li::before { content: counter(passo); position: absolute; left: 12px; top: 12px; width: 28px; height: 28px; border-radius: 50%; background: var(--amarelo); display: grid; place-items: center; font-weight: 800; }
+.bloco-encomenda { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; background: #fff; border: 1.5px dashed var(--verde); border-radius: var(--raio); padding: 16px; margin: 24px 0; }
+.bloco-encomenda > div { flex: 1 1 220px; min-width: 0; }
+.bloco-encomenda h2 { font-size: 1.15rem; margin: 0 0 4px; }
+.bloco-encomenda p { margin: 0; color: var(--cinza); }
+.bloco-encomenda .faixa-ico { font-size: 2rem; }
+.situacao { display: inline-block; font-weight: 700; border-radius: 999px; padding: 4px 12px; background: var(--verde-claro); color: var(--verde-escuro); margin: 0 0 12px; }
+.situacao-atencao { background: #fff3d6; color: #7a4b00; }
+.situacao-fim { background: #eceeec; color: var(--cinza); }
+.dados-encomenda { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 0 0 12px; }
+.dados-encomenda dt { color: var(--cinza); font-size: .88rem; }
+.dados-encomenda dd { margin: 0; overflow-wrap: anywhere; }
+.valor-cotado { font-size: 1.3rem; color: var(--verde-escuro); }
+.link-quebra { word-break: break-all; }
+.acoes-encomenda { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+.acoes-encomenda .botao { min-height: 48px; }
+.confirmar-recusa { background: #fdecea; border-radius: 12px; padding: 12px; }
+.confirmar-recusa p { margin: 0; }
+.seletor-barcos { max-width: 360px; margin-bottom: 16px; }
+.viagens { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.viagem { background: #fff; border-radius: var(--raio); box-shadow: var(--sombra); padding: 14px 16px; border-left: 4px solid #2f7ea1; }
+.viagem p { margin: 4px 0 0; }
+.viagem-topo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; overflow-wrap: anywhere; }
+.beneficios-lista { list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.beneficios-lista li { background: #fff; border-radius: var(--raio); box-shadow: var(--sombra); padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; }
+.beneficios-lista .ico { font-size: 1.5rem; }
+.beneficios-lista b, .beneficios-lista small { display: block; }
+.beneficios-lista small { color: var(--cinza); }
+.grade-revenda { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; margin: 16px 0; }
+.grade-revenda h2 { font-size: 1.1rem; }
+.grade-revenda input { margin-bottom: 4px; }
+.cupom-grande { font-size: 1.5rem; color: var(--verde-escuro); }
+.lista-vendas, .lista-pedidos-conta, .lista-enderecos, .lista-avise { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.lista-vendas { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+.venda p, .pedido-conta p { margin: 4px 0; }
+.venda-topo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 10px; }
+.venda-topo a { font-weight: 700; }
+.status-pago, .status-enviado { background: var(--verde-claro); color: var(--verde-escuro); }
+.status-entregue { background: var(--verde); color: #fff; }
+.status-aguardando_pagamento { background: #fff3d6; color: #7a4b00; }
+.status-cancelado { background: #eceeec; color: var(--cinza); }
+.itens-resumo { color: #39433e; font-size: .9rem; overflow-wrap: anywhere; }
+.detalhe-rastreio { margin: 8px 0; }
+.detalhe-rastreio summary, .novo-endereco summary, .aviso-opcao-esgotada summary { cursor: pointer; font-weight: 700; color: var(--verde-escuro); min-height: 44px; display: flex; align-items: center; }
+.detalhe-rastreio .rastreio { box-shadow: none; padding: 0; margin: 4px 0 0; }
+.pedido-conta > .botao { min-height: 44px; margin-top: 4px; }
+.endereco { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.endereco p { margin: 2px 0 0; overflow-wrap: anywhere; }
+.novo-endereco { margin-top: 12px; }
+.novo-endereco .form-endereco { margin-top: 8px; }
+.form-endereco .botao { margin-top: 12px; min-height: 48px; }
+.lista-avise li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.avise-pronto { background: #fff3d6; color: #7a4b00; }
+.avise-aguardando { background: var(--verde-claro); color: var(--verde-escuro); }
+.form-codigo { margin-top: 16px; }
+.form-codigo h2 { font-size: 1.05rem; }
+.form-codigo .linha-cep { align-items: flex-start; }
+.form-codigo .campo { flex: 1; min-width: 0; }
+.form-codigo .botao { min-height: 44px; }
+.pagina-estreita > form .botao.grande, .pagina-estreita .painel > .botao.grande { margin-top: 12px; }
+.pagina-estreita form .alerta { margin-top: 12px; }
+
+/* Topo: Minha conta */
+.botao-conta { font-size: 1.15rem; }
+.botao-conta .so-desktop { font-size: 1rem; }
+
+/* Checkout: endereços salvos e aceite do WhatsApp junto do celular */
+.enderecos-salvos { margin: 0 0 14px; }
+.enderecos-salvos .chips { margin: 6px 0 0; }
+.chip-endereco { border: 1.5px solid #c9d3cc; background: #fff; cursor: pointer; font: inherit; font-weight: 400; text-align: left; padding: 8px 14px; border-radius: 14px; overflow-wrap: anywhere; color: var(--tinta); max-width: 100%; }
+@media (hover: hover) { .chip-endereco:hover { border-color: var(--verde); } }
+.aceite-whatsapp { background: var(--verde-claro); border-radius: 10px; padding: 10px 12px; }
+.aceite-whatsapp small { display: block; margin-top: 2px; }
+
+/* Avise-me */
+.avise-me { background: #f7faf8; border: 1px solid var(--linha); border-radius: 14px; padding: 14px; margin: 12px 0; display: grid; gap: 10px; }
+.avise-titulo { margin: 0; }
+.avise-titulo small { display: block; color: var(--cinza); }
+.avise-me .botao { min-height: 48px; }
+.avise-me .msg-erro:empty { display: none; }
+.aviso-opcao-esgotada { margin: 4px 0 8px; }
+.aviso-opcao-esgotada .avise-me { margin-top: 4px; }
+
+/* Termos e privacidade */
+.texto-legal h2 { font-size: 1.15rem; margin-top: 1.4em; }
+.texto-legal p { overflow-wrap: anywhere; }
+.indice-legal { background: #fff; border-radius: var(--raio); box-shadow: var(--sombra); padding: 12px 16px; margin: 12px 0 8px; }
+.indice-legal ol { margin: 6px 0 0; padding-left: 22px; columns: 2 220px; column-gap: 24px; }
+.indice-legal li { break-inside: avoid; }
+.indice-legal a { display: inline-block; padding: 6px 0; min-height: 32px; }
+.rodape-legal { border-top: 1px solid var(--linha); padding-top: 12px; margin-top: 24px; }
+
+/* Rodapé com mais links e a identificação da loja */
+.rodape-interno.com-extras { grid-template-columns: 1.6fr repeat(4, minmax(0, 1fr)); }
+.link-rodape { border: 0; background: none; color: #f7f1e1; text-decoration: underline; font: inherit; padding: 0; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; text-align: left; }
+.rodape-empresa { font-style: normal; text-align: center; font-size: .82rem; line-height: 1.5; padding: 0 var(--margem-dir) 12px var(--margem-esq); max-width: 1200px; margin: 0 auto; overflow-wrap: anywhere; }
+.rodape-empresa a { display: inline-block; padding: 4px 0; }
+@media (max-width: 1100px) {
+  .rodape-interno.com-extras { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rodape-interno.com-extras > :first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 860px) {
+  .rodape-interno.com-extras { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
+}
+@media (max-width: 340px) {
+  .rodape-interno.com-extras { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .dados-encomenda { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .dados-encomenda dd { margin-bottom: 8px; }
+  .acoes-encomenda .botao, .acoes-rastreio .botao { flex: 1 1 100%; }
+  .faixa-instalar small { display: none; }
+  .pix-qr img { width: min(300px, 100%); }
+}
+@media (max-width: 360px) {
+  .faixa-instalar { gap: 8px; padding-left: 10px; }
+  .faixa-instalar img { width: 32px; height: 32px; }
+  .botao-conta { padding: 0 2px; }
+}

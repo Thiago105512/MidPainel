@@ -12,8 +12,7 @@ async function paginaPedido(main, codigo) {
   const horas = Number(l.prazo_reserva_horas);
 
   let passos = null;
-  if (aguardando && p.pagamento === "pix" && chavePix) {
-    passos = h("div", { class: "info-box passos" },
+  const passosChave = () => h("div", { class: "info-box passos" },
       h("h2", {}, "Pague com Pix para confirmar"),
       h("ol", {},
         h("li", {}, "Abra o app do seu banco e escolha Pix › Pagar com chave."),
@@ -24,6 +23,11 @@ async function paginaPedido(main, codigo) {
         h("code", {}, chavePix),
         h("span", { class: "parcelado" }, "Valor: ", h("b", {}, brl(p.total_centavos)))),
       botaoCopiar(chavePix, "Copiar chave Pix", "Chave Pix copiada ✔"));
+  if (aguardando && p.pagamento === "pix" && l.pix_ativo) {
+    // copia e cola + QR Code; se o servidor recusar (409/404), volta à chave Pix
+    passos = blocoPixPedido(p, zap, chavePix ? passosChave : null);
+  } else if (aguardando && p.pagamento === "pix" && chavePix) {
+    passos = passosChave();
   } else if (aguardando) {
     passos = h("div", { class: "info-box passos" },
       h("h2", {}, "Próximo passo: pagamento"),
@@ -42,6 +46,7 @@ async function paginaPedido(main, codigo) {
       aguardando && horas > 0 ? h("p", { class: "reserva" }, `⏳ Seu pedido fica reservado por ${horas} ${horas === 1 ? "hora" : "horas"}.`) : null,
       h("p", {}, "Status: ", h("b", {}, p.status_nome)),
       passos,
+      blocoRastreio(p),
       h("div", { class: "painel itens-pedido" },
         h("h2", {}, "Itens"),
         p.itens.map((i) => h("div", { class: "linha-total" }, h("span", {}, `${i.quantidade}× ${nomeComOpcao(i)}`), h("span", {}, brl(i.preco_unit_centavos * i.quantidade)))),
@@ -52,7 +57,9 @@ async function paginaPedido(main, codigo) {
         p.desconto_centavos ? h("div", { class: "linha-total desconto" }, h("span", {}, "Desconto Pix"), h("span", {}, `− ${brl(p.desconto_centavos)}`)) : null,
         h("div", { class: "linha-total" }, h("span", {}, "Frete"), h("span", {}, p.frete_centavos ? brl(p.frete_centavos) : "Grátis")),
         h("div", { class: "linha-total total" }, h("span", {}, "Total"), h("span", {}, brl(p.total_centavos))),
-        h("p", { class: "parcelado" }, `Entrega em ${p.destino} · prazo de até ${p.prazo_dias} dias úteis após a confirmação do pagamento.`)),
+        h("p", { class: "parcelado" }, p.previsao_envio
+          ? `Entrega em ${p.destino} · envio previsto para ${diaMes(p.previsao_envio)} (pré-venda) e entrega em até ${p.prazo_dias} dias úteis depois.`
+          : `Entrega em ${p.destino} · prazo de até ${p.prazo_dias} dias úteis após a confirmação do pagamento.`)),
       formularioAvaliacao(p),
       h("p", {}, "Guarde o código para acompanhar o pedido. Dúvidas: ", h("a", { href: `mailto:${l.email}` }, l.email)),
       h("a", { class: "botao secundario", href: "/" }, "Voltar à loja"),
@@ -70,6 +77,7 @@ function paginaEntregas(main) {
       h("thead", {}, h("tr", {}, h("th", {}, "Destino"), h("th", {}, "Frete"), h("th", {}, "Prazo"))),
       h("tbody", {}, l.zonas_frete.map((z) => h("tr", {}, h("td", {}, z.nome), h("td", {}, brl(z.valor_centavos)), h("td", {}, `até ${z.prazo_dias} dias úteis`))))),
     h("p", { class: "parcelado" }, "Prazos contados a partir da confirmação do pagamento. Localidades atendidas por via fluvial podem variar conforme o nível dos rios. Também entregamos nas demais regiões do Brasil."),
+    h("p", {}, h("a", { class: "botao secundario", href: "/barcos" }, "🛶 Ver o calendário de barcos")),
   ));
 }
 

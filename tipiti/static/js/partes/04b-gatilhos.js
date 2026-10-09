@@ -106,7 +106,7 @@ function contagemOferta(fim, { prefixo = "Oferta termina em ", classe = "contage
 
 // -- selos, estrelas, vendidos
 
-const SELOS = { oferta: "Oferta", mais_vendido: "Mais vendido", novidade: "Novidade", ultimas_unidades: "Últimas unidades" };
+const SELOS = { prevenda: "Pré-venda", oferta: "Oferta", mais_vendido: "Mais vendido", novidade: "Novidade", ultimas_unidades: "Últimas unidades" };
 
 /** No máximo `maximo` selos, na ordem de prioridade do contrato. `semOferta`: o "-Y%" já diz que é oferta. */
 function selosProduto(p, { maximo = 2, semOferta = false } = {}) {

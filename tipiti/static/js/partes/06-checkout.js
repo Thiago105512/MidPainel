@@ -12,7 +12,8 @@ function blocoResumo(c, { carrinho = false } = {}) {
   const descontoPix = carrinho && !cotadoNoPix ? Math.floor((c.subtotal_centavos * l.desconto_pix_pct) / 100) : c.desconto_centavos;
   if (descontoPix) linhas.push(linha(`Desconto no Pix (${l.desconto_pix_pct}%)`, `− ${brl(descontoPix)}`, "desconto"));
   linhas.push(linha("Frete", c.frete ? (c.frete.gratis ? "Grátis" : brl(c.frete.valor_centavos)) : "Informe o CEP"));
-  if (c.frete) linhas.push(h("div", { class: "parcelado" }, `${c.frete.zona_nome} · até ${c.frete.prazo_dias} dias úteis`));
+  if (c.frete) linhas.push(h("div", { class: "parcelado" }, `${c.frete.zona_nome} · ${textoPrazoFrete(c.frete, c.previsao_envio)}`), linhaProximoBarco(c.frete));
+  if (!c.frete || c.frete.chegada_estimada) linhas.push(linhaPrevisaoEnvio(c.previsao_envio));  // sem isso o prazo do frete já diz a data
   if (carrinho) {
     const totalPix = cotadoNoPix ? c.total_centavos : c.subtotal_centavos + valorFrete - descontoPix;
     const noCartao = totalPix + descontoPix;
@@ -30,6 +31,7 @@ function blocoResumo(c, { carrinho = false } = {}) {
   if (c.economia_centavos > 0) {
     linhas.push(h("p", { class: "economia-total" }, h("span", { "aria-hidden": "true" }, "💰 "), "Você está economizando ", h("b", {}, brl(c.economia_centavos))));
   }
+  linhas.unshift(linhaRevendedora(c));
   if (c.cupom && c.cupom.frete_gratis) {
     return [h("div", { class: "barra-frete" }, `🎉 Frete grátis com o cupom ${c.cupom.codigo}!`), ...linhas];
   }
@@ -42,7 +44,7 @@ function blocoResumo(c, { carrinho = false } = {}) {
 /** Cota o carrinho; se o CEP salvo for inválido, cota sem ele e devolve a mensagem. */
 async function cotarCarrinho(cep, extra = {}) {
   const pedir = (comCep) => api("/api/carrinho/cotacao", { method: "POST",
-    body: JSON.stringify({ itens: estado.carrinho, cep: comCep || null, ...extra }) });
+    body: JSON.stringify({ itens: estado.carrinho, cep: comCep || null, ...comRevendedora(), ...extra }) });
   try {
     return { cotacao: await pedir(cep), erroCep: "" };
   } catch (err) {
@@ -171,6 +173,7 @@ async function paginaCarrinho(main) {
       h("div", {},
         h("a", { class: "nome", href: `/produto/${i.slug}` }, i.nome),
         i.variacao_nome ? h("div", {}, "Opção: ", h("b", {}, i.variacao_nome)) : null,
+        i.prevenda_chegada ? h("div", { class: "tag-prevenda" }, `Pré-venda · chega em ${diaMes(i.prevenda_chegada)}`) : null,
         h("div", { class: "parcelado" }, i.preco_ancora_unit_centavos > i.preco_unit_centavos
           ? [h("s", {}, h("span", { class: "sr" }, "De "), brl(i.preco_ancora_unit_centavos)), " "] : null, `${brl(i.preco_unit_centavos)} cada`),
         erro,
@@ -321,14 +324,22 @@ async function paginaCheckout(main) {
   const blocoCupom = h("div", { class: "grade-form bloco-cupom-checkout", hidden: true },
     campo("cupom", "Cupom de desconto (opcional)", { autocomplete: "off", autocapitalize: "characters", spellcheck: "false", maxlength: 40 }, "c6", dicaCupom));
 
+  // os endereços salvos (Minha conta) preenchem o formulário, que ainda não existe aqui
+  const refForm = { form: null, depois: () => {} };
   const form = h("form", { class: "painel", novalidate: true },
     h("fieldset", {}, h("legend", {}, "1. Seus dados"),
       h("div", { class: "grade-form" },
         campo("nome", "Nome completo", { autocomplete: "name", required: true }, "c6"),
-        campo("email", "E-mail", { type: "email", inputmode: "email", autocomplete: "email", required: true }, "c3"),
-        campo("telefone", "Celular com DDD", { type: "tel", autocomplete: "tel-national", inputmode: "numeric", placeholder: "(92) 90000-0000", required: true }, "c3"),
+        campo("email", "E-mail", { type: "email", inputmode: "email", autocomplete: "email", required: true }, "c3",
+          "Você vai receber a confirmação por e-mail."),
+        campo("telefone", "Celular com DDD (WhatsApp)", { type: "tel", autocomplete: "tel-national", inputmode: "numeric", placeholder: "(92) 90000-0000", required: true }, "c3"),
+        h("label", { class: "aceite aceite-whatsapp c6" },
+          h("input", { type: "checkbox", name: "aceite_whatsapp" }),
+          h("span", {}, "Quero receber pelo WhatsApp as atualizações do pedido e ofertas da Tipiti (opcional). ",
+            h("small", { class: "parcelado" }, "Se eu não concluir a compra, podem me lembrar do carrinho."))),
         campo("cpf", "CPF", { inputmode: "numeric", placeholder: "000.000.000-00", required: true }, "c3"))),
     h("fieldset", {}, h("legend", {}, "2. Endereço de entrega"),
+      enderecosSalvosCheckout(refForm),
       h("div", { class: "grade-form" },
         campo("cep", "CEP", { inputmode: "numeric", autocomplete: "postal-code", placeholder: "00000-000", required: true }, "c2",
           [dicaCepFixa, dicaCep]),
@@ -361,10 +372,7 @@ async function paginaCheckout(main) {
           h("input", { type: "checkbox", name: "aceite_termos", id: "campo-aceite_termos", "aria-describedby": "erro-aceite_termos" }),
           h("span", {}, "Li e aceito os ", h("a", { href: "/termos", target: "_blank", rel: "noopener" }, "Termos de Uso"),
             " e a ", h("a", { href: "/privacidade", target: "_blank", rel: "noopener" }, "Política de Privacidade"), ".")),
-        h("span", { class: "msg-erro", id: "erro-aceite_termos" })),
-      h("label", { class: "aceite" },
-        h("input", { type: "checkbox", name: "aceite_whatsapp" }),
-        h("span", {}, "Quero receber pelo WhatsApp as atualizações do pedido e ofertas da Tipiti (opcional)."))),
+        h("span", { class: "msg-erro", id: "erro-aceite_termos" }))),
     h("div", { class: "alerta", id: "erro-geral", role: "alert", hidden: true }),
     totalConfirmar,
     h("button", { class: "botao grande", type: "submit" }, "Confirmar pedido"),
@@ -407,7 +415,7 @@ async function paginaCheckout(main) {
     const cupom = (d.cupom || "").trim().toUpperCase();
     try {
       ultimaCotacao = await api("/api/carrinho/cotacao", { method: "POST",
-        body: JSON.stringify({ itens: estado.carrinho, cep: cepValido ? d.cep : null, pagamento: d.pagamento,
+        body: JSON.stringify({ itens: estado.carrinho, cep: cepValido ? d.cep : null, pagamento: d.pagamento, ...comRevendedora(),
           ...(cupom ? { cupom } : {}), ...(cpfValido(d.cpf) ? { cpf: d.cpf } : {}) }) });
     } catch (err) {
       if (!ativo() || n !== sequencia) return;
@@ -429,7 +437,8 @@ async function paginaCheckout(main) {
     }
     const conteudo = () => [
       c.itens.filter((i) => i.produto_id).map((i) => h("div", { class: "linha-total" },
-        h("span", {}, `${i.quantidade}× ${nomeComOpcao(i)}`), h("span", {}, brl(i.total_centavos)))),
+        h("span", {}, `${i.quantidade}× ${nomeComOpcao(i)}`, i.prevenda_chegada ? h("span", { class: "tag-prevenda" }, " pré-venda") : null),
+        h("span", {}, brl(i.total_centavos)))),
       h("hr", { class: "divisor" }),
       blocoResumo(c),
       !c.valido ? h("div", { class: "alerta" }, "Há itens indisponíveis. ", h("a", { href: "/carrinho" }, "Revise o carrinho.")) : null,
@@ -523,7 +532,9 @@ async function paginaCheckout(main) {
     botao.disabled = true;
     botao.textContent = "Enviando pedido…";
     try {
-      const pedido = await api("/api/pedidos", { method: "POST", body: JSON.stringify({ ...dados, itens: estado.carrinho }) });
+      const pedido = await api("/api/pedidos", { method: "POST",
+        body: JSON.stringify({ ...dados, itens: estado.carrinho, ...comRevendedora(), ...comCarrinhoSalvo() }) });
+      esquecerCarrinhoSalvo();
       estado.carrinho = [];
       salvarCarrinho();
       try { sessionStorage.removeItem("tipiti:checkout"); } catch (_) { /* ignora */ }
@@ -543,6 +554,9 @@ async function paginaCheckout(main) {
     }
   });
 
+  refForm.form = form;
+  refForm.depois = () => { gravar("tipiti:checkout", { ...dadosForm(), cpf: "", cupom: "" }, sessionStorage); atualizarResumo(); };
+  ligarCarrinhoAbandonado(form);
   trocar(main, h("h1", {}, "Finalizar compra"), h("div", { class: "layout-carrinho layout-checkout" }, resumoMovel, form, resumo));
   atualizarResumo();
 }

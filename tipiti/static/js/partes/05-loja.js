@@ -34,6 +34,7 @@ async function paginaInicial(main) {
       h("div", { class: "grade-categorias" }, estado.categorias.map((c) =>
         h("a", { class: "cartao-categoria", href: `/categoria/${c.slug}`, style: `--cor:${c.cor}` },
           h("span", { class: "ico" }, c.icone), h("b", {}, c.nome), h("small", {}, `${c.total} produtos`))))),
+    blocoEncomendaInicio(),
     h("section", { class: "secao", id: "destaques" },
       h("div", { class: "secao-cabecalho" }, h("h2", {}, "Destaques da semana")), destaques),
     maisVendidos,
@@ -163,6 +164,7 @@ async function semResultados(q, ativo) {
       h("div", { class: "chips" }, estado.categorias.map((c) => h("a", { class: "chip", href: `/categoria/${c.slug}` }, `${c.icone} ${c.nome}`))),
       h("div", { class: "nao-achou" },
         h("p", {}, h("b", {}, "Não achou? "), "A gente pode ter ou trazer para você."),
+        h("a", { class: "botao", href: `/encomenda${q ? `?q=${encodeURIComponent(q)}` : ""}` }, "📦 Peça uma encomenda"),
         zap || h("a", { href: `mailto:${estado.loja.email}?subject=${encodeURIComponent(`Procuro: ${q}`)}` }, `Escreva para ${estado.loja.email}`))),
     destaques.length ? h("section", { class: "secao" }, h("h2", {}, "Destaques da loja"), gradeProdutos(destaques)) : null);
 }
@@ -204,6 +206,7 @@ async function paginaProduto(main, slug) {
   const precosAtuais = () => precosOpcao(p, escolhida);
   const precoAtual = () => precosAtuais().final;
   const estoqueAtual = () => (escolhida ? escolhida.estoque : p.estoque);
+  const prevenda = prevendaDe(p);
 
   // galeria
   const fotos = (p.fotos || []).map((f) => ({ url: f.url, mini: f.miniatura || f.url }));
@@ -285,9 +288,12 @@ async function paginaProduto(main, slug) {
             h("div", { class: "quantidade" },
               h("button", { type: "button", "aria-label": `Diminuir quantidade de ${p.nome}`, onclick: () => mudar(-1) }, "−"), inputQtd,
               h("button", { type: "button", "aria-label": `Aumentar quantidade de ${p.nome}`, onclick: () => mudar(1) }, "+")),
-            h("button", { class: "botao", type: "button", onclick: () => adicionar(false) }, "Adicionar ao carrinho"),
-            h("button", { class: "botao secundario", type: "button", onclick: () => adicionar(true) }, "Comprar agora"))
-        : h("p", { class: "esgotado" }, esgotada ? "Esta opção está esgotada. Escolha outra." : "Produto esgotado no momento."),
+            h("button", { class: "botao", type: "button", onclick: () => adicionar(false) }, prevenda ? "Reservar na pré-venda" : "Adicionar ao carrinho"),
+            h("button", { class: "botao secundario", type: "button", onclick: () => adicionar(true) }, prevenda ? "Reservar e finalizar" : "Comprar agora"))
+        : [h("p", { class: "esgotado" }, esgotada ? "Esta opção está esgotada. Escolha outra."
+            : prevenda ? "As vagas desta pré-venda acabaram." : "Produto esgotado no momento."),
+          formularioAviseMe(p, opcoes, escolhida)],
+      disponivel ? avisoOpcoesEsgotadas(p, opcoes) : null,
       estoque > 0 && estoque <= 5 && (escolhida || !opcoes.length) ? h("p", { class: "esgotado" }, `Últimas ${estoque} unidades!`) : null,
       botaoWhatsApp(textoZap, "Pedir pelo WhatsApp", "botao whatsapp"),
       disponivel ? envioHoje : null);
@@ -298,7 +304,7 @@ async function paginaProduto(main, slug) {
         h("small", {}, `${brl(precoPix(preco))} no Pix`),
         escolhida && opcoes.length > 1 ? h("small", { class: "barra-opcao" }, escolhida.nome) : null),
       botaoWhatsApp(textoZap, "Pedir pelo WhatsApp", "botao whatsapp so-icone", true),
-      disponivel ? h("button", { class: "botao", type: "button", onclick: () => adicionar(false) }, "Adicionar")
+      disponivel ? h("button", { class: "botao", type: "button", onclick: () => adicionar(false) }, prevenda ? "Reservar" : "Adicionar")
         : h("span", { class: "esgotado" }, "Esgotado"));
   };
 
@@ -320,13 +326,17 @@ async function paginaProduto(main, slug) {
           nota ? h("a", { class: "link-nota", href: "#avaliacoes" }, nota) : null,
           n ? h("span", { class: "vendidos" }, h("span", { "aria-hidden": "true" }, "🔥 "), `${n} vendidos nos últimos 30 dias`) : null) : null,
         blocoPreco,
+        prevenda ? h("div", { class: "info-prevenda" },
+          h("p", {}, h("b", {}, `📦 Pré-venda: chega em ${diaMes(prevenda.chegada)} — reserve agora`)),
+          h("p", { class: "parcelado" }, "Você garante a sua unidade do próximo lote pelo preço de hoje. O envio sai assim que o lote chegar e for separado; a data prevista aparece no carrinho.")) : null,
         contagem ? h("p", { class: "contagem-produto" }, contagem) : null,
         grupo,
         blocoCompra,
         blocoConfianca(),
-        h("p", { class: "selo-importado" }, "📦 Produto importado · em estoque no Brasil"),
+        prevenda ? null : h("p", { class: "selo-importado" }, "📦 Produto importado · em estoque no Brasil"),
         p.descricao ? h("p", { class: "descricao" }, p.descricao) : null,
-        simuladorFrete(() => precoAtual() * qtd),
+        simuladorFrete(() => precoAtual() * qtd, prevenda
+          ? () => ({ slug: p.slug, variacao: escolhida ? escolhida.id : null, quantidade: Math.max(1, Math.min(qtd, estoqueAtual() || 1)) }) : null),
       ),
     ),
     secaoCompradosJuntos(p, () => {

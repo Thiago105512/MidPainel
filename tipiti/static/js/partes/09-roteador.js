@@ -20,6 +20,17 @@ const ROTAS = [
   [/^\/trocas\/?$/, paginaTrocas],
   [/^\/admin\/?$/, paginaAdmin],
   [/^\/admin\/produto\/([a-z0-9-]+)\/?$/, paginaEditorProduto],
+  // páginas do cliente (barcos, encomendas, revenda, conta, textos legais)
+  [/^\/barcos\/?$/, paginaBarcos],
+  [/^\/encomenda\/?$/, paginaEncomenda],
+  [/^\/encomenda\/([A-Za-z0-9-]+)\/?$/, paginaEncomendaStatus],
+  [/^\/seja-revendedora\/?$/, paginaSejaRevendedora],
+  [/^\/revenda\/?$/, paginaRevenda],
+  [/^\/minha-conta\/?$/, paginaMinhaConta],
+  [/^\/conta\/?$/, paginaConta],
+  [/^\/termos\/?$/, (main) => paginaTextoLegal(main, "termos")],
+  [/^\/privacidade\/?$/, (main) => paginaTextoLegal(main, "privacidade")],
+  [/^\/meus-dados\/?$/, paginaMeusDados],
 ];
 
 /**
@@ -130,8 +141,9 @@ async function iniciar() {
     }
   }
   trocar($("#menu-categorias"), ...estado.categorias.map((c) => h("a", { href: `/categoria/${c.slug}` }, `${c.icone} ${c.nome}`)),
-    h("a", { href: "/entregas" }, "🚚 Entregas no Norte"));
+    h("a", { href: "/entregas" }, "🚚 Entregas no Norte"), h("a", { href: "/encomenda" }, "📦 Encomenda pra mim"));
   atualizarWhatsAppFlutuante();
+  iniciarExtrasLoja();  // revendedora (?r=), carrinho salvo (?c=), conta no topo, rodapé, app instalável
   marcarVisita(true);
   document.addEventListener("visibilitychange", () => { if (document.hidden) marcarVisita(); });
   rotear({ esqueleto: true });
