@@ -57,6 +57,7 @@ class TestFrete(unittest.TestCase):
 class TestCatalogo(unittest.TestCase):
     def setUp(self):
         self.conn = nova_conexao()
+        self.addCleanup(self.conn.close)
 
     def test_busca_ignora_acentos(self):
         nomes = [p["nome"] for p in regras.listar_produtos(self.conn, busca="oculos")]
@@ -77,6 +78,7 @@ class TestCatalogo(unittest.TestCase):
 class TestCarrinhoEPedido(unittest.TestCase):
     def setUp(self):
         self.conn = nova_conexao()
+        self.addCleanup(self.conn.close)
 
     def test_cotacao_usa_preco_do_banco_e_desconto_pix(self):
         c = regras.cotar_carrinho(self.conn, [{"slug": "cabo-usb-c-reforcado-2m", "quantidade": 2, "preco_centavos": 1}],
@@ -154,6 +156,94 @@ class TestCarrinhoEPedido(unittest.TestCase):
         with self.assertRaises(regras.ErroValidacao) as ctx:
             regras.criar_produto(self.conn, {"nome": "x", "categoria": "nao-existe", "preco_centavos": -1, "estoque": "a"})
         self.assertEqual(set(ctx.exception.campos), {"nome", "categoria", "preco_centavos", "estoque"})
+
+
+
+class TestVariacoes(unittest.TestCase):
+    def setUp(self):
+        self.conn = nova_conexao()
+        self.addCleanup(self.conn.close)
+        self.produto = regras.obter_produto(self.conn, "fone-bluetooth-tws", admin=True)
+        self.preto = self.produto["variacoes"][0]
+
+    def test_exige_escolher_opcao(self):
+        c = regras.cotar_carrinho(self.conn, [{"slug": "fone-bluetooth-tws", "quantidade": 1}])
+        self.assertFalse(c["valido"])
+        with self.assertRaises(regras.ErroValidacao):
+            regras.criar_pedido(self.conn, {**CLIENTE, "itens": [{"slug": "fone-bluetooth-tws", "quantidade": 1}]})
+
+    def test_variacao_de_outro_produto(self):
+        c = regras.cotar_carrinho(self.conn, [{"slug": "power-bank-20000mah", "variacao": self.preto["id"], "quantidade": 1}])
+        self.assertFalse(c["valido"])
+
+    def test_pedido_baixa_estoque_da_variacao_e_cancelamento_devolve(self):
+        total = self.produto["estoque"]
+        codigo = regras.criar_pedido(self.conn, {**CLIENTE, "itens": [
+            {"slug": "fone-bluetooth-tws", "variacao": self.preto["id"], "quantidade": 2}]})
+        depois = regras.obter_produto(self.conn, "fone-bluetooth-tws", admin=True)
+        self.assertEqual(depois["variacoes"][0]["estoque"], self.preto["estoque"] - 2)
+        self.assertEqual(depois["estoque"], total - 2)
+        pub = regras.obter_pedido_publico(self.conn, codigo)
+        self.assertEqual(pub["itens"][0]["variacao_nome"], "Preto")
+        regras.atualizar_status(self.conn, codigo, "cancelado")
+        self.assertEqual(regras.obter_produto(self.conn, "fone-bluetooth-tws")["estoque"], total)
+
+    def test_preco_proprio_da_variacao(self):
+        relogio = regras.obter_produto(self.conn, "smartwatch-tela-amoled")
+        prata = next(v for v in relogio["variacoes"] if v["preco_centavos"])
+        c = regras.cotar_carrinho(self.conn, [{"slug": "smartwatch-tela-amoled", "variacao": prata["id"], "quantidade": 1}])
+        self.assertEqual(c["subtotal_centavos"], 22990)
+
+    def test_salvar_variacoes(self):
+        lista = [dict(v) for v in self.produto["variacoes"]]
+        lista[0]["estoque"] = 50
+        lista = lista[:2] + [{"nome": "Verde", "estoque": 7}]
+        p = regras.salvar_variacoes(self.conn, "fone-bluetooth-tws", lista)
+        ativas = [v for v in p["variacoes"] if v["ativo"]]
+        self.assertEqual([v["nome"] for v in ativas], ["Preto", "Branco", "Verde"])
+        self.assertEqual(p["estoque"], 50 + 15 + 7)  # "Rosa" saiu da lista e foi desativada
+        with self.assertRaises(regras.ErroValidacao):
+            regras.salvar_variacoes(self.conn, "fone-bluetooth-tws", [{"nome": "A"}, {"nome": "a"}])
+
+    def test_estoque_do_produto_com_variacoes_nao_e_editavel_direto(self):
+        p = regras.atualizar_produto(self.conn, "fone-bluetooth-tws", {"estoque": 999, "custo_centavos": 3000})
+        self.assertNotEqual(p["estoque"], 999)
+        self.assertEqual(p["custo_centavos"], 3000)
+
+
+class TestLucro(unittest.TestCase):
+    def test_lucro_do_pedido(self):
+        conn = nova_conexao()
+        self.addCleanup(conn.close)
+        regras.atualizar_produto(conn, "cabo-usb-c-reforcado-2m", {"custo_centavos": 1000})
+        regras.criar_pedido(conn, {**CLIENTE, "itens": [{"slug": "cabo-usb-c-reforcado-2m", "quantidade": 2}]})
+        pedido = regras.listar_pedidos(conn)[0]
+        # 2 × 24,90 = 49,80; Pix -5% = 2,49; custo 2 × 10,00
+        self.assertEqual(pedido["lucro_centavos"], 4980 - 249 - 2000)
+
+    def test_sem_custo(self):
+        conn = nova_conexao()
+        self.addCleanup(conn.close)
+        regras.atualizar_produto(conn, "cabo-usb-c-reforcado-2m", {"custo_centavos": None})
+        regras.criar_pedido(conn, {**CLIENTE, "itens": [{"slug": "cabo-usb-c-reforcado-2m", "quantidade": 1}]})
+        self.assertIsNone(regras.listar_pedidos(conn)[0]["lucro_centavos"])
+        self.assertEqual(regras.resumo_vendas(conn)["pedidos_sem_custo"], 1)
+
+
+class TestCalculadora(unittest.TestCase):
+    def test_arredondamento(self):
+        from loja.precificacao import arredondar_preco
+        self.assertEqual(arredondar_preco(7077), 7090)
+        self.assertEqual(arredondar_preco(7090), 7090)
+        self.assertEqual(arredondar_preco(7091), 7190)
+        self.assertEqual(arredondar_preco(10), 90)
+
+    def test_margem_impossivel(self):
+        from loja import precificacao
+        with self.assertRaises(regras.ErroValidacao):
+            precificacao.calcular({"custo_unitario": 10, "taxa_pagamento_pct": 10, "margem_pct": 90})
+        with self.assertRaises(regras.ErroValidacao):
+            precificacao.calcular({"custo_unitario": "abc"})
 
 
 if __name__ == "__main__":

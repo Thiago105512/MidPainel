@@ -68,9 +68,43 @@ CREATE TABLE IF NOT EXISTS itens_pedido (
     quantidade INTEGER NOT NULL CHECK (quantidade > 0)
 );
 
+CREATE TABLE IF NOT EXISTS variacoes (
+    id INTEGER PRIMARY KEY,
+    produto_id INTEGER NOT NULL REFERENCES produtos(id),
+    nome TEXT NOT NULL,
+    sku TEXT NOT NULL DEFAULT '',
+    preco_centavos INTEGER CHECK (preco_centavos IS NULL OR preco_centavos >= 0),
+    estoque INTEGER NOT NULL DEFAULT 0 CHECK (estoque >= 0),
+    ativo INTEGER NOT NULL DEFAULT 1,
+    ordem INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS fotos_produto (
+    id INTEGER PRIMARY KEY,
+    produto_id INTEGER NOT NULL REFERENCES produtos(id),
+    arquivo TEXT NOT NULL,
+    ordem INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS ajustes (
+    chave TEXT PRIMARY KEY,
+    valor TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_produtos_categoria ON produtos(categoria_id);
 CREATE INDEX IF NOT EXISTS idx_itens_pedido ON itens_pedido(pedido_id);
+CREATE INDEX IF NOT EXISTS idx_variacoes_produto ON variacoes(produto_id);
+CREATE INDEX IF NOT EXISTS idx_fotos_produto ON fotos_produto(produto_id);
 """
+
+# Colunas acrescentadas depois da primeira versão: (tabela, coluna, definição)
+MIGRACOES = [
+    ("produtos", "foto", "TEXT NOT NULL DEFAULT ''"),
+    ("produtos", "custo_centavos", "INTEGER CHECK (custo_centavos IS NULL OR custo_centavos >= 0)"),
+    ("itens_pedido", "variacao_id", "INTEGER REFERENCES variacoes(id)"),
+    ("itens_pedido", "variacao_nome", "TEXT NOT NULL DEFAULT ''"),
+    ("itens_pedido", "custo_unit_centavos", "INTEGER"),
+]
 
 
 def normaliza(texto):
@@ -94,9 +128,16 @@ def conectar(caminho):
 
 def inicializar(conn, carregar_catalogo=True):
     conn.executescript(ESQUEMA)
-    colunas = {r["name"] for r in conn.execute("PRAGMA table_info(produtos)")}
-    if "foto" not in colunas:  # bancos criados antes do envio de fotos
-        conn.execute("ALTER TABLE produtos ADD COLUMN foto TEXT NOT NULL DEFAULT ''")
+    for tabela, coluna, definicao in MIGRACOES:
+        colunas = {r["name"] for r in conn.execute(f"PRAGMA table_info({tabela})")}
+        if coluna not in colunas:
+            conn.execute(f"ALTER TABLE {tabela} ADD COLUMN {coluna} {definicao}")
+    # fotos enviadas antes da galeria passam a ser a capa da galeria
+    conn.execute(
+        """INSERT INTO fotos_produto (produto_id, arquivo, ordem)
+           SELECT id, foto, 0 FROM produtos p
+           WHERE foto != '' AND NOT EXISTS (SELECT 1 FROM fotos_produto f WHERE f.produto_id = p.id)"""
+    )
     vazio = conn.execute("SELECT COUNT(*) FROM categorias").fetchone()[0] == 0
     if carregar_catalogo and vazio:
         _carregar_catalogo(conn)
@@ -113,16 +154,23 @@ def _carregar_catalogo(conn):
             )
             ids[cat["slug"]] = cur.lastrowid
         for p in PRODUTOS:
-            conn.execute(
+            variacoes = p.get("variacoes") or []
+            estoque = sum(v[2] for v in variacoes) if variacoes else p["estoque"]
+            cur = conn.execute(
                 """INSERT INTO produtos (slug, nome, descricao, categoria_id, preco_centavos,
-                       preco_de_centavos, estoque, icone, destaque)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                       preco_de_centavos, custo_centavos, estoque, icone, destaque)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     p["slug"], p["nome"], p["descricao"], ids[p["categoria"]], p["preco"],
-                    p.get("preco_de"), p["estoque"], p["icone"],
+                    p.get("preco_de"), p.get("custo"), estoque, p["icone"],
                     1 if p.get("destaque") else 0,
                 ),
             )
+            for ordem, (nome, preco, est) in enumerate(variacoes):
+                conn.execute(
+                    "INSERT INTO variacoes (produto_id, nome, preco_centavos, estoque, ordem) VALUES (?, ?, ?, ?, ?)",
+                    (cur.lastrowid, nome, preco, est, ordem),
+                )
         conn.execute("COMMIT")
     except Exception:
         conn.execute("ROLLBACK")

@@ -11,7 +11,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import config, db, fotos, frete, regras
+from . import ajustes, config, db, fotos, frete, precificacao, regras
 from .imagens import svg_produto
 
 TAMANHO_MAX_CORPO = 64 * 1024
@@ -54,6 +54,8 @@ def api_loja(conn, req):
         "parcelas_max": config.PARCELAS_MAX,
         "parcela_minima": config.PARCELA_MINIMA,
         "cidades_destaque": frete.CIDADES_DESTAQUE,
+        "whatsapp": (a := ajustes.obter(conn))["whatsapp"],
+        "whatsapp_mensagem": a["whatsapp_mensagem"],
         "zonas_frete": [
             {"nome": nome, "valor_centavos": valor, "prazo_dias": prazo + config.PRAZO_MANUSEIO_DIAS}
             for nome, valor, prazo in dict.fromkeys((z[3], z[4], z[5]) for z in frete.ZONAS)
@@ -129,9 +131,19 @@ def api_admin_status(conn, req, codigo):
     return regras.obter_pedido_publico(conn, codigo)
 
 
+@rota("GET", r"/api/admin/resumo", admin=True)
+def api_admin_resumo(conn, req):
+    return regras.resumo_vendas(conn)
+
+
 @rota("GET", r"/api/admin/produtos", admin=True)
 def api_admin_produtos(conn, req):
-    return regras.listar_produtos(conn, ordem="nome", incluir_inativos=True)
+    return regras.listar_produtos(conn, ordem="nome", incluir_inativos=True, admin=True)
+
+
+@rota("GET", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)", admin=True)
+def api_admin_obter_produto(conn, req, slug):
+    return regras.obter_produto(conn, slug, incluir_inativos=True, admin=True)
 
 
 @rota("PATCH", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)", admin=True)
@@ -144,18 +156,57 @@ def api_admin_criar_produto(conn, req):
     return HTTPStatus.CREATED, regras.criar_produto(conn, req.json())
 
 
+@rota("PUT", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/variacoes", admin=True)
+def api_admin_variacoes(conn, req, slug):
+    return regras.salvar_variacoes(conn, slug, req.json().get("variacoes"))
+
+
 @rota("POST", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/foto", admin=True, corpo_max=TAMANHO_MAX_UPLOAD)
 def api_admin_foto(conn, req, slug):
-    regras.obter_produto(conn, slug, incluir_inativos=True)  # 404 antes de gravar arquivo
-    arquivo = fotos.salvar(req.handler.server.fotos_dir, slug, req.json().get("dados"))
-    return regras.definir_foto(conn, slug, arquivo)
+    produto = regras.obter_produto(conn, slug, incluir_inativos=True)  # 404 antes de gravar arquivo
+    if len(produto["fotos"]) >= config.FOTOS_POR_PRODUTO:
+        raise regras.ErroValidacao({"foto": f"Máximo de {config.FOTOS_POR_PRODUTO} fotos por produto."})
+    pasta = req.handler.server.fotos_dir
+    arquivo = fotos.salvar(pasta, slug, req.json().get("dados"))
+    try:
+        return regras.adicionar_foto(conn, slug, arquivo)
+    except Exception:
+        (pasta / arquivo).unlink(missing_ok=True)
+        raise
+
+
+@rota("DELETE", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/fotos/(?P<foto_id>[0-9]+)", admin=True)
+def api_admin_remover_foto(conn, req, slug, foto_id):
+    arquivo, produto = regras.remover_foto(conn, slug, int(foto_id))
+    (req.handler.server.fotos_dir / arquivo).unlink(missing_ok=True)
+    return produto
+
+
+@rota("POST", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/fotos/(?P<foto_id>[0-9]+)/capa", admin=True)
+def api_admin_capa(conn, req, slug, foto_id):
+    return regras.definir_capa(conn, slug, int(foto_id))
+
+
+@rota("POST", r"/api/admin/calculadora", admin=True)
+def api_admin_calculadora(conn, req):
+    return precificacao.calcular(req.json())
+
+
+@rota("GET", r"/api/admin/ajustes", admin=True)
+def api_admin_ajustes(conn, req):
+    return ajustes.obter(conn)
+
+
+@rota("PUT", r"/api/admin/ajustes", admin=True)
+def api_admin_salvar_ajustes(conn, req):
+    return ajustes.salvar(conn, req.json())
 
 
 # ---------------------------------------------------------------- servidor
 
 PAGINAS_SPA = re.compile(
     r"^/(|categoria/[a-z0-9-]+|produto/[a-z0-9-]+|busca|carrinho|checkout|pedido/[A-Za-z0-9-]+|"
-    r"entregas|sobre|trocas|admin)/?$"
+    r"entregas|sobre|trocas|admin|admin/produto/[a-z0-9-]+)/?$"
 )
 
 
@@ -197,6 +248,12 @@ class TipitiHandler(BaseHTTPRequestHandler):
 
     def do_PATCH(self):
         self._despachar("PATCH")
+
+    def do_PUT(self):
+        self._despachar("PUT")
+
+    def do_DELETE(self):
+        self._despachar("DELETE")
 
     def log_message(self, formato, *args):
         if not getattr(self.server, "silencioso", False):

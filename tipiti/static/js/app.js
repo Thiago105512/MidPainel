@@ -89,20 +89,49 @@ function salvarCarrinho() {
   $("#contador-carrinho").textContent = total;
 }
 
-function adicionarAoCarrinho(slug, quantidade = 1) {
-  const item = estado.carrinho.find((i) => i.slug === slug);
+/** Mesma chave que o servidor devolve em cada linha do carrinho. */
+const chaveItem = (slug, variacao) => `${slug}:${variacao ?? ""}`;
+
+function adicionarAoCarrinho(slug, quantidade = 1, variacao = null) {
+  const item = estado.carrinho.find((i) => chaveItem(i.slug, i.variacao) === chaveItem(slug, variacao));
   if (item) item.quantidade = Math.min(99, item.quantidade + quantidade);
-  else estado.carrinho.push({ slug, quantidade });
+  else estado.carrinho.push({ slug, variacao, quantidade });
   salvarCarrinho();
 }
 
-function alterarQuantidade(slug, quantidade) {
-  if (quantidade <= 0) estado.carrinho = estado.carrinho.filter((i) => i.slug !== slug);
+function alterarQuantidade(chave, quantidade) {
+  if (quantidade <= 0) estado.carrinho = estado.carrinho.filter((i) => chaveItem(i.slug, i.variacao) !== chave);
   else {
-    const item = estado.carrinho.find((i) => i.slug === slug);
+    const item = estado.carrinho.find((i) => chaveItem(i.slug, i.variacao) === chave);
     if (item) item.quantidade = Math.min(99, quantidade);
   }
   salvarCarrinho();
+}
+
+const nomeComOpcao = (i) => (i.variacao_nome ? `${i.nome} — ${i.variacao_nome}` : i.nome);
+
+// ------------------------------------------------------------- WhatsApp
+
+function linkWhatsApp(texto) {
+  const numero = estado.loja && estado.loja.whatsapp;
+  return numero ? `https://wa.me/${numero}?text=${encodeURIComponent(texto)}` : null;
+}
+
+/** `texto` pode ser uma função, para a mensagem refletir o estado na hora do clique (ex.: quantidade). */
+function botaoWhatsApp(texto, rotulo, classe = "botao whatsapp") {
+  const gerar = typeof texto === "function" ? texto : () => texto;
+  const url = linkWhatsApp(gerar());
+  return url ? h("a", { class: classe, href: url, target: "_blank", rel: "noopener",
+    onclick: (e) => { e.currentTarget.href = linkWhatsApp(gerar()); } }, "💬 ", rotulo) : null;
+}
+
+function atualizarWhatsAppFlutuante() {
+  const antigo = $("#whatsapp-flutuante");
+  if (antigo) antigo.remove();
+  const url = linkWhatsApp(estado.loja.whatsapp_mensagem || "Olá!");
+  if (!url) return;
+  document.body.append(h("a", { id: "whatsapp-flutuante", class: "whatsapp-flutuante", href: url, target: "_blank", rel: "noopener",
+    "aria-label": "Atendimento pelo WhatsApp" }, h("span", { "aria-hidden": "true" }, "💬"), h("span", { class: "so-desktop" }, "Atendimento")));
 }
 
 // ------------------------------------------------------------- componentes
@@ -149,7 +178,7 @@ function campo(nome, rotulo, attrs = {}, classe = "c3") {
   );
 }
 
-function mostrarErros(form, campos) {
+function mostrarErros(form, campos, focar = true) {
   form.querySelectorAll(".campo").forEach((c) => c.classList.remove("com-erro"));
   form.querySelectorAll(".msg-erro").forEach((m) => (m.textContent = ""));
   let primeiro = null;
@@ -160,7 +189,7 @@ function mostrarErros(form, campos) {
     $(".msg-erro", c).textContent = msg;
     primeiro = primeiro || c.querySelector("input, select");
   }
-  if (primeiro) primeiro.focus();
+  if (primeiro && focar) primeiro.focus();
 }
 
 function simuladorFrete(obterSubtotal) {
@@ -270,34 +299,96 @@ async function paginaBusca(main) {
 async function paginaProduto(main, slug) {
   const p = await api(`/api/produtos/${slug}`);
   document.title = `${p.nome} | Tipiti`;
+  const opcoes = p.variacoes;
+  let escolhida = opcoes.length === 1 ? opcoes[0] : null;
   let qtd = 1;
-  const inputQtd = h("input", { type: "number", min: 1, max: Math.max(1, p.estoque), value: 1, "aria-label": "Quantidade",
-    onchange: (e) => { qtd = Math.max(1, Math.min(p.estoque, parseInt(e.target.value, 10) || 1)); e.target.value = qtd; } });
-  const mudar = (d) => { qtd = Math.max(1, Math.min(p.estoque, qtd + d)); inputQtd.value = qtd; };
-  const temOferta = p.preco_de_centavos && p.preco_de_centavos > p.preco_centavos;
+  const precoAtual = () => (escolhida && escolhida.preco_centavos !== null ? escolhida.preco_centavos : p.preco_centavos);
+  const estoqueAtual = () => (opcoes.length ? (escolhida ? escolhida.estoque : p.estoque) : p.estoque);
 
+  // galeria
+  const imagens = p.fotos.length ? p.fotos.map((f) => f.url) : [p.imagem];
+  const principal = h("img", { src: imagens[0], alt: p.nome, width: 400, height: 400, class: "foto-principal" });
+  const miniaturas = imagens.length > 1 ? h("div", { class: "miniaturas" }, imagens.map((url, k) =>
+    h("button", { type: "button", class: "miniatura-botao", "aria-label": `Foto ${k + 1}`, "aria-current": String(k === 0),
+      onclick: (e) => {
+        principal.src = url;
+        e.currentTarget.parentElement.querySelectorAll("button").forEach((b) => b.setAttribute("aria-current", "false"));
+        e.currentTarget.setAttribute("aria-current", "true");
+      } }, h("img", { src: url, alt: "" })))) : null;
+
+  const blocoPreco = h("div", {});
+  const blocoCompra = h("div", {});
+  const inputQtd = h("input", { type: "number", min: 1, value: 1, "aria-label": "Quantidade",
+    onchange: (e) => { qtd = Math.max(1, Math.min(estoqueAtual() || 1, parseInt(e.target.value, 10) || 1)); e.target.value = qtd; } });
+  const mudar = (d) => { qtd = Math.max(1, Math.min(estoqueAtual() || 1, qtd + d)); inputQtd.value = qtd; };
+  const aviso = h("p", { class: "esgotado", hidden: true }, "Escolha uma opção acima.");
+
+  const exigirOpcao = () => {
+    if (opcoes.length && !escolhida) { aviso.hidden = false; return false; }
+    return true;
+  };
+  const adicionar = (ir) => {
+    if (!exigirOpcao()) return;
+    adicionarAoCarrinho(p.slug, qtd, escolhida ? escolhida.id : null);
+    if (ir) navegar("/carrinho"); else avisar("Produto adicionado ao carrinho ✔");
+  };
+  const textoZap = () => `Olá! Tenho interesse neste produto da Tipiti:\n${p.nome}${escolhida ? ` — ${escolhida.nome}` : ""}\nQuantidade: ${qtd}\n${location.href}`;
+
+  const atualizar = () => {
+    const preco = precoAtual();
+    const estoque = estoqueAtual();
+    const temOferta = !escolhida?.preco_centavos && p.preco_de_centavos && p.preco_de_centavos > preco;
+    trocar(blocoPreco,
+      temOferta ? h("div", { class: "preco-de" }, `De ${brl(p.preco_de_centavos)}`) : null,
+      h("div", { class: "preco" }, brl(preco)),
+      h("div", { class: "preco-pix" }, `${brl(precoPix(preco))} no Pix (${estado.loja.desconto_pix_pct}% off)`),
+      h("div", { class: "parcelado" }, textoParcelas(preco)));
+    qtd = Math.max(1, Math.min(qtd, estoque || 1));
+    inputQtd.value = qtd;
+    inputQtd.max = Math.max(1, estoque);
+    const esgotada = escolhida && escolhida.estoque === 0;
+    trocar(blocoCompra,
+      p.estoque > 0 && !esgotada
+        ? h("div", { class: "compra" },
+            h("div", { class: "quantidade" },
+              h("button", { type: "button", "aria-label": "Diminuir", onclick: () => mudar(-1) }, "−"), inputQtd,
+              h("button", { type: "button", "aria-label": "Aumentar", onclick: () => mudar(1) }, "+")),
+            h("button", { class: "botao", onclick: () => adicionar(false) }, "Adicionar ao carrinho"),
+            h("button", { class: "botao secundario", onclick: () => adicionar(true) }, "Comprar agora"))
+        : h("p", { class: "esgotado" }, esgotada ? "Esta opção está esgotada. Escolha outra." : "Produto esgotado no momento."),
+      aviso,
+      estoque > 0 && estoque <= 5 && (escolhida || !opcoes.length) ? h("p", { class: "esgotado" }, `Últimas ${estoque} unidades!`) : null,
+      botaoWhatsApp(textoZap, "Pedir pelo WhatsApp", "botao whatsapp"));
+  };
+
+  const seletorOpcoes = opcoes.length ? h("div", { class: "opcoes-produto", role: "radiogroup", "aria-label": "Opções" },
+    h("p", { class: "rotulo-opcoes" }, "Opção: ", h("b", {}, escolhida ? escolhida.nome : "escolha abaixo")),
+    h("div", { class: "botoes-opcoes" }, opcoes.map((v) => h("button", {
+      type: "button", role: "radio", class: `opcao-produto${v.estoque === 0 ? " opcao-esgotada" : ""}`,
+      "aria-checked": String(escolhida === v), title: v.estoque === 0 ? "Esgotado" : "",
+      onclick: (e) => {
+        escolhida = v;
+        aviso.hidden = true;
+        const grupo = e.currentTarget.closest(".opcoes-produto");
+        grupo.querySelectorAll(".opcao-produto").forEach((b) => b.setAttribute("aria-checked", "false"));
+        e.currentTarget.setAttribute("aria-checked", "true");
+        $(".rotulo-opcoes b", grupo).textContent = v.nome;
+        atualizar();
+      } }, v.nome)))) : null;
+
+  atualizar();
   trocar(main, h("div", { class: "caminho" }, h("a", { href: "/" }, "Início"), " › ",
       h("a", { href: `/categoria/${p.categoria.slug}` }, p.categoria.nome), " › ", p.nome),
     h("article", { class: "produto" },
-      h("img", { src: p.imagem, alt: p.nome, width: 400, height: 400 }),
+      h("div", { class: "galeria" }, principal, miniaturas),
       h("div", {},
         h("h1", {}, p.nome),
-        temOferta ? h("div", { class: "preco-de" }, `De ${brl(p.preco_de_centavos)}`) : null,
-        h("div", { class: "preco" }, brl(p.preco_centavos)),
-        h("div", { class: "preco-pix" }, `${brl(precoPix(p.preco_centavos))} no Pix (${estado.loja.desconto_pix_pct}% off)`),
-        h("div", { class: "parcelado" }, textoParcelas(p.preco_centavos)),
-        p.estoque > 0
-          ? h("div", { class: "compra" },
-              h("div", { class: "quantidade" },
-                h("button", { type: "button", "aria-label": "Diminuir", onclick: () => mudar(-1) }, "−"), inputQtd,
-                h("button", { type: "button", "aria-label": "Aumentar", onclick: () => mudar(1) }, "+")),
-              h("button", { class: "botao", onclick: () => { adicionarAoCarrinho(p.slug, qtd); avisar("Produto adicionado ao carrinho ✔"); } }, "Adicionar ao carrinho"),
-              h("button", { class: "botao secundario", onclick: () => { adicionarAoCarrinho(p.slug, qtd); navegar("/carrinho"); } }, "Comprar agora"))
-          : h("p", { class: "esgotado" }, "Produto esgotado no momento."),
-        p.estoque > 0 && p.estoque <= 5 ? h("p", { class: "esgotado" }, `Últimas ${p.estoque} unidades!`) : null,
+        blocoPreco,
+        seletorOpcoes,
+        blocoCompra,
         h("p", { class: "selo-importado" }, "📦 Produto importado · em estoque no Brasil · garantia de 90 dias"),
         h("p", { class: "descricao" }, p.descricao),
-        simuladorFrete(() => p.preco_centavos * qtd),
+        simuladorFrete(() => precoAtual() * qtd),
       ),
     ),
     p.relacionados.length ? h("section", { class: "secao" }, h("h2", {}, "Você também pode gostar"), gradeProdutos(p.relacionados)) : null,
@@ -353,11 +444,13 @@ async function paginaCarrinho(main) {
     } else throw err;
   }
   // remove do carrinho local o que deixou de existir
-  const existentes = new Set(cotacao.itens.filter((i) => i.produto_id).map((i) => i.slug));
+  const existentes = new Set(cotacao.itens.filter((i) => i.produto_id).map((i) => i.chave));
   if (existentes.size !== estado.carrinho.length) {
-    estado.carrinho = estado.carrinho.filter((i) => existentes.has(i.slug));
+    estado.carrinho = estado.carrinho.filter((i) => existentes.has(chaveItem(i.slug, i.variacao)));
     salvarCarrinho();
   }
+  const validos = cotacao.itens.filter((i) => i.produto_id);
+  const textoZap = `Olá! Quero finalizar este pedido na Tipiti:\n${validos.map((i) => `• ${i.quantidade}× ${nomeComOpcao(i)} — ${brl(i.total_centavos)}`).join("\n")}\nSubtotal: ${brl(cotacao.subtotal_centavos)}${cotacao.frete ? `\nCEP: ${cotacao.frete.cep}` : ""}`;
 
   trocar(main, h("h1", {}, "Meu carrinho"),
     h("div", { class: "layout-carrinho" },
@@ -366,15 +459,16 @@ async function paginaCarrinho(main) {
           h("img", { src: i.imagem, alt: "" }),
           h("div", {},
             h("a", { class: "nome", href: `/produto/${i.slug}` }, i.nome),
+            i.variacao_nome ? h("div", {}, "Opção: ", h("b", {}, i.variacao_nome)) : null,
             h("div", { class: "parcelado" }, `${brl(i.preco_unit_centavos)} cada`),
             i.erro ? h("div", { class: "esgotado" }, i.erro) : null,
             h("div", { class: "acoes" },
               h("div", { class: "quantidade" },
-                h("button", { type: "button", "aria-label": "Diminuir", onclick: () => { alterarQuantidade(i.slug, i.quantidade - 1); rotear(); } }, "−"),
+                h("button", { type: "button", "aria-label": "Diminuir", onclick: () => { alterarQuantidade(i.chave, i.quantidade - 1); rotear(); } }, "−"),
                 h("input", { type: "number", value: i.quantidade, min: 1, "aria-label": "Quantidade",
-                  onchange: (e) => { alterarQuantidade(i.slug, parseInt(e.target.value, 10) || 0); rotear(); } }),
-                h("button", { type: "button", "aria-label": "Aumentar", onclick: () => { alterarQuantidade(i.slug, i.quantidade + 1); rotear(); } }, "+")),
-              h("button", { class: "link-botao", onclick: () => { alterarQuantidade(i.slug, 0); rotear(); } }, "Remover"))),
+                  onchange: (e) => { alterarQuantidade(i.chave, parseInt(e.target.value, 10) || 0); rotear(); } }),
+                h("button", { type: "button", "aria-label": "Aumentar", onclick: () => { alterarQuantidade(i.chave, i.quantidade + 1); rotear(); } }, "+")),
+              h("button", { class: "link-botao", onclick: () => { alterarQuantidade(i.chave, 0); rotear(); } }, "Remover"))),
           h("b", {}, brl(i.total_centavos))))),
       h("aside", { class: "painel resumo" },
         h("h2", {}, "Resumo"),
@@ -383,6 +477,7 @@ async function paginaCarrinho(main) {
         blocoResumo(cotacao, { comCep: true, aoMudarCep: (v) => { gravar("tipiti:cep", mascaraCep(v)); rotear(); } }),
         !cotacao.valido ? h("div", { class: "alerta" }, "Ajuste os itens sem estoque para continuar.") : null,
         h("button", { class: "botao grande", disabled: !cotacao.valido, onclick: () => navegar("/checkout") }, "Finalizar compra"),
+        botaoWhatsApp(textoZap, "Prefiro finalizar pelo WhatsApp", "botao whatsapp grande espaco-topo"),
         h("a", { href: "/", style: "display:block;text-align:center;margin-top:12px" }, "Continuar comprando"),
       ),
     ),
@@ -464,7 +559,7 @@ async function paginaCheckout(main) {
     const c = ultimaCotacao;
     trocar(resumo, h("h2", {}, "Resumo do pedido"),
       c.itens.filter((i) => i.produto_id).map((i) => h("div", { class: "linha-total" },
-        h("span", {}, `${i.quantidade}× ${i.nome}`), h("span", {}, brl(i.total_centavos)))),
+        h("span", {}, `${i.quantidade}× ${nomeComOpcao(i)}`), h("span", {}, brl(i.total_centavos)))),
       h("hr", { style: "border:0;border-top:1px solid var(--linha)" }),
       blocoResumo(c),
       !c.valido ? h("div", { class: "alerta" }, "Há itens sem estoque. ", h("a", { href: "/carrinho" }, "Revise o carrinho.")) : null,
@@ -542,13 +637,15 @@ async function paginaPedido(main, codigo) {
       p.status === "aguardando_pagamento" ? h("div", { class: "info-box" }, instrucoes[p.pagamento]) : null,
       h("div", { class: "painel", style: "text-align:left;margin-top:20px" },
         h("h2", {}, "Itens"),
-        p.itens.map((i) => h("div", { class: "linha-total" }, h("span", {}, `${i.quantidade}× ${i.nome}`), h("span", {}, brl(i.preco_unit_centavos * i.quantidade)))),
+        p.itens.map((i) => h("div", { class: "linha-total" }, h("span", {}, `${i.quantidade}× ${nomeComOpcao(i)}`), h("span", {}, brl(i.preco_unit_centavos * i.quantidade)))),
         h("hr", { style: "border:0;border-top:1px solid var(--linha)" }),
         h("div", { class: "linha-total" }, h("span", {}, "Subtotal"), h("span", {}, brl(p.subtotal_centavos))),
         p.desconto_centavos ? h("div", { class: "linha-total desconto" }, h("span", {}, "Desconto Pix"), h("span", {}, `− ${brl(p.desconto_centavos)}`)) : null,
         h("div", { class: "linha-total" }, h("span", {}, "Frete"), h("span", {}, p.frete_centavos ? brl(p.frete_centavos) : "Grátis")),
         h("div", { class: "linha-total total" }, h("span", {}, "Total"), h("span", {}, brl(p.total_centavos))),
         h("p", { class: "parcelado" }, `Entrega em ${p.destino} · prazo de até ${p.prazo_dias} dias úteis após a confirmação do pagamento.`)),
+      botaoWhatsApp(`Olá! Fiz o pedido ${p.codigo} no site da Tipiti (total ${brl(p.total_centavos)}, ${p.pagamento_nome}).`,
+        "Enviar meu pedido no WhatsApp", "botao whatsapp espaco-topo"),
       h("p", {}, "Guarde o código para acompanhar o pedido. Dúvidas: ", h("a", { href: `mailto:${estado.loja.email}` }, estado.loja.email)),
       h("a", { class: "botao", href: "/" }, "Voltar à loja"),
     ),
@@ -590,80 +687,220 @@ function paginaTrocas(main) {
 
 // ------------------------------------------------------------- administração
 
+const STATUS_PEDIDO = { aguardando_pagamento: "Aguardando pagamento", pago: "Pago", enviado: "Enviado", entregue: "Entregue", cancelado: "Cancelado" };
+
+/** "49,90", "49.90" ou "1.234,56" -> centavos; vazio -> null. */
+function reais(v) {
+  let t = String(v ?? "").trim();
+  if (!t) return null;
+  if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
+  const n = Math.round(parseFloat(t) * 100);
+  return Number.isFinite(n) ? n : NaN;
+}
+const textoReais = (c) => (c === null || c === undefined ? "" : (c / 100).toFixed(2).replace(".", ","));
+
+function sairDoPainel() {
+  try { sessionStorage.removeItem(CHAVE_ADMIN); } catch (_) { /* ignora */ }
+  navegar("/admin", true);
+}
+
+/** Mostra o login se não houver token; senão devolve o cabeçalho de autorização. */
+function autenticacaoAdmin(main) {
+  const token = lerArmazenado(CHAVE_ADMIN, "", sessionStorage);
+  if (token) return { Authorization: `Bearer ${token}` };
+  const input = h("input", { type: "password", "aria-label": "Token de acesso", placeholder: "Token de acesso", autocomplete: "off" });
+  trocar(main, h("div", { class: "painel", style: "max-width:420px;margin:40px auto" },
+    h("h1", {}, "Painel da loja"),
+    h("form", { onsubmit: (e) => { e.preventDefault(); gravar(CHAVE_ADMIN, input.value.trim(), sessionStorage); rotear(); } },
+      input, h("button", { class: "botao grande", style: "margin-top:12px" }, "Entrar"))));
+  return null;
+}
+
+function cabecalhoAdmin(abaAtual) {
+  const abas = [["pedidos", "Pedidos"], ["produtos", "Produtos"], ["novo", "+ Novo produto"], ["calculadora", "Calculadora"], ["configuracoes", "Configurações"]];
+  return [
+    h("div", { class: "secao-cabecalho" }, h("h1", {}, "Painel da loja"), h("button", { class: "link-botao", onclick: sairDoPainel }, "Sair")),
+    h("div", { class: "abas", role: "tablist" }, abas.map(([id, rotulo]) =>
+      h("button", { class: "botao secundario", role: "tab", "aria-selected": String(abaAtual === id),
+        onclick: () => { gravar("tipiti:admin-aba", id, sessionStorage); navegar("/admin"); } }, rotulo))),
+  ];
+}
+
+async function comTratamento(conteudo, fn) {
+  try { await fn(); } catch (err) {
+    if (err.status === 401) return sairDoPainel();
+    trocar(conteudo, h("div", { class: "alerta" }, err.message));
+  }
+}
+
 async function paginaAdmin(main) {
   document.title = "Painel | Tipiti";
-  const token = lerArmazenado(CHAVE_ADMIN, "", sessionStorage);
-  if (!token) {
-    const input = h("input", { type: "password", "aria-label": "Token de acesso", placeholder: "Token de acesso", autocomplete: "off" });
-    trocar(main, h("div", { class: "painel", style: "max-width:420px;margin:40px auto" },
-      h("h1", {}, "Painel da loja"),
-      h("form", { onsubmit: (e) => { e.preventDefault(); gravar(CHAVE_ADMIN, input.value.trim(), sessionStorage); rotear(); } },
-        input, h("button", { class: "botao grande", style: "margin-top:12px" }, "Entrar"))));
-    return;
-  }
-  const auth = { Authorization: `Bearer ${token}` };
-  const sair = () => { try { sessionStorage.removeItem(CHAVE_ADMIN); } catch (_) { /* ignora */ } rotear(); };
-  const conteudo = h("div", { class: "rolagem" });
+  const auth = autenticacaoAdmin(main);
+  if (!auth) return;
   const aba = lerArmazenado("tipiti:admin-aba", "pedidos", sessionStorage);
-  const botaoAba = (id, rotulo) => h("button", { class: "botao secundario", role: "tab", "aria-selected": String(aba === id),
-    onclick: () => { gravar("tipiti:admin-aba", id, sessionStorage); rotear(); } }, rotulo);
+  const conteudo = h("div", {}, h("div", { class: "carregando" }, "Carregando…"));
+  trocar(main, cabecalhoAdmin(aba), conteudo);
+  await comTratamento(conteudo, async () => {
+    if (aba === "novo") trocar(conteudo, formularioNovoProduto(auth));
+    else if (aba === "produtos") trocar(conteudo, await listaProdutosAdmin(auth));
+    else if (aba === "calculadora") {
+      const aj = await api("/api/admin/ajustes", { headers: auth });
+      trocar(conteudo, h("div", { class: "painel" }, h("h2", {}, "Calculadora de preço do importado"),
+        h("p", { class: "parcelado" }, "Descubra o custo real de cada unidade no Brasil e o preço de venda para a margem que você quer."),
+        calculadora(auth, aj)));
+    } else if (aba === "configuracoes") trocar(conteudo, await formularioAjustes(auth));
+    else trocar(conteudo, await painelPedidos(auth));
+  });
+}
 
-  trocar(main, h("div", { class: "secao-cabecalho" }, h("h1", {}, "Painel da loja"), h("button", { class: "link-botao", onclick: sair }, "Sair")),
-    h("div", { class: "abas", role: "tablist" }, botaoAba("pedidos", "Pedidos"), botaoAba("produtos", "Produtos"), botaoAba("novo", "+ Novo produto")),
-    conteudo,
-  );
+function cartaoNumero(rotulo, valor, detalhe) {
+  return h("div", { class: "cartao-numero" }, h("small", {}, rotulo), h("b", {}, valor), detalhe ? h("small", {}, detalhe) : null);
+}
 
-  try {
-    if (aba === "novo") {
-      trocar(conteudo, formularioNovoProduto(auth));
-    } else if (aba === "produtos") {
-      const produtos = await api("/api/admin/produtos", { headers: auth });
-      trocar(conteudo, h("table", { class: "tabela-admin" },
-        h("thead", {}, h("tr", {}, ["Produto", "Preço (centavos)", "De (centavos)", "Estoque", "Ativo", "Destaque", ""].map((t) => h("th", {}, t)))),
-        h("tbody", {}, produtos.map((p) => {
-          const preco = h("input", { type: "number", min: 0, value: p.preco_centavos, "aria-label": "Preço" });
-          const de = h("input", { type: "number", min: 0, value: p.preco_de_centavos ?? "", "aria-label": "Preço de" });
-          const estoque = h("input", { type: "number", min: 0, value: p.estoque, "aria-label": "Estoque" });
-          const ativo = h("input", { type: "checkbox", checked: p.ativo, "aria-label": "Ativo" });
-          const destaque = h("input", { type: "checkbox", checked: p.destaque, "aria-label": "Destaque" });
-          const salvar = async () => {
-            try {
-              await api(`/api/admin/produtos/${p.slug}`, { method: "PATCH", headers: auth, body: JSON.stringify({
-                preco_centavos: parseInt(preco.value, 10), preco_de_centavos: de.value === "" ? null : parseInt(de.value, 10),
-                estoque: parseInt(estoque.value, 10), ativo: ativo.checked, destaque: destaque.checked }) });
-              avisar("Produto atualizado ✔");
-            } catch (err) { avisar(err.message); }
-          };
-          const miniatura = h("img", { src: p.imagem, alt: "", class: "miniatura" });
-          const foto = seletorFoto(auth, p.slug, (atualizado) => { miniatura.src = atualizado.imagem; });
-          return h("tr", {}, h("td", {}, h("div", { class: "produto-admin" }, miniatura,
-              h("div", {}, h("a", { href: `/produto/${p.slug}` }, p.nome), h("div", { class: "parcelado" }, p.categoria.nome), foto))),
-            h("td", {}, preco), h("td", {}, de), h("td", {}, estoque), h("td", {}, ativo), h("td", {}, destaque),
-            h("td", {}, h("button", { class: "botao secundario", onclick: salvar }, "Salvar")));
-        }))));
-    } else {
-      const pedidos = await api("/api/admin/pedidos", { headers: auth });
-      const status = { aguardando_pagamento: "Aguardando pagamento", pago: "Pago", enviado: "Enviado", entregue: "Entregue", cancelado: "Cancelado" };
-      trocar(conteudo, pedidos.length ? h("table", { class: "tabela-admin" },
-        h("thead", {}, h("tr", {}, ["Pedido", "Cliente", "Entrega", "Itens", "Total", "Status"].map((t) => h("th", {}, t)))),
-        h("tbody", {}, pedidos.map((p) => h("tr", {},
+async function painelPedidos(auth) {
+  const [pedidos, resumo] = await Promise.all([api("/api/admin/pedidos", { headers: auth }), api("/api/admin/resumo", { headers: auth })]);
+  const nomeItem = (i) => `${i.quantidade}× ${i.nome}${i.variacao_nome ? ` (${i.variacao_nome})` : ""}`;
+  return h("div", {},
+    h("div", { class: "cartoes-numeros" },
+      cartaoNumero("Pedidos", resumo.pedidos, "sem contar cancelados"),
+      cartaoNumero("Faturamento", brl(resumo.faturamento_centavos), "com frete"),
+      cartaoNumero("Lucro estimado", brl(resumo.lucro_centavos),
+        resumo.pedidos_sem_custo ? `${resumo.pedidos_sem_custo} pedido(s) sem custo cadastrado` : "produtos − custo, sem o frete"),
+      cartaoNumero("Ticket médio", brl(resumo.ticket_medio_centavos))),
+    resumo.estoque_baixo.length ? h("div", { class: "info-box", style: "margin-bottom:16px" },
+      h("b", {}, "⚠️ Estoque baixo: "),
+      resumo.estoque_baixo.map((p, k) => [k ? ", " : "", h("a", { href: `/admin/produto/${p.slug}` }, p.nome), ` (${p.estoque})`])) : null,
+    pedidos.length ? h("div", { class: "rolagem" }, h("table", { class: "tabela-admin" },
+      h("thead", {}, h("tr", {}, ["Pedido", "Cliente", "Entrega", "Itens", "Total", "Lucro", "Status"].map((t) => h("th", {}, t)))),
+      h("tbody", {}, pedidos.map((p) => {
+        const zap = `https://wa.me/55${p.cliente.telefone}?text=${encodeURIComponent(`Olá, ${p.cliente.nome.split(" ")[0]}! Aqui é da Tipiti, sobre o seu pedido ${p.codigo}.`)}`;
+        return h("tr", {},
           h("td", {}, h("b", {}, p.codigo), h("div", { class: "parcelado" }, p.criado_em)),
-          h("td", {}, p.cliente.nome, h("div", { class: "parcelado" }, p.cliente.email), h("div", { class: "parcelado" }, mascaraTelefone(p.cliente.telefone))),
-          h("td", {}, `${p.entrega.endereco}, ${p.entrega.numero} ${p.entrega.complemento}`, h("div", { class: "parcelado" }, `${p.entrega.bairro} · ${p.entrega.cidade}/${p.entrega.uf} · ${mascaraCep(p.entrega.cep)}`), h("div", { class: "parcelado" }, p.zona_frete)),
-          h("td", {}, p.itens.map((i) => h("div", {}, `${i.quantidade}× ${i.nome}`))),
+          h("td", {}, p.cliente.nome, h("div", { class: "parcelado" }, p.cliente.email),
+            h("div", { class: "parcelado" }, mascaraTelefone(p.cliente.telefone), " · ", h("a", { href: zap, target: "_blank", rel: "noopener" }, "WhatsApp"))),
+          h("td", {}, `${p.entrega.endereco}, ${p.entrega.numero} ${p.entrega.complemento}`,
+            h("div", { class: "parcelado" }, `${p.entrega.bairro} · ${p.entrega.cidade}/${p.entrega.uf} · ${mascaraCep(p.entrega.cep)}`),
+            h("div", { class: "parcelado" }, p.zona_frete)),
+          h("td", {}, p.itens.map((i) => h("div", {}, nomeItem(i)))),
           h("td", {}, brl(p.total_centavos), h("div", { class: "parcelado" }, `${p.pagamento_nome}${p.parcelas > 1 ? ` ${p.parcelas}x` : ""}`)),
+          h("td", {}, p.lucro_centavos === null ? h("span", { class: "parcelado" }, "sem custo") : brl(p.lucro_centavos)),
           h("td", {}, h("select", { class: "campo-select", disabled: p.status === "cancelado", "aria-label": "Status",
             onchange: async (e) => {
               if (e.target.value === "cancelado" && !confirm("Cancelar o pedido e devolver os itens ao estoque?")) { e.target.value = p.status; return; }
               try { await api(`/api/admin/pedidos/${p.codigo}`, { method: "PATCH", headers: auth, body: JSON.stringify({ status: e.target.value }) }); avisar("Status atualizado ✔"); rotear(); }
               catch (err) { avisar(err.message); e.target.value = p.status; }
-            } }, Object.entries(status).map(([v, t]) => h("option", { value: v, selected: v === p.status }, t))))))))
-        : h("p", {}, "Nenhum pedido ainda."));
+            } }, Object.entries(STATUS_PEDIDO).map(([v, t]) => h("option", { value: v, selected: v === p.status }, t)))));
+      }))))
+      : h("p", {}, "Nenhum pedido ainda."));
+}
+
+async function listaProdutosAdmin(auth) {
+  const produtos = await api("/api/admin/produtos", { headers: auth });
+  const margem = (p) => (p.custo_centavos ? `${Math.round(((p.preco_centavos - p.custo_centavos) / p.preco_centavos) * 100)}%` : "—");
+  return h("div", { class: "rolagem" }, h("table", { class: "tabela-admin" },
+    h("thead", {}, h("tr", {}, ["Produto", "Preço", "Custo", "Margem bruta", "Estoque", "Situação", ""].map((t) => h("th", {}, t)))),
+    h("tbody", {}, produtos.map((p) => h("tr", {},
+      h("td", {}, h("div", { class: "produto-admin" }, h("img", { src: p.imagem, alt: "", class: "miniatura" }),
+        h("div", {}, h("a", { href: `/admin/produto/${p.slug}` }, p.nome),
+          h("div", { class: "parcelado" }, p.categoria.nome, p.tem_variacoes ? " · com opções" : "")))),
+      h("td", {}, brl(p.preco_centavos)),
+      h("td", {}, p.custo_centavos ? brl(p.custo_centavos) : h("span", { class: "parcelado" }, "—")),
+      h("td", {}, margem(p)),
+      h("td", { class: p.estoque <= 3 ? "esgotado" : "" }, p.estoque),
+      h("td", {}, p.ativo ? "No ar" : "Fora do ar", p.destaque ? " · ⭐" : ""),
+      h("td", {}, h("a", { class: "botao secundario", href: `/admin/produto/${p.slug}` }, "Editar")))))));
+}
+
+async function paginaEditorProduto(main, slug) {
+  document.title = "Editar produto | Tipiti";
+  const auth = autenticacaoAdmin(main);
+  if (!auth) return;
+  const conteudo = h("div", {}, h("div", { class: "carregando" }, "Carregando…"));
+  trocar(main, cabecalhoAdmin("produtos"), conteudo);
+  await comTratamento(conteudo, async () => {
+    const [p, aj] = await Promise.all([api(`/api/admin/produtos/${slug}`, { headers: auth }), api("/api/admin/ajustes", { headers: auth })]);
+    document.title = `${p.nome} | Painel Tipiti`;
+    trocar(conteudo,
+      h("p", {}, h("a", { href: "/admin" }, "← Voltar aos produtos"), " · ", h("a", { href: `/produto/${p.slug}`, target: "_blank", rel: "noopener" }, "Ver na loja ↗")),
+      h("div", { class: "editor" },
+        secaoDadosProduto(auth, p),
+        h("div", {},
+          secaoFotos(auth, p),
+          secaoVariacoes(auth, p),
+          h("section", { class: "painel" }, h("h2", {}, "Calculadora de preço"),
+            h("p", { class: "parcelado" }, "Calcule o custo real deste produto e aplique o preço sugerido."),
+            calculadora(auth, aj, { precoAtual: p.preco_centavos, aoAplicar: async (preco, custo) => {
+              await api(`/api/admin/produtos/${p.slug}`, { method: "PATCH", headers: auth, body: JSON.stringify({ preco_centavos: preco, custo_centavos: custo }) });
+              avisar("Preço e custo aplicados ✔");
+              rotear();
+            } })))));
+  });
+}
+
+function seletorCategoria(atual) {
+  return h("div", { class: "campo c3", "data-campo": "categoria" },
+    h("label", { for: "campo-categoria" }, "Categoria"),
+    h("select", { id: "campo-categoria", name: "categoria", class: "campo-select" },
+      h("option", { value: "" }, "Escolha…"), estado.categorias.map((c) => h("option", { value: c.slug, selected: c.slug === atual }, `${c.icone} ${c.nome}`))),
+    h("span", { class: "msg-erro" }));
+}
+
+function camposPreco(p = {}) {
+  return [
+    campo("preco_centavos", "Preço de venda (R$)", { inputmode: "decimal", placeholder: "49,90", value: textoReais(p.preco_centavos) }, "c2"),
+    campo("preco_de_centavos", "Preço \"de\" (R$, opcional)", { inputmode: "decimal", placeholder: "69,90", value: textoReais(p.preco_de_centavos) }, "c2"),
+    campo("custo_centavos", "Custo por unidade (R$, só você vê)", { inputmode: "decimal", placeholder: "22,50", value: textoReais(p.custo_centavos) }, "c2"),
+  ];
+}
+
+function valoresPreco(f) {
+  const dados = { preco_centavos: reais(f.preco_centavos.value), preco_de_centavos: reais(f.preco_de_centavos.value), custo_centavos: reais(f.custo_centavos.value) };
+  const erros = {};
+  for (const [k, v] of Object.entries(dados)) if (Number.isNaN(v)) erros[k] = "Valor inválido. Use o formato 49,90.";
+  if (dados.preco_centavos === null) erros.preco_centavos = "Informe o preço.";
+  return [dados, erros];
+}
+
+function secaoDadosProduto(auth, p) {
+  const form = h("form", { class: "painel", novalidate: true },
+    h("h2", {}, "Dados do produto"),
+    h("div", { class: "grade-form" },
+      campo("nome", "Nome", { maxlength: 120, value: p.nome }, "c6"),
+      seletorCategoria(p.categoria.slug),
+      campo("icone", "Ícone (se não houver foto)", { maxlength: 8, value: p.icone }, "c3"),
+      camposPreco(p),
+      campo("estoque", p.tem_variacoes ? "Estoque (soma das opções)" : "Estoque (unidades)",
+        { type: "number", min: 0, value: p.estoque, disabled: p.tem_variacoes }, "c2"),
+      h("div", { class: "campo c6", "data-campo": "descricao" },
+        h("label", { for: "campo-descricao" }, "Descrição"),
+        h("textarea", { id: "campo-descricao", name: "descricao", rows: 5, maxlength: 2000, class: "campo-texto" }),
+        h("span", { class: "msg-erro" })),
+      h("label", { class: "c3" }, h("input", { type: "checkbox", name: "ativo", checked: p.ativo }), " Produto no ar"),
+      h("label", { class: "c3" }, h("input", { type: "checkbox", name: "destaque", checked: p.destaque }), " Destaque na página inicial")),
+    h("div", { class: "alerta", hidden: true }),
+    h("button", { class: "botao grande", type: "submit", style: "margin-top:16px" }, "Salvar dados"));
+  form.elements.descricao.value = p.descricao;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = form.elements;
+    const alerta = $(".alerta", form);
+    alerta.hidden = true;
+    const [precos, erros] = valoresPreco(f);
+    if (Object.keys(erros).length) return mostrarErros(form, erros);
+    const dados = { nome: f.nome.value, categoria: f.categoria.value, icone: f.icone.value, descricao: f.descricao.value,
+      ativo: f.ativo.checked, destaque: f.destaque.checked, ...precos };
+    if (!p.tem_variacoes) dados.estoque = parseInt(f.estoque.value, 10);
+    try {
+      await api(`/api/admin/produtos/${p.slug}`, { method: "PATCH", headers: auth, body: JSON.stringify(dados) });
+      mostrarErros(form, {});
+      avisar("Produto salvo ✔");
+    } catch (err) {
+      mostrarErros(form, err.campos);
+      alerta.textContent = err.message;
+      alerta.hidden = false;
     }
-  } catch (err) {
-    if (err.status === 401) return sair();
-    trocar(conteudo, h("div", { class: "alerta" }, err.message));
-  }
+  });
+  return form;
 }
 
 function lerArquivoBase64(arquivo) {
@@ -676,49 +913,190 @@ function lerArquivoBase64(arquivo) {
 }
 
 async function enviarFoto(auth, slug, arquivo) {
-  if (arquivo.size > 3 * 1024 * 1024) throw new Error("A foto deve ter no máximo 3 MB.");
+  if (arquivo.size > 3 * 1024 * 1024) throw new Error(`“${arquivo.name}” passa de 3 MB.`);
   const dados = await lerArquivoBase64(arquivo);
   return api(`/api/admin/produtos/${slug}/foto`, { method: "POST", headers: auth, body: JSON.stringify({ dados }) });
 }
 
-function seletorFoto(auth, slug, aoEnviar) {
-  const input = h("input", { type: "file", accept: "image/jpeg,image/png,image/webp", class: "sr",
-    onchange: async (e) => {
-      const arquivo = e.target.files[0];
-      if (!arquivo) return;
-      try { aoEnviar(await enviarFoto(auth, slug, arquivo)); avisar("Foto atualizada ✔"); }
-      catch (err) { avisar(err.message); }
-      e.target.value = "";
-    } });
-  return h("label", { class: "link-botao" }, input, "Trocar foto");
+function secaoFotos(auth, produto) {
+  const secao = h("section", { class: "painel" });
+  const desenhar = (p) => {
+    const input = h("input", { type: "file", accept: "image/jpeg,image/png,image/webp", multiple: true, class: "sr",
+      onchange: async (e) => {
+        let atual = p;
+        for (const arquivo of e.target.files) {
+          try { atual = await enviarFoto(auth, p.slug, arquivo); } catch (err) { avisar(err.message); break; }
+        }
+        desenhar(atual);
+        avisar("Fotos atualizadas ✔");
+      } });
+    const acao = async (metodo, url) => {
+      try { desenhar(await api(url, { method: metodo, headers: auth })); } catch (err) { avisar(err.message); }
+    };
+    trocar(secao,
+      h("h2", {}, "Fotos"),
+      h("p", { class: "parcelado" }, "A primeira é a capa. JPG, PNG ou WEBP de até 3 MB; até 8 fotos. Fotos quadradas ficam melhores."),
+      h("div", { class: "galeria-admin" },
+        p.fotos.map((f, k) => h("figure", {},
+          h("img", { src: f.url, alt: "" }),
+          k === 0 ? h("span", { class: "selo" }, "Capa") : null,
+          h("figcaption", {},
+            k > 0 ? h("button", { class: "link-botao", type: "button", onclick: () => acao("POST", `/api/admin/produtos/${p.slug}/fotos/${f.id}/capa`) }, "Usar como capa") : null,
+            h("button", { class: "link-botao", type: "button", onclick: () => confirm("Remover esta foto?") && acao("DELETE", `/api/admin/produtos/${p.slug}/fotos/${f.id}`) }, "Remover")))),
+        p.fotos.length < 8 ? h("label", { class: "adicionar-foto" }, input, h("span", {}, "＋"), "Adicionar fotos") : null));
+  };
+  desenhar(produto);
+  return secao;
+}
+
+function secaoVariacoes(auth, produto) {
+  const secao = h("section", { class: "painel" });
+  let linhas = produto.variacoes.filter((v) => v.ativo).map((v) => ({ ...v }));
+  const desenhar = () => {
+    const corpo = linhas.map((v, k) => h("tr", { "data-campo": `variacao_${k}` },
+      h("td", {}, h("input", { type: "text", value: v.nome, placeholder: "Ex.: Preto / 220 V", "aria-label": "Nome da opção", oninput: (e) => (v.nome = e.target.value) })),
+      h("td", {}, h("input", { type: "text", value: v.sku || "", placeholder: "opcional", "aria-label": "Código (SKU)", oninput: (e) => (v.sku = e.target.value) })),
+      h("td", {}, h("input", { type: "text", inputmode: "decimal", value: textoReais(v.preco_centavos), placeholder: "igual ao produto", "aria-label": "Preço próprio",
+        oninput: (e) => (v.preco_texto = e.target.value) })),
+      h("td", {}, h("input", { type: "number", min: 0, value: v.estoque ?? 0, "aria-label": "Estoque", oninput: (e) => (v.estoque = parseInt(e.target.value, 10) || 0) })),
+      h("td", {}, h("button", { class: "link-botao", type: "button", "aria-label": "Remover opção", onclick: () => { linhas.splice(k, 1); desenhar(); } }, "Remover"))));
+    const erro = h("div", { class: "alerta", hidden: true });
+    trocar(secao,
+      h("h2", {}, "Opções (cor, voltagem, tamanho)"),
+      h("p", { class: "parcelado" }, "Cada opção tem estoque próprio e o cliente escolhe na página do produto. Para combinar, use nomes como “Preto / 220 V”. Deixe o preço vazio para usar o preço do produto."),
+      linhas.length ? h("div", { class: "rolagem" }, h("table", { class: "tabela-admin tabela-variacoes" },
+        h("thead", {}, h("tr", {}, ["Opção", "Código (SKU)", "Preço próprio (R$)", "Estoque", ""].map((t) => h("th", {}, t)))),
+        h("tbody", {}, corpo))) : h("p", {}, "Este produto não tem opções: o estoque é controlado direto nos dados do produto."),
+      erro,
+      h("div", { class: "compra" },
+        h("button", { class: "botao secundario", type: "button", onclick: () => { linhas.push({ nome: "", estoque: 0 }); desenhar(); } }, "+ Adicionar opção"),
+        h("button", { class: "botao", type: "button", onclick: async () => {
+          const lista = linhas.map((v) => {
+            const preco = v.preco_texto !== undefined ? reais(v.preco_texto) : v.preco_centavos ?? null;
+            return { id: v.id, nome: v.nome, sku: v.sku || "", preco_centavos: Number.isNaN(preco) ? -1 : preco, estoque: v.estoque ?? 0 };
+          });
+          try {
+            const p = await api(`/api/admin/produtos/${produto.slug}/variacoes`, { method: "PUT", headers: auth, body: JSON.stringify({ variacoes: lista }) });
+            avisar("Opções salvas ✔");
+            rotear();  // atualiza estoque total nos dados do produto
+            return p;
+          } catch (err) {
+            erro.replaceChildren(err.message, ...Object.entries(err.campos || {}).map(([k, m]) => h("div", {}, `Linha ${Number(k.split("_")[1]) + 1}: ${m}`)));
+            erro.hidden = false;
+          }
+        } }, "Salvar opções")));
+  };
+  desenhar();
+  return secao;
+}
+
+function calculadora(auth, aj, { precoAtual = null, aoAplicar = null } = {}) {
+  const cambios = { USD: aj.cambio_usd, CNY: aj.cambio_cny, BRL: "1" };
+  const resultado = h("div", { class: "calc-resultado", "aria-live": "polite" });
+  const form = h("form", { class: "grade-form", novalidate: true, onsubmit: (e) => e.preventDefault() },
+    h("div", { class: "campo c2" }, h("label", { for: "calc-moeda" }, "Moeda do fornecedor"),
+      h("select", { id: "calc-moeda", name: "moeda", class: "campo-select" },
+        h("option", { value: "USD" }, "Dólar (US$)"), h("option", { value: "CNY" }, "Yuan (¥)"), h("option", { value: "BRL" }, "Real (R$)"))),
+    campo("custo_unitario", "Preço por unidade no fornecedor", { inputmode: "decimal", placeholder: "3,20" }, "c2"),
+    campo("cambio", "Câmbio (R$ por 1 unidade da moeda)", { inputmode: "decimal", value: cambios.USD }, "c2"),
+    campo("quantidade", "Unidades no lote", { type: "number", min: 1, value: 100 }, "c2"),
+    campo("frete_lote", "Frete internacional do lote (R$)", { inputmode: "decimal", placeholder: "800,00" }, "c2"),
+    campo("impostos_pct", "Impostos e taxas de importação (%)", { inputmode: "decimal", value: aj.impostos_pct }, "c2"),
+    campo("outros_lote", "Outros custos do lote (R$)", { inputmode: "decimal", placeholder: "despachante, armazenagem…" }, "c2"),
+    campo("embalagem_unidade", "Embalagem por unidade (R$)", { inputmode: "decimal", placeholder: "1,50" }, "c2"),
+    campo("taxa_pagamento_pct", "Taxa do meio de pagamento (%)", { inputmode: "decimal", value: aj.taxa_pagamento_pct }, "c2"),
+    campo("margem_pct", "Margem de lucro desejada (%)", { inputmode: "decimal", value: aj.margem_pct }, "c6"));
+  form.elements.moeda.addEventListener("change", (e) => {
+    form.elements.cambio.value = cambios[e.target.value];
+    form.elements.cambio.disabled = e.target.value === "BRL";
+  });
+  let espera;
+  const calcular = async () => {
+    const f = form.elements;
+    if (!f.custo_unitario.value.trim()) {
+      trocar(resultado, h("p", { class: "parcelado" }, "Preencha o preço por unidade para ver o resultado."));
+      return;
+    }
+    const corpo = { moeda: f.moeda.value, preco_centavos: precoAtual };
+    for (const nome of ["custo_unitario", "cambio", "quantidade", "frete_lote", "impostos_pct", "outros_lote", "embalagem_unidade", "taxa_pagamento_pct", "margem_pct"]) {
+      corpo[nome] = f[nome].value.trim().replace(/\.(?=\d{3}(\D|$))/g, "");
+    }
+    try {
+      const r = await api("/api/admin/calculadora", { method: "POST", headers: auth, body: JSON.stringify(corpo) });
+      mostrarErros(form, {}, false);
+      const linha = (rotulo, valor, classe = "") => h("div", { class: `linha-total ${classe}` }, h("span", {}, rotulo), h("span", {}, valor));
+      const analise = (titulo, a) => h("div", { class: "calc-cartao" }, h("small", {}, titulo), h("b", {}, brl(a.preco_centavos)),
+        h("small", {}, `Lucro ${brl(a.lucro_centavos)} por unidade · margem ${String(a.margem_pct).replace(".", ",")}%`));
+      trocar(resultado,
+        h("div", { class: "calc-colunas" },
+          h("div", {},
+            h("h3", {}, "Custo por unidade no Brasil"),
+            linha("Produto", brl(r.custo.produto_centavos)), linha("Frete internacional", brl(r.custo.frete_centavos)),
+            linha("Impostos e taxas", brl(r.custo.impostos_centavos)), linha("Outros custos", brl(r.custo.outros_centavos)),
+            linha("Embalagem", brl(r.custo.embalagem_centavos)), linha("Custo total", brl(r.custo.total_centavos), "total")),
+          h("div", {},
+            analise("Preço sugerido", r.sugerido),
+            r.atual ? analise("Com o preço atual", r.atual) : null,
+            r.atual && r.atual.lucro_centavos < 0 ? h("div", { class: "alerta" }, "Com o preço atual você vende no prejuízo.") : null,
+            aoAplicar ? h("button", { class: "botao grande", type: "button",
+              onclick: () => aoAplicar(r.sugerido.preco_centavos, r.custo.total_centavos) },
+              `Aplicar preço ${brl(r.sugerido.preco_centavos)} e custo ${brl(r.custo.total_centavos)}`) : null)));
+    } catch (err) {
+      mostrarErros(form, err.campos, false);
+      trocar(resultado, h("div", { class: "alerta" }, err.message));
+    }
+  };
+  form.addEventListener("input", () => { clearTimeout(espera); espera = setTimeout(calcular, 300); });
+  form.addEventListener("change", () => { clearTimeout(espera); espera = setTimeout(calcular, 50); });
+  calcular();
+  return h("div", { class: "calculadora" }, form, resultado);
+}
+
+async function formularioAjustes(auth) {
+  const aj = await api("/api/admin/ajustes", { headers: auth });
+  const form = h("form", { class: "painel", novalidate: true },
+    h("h2", {}, "WhatsApp da loja"),
+    h("p", { class: "parcelado" }, "Com o número preenchido, aparecem o botão flutuante de atendimento e as opções “Pedir pelo WhatsApp” no produto, no carrinho e na confirmação do pedido."),
+    h("div", { class: "grade-form" },
+      campo("whatsapp", "Número com DDD", { type: "tel", inputmode: "numeric", placeholder: "(92) 99123-4567",
+        value: aj.whatsapp ? mascaraTelefone(aj.whatsapp.slice(2)) : "" }, "c2"),
+      campo("whatsapp_mensagem", "Mensagem inicial do botão de atendimento", { maxlength: 300, value: aj.whatsapp_mensagem }, "c4")),
+    h("h2", { style: "margin-top:24px" }, "Padrões da calculadora"),
+    h("div", { class: "grade-form" },
+      campo("cambio_usd", "Câmbio do dólar (R$)", { inputmode: "decimal", value: aj.cambio_usd }, "c2"),
+      campo("cambio_cny", "Câmbio do yuan (R$)", { inputmode: "decimal", value: aj.cambio_cny }, "c2"),
+      campo("impostos_pct", "Impostos e taxas de importação (%)", { inputmode: "decimal", value: aj.impostos_pct }, "c2"),
+      campo("taxa_pagamento_pct", "Taxa do meio de pagamento (%)", { inputmode: "decimal", value: aj.taxa_pagamento_pct }, "c2"),
+      campo("margem_pct", "Margem desejada (%)", { inputmode: "decimal", value: aj.margem_pct }, "c2")),
+    h("button", { class: "botao grande", type: "submit", style: "margin-top:16px" }, "Salvar configurações"));
+  form.elements.whatsapp.addEventListener("input", (e) => (e.target.value = mascaraTelefone(e.target.value)));
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const dados = Object.fromEntries(new FormData(form).entries());
+    try {
+      const salvo = await api("/api/admin/ajustes", { method: "PUT", headers: auth, body: JSON.stringify(dados) });
+      mostrarErros(form, {});
+      estado.loja.whatsapp = salvo.whatsapp;
+      estado.loja.whatsapp_mensagem = salvo.whatsapp_mensagem;
+      atualizarWhatsAppFlutuante();
+      avisar("Configurações salvas ✔");
+    } catch (err) { mostrarErros(form, err.campos); avisar(err.message); }
+  });
+  return form;
 }
 
 function formularioNovoProduto(auth) {
-  const previa = h("img", { class: "previa-foto", alt: "", hidden: true });
-  const inputFoto = h("input", { type: "file", name: "foto", id: "campo-foto", accept: "image/jpeg,image/png,image/webp",
-    onchange: (e) => {
-      const arquivo = e.target.files[0];
-      if (!arquivo) { previa.hidden = true; return; }
-      previa.src = URL.createObjectURL(arquivo);
-      previa.hidden = false;
-    } });
-  const reais = (v) => {
-    const n = Math.round(parseFloat(String(v).replace(/\./g, "").replace(",", ".")) * 100);
-    return Number.isFinite(n) ? n : null;
-  };
+  const previa = h("div", { class: "galeria-admin" });
+  const inputFoto = h("input", { type: "file", name: "foto", id: "campo-foto", accept: "image/jpeg,image/png,image/webp", multiple: true,
+    onchange: (e) => trocar(previa, [...e.target.files].map((a) => h("figure", {}, h("img", { src: URL.createObjectURL(a), alt: "" })))) });
   const form = h("form", { class: "painel", novalidate: true },
     h("h2", {}, "Cadastrar produto"),
-    h("p", { class: "parcelado" }, "Preencha os dados do produto que você importou. Os preços são em reais (ex.: 49,90)."),
+    h("p", { class: "parcelado" }, "Preencha os dados do produto que você importou. Preços em reais (ex.: 49,90). Depois de cadastrar você pode adicionar opções como cor e voltagem."),
     h("div", { class: "grade-form" },
       campo("nome", "Nome do produto", { required: true, maxlength: 120, placeholder: "Ex.: Fone Bluetooth com estojo" }, "c6"),
-      h("div", { class: "campo c3", "data-campo": "categoria" },
-        h("label", { for: "campo-categoria" }, "Categoria"),
-        h("select", { id: "campo-categoria", name: "categoria", class: "campo-select" },
-          h("option", { value: "" }, "Escolha…"), estado.categorias.map((c) => h("option", { value: c.slug }, `${c.icone} ${c.nome}`))),
-        h("span", { class: "msg-erro" })),
+      seletorCategoria(""),
       campo("icone", "Ícone (opcional, usado se não houver foto)", { maxlength: 8, placeholder: "📦" }, "c3"),
-      campo("preco_centavos", "Preço de venda (R$)", { inputmode: "decimal", placeholder: "49,90", required: true }, "c2"),
-      campo("preco_de_centavos", "Preço \"de\" (R$, opcional)", { inputmode: "decimal", placeholder: "69,90" }, "c2"),
+      camposPreco(),
       campo("estoque", "Estoque (unidades)", { type: "number", min: 0, value: 0, required: true }, "c2"),
       h("div", { class: "campo c6", "data-campo": "descricao" },
         h("label", { for: "campo-descricao" }, "Descrição"),
@@ -726,7 +1104,7 @@ function formularioNovoProduto(auth) {
           placeholder: "Principais características, medidas, voltagem, o que vem na caixa…" }),
         h("span", { class: "msg-erro" })),
       h("div", { class: "campo c6", "data-campo": "foto" },
-        h("label", { for: "campo-foto" }, "Foto (JPG, PNG ou WEBP, até 3 MB)"), inputFoto, previa, h("span", { class: "msg-erro" })),
+        h("label", { for: "campo-foto" }, "Fotos (JPG, PNG ou WEBP, até 3 MB cada; a primeira é a capa)"), inputFoto, previa, h("span", { class: "msg-erro" })),
       h("label", { class: "c6" }, h("input", { type: "checkbox", name: "destaque" }), " Mostrar nos destaques da página inicial"),
     ),
     h("div", { class: "alerta", hidden: true, id: "erro-novo" }),
@@ -738,18 +1116,19 @@ function formularioNovoProduto(auth) {
     const erro = $("#erro-novo", form);
     const botao = form.querySelector("button[type=submit]");
     erro.hidden = true;
+    const [precos, errosPreco] = valoresPreco(f);
+    if (Object.keys(errosPreco).length) return mostrarErros(form, errosPreco);
     botao.disabled = true;
     try {
       const produto = await api("/api/admin/produtos", { method: "POST", headers: auth, body: JSON.stringify({
         nome: f.nome.value, categoria: f.categoria.value, icone: f.icone.value || "📦", descricao: f.descricao.value,
-        preco_centavos: reais(f.preco_centavos.value), preco_de_centavos: f.preco_de_centavos.value ? reais(f.preco_de_centavos.value) : null,
-        estoque: parseInt(f.estoque.value, 10), destaque: f.destaque.checked }) });
-      if (inputFoto.files[0]) {
-        try { await enviarFoto(auth, produto.slug, inputFoto.files[0]); }
-        catch (err) { avisar(`Produto criado, mas a foto falhou: ${err.message}`); }
+        estoque: parseInt(f.estoque.value, 10), destaque: f.destaque.checked, ...precos }) });
+      for (const arquivo of inputFoto.files) {
+        try { await enviarFoto(auth, produto.slug, arquivo); }
+        catch (err) { avisar(`Produto criado, mas uma foto falhou: ${err.message}`); break; }
       }
       avisar("Produto cadastrado ✔");
-      navegar(`/produto/${produto.slug}`);
+      navegar(`/admin/produto/${produto.slug}`);
     } catch (err) {
       mostrarErros(form, err.campos);
       erro.textContent = err.message;
@@ -782,11 +1161,13 @@ const ROTAS = [
   [/^\/sobre\/?$/, paginaSobre],
   [/^\/trocas\/?$/, paginaTrocas],
   [/^\/admin\/?$/, paginaAdmin],
+  [/^\/admin\/produto\/([a-z0-9-]+)\/?$/, paginaEditorProduto],
 ];
 
 async function rotear() {
   const main = $("#conteudo");
   const caminho = location.pathname;
+  document.body.classList.toggle("em-admin", caminho.startsWith("/admin"));
   document.querySelectorAll("#menu-categorias a").forEach((a) =>
     a.classList.toggle("ativo", a.getAttribute("href") === caminho));
   for (const [padrao, fn] of ROTAS) {
@@ -825,7 +1206,8 @@ window.addEventListener("popstate", rotear);
 
 async function iniciar() {
   $("#ano").textContent = new Date().getFullYear();
-  estado.carrinho = lerArmazenado(CHAVE_CARRINHO, []).filter((i) => i && typeof i.slug === "string" && i.quantidade > 0);
+  estado.carrinho = lerArmazenado(CHAVE_CARRINHO, []).filter((i) => i && typeof i.slug === "string" && i.quantidade > 0)
+    .map((i) => ({ slug: i.slug, variacao: Number.isInteger(i.variacao) ? i.variacao : null, quantidade: i.quantidade }));
   salvarCarrinho();
   $(".busca").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -839,6 +1221,7 @@ async function iniciar() {
   }
   trocar($("#menu-categorias"), ...estado.categorias.map((c) => h("a", { href: `/categoria/${c.slug}` }, `${c.icone} ${c.nome}`)),
     h("a", { href: "/entregas" }, "🚚 Entregas no Norte"));
+  atualizarWhatsAppFlutuante();
   rotear();
 }
 

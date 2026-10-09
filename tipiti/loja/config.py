@@ -24,3 +24,8 @@ PARCELAS_MAX = 6
 PARCELA_MINIMA = 3000
 QTD_MAX_POR_ITEM = 99
 PRAZO_MANUSEIO_DIAS = 1
+ESTOQUE_BAIXO = 3
+FOTOS_POR_PRODUTO = 8
+
+# WhatsApp da loja (só dígitos, com 55 + DDD). Também pode ser definido no painel, em Configurações.
+WHATSAPP = os.environ.get("TIPITI_WHATSAPP", "")

@@ -73,13 +73,14 @@ class TestApi(unittest.TestCase):
 
     def test_fluxo_de_compra_e_admin(self):
         status, cot = self.json("/api/carrinho/cotacao", "POST",
-                                {"itens": [{"slug": "fone-bluetooth-tws", "quantidade": 3}], "cep": "69151-000"})
+                                {"itens": [{"slug": "power-bank-20000mah", "quantidade": 2}], "cep": "69151-000"})
         self.assertEqual(status, 200)
-        self.assertTrue(cot["frete"]["gratis"])  # 3 × R$ 89,90 > R$ 199 em Parintins
+        self.assertTrue(cot["frete"]["gratis"])  # 2 × R$ 119,90 > R$ 199 em Parintins
+        self.assertNotIn("custo_unit_centavos", cot["itens"][0])
 
         status, pedido = self.json("/api/pedidos", "POST",
                                    {**CLIENTE, "cep": "69151-000", "cidade": "Parintins",
-                                    "itens": [{"slug": "fone-bluetooth-tws", "quantidade": 3}]})
+                                    "itens": [{"slug": "power-bank-20000mah", "quantidade": 2}]})
         self.assertEqual(status, 201)
         self.assertEqual(pedido["frete_centavos"], 0)
         self.assertEqual(pedido["destino"], "Parintins - AM")
@@ -89,6 +90,10 @@ class TestApi(unittest.TestCase):
         status, lista = self.json("/api/admin/pedidos", token=TOKEN)
         self.assertEqual(status, 200)
         self.assertIn(pedido["codigo"], [p["codigo"] for p in lista])
+        self.assertIsNotNone(next(p for p in lista if p["codigo"] == pedido["codigo"])["lucro_centavos"])
+        self.assertNotIn("lucro_centavos", pedido)
+        status, resumo = self.json("/api/admin/resumo", token=TOKEN)
+        self.assertGreaterEqual(resumo["pedidos"], 1)
 
         status, atualizado = self.json(f"/api/admin/pedidos/{pedido['codigo']}", "PATCH", {"status": "pago"}, token=TOKEN)
         self.assertEqual(atualizado["status"], "pago")
@@ -108,10 +113,37 @@ class TestApi(unittest.TestCase):
         status, corpo, headers = self.chamar(com_foto["imagem"])
         self.assertEqual((status, corpo, headers["Content-Type"]), (200, png, "image/png"))
 
+        # galeria: segunda foto vira capa, depois a primeira é removida do disco
+        status, duas = self.json(f"/api/admin/produtos/{slug}/foto", "POST",
+                                 {"dados": base64.b64encode(png).decode()}, token=TOKEN)
+        self.assertEqual(len(duas["fotos"]), 2)
+        primeira, segunda = duas["fotos"]
+        status, capa = self.json(f"/api/admin/produtos/{slug}/fotos/{segunda['id']}/capa", "POST", {}, token=TOKEN)
+        self.assertEqual(capa["imagem"], segunda["url"])
+        status, restante = self.json(f"/api/admin/produtos/{slug}/fotos/{primeira['id']}", "DELETE", token=TOKEN)
+        self.assertEqual([f["id"] for f in restante["fotos"]], [segunda["id"]])
+        self.assertEqual(self.chamar(primeira["url"])[0], 404)
+        status, publico = self.json(f"/api/produtos/{slug}")
+        self.assertNotIn("custo_centavos", publico)
+
         falso = base64.b64encode(b"<svg onload=alert(1)>").decode()
         status, erro = self.json(f"/api/admin/produtos/{slug}/foto", "POST", {"dados": falso}, token=TOKEN)
         self.assertEqual(status, 422)
         self.assertEqual(self.chamar("/fotos/../teste.db")[0], 404)
+
+    def test_ajustes_whatsapp_e_calculadora(self):
+        status, a = self.json("/api/admin/ajustes", "PUT", {"whatsapp": "(92) 99123-4567"}, token=TOKEN)
+        self.assertEqual(a["whatsapp"], "5592991234567")
+        self.assertEqual(self.json("/api/loja")[1]["whatsapp"], "5592991234567")
+        self.assertEqual(self.json("/api/admin/ajustes", "PUT", {"whatsapp": "123"}, token=TOKEN)[0], 422)
+        status, calc = self.json("/api/admin/calculadora", "POST",
+                                 {"moeda": "USD", "custo_unitario": "3.20", "cambio": "5.5", "quantidade": 100,
+                                  "frete_lote": "800", "impostos_pct": "60", "embalagem_unidade": "1.5",
+                                  "taxa_pagamento_pct": "5", "margem_pct": "35"}, token=TOKEN)
+        self.assertEqual(status, 200)
+        self.assertEqual(calc["custo"]["total_centavos"], 4246)
+        self.assertEqual(calc["sugerido"]["preco_centavos"], 7090)
+        self.assertEqual(self.chamar("/api/admin/calculadora", "POST", {}, token=None)[0], 401)
 
     def test_erros_de_entrada(self):
         status, corpo = self.json("/api/pedidos", "POST", {"itens": []})

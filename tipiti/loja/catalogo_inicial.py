@@ -32,8 +32,22 @@ CATEGORIAS = [
 
 
 def _p(slug, nome, categoria, preco, estoque, icone, descricao, preco_de=None, destaque=False):
+    # custo de demonstração: ~45% do preço de venda
     return {"slug": slug, "nome": nome, "categoria": categoria, "preco": preco, "preco_de": preco_de,
-            "estoque": estoque, "icone": icone, "descricao": descricao, "destaque": destaque}
+            "custo": round(preco * 0.45), "estoque": estoque, "icone": icone, "descricao": descricao,
+            "destaque": destaque}
+
+
+# Variações de demonstração: slug -> [(nome, preço próprio ou None, estoque)]
+VARIACOES = {
+    "fone-bluetooth-tws": [("Preto", None, 20), ("Branco", None, 15), ("Rosa", None, 5)],
+    "mini-ventilador-portatil-de-mao": [("Branco", None, 30), ("Rosa", None, 25), ("Azul", None, 25)],
+    "smartwatch-tela-amoled": [("Preto", None, 8), ("Rosa", None, 4), ("Prata — pulseira de metal", 22990, 3)],
+    "ventilador-de-mesa-silencioso": [("127 V", None, 10), ("220 V", None, 8)],
+    "fritadeira-air-fryer-4l": [("127 V", None, 6), ("220 V", None, 4)],
+    "secador-de-cabelo-ionico": [("127 V", None, 8), ("220 V", None, 8)],
+    "oculos-de-sol-polarizado": [("Preto", None, 20), ("Tartaruga", None, 12), ("Espelhado azul", None, 8)],
+}
 
 
 PRODUTOS = [
@@ -130,3 +144,7 @@ PRODUTOS = [
     _p("camera-veicular-dashcam", "Câmera veicular dashcam Full HD", "ferramentas-e-automotivo", 16990, 10, "📹",
        "Grava em loop, visão noturna e sensor de impacto."),
 ]
+
+for _produto in PRODUTOS:
+    if _produto["slug"] in VARIACOES:
+        _produto["variacoes"] = VARIACOES[_produto["slug"]]
