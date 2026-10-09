@@ -35,8 +35,8 @@ OPERADOR_PODE = re.compile(
 )
 # Pedaços de nomes de campo que o operador nunca recebe (custo, lucro, margem, markup, comissão)
 CAMPOS_RESTRITOS = ("custo", "lucro", "margem", "markup", "comissao")
-# Campos (nome exato) que o operador nunca recebe: acesso ao painel da revendedora e os totais dela
-CAMPOS_RESTRITOS_EXATOS = frozenset({"token_acesso", "link_painel", "totais"})
+# Campos (nome exato) que o operador nunca recebe: quem é a revendedora do pedido, o acesso ao painel dela e os totais
+CAMPOS_RESTRITOS_EXATOS = frozenset({"token_acesso", "link_painel", "totais", "revendedora"})
 # Campos que o operador não grava (são ignorados no corpo): oferta relâmpago é decisão de preço, do dono
 CAMPOS_SO_DONO_NA_ESCRITA = frozenset({"promo_pct", "promo_fim"})
 

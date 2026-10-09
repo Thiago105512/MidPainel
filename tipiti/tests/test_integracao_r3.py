@@ -198,6 +198,8 @@ class TestPapeisRodada2(Rodada3):
         for campo in ("comissao", "token_acesso", "link_painel", "custo", "lucro"):
             self.assertNotIn(campo, texto)
         self.assertIn(codigo, texto)
+        self.assertIn("revendedora", json.loads(dono)[0])  # o dono vê quem vendeu
+        self.assertTrue(all("revendedora" not in p for p in pedidos))  # o operador não
         status, p = self.com_sessao(sessao, f"/api/admin/pedidos/{codigo}", "PATCH", {"status": "pago"})
         self.assertEqual(status, 200, p)
         self.assertNotIn("comissao", json.dumps(p))

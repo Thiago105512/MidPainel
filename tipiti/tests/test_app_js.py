@@ -1,3 +1,4 @@
+import re
 import shutil
 import subprocess
 import tempfile
@@ -22,6 +23,20 @@ class TestAppJs(unittest.TestCase):
         self.assertIn(b'"use strict";', partes[0].read_bytes().splitlines()[:3])
         self.assertEqual(self.montar().count(b'"use strict"'), 1)
         self.assertFalse((config.STATIC_DIR / "js" / "app.js").exists())
+
+    def test_nomes_globais_nao_se_repetem(self):
+        # as partes dividem o mesmo escopo: uma função com o mesmo nome em duas partes substitui a outra sem aviso
+        # (já aconteceu: o "Sair" do painel tomou o lugar do "Sair" da Minha conta)
+        definicao = re.compile(r"^(?:async\s+)?function\s+(\w+)|^(?:const|let|var|class)\s+(\w+)")
+        vistos = {}
+        for parte in sorted((config.STATIC_DIR / "js" / "partes").glob("*.js")):
+            for numero, linha in enumerate(parte.read_text(encoding="utf-8").splitlines(), 1):
+                m = definicao.match(linha)
+                if not m:
+                    continue
+                nome = m.group(1) or m.group(2)
+                self.assertFalse(nome in vistos, f"{nome} definido em {vistos.get(nome)} e em {parte.name}:{numero}")
+                vistos[nome] = f"{parte.name}:{numero}"
 
     @unittest.skipUnless(shutil.which("node"), "node não está instalado")
     def test_node_check(self):
