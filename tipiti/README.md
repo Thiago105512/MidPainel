@@ -18,6 +18,10 @@ python3 -m unittest discover -s tests -t .
 Na primeira execução o banco SQLite é criado em `data/tipiti.db` com um catálogo de demonstração
 (as fotos enviadas pelo painel ficam em `data/fotos/`). Para recomeçar do catálogo inicial, apague a pasta `data/`.
 
+**Colocar no ar em tipiti.com.br:** siga [`deploy/LEIA-ME.md`](deploy/LEIA-ME.md) — Docker com HTTPS automático
+(Caddy), backups diários com restauração testada e alternativa sem Docker (systemd). Os testes rodam sozinhos
+no GitHub a cada mudança (`.github/workflows/tipiti.yml`, Python 3.10 a 3.13).
+
 ## Como cadastrar seus produtos
 
 1. Rode a loja e abra `http://127.0.0.1:8000/admin`; entre com o token mostrado no terminal.
@@ -152,4 +156,4 @@ início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o nú
 2. Cadastro do catálogo definitivo (já é possível pelo painel).
 3. **Cotação de frete real** (Correios/transportadoras) e cálculo por peso/volume.
 4. E-mails transacionais (confirmação, envio, rastreio) e conta de cliente.
-5. Hospedagem com HTTPS para `tipiti.com.br` (proxy reverso na frente do servidor) e backup do banco.
+5. Cópia dos backups fora do servidor (destino a definir; veja `deploy/LEIA-ME.md`).
