@@ -1,0 +1,62 @@
+# Loja Tipiti como serviço do systemd (alternativa sem Docker). Passo a passo em LEIA-ME.md.
+#
+# Supõe:
+#   - usuário de sistema "tipiti"   (sudo useradd --system --home-dir /var/lib/tipiti --shell /usr/sbin/nologin tipiti)
+#   - código em /opt/tipiti/repo     (git clone do repositório; a loja está na subpasta tipiti/)
+#   - configuração em /etc/tipiti/tipiti.env (cópia de deploy/.env.exemplo; dono root, grupo tipiti, modo 640)
+#   - banco e fotos em /var/lib/tipiti (criada pelo próprio systemd via StateDirectory)
+#
+# Instalar:  sudo cp deploy/tipiti.service /etc/systemd/system/ && sudo systemctl daemon-reload
+#            sudo systemctl enable --now tipiti
+# Logs:      journalctl -u tipiti -f
+
+[Unit]
+Description=Loja Tipiti (tipiti.com.br)
+Documentation=file:/opt/tipiti/repo/tipiti/deploy/LEIA-ME.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=tipiti
+Group=tipiti
+WorkingDirectory=/opt/tipiti/repo/tipiti
+EnvironmentFile=/etc/tipiti/tipiti.env
+Environment=PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 -m loja
+# a loja fecha com calma ao receber SIGINT (como no Ctrl+C)
+KillSignal=SIGINT
+TimeoutStopSec=15
+Restart=always
+RestartSec=3
+
+# /var/lib/tipiti, com dono tipiti e modo 700 (TIPITI_DB no tipiti.env deve apontar para cá)
+StateDirectory=tipiti
+StateDirectoryMode=0700
+UMask=0077
+
+# --- Proteções: o processo só enxerga e altera o que precisa ---
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/tipiti
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+CapabilityBoundingSet=
+AmbientCapabilities=
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target

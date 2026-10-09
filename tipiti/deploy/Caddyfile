@@ -1,0 +1,57 @@
+# Caddy na frente da loja (versão Docker: a loja é o serviço "loja" na rede interna do compose).
+# O Caddy obtém e renova sozinho os certificados HTTPS de tipiti.com.br e www.tipiti.com.br,
+# desde que o DNS (registros A/AAAA) dos dois aponte para este servidor e as portas 80 e 443 estejam abertas.
+#
+# TIPITI_DOMINIO vem do .env (padrão: tipiti.com.br).
+{
+	servers {
+		timeouts {
+			read_header 10s
+			# upload de foto pelo celular (até ~4,6 MB) em conexão lenta
+			read_body 2m
+			write 2m
+			idle 2m
+		}
+	}
+}
+
+# www -> domínio principal, redirecionamento permanente (301) mantendo o caminho e a query
+www.{$TIPITI_DOMINIO:tipiti.com.br} {
+	redir https://{$TIPITI_DOMINIO:tipiti.com.br}{uri} permanent
+}
+
+{$TIPITI_DOMINIO:tipiti.com.br} {
+	# A maior requisição da loja é o envio de foto pelo painel: foto de 3 MB + miniatura de 400 KB em base64
+	# ≈ 4,6 MB. A própria loja recusa o que passar disso; aqui cortamos antes, com folga.
+	request_body {
+		max_size 6MB
+	}
+
+	reverse_proxy loja:8000 {
+		# IP do cliente para os limites de tentativas da loja (TIPITI_TRUST_PROXY=1 lê o ÚLTIMO valor do
+		# X-Forwarded-For). Aqui SUBSTITUÍMOS o cabeçalho pelo IP de quem conectou no Caddy: qualquer
+		# X-Forwarded-For enviado pelo navegador é descartado, então o cliente não consegue se passar por outro IP.
+		# (O padrão do Caddy já faz isso quando nenhum trusted_proxies está configurado; deixamos explícito.)
+		# Se um dia houver Cloudflare/CDN na frente, troque {remote_host} por {client_ip} e configure
+		# trusted_proxies nas opções globais, senão todos os clientes terão o IP da CDN.
+		header_up X-Forwarded-For {remote_host}
+
+		transport http {
+			dial_timeout 5s
+			response_header_timeout 60s
+			# a loja fecha conexões paradas após 5 s; reutilizar uma conexão já fechada geraria erro 502
+			keepalive 4s
+		}
+	}
+
+	# Sem "encode": a loja já entrega HTML, CSS, JS e JSON com gzip (com ETag própria para cada codificação)
+	# e as fotos já são comprimidas. O Caddy repassa o gzip da loja como está; comprimir de novo aqui só
+	# gastaria CPU e poderia confundir as ETags/304 que a loja calcula.
+
+	# Log de acesso em JSON na saída padrão (docker compose logs caddy).
+	# O Caddy omite o cabeçalho Authorization (token do painel) e cookies dos logs por padrão.
+	log {
+		output stdout
+		format json
+	}
+}

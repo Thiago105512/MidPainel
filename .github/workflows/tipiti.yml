@@ -1,0 +1,143 @@
+# CI da loja Tipiti (pasta tipiti/). Só roda quando algo em tipiti/ (ou este arquivo) muda;
+# os outros projetos do repositório não são tocados.
+name: tipiti
+
+on:
+  push:
+    paths:
+      - "tipiti/**"
+      - ".github/workflows/tipiti.yml"
+  pull_request:
+    paths:
+      - "tipiti/**"
+      - ".github/workflows/tipiti.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tipiti-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: tipiti
+
+jobs:
+  testes:
+    name: Testes (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Testes (só biblioteca padrão, sem pip install)
+        run: python -m unittest discover -s tests -t . -v
+
+  javascript:
+    name: Sintaxe do app.js (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Junta as partes em ordem de nome (como o servidor faz) e confere a sintaxe
+        env:
+          LC_ALL: C # ordem de bytes, igual ao sorted() do Python no servidor
+        run: |
+          set -eu
+          primeira=sim
+          for parte in static/js/partes/*.js; do
+            echo "parte: $parte" >&2
+            # o servidor separa as partes com uma quebra de linha
+            [ "$primeira" = sim ] || printf '\n'
+            cat "$parte"
+            primeira=nao
+          done > "$RUNNER_TEMP/app.js"
+          node --check "$RUNNER_TEMP/app.js"
+
+  docker:
+    name: Imagem Docker + teste de fumaça
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      IMAGEM: tipiti-loja:ci
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Monta a imagem (sem publicar)
+        run: docker build --pull -t "$IMAGEM" .
+      - name: Valida o docker-compose.yml e o Caddyfile
+        run: |
+          set -eu
+          cp deploy/.env.exemplo deploy/.env
+          docker compose -f deploy/docker-compose.yml config --quiet
+          rm deploy/.env
+          docker run --rm -v "$PWD/deploy/Caddyfile:/etc/caddy/Caddyfile:ro" caddy:2.11.7 \
+            caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
+          docker run --rm -v "$PWD/deploy/Caddyfile.servidor:/etc/caddy/Caddyfile:ro" caddy:2.11.7 \
+            caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
+      - name: Sobe o contêiner e espera ficar saudável
+        run: |
+          set -eu
+          # mesmas restrições do docker-compose.yml: raiz só leitura, /dados e /backups em volumes
+          docker run -d --name tipiti-ci -p 127.0.0.1:8000:8000 \
+            --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges:true \
+            -v tipiti-ci-dados:/dados -v tipiti-ci-backups:/backups \
+            -e TIPITI_ADMIN_TOKEN="ci-token-de-teste-com-mais-de-24-caracteres" "$IMAGEM"
+          estado=starting
+          for i in $(seq 1 45); do
+            estado=$(docker inspect -f '{{.State.Health.Status}}' tipiti-ci)
+            echo "tentativa $i: $estado"
+            [ "$estado" = healthy ] && break
+            [ "$(docker inspect -f '{{.State.Running}}' tipiti-ci)" = true ] || { docker logs tipiti-ci; exit 1; }
+            sleep 2
+          done
+          [ "$estado" = healthy ] || { echo "o contêiner não ficou saudável"; exit 1; }
+          curl -fsS -o /dev/null -w 'api/loja: %{http_code}\n' http://127.0.0.1:8000/api/loja
+          docker exec tipiti-ci python /app/deploy/saude.py
+      - name: Página inicial contém "Tipiti"
+        run: |
+          set -eu
+          curl -fsS http://127.0.0.1:8000/ > "$RUNNER_TEMP/home.html"
+          grep -q "Tipiti" "$RUNNER_TEMP/home.html"
+          echo "home ok ($(wc -c < "$RUNNER_TEMP/home.html") bytes)"
+      - name: Roda como usuário sem privilégios e grava em /dados
+        run: |
+          set -eu
+          [ "$(docker exec tipiti-ci id -u)" = 10001 ]
+          docker exec tipiti-ci test -s /dados/tipiti.db
+      - name: Backup e restauração dentro do contêiner
+        run: |
+          set -eu
+          docker exec tipiti-ci sh /app/deploy/backup.sh
+          arquivo=$(docker exec tipiti-ci sh -c 'ls /backups/tipiti-*.tar.gz | tail -n 1')
+          docker exec -e TIPITI_DB=/tmp/restaurado/tipiti.db tipiti-ci sh /app/deploy/restaurar.sh "$arquivo" --sim
+      - name: Para com SIGINT em poucos segundos
+        run: |
+          set -eu
+          inicio=$(date +%s)
+          docker stop -t 20 tipiti-ci
+          duracao=$(( $(date +%s) - inicio ))
+          echo "parou em ${duracao}s; código de saída $(docker inspect -f '{{.State.ExitCode}}' tipiti-ci)"
+          [ "$duracao" -lt 10 ]
+      - name: Logs do contêiner
+        if: always()
+        run: docker logs tipiti-ci 2>&1 | tail -n 100 || true

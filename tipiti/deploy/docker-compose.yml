@@ -1,0 +1,69 @@
+# Tipiti em produção: a loja (Python) atrás do Caddy, que cuida do HTTPS automático (Let's Encrypt).
+#
+# Rode sempre de dentro desta pasta (tipiti/deploy):
+#   cp .env.exemplo .env   # e edite o .env
+#   mkdir -p backups && sudo chown 10001:10001 backups
+#   docker compose up -d --build
+#
+# O .env e a pasta backups/ ficam nesta pasta e estão no .gitignore dela: nunca vão para o git.
+# Passo a passo completo em LEIA-ME.md.
+
+name: tipiti
+
+services:
+  loja:
+    build:
+      context: ..            # a pasta tipiti/ (o Dockerfile e o .dockerignore estão lá)
+      dockerfile: Dockerfile
+    image: tipiti-loja:local
+    env_file: .env
+    environment:
+      # fixos no contêiner, independentemente do .env (o Caddy é o único que fala com a loja)
+      TIPITI_HOST: 0.0.0.0
+      TIPITI_PORT: "8000"
+      TIPITI_DB: /dados/tipiti.db
+      TIPITI_TRUST_PROXY: "1"
+      TIPITI_BACKUP_DIR: /backups
+    volumes:
+      - dados:/dados               # banco SQLite + fotos (volume do Docker, sobrevive a atualizações)
+      - ./backups:/backups         # backups diários ficam em tipiti/deploy/backups no servidor
+    # Sem "ports": a porta 8000 não fica exposta na internet, só o Caddy chega até ela pela rede interna.
+    # Isso é essencial: a loja confia no X-Forwarded-For, e só o Caddy pode escrevê-lo.
+    expose:
+      - "8000"
+    restart: unless-stopped
+    read_only: true                # o código não muda em produção; só /dados, /backups e /tmp aceitam escrita
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    logging: &logs
+      driver: json-file
+      options:
+        max-size: "10m"            # sem isso os logs crescem até lotar o disco do servidor
+        max-file: "5"
+
+  caddy:
+    image: caddy:2.11.7
+    depends_on:
+      - loja
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"              # HTTP/3
+    environment:
+      # domínio vem do .env (padrão tipiti.com.br); útil para testar em um subdomínio antes
+      TIPITI_DOMINIO: ${TIPITI_DOMINIO:-tipiti.com.br}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data           # certificados HTTPS: não apague, ou o Caddy pede tudo de novo
+      - caddy_config:/config
+    restart: unless-stopped
+    logging: *logs
+
+volumes:
+  dados:
+  caddy_data:
+  caddy_config:

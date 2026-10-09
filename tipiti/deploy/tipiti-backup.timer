@@ -1,0 +1,13 @@
+# Dispara o tipiti-backup.service todo dia às 03:15 (horário do servidor; confira com: timedatectl).
+# Persistent=true: se o servidor estava desligado na hora marcada, o backup roda assim que ele voltar.
+
+[Unit]
+Description=Backup diário da loja Tipiti
+
+[Timer]
+OnCalendar=*-*-* 03:15:00
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
