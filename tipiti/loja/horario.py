@@ -42,3 +42,8 @@ def ler_data(valor):
     if momento.tzinfo is None:
         momento = momento.replace(tzinfo=timezone.utc)
     return texto_db(momento.replace(microsecond=0))
+
+
+def agora_db(**deslocamento):
+    """Momento atual (mais um deslocamento opcional, ex.: minutes=30) no formato do banco."""
+    return texto_db(agora() + timedelta(**deslocamento))

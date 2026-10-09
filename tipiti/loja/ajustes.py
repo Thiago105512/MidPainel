@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 
 from . import config, horario, pix
+from .legal import PADROES_EMPRESA, validar_campo as validar_campo_empresa
 from .validacao import ErroValidacao, so_digitos
 
 PADROES = {
@@ -20,6 +21,7 @@ PADROES = {
     "pix_nome": "",        # nome do recebedor no Pix copia e cola (≤25, sem acentos, maiúsculas)
     "pix_cidade": "MANAUS",  # cidade do recebedor (≤15, sem acentos, maiúsculas)
 }
+PADROES.update(PADROES_EMPRESA)  # identificação da loja e encarregado LGPD (legal.py)
 
 
 def obter(conn):
@@ -49,7 +51,9 @@ def salvar(conn, dados):
         if chave not in PADROES:
             continue
         texto = str(valor if valor is not None else "").strip()
-        if chave == "whatsapp":
+        if chave in PADROES_EMPRESA:
+            texto = validar_campo_empresa(chave, valor, erros)
+        elif chave == "whatsapp":
             try:
                 texto = normalizar_whatsapp(texto)
             except ErroValidacao as e:

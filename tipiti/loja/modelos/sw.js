@@ -8,7 +8,8 @@
  *   navegações ............................ rede primeiro; sem internet, a página inicial guardada (o "shell")
  *   GET /api/loja, /api/categorias*, /api/produtos* ... mostra o guardado e atualiza por trás (stale-while-revalidate)
  *   /static/ e /fotos/ .................... cache primeiro
- *   /api/admin*, /api/pedidos*, /api/revenda*, /api/encomendas*, outros /api/ e tudo que não é GET: nunca guardados
+ *   /api/admin*, /api/pedidos*, /api/revenda*, /api/encomendas*, /api/conta*, /api/carrinhos*, /api/privacidade*,
+ *   /api/avise-me*, outros /api/ e tudo que não é GET: nunca guardados
  */
 "use strict";
 
@@ -36,7 +37,10 @@ const PRE_CACHE = [
 ];
 
 // Respostas com dados pessoais ou do painel: nunca passam pelo cache.
-const NUNCA_GUARDAR = ["/api/admin", "/api/pedidos", "/api/revenda", "/api/encomendas"];
+const NUNCA_GUARDAR = [
+  "/api/admin", "/api/pedidos", "/api/revenda", "/api/encomendas",
+  "/api/conta", "/api/carrinhos", "/api/privacidade", "/api/avise-me",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

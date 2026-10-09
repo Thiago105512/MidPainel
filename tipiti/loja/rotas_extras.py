@@ -35,11 +35,9 @@ def _pix_do_pedido(conn, req, codigo):
         raise ErroHttp(HTTPStatus.CONFLICT, "Este pedido não é pago com Pix.")
     if row["status"] != "aguardando_pagamento":
         raise ErroHttp(HTTPStatus.CONFLICT, "Este pedido não está aguardando pagamento.")
-    recebedor = pix.configurado(ajustes.obter(conn))
-    if recebedor is None:
+    payload = pix.copia_e_cola_do_pedido(ajustes.obter(conn), row["codigo"], row["total_centavos"])
+    if payload is None:
         raise ErroHttp(HTTPStatus.CONFLICT, "O Pix da loja ainda não está configurado. Fale com a loja.")
-    payload = pix.copia_e_cola(recebedor["chave"], recebedor["nome"], recebedor["cidade"],
-                               row["total_centavos"], pix.txid_do_pedido(row["codigo"]))
     return row, payload
 
 
@@ -88,19 +86,19 @@ def api_responder_encomenda(conn, req, codigo):
         raise ErroHttp(HTTPStatus.CONFLICT, str(e))
 
 
-@rota("GET", r"/api/admin/encomendas", admin=True)
+@rota("GET", r"/api/admin/encomendas", admin=True, papel="operador")
 def api_admin_encomendas(conn, req):
     return encomendas.listar_admin(conn, status=req.query.get("status"))
 
 
-@rota("PATCH", r"/api/admin/encomendas/(?P<codigo>[A-Za-z0-9-]{4,20})", admin=True)
+@rota("PATCH", r"/api/admin/encomendas/(?P<codigo>[A-Za-z0-9-]{4,20})", admin=True, papel="operador")
 def api_admin_encomenda(conn, req, codigo):
     return encomendas.atualizar_admin(conn, codigo, req.json())
 
 
 # ---------------------------------------------------------------- feeds (Google / Meta)
 
-@rota("GET", r"/api/admin/feeds", admin=True)
+@rota("GET", r"/api/admin/feeds", admin=True, papel="dono")
 def api_admin_feeds(conn, req):
     return feeds.resumo_admin(conn)
 

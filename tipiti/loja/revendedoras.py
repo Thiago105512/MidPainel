@@ -166,6 +166,8 @@ def atualizar(conn, revendedora_id, dados):
     if not isinstance(dados, dict):
         raise ErroValidacao({"geral": "Dados inválidos."})
     row = _obter_row(conn, revendedora_id)
+    if row["cpf"].startswith("anonimizada-"):  # privacidade.PREFIXO_CPF_ANONIMO
+        raise ErroValidacao({"status": "Cadastro anonimizado a pedido do titular (LGPD): não pode ser alterado."})
     erros = {}
     status = dados.get("status", row["status"])
     if not isinstance(status, str) or status not in STATUS:

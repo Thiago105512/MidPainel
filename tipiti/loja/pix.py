@@ -118,6 +118,15 @@ def copia_e_cola(chave, nome, cidade, valor_centavos=None, txid="***"):
     return f"{sem_crc}{crc16(sem_crc):04X}"
 
 
+def copia_e_cola_do_pedido(valores, codigo, total_centavos):
+    """Payload do pedido (valor = total, txid = código sem hífen) ou None se o Pix da loja não estiver configurado."""
+    recebedor = configurado(valores)
+    if recebedor is None:
+        return None
+    return copia_e_cola(recebedor["chave"], recebedor["nome"], recebedor["cidade"], total_centavos,
+                        txid_do_pedido(codigo))
+
+
 def qr_svg(payload):
     """QR Code do payload (nível de correção M, margem de 4 módulos, fundo branco)."""
     return qrcode.svg(qrcode.gerar(payload.encode("utf-8"), "M"), margem=4)

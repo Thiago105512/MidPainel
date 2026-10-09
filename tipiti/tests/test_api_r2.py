@@ -146,7 +146,8 @@ class TestPwa(Base):
         self.assertIn(f'const ESTILO_CSS = "{css}";', sw)
         self.assertRegex(sw, r'const VERSAO = "[0-9a-f]{12}";')
         self.assertNotRegex(sw, r"\b__[A-Z_]+__\b")
-        for prefixo in ("/api/admin", "/api/pedidos", "/api/revenda", "/api/encomendas"):
+        for prefixo in ("/api/admin", "/api/pedidos", "/api/revenda", "/api/encomendas", "/api/conta", "/api/carrinhos",
+                        "/api/privacidade", "/api/avise-me"):
             self.assertIn(f'"{prefixo}"', sw)
         self.assertIn('event.data.tipo === "SKIP_WAITING"', sw)
         self.assertEqual(sw.count("skipWaiting()"), 1)  # só na mensagem

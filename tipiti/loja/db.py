@@ -219,12 +219,168 @@ MIGRACOES = [
     # pré-venda: data de chegada do lote ('AAAA-MM-DD', horário de Manaus); o pedido guarda a previsão de envio
     ("produtos", "prevenda_chegada", "TEXT"),
     ("pedidos", "previsao_envio", "TEXT"),
+    # rodada 3: aceites do checkout (LGPD), separação e anonimização
+    ("pedidos", "aceite_termos_em", "TEXT"),
+    ("pedidos", "aceite_whatsapp", "INTEGER NOT NULL DEFAULT 0"),
+    ("pedidos", "aceite_whatsapp_em", "TEXT"),
+    ("pedidos", "separado_em", "TEXT"),
+    ("pedidos", "anonimizado_em", "TEXT"),
 ]
 
 # Índices de colunas que vêm das MIGRACOES (só podem ser criados depois delas).
 INDICES_POS_MIGRACOES = """
 CREATE INDEX IF NOT EXISTS idx_pedidos_revendedora ON pedidos(revendedora_id);
 CREATE INDEX IF NOT EXISTS idx_cupons_revendedora ON cupons(revendedora_id);
+"""
+
+# Rodada 3: usuários do painel, histórico, e-mails, Minha conta, avise-me, carrinhos abandonados e LGPD.
+# Roda depois das MIGRACOES (os gatilhos dependem das colunas de estoque).
+ESQUEMA_CONTAS = """
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY,
+    nome TEXT NOT NULL,
+    login TEXT UNIQUE NOT NULL,
+    papel TEXT NOT NULL CHECK (papel IN ('dono', 'operador')),
+    senha_hash TEXT NOT NULL,
+    ativo INTEGER NOT NULL DEFAULT 1,
+    totp_segredo TEXT,
+    totp_pendente TEXT,
+    totp_ultimo_passo INTEGER,
+    ultimo_acesso TEXT,
+    criado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS sessoes_admin (
+    token_hash TEXT PRIMARY KEY,
+    usuario_id INTEGER NOT NULL REFERENCES usuarios(id),
+    criada_em TEXT NOT NULL,
+    expira_em TEXT NOT NULL,
+    ip TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE IF NOT EXISTS historico (
+    id INTEGER PRIMARY KEY,
+    usuario_id INTEGER,
+    usuario_nome TEXT NOT NULL,
+    acao TEXT NOT NULL,
+    alvo TEXT NOT NULL DEFAULT '',
+    detalhes TEXT NOT NULL DEFAULT '',
+    ip TEXT NOT NULL DEFAULT '',
+    criado_em TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS emails_saida (
+    id INTEGER PRIMARY KEY,
+    tipo TEXT NOT NULL DEFAULT '',
+    para TEXT NOT NULL,
+    assunto TEXT NOT NULL,
+    texto TEXT NOT NULL,
+    html TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pendente' CHECK (status IN ('pendente', 'enviando', 'enviado', 'falhou')),
+    tentativas INTEGER NOT NULL DEFAULT 0,
+    erro TEXT,
+    proxima_tentativa TEXT NOT NULL,
+    expira_em TEXT,
+    criado_em TEXT NOT NULL,
+    enviado_em TEXT
+);
+
+CREATE TABLE IF NOT EXISTS links_conta (
+    token_hash TEXT PRIMARY KEY,
+    email TEXT NOT NULL,
+    criado_em TEXT NOT NULL,
+    expira_em TEXT NOT NULL,
+    usado_em TEXT
+);
+
+CREATE TABLE IF NOT EXISTS sessoes_conta (
+    token_hash TEXT PRIMARY KEY,
+    email TEXT NOT NULL,
+    criada_em TEXT NOT NULL,
+    expira_em TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS enderecos_conta (
+    id INTEGER PRIMARY KEY,
+    email TEXT NOT NULL,
+    apelido TEXT NOT NULL DEFAULT '',
+    cep TEXT NOT NULL,
+    endereco TEXT NOT NULL,
+    numero TEXT NOT NULL,
+    complemento TEXT NOT NULL DEFAULT '',
+    bairro TEXT NOT NULL,
+    cidade TEXT NOT NULL,
+    uf TEXT NOT NULL,
+    criado_em TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS avise_me (
+    id INTEGER PRIMARY KEY,
+    produto_id INTEGER NOT NULL REFERENCES produtos(id),
+    variacao_id INTEGER REFERENCES variacoes(id),
+    nome TEXT NOT NULL DEFAULT '',
+    email TEXT NOT NULL DEFAULT '',
+    whatsapp TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'aguardando' CHECK (status IN ('aguardando', 'pronto', 'avisado')),
+    email_enviado INTEGER NOT NULL DEFAULT 0,
+    criado_em TEXT NOT NULL,
+    pronto_em TEXT,
+    avisado_em TEXT
+);
+
+CREATE TABLE IF NOT EXISTS carrinhos (
+    id INTEGER PRIMARY KEY,
+    token TEXT UNIQUE NOT NULL,
+    nome TEXT NOT NULL DEFAULT '',
+    whatsapp TEXT NOT NULL,
+    itens TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'aberto' CHECK (status IN ('aberto', 'convertido')),
+    pedido_id INTEGER REFERENCES pedidos(id),
+    lembrete_enviado INTEGER NOT NULL DEFAULT 0,
+    lembrete_em TEXT,
+    criado_em TEXT NOT NULL,
+    atualizado_em TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS solicitacoes_lgpd (
+    id INTEGER PRIMARY KEY,
+    protocolo TEXT UNIQUE NOT NULL,
+    tipo TEXT NOT NULL CHECK (tipo IN ('copia', 'exclusao', 'correcao')),
+    email TEXT NOT NULL,
+    cpf TEXT NOT NULL,
+    mensagem TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'aberta' CHECK (status IN ('aberta', 'em_andamento', 'concluida')),
+    resposta TEXT NOT NULL DEFAULT '',
+    anonimizado_em TEXT,
+    criado_em TEXT NOT NULL,
+    atualizado_em TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_sessoes_admin_usuario ON sessoes_admin(usuario_id);
+CREATE INDEX IF NOT EXISTS idx_historico_usuario ON historico(usuario_id, id);
+CREATE INDEX IF NOT EXISTS idx_emails_fila ON emails_saida(status, proxima_tentativa);
+CREATE INDEX IF NOT EXISTS idx_sessoes_conta_email ON sessoes_conta(email);
+CREATE INDEX IF NOT EXISTS idx_enderecos_conta_email ON enderecos_conta(email);
+CREATE INDEX IF NOT EXISTS idx_avise_me_produto ON avise_me(produto_id, status);
+CREATE INDEX IF NOT EXISTS idx_carrinhos_whatsapp ON carrinhos(whatsapp, status);
+CREATE INDEX IF NOT EXISTS idx_carrinhos_atualizado ON carrinhos(status, atualizado_em);
+CREATE INDEX IF NOT EXISTS idx_pedidos_email ON pedidos(cliente_email);
+
+-- Avise-me: quando o estoque volta de 0 para mais de 0, os pedidos de aviso ficam "prontos".
+-- Gatilho no banco: vale para qualquer caminho que mude o estoque (painel, cancelamento, opções…).
+CREATE TRIGGER IF NOT EXISTS avise_me_produto_voltou AFTER UPDATE OF estoque ON produtos
+WHEN OLD.estoque <= 0 AND NEW.estoque > 0
+BEGIN
+    UPDATE avise_me SET status = 'pronto', pronto_em = datetime('now')
+    WHERE produto_id = NEW.id AND variacao_id IS NULL AND status = 'aguardando';
+END;
+
+CREATE TRIGGER IF NOT EXISTS avise_me_variacao_voltou AFTER UPDATE OF estoque, ativo ON variacoes
+WHEN NEW.estoque > 0 AND NEW.ativo = 1 AND (OLD.estoque <= 0 OR OLD.ativo = 0)
+BEGIN
+    UPDATE avise_me SET status = 'pronto', pronto_em = datetime('now')
+    WHERE variacao_id = NEW.id AND status = 'aguardando';
+END;
 """
 
 # Texto pesquisável já normalizado, gravado junto com o produto para a busca não processar linha a linha.
@@ -268,6 +424,7 @@ def inicializar(conn, carregar_catalogo=True):
         if coluna not in colunas:
             conn.execute(f"ALTER TABLE {tabela} ADD COLUMN {coluna} {definicao}")
     conn.executescript(INDICES_POS_MIGRACOES)
+    conn.executescript(ESQUEMA_CONTAS)
     # fotos enviadas antes da galeria passam a ser a capa da galeria
     conn.execute(
         """INSERT INTO fotos_produto (produto_id, arquivo, ordem)

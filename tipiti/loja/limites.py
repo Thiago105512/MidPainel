@@ -49,4 +49,13 @@ def limites_padrao():
         "revendedoras": LimiteTaxa(3, 3600),       # cadastros de revendedora
         "revenda": LimiteTaxa(10, 15 * 60),         # token errado do painel da revendedora (igual ao admin)
         "encomendas": LimiteTaxa(5, 3600),
+        # rodada 3 (as chaves de "login", "conta_email" e "dois_fatores" são o login/e-mail/usuário, não o IP)
+        "login": LimiteTaxa(10, 15 * 60),
+        "dois_fatores": LimiteTaxa(10, 15 * 60),
+        "conta_acesso": LimiteTaxa(5, 3600),
+        "conta_email": LimiteTaxa(5, 3600),
+        "conta_sessao": LimiteTaxa(20, 15 * 60),
+        "avise_me": LimiteTaxa(10, 3600),
+        "privacidade": LimiteTaxa(3, 3600),
+        "carrinhos": LimiteTaxa(30, 3600),
     }

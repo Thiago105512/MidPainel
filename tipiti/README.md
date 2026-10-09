@@ -32,8 +32,8 @@ no GitHub a cada mudança (`.github/workflows/tipiti.yml`, Python 3.10 a 3.13).
    127 V, 220 V — cada uma com estoque) e usar a calculadora para aplicar preço e custo.
 4. Na aba **Produtos** você volta ao editor de qualquer item, tira do ar (desmarcando "Produto no ar")
    ou desativa os produtos de demonstração.
-5. Em **Configurações**, informe o WhatsApp da loja (ativa os botões de WhatsApp no site) e a chave Pix
-   (mostrada ao cliente na confirmação do pedido).
+5. Em **Configurações**, informe o WhatsApp da loja (ativa os botões de WhatsApp no site), o Pix (chave e nome do
+   recebedor: gera o copia e cola e o QR Code de cada pedido) e os dados da empresa (obrigatórios para vender).
 
 O lucro mostrado no painel é: valor dos produtos (já com os descontos do cupom e do Pix) − custo cadastrado.
 O frete cobrado do cliente fica fora da conta. Pedidos de produtos sem custo cadastrado aparecem como "sem custo".
@@ -74,7 +74,7 @@ O token do painel `/admin` é gerado e impresso no terminal só quando o servido
   - *+ Novo produto*: cadastro com várias fotos e custo.
   - *Calculadora*: custo real do importado (preço em US$/¥/R$, câmbio, frete e outros custos do lote,
     impostos, embalagem) e preço sugerido para a margem desejada, já descontada a taxa do pagamento.
-  - *Configurações*: WhatsApp, chave Pix e padrões da calculadora (câmbio, impostos, taxa, margem).
+  - *Configurações*: WhatsApp, Pix, dados da empresa e padrões da calculadora (câmbio, impostos, taxa, margem).
   - Funciona no celular: abas roláveis e tabelas que viram cartões.
 - **Segurança**: limites de tentativas por IP (pedidos, token errado do painel, consulta de pedido inexistente)
   com resposta 429; corpo da requisição limitado e validado; cabeçalhos CSP, HSTS, COOP e X-Frame-Options.
@@ -111,53 +111,6 @@ Tudo sai de dados reais do banco: nenhum número, selo, contador ou avaliação 
 - Tabela de frete por faixa de CEP, expedição a partir de Manaus. **Os valores, prazos e faixas
   de CEP são de referência** — ajuste com a transportadora/Correios antes de abrir a loja.
 
-## Estrutura
-
-```
-loja/
-  config.py            configurações e regras comerciais
-  frete.py             zonas de frete por CEP (Norte primeiro)
-  regras.py            reúne e reexporta as regras de negócio abaixo (use `regras.X`)
-    validacao.py       erros de validação, CPF, e-mail, CEP, UF
-    catalogo.py        categorias, listagem e detalhe de produtos
-    carrinho.py        cotação do carrinho, frete, desconto no Pix, parcelas
-    reservas.py        status dos pedidos, cancelamento e expiração da reserva de estoque
-    pedidos.py         criação, consulta e listagem de pedidos, resumo de vendas
-    admin_produtos.py  cadastro e edição de produtos, opções e galeria de fotos
-    promocoes.py       oferta relâmpago: preço com desconto e preço riscado
-    prova_social.py    vendidos em 30 dias, selos, compras recentes, comprados juntos
-    avaliacoes.py      avaliações de compra verificada e moderação
-    cupons.py          cupons de desconto
-  horario.py           datas em UTC no banco, ISO na API, fuso de Manaus (UTC−4)
-  precificacao.py      calculadora de preço do importado
-  ajustes.py           configurações editáveis no painel (WhatsApp, chave Pix, calculadora, horário de corte,
-                       compras recentes)
-  fotos.py             gravação e validação das fotos enviadas
-  db.py                esquema SQLite e carga inicial
-  catalogo_inicial.py  produtos de demonstração
-  imagens.py           imagens provisórias (SVG) até as fotos reais
-  rotas.py             rotas da API JSON
-  limites.py           limites de tentativas por IP
-  servidor.py          servidor HTTP: estáticos (gzip, cache), páginas e inicialização
-static/
-  index.html, css/, img/
-  js/partes/           o JavaScript da loja em partes numeradas (01-utilidades.js … 09-roteador.js);
-                       o servidor as junta em ordem de nome e entrega como um arquivo só, /static/js/app.js
-tests/                 testes de regras, do servidor, da API e do app.js montado
-```
-
-As partes do JavaScript são scripts comuns (não módulos) e dividem o mesmo escopo: `"use strict"` fica só no
-início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o número da posição.
-
-## Próximos passos
-
-1. **Gateway de pagamento** (Mercado Pago, Pagar.me, Asaas…): hoje o pedido fica "Aguardando
-   pagamento" e não há cobrança real.
-2. Cadastro do catálogo definitivo (já é possível pelo painel).
-3. **Cotação de frete real** (Correios/transportadoras) e cálculo por peso/volume.
-4. E-mails transacionais (confirmação, envio, rastreio) e conta de cliente.
-5. Cópia dos backups fora do servidor (destino a definir; veja `deploy/LEIA-ME.md`).
-
 ## Calendário de barcos, rastreio e revendedoras
 
 - **Barcos** (`loja/viagens.py`): o painel cadastra viagens por zona de frete (`/api/admin/viagens`: zona, embarcação,
@@ -168,8 +121,9 @@ início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o nú
   ("2026-10-20") vale como 00:00 de Manaus.
 - **Rastreio** (`loja/rastreio.py`): o pedido tem `codigo_rastreio` (link dos Correios quando o código é do tipo
   AA123456789BR), `viagem` e `eventos` (mais recente primeiro). Pago, enviado (com barco: "Embarcou no … rumo a …"),
-  entregue e cancelado geram eventos sozinhos; o painel lança os demais em `/api/admin/pedidos/<codigo>/eventos` e
-  recebe `whatsapp_aviso`, o texto pronto para mandar ao cliente. Lançar um evento não muda o status.
+  entregue e cancelado geram eventos sozinhos; o painel lança os demais em `/api/admin/pedidos/<codigo>/eventos` (a
+  separação lança "separado") e recebe `whatsapp_aviso`, o texto pronto para mandar ao cliente. Lançar um evento não
+  muda o status. Cada evento (automático ou manual) gera **um** e-mail ao cliente, depois de gravado.
 - **Revendedoras** (`loja/revendedoras.py`): cadastro em `/seja-revendedora` (3 por hora por IP; CPF já cadastrado
   recebe a mesma resposta, sem duplicar). Ao ativar no painel ela ganha um código (`maria-parintins`), o link
   `/?r=<código>`, o painel `/revenda#<token>` e, com desconto para o cliente, um cupom com o mesmo código.
@@ -178,8 +132,6 @@ início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o nú
   Só contam pedidos pagos, enviados ou entregues; cancelar (ou a reserva expirar) zera a comissão, exceto se ela já
   foi paga. "Pagar até" marca as comissões elegíveis dos pedidos feitos até a data (Manaus).
   O painel dela não mostra nome, CPF, telefone, e-mail nem endereço dos clientes. Token errado: mesmo limite do admin.
-
-5. Hospedagem com HTTPS para `tipiti.com.br` (proxy reverso na frente do servidor) e backup do banco.
 
 ## Pix, app instalável, Google/Instagram Shopping, encomendas e pré-venda
 
@@ -193,7 +145,7 @@ início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o nú
 - **App instalável (PWA)**: `/manifest.webmanifest`, ícones e imagem de compartilhamento em `static/pwa/`, e `/sw.js`,
   gerado a partir de `loja/modelos/sw.js` com as URLs versionadas do app.js e do estilo.css. Caches por versão;
   páginas vêm da rede e, sem internet, da página inicial guardada; o catálogo mostra o que foi guardado e atualiza por
-  trás; painel, pedidos, revenda e encomendas nunca vão para o cache. A versão nova só assume quando a página manda
+  trás; painel, pedidos, revenda, encomendas, Minha conta, carrinhos, privacidade e avise-me nunca vão para o cache. A versão nova só assume quando a página manda
   `{"tipo": "SKIP_WAITING"}`.
 - **Google/Instagram Shopping**: páginas de produto com JSON-LD `Product` (preço, disponibilidade, avaliações) e
   `BreadcrumbList`; início com `Organization` e `WebSite` (busca); `og:image` com a capa do produto ou a imagem da
@@ -206,3 +158,121 @@ início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o nú
   ganha o selo `prevenda`. A cotação e o pedido trazem `previsao_envio` (chegada + manuseio) e, nesse caso, o
   `prazo_dias` do frete conta a partir dessa data. Quando a data passa, o produto volta ao normal: ajuste o estoque
   quando o lote chegar.
+
+## E-mail (SMTP)
+
+Os e-mails (confirmação do pedido, com o Pix copia e cola quando o Pix está configurado; um por evento de
+rastreio, inclusive os das mudanças de status; link da "Minha conta"; avise-me; resposta LGPD) entram numa fila no banco e são enviados por uma thread em segundo plano, com até 5 tentativas e espera crescente.
+Sem SMTP configurado eles ficam "pendentes" (painel: `GET /api/admin/emails`, reenvio em
+`POST /api/admin/emails/<id>/reenviar`). A configuração é só por variáveis de ambiente:
+
+| Variável | Padrão | Para quê |
+|---|---|---|
+| `TIPITI_SMTP_HOST` | vazio (e-mail desligado) | Servidor SMTP (ex.: do seu provedor de e-mail transacional) |
+| `TIPITI_SMTP_PORTA` | `587` | Porta |
+| `TIPITI_SMTP_USUARIO` / `TIPITI_SMTP_SENHA` | vazio | Login no SMTP (a senha nunca aparece no painel nem no log) |
+| `TIPITI_SMTP_REMETENTE` | `Tipiti <contato@tipiti.com.br>` | Remetente (configure SPF/DKIM do domínio no provedor) |
+| `TIPITI_SMTP_TLS` | `starttls` | `starttls`, `ssl` (porta 465) ou `nenhum` |
+
+## Usuários do painel, papéis e verificação em duas etapas
+
+- Entre no `/admin` com o `TIPITI_ADMIN_TOKEN` e crie o primeiro usuário **dono** (`POST /api/admin/usuarios`).
+  Depois disso, use login (e-mail) e senha; o token continua valendo como **acesso de emergência** (papel dono) —
+  guarde-o fora do dia a dia.
+- Papéis: **dono** vê tudo; **operador** cuida de pedidos, separação/etiquetas, produtos (sem custo), avaliações,
+  avise-me, carrinhos abandonados, encomendas e viagens. O operador recebe 403 em calculadora, cupons,
+  configurações, usuários, revendedoras, privacidade, e-mails, feeds e histórico, e os campos de custo, lucro, margem
+  e comissão (e o token/link do painel das revendedoras) são retirados de todas as respostas para ele. Oferta
+  relâmpago (`promo_pct`/`promo_fim`) e custo enviados por ele são ignorados. Regra central em `loja/usuarios.py`
+  (`OPERADOR_PODE`); as rotas declaram `papel="operador"` ou `papel="dono"` na `@rota`.
+- Senhas com PBKDF2-SHA256 (600 000 iterações, sal aleatório); sessões de 12 h renovadas a cada uso, guardadas só
+  como hash; trocar a senha ou desativar o usuário encerra as sessões.
+- 2FA (TOTP, compatível com Google Authenticator, Authy etc.): `POST /api/admin/eu/2fa/iniciar` → cadastre o segredo
+  no aplicativo → `POST /api/admin/eu/2fa/confirmar`. Celular perdido: o dono desativa com
+  `PATCH /api/admin/usuarios/<id>` `{"desativar_2fa": true}`.
+- Toda escrita no painel (e login, falhas de login e exportação de dados pessoais) fica em `GET /api/admin/historico`.
+
+## LGPD e identificação da loja
+
+- Em Configurações, preencha razão social, CNPJ/CPF, endereço completo, cidade/UF/CEP, e-mail e telefone
+  (Decreto 7.962/2013). Enquanto faltar algo, `/api/loja` e o resumo do painel listam as `pendencias_legais`.
+- `/privacidade` e `/termos` são gerados com esses dados. **São modelos**: revise com um advogado antes de abrir a loja.
+- O checkout exige aceite dos termos (`aceite_termos: true`) e guarda o aceite opcional de contato por WhatsApp,
+  com data e hora.
+- Pedidos do titular em `/meus-dados` (`POST /api/privacidade/solicitacoes`, protocolo `LGPD-XXXXXXXX`, prazo de
+  resposta de 15 dias). No painel (só dono): exportar tudo o que a loja tem do CPF/e-mail e anonimizar — os valores,
+  itens, datas, cidade e UF dos pedidos ficam (obrigação fiscal); nome, e-mail, CPF, telefone e endereço são trocados.
+  Também entram: eventos de rastreio (o texto vira o rótulo do tipo), encomendas do mesmo WhatsApp (nome, WhatsApp e
+  cidade) e o cadastro de revendedora do mesmo CPF (nome, WhatsApp, CPF, Instagram, código, token; cupom desativado).
+  A anonimização é recusada, com o motivo, se houver pedido ou encomenda em andamento, ou se a revendedora estiver
+  ativa ou tiver comissão a receber. Confirme a identidade do titular antes de enviar a cópia dos dados.
+- Prazos de guarda aplicados automaticamente: carrinhos abandonados 30 dias, links de acesso 30 minutos (apagados em
+  1 dia), sessões da Minha conta 30 dias, avise-me 180 dias após o aviso, e-mails enviados 180 dias.
+
+## Minha conta, avise-me, carrinho abandonado e separação
+
+- **Minha conta** (`/conta`, `/minha-conta`), sem senha: o cliente pede um link por e-mail (30 min, uso único) e
+  fica com uma sessão de 30 dias para ver pedidos (com rastreio) e endereços salvos. A resposta nunca revela se o
+  e-mail tem pedidos.
+- **Avise-me quando chegar**: produto ou opção sem estoque aceita e-mail ou WhatsApp; quando o estoque volta (gatilho
+  no banco, qualquer caminho), sai o e-mail e o painel mostra o link de WhatsApp pronto.
+- **Carrinho abandonado**: com o WhatsApp autorizado no checkout, o carrinho fica guardado; depois de 1 h sem pedido
+  o painel mostra a mensagem com o link `/?c=<token>` que restaura o carrinho.
+- **Separação e etiquetas**: `/api/admin/separacao` traz os pedidos pagos com destinatário, endereço, viagem e a
+  lista consolidada; remetente = dados da empresa. Marcar separados lança o evento "separado" do rastreio.
+
+## Estrutura
+
+```
+loja/
+  config.py            configurações e regras comerciais
+  frete.py             zonas de frete por CEP (Norte primeiro)
+  regras.py            reúne e reexporta as regras de negócio abaixo (use `regras.X`)
+    validacao.py       erros de validação, CPF, CNPJ, e-mail, CEP, UF
+    catalogo.py        categorias, listagem e detalhe de produtos
+    carrinho.py        cotação do carrinho, frete, desconto no Pix, parcelas
+    reservas.py        status dos pedidos, cancelamento e expiração da reserva de estoque
+    pedidos.py         criação, consulta e listagem de pedidos, resumo de vendas
+    admin_produtos.py  cadastro e edição de produtos, opções e galeria de fotos
+    promocoes.py       oferta relâmpago: preço com desconto e preço riscado
+    prova_social.py    vendidos em 30 dias, selos, compras recentes, comprados juntos
+    avaliacoes.py      avaliações de compra verificada e moderação
+    cupons.py          cupons de desconto
+  viagens.py, rastreio.py, revendedoras.py   calendário de barcos, eventos/rastreio, programa de revendedoras
+  pix.py, qrcode.py    BR Code (copia e cola) e QR Code em Python puro (também o QR do 2FA)
+  encomendas.py, prevenda.py                 "Encomenda pra mim" e pré-venda do próximo lote
+  pwa.py, modelos/sw.js, feeds.py, vitrine_seo.py   app instalável, feeds Google/Meta, JSON-LD e og:image
+  legal.py, privacidade.py                   dados da empresa, política/termos, solicitações e anonimização LGPD
+  emails.py, notificacoes.py                 fila de e-mails (SMTP em segundo plano) e mensagens ao cliente
+  conta.py, avise_me.py, carrinhos.py, separacao.py   Minha conta, avise-me, carrinho abandonado, separação
+  usuarios.py, totp.py, historico.py         usuários do painel, papéis, 2FA e histórico de alterações
+  retencao.py          apaga o que passou do prazo de guarda
+  horario.py           datas em UTC no banco, ISO na API, fuso de Manaus (UTC−4)
+  precificacao.py      calculadora de preço do importado
+  ajustes.py           configurações editáveis no painel (WhatsApp, Pix, empresa, calculadora, horário de corte…)
+  fotos.py             gravação e validação das fotos enviadas
+  db.py                esquema SQLite, migrações e carga inicial
+  catalogo_inicial.py  produtos de demonstração
+  imagens.py           imagens provisórias (SVG) até as fotos reais
+  rotas.py             rotas da API JSON (e rotas_extras, rotas_barcos_revenda, rotas_clientes, rotas_painel)
+  limites.py           limites de tentativas por IP
+  servidor.py          servidor HTTP: estáticos (gzip, cache), páginas, autorização do painel e inicialização
+static/
+  index.html, css/, img/, pwa/
+  js/partes/           o JavaScript da loja em partes numeradas (01-utilidades.js … 09-roteador.js);
+                       o servidor as junta em ordem de nome e entrega como um arquivo só, /static/js/app.js
+deploy/                Docker, Caddy (HTTPS), systemd e backups — veja deploy/LEIA-ME.md
+tests/                 testes de regras, do servidor, da API e do app.js montado
+```
+
+As partes do JavaScript são scripts comuns (não módulos) e dividem o mesmo escopo: `"use strict"` fica só no
+início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o número da posição.
+
+## Próximos passos
+
+1. **Gateway de pagamento** (Mercado Pago, Pagar.me, Asaas…): hoje o pedido fica "Aguardando pagamento" e a
+   confirmação do Pix é manual no painel (o BR Code é estático, sem aviso automático de pagamento).
+2. Cadastro do catálogo definitivo (já é possível pelo painel) e dados da empresa em Configurações.
+3. **Cotação de frete real** (Correios/transportadoras) e cálculo por peso/volume.
+4. Contratar o SMTP (provedor de e-mail transacional, com SPF/DKIM) e revisar política e termos com um advogado.
+5. Cópia dos backups fora do servidor (destino a definir; veja `deploy/LEIA-ME.md`).

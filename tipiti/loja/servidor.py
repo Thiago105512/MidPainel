@@ -15,6 +15,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
 from . import config, db, feeds, fotos, pwa, regras, vitrine_seo
+from . import avise_me, emails, historico, retencao, usuarios
+from . import rotas_clientes, rotas_painel  # noqa: F401 — registram as rotas da rodada 3
 from .imagens import svg_produto
 from .limites import MSG_LIMITE, LimiteTaxa, limites_padrao  # noqa: F401 — LimiteTaxa: importável daqui também
 from .rotas import ROTAS, TAMANHO_MAX_CORPO, TAMANHO_MAX_UPLOAD, ErroHttp, api_loja, rota  # noqa: F401
@@ -36,7 +38,7 @@ CSP = (
 PAGINAS_SPA = re.compile(
     r"^/(|categoria/[a-z0-9-]+|produto/[a-z0-9-]+|busca|carrinho|checkout|pedido/[A-Za-z0-9-]+|"
     r"entregas|sobre|trocas|admin|admin/produto/[a-z0-9-]+|revenda|seja-revendedora|barcos|"
-    r"encomenda|encomenda/[A-Za-z0-9-]+)/?$"
+    r"encomenda|encomenda/[A-Za-z0-9-]+|conta|minha-conta|privacidade|termos|meus-dados)/?$"
 )
 
 # Arquivos que o index.html referencia com ?v=<hash do conteúdo>, para o navegador guardar por um ano.
@@ -153,6 +155,8 @@ class Requisicao:
         self.query = query
         self.corpo_max = corpo_max
         self._json = None
+        self.ator = None  # quem está no painel (rotas admin): usuário ou token de emergência
+        self.historico_detalhes = None  # a rota pode trocar o que vai para o histórico
 
     def json(self):
         if self._json is None:
@@ -179,6 +183,8 @@ class Requisicao:
                 raise ErroHttp(HTTPStatus.BAD_REQUEST, "JSON inválido.")
             if not isinstance(dados, dict):
                 raise ErroHttp(HTTPStatus.BAD_REQUEST, "Esperado um objeto JSON.")
+            if self.ator and self.ator["papel"] != "dono":
+                dados = usuarios.remover_campos_restritos(dados)  # operador não grava custo
             self._json = dados
         return self._json
 
@@ -356,15 +362,28 @@ class TipitiHandler(BaseHTTPRequestHandler):
         return cabecalho[7:] if cabecalho.startswith("Bearer ") else ""
 
     def _autorizar_admin(self):
-        """Depois de muitas tentativas erradas, recusa até o token certo, para não dar pistas a quem tenta adivinhar."""
+        """Devolve quem está acessando: o token de emergência (dono) ou o usuário da sessão.
+
+        Depois de muitas tentativas erradas, recusa até o token certo, para não dar pistas a quem tenta adivinhar.
+        """
         limite = self.server.limites["admin"]
         if limite.excedido(self.ip_cliente):
             raise ErroHttp(HTTPStatus.TOO_MANY_REQUESTS, MSG_LIMITE)
         token = self._token_enviado()
-        if not token or not hmac.compare_digest(token.encode(), self.server.admin_token.encode()):
+        if token and hmac.compare_digest(token.encode(), self.server.admin_token.encode()):
+            return dict(usuarios.ATOR_TOKEN)
+        ator = None
+        if token:
+            conn = db.conectar(self.server.db_path)
+            try:
+                ator = usuarios.ator_da_sessao(conn, token)
+            finally:
+                conn.close()
+        if ator is None:
             if token:
                 limite.registrar(self.ip_cliente)
             raise ErroHttp(HTTPStatus.UNAUTHORIZED, "Acesso restrito.")
+        return ator
 
     def _api(self, metodo, caminho, query):
         metodo_errado = False
@@ -375,11 +394,18 @@ class TipitiHandler(BaseHTTPRequestHandler):
             if m != metodo:
                 metodo_errado = True
                 continue
+            ator = None
             if admin:
-                self._autorizar_admin()
+                ator = self._autorizar_admin()
+                if not usuarios.pode(ator, caminho, func):
+                    raise ErroHttp(HTTPStatus.FORBIDDEN, "Sem permissão.")
             conn = db.conectar(self.server.db_path)
+            req = Requisicao(self, query, func.corpo_max)
+            req.ator = ator
             try:
-                resultado = func(conn, Requisicao(self, query, func.corpo_max), **achou.groupdict())
+                resultado = func(conn, req, **achou.groupdict())
+                if admin and metodo != "GET":
+                    self._apos_escrita_admin(conn, req, metodo, caminho, func)
             except regras.ErroValidacao as e:
                 return self._json(HTTPStatus.UNPROCESSABLE_ENTITY, {"erro": e.mensagem, "campos": e.campos})
             except regras.NaoEncontrado as e:
@@ -391,10 +417,28 @@ class TipitiHandler(BaseHTTPRequestHandler):
                 status, resultado = resultado
             if isinstance(resultado, RespostaBruta):
                 return self._enviar(status, resultado.corpo, resultado.tipo, resultado.cabecalhos)
+            if ator and ator["papel"] != "dono":  # operador nunca recebe custo, lucro, margem nem comissão
+                resultado = usuarios.filtrar_para_operador(resultado)
             return self._json(status, resultado)
         if metodo_errado:
             raise ErroHttp(HTTPStatus.METHOD_NOT_ALLOWED, "Método não permitido.")
         raise ErroHttp(HTTPStatus.NOT_FOUND, "Recurso não encontrado.")
+
+    def _apos_escrita_admin(self, conn, req, metodo, caminho, func):
+        """Toda escrita no painel vai para o histórico; avisos do avise-me prontos entram na fila de e-mail."""
+        try:
+            detalhes = req.historico_detalhes
+            if detalhes is None:
+                detalhes = req._json if req._json else None
+            acao = func.__name__.removeprefix("api_admin_").removeprefix("api_")
+            historico.registrar(conn, req.ator, acao, caminho, detalhes, self.ip_cliente)
+        except Exception:  # noqa: BLE001 — a escrita já foi feita; não responder erro por causa do registro
+            self.log_error("Falha ao registrar o histórico de %s %s", metodo, caminho)
+        try:
+            avise_me.enfileirar_avisos(conn)
+            retencao.purgar(conn)
+        except Exception:  # noqa: BLE001
+            self.log_error("Falha nas tarefas após %s %s", metodo, caminho)
 
     def _estatico(self, relativo, query):
         achado = _localizar_estatico(relativo)
@@ -433,7 +477,7 @@ class TipitiHandler(BaseHTTPRequestHandler):
     def _sitemap(self):
         conn = db.conectar(self.server.db_path)
         try:
-            urls = ["/", "/entregas", "/sobre", "/trocas"]
+            urls = ["/", "/entregas", "/sobre", "/trocas", "/privacidade", "/termos"]
             urls += [f"/categoria/{c['slug']}" for c in regras.listar_categorias(conn)]
             urls += [f"/produto/{p['slug']}" for p in regras.listar_produtos(conn, ordem="nome")]
             urls += ["/barcos", "/seja-revendedora"]
@@ -530,6 +574,12 @@ class ServidorTipiti(ThreadingHTTPServer):
         finally:
             self._vagas.release()
 
+    def server_close(self):
+        remetente = getattr(self, "remetente", None)
+        if remetente is not None:
+            remetente.parar()
+        super().server_close()
+
 
 def resolver_token_admin(host):
     """Devolve (token, gerado_agora). Token gerado só vale quando o servidor escuta apenas nesta máquina."""
@@ -564,6 +614,9 @@ def criar_servidor(host=None, porta=None, db_path=None, admin_token=None, silenc
     servidor.silencioso = silencioso
     servidor.confiar_proxy = config.CONFIAR_PROXY
     servidor.limites = limites_padrao()
+    # fila de e-mails (e tarefas de fundo: avisos do avise-me, limpeza por prazo de guarda) em segundo plano
+    servidor.remetente = emails.Remetente(caminho_db, tarefas=(avise_me.enfileirar_avisos, retencao.purgar))
+    servidor.remetente.start()
     return servidor
 
 

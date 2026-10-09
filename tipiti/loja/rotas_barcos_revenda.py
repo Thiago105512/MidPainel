@@ -16,17 +16,17 @@ def api_viagens(conn, req):
     return viagens.proximas(conn, zona or None)
 
 
-@rota("GET", r"/api/admin/viagens", admin=True)
+@rota("GET", r"/api/admin/viagens", admin=True, papel="operador")
 def api_admin_viagens(conn, req):
     return viagens.listar_admin(conn)
 
 
-@rota("POST", r"/api/admin/viagens", admin=True)
+@rota("POST", r"/api/admin/viagens", admin=True, papel="operador")
 def api_admin_criar_viagem(conn, req):
     return HTTPStatus.CREATED, viagens.criar(conn, req.json())
 
 
-@rota("PATCH", r"/api/admin/viagens/(?P<viagem_id>[0-9]{1,18})", admin=True)
+@rota("PATCH", r"/api/admin/viagens/(?P<viagem_id>[0-9]{1,18})", admin=True, papel="operador")
 def api_admin_viagem(conn, req, viagem_id):
     return viagens.atualizar(conn, int(viagem_id), req.json())
 
@@ -34,7 +34,7 @@ def api_admin_viagem(conn, req, viagem_id):
 # ---------------------------------------------------------------- rastreio
 
 
-@rota("POST", r"/api/admin/pedidos/(?P<codigo>[A-Z0-9-]{4,20})/eventos", admin=True)
+@rota("POST", r"/api/admin/pedidos/(?P<codigo>[A-Z0-9-]{4,20})/eventos", admin=True, papel="operador")
 def api_admin_evento(conn, req, codigo):
     rastreio.adicionar_evento(conn, codigo, req.json())
     return HTTPStatus.CREATED, {**regras.obter_pedido_publico(conn, codigo),
@@ -70,7 +70,7 @@ def api_painel_revenda(conn, req):
     return revendedoras.painel(conn, row)
 
 
-@rota("GET", r"/api/admin/revendedoras", admin=True)
+@rota("GET", r"/api/admin/revendedoras", admin=True, papel="dono")
 def api_admin_revendedoras(conn, req):
     status = req.query.get("status")
     if status and status not in revendedoras.STATUS:
@@ -78,11 +78,11 @@ def api_admin_revendedoras(conn, req):
     return revendedoras.listar_admin(conn, status=status)
 
 
-@rota("PATCH", r"/api/admin/revendedoras/(?P<revendedora_id>[0-9]{1,18})", admin=True)
+@rota("PATCH", r"/api/admin/revendedoras/(?P<revendedora_id>[0-9]{1,18})", admin=True, papel="dono")
 def api_admin_revendedora(conn, req, revendedora_id):
     return revendedoras.atualizar(conn, int(revendedora_id), req.json())
 
 
-@rota("POST", r"/api/admin/revendedoras/(?P<revendedora_id>[0-9]{1,18})/pagamentos", admin=True)
+@rota("POST", r"/api/admin/revendedoras/(?P<revendedora_id>[0-9]{1,18})/pagamentos", admin=True, papel="dono")
 def api_admin_pagamento_revendedora(conn, req, revendedora_id):
     return revendedoras.registrar_pagamento(conn, int(revendedora_id), req.json())

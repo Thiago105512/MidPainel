@@ -3,6 +3,9 @@
 As mudanças de status (reservas.atualizar_status) geram eventos sozinhas; o painel acrescenta os demais
 ("separado", "chegou_porto", "saiu_entrega"…). As mensagens aparecem na página pública do pedido: nunca devem levar
 dados pessoais do cliente (só a cidade de destino, que a página já mostra).
+
+Cada evento gera exatamente um e-mail ao cliente (notificacoes.evento_pedido), sempre depois do COMMIT:
+reservas.atualizar_status chama `notificar` para o evento automático; adicionar_evento faz o mesmo para os manuais.
 """
 
 import re
@@ -60,8 +63,18 @@ def _pedido_e_viagem(conn, pedido_id):
     ).fetchone()
 
 
+def notificar(conn, codigo, tipo, mensagem, status=None):
+    """E-mail ao cliente sobre um evento já gravado (chamar só depois do COMMIT). Nunca levanta erro."""
+    from . import notificacoes  # notificacoes -> emails; import tardio evita ciclo com reservas
+
+    notificacoes.evento_pedido(conn, codigo, tipo, mensagem, status=status)
+
+
 def evento_de_status(conn, pedido_id, novo_status):
-    """Evento automático de uma mudança de status (chamado dentro da transação de reservas.atualizar_status)."""
+    """Evento automático de uma mudança de status (chamado dentro da transação de reservas.atualizar_status).
+
+    Devolve (tipo, mensagem) para o e-mail que reservas manda depois do COMMIT, ou None.
+    """
     p = _pedido_e_viagem(conn, pedido_id)
     if novo_status == "pago":
         tipo, mensagem = "pago", mensagem_padrao("pago", p["cidade"])
@@ -79,8 +92,9 @@ def evento_de_status(conn, pedido_id, novo_status):
     elif novo_status == "aguardando_pagamento":
         tipo, mensagem = "outro", "Pedido voltou a aguardar a confirmação do pagamento."
     else:
-        return
+        return None
     registrar_evento(conn, pedido_id, tipo, mensagem)
+    return tipo, mensagem
 
 
 def _pedido(conn, codigo):
@@ -90,8 +104,12 @@ def _pedido(conn, codigo):
     return row
 
 
-def adicionar_evento(conn, codigo, dados):
-    """Evento lançado pelo painel: {tipo, mensagem?}. Não muda o status do pedido."""
+def adicionar_evento(conn, codigo, dados, junto=None):
+    """Evento lançado pelo painel: {tipo, mensagem?}. Não muda o status do pedido.
+
+    `junto(row)` (opcional) roda na mesma transação do evento (ex.: separação grava `separado_em`).
+    Depois do COMMIT o cliente recebe o e-mail do evento. Devolve (tipo, mensagem).
+    """
     if not isinstance(dados, dict):
         raise ErroValidacao({"geral": "Dados inválidos."})
     row = _pedido(conn, codigo)
@@ -118,7 +136,17 @@ def adicionar_evento(conn, codigo, dados):
             erros["mensagem"] = "Escreva a mensagem do evento."
     if erros:
         raise ErroValidacao(erros, "Revise o evento.")
-    registrar_evento(conn, row["id"], tipo, mensagem)
+    conn.execute("BEGIN IMMEDIATE")
+    try:
+        registrar_evento(conn, row["id"], tipo, mensagem)
+        if junto is not None:
+            junto(row)
+        conn.execute("COMMIT")
+    except Exception:
+        conn.execute("ROLLBACK")
+        raise
+    notificar(conn, row["codigo"], tipo, mensagem)
+    return tipo, mensagem
 
 
 def _validar_alteracoes(conn, dados):
