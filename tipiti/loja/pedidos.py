@@ -2,9 +2,11 @@
 
 import secrets
 
-from . import config
+from . import config, cupons
+from .avaliacoes import produtos_avaliados
 from .carrinho import FORMAS_PAGAMENTO, _cotar, _linhas, _normalizar_itens
-from .catalogo import _sincronizar_estoque, url_imagem
+from .catalogo import _sincronizar_estoque
+from .imagens import url_imagem
 from .reservas import STATUS_PEDIDO, TRANSICOES, expirar_pendentes
 from .validacao import UFS, ErroValidacao, NaoEncontrado, cpf_valido, email_valido, so_digitos
 
@@ -56,6 +58,9 @@ def _validar_cliente(dados):
         c["parcelas"] = int(dados.get("parcelas") or 1)
     except (TypeError, ValueError):
         erros["parcelas"] = "Parcelamento inválido."
+    c["cupom"] = dados.get("cupom")
+    if c["cupom"] is not None and not isinstance(c["cupom"], str):
+        erros["cupom"] = "Cupom inválido. Confira o código."
     if erros:
         raise ErroValidacao(erros)
     return c
@@ -76,10 +81,17 @@ def criar_pedido(conn, dados):
     conn.execute("BEGIN IMMEDIATE")
     try:
         cotacao = _cotar(conn, [{"slug": s, "variacao": v, "quantidade": q} for (s, v), q in quantidades.items()],
-                         cep=cliente["cep"], pagamento=cliente["pagamento"])
+                         cep=cliente["cep"], pagamento=cliente["pagamento"], cupom=cliente["cupom"], cpf=cliente["cpf"])
         if not cotacao["valido"]:
             problemas = {l["chave"]: l["erro"] for l in cotacao["itens"] if not l["disponivel"]}
             raise ErroValidacao({"itens": problemas}, "Alguns itens do carrinho não estão mais disponíveis.")
+        if cotacao["cupom_erro"]:
+            raise ErroValidacao({"cupom": cotacao["cupom_erro"]}, cotacao["cupom_erro"])
+        cupom = cotacao["cupom"]
+        # dentro da transação: dois pedidos simultâneos não passam do limite de usos
+        if cupom and not cupons.registrar_uso(conn, cupom["codigo"]):
+            esgotado = "Este cupom já atingiu o limite de usos."
+            raise ErroValidacao({"cupom": esgotado}, esgotado)
         if not 1 <= cliente["parcelas"] <= cotacao["parcelas_max"]:
             raise ErroValidacao({"parcelas": f"Parcelamento em até {cotacao['parcelas_max']}x."})
 
@@ -101,22 +113,25 @@ def criar_pedido(conn, dados):
         cur = conn.execute(
             """INSERT INTO pedidos (codigo, status, cliente_nome, cliente_email, cliente_cpf, cliente_telefone,
                    cep, endereco, numero, complemento, bairro, cidade, uf, zona_frete, prazo_dias,
-                   pagamento, parcelas, subtotal_centavos, desconto_centavos, frete_centavos, total_centavos)
-               VALUES (?, 'aguardando_pagamento', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   pagamento, parcelas, subtotal_centavos, desconto_centavos, frete_centavos, total_centavos,
+                   cupom_codigo, desconto_cupom_centavos)
+               VALUES (?, 'aguardando_pagamento', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 codigo, cliente["nome"], cliente["email"], cliente["cpf"], cliente["telefone"],
                 cliente["cep"], cliente["endereco"], cliente["numero"], cliente["complemento"],
                 cliente["bairro"], cliente["cidade"], cliente["uf"], f["zona_nome"], f["prazo_dias"],
                 cliente["pagamento"], cliente["parcelas"], cotacao["subtotal_centavos"],
                 cotacao["desconto_centavos"], f["valor_centavos"], cotacao["total_centavos"],
+                cupom["codigo"] if cupom else None, cotacao["desconto_cupom_centavos"],
             ),
         )
         pedido_id = cur.lastrowid
         conn.executemany(
             """INSERT INTO itens_pedido (pedido_id, produto_id, variacao_id, nome, variacao_nome,
-                   preco_unit_centavos, custo_unit_centavos, quantidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                   preco_unit_centavos, preco_ancora_unit_centavos, custo_unit_centavos, quantidade)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             [(pedido_id, l["produto_id"], l["variacao_id"], l["nome"], l["variacao_nome"], l["preco_unit_centavos"],
-              custos.get(l["chave"]), l["quantidade"]) for l in cotacao["itens"]],
+              l["preco_ancora_unit_centavos"], custos.get(l["chave"]), l["quantidade"]) for l in cotacao["itens"]],
         )
         conn.execute("COMMIT")
     except Exception:
@@ -125,21 +140,23 @@ def criar_pedido(conn, dados):
     return codigo
 
 
-def _itens_dos_pedidos(conn, pedido_ids, admin=False):
-    """Itens de vários pedidos numa consulta só: {pedido_id: [itens]}."""
+def _itens_dos_pedidos(conn, pedido_ids, admin=False, pode_avaliar=None):
+    """Itens de vários pedidos numa consulta só: {pedido_id: [itens]}. pode_avaliar(produto_id) -> bool, opcional."""
     itens = {pid: [] for pid in pedido_ids}
     if not itens:
         return itens
     rows = conn.execute(
-        f"""SELECT i.pedido_id, i.nome, i.variacao_nome, i.preco_unit_centavos, i.custo_unit_centavos, i.quantidade,
-                   p.slug, p.foto
+        f"""SELECT i.pedido_id, i.produto_id, i.nome, i.variacao_nome, i.preco_unit_centavos,
+                   i.preco_ancora_unit_centavos, i.custo_unit_centavos, i.quantidade, p.slug, p.foto
             FROM itens_pedido i JOIN produtos p ON p.id = i.produto_id
             WHERE i.pedido_id IN ({",".join("?" * len(itens))}) ORDER BY i.id""",
         list(itens),
     ).fetchall()
     for r in rows:
         item = dict(r, imagem=url_imagem(r["slug"], r["foto"]))
-        del item["foto"], item["pedido_id"]
+        del item["foto"], item["pedido_id"], item["produto_id"]
+        if pode_avaliar is not None:
+            item["pode_avaliar"] = pode_avaliar(r["produto_id"])
         if not admin:
             del item["custo_unit_centavos"]
         itens[r["pedido_id"]].append(item)
@@ -155,6 +172,8 @@ def _resumo_pedido(row, itens, admin=False):
         "pagamento_nome": FORMAS_PAGAMENTO[row["pagamento"]],
         "parcelas": row["parcelas"],
         "subtotal_centavos": row["subtotal_centavos"],
+        "cupom_codigo": row["cupom_codigo"],
+        "desconto_cupom_centavos": row["desconto_cupom_centavos"],
         "desconto_centavos": row["desconto_centavos"],
         "frete_centavos": row["frete_centavos"],
         "total_centavos": row["total_centavos"],
@@ -170,14 +189,16 @@ def _resumo_pedido(row, itens, admin=False):
 
 
 def lucro_do_pedido(resumo):
-    """Receita dos produtos (já com o desconto) menos o custo deles. None se faltar o custo de algum item.
+    """Receita dos produtos (já com os descontos do cupom e do Pix) menos o custo deles. None se faltar o custo de
+    algum item.
 
     O frete cobrado é tratado como repasse e fica fora da conta.
     """
     if any(i["custo_unit_centavos"] is None for i in resumo["itens"]):
         return None
     custo = sum(i["custo_unit_centavos"] * i["quantidade"] for i in resumo["itens"])
-    return resumo["subtotal_centavos"] - resumo["desconto_centavos"] - custo
+    descontos = resumo.get("desconto_cupom_centavos", 0) + resumo["desconto_centavos"]
+    return resumo["subtotal_centavos"] - descontos - custo
 
 
 def obter_pedido_publico(conn, codigo):
@@ -185,7 +206,11 @@ def obter_pedido_publico(conn, codigo):
     row = conn.execute("SELECT * FROM pedidos WHERE codigo = ?", (str(codigo).upper(),)).fetchone()
     if not row:
         raise NaoEncontrado("Pedido não encontrado.")
-    resumo = _resumo_pedido(row, _itens_dos_pedidos(conn, [row["id"]])[row["id"]])
+    # cada produto entregue pode ser avaliado uma vez por pedido
+    avaliados = produtos_avaliados(conn, row["id"]) if row["status"] == "entregue" else None
+    itens = _itens_dos_pedidos(conn, [row["id"]],
+                               pode_avaliar=lambda pid: avaliados is not None and pid not in avaliados)
+    resumo = _resumo_pedido(row, itens[row["id"]])
     resumo["primeiro_nome"] = row["cliente_nome"].split()[0]
     resumo["destino"] = f"{row['cidade']} - {row['uf']}"
     return resumo
@@ -222,7 +247,8 @@ def resumo_vendas(conn):
         """SELECT COUNT(*) AS pedidos,
                   COALESCE(SUM(p.total_centavos), 0) AS faturamento,
                   COALESCE(SUM(CASE WHEN COALESCE(i.sem_custo, 0) = 0
-                               THEN p.subtotal_centavos - p.desconto_centavos - COALESCE(i.custo, 0) END), 0) AS lucro,
+                               THEN p.subtotal_centavos - p.desconto_cupom_centavos - p.desconto_centavos
+                                    - COALESCE(i.custo, 0) END), 0) AS lucro,
                   COALESCE(SUM(COALESCE(i.sem_custo, 0) > 0), 0) AS sem_custo
            FROM pedidos p
            LEFT JOIN (SELECT pedido_id, SUM(custo_unit_centavos * quantidade) AS custo,

@@ -2,21 +2,24 @@
 
 import re
 
+from . import horario
+from .avaliacoes import SQL_NOTAS, nota_media
 from .db import normaliza
+from .imagens import url_imagem
+from .promocoes import SQL_PROMO_ATIVA, preco_ancora, preco_com_desconto, sql_preco_final
+from .prova_social import SQL_COMPRADOS_JUNTOS, SQL_NOVIDADE, SQL_VENDAS_30D, selos
 from .validacao import NaoEncontrado
 
 
+# Preço é o que o cliente paga (com a oferta relâmpago, se houver).
 ORDENACOES = {
     "relevancia": "p.destaque DESC, p.nome",
-    "menor_preco": "p.preco_centavos, p.nome",
-    "maior_preco": "p.preco_centavos DESC, p.nome",
+    "menor_preco": "preco_final, p.nome",
+    "maior_preco": "preco_final DESC, p.nome",
     "novidades": "p.id DESC",
     "nome": "p.nome",
+    "mais_vendidos": "p.destaque DESC, p.nome",  # e depois por vendidos_30d, em listar_produtos
 }
-
-
-def url_imagem(slug, foto=""):
-    return f"/fotos/{foto}" if foto else f"/img/produto/{slug}.svg"
 
 
 def gerar_slug(texto):
@@ -31,7 +34,15 @@ def url_miniatura(row):
     return f"/fotos/{row['foto_miniatura'] or row['foto']}"
 
 
-def _produto(row, admin=False, com_descricao=True):
+def _vendas_30d(conn):
+    """{produto_id: (vendidos em 30 dias, posição na categoria)} — uma consulta agregada por requisição."""
+    return {r["produto_id"]: (r["vendidos"], r["posicao"]) for r in conn.execute(SQL_VENDAS_30D)}
+
+
+def _produto(row, vendas, admin=False, com_descricao=True):
+    pct = row["promo_ativa"]
+    vendidos, posicao = vendas.get(row["id"], (0, None))
+    ancora = preco_ancora(row["preco_centavos"], row["preco_de_centavos"], pct)
     produto = {
         "id": row["id"],
         "slug": row["slug"],
@@ -39,6 +50,9 @@ def _produto(row, admin=False, com_descricao=True):
         "descricao": row["descricao"],
         "preco_centavos": row["preco_centavos"],
         "preco_de_centavos": row["preco_de_centavos"],
+        "preco_final_centavos": preco_com_desconto(row["preco_centavos"], pct),
+        "preco_ancora_centavos": ancora,
+        "promo": {"pct": pct, "fim": horario.iso_z(row["promo_fim"])} if pct else None,
         "estoque": row["estoque"],
         "icone": row["icone"],
         "destaque": bool(row["destaque"]),
@@ -48,21 +62,35 @@ def _produto(row, admin=False, com_descricao=True):
         "cor": row["categoria_cor"],
         "tem_variacoes": row["n_variacoes"] > 0,
         "categoria": {"slug": row["categoria_slug"], "nome": row["categoria_nome"]},
+        "vendidos_30d": vendidos,
+        "selos": selos(oferta=ancora is not None, vendidos_30d=vendidos, posicao_vendas=posicao, ativo=row["ativo"],
+                       novidade=row["novidade"], estoque=row["estoque"]),
+        "nota_media": nota_media(row["soma_notas"], row["avaliacoes_total"]),
+        "avaliacoes_total": row["avaliacoes_total"],
     }
     if not com_descricao:
         del produto["descricao"]
     if admin:
         produto["custo_centavos"] = row["custo_centavos"]
+        produto["promo_pct"] = row["promo_pct"]
+        produto["promo_fim"] = horario.iso_z(row["promo_fim"])
     return produto
 
 
-_SELECT_PRODUTO = """
+# As notas aprovadas entram por um agregado juntado à consulta; as vendas de 30 dias vêm de _vendas_30d.
+# Nos dois casos é uma consulta para a listagem inteira, não uma por produto.
+_SELECT_PRODUTO = f"""
     SELECT p.*, c.slug AS categoria_slug, c.nome AS categoria_nome, c.cor AS categoria_cor,
            (SELECT COUNT(*) FROM variacoes v WHERE v.produto_id = p.id AND v.ativo = 1) AS n_variacoes,
            (SELECT COUNT(*) FROM variacoes v WHERE v.produto_id = p.id) AS n_variacoes_total,
            (SELECT f.miniatura FROM fotos_produto f WHERE f.produto_id = p.id ORDER BY f.ordem, f.id LIMIT 1)
-               AS foto_miniatura
+               AS foto_miniatura,
+           {SQL_PROMO_ATIVA} AS promo_ativa,
+           {sql_preco_final()} AS preco_final,
+           {SQL_NOVIDADE} AS novidade,
+           av.soma_notas, COALESCE(av.total, 0) AS avaliacoes_total
     FROM produtos p JOIN categorias c ON c.id = p.categoria_id
+    LEFT JOIN ({SQL_NOTAS}) av ON av.produto_id = p.id
 """
 
 
@@ -85,8 +113,11 @@ def obter_categoria(conn, slug):
 
 
 def listar_produtos(conn, categoria=None, busca=None, ordem="relevancia", destaque=False,
-                    limite=None, offset=0, incluir_inativos=False, admin=False):
-    """Listagens públicas não trazem a descrição (só a página do produto precisa dela)."""
+                    limite=None, offset=0, incluir_inativos=False, admin=False, promo=False):
+    """Listagens públicas não trazem a descrição (só a página do produto precisa dela).
+
+    Com promo=True, só produtos com oferta relâmpago ativa, a que termina primeiro na frente.
+    """
     where, params = [], []
     if not incluir_inativos:
         where.append("p.ativo = 1")
@@ -95,6 +126,8 @@ def listar_produtos(conn, categoria=None, busca=None, ordem="relevancia", destaq
         params.append(categoria)
     if destaque:
         where.append("p.destaque = 1")
+    if promo:
+        where.append(f"({SQL_PROMO_ATIVA}) IS NOT NULL")
     for termo in normaliza(busca or "").split()[:8]:
         termo = termo.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
         where.append("p.busca LIKE ? ESCAPE '\\'")
@@ -102,11 +135,18 @@ def listar_produtos(conn, categoria=None, busca=None, ordem="relevancia", destaq
     sql = _SELECT_PRODUTO
     if where:
         sql += " WHERE " + " AND ".join(where)
-    sql += " ORDER BY " + ORDENACOES.get(ordem, ORDENACOES["relevancia"])
-    if limite or offset:
+    sql += " ORDER BY " + ("p.promo_fim, " if promo else "") + ORDENACOES.get(ordem, ORDENACOES["relevancia"])
+    mais_vendidos = ordem == "mais_vendidos" and not promo
+    if (limite or offset) and not mais_vendidos:
         sql += " LIMIT ? OFFSET ?"
         params += [int(limite) if limite else -1, int(offset or 0)]
-    return [_produto(r, admin, com_descricao=admin) for r in conn.execute(sql, params).fetchall()]
+    vendas = _vendas_30d(conn)
+    produtos = [_produto(r, vendas, admin, com_descricao=admin) for r in conn.execute(sql, params).fetchall()]
+    if mais_vendidos:  # ordem estável: empates seguem destaque e nome; o catálogo cabe na memória
+        produtos.sort(key=lambda p: -p["vendidos_30d"])
+        inicio = int(offset or 0)
+        produtos = produtos[inicio:inicio + int(limite)] if limite else produtos[inicio:]
+    return produtos
 
 
 def _variacoes(conn, produto_id, incluir_inativas=False):
@@ -132,18 +172,32 @@ def obter_produto(conn, slug, incluir_inativos=False, admin=False):
     row = conn.execute(sql, (slug,)).fetchone()
     if not row:
         raise NaoEncontrado("Produto não encontrado.")
-    produto = _produto(row, admin)
+    vendas = _vendas_30d(conn)
+    produto = _produto(row, vendas, admin)
     produto["variacoes"] = _variacoes(conn, row["id"], incluir_inativas=admin)
-    if not admin:
-        for v in produto["variacoes"]:
+    for v in produto["variacoes"]:
+        preco = v["preco_centavos"] if v["preco_centavos"] is not None else row["preco_centavos"]
+        v["preco_final_centavos"] = preco_com_desconto(preco, row["promo_ativa"])
+        if not admin:
             del v["sku"], v["ativo"]
     produto["fotos"] = _fotos(conn, row["id"])
     relacionados = conn.execute(
         _SELECT_PRODUTO + " WHERE c.slug = ? AND p.slug != ? AND p.ativo = 1 ORDER BY p.destaque DESC, RANDOM() LIMIT 4",
         (row["categoria_slug"], slug),
     ).fetchall()
-    produto["relacionados"] = [_produto(r, com_descricao=False) for r in relacionados]
+    produto["relacionados"] = [_produto(r, vendas, com_descricao=False) for r in relacionados]
+    produto["comprados_juntos"] = _comprados_juntos(conn, row["id"], vendas)
     return produto
+
+
+def _comprados_juntos(conn, produto_id, vendas):
+    """Até 4 produtos (no ar e com estoque) que mais aparecem nos mesmos pedidos não cancelados."""
+    rows = conn.execute(
+        _SELECT_PRODUTO + f""" JOIN ({SQL_COMPRADOS_JUNTOS}) j ON j.produto_id = p.id
+            WHERE p.ativo = 1 AND p.estoque > 0 ORDER BY j.vezes DESC, p.destaque DESC, p.nome LIMIT 4""",
+        (produto_id,),
+    ).fetchall()
+    return [_produto(r, vendas, com_descricao=False) for r in rows]
 
 
 def cor_e_icone(conn, slug):

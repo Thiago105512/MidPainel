@@ -1,6 +1,7 @@
-"""Status dos pedidos e reserva de estoque: transições, cancelamento e expiração dos não pagos."""
+"""Status dos pedidos e reserva de estoque: transições, cancelamento (devolve estoque e uso do cupom) e expiração
+dos não pagos."""
 
-from . import config
+from . import config, cupons
 from .catalogo import _sincronizar_estoque
 from .validacao import ErroValidacao, NaoEncontrado
 
@@ -45,7 +46,7 @@ def atualizar_status(conn, codigo, novo_status, somente_se=None):
         raise ErroValidacao({"status": "Status inválido."})
     conn.execute("BEGIN IMMEDIATE")
     try:
-        row = conn.execute("SELECT id, status FROM pedidos WHERE codigo = ?", (codigo,)).fetchone()
+        row = conn.execute("SELECT id, status, cupom_codigo FROM pedidos WHERE codigo = ?", (codigo,)).fetchone()
         if not row:
             raise NaoEncontrado("Pedido não encontrado.")
         atual = row["status"]
@@ -55,6 +56,7 @@ def atualizar_status(conn, codigo, novo_status, somente_se=None):
                                                f"“{STATUS_PEDIDO[novo_status]}”."})
             if novo_status == "cancelado":
                 _devolver_estoque(conn, row["id"])
+                cupons.devolver_uso(conn, row["cupom_codigo"])
             conn.execute("UPDATE pedidos SET status = ? WHERE id = ?", (novo_status, row["id"]))
         conn.execute("COMMIT")
     except Exception:

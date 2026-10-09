@@ -91,12 +91,44 @@ CREATE TABLE IF NOT EXISTS ajustes (
     valor TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS cupons (
+    id INTEGER PRIMARY KEY,
+    codigo TEXT UNIQUE NOT NULL,
+    tipo TEXT NOT NULL CHECK (tipo IN ('pct', 'valor', 'frete')),
+    valor INTEGER NOT NULL DEFAULT 0 CHECK (valor >= 0),
+    minimo_centavos INTEGER NOT NULL DEFAULT 0 CHECK (minimo_centavos >= 0),
+    inicio TEXT,
+    fim TEXT,
+    limite_usos INTEGER CHECK (limite_usos IS NULL OR limite_usos > 0),
+    usos INTEGER NOT NULL DEFAULT 0 CHECK (usos >= 0),
+    so_primeira_compra INTEGER NOT NULL DEFAULT 0,
+    ativo INTEGER NOT NULL DEFAULT 1,
+    destaque INTEGER NOT NULL DEFAULT 0,
+    criado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS avaliacoes (
+    id INTEGER PRIMARY KEY,
+    produto_id INTEGER NOT NULL REFERENCES produtos(id),
+    pedido_id INTEGER NOT NULL REFERENCES pedidos(id),
+    nota INTEGER NOT NULL CHECK (nota BETWEEN 1 AND 5),
+    comentario TEXT NOT NULL DEFAULT '' CHECK (length(comentario) <= 1000),
+    nome_exibicao TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pendente' CHECK (status IN ('pendente', 'aprovada', 'oculta')),
+    criado_em TEXT NOT NULL DEFAULT (datetime('now')),
+    UNIQUE (pedido_id, produto_id)
+);
+
 CREATE INDEX IF NOT EXISTS idx_produtos_categoria ON produtos(categoria_id);
 CREATE INDEX IF NOT EXISTS idx_itens_pedido ON itens_pedido(pedido_id);
 CREATE INDEX IF NOT EXISTS idx_variacoes_produto ON variacoes(produto_id);
 CREATE INDEX IF NOT EXISTS idx_fotos_produto ON fotos_produto(produto_id);
 CREATE INDEX IF NOT EXISTS idx_pedidos_status ON pedidos(status, id);
 CREATE INDEX IF NOT EXISTS idx_produtos_vitrine ON produtos(ativo, destaque, nome);
+CREATE INDEX IF NOT EXISTS idx_pedidos_criado ON pedidos(criado_em);
+CREATE INDEX IF NOT EXISTS idx_pedidos_cpf ON pedidos(cliente_cpf);
+CREATE INDEX IF NOT EXISTS idx_itens_produto ON itens_pedido(produto_id);
+CREATE INDEX IF NOT EXISTS idx_avaliacoes_produto ON avaliacoes(produto_id, status);
 """
 
 # Colunas acrescentadas depois da primeira versão: (tabela, coluna, definição)
@@ -108,6 +140,12 @@ MIGRACOES = [
     ("itens_pedido", "custo_unit_centavos", "INTEGER"),
     ("produtos", "busca", "TEXT NOT NULL DEFAULT ''"),
     ("fotos_produto", "miniatura", "TEXT NOT NULL DEFAULT ''"),
+    # oferta relâmpago: desconto (%) e término em UTC
+    ("produtos", "promo_pct", "INTEGER CHECK (promo_pct IS NULL OR promo_pct BETWEEN 1 AND 90)"),
+    ("produtos", "promo_fim", "TEXT"),
+    ("pedidos", "cupom_codigo", "TEXT"),
+    ("pedidos", "desconto_cupom_centavos", "INTEGER NOT NULL DEFAULT 0"),
+    ("itens_pedido", "preco_ancora_unit_centavos", "INTEGER"),
 ]
 
 # Texto pesquisável já normalizado, gravado junto com o produto para a busca não processar linha a linha.

@@ -4,6 +4,11 @@ import re
 from html import escape
 
 
+def url_imagem(slug, foto=""):
+    """Foto enviada pelo painel ou, sem ela, a imagem provisória em SVG."""
+    return f"/fotos/{foto}" if foto else f"/img/produto/{slug}.svg"
+
+
 def _escurecer(cor, fator=0.62):
     if not re.fullmatch(r"#[0-9a-fA-F]{6}", cor or ""):
         cor = "#1f5c45"

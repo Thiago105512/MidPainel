@@ -31,7 +31,7 @@ Na primeira execução o banco SQLite é criado em `data/tipiti.db` com um catá
 5. Em **Configurações**, informe o WhatsApp da loja (ativa os botões de WhatsApp no site) e a chave Pix
    (mostrada ao cliente na confirmação do pedido).
 
-O lucro mostrado no painel é: valor dos produtos (já com desconto do Pix) − custo cadastrado.
+O lucro mostrado no painel é: valor dos produtos (já com os descontos do cupom e do Pix) − custo cadastrado.
 O frete cobrado do cliente fica fora da conta. Pedidos de produtos sem custo cadastrado aparecem como "sem custo".
 O token do painel `/admin` é gerado e impresso no terminal só quando o servidor escuta no próprio computador
 (`127.0.0.1`/`localhost`). Em qualquer outro endereço `TIPITI_ADMIN_TOKEN` é obrigatório, com pelo menos 24 caracteres
@@ -78,6 +78,28 @@ O token do painel `/admin` é gerado e impresso no terminal só quando o servido
   dados iniciais embutidos na página, imagens provisórias em SVG geradas no navegador.
 - **SEO**: título/descrição por página de produto e categoria, `sitemap.xml`, `robots.txt`.
 
+## Gatilhos de venda
+
+Tudo sai de dados reais do banco: nenhum número, selo, contador ou avaliação é inventado, e nenhum prazo reinicia.
+
+- **Oferta relâmpago**: desconto de 1% a 90% com data de término, aplicado ao produto e às opções dele.
+  Terminado o prazo, o preço volta sozinho. `/api/produtos?promo=1` lista só as ofertas ativas.
+  O preço riscado é o preço normal (ou o preço "de", se maior).
+- **Prova social**: unidades vendidas nos últimos 30 dias (pedidos não cancelados) e selos *oferta*,
+  *mais vendido* (top 3 da categoria, com pelo menos 3 vendidos), *novidade* (cadastrado há até 14 dias)
+  e *últimas unidades* (até 5 em estoque); ordenação "mais vendidos".
+- **Compras recentes**: `/api/vendas-recentes` mostra produto, cidade e UF das compras das últimas 72 h
+  (sem nome do cliente); pode ser desligado em Configurações.
+- **Comprados juntos**: na página do produto, os itens que mais aparecem nos mesmos pedidos.
+- **Avaliações de compra verificada**: só quem recebeu o pedido avalia (código + e-mail do pedido), uma vez por
+  produto; a avaliação só aparece depois de aprovada no painel. Nome exibido: "Maria de Parintins".
+- **Cupons**: porcentagem, valor fixo ou frete grátis, com valor mínimo, validade, limite de usos e opção
+  "só na primeira compra" (pelo CPF). O uso é contado na transação do pedido e volta se ele for cancelado.
+  Cálculo: subtotal → cupom → Pix sobre o restante → frete. Um cupom pode ficar em destaque na loja.
+- **Envio no mesmo dia**: com o horário de corte (Configurações), a loja mostra até quando o pedido sai hoje,
+  em dias úteis, no horário de Manaus.
+- No painel: `/api/admin/cupons` e `/api/admin/avaliacoes` (moderação).
+
 ## Regras comerciais (em `loja/config.py` e `loja/frete.py`)
 
 - Frete grátis **para a Região Norte** acima de R$ 199 (fora do Norte, frete fixo de referência).
@@ -98,8 +120,14 @@ loja/
     reservas.py        status dos pedidos, cancelamento e expiração da reserva de estoque
     pedidos.py         criação, consulta e listagem de pedidos, resumo de vendas
     admin_produtos.py  cadastro e edição de produtos, opções e galeria de fotos
+    promocoes.py       oferta relâmpago: preço com desconto e preço riscado
+    prova_social.py    vendidos em 30 dias, selos, compras recentes, comprados juntos
+    avaliacoes.py      avaliações de compra verificada e moderação
+    cupons.py          cupons de desconto
+  horario.py           datas em UTC no banco, ISO na API, fuso de Manaus (UTC−4)
   precificacao.py      calculadora de preço do importado
-  ajustes.py           configurações editáveis no painel (WhatsApp, chave Pix, padrões da calculadora)
+  ajustes.py           configurações editáveis no painel (WhatsApp, chave Pix, calculadora, horário de corte,
+                       compras recentes)
   fotos.py             gravação e validação das fotos enviadas
   db.py                esquema SQLite e carga inicial
   catalogo_inicial.py  produtos de demonstração
