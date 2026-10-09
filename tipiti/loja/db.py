@@ -129,6 +129,48 @@ CREATE INDEX IF NOT EXISTS idx_pedidos_criado ON pedidos(criado_em);
 CREATE INDEX IF NOT EXISTS idx_pedidos_cpf ON pedidos(cliente_cpf);
 CREATE INDEX IF NOT EXISTS idx_itens_produto ON itens_pedido(produto_id);
 CREATE INDEX IF NOT EXISTS idx_avaliacoes_produto ON avaliacoes(produto_id, status);
+
+-- calendário de barcos (zona = id de zona de frete.py); horários em UTC
+CREATE TABLE IF NOT EXISTS viagens (
+    id INTEGER PRIMARY KEY,
+    zona TEXT NOT NULL,
+    embarcacao TEXT NOT NULL,
+    saida TEXT NOT NULL,
+    chegada_prevista TEXT NOT NULL,
+    observacao TEXT NOT NULL DEFAULT '',
+    ativo INTEGER NOT NULL DEFAULT 1,
+    criado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_viagens_zona ON viagens(zona, ativo, saida);
+
+-- linha do tempo do pedido (rastreio)
+CREATE TABLE IF NOT EXISTS eventos_pedido (
+    id INTEGER PRIMARY KEY,
+    pedido_id INTEGER NOT NULL REFERENCES pedidos(id),
+    tipo TEXT NOT NULL,
+    mensagem TEXT NOT NULL,
+    criado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_eventos_pedido ON eventos_pedido(pedido_id, id);
+
+-- programa de revendedoras
+CREATE TABLE IF NOT EXISTS revendedoras (
+    id INTEGER PRIMARY KEY,
+    nome TEXT NOT NULL,
+    whatsapp TEXT NOT NULL,
+    cpf TEXT UNIQUE NOT NULL,
+    cidade TEXT NOT NULL,
+    uf TEXT NOT NULL,
+    instagram TEXT NOT NULL DEFAULT '',
+    mensagem TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pendente' CHECK (status IN ('pendente', 'ativa', 'inativa')),
+    codigo TEXT UNIQUE,
+    token_acesso TEXT UNIQUE,
+    comissao_pct INTEGER NOT NULL DEFAULT 10 CHECK (comissao_pct BETWEEN 0 AND 50),
+    desconto_cliente_pct INTEGER NOT NULL DEFAULT 0 CHECK (desconto_cliente_pct BETWEEN 0 AND 50),
+    criado_em TEXT NOT NULL DEFAULT (datetime('now')),
+    ativada_em TEXT
+);
 """
 
 # Colunas acrescentadas depois da primeira versão: (tabela, coluna, definição)
@@ -146,7 +188,21 @@ MIGRACOES = [
     ("pedidos", "cupom_codigo", "TEXT"),
     ("pedidos", "desconto_cupom_centavos", "INTEGER NOT NULL DEFAULT 0"),
     ("itens_pedido", "preco_ancora_unit_centavos", "INTEGER"),
+    # rastreio e calendário de barcos
+    ("pedidos", "codigo_rastreio", "TEXT"),
+    ("pedidos", "viagem_id", "INTEGER REFERENCES viagens(id)"),
+    # revendedoras: comissão guardada no pedido; paga quando comissao_paga_em é preenchido
+    ("pedidos", "revendedora_id", "INTEGER REFERENCES revendedoras(id)"),
+    ("pedidos", "comissao_centavos", "INTEGER NOT NULL DEFAULT 0"),
+    ("pedidos", "comissao_paga_em", "TEXT"),
+    ("cupons", "revendedora_id", "INTEGER REFERENCES revendedoras(id)"),
 ]
+
+# Índices de colunas que vêm das MIGRACOES (só podem ser criados depois delas).
+INDICES_POS_MIGRACOES = """
+CREATE INDEX IF NOT EXISTS idx_pedidos_revendedora ON pedidos(revendedora_id);
+CREATE INDEX IF NOT EXISTS idx_cupons_revendedora ON cupons(revendedora_id);
+"""
 
 # Texto pesquisável já normalizado, gravado junto com o produto para a busca não processar linha a linha.
 _SQL_BUSCA = """UPDATE produtos SET busca = normaliza(
@@ -188,6 +244,7 @@ def inicializar(conn, carregar_catalogo=True):
         colunas = {r["name"] for r in conn.execute(f"PRAGMA table_info({tabela})")}
         if coluna not in colunas:
             conn.execute(f"ALTER TABLE {tabela} ADD COLUMN {coluna} {definicao}")
+    conn.executescript(INDICES_POS_MIGRACOES)
     # fotos enviadas antes da galeria passam a ser a capa da galeria
     conn.execute(
         """INSERT INTO fotos_produto (produto_id, arquivo, ordem)

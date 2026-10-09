@@ -6,6 +6,7 @@ from http import HTTPStatus
 
 from . import ajustes, config, fotos, frete, precificacao, regras
 from .limites import MSG_LIMITE
+from . import rastreio, revendedoras, viagens
 
 TAMANHO_MAX_CORPO = 64 * 1024
 TAMANHO_MAX_UPLOAD = (fotos.TAMANHO_MAX_FOTO + fotos.TAMANHO_MAX_MINIATURA) * 4 // 3 + 8192  # base64 + folga
@@ -139,7 +140,7 @@ def api_frete(conn, req):
         subtotal = int(req.query.get("subtotal", "0"))
     except ValueError:
         subtotal = 0
-    return frete.cotar(regras.cep_digitos(req.query.get("cep")), max(0, subtotal))
+    return viagens.anexar_ao_frete(conn, frete.cotar(regras.cep_digitos(req.query.get("cep")), max(0, subtotal)))
 
 
 @rota("POST", r"/api/carrinho/cotacao")
@@ -151,7 +152,7 @@ def api_cotacao(conn, req):
         _registrar(req, "cpf_cupom")
     return regras.cotar_carrinho(conn, corpo.get("itens"), cep=corpo.get("cep") or None,
                                  pagamento=corpo.get("pagamento") or "pix", cupom=corpo.get("cupom"),
-                                 cpf=corpo.get("cpf"))
+                                 cpf=corpo.get("cpf"), revendedora=corpo.get("revendedora"))
 
 
 @rota("POST", r"/api/pedidos")
@@ -182,13 +183,16 @@ def api_admin_pedidos(conn, req):
 
 @rota("PATCH", r"/api/admin/pedidos/(?P<codigo>[A-Z0-9-]{4,20})", admin=True)
 def api_admin_status(conn, req, codigo):
-    regras.atualizar_status(conn, codigo, req.json().get("status"))
-    return regras.obter_pedido_publico(conn, codigo)
+    # {status?, codigo_rastreio?, viagem_id?}
+    rastreio.atualizar_pedido_admin(conn, codigo, req.json())
+    return {**regras.obter_pedido_publico(conn, codigo), "whatsapp_aviso": rastreio.aviso_whatsapp(conn, codigo)}
 
 
 @rota("GET", r"/api/admin/resumo", admin=True)
 def api_admin_resumo(conn, req):
-    return regras.resumo_vendas(conn)
+    resumo = regras.resumo_vendas(conn)
+    resumo["revendedoras_pendentes"] = revendedoras.pendentes(conn)
+    return resumo
 
 
 @rota("GET", r"/api/admin/produtos", admin=True)
@@ -284,3 +288,6 @@ def api_admin_ajustes(conn, req):
 @rota("PUT", r"/api/admin/ajustes", admin=True)
 def api_admin_salvar_ajustes(conn, req):
     return ajustes.salvar(conn, req.json())
+
+
+from . import rotas_barcos_revenda  # noqa: E402,F401 — calendário de barcos, rastreio e revendedoras

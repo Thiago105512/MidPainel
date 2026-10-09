@@ -104,10 +104,17 @@ def parcelas_maximas(total_centavos):
     return max(1, min(config.PARCELAS_MAX, total_centavos // config.PARCELA_MINIMA))
 
 
-def cotar_carrinho(conn, itens, cep=None, pagamento="pix", cupom=None, cpf=None):
+def cotar_carrinho(conn, itens, cep=None, pagamento="pix", cupom=None, cpf=None, revendedora=None):
     """Recalcula o carrinho com os preços do banco — o navegador nunca define preço."""
     expirar_pendentes(conn)
-    return _cotar(conn, itens, cep, pagamento, cupom, cpf)
+    return _extras_da_cotacao(conn, _cotar(conn, itens, cep, pagamento, cupom, cpf), revendedora)
+
+
+def _extras_da_cotacao(conn, cotacao, revendedora=None):
+    """Próximo barco no frete (a partir da previsão de envio da pré-venda, se houver) e a revendedora."""
+    from . import revendedoras, viagens
+    viagens.anexar_ao_frete(conn, cotacao["frete"], cotacao.get("previsao_envio"))
+    return revendedoras.anexar_a_cotacao(conn, cotacao, revendedora)
 
 
 def _cotar(conn, itens, cep, pagamento, cupom=None, cpf=None):

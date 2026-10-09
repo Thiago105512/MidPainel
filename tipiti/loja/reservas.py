@@ -1,7 +1,7 @@
 """Status dos pedidos e reserva de estoque: transições, cancelamento (devolve estoque e uso do cupom) e expiração
 dos não pagos."""
 
-from . import config, cupons
+from . import config, cupons, rastreio, revendedoras
 from .catalogo import _sincronizar_estoque
 from .validacao import ErroValidacao, NaoEncontrado
 
@@ -57,7 +57,9 @@ def atualizar_status(conn, codigo, novo_status, somente_se=None):
             if novo_status == "cancelado":
                 _devolver_estoque(conn, row["id"])
                 cupons.devolver_uso(conn, row["cupom_codigo"])
+                revendedoras.ao_cancelar(conn, row["id"])
             conn.execute("UPDATE pedidos SET status = ? WHERE id = ?", (novo_status, row["id"]))
+            rastreio.evento_de_status(conn, row["id"], novo_status)
         conn.execute("COMMIT")
     except Exception:
         conn.execute("ROLLBACK")

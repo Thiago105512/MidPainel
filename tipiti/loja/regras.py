@@ -41,3 +41,8 @@ __all__ = [
     "moderar_avaliacao",
     "formatar_reais", "cupom_destaque", "listar_cupons", "criar_cupom", "atualizar_cupom",
 ]
+
+# Calendário de barcos, rastreio e revendedoras: módulos próprios (use `viagens.X`, `rastreio.X`, `revendedoras.X`).
+from . import rastreio, revendedoras, viagens  # noqa: E402
+
+__all__ += ["viagens", "rastreio", "revendedoras"]

@@ -46,4 +46,6 @@ def limites_padrao():
         "consulta": LimiteTaxa(30, 3600),
         "avaliacoes": LimiteTaxa(20, 3600),
         "cpf_cupom": LimiteTaxa(30, 3600),
+        "revendedoras": LimiteTaxa(3, 3600),       # cadastros de revendedora
+        "revenda": LimiteTaxa(10, 15 * 60),         # token errado do painel da revendedora (igual ao admin)
     }

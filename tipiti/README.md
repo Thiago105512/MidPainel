@@ -157,3 +157,24 @@ início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o nú
 3. **Cotação de frete real** (Correios/transportadoras) e cálculo por peso/volume.
 4. E-mails transacionais (confirmação, envio, rastreio) e conta de cliente.
 5. Cópia dos backups fora do servidor (destino a definir; veja `deploy/LEIA-ME.md`).
+
+## Calendário de barcos, rastreio e revendedoras
+
+- **Barcos** (`loja/viagens.py`): o painel cadastra viagens por zona de frete (`/api/admin/viagens`: zona, embarcação,
+  saída, chegada prevista, observação, ativa). `/api/viagens?zona=parintins` mostra as próximas 5 saídas (sem `zona`,
+  as próximas de todas as zonas). A cotação de frete ganha `proximo_barco` e `chegada_estimada` (data em Manaus): é a
+  primeira viagem ativa que sai depois do manuseio (agora + `PRAZO_MANUSEIO_DIAS`) e, com pré-venda, não antes do dia
+  da `previsao_envio`. Zona sem viagens: `null`, e o prazo continua o da tabela. Uma data pura enviada pelo painel
+  ("2026-10-20") vale como 00:00 de Manaus.
+- **Rastreio** (`loja/rastreio.py`): o pedido tem `codigo_rastreio` (link dos Correios quando o código é do tipo
+  AA123456789BR), `viagem` e `eventos` (mais recente primeiro). Pago, enviado (com barco: "Embarcou no … rumo a …"),
+  entregue e cancelado geram eventos sozinhos; o painel lança os demais em `/api/admin/pedidos/<codigo>/eventos` e
+  recebe `whatsapp_aviso`, o texto pronto para mandar ao cliente. Lançar um evento não muda o status.
+- **Revendedoras** (`loja/revendedoras.py`): cadastro em `/seja-revendedora` (3 por hora por IP; CPF já cadastrado
+  recebe a mesma resposta, sem duplicar). Ao ativar no painel ela ganha um código (`maria-parintins`), o link
+  `/?r=<código>`, o painel `/revenda#<token>` e, com desconto para o cliente, um cupom com o mesmo código.
+  Comissão = `comissao_pct` × (subtotal − cupom − Pix) // 100, sem o frete, arredondada para baixo.
+  O cupom dela vence o link de outra. Compra com o CPF da própria revendedora não gera comissão.
+  Só contam pedidos pagos, enviados ou entregues; cancelar (ou a reserva expirar) zera a comissão, exceto se ela já
+  foi paga. "Pagar até" marca as comissões elegíveis dos pedidos feitos até a data (Manaus).
+  O painel dela não mostra nome, CPF, telefone, e-mail nem endereço dos clientes. Token errado: mesmo limite do admin.
