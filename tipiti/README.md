@@ -153,3 +153,29 @@ início da primeira. Para criar uma parte nova, basta um arquivo `.js` com o nú
 3. **Cotação de frete real** (Correios/transportadoras) e cálculo por peso/volume.
 4. E-mails transacionais (confirmação, envio, rastreio) e conta de cliente.
 5. Hospedagem com HTTPS para `tipiti.com.br` (proxy reverso na frente do servidor) e backup do banco.
+
+## Pix, app instalável, Google/Instagram Shopping, encomendas e pré-venda
+
+- **Pix copia e cola + QR Code**: em Configurações, além da chave Pix, informe `pix_nome` (recebedor, até 25 letras,
+  gravado sem acentos e em maiúsculas) e `pix_cidade` (até 15, padrão MANAUS). Com chave e nome, `/api/loja` traz
+  `pix_ativo: true` e cada pedido no Pix aguardando pagamento tem `GET /api/pedidos/<código>/pix` (BR Code estático do
+  Banco Central, com o valor do pedido e o código como txid) e `/api/pedidos/<código>/pix.svg` (QR Code). O QR Code é
+  gerado em Python puro (`loja/qrcode.py`) e foi conferido com o segno em todas as versões e níveis de correção.
+  A chave só é salva se der para reconhecer o tipo sem adivinhar: celular com DDD entre parênteses ou com +55,
+  CPF com pontos e traço, CNPJ, e-mail ou chave aleatória.
+- **App instalável (PWA)**: `/manifest.webmanifest`, ícones e imagem de compartilhamento em `static/pwa/`, e `/sw.js`,
+  gerado a partir de `loja/modelos/sw.js` com as URLs versionadas do app.js e do estilo.css. Caches por versão;
+  páginas vêm da rede e, sem internet, da página inicial guardada; o catálogo mostra o que foi guardado e atualiza por
+  trás; painel, pedidos, revenda e encomendas nunca vão para o cache. A versão nova só assume quando a página manda
+  `{"tipo": "SKIP_WAITING"}`.
+- **Google/Instagram Shopping**: páginas de produto com JSON-LD `Product` (preço, disponibilidade, avaliações) e
+  `BreadcrumbList`; início com `Organization` e `WebSite` (busca); `og:image` com a capa do produto ou a imagem da
+  marca. Feeds em `/feeds/google.xml` e `/feeds/meta.csv` (só produtos no ar com foto real); `/api/admin/feeds` mostra
+  os endereços e quais produtos ficaram de fora por falta de foto.
+- **Encomenda pra mim** (`/encomenda`): o cliente manda o link (só http/https; o servidor nunca abre o link) ou a
+  descrição; a loja cota no painel (`/api/admin/encomendas`) e o cliente aceita ou recusa em `/encomenda/<código>`,
+  confirmando o WhatsApp. Até 5 pedidos de encomenda por hora por IP.
+- **Pré-venda**: com `prevenda_chegada` (data futura) no produto, o estoque vira as vagas do próximo lote e o produto
+  ganha o selo `prevenda`. A cotação e o pedido trazem `previsao_envio` (chegada + manuseio) e, nesse caso, o
+  `prazo_dias` do frete conta a partir dessa data. Quando a data passa, o produto volta ao normal: ajuste o estoque
+  quando o lote chegar.

@@ -3,7 +3,7 @@
 import re
 from datetime import datetime
 
-from . import config, horario
+from . import config, horario, pix
 from .validacao import ErroValidacao, so_digitos
 
 PADROES = {
@@ -17,6 +17,8 @@ PADROES = {
     "margem_pct": "35",
     "horario_corte": "",   # "HH:MM" (horário de Manaus): pedidos até essa hora, em dia útil, saem no mesmo dia
     "prova_social": "1",   # "1" mostra compras recentes reais na loja; "0" desliga
+    "pix_nome": "",        # nome do recebedor no Pix copia e cola (≤25, sem acentos, maiúsculas)
+    "pix_cidade": "MANAUS",  # cidade do recebedor (≤15, sem acentos, maiúsculas)
 }
 
 
@@ -57,9 +59,19 @@ def salvar(conn, dados):
         elif chave == "chave_pix":
             if len(texto) > 120:  # cortar geraria uma chave errada; melhor recusar
                 erros[chave] = "A chave Pix deve ter no máximo 120 caracteres."
+            elif texto and not pix.normalizar_chave(texto):
+                erros[chave] = ("Não deu para reconhecer a chave Pix. Use o e-mail, o CPF (000.000.000-00), o CNPJ, "
+                                "o celular com DDD entre parênteses — (92) 99123-4567 — ou a chave aleatória.")
         elif chave == "horario_corte":
             if texto and not re.fullmatch(r"([01][0-9]|2[0-3]):[0-5][0-9]", texto):
                 erros[chave] = "Use o formato HH:MM (ex.: 14:00), ou deixe vazio."
+        elif chave in ("pix_nome", "pix_cidade"):
+            maximo = pix.NOME_MAX if chave == "pix_nome" else pix.CIDADE_MAX
+            texto = pix.normalizar_texto(texto, 200)
+            if len(texto) > maximo:
+                erros[chave] = f"Use no máximo {maximo} caracteres."
+            elif chave == "pix_cidade" and not texto:
+                texto = pix.CIDADE_PADRAO
         elif chave == "prova_social":
             if valor in (True, 1, "1", "true"):
                 texto = "1"

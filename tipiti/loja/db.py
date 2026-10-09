@@ -119,6 +119,25 @@ CREATE TABLE IF NOT EXISTS avaliacoes (
     UNIQUE (pedido_id, produto_id)
 );
 
+-- "Encomenda pra mim" (loja/encomendas.py)
+CREATE TABLE IF NOT EXISTS encomendas (
+    id INTEGER PRIMARY KEY,
+    codigo TEXT UNIQUE NOT NULL,
+    status TEXT NOT NULL DEFAULT 'nova',
+    nome TEXT NOT NULL,
+    whatsapp TEXT NOT NULL,
+    cidade TEXT NOT NULL,
+    uf TEXT NOT NULL,
+    link TEXT NOT NULL DEFAULT '',
+    descricao TEXT NOT NULL DEFAULT '',
+    quantidade INTEGER NOT NULL CHECK (quantidade BETWEEN 1 AND 50),
+    cotacao_centavos INTEGER CHECK (cotacao_centavos IS NULL OR cotacao_centavos > 0),
+    prazo_dias INTEGER CHECK (prazo_dias IS NULL OR prazo_dias > 0),
+    observacao TEXT NOT NULL DEFAULT '',
+    criado_em TEXT NOT NULL DEFAULT (datetime('now')),
+    atualizado_em TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 CREATE INDEX IF NOT EXISTS idx_produtos_categoria ON produtos(categoria_id);
 CREATE INDEX IF NOT EXISTS idx_itens_pedido ON itens_pedido(pedido_id);
 CREATE INDEX IF NOT EXISTS idx_variacoes_produto ON variacoes(produto_id);
@@ -129,6 +148,7 @@ CREATE INDEX IF NOT EXISTS idx_pedidos_criado ON pedidos(criado_em);
 CREATE INDEX IF NOT EXISTS idx_pedidos_cpf ON pedidos(cliente_cpf);
 CREATE INDEX IF NOT EXISTS idx_itens_produto ON itens_pedido(produto_id);
 CREATE INDEX IF NOT EXISTS idx_avaliacoes_produto ON avaliacoes(produto_id, status);
+CREATE INDEX IF NOT EXISTS idx_encomendas_status ON encomendas(status, id);
 """
 
 # Colunas acrescentadas depois da primeira versão: (tabela, coluna, definição)
@@ -146,6 +166,9 @@ MIGRACOES = [
     ("pedidos", "cupom_codigo", "TEXT"),
     ("pedidos", "desconto_cupom_centavos", "INTEGER NOT NULL DEFAULT 0"),
     ("itens_pedido", "preco_ancora_unit_centavos", "INTEGER"),
+    # pré-venda: data de chegada do lote ('AAAA-MM-DD', horário de Manaus); o pedido guarda a previsão de envio
+    ("produtos", "prevenda_chegada", "TEXT"),
+    ("pedidos", "previsao_envio", "TEXT"),
 ]
 
 # Texto pesquisável já normalizado, gravado junto com o produto para a busca não processar linha a linha.

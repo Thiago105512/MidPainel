@@ -114,15 +114,15 @@ def criar_pedido(conn, dados):
             """INSERT INTO pedidos (codigo, status, cliente_nome, cliente_email, cliente_cpf, cliente_telefone,
                    cep, endereco, numero, complemento, bairro, cidade, uf, zona_frete, prazo_dias,
                    pagamento, parcelas, subtotal_centavos, desconto_centavos, frete_centavos, total_centavos,
-                   cupom_codigo, desconto_cupom_centavos)
-               VALUES (?, 'aguardando_pagamento', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   cupom_codigo, desconto_cupom_centavos, previsao_envio)
+               VALUES (?, 'aguardando_pagamento', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (
                 codigo, cliente["nome"], cliente["email"], cliente["cpf"], cliente["telefone"],
                 cliente["cep"], cliente["endereco"], cliente["numero"], cliente["complemento"],
                 cliente["bairro"], cliente["cidade"], cliente["uf"], f["zona_nome"], f["prazo_dias"],
                 cliente["pagamento"], cliente["parcelas"], cotacao["subtotal_centavos"],
                 cotacao["desconto_centavos"], f["valor_centavos"], cotacao["total_centavos"],
-                cupom["codigo"] if cupom else None, cotacao["desconto_cupom_centavos"],
+                cupom["codigo"] if cupom else None, cotacao["desconto_cupom_centavos"], cotacao["previsao_envio"],
             ),
         )
         pedido_id = cur.lastrowid
@@ -179,6 +179,7 @@ def _resumo_pedido(row, itens, admin=False):
         "total_centavos": row["total_centavos"],
         "zona_frete": row["zona_frete"],
         "prazo_dias": row["prazo_dias"],
+        "previsao_envio": row["previsao_envio"],
         "criado_em": row["criado_em"],
         "itens": itens,
     }

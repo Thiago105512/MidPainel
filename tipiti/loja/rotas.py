@@ -4,7 +4,7 @@ import re
 import time
 from http import HTTPStatus
 
-from . import ajustes, config, fotos, frete, precificacao, regras
+from . import ajustes, config, encomendas, fotos, frete, pix, precificacao, regras
 from .limites import MSG_LIMITE
 
 TAMANHO_MAX_CORPO = 64 * 1024
@@ -55,6 +55,7 @@ def api_loja(conn, req):
         "whatsapp": (a := ajustes.obter(conn))["whatsapp"],
         "whatsapp_mensagem": a["whatsapp_mensagem"],
         "chave_pix": a["chave_pix"],
+        "pix_ativo": pix.pix_ativo(a),
         "prazo_reserva_horas": config.PRAZO_RESERVA_HORAS,
         "prova_social": a["prova_social"] == "1",
         "envio_hoje": ajustes.envio_hoje(a),
@@ -188,7 +189,7 @@ def api_admin_status(conn, req, codigo):
 
 @rota("GET", r"/api/admin/resumo", admin=True)
 def api_admin_resumo(conn, req):
-    return regras.resumo_vendas(conn)
+    return {**regras.resumo_vendas(conn), "encomendas_novas": encomendas.contar_novas(conn)}
 
 
 @rota("GET", r"/api/admin/produtos", admin=True)

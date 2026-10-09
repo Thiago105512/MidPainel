@@ -38,9 +38,9 @@ SQL_COMPRADOS_JUNTOS = """
 """
 
 
-def selos(oferta, vendidos_30d, posicao_vendas, ativo, novidade, estoque):
-    """Selos do produto, sempre nesta ordem: oferta, mais_vendido, novidade, ultimas_unidades."""
-    lista = []
+def selos(oferta, vendidos_30d, posicao_vendas, ativo, novidade, estoque, prevenda=False):
+    """Selos do produto, sempre nesta ordem: prevenda, oferta, mais_vendido, novidade, ultimas_unidades."""
+    lista = ["prevenda"] if prevenda else []
     if oferta:
         lista.append("oferta")
     if (ativo and posicao_vendas is not None and posicao_vendas <= POSICOES_MAIS_VENDIDO
