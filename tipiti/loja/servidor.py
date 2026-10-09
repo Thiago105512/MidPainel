@@ -8,22 +8,19 @@ import mimetypes
 import re
 import secrets
 import threading
-import time
 from html import escape
 from pathlib import Path
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from . import ajustes, config, db, fotos, frete, precificacao, regras
+from . import config, db, fotos, regras
 from .imagens import svg_produto
-
-TAMANHO_MAX_CORPO = 64 * 1024
-TAMANHO_MAX_UPLOAD = (fotos.TAMANHO_MAX_FOTO + fotos.TAMANHO_MAX_MINIATURA) * 4 // 3 + 8192  # base64 + folga
+from .limites import MSG_LIMITE, LimiteTaxa, limites_padrao  # noqa: F401 — LimiteTaxa: importável daqui também
+from .rotas import ROTAS, TAMANHO_MAX_CORPO, TAMANHO_MAX_UPLOAD, ErroHttp, api_loja, rota  # noqa: F401
 
 THREADS_MAX = 128
 HOSTS_LOCAIS = ("127.0.0.1", "localhost", "::1")
-MSG_LIMITE = "Muitas tentativas. Aguarde alguns minutos."
 CACHE_LONGO = "public, max-age=31536000, immutable"
 TIPOS_COMPRIMIVEIS = ("application/javascript", "application/json", "application/xml", "image/svg+xml")
 
@@ -31,251 +28,6 @@ CSP = (
     "default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; "
     "connect-src 'self' https://viacep.com.br; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
 )
-
-
-class ErroHttp(Exception):
-    def __init__(self, status, mensagem):
-        super().__init__(mensagem)
-        self.status = status
-        self.mensagem = mensagem
-
-
-class LimiteTaxa:
-    """Janela deslizante em memória: no máximo `maximo` eventos por IP a cada `janela` segundos."""
-
-    def __init__(self, maximo, janela):
-        self.maximo = maximo
-        self.janela = janela
-        self._eventos = {}
-        self._trava = threading.Lock()
-        self._proxima_limpeza = time.monotonic() + janela
-
-    def _recentes(self, ip, agora):
-        eventos = [t for t in self._eventos.get(ip, ()) if agora - t < self.janela]
-        if eventos:
-            self._eventos[ip] = eventos
-        else:
-            self._eventos.pop(ip, None)
-        return eventos
-
-    def excedido(self, ip):
-        with self._trava:
-            return len(self._recentes(ip, time.monotonic())) >= self.maximo
-
-    def registrar(self, ip):
-        with self._trava:
-            agora = time.monotonic()
-            self._eventos[ip] = (self._recentes(ip, agora) + [agora])[-self.maximo:]
-            if agora >= self._proxima_limpeza:  # IPs que não voltaram não ficam na memória
-                for outro in list(self._eventos):
-                    self._recentes(outro, agora)
-                self._proxima_limpeza = agora + self.janela
-
-
-def _limitar(req, nome):
-    if req.handler.server.limites[nome].excedido(req.handler.ip_cliente):
-        raise ErroHttp(HTTPStatus.TOO_MANY_REQUESTS, MSG_LIMITE)
-
-
-def _registrar(req, nome):
-    req.handler.server.limites[nome].registrar(req.handler.ip_cliente)
-
-
-ROTAS = []
-
-
-def rota(metodo, padrao, admin=False, corpo_max=TAMANHO_MAX_CORPO):
-    def registrar(func):
-        func.corpo_max = corpo_max
-        ROTAS.append((metodo, re.compile(f"^{padrao}$"), admin, func))
-        return func
-    return registrar
-
-
-# ---------------------------------------------------------------- API pública
-
-@rota("GET", r"/api/loja")
-def api_loja(conn, req):
-    return {
-        "nome": config.NOME_LOJA,
-        "site": config.SITE_URL,
-        "email": config.EMAIL_CONTATO,
-        "frete_gratis_a_partir": config.FRETE_GRATIS_A_PARTIR,
-        "desconto_pix_pct": config.DESCONTO_PIX_PCT,
-        "parcelas_max": config.PARCELAS_MAX,
-        "parcela_minima": config.PARCELA_MINIMA,
-        "cidades_destaque": frete.CIDADES_DESTAQUE,
-        "whatsapp": (a := ajustes.obter(conn))["whatsapp"],
-        "whatsapp_mensagem": a["whatsapp_mensagem"],
-        "chave_pix": a["chave_pix"],
-        "prazo_reserva_horas": config.PRAZO_RESERVA_HORAS,
-        "zonas_frete": [
-            {"nome": nome, "valor_centavos": valor, "prazo_dias": prazo + config.PRAZO_MANUSEIO_DIAS}
-            for nome, valor, prazo in dict.fromkeys((z[3], z[4], z[5]) for z in frete.ZONAS)
-        ],
-    }
-
-
-@rota("GET", r"/api/categorias")
-def api_categorias(conn, req):
-    return regras.listar_categorias(conn)
-
-
-@rota("GET", r"/api/categorias/(?P<slug>[a-z0-9-]+)")
-def api_categoria(conn, req, slug):
-    return regras.obter_categoria(conn, slug)
-
-
-def _inteiro_da_query(query, nome):
-    valor = query.get(nome)
-    if valor is None:
-        return None
-    if not re.fullmatch(r"[0-9]{1,9}", valor):
-        raise ErroHttp(HTTPStatus.BAD_REQUEST, f"Parâmetro “{nome}” inválido.")
-    return int(valor)
-
-
-@rota("GET", r"/api/produtos")
-def api_produtos(conn, req):
-    q = req.query
-    limite = _inteiro_da_query(q, "limite")
-    return regras.listar_produtos(
-        conn,
-        categoria=q.get("categoria"),
-        busca=q.get("q"),
-        ordem=q.get("ordem", "relevancia"),
-        destaque=q.get("destaque") == "1",
-        limite=None if limite is None else min(max(limite, 1), 100),
-        offset=_inteiro_da_query(q, "offset") or 0,
-    )
-
-
-@rota("GET", r"/api/produtos/(?P<slug>[a-z0-9-]+)")
-def api_produto(conn, req, slug):
-    return regras.obter_produto(conn, slug)
-
-
-@rota("GET", r"/api/frete")
-def api_frete(conn, req):
-    try:
-        subtotal = int(req.query.get("subtotal", "0"))
-    except ValueError:
-        subtotal = 0
-    return frete.cotar(regras.cep_digitos(req.query.get("cep")), max(0, subtotal))
-
-
-@rota("POST", r"/api/carrinho/cotacao")
-def api_cotacao(conn, req):
-    corpo = req.json()
-    return regras.cotar_carrinho(conn, corpo.get("itens"), cep=corpo.get("cep") or None,
-                                 pagamento=corpo.get("pagamento") or "pix")
-
-
-@rota("POST", r"/api/pedidos")
-def api_criar_pedido(conn, req):
-    # cada pedido reserva estoque até o prazo de pagamento; o limite impede esvaziar a loja com pedidos falsos
-    _limitar(req, "pedidos")
-    codigo = regras.criar_pedido(conn, req.json())
-    _registrar(req, "pedidos")
-    return HTTPStatus.CREATED, regras.obter_pedido_publico(conn, codigo)
-
-
-@rota("GET", r"/api/pedidos/(?P<codigo>[A-Za-z0-9-]{4,20})")
-def api_pedido(conn, req, codigo):
-    _limitar(req, "consulta")  # só erros contam: dificulta adivinhar códigos de pedido
-    try:
-        return regras.obter_pedido_publico(conn, codigo)
-    except regras.NaoEncontrado:
-        _registrar(req, "consulta")
-        raise
-
-
-# ---------------------------------------------------------------- API administrativa
-
-@rota("GET", r"/api/admin/pedidos", admin=True)
-def api_admin_pedidos(conn, req):
-    return regras.listar_pedidos(conn, status=req.query.get("status"))
-
-
-@rota("PATCH", r"/api/admin/pedidos/(?P<codigo>[A-Z0-9-]{4,20})", admin=True)
-def api_admin_status(conn, req, codigo):
-    regras.atualizar_status(conn, codigo, req.json().get("status"))
-    return regras.obter_pedido_publico(conn, codigo)
-
-
-@rota("GET", r"/api/admin/resumo", admin=True)
-def api_admin_resumo(conn, req):
-    return regras.resumo_vendas(conn)
-
-
-@rota("GET", r"/api/admin/produtos", admin=True)
-def api_admin_produtos(conn, req):
-    return regras.listar_produtos(conn, ordem="nome", incluir_inativos=True, admin=True)
-
-
-@rota("GET", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)", admin=True)
-def api_admin_obter_produto(conn, req, slug):
-    return regras.obter_produto(conn, slug, incluir_inativos=True, admin=True)
-
-
-@rota("PATCH", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)", admin=True)
-def api_admin_produto(conn, req, slug):
-    return regras.atualizar_produto(conn, slug, req.json())
-
-
-@rota("POST", r"/api/admin/produtos", admin=True)
-def api_admin_criar_produto(conn, req):
-    return HTTPStatus.CREATED, regras.criar_produto(conn, req.json())
-
-
-@rota("PUT", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/variacoes", admin=True)
-def api_admin_variacoes(conn, req, slug):
-    return regras.salvar_variacoes(conn, slug, req.json().get("variacoes"))
-
-
-@rota("POST", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/foto", admin=True, corpo_max=TAMANHO_MAX_UPLOAD)
-def api_admin_foto(conn, req, slug):
-    produto = regras.obter_produto(conn, slug, incluir_inativos=True)  # 404 antes de gravar arquivo
-    if len(produto["fotos"]) >= config.FOTOS_POR_PRODUTO:
-        raise regras.ErroValidacao({"foto": f"Máximo de {config.FOTOS_POR_PRODUTO} fotos por produto."})
-    pasta = req.handler.server.fotos_dir
-    corpo = req.json()
-    arquivo, miniatura = fotos.salvar(pasta, slug, corpo.get("dados"), corpo.get("miniatura"))
-    try:
-        return regras.adicionar_foto(conn, slug, arquivo, miniatura)
-    except Exception:
-        for nome in (arquivo, miniatura):
-            if nome:
-                (pasta / nome).unlink(missing_ok=True)
-        raise
-
-
-@rota("DELETE", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/fotos/(?P<foto_id>[0-9]{1,18})", admin=True)
-def api_admin_remover_foto(conn, req, slug, foto_id):
-    arquivos, produto = regras.remover_foto(conn, slug, int(foto_id))
-    for nome in arquivos:
-        (req.handler.server.fotos_dir / nome).unlink(missing_ok=True)
-    return produto
-
-
-@rota("POST", r"/api/admin/produtos/(?P<slug>[a-z0-9-]+)/fotos/(?P<foto_id>[0-9]{1,18})/capa", admin=True)
-def api_admin_capa(conn, req, slug, foto_id):
-    return regras.definir_capa(conn, slug, int(foto_id))
-
-
-@rota("POST", r"/api/admin/calculadora", admin=True)
-def api_admin_calculadora(conn, req):
-    return precificacao.calcular(req.json())
-
-
-@rota("GET", r"/api/admin/ajustes", admin=True)
-def api_admin_ajustes(conn, req):
-    return ajustes.obter(conn)
-
-
-@rota("PUT", r"/api/admin/ajustes", admin=True)
-def api_admin_salvar_ajustes(conn, req):
-    return ajustes.salvar(conn, req.json())
 
 
 # ---------------------------------------------------------------- servidor
@@ -288,8 +40,13 @@ PAGINAS_SPA = re.compile(
 # Arquivos que o index.html referencia com ?v=<hash do conteúdo>, para o navegador guardar por um ano.
 ASSETS_VERSIONADOS = ("js/app.js", "css/estilo.css")
 
+# Assets montados no servidor: o app.js é a junção de static/js/partes/*.js, em ordem de nome. O navegador
+# continua baixando um arquivo só.
+ASSETS_MONTADOS = {"js/app.js": "js/partes"}
+
 _cache_gzip = {}
 _versoes = {}
+_montados = {}
 _trava_cache = threading.Lock()
 
 
@@ -308,19 +65,53 @@ def _comprimir(corpo, chave=None):
     return pronto
 
 
-def _versao(relativo):
-    alvo = config.STATIC_DIR / relativo
-    try:
-        mtime = alvo.stat().st_mtime_ns
-    except OSError:
+def _localizar_estatico(relativo):
+    """Encontra um arquivo estático sem ler o conteúdo: (nome, etag, chave, ler) ou None se não existir.
+
+    `chave` muda sempre que o conteúdo muda (caminho, mtime e tamanho) e indexa os caches de gzip e de versão;
+    `ler()` devolve os bytes. Os assets montados são a junção das suas partes, guardada em memória.
+    """
+    raiz = config.STATIC_DIR.resolve()
+    if relativo in ASSETS_MONTADOS:
+        partes = sorted((raiz / ASSETS_MONTADOS[relativo]).glob("*.js"))
+        if not partes:
+            return None
+        estados = [(p.name, p.stat()) for p in partes]
+        chave = (relativo, *((nome, info.st_mtime_ns, info.st_size) for nome, info in estados))
+        etag = hashlib.sha256(repr(chave).encode()).hexdigest()[:16]
+        return Path(relativo).name, etag, chave, lambda: _montar(partes, chave)
+    alvo = (raiz / relativo).resolve()
+    if raiz not in alvo.parents or not alvo.is_file():
         return None
+    info = alvo.stat()
+    return (alvo.name, f"{info.st_mtime_ns:x}-{info.st_size:x}", (str(alvo), info.st_mtime_ns, info.st_size),
+            alvo.read_bytes)
+
+
+def _montar(partes, chave):
+    """Junta as partes (separadas por uma quebra de linha); refaz só quando alguma parte muda."""
+    with _trava_cache:
+        guardado = _montados.get(chave[0])
+    if guardado and guardado[0] == chave:
+        return guardado[1]
+    corpo = b"\n".join(p.read_bytes() for p in partes)
+    with _trava_cache:
+        _montados[chave[0]] = (chave, corpo)
+    return corpo
+
+
+def _versao(relativo):
+    achado = _localizar_estatico(relativo)
+    if achado is None:
+        return None
+    _, _, chave, ler = achado
     with _trava_cache:
         guardada = _versoes.get(relativo)
-    if guardada and guardada[0] == mtime:
+    if guardada and guardada[0] == chave:
         return guardada[1]
-    versao = hashlib.sha256(alvo.read_bytes()).hexdigest()[:10]
+    versao = hashlib.sha256(ler()).hexdigest()[:10]
     with _trava_cache:
-        _versoes[relativo] = (mtime, versao)
+        _versoes[relativo] = (chave, versao)
     return versao
 
 
@@ -576,19 +367,16 @@ class TipitiHandler(BaseHTTPRequestHandler):
         raise ErroHttp(HTTPStatus.NOT_FOUND, "Recurso não encontrado.")
 
     def _estatico(self, relativo, query):
-        raiz = config.STATIC_DIR.resolve()
-        alvo = (raiz / relativo).resolve()
-        if raiz not in alvo.parents or not alvo.is_file():
+        achado = _localizar_estatico(relativo)
+        if achado is None:
             raise ErroHttp(HTTPStatus.NOT_FOUND, "Arquivo não encontrado.")
-        tipo = mimetypes.guess_type(alvo.name)[0] or "application/octet-stream"
+        nome, etag, chave, ler = achado
+        tipo = mimetypes.guess_type(nome)[0] or "application/octet-stream"
         if tipo.startswith("text/") or tipo in ("application/javascript", "image/svg+xml"):
             tipo += "; charset=utf-8"
-        info = alvo.stat()
         # com ?v=<hash> a URL muda junto com o conteúdo, então pode ficar guardada por um ano
         cache = CACHE_LONGO if "v" in query else "public, max-age=300"
-        self._enviar(200, alvo.read_bytes(), tipo, {"Cache-Control": cache},
-                     etag=f"{info.st_mtime_ns:x}-{info.st_size:x}",
-                     chave_gzip=(str(alvo), info.st_mtime_ns, info.st_size))
+        self._enviar(200, ler(), tipo, {"Cache-Control": cache}, etag=etag, chave_gzip=chave)
 
     def _foto(self, nome):
         if not re.fullmatch(r"[a-z0-9-]+\.(jpg|png|webp)", nome):
@@ -719,11 +507,7 @@ def criar_servidor(host=None, porta=None, db_path=None, admin_token=None, silenc
     servidor.token_gerado = token_gerado
     servidor.silencioso = silencioso
     servidor.confiar_proxy = config.CONFIAR_PROXY
-    servidor.limites = {
-        "pedidos": LimiteTaxa(10, 3600),
-        "admin": LimiteTaxa(10, 15 * 60),
-        "consulta": LimiteTaxa(30, 3600),
-    }
+    servidor.limites = limites_padrao()
     return servidor
 
 

@@ -5,7 +5,7 @@ import binascii
 import secrets
 import shutil
 
-from .regras import ErroValidacao
+from .validacao import ErroValidacao
 
 TAMANHO_MAX_FOTO = 3 * 1024 * 1024
 TAMANHO_MAX_MINIATURA = 400 * 1024

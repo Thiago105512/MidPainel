@@ -6,7 +6,7 @@ por unidade no Brasil; o preço sugerido cobre a taxa do meio de pagamento e a m
 
 from decimal import ROUND_CEILING, ROUND_HALF_UP, Decimal, InvalidOperation
 
-from .regras import ErroValidacao
+from .validacao import ErroValidacao
 
 MOEDAS = ("BRL", "USD", "CNY")
 

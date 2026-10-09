@@ -1,7 +1,7 @@
 """Configurações da loja editáveis no painel (guardadas no banco)."""
 
 from . import config
-from .regras import ErroValidacao, so_digitos
+from .validacao import ErroValidacao, so_digitos
 
 PADROES = {
     "whatsapp": "",

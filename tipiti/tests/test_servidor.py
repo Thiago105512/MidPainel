@@ -1,5 +1,6 @@
 import base64
 import gzip
+import hashlib
 import http.client
 import json
 import re
@@ -14,6 +15,12 @@ from loja.servidor import criar_servidor, resolver_token_admin
 from tests.test_regras import CLIENTE
 
 TOKEN = "token-de-teste-com-mais-de-24-caracteres"
+
+
+def app_js(static_dir=None):
+    """O app.js que o navegador deve receber: as partes de static/js/partes, em ordem de nome."""
+    partes = sorted(((static_dir or config.STATIC_DIR) / "js" / "partes").glob("*.js"))
+    return b"\n".join(p.read_bytes() for p in partes)
 
 
 class Base(unittest.TestCase):
@@ -70,7 +77,7 @@ class TestCabecalhosECache(Base):
             self.assertIsNone(self.chamar("/api/loja")[2]["Strict-Transport-Security"])
 
     def test_gzip(self):
-        original = (config.STATIC_DIR / "js" / "app.js").read_bytes()
+        original = app_js()
         status, corpo, h = self.chamar("/static/js/app.js", headers={"Accept-Encoding": "gzip, deflate"})
         self.assertEqual((status, h["Content-Encoding"], h["Vary"]), (200, "gzip", "Accept-Encoding"))
         self.assertEqual(gzip.decompress(corpo), original)
@@ -100,6 +107,42 @@ class TestCabecalhosECache(Base):
                 status, corpo, h2 = self.chamar(caminho, headers={"Accept-Encoding": encoding, "If-None-Match": etag})
                 self.assertEqual((status, corpo, h2["ETag"]), (304, b"", etag), caminho)
         self.assertEqual(self.chamar("/static/css/estilo.css", headers={"If-None-Match": '"outra"'})[0], 200)
+
+    def test_app_js_montado_das_partes(self):
+        esperado = app_js()
+        self.assertTrue(esperado.startswith(b"/* Tipiti"))
+        status, corpo, h = self.chamar("/static/js/app.js")
+        self.assertEqual((status, corpo), (200, esperado))
+        self.assertRegex(h["Content-Type"], r"^(application|text)/javascript; charset=utf-8$")
+        etag = h["ETag"]
+        status, corpo, h = self.chamar("/static/js/app.js?v=x", headers={"Accept-Encoding": "gzip"})
+        self.assertEqual((status, h["Content-Encoding"], h["ETag"]), (200, "gzip", etag[:-1] + '-gz"'))
+        self.assertEqual(gzip.decompress(corpo), esperado)
+        self.assertEqual(h["Cache-Control"], "public, max-age=31536000, immutable")
+        for encoding, tag in (("identity", etag), ("gzip", h["ETag"])):
+            status, corpo, h2 = self.chamar("/static/js/app.js", headers={"Accept-Encoding": encoding,
+                                                                          "If-None-Match": tag})
+            self.assertEqual((status, corpo, h2["ETag"]), (304, b"", tag))
+        versao = hashlib.sha256(esperado).hexdigest()[:10]
+        self.assertIn(f'src="/static/js/app.js?v={versao}"', self.chamar("/")[1].decode())
+
+    def test_app_js_refeito_quando_uma_parte_muda(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pasta = Path(tmp) / "js" / "partes"
+            pasta.mkdir(parents=True)
+            (pasta / "02-b.js").write_text("b();\n")
+            (pasta / "01-a.js").write_text('"use strict";\na();\n')
+            with mock.patch.object(config, "STATIC_DIR", Path(tmp)):
+                status, corpo, h = self.chamar("/static/js/app.js")
+                self.assertEqual((status, corpo), (200, b'"use strict";\na();\n\nb();\n'))
+                (pasta / "03-c.js").write_text("c();\n")
+                status, corpo, h2 = self.chamar("/static/js/app.js")
+                self.assertEqual(corpo, app_js(Path(tmp)))
+                self.assertTrue(corpo.endswith(b"b();\n\nc();\n"))
+                self.assertNotEqual(h["ETag"], h2["ETag"])
+                for parte in pasta.iterdir():
+                    parte.unlink()
+                self.assertEqual(self.chamar("/static/js/app.js")[0], 404)
 
     def test_cache_dos_assets_versionados(self):
         _, _, h = self.chamar("/static/js/app.js?v=abc")
