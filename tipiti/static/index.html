@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>__TITULO__</title>
+  <meta name="description" content="__DESCRICAO__">
+  <link rel="canonical" href="__CANONICO__">
+  <meta property="og:site_name" content="Tipiti">
+  <meta property="og:title" content="__TITULO__">
+  <meta property="og:description" content="__DESCRICAO__">
+  <meta property="og:url" content="__CANONICO__">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="theme-color" content="#1f5c45">
+  <link rel="icon" href="/static/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/css/estilo.css">
+  <script src="/static/js/app.js" defer></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <div class="faixa-topo">
+    <span>🚚 Frete grátis para a Região Norte acima de R$ 199</span>
+    <span class="so-desktop">⚡ 5% off no Pix</span>
+    <span class="so-desktop">💳 Até 6x sem juros</span>
+  </div>
+  <header class="topo">
+    <div class="topo-interno">
+      <a href="/" class="marca" aria-label="Tipiti — página inicial">
+        <img src="/static/img/logo.svg" alt="" width="40" height="40">
+        <span class="marca-nome">Tipiti</span>
+      </a>
+      <form class="busca" role="search" action="/busca">
+        <label class="sr" for="campo-busca">Buscar produtos</label>
+        <input id="campo-busca" name="q" type="search" placeholder="O que você procura hoje?" autocomplete="off">
+        <button type="submit" aria-label="Buscar">🔍</button>
+      </form>
+      <a href="/carrinho" class="botao-carrinho" aria-label="Carrinho">
+        🛒 <span class="so-desktop">Carrinho</span> <span id="contador-carrinho" class="contador">0</span>
+      </a>
+    </div>
+    <nav class="menu-categorias" id="menu-categorias" aria-label="Categorias"></nav>
+  </header>
+
+  <main id="conteudo" tabindex="-1">
+    <noscript><p class="aviso">Ative o JavaScript para comprar na Tipiti.</p></noscript>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-interno">
+      <div>
+        <p class="marca-nome">Tipiti</p>
+        <p>Produtos diversos com entrega rápida para Manaus, Parintins, Boa Vista, Santarém, Macapá e toda a Região Norte.</p>
+      </div>
+      <div>
+        <p class="rodape-titulo">Atendimento</p>
+        <ul>
+          <li><a href="/entregas">Entregas e prazos</a></li>
+          <li><a href="/trocas">Trocas e devoluções</a></li>
+          <li><a href="/sobre">Sobre a Tipiti</a></li>
+          <li><a href="mailto:contato@tipiti.com.br">contato@tipiti.com.br</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="rodape-titulo">Pagamento</p>
+        <p>Pix · Cartão de crédito · Boleto</p>
+      </div>
+    </div>
+    <p class="rodape-final">© <span id="ano"></span> Tipiti · tipiti.com.br</p>
+  </footer>
+  <div id="aviso-flutuante" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
