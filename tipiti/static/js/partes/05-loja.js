@@ -6,7 +6,13 @@ async function paginaInicial(main) {
   document.title = "Tipiti — importados com entrega rápida no Norte";
   const destaques = h("div", {}, esqueletoCartoes(4));
   const novidades = h("div", {}, esqueletoCartoes(4));
-  trocar(main, h("section", { class: "hero" },
+  // seções que só aparecem se houver dados reais
+  const ofertas = h("section", { class: "secao secao-ofertas", "aria-labelledby": "titulo-ofertas", hidden: true });
+  const maisVendidos = h("section", { class: "secao", "aria-labelledby": "titulo-mais-vendidos", hidden: true });
+  const vistos = produtosVistos();
+  trocar(main,
+    avisoCarrinhoAbandonado(),
+    h("section", { class: "hero" },
       h("div", {},
         h("h1", {}, "Importados com preço baixo, entregues rápido no Norte."),
         h("p", {}, "Achadinhos, eletrônicos, casa, beleza e muito mais direto da China — sem esperar semanas: enviamos de Manaus para toda a região."),
@@ -15,12 +21,14 @@ async function paginaInicial(main) {
       h("div", { class: "hero-cidades", "aria-label": "Cidades atendidas" },
         l.cidades_destaque.map((c) => h("span", {}, `📍 ${c}`))),
     ),
+    faixaCupomDestaque(),
     h("div", { class: "beneficios" },
       [["🚚", "Frete grátis no Norte", `Em compras acima de ${brl(l.frete_gratis_a_partir)}`],
        ["⚡", `${l.desconto_pix_pct}% de desconto no Pix`, "Aprovação imediata"],
        ["💳", `Até ${l.parcelas_max}x sem juros`, "No cartão de crédito"],
        ["🔁", "7 dias para trocar", "Direito de arrependimento"]]
         .map(([ico, t, s]) => h("div", { class: "beneficio" }, h("span", { class: "ico" }, ico), h("div", {}, h("b", {}, t), h("small", {}, s))))),
+    ofertas,
     h("section", { class: "secao" },
       h("h2", {}, "Categorias"),
       h("div", { class: "grade-categorias" }, estado.categorias.map((c) =>
@@ -28,18 +36,36 @@ async function paginaInicial(main) {
           h("span", { class: "ico" }, c.icone), h("b", {}, c.nome), h("small", {}, `${c.total} produtos`))))),
     h("section", { class: "secao", id: "destaques" },
       h("div", { class: "secao-cabecalho" }, h("h2", {}, "Destaques da semana")), destaques),
+    maisVendidos,
     h("section", { class: "secao" }, h("h2", {}, "Novidades"), novidades),
+    vistos.length >= 2 ? h("section", { class: "secao" }, h("h2", {}, "Vistos recentemente"), gradeProdutos(vistos, 0)) : null,
   );
-  const [listaDestaques, listaNovidades] = await Promise.all([
+  const opcional = (url) => api(url).catch(() => []);
+  const [listaDestaques, listaNovidades, listaOfertas, listaMaisVendidos] = await Promise.all([
     api("/api/produtos?destaque=1&limite=8"), api("/api/produtos?ordem=novidades&limite=8"),
+    opcional("/api/produtos?promo=1&limite=8"), opcional("/api/produtos?ordem=mais_vendidos&limite=8"),
   ]);
   if (!ativo()) return;
   trocar(destaques, gradeProdutos(listaDestaques));
   trocar(novidades, gradeProdutos(listaNovidades, 0));
+  // o servidor antigo ignora `promo=1`: só entra o que tem oferta com prazo ainda correndo
+  const emOferta = (Array.isArray(listaOfertas) ? listaOfertas : []).filter(promoAtiva);
+  if (emOferta.length) {
+    trocar(ofertas, h("div", { class: "secao-cabecalho" },
+      h("h2", { id: "titulo-ofertas" }, h("span", { "aria-hidden": "true" }, "⚡ "), "Ofertas relâmpago"),
+      h("span", { class: "parcelado" }, "Preços por tempo limitado")),
+    h("div", { class: "grade-produtos" }, emOferta.map((p) => cartaoProduto(p, false, { contagem: true }))));
+    ofertas.hidden = false;
+  }
+  const comVendas = (Array.isArray(listaMaisVendidos) ? listaMaisVendidos : []).filter((p) => p.vendidos_30d > 0);
+  if (comVendas.length) {
+    trocar(maisVendidos, h("h2", { id: "titulo-mais-vendidos" }, "Mais vendidos"), gradeProdutos(comVendas, 0));
+    maisVendidos.hidden = false;
+  }
 }
 
 function seletorOrdem(atual, aoMudar) {
-  const opcoes = { relevancia: "Mais relevantes", menor_preco: "Menor preço", maior_preco: "Maior preço", novidades: "Novidades", nome: "Nome (A–Z)" };
+  const opcoes = { relevancia: "Mais relevantes", menor_preco: "Menor preço", maior_preco: "Maior preço", mais_vendidos: "Mais vendidos", novidades: "Novidades", nome: "Nome (A–Z)" };
   return h("label", {}, "Ordenar: ",
     h("select", { onchange: (e) => aoMudar(e.target.value) },
       Object.entries(opcoes).map(([v, t]) => h("option", { value: v, selected: v === atual }, t))));
@@ -170,11 +196,13 @@ async function paginaProduto(main, slug) {
   const p = await api(`/api/produtos/${slug}`);
   if (!ativo()) return;
   document.title = `${p.nome} | Tipiti`;
+  registrarVisto(p);
   const opcoes = p.variacoes || [];
   // pré-seleciona a primeira opção com estoque (a escolha fica visível na legenda e na barra)
   let escolhida = opcoes.find((v) => v.estoque > 0) || (opcoes.length === 1 ? opcoes[0] : null);
   let qtd = 1;
-  const precoAtual = () => (escolhida && escolhida.preco_centavos != null ? escolhida.preco_centavos : p.preco_centavos);
+  const precosAtuais = () => precosOpcao(p, escolhida);
+  const precoAtual = () => precosAtuais().final;
   const estoqueAtual = () => (escolhida ? escolhida.estoque : p.estoque);
 
   // galeria
@@ -237,12 +265,13 @@ async function paginaProduto(main, slug) {
   const textoZap = () => `Olá! Tenho interesse neste produto da Tipiti:\n${p.nome}${escolhida ? ` — ${escolhida.nome}` : ""}\nQuantidade: ${qtd}\n${location.href}`;
 
   const atualizar = () => {
-    const preco = precoAtual();
+    const { final: preco, ancora } = precosAtuais();
     const estoque = estoqueAtual();
-    const temOferta = (!escolhida || escolhida.preco_centavos == null) && p.preco_de_centavos != null && p.preco_de_centavos > preco;
+    const off = pctDesconto(preco, ancora);
     trocar(blocoPreco,
-      temOferta ? h("div", { class: "preco-de" }, `De ${brl(p.preco_de_centavos)}`) : null,
-      h("div", { class: "preco" }, brl(preco)),
+      ancora ? h("div", { class: "linha-ancora" }, h("span", { class: "preco-de" }, `De ${brl(ancora)}`),
+        h("span", { class: "economia" }, `Economize ${brl(ancora - preco)} (${off}%)`)) : null,
+      h("div", { class: "preco" }, ancora ? h("span", { class: "sr" }, "Por ") : null, brl(preco)),
       h("div", { class: "preco-pix" }, `${brl(precoPix(preco))} no Pix (${estado.loja.desconto_pix_pct}% off)`),
       h("div", { class: "parcelado" }, textoParcelas(preco)));
     qtd = Math.max(1, Math.min(qtd, estoque || 1));
@@ -260,10 +289,12 @@ async function paginaProduto(main, slug) {
             h("button", { class: "botao secundario", type: "button", onclick: () => adicionar(true) }, "Comprar agora"))
         : h("p", { class: "esgotado" }, esgotada ? "Esta opção está esgotada. Escolha outra." : "Produto esgotado no momento."),
       estoque > 0 && estoque <= 5 && (escolhida || !opcoes.length) ? h("p", { class: "esgotado" }, `Últimas ${estoque} unidades!`) : null,
-      botaoWhatsApp(textoZap, "Pedir pelo WhatsApp", "botao whatsapp"));
+      botaoWhatsApp(textoZap, "Pedir pelo WhatsApp", "botao whatsapp"),
+      disponivel ? envioHoje : null);
     trocar(barra,
       h("div", { class: "barra-compra-preco" },
-        h("b", {}, brl(preco)),
+        h("b", {}, ancora ? h("s", { class: "barra-ancora" }, h("span", { class: "sr" }, "De "), brl(ancora)) : null,
+          ancora ? h("span", { class: "sr" }, " por ") : null, brl(preco)),
         h("small", {}, `${brl(precoPix(preco))} no Pix`),
         escolhida && opcoes.length > 1 ? h("small", { class: "barra-opcao" }, escolhida.nome) : null),
       botaoWhatsApp(textoZap, "Pedir pelo WhatsApp", "botao whatsapp so-icone", true),
@@ -271,22 +302,64 @@ async function paginaProduto(main, slug) {
         : h("span", { class: "esgotado" }, "Esgotado"));
   };
 
+  const envioHoje = avisoEnvioHoje();
+  const contagem = promoAtiva(p) ? contagemOferta(p.promo.fim) : null;
+  const n = vendidos(p);
+  const selos = selosProduto(p, { maximo: 4 });
+  const nota = resumoNota(p);
+  const comAvaliacoes = "avaliacoes_total" in p;  // servidor novo
   atualizar();
   trocar(main, h("div", { class: "caminho" }, h("a", { href: "/" }, "Início"), " › ",
       h("a", { href: `/categoria/${p.categoria.slug}` }, p.categoria.nome), " › ", p.nome),
     h("article", { class: "produto" },
       h("div", { class: "galeria" }, principal, miniaturas),
       h("div", { class: "produto-info" },
+        selos.length ? h("div", { class: "selos-produto" }, selos.map((s) => h("span", { class: `selo selo-${s.replace("_", "-")}` }, SELOS[s]))) : null,
         h("h1", {}, p.nome),
+        nota || n ? h("div", { class: "prova-produto" },
+          nota ? h("a", { class: "link-nota", href: "#avaliacoes" }, nota) : null,
+          n ? h("span", { class: "vendidos" }, h("span", { "aria-hidden": "true" }, "🔥 "), `${n} vendidos nos últimos 30 dias`) : null) : null,
         blocoPreco,
+        contagem ? h("p", { class: "contagem-produto" }, contagem) : null,
         grupo,
         blocoCompra,
-        h("p", { class: "selo-importado" }, "📦 Produto importado · em estoque no Brasil · garantia de 90 dias"),
+        blocoConfianca(),
+        h("p", { class: "selo-importado" }, "📦 Produto importado · em estoque no Brasil"),
         p.descricao ? h("p", { class: "descricao" }, p.descricao) : null,
         simuladorFrete(() => precoAtual() * qtd),
       ),
     ),
+    secaoCompradosJuntos(p, () => {
+      if (!exigirOpcao()) return null;
+      if (escolhida && !(escolhida.estoque > 0)) { avisar("Esta opção está esgotada. Escolha outra."); return null; }
+      return { variacao: escolhida ? escolhida.id : null, qtd };
+    }),
+    comAvaliacoes ? secaoAvaliacoes(p) : null,
     p.relacionados && p.relacionados.length ? h("section", { class: "secao" }, h("h2", {}, "Você também pode gostar"), gradeProdutos(p.relacionados, 0)) : null,
     barra,
   );
+  observarBarraCompra(blocoCompra, barra);
+}
+
+/** "Quem comprou também levou": dados reais do servidor (`comprados_juntos`). */
+function secaoCompradosJuntos(p, escolhaAtual) {
+  const lista = Array.isArray(p.comprados_juntos) ? p.comprados_juntos.filter((o) => o && o.slug && o.slug !== p.slug) : [];
+  if (!lista.length) return null;
+  return h("section", { class: "secao comprados-juntos", "aria-labelledby": "titulo-juntos" },
+    h("h2", { id: "titulo-juntos" }, "Quem comprou também levou"),
+    h("div", { class: "grade-produtos" }, lista.slice(0, 4).map((o) => {
+      const semOpcoes = !o.tem_variacoes && !(Array.isArray(o.variacoes) && o.variacoes.length);
+      let acao;
+      if (!(o.estoque > 0)) acao = null;
+      else if (semOpcoes && p.estoque > 0) {
+        acao = h("button", { class: "botao secundario", type: "button", onclick: () => {
+          const atual = escolhaAtual();
+          if (!atual) return;
+          adicionarAoCarrinho(p.slug, atual.qtd, atual.variacao);
+          adicionarAoCarrinho(o.slug, 1, null);
+          mostrarFolhaCarrinho(`${atual.qtd}× ${p.nome} + 1× ${o.nome}`);
+        } }, "Adicionar os dois ao carrinho");
+      } else if (!semOpcoes) acao = h("a", { class: "botao secundario", href: `/produto/${o.slug}` }, "Escolher opção");
+      return h("div", { class: "junto" }, cartaoProduto(o), acao);
+    })));
 }

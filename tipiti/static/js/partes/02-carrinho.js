@@ -50,9 +50,11 @@ function mostrarFolhaCarrinho(detalhe) {
   fecharFolha();
   const anterior = document.activeElement;
   const verCarrinho = h("a", { class: "botao", href: "/carrinho" }, "Ver carrinho");
+  const freteGratis = h("div", { class: "folha-frete", "aria-live": "polite" });
   const el = h("div", { class: "folha-carrinho", role: "dialog", "aria-labelledby": "folha-titulo" },
     h("p", { class: "folha-titulo", id: "folha-titulo" }, "✔ Adicionado ao carrinho"),
     h("p", { class: "folha-detalhe" }, detalhe),
+    freteGratis,
     h("div", { class: "folha-acoes" }, verCarrinho,
       h("button", { class: "botao secundario", type: "button", onclick: () => fecharFolha(true) }, "Continuar comprando")));
   const aoTeclar = (e) => { if (e.key === "Escape") fecharFolha(true); };
@@ -61,4 +63,5 @@ function mostrarFolhaCarrinho(detalhe) {
   document.body.append(el);
   requestAnimationFrame(() => el.classList.add("visivel"));
   verCarrinho.focus({ preventScroll: true });
+  faltaFreteGratis(freteGratis);
 }

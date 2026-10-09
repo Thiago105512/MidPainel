@@ -32,6 +32,10 @@ async function rotear({ navegacao = false, rolar = false, esqueleto = navegacao 
   const main = $("#conteudo");
   const caminho = location.pathname;
   fecharFolha();
+  pararRelogios();  // contagens da página anterior
+  soltarBarraCompra();
+  marcarVisita();
+  if (PAGINAS_SEM_PROVA.test(caminho)) esconderProva();
   const corpo = document.body.classList;
   corpo.toggle("em-admin", caminho.startsWith("/admin"));
   corpo.toggle("foco-compra", /^\/(carrinho|checkout)\/?$/.test(caminho));
@@ -128,7 +132,10 @@ async function iniciar() {
   trocar($("#menu-categorias"), ...estado.categorias.map((c) => h("a", { href: `/categoria/${c.slug}` }, `${c.icone} ${c.nome}`)),
     h("a", { href: "/entregas" }, "🚚 Entregas no Norte"));
   atualizarWhatsAppFlutuante();
+  marcarVisita(true);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) marcarVisita(); });
   rotear({ esqueleto: true });
+  iniciarProvaSocial();
 }
 
 iniciar();
