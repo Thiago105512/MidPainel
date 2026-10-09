@@ -9,6 +9,7 @@ from .catalogo import _sincronizar_estoque
 from .imagens import url_imagem
 from .reservas import STATUS_PEDIDO, TRANSICOES, expirar_pendentes
 from .validacao import UFS, ErroValidacao, NaoEncontrado, cpf_valido, email_valido, so_digitos
+from . import rastreio, revendedoras
 
 
 _ALFABETO_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
@@ -133,6 +134,7 @@ def criar_pedido(conn, dados):
             [(pedido_id, l["produto_id"], l["variacao_id"], l["nome"], l["variacao_nome"], l["preco_unit_centavos"],
               l["preco_ancora_unit_centavos"], custos.get(l["chave"]), l["quantidade"]) for l in cotacao["itens"]],
         )
+        revendedoras.atribuir_pedido(conn, pedido_id, dados, cotacao, cliente["cpf"])
         conn.execute("COMMIT")
     except Exception:
         conn.execute("ROLLBACK")
@@ -213,6 +215,7 @@ def obter_pedido_publico(conn, codigo):
     resumo = _resumo_pedido(row, itens[row["id"]])
     resumo["primeiro_nome"] = row["cliente_nome"].split()[0]
     resumo["destino"] = f"{row['cidade']} - {row['uf']}"
+    rastreio.anexar(conn, [(row, resumo)])
     return resumo
 
 
@@ -237,6 +240,8 @@ def listar_pedidos(conn, status=None):
             "complemento": row["complemento"], "bairro": row["bairro"], "cidade": row["cidade"], "uf": row["uf"],
         }
         pedidos.append(resumo)
+    rastreio.anexar(conn, list(zip(rows, pedidos)), admin=True)
+    revendedoras.anexar_aos_pedidos(conn, list(zip(rows, pedidos)))
     return pedidos
 
 

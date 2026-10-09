@@ -34,7 +34,7 @@ CSP = (
 
 PAGINAS_SPA = re.compile(
     r"^/(|categoria/[a-z0-9-]+|produto/[a-z0-9-]+|busca|carrinho|checkout|pedido/[A-Za-z0-9-]+|"
-    r"entregas|sobre|trocas|admin|admin/produto/[a-z0-9-]+)/?$"
+    r"entregas|sobre|trocas|admin|admin/produto/[a-z0-9-]+|revenda|seja-revendedora|barcos)/?$"
 )
 
 # Arquivos que o index.html referencia com ?v=<hash do conteúdo>, para o navegador guardar por um ano.
@@ -307,7 +307,7 @@ class TipitiHandler(BaseHTTPRequestHandler):
             elif caminho == "/favicon.ico":
                 self._estatico("img/favicon.svg", {})
             elif caminho == "/robots.txt":
-                self._enviar(200, f"User-agent: *\nDisallow: /admin\nDisallow: /api/\n"
+                self._enviar(200, f"User-agent: *\nDisallow: /admin\nDisallow: /revenda\nDisallow: /api/\n"
                                   f"Sitemap: {config.SITE_URL}/sitemap.xml\n", "text/plain; charset=utf-8")
             elif caminho == "/sitemap.xml":
                 self._sitemap()
@@ -406,6 +406,7 @@ class TipitiHandler(BaseHTTPRequestHandler):
             urls = ["/", "/entregas", "/sobre", "/trocas"]
             urls += [f"/categoria/{c['slug']}" for c in regras.listar_categorias(conn)]
             urls += [f"/produto/{p['slug']}" for p in regras.listar_produtos(conn, ordem="nome")]
+            urls += ["/barcos", "/seja-revendedora"]
         finally:
             conn.close()
         corpo = "".join(f"<url><loc>{escape(config.SITE_URL + u)}</loc></url>" for u in urls)
