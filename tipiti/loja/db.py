@@ -215,8 +215,8 @@ def _carregar_catalogo(conn):
             estoque = sum(v[2] for v in variacoes) if variacoes else p["estoque"]
             cur = conn.execute(
                 """INSERT INTO produtos (slug, nome, descricao, categoria_id, preco_centavos,
-                       preco_de_centavos, custo_centavos, estoque, icone, destaque)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                       preco_de_centavos, custo_centavos, estoque, icone, destaque, criado_em)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', '-30 days'))""",
                 (
                     p["slug"], p["nome"], p["descricao"], ids[p["categoria"]], p["preco"],
                     p.get("preco_de"), p.get("custo"), estoque, p["icone"],

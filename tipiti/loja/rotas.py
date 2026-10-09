@@ -145,6 +145,10 @@ def api_frete(conn, req):
 @rota("POST", r"/api/carrinho/cotacao")
 def api_cotacao(conn, req):
     corpo = req.json()
+    if corpo.get("cpf") and corpo.get("cupom"):
+        # a regra de "primeira compra" revela se o CPF já comprou: limita consultas em série
+        _limitar(req, "cpf_cupom")
+        _registrar(req, "cpf_cupom")
     return regras.cotar_carrinho(conn, corpo.get("itens"), cep=corpo.get("cep") or None,
                                  pagamento=corpo.get("pagamento") or "pix", cupom=corpo.get("cupom"),
                                  cpf=corpo.get("cpf"))

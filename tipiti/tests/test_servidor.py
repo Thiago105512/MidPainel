@@ -298,6 +298,16 @@ class TestLimitesDeTaxa(Base):
         self.assertEqual(self.chamar("/api/pedidos/TPT-NAOEXISTE", ip="10.3.0.1")[0], 429)
         self.assertEqual(self.chamar("/api/pedidos/TPT-NAOEXISTE", ip="10.3.0.2")[0], 404)
 
+    def test_cotacao_com_cpf_e_cupom(self):
+        # a regra de primeira compra revela se o CPF já comprou: consultas em série são limitadas
+        corpo = {"itens": [{"slug": "cabo-usb-c-reforcado-2m", "quantidade": 1}], "cupom": "NAOEXISTE",
+                 "cpf": CLIENTE["cpf"]}
+        for _ in range(30):
+            self.assertEqual(self.chamar("/api/carrinho/cotacao", "POST", corpo, ip="10.5.0.1")[0], 200)
+        self.assertEqual(self.chamar("/api/carrinho/cotacao", "POST", corpo, ip="10.5.0.1")[0], 429)
+        sem_cpf = {k: v for k, v in corpo.items() if k != "cpf"}
+        self.assertEqual(self.chamar("/api/carrinho/cotacao", "POST", sem_cpf, ip="10.5.0.1")[0], 200)
+
     def test_ip_do_proxy_so_quando_configurado(self):
         self.servidor.confiar_proxy = False
         self.addCleanup(setattr, self.servidor, "confiar_proxy", True)
